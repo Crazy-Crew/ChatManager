@@ -1,13 +1,14 @@
-package me.h1dd3nxn1nja.chatmanager.managers;
+package me.me.h1dd3nxn1nja.chatmanager.managers;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.hooks.EssentialsHook;
 import me.h1dd3nxn1nja.chatmanager.hooks.HookManager;
 import me.h1dd3nxn1nja.chatmanager.hooks.VaultHook;
-import java.text.DecimalFormat;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
+import java.text.DecimalFormat;
 
 public class PlaceholderManager {
 	

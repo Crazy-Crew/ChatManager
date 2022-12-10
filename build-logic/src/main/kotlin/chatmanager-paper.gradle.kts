@@ -3,7 +3,7 @@ plugins {
 }
 
 rootProject.group = "me.h1dd3nxn1nja.chatmanager"
-rootProject.version = "4.8.0"
+rootProject.version = "3.9.0"
 rootProject.description = "The kitchen sink of Chat Management."
 
 repositories {
@@ -16,6 +16,16 @@ repositories {
      * Paper Team
      */
     maven("https://repo.papermc.io/repository/maven-public/")
+
+    /**
+     * NBT API
+     */
+    maven("https://repo.codemc.org/repository/maven-public/")
+
+    /**
+     * EssentialsX Team
+     */
+    maven("https://repo.essentialsx.net/releases/")
 
     /**
      * CrazyCrew Team
@@ -39,6 +49,8 @@ dependencies {
         exclude(group = "org.spigotmc", module = "spigot")
         exclude(group = "org.bukkit", module = "bukkit")
     }
+
+    compileOnly("net.essentialsx", "EssentialsX", "2.19.0")
 
     compileOnly("com.github.MilkBowl", "VaultAPI", "1.7")
 }

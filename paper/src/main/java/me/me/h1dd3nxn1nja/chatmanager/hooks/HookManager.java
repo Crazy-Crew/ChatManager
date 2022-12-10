@@ -1,6 +1,11 @@
-package me.h1dd3nxn1nja.chatmanager.hooks;
+package me.me.h1dd3nxn1nja.chatmanager.hooks;
 
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.hooks.EssentialsHook;
+import me.h1dd3nxn1nja.chatmanager.hooks.PlaceholderAPIHook;
+import me.h1dd3nxn1nja.chatmanager.hooks.ProtocolLibHook;
+import me.h1dd3nxn1nja.chatmanager.hooks.SuperVanishHook;
+import me.h1dd3nxn1nja.chatmanager.hooks.VaultHook;
 import org.bukkit.Bukkit;
 
 public class HookManager {
@@ -10,7 +15,7 @@ public class HookManager {
 	protected static ProtocolLibHook protocolLib;
 	protected static SuperVanishHook superVanish;
 	protected static SuperVanishHook premiumVanish;
-	protected static EssentialsHook essentials;
+	protected static me.h1dd3nxn1nja.chatmanager.hooks.EssentialsHook essentials;
 
 	public HookManager() {}
 
@@ -41,25 +46,6 @@ public class HookManager {
 		
 		if (Methods.doesPluginExist("PremiumVanish")) {
 			premiumVanish = new SuperVanishHook();
-		}
-		
-		//older version
-
-		if (Methods.doesPluginExist("Factions")) {
-			if (Bukkit.getPluginManager().getPlugin("Factions").getDescription().getVersion().startsWith("1.6")) {
-				Bukkit.getConsoleSender().sendMessage("Chat Manager only supports the free version of factions v2.x");
-				return;
-			}
-			if (Bukkit.getPluginManager().getPlugin("Factions").getDescription().getVersion().startsWith("3")) {
-				Bukkit.getConsoleSender().sendMessage("Chat Manager doesn't support factions v3.x");
-				return;
-			}
-			Class<?> mplayer = null;
-			try {
-				mplayer = Class.forName("com.massivecraft.factions.entity.MPlayer");
-			} catch (ClassNotFoundException ex) {
-				Bukkit.getConsoleSender().sendMessage("Chat Manager only supports the free version of factions.");
-			}
 		}
 	}
 

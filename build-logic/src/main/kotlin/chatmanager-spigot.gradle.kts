@@ -3,7 +3,7 @@ plugins {
 }
 
 rootProject.group = "me.h1dd3nxn1nja.chatmanager"
-rootProject.version = "4.8.0"
+rootProject.version = "3.9.0"
 rootProject.description = "The kitchen sink of Chat Management."
 
 repositories {
@@ -18,15 +18,34 @@ repositories {
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
 
     /**
+     * NBT API
+     */
+    maven("https://repo.codemc.org/repository/maven-public/")
+
+    /**
+     * EssentialsX Team
+     */
+    maven("https://repo.essentialsx.net/releases/")
+
+    /**
      * CrazyCrew Team
      */
     maven("https://repo.crazycrew.us/plugins/")
+
+    /**
+     * Everything else we need.
+     */
+    maven("https://jitpack.io/")
+
+    mavenCentral()
 }
 
 dependencies {
     implementation("org.bstats", "bstats-bukkit", "3.0.0")
 
     compileOnly("org.spigotmc", "spigot-api", "1.19.3-R0.1-SNAPSHOT")
+
+    compileOnly("net.essentialsx", "EssentialsX", "2.19.0")
 
     compileOnly("me.clip", "placeholderapi", "2.11.2") {
         exclude(group = "org.spigotmc", module = "spigot")

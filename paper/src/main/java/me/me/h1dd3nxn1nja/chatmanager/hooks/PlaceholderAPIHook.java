@@ -1,12 +1,13 @@
-package me.h1dd3nxn1nja.chatmanager.hooks;
+package me.me.h1dd3nxn1nja.chatmanager.hooks;
 
-import java.text.DecimalFormat;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.utils.Ping;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+
+import java.text.DecimalFormat;
 
 public class PlaceholderAPIHook extends PlaceholderExpansion {
 	
