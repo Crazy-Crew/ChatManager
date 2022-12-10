@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
 import me.h1dd3nxn1nja.chatmanager.commands.CommandAntiSwear;
 import me.h1dd3nxn1nja.chatmanager.commands.CommandAutoBroadcast;
 import me.h1dd3nxn1nja.chatmanager.commands.CommandBannedCommands;
@@ -77,14 +78,15 @@ public class ChatManager extends JavaPlugin {
 		setupMetrics();
 		
 		Bukkit.getConsoleSender().sendMessage("=========================");
-		Bukkit.getConsoleSender().sendMessage(this.getDescription().getName());
-		Bukkit.getConsoleSender().sendMessage("Version: " + this.getDescription().getVersion());
-		Bukkit.getConsoleSender().sendMessage("Authors: " + this.getDescription().getAuthors());
+		Bukkit.getConsoleSender().sendMessage("Chat Manager");
+		Bukkit.getConsoleSender().sendMessage("Version " + this.getDescription().getVersion());
+		Bukkit.getConsoleSender().sendMessage("Author: H1DD3NxN1NJA");
 		Bukkit.getConsoleSender().sendMessage("=========================");
 		
 	}
 
 	public void onDisable() {
+
 		getServer().getScheduler().cancelTasks(this);
 
 		for (Player all : Bukkit.getOnlinePlayers()) {
@@ -137,6 +139,7 @@ public class ChatManager extends JavaPlugin {
 	}
 
 	public void registerEvents() {
+
 		getServer().getPluginManager().registerEvents(new ListenerAntiAdvertising(this), this);
 		getServer().getPluginManager().registerEvents(new ListenerAntiBot(this), this);
 		getServer().getPluginManager().registerEvents(new ListenerAntiSpam(this), this);
@@ -178,19 +181,15 @@ public class ChatManager extends JavaPlugin {
 			if (settings.getAutoBroadcast().getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) {
 				AutoBroadcastManager.actionbarMessages(this);
 			}
-
 			if (settings.getAutoBroadcast().getBoolean("Auto_Broadcast.Global_Messages.Enable")) {
 				AutoBroadcastManager.globalMessages(this);
 			}
-
 			if (settings.getAutoBroadcast().getBoolean("Auto_Broadcast.Per_World_Messages.Enable")) {
 				AutoBroadcastManager.perWorldMessages(this);
 			}
-
 			if (settings.getAutoBroadcast().getBoolean("Auto_Broadcast.Title_Messages.Enable")) {
 				AutoBroadcastManager.titleMessages(this);
 			}
-
 			if (settings.getAutoBroadcast().getBoolean("Auto_Broadcast.Bossbar_Messages.Enable")) {
 				AutoBroadcastManager.bossBarMessages(this);
 			}
@@ -208,7 +207,6 @@ public class ChatManager extends JavaPlugin {
 			getLogger().info("Vault is required to use chat manager, disabling plugin!");
 			Bukkit.getPluginManager().disablePlugin(this);
 		}
-
 		return false;
 	}
 	
@@ -221,7 +219,6 @@ public class ChatManager extends JavaPlugin {
 		} else {
 			getLogger().info("A permissions plugin is required to use Chat Manager, otherwise errors will occur!");
 		}
-
 		return false;
 	}
 	
@@ -252,34 +249,28 @@ public class ChatManager extends JavaPlugin {
 	
 	public void setupMetrics() {
 		metrics = new Metrics(this, 3291);
-
 		metrics.addCustomChart(new Metrics.SimplePie("chat_format", () -> {
 			if (settings.getConfig().getBoolean("Chat_Format.Enable") == true) {
 				return "True";
 			}
-
 			return "False";
 		}));
-
 		metrics.addCustomChart(new Metrics.SimplePie("chat_radius", () -> {
 			if (settings.getConfig().getBoolean("Chat_Radius.Enable") == true) {
 				return "True";
 			}
-
 			return "False";
 		}));
 		metrics.addCustomChart(new Metrics.SimplePie("per_world_chat", () -> {
 			if (settings.getConfig().getBoolean("Per_World_Chat.Enable") == true) {
 				return "True";
 			}
-
 			return "False";
 		}));
 		metrics.addCustomChart(new Metrics.SimplePie("update_checker", () -> {
 			if (settings.getConfig().getBoolean("Update_Checker") == true) {
 				return "True";
 			}
-
 			return "False";
 		}));
 	}

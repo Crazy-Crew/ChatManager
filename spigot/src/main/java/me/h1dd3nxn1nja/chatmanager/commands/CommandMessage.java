@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.hooks.EssentialsHook;
 import me.h1dd3nxn1nja.chatmanager.hooks.HookManager;
 import me.h1dd3nxn1nja.chatmanager.hooks.SuperVanishHook;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
@@ -74,6 +75,32 @@ public class CommandMessage implements CommandExecutor {
 					return true;
 				}
 
+				if (HookManager.isEssentialsLoaded()) {
+					if (EssentialsHook.getUsers(target).isAfk() && (!player.hasPermission("chatmanager.bypass.afk"))) {
+						player.sendMessage(Methods.color(messages.getString("Private_Message.AFK")
+								.replace("{Prefix}", messages.getString("Message.Prefix"))
+								.replace("{target}", target.getName())));
+					}
+
+					if ((EssentialsHook.isIgnored(target, player)) && (!player.hasPermission("chatmanager.bypass.ignored"))) {
+						player.sendMessage(Methods.color(messages.getString("Private_Message.Ignored")
+								.replace("{Prefix}", messages.getString("Message.Prefix"))
+								.replace("{target}", target.getName())));
+						return true;
+					}
+
+					if ((EssentialsHook.isHidden(target)) && (!player.hasPermission("chatmanager.bypass.vanish"))) {
+						player.sendMessage(Methods.color(messages.getString("Message.Player_Not_Found")
+								.replace("{Prefix}", messages.getString("Message.Prefix"))
+								.replace("{target}", args[0])));
+						return true;
+					}
+
+					if (EssentialsHook.isMuted(player)) {
+						return true;
+					}
+				}
+
 				if ((HookManager.isSuperVanishLoaded()) && (SuperVanishHook.isVanished(target)) && (!player.hasPermission("chatmanager.bypass.vanish"))) {
 					player.sendMessage(Methods.color(messages.getString("Message.Player_Not_Found")
 							.replace("{Prefix}", messages.getString("Message.Prefix")).replace("{target}", args[0])));
@@ -129,6 +156,32 @@ public class CommandMessage implements CommandExecutor {
 								.replace("{Prefix}", messages.getString("Message.Prefix"))
 								.replace("{target}", args[0])));
 						return true;
+					}
+
+					if (HookManager.isEssentialsLoaded()) {
+						if (EssentialsHook.getUsers(target).isAfk()) {
+							player.sendMessage(Methods.color(messages.getString("Private_Message.AFK")
+									.replace("{Prefix}", messages.getString("Message.Prefix"))
+									.replace("{target}", target.getName())));
+						}
+
+						if ((EssentialsHook.isIgnored(target, player)) && (!player.hasPermission("chatmanager.bypass.ignored"))) {
+							player.sendMessage(Methods.color(messages.getString("Private_Message.Ignored")
+									.replace("{Prefix}", messages.getString("Message.Prefix"))
+									.replace("{target}", target.getName())));
+							return true;
+						}
+
+						if ((EssentialsHook.isHidden(target)) && (!player.hasPermission("chatmanager.bypass.vanish"))) {
+							player.sendMessage(Methods.color(messages.getString("Message.Player_Not_Found")
+									.replace("{Prefix}", messages.getString("Message.Prefix"))
+									.replace("{target}", args[0])));
+							return true;
+						}
+
+						if (EssentialsHook.isMuted(player)) {
+							return true;
+						}
 					}
 
 					if ((HookManager.isSuperVanishLoaded()) && (SuperVanishHook.isVanished(target)) && (!player.hasPermission("chatmanager.bypass.vanish"))) {

@@ -11,6 +11,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.hooks.EssentialsHook;
 import me.h1dd3nxn1nja.chatmanager.hooks.HookManager;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
 import me.h1dd3nxn1nja.chatmanager.utils.JSONMessage;
@@ -38,7 +39,11 @@ public class ListenerMentions implements Listener {
 						if (Methods.cm_toggleMentions.contains(target.getUniqueId())) {
 							return;
 						}
-
+						if (HookManager.isEssentialsLoaded()) {
+							if ((EssentialsHook.isIgnored(target, player)) || (EssentialsHook.isMuted(player))) {
+								return;
+							}
+						}
 						if (Methods.cm_toggleChat.contains(target.getUniqueId())) {
 							return;
 						}

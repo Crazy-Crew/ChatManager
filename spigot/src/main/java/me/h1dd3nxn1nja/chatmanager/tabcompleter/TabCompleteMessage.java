@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.tabcompleter;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.hooks.EssentialsHook;
 import me.h1dd3nxn1nja.chatmanager.hooks.HookManager;
 import me.h1dd3nxn1nja.chatmanager.hooks.SuperVanishHook;
 import org.bukkit.Bukkit;
@@ -39,7 +40,13 @@ public class TabCompleteMessage implements TabCompleter {
 		boolean hasPermission2 = player2.hasPermission("chatmanager.bypass.vanish");
 		boolean hasPermission3 = player2.hasPermission("chatmanager.bypass.togglepm");
 		for (Player player3 : matchPlayer) {
+			if (!hasPermission && HookManager.isEssentialsLoaded() && EssentialsHook.isIgnored(player3, player2)) {
+				continue;
+			}
 			if (!hasPermission2) {
+				if (HookManager.isEssentialsLoaded() && EssentialsHook.isHidden(player3)) {
+					continue;
+				}
 				if (HookManager.isSuperVanishLoaded() && SuperVanishHook.isVanished(player3)) {
 					continue;
 				}

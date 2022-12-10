@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
