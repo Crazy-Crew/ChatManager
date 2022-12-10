@@ -1,85 +1,32 @@
 plugins {
-    java
+    `java-library`
 
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
-val buildNumber: String? = System.getenv("BUILD_NUMBER")
+val buildFolder = File("${rootProject.layout.projectDirectory}/builds")
 
-val jenkinsVersion = "4.8.0-b$buildNumber"
-
-group = "me.h1dd3nxn1nja.chatmanager"
-version = "4.8.0"
-description = "The kitchen sink of Chat Management."
-
-repositories {
-    /**
-     * PAPI Team
-     */
-    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-
-    /**
-     * Paper Team
-     */
-    maven("https://repo.papermc.io/repository/maven-public/")
-
-    /**
-     * CrazyCrew Team
-     */
-    maven("https://repo.crazycrew.us/plugins/")
-
-    /**
-     * Everything else we need.
-     */
-    maven("https://jitpack.io/")
-
-    mavenCentral()
-}
-
-dependencies {
-    implementation("org.bstats", "bstats-bukkit", "3.0.0")
-
-    compileOnly("io.papermc.paper", "paper-api", "1.19.3-R0.1-SNAPSHOT")
-
-    compileOnly("me.clip", "placeholderapi", "2.11.2") {
-        exclude(group = "org.spigotmc", module = "spigot")
-        exclude(group = "org.bukkit", module = "bukkit")
-    }
-
-    compileOnly("com.github.MilkBowl", "VaultAPI", "1.7")
-}
-
-java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
-}
+val serverOne = File("${rootProject.layout.projectDirectory}/server/119")
+val serverTwo = File("${rootProject.layout.projectDirectory}/server/118")
 
 tasks {
     shadowJar {
-        if (buildNumber != null) {
-            archiveFileName.set("${rootProject.name}-[v${jenkinsVersion}].jar")
-        } else {
-            archiveFileName.set("${rootProject.name}-[v${rootProject.version}].jar")
-        }
+        // Create 1.19 server folder.
+        if (!serverOne.exists()) serverOne.mkdirs()
 
-        listOf(
-            "org.bstats"
-        ).forEach {
-            relocate(it, "${rootProject.group}.plugin.lib.$it")
-        }
-    }
+        // Create plugin directory for 1.19 server folder.
+        val serverOnePluginFolder = File(serverOne, "/plugins")
 
-    compileJava {
-        options.release.set(17)
-    }
+        if (!serverOnePluginFolder.exists()) serverOnePluginFolder.mkdirs()
 
-    processResources {
-        filesMatching("plugin.yml") {
-            expand(
-                "name" to rootProject.name,
-                "group" to rootProject.group,
-                "version" to rootProject.version,
-                "description" to rootProject.description
-            )
-        }
+        // Create 1.18 server folder.
+        if (!serverTwo.exists()) serverTwo.mkdirs()
+        // Create plugin directory for 1.18 server folder.
+        val serverTwoPluginFolder = File(serverTwo, "/plugins")
+
+        if (!serverTwoPluginFolder.exists()) serverTwoPluginFolder.mkdirs()
+
+        // Create universal build folder.
+        if (!buildFolder.exists()) buildFolder.mkdirs()
     }
 }

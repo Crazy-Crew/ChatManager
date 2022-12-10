@@ -2,3 +2,7 @@
 .idea
 
 build
+build-logic/.gradle
+build-logic/build
+
+server
