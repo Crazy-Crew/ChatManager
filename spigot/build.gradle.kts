@@ -17,7 +17,7 @@ tasks {
         if (buildNumber != null) {
             archiveFileName.set("${rootProject.name}-[v${jenkinsVersion}].jar")
         } else {
-            archiveFileName.set("${rootProject.name}-[v${rootProject.version}].jar")
+            archiveFileName.set("${rootProject.name}-[v${project.version}].jar")
         }
 
         listOf(
