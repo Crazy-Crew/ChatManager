@@ -15,15 +15,22 @@ val jenkinsVersion = "${project.version}-b$buildNumber"
 tasks {
     shadowJar {
         if (buildNumber != null) {
-            archiveFileName.set("${rootProject.name}-[v${jenkinsVersion}].jar")
+            archiveFileName.set("${rootProject.name}-[v${jenkinsVersion}]-Spigot.jar")
         } else {
-            archiveFileName.set("${rootProject.name}-[v${project.version}].jar")
+            archiveFileName.set("${rootProject.name}-[v${project.version}]-Spigot.jar")
         }
 
         listOf(
             "org.bstats"
         ).forEach {
             relocate(it, "${rootProject.group}.plugin.lib.$it")
+        }
+
+        doLast {
+            copy {
+                from("build/libs/${rootProject.name}-[v${project.version}]-Spigot.jar")
+                into(rootProject.layout.projectDirectory.dir("builds"))
+            }
         }
     }
 
