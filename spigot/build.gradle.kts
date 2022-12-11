@@ -12,6 +12,8 @@ val buildNumber: String? = System.getenv("BUILD_NUMBER")
 
 val jenkinsVersion = "${project.version}-b$buildNumber"
 
+val jarFolder = File("${rootProject.layout.projectDirectory}/jars")
+
 tasks {
     shadowJar {
         if (buildNumber != null) {
@@ -27,9 +29,14 @@ tasks {
         }
 
         doLast {
-            copy {
-                from("build/libs/${rootProject.name}-[v${project.version}]-Spigot.jar")
-                into(rootProject.layout.projectDirectory.dir("builds"))
+            // Create universal build folder.
+            if (!jarFolder.exists()) jarFolder.mkdirs()
+
+            doLast {
+                copy {
+                    from("build/libs/${rootProject.name}-[v${project.version}]-Spigot.jar")
+                    into(rootProject.layout.projectDirectory.dir("jars"))
+                }
             }
         }
     }
