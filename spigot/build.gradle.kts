@@ -32,11 +32,9 @@ tasks {
         if (!jarFolder.exists()) jarFolder.mkdirs()
 
         doLast {
-            doLast {
-                copy {
-                    from("build/libs/${rootProject.name}-[v${project.version}]-Spigot.jar")
-                    into(rootProject.layout.projectDirectory.dir("jars"))
-                }
+            copy {
+                from("build/libs/${rootProject.name}-[v${project.version}]-Spigot.jar")
+                into(rootProject.layout.projectDirectory.dir("jars"))
             }
         }
     }
