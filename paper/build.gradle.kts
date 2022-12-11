@@ -12,8 +12,6 @@ val buildNumber: String? = System.getenv("BUILD_NUMBER")
 
 val jenkinsVersion = "${project.version}-b$buildNumber"
 
-val jarFolder = File("${rootProject.layout.projectDirectory}/jars")
-
 tasks {
     shadowJar {
         if (buildNumber != null) {
@@ -26,16 +24,6 @@ tasks {
             "org.bstats"
         ).forEach {
             relocate(it, "${rootProject.group}.plugin.lib.$it")
-        }
-
-        // Create universal build folder.
-        if (!jarFolder.exists()) jarFolder.mkdirs()
-
-        doLast {
-            copy {
-                from("build/libs/${rootProject.name}-[v${project.version}]-Paper.jar")
-                into(rootProject.layout.projectDirectory.dir("jars"))
-            }
         }
     }
 
