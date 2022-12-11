@@ -28,10 +28,10 @@ tasks {
             relocate(it, "${rootProject.group}.plugin.lib.$it")
         }
 
-        doLast {
-            // Create universal build folder.
-            if (!jarFolder.exists()) jarFolder.mkdirs()
+        // Create universal build folder.
+        if (!jarFolder.exists()) jarFolder.mkdirs()
 
+        doLast {
             doLast {
                 copy {
                     from("build/libs/${rootProject.name}-[v${project.version}]-Spigot.jar")

@@ -28,10 +28,10 @@ tasks {
             relocate(it, "${rootProject.group}.plugin.lib.$it")
         }
 
-        doLast {
-            // Create universal build folder.
-            if (!jarFolder.exists()) jarFolder.mkdirs()
+        // Create universal build folder.
+        if (!jarFolder.exists()) jarFolder.mkdirs()
 
+        doLast {
             copy {
                 from("build/libs/${rootProject.name}-[v${project.version}]-Paper.jar")
                 into(rootProject.layout.projectDirectory.dir("jars"))
