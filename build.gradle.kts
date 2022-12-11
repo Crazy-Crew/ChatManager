@@ -7,8 +7,8 @@ plugins {
 val serverOne = File("${rootProject.layout.projectDirectory}/server/119")
 val serverTwo = File("${rootProject.layout.projectDirectory}/server/118")
 
-tasks {
-    shadowJar {
+//tasks {
+    //shadowJar {
         // Create 1.19 server folder.
         //if (!serverOne.exists()) serverOne.mkdirs()
 
@@ -23,5 +23,5 @@ tasks {
         //val serverTwoPluginFolder = File(serverTwo, "/plugins")
 
         //if (!serverTwoPluginFolder.exists()) serverTwoPluginFolder.mkdirs()
-    }
-}
+    //}
+//}
