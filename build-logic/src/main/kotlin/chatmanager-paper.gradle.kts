@@ -2,10 +2,6 @@ plugins {
     `java-library`
 }
 
-rootProject.group = "me.h1dd3nxn1nja.chatmanager"
-rootProject.version = "3.9.0"
-rootProject.description = "The kitchen sink of Chat Management."
-
 repositories {
     /**
      * PAPI Team
@@ -62,16 +58,5 @@ java {
 tasks {
     compileJava {
         options.release.set(17)
-    }
-
-    processResources {
-        filesMatching("plugin.yml") {
-            expand(
-                "name" to rootProject.name,
-                "group" to rootProject.group,
-                "version" to rootProject.version,
-                "description" to rootProject.description
-            )
-        }
     }
 }
