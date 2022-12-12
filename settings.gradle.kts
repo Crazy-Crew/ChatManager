@@ -11,4 +11,5 @@ pluginManagement {
 
 rootProject.name = "ChatManager"
 
-include("paper", "spigot")
+//include("paper", "spigot")
+include("spigot")
