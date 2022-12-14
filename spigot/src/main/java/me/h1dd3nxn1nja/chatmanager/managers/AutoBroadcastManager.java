@@ -3,28 +3,30 @@ package me.h1dd3nxn1nja.chatmanager.managers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
+import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
 import me.h1dd3nxn1nja.chatmanager.utils.JSONMessage;
-import me.h1dd3nxn1nja.chatmanager.utils.Version;
 import me.h1dd3nxn1nja.chatmanager.utils.World;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
 public class AutoBroadcastManager {
+
+	private static final ChatManager plugin = ChatManager.getPlugin();
+
+	private static final SettingsManager settingsManager = plugin.getSettingsManager();
 	
 	public static List<World> worlds = new ArrayList<>();
 	
-	public static void globalMessages(ChatManager chatManager) {
-		
-		FileConfiguration autobroadcast = ChatManager.settings.getAutoBroadcast();
+	public static void globalMessages() {
+		FileConfiguration autobroadcast = settingsManager.getAutoBroadcast();
 		
 		String sound = autobroadcast.getString("Auto_Broadcast.Global_Messages.Sound");
 		String prefix = autobroadcast.getString("Auto_Broadcast.Global_Messages.Prefix");
@@ -35,7 +37,7 @@ public class AutoBroadcastManager {
 			int line = 0;
 			public void run() {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Global_Messages.Enable")) {
-					for (Player player : Bukkit.getOnlinePlayers()) {
+					for (Player player : plugin.getServer().getOnlinePlayers()) {
 						if (autobroadcast.getBoolean("Auto_Broadcast.Global_Messages.Header_And_Footer")) {
 							player.sendMessage(Methods.color(player, autobroadcast.getString("Auto_Broadcast.Global_Messages.Header")));
 							player.sendMessage(PlaceholderManager.setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix).replace("\\n", "\n")));
@@ -43,22 +45,21 @@ public class AutoBroadcastManager {
 						} else {
 							player.sendMessage(PlaceholderManager.setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix).replace("\\n", "\n")));
 						}
+
 						try {
 							player.playSound(player.getLocation(), Sound.valueOf(sound), 10, 1);
 						} catch (IllegalArgumentException ignored) {}
 					}
 				}
 				line++;
-				if (line >= messages.size()) {
-                    line = 0;
-				}
+
+				if (line >= messages.size()) line = 0;
 			}
-		}.runTaskTimer(chatManager, 0L, 20L * interval);
+		}.runTaskTimer(plugin, 0L, 20L * interval);
 	}
 	
-	public static void perWorldMessages(ChatManager chatManager) {
-
-		FileConfiguration autobroadcast = ChatManager.settings.getAutoBroadcast();
+	public static void perWorldMessages() {
+		FileConfiguration autobroadcast = settingsManager.getAutoBroadcast();
 		
 		String sound = autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Sound");
 		String prefix = autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Prefix");
@@ -74,7 +75,7 @@ public class AutoBroadcastManager {
 			public void run() {
 				for (World world : getWorld()) {
 					if (autobroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Enable")) {
-						for (Player player : Bukkit.getOnlinePlayers()) {
+						for (Player player : plugin.getServer().getOnlinePlayers()) {
 							if (player.getWorld().getName().equals(world.getName())) {
 								if (autobroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Header_And_Footer")) {
 									player.sendMessage(Methods.color(player, autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Header")));
@@ -85,11 +86,11 @@ public class AutoBroadcastManager {
 								}
 								try {
 									player.playSound(player.getLocation(), Sound.valueOf(sound), 10, 1);
-								} catch (IllegalArgumentException ignored) {
-								}
+								} catch (IllegalArgumentException ignored) {}
 							}
 						}
 					}
+
 					int index = world.getIndex();
 					if (index + 1 < world.getMessages().size())
 						world.setIndex(index + 1);
@@ -98,12 +99,11 @@ public class AutoBroadcastManager {
 					}
 				}
 			}
-		}.runTaskTimer(chatManager, 0L, 20L * interval);
+		}.runTaskTimer(plugin, 0L, 20L * interval);
 	}
 	
-	public static void actionbarMessages(ChatManager chatManager) {
-		
-		FileConfiguration autobroadcast = ChatManager.settings.getAutoBroadcast();
+	public static void actionbarMessages() {
+		FileConfiguration autobroadcast = settingsManager.getAutoBroadcast();
 		
 		String sound = autobroadcast.getString("Auto_Broadcast.Actionbar_Messages.Sound");
 		String prefix = autobroadcast.getString("Auto_Broadcast.Actionbar_Messages.Prefix");
@@ -112,32 +112,31 @@ public class AutoBroadcastManager {
 		
 		new BukkitRunnable() {
 			int line = 0;
+
 			public void run() {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) {
-					for (Player player : Bukkit.getOnlinePlayers()) {
-						if (Version.getCurrentVersion().isNewer(Version.v1_15_R2)) {
+					for (Player player : plugin.getServer().getOnlinePlayers()) {
+						if (ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1)) {
 							player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(PlaceholderManager.setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix))));
 						} else {
 							JSONMessage.create().actionbar(PlaceholderManager.setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix)), player);
 						}
+
 						try {
 							player.playSound(player.getLocation(), Sound.valueOf(sound), 10, 1);
-						} catch (IllegalArgumentException ignored) {
-						}
+						} catch (IllegalArgumentException ignored) {}
 					}
 				}
+
 				line++;
-				if (line >= messages.size() ) {
-                    line = 0;
-				}
+				if (line >= messages.size() ) line = 0;
 			}
-		}.runTaskTimer(chatManager, 0L, 20L * interval);
+		}.runTaskTimer(plugin, 0L, 20L * interval);
 		
 	}
 	
-	public static void titleMessages(ChatManager chatManager) {
-		
-		FileConfiguration autobroadcast = ChatManager.settings.getAutoBroadcast();
+	public static void titleMessages() {
+		FileConfiguration autobroadcast = settingsManager.getAutoBroadcast();
 		
 		String sound = autobroadcast.getString("Auto_Broadcast.Title_Messages.Sound");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Title_Messages.Interval");
@@ -147,33 +146,32 @@ public class AutoBroadcastManager {
 			int line = 0;
 			public void run() {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) {
-					for (Player player : Bukkit.getOnlinePlayers()) {
+					for (Player player : plugin.getServer().getOnlinePlayers()) {
 						String title = PlaceholderManager.setPlaceholders(player, autobroadcast.getString("Auto_Broadcast.Title_Messages.Title"));
-						if (Version.getCurrentVersion().isNewer(Version.v1_8_R2)) {
-							if (Version.getCurrentVersion().isNewer(Version.v1_15_R2)) {
+
+						if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1)) {
+							if (ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1)) {
 								player.sendTitle(title, PlaceholderManager.setPlaceholders(player, messages.get(line)), 40, 20, 40);
 							} else {
 								JSONMessage.create(title).title(40, 20, 40, player);
 								JSONMessage.create(PlaceholderManager.setPlaceholders(player, messages.get(line))).subtitle(player);
 							}
 						}
+
 						try {
 							player.playSound(player.getLocation(), Sound.valueOf(sound), 10, 1);
-						} catch (IllegalArgumentException ignored) {
-						}
+						} catch (IllegalArgumentException ignored) {}
 					}
 				}
+
 				line++;
-				if (line >= messages.size() ) {
-                    line = 0;
-				}
+				if (line >= messages.size() ) line = 0;
 			}
-		}.runTaskTimer(chatManager, 0L, 20L * interval);
+		}.runTaskTimer(plugin, 0L, 20L * interval);
 	}
 	
-	public static void bossBarMessages(ChatManager chatManager) {
-		
-		FileConfiguration autobroadcast = ChatManager.settings.getAutoBroadcast();
+	public static void bossBarMessages() {
+		FileConfiguration autobroadcast = settingsManager.getAutoBroadcast();
 		
 		String sound = autobroadcast.getString("Auto_Broadcast.Bossbar_Messages.Sound");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Interval");
@@ -184,28 +182,28 @@ public class AutoBroadcastManager {
 			int line = 0;
 			public void run() {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Bossbar_Messages.Enable")) {
-					for (Player player : Bukkit.getOnlinePlayers()) {
-						if (Version.getCurrentVersion().isNewer(Version.v1_8_R3)) {
+					for (Player player : plugin.getServer().getOnlinePlayers()) {
+						if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1)) {
 							BossBarUtil bossBar = new BossBarUtil(PlaceholderManager.setPlaceholders(player, messages.get(line)), org.bukkit.boss.BarColor.PINK, org.bukkit.boss.BarStyle.SOLID);
+
 							if (autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Bar_Time") == -1) {
 								bossBar.removeBossBar(player);
 								bossBar.setBossBar(player);
 							} else if (autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Bar_Time") >= 0) {
-								bossBar.setBossBarTime(player, time, chatManager);
+								bossBar.setBossBarTime(player, time, plugin);
 							}
 						}
+
 						try {
 							player.playSound(player.getLocation(), Sound.valueOf(sound), 10, 1);
-						} catch (IllegalArgumentException ignored) {
-						}
+						} catch (IllegalArgumentException ignored) {}
 					}
 				}
+
 				line++;
-				if (line >= messages.size() ) {
-                    line = 0;
-				}
+				if (line >= messages.size() ) line = 0;
 			}
-		}.runTaskTimer(chatManager, 0L, 20L * interval);
+		}.runTaskTimer(plugin, 0L, 20L * interval);
 	}
 	
 	public static List<World> getWorld() {

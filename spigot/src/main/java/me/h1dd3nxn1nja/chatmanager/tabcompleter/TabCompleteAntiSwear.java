@@ -2,7 +2,6 @@ package me.h1dd3nxn1nja.chatmanager.tabcompleter;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -20,8 +19,7 @@ public class TabCompleteAntiSwear implements TabCompleter {
 			if (hasPermission(sender, "reload")) completions.add("reload");
 			if (hasPermission(sender, "add")) completions.add("add");
 			if (hasPermission(sender, "remove")) completions.add("remove");
-			if (hasPermission(sender, "list")) completions.add("list");
-				return StringUtil.copyPartialMatches(args[0], completions, new ArrayList<>());
+			if (hasPermission(sender, "list")) completions.add("list"); return StringUtil.copyPartialMatches(args[0], completions, new ArrayList<>());
 		} else if (args.length == 2) {
 			switch (args[0].toLowerCase()) {
 			case "help":
@@ -38,6 +36,7 @@ public class TabCompleteAntiSwear implements TabCompleter {
 			}
 			return StringUtil.copyPartialMatches(args[1], completions, new ArrayList<>());
 		}
+
 		return null;
 	}
 	

@@ -2,11 +2,9 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
-
 import java.util.List;
-
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,11 +15,13 @@ import org.bukkit.entity.Player;
 
 public class CommandBroadcast implements CommandExecutor {
 
-	public CommandBroadcast(ChatManager plugin) {}
+	private final ChatManager plugin = ChatManager.getPlugin();
+
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-		FileConfiguration config = ChatManager.settings.getConfig();
+		FileConfiguration config = settingsManager.getConfig();
 		
 		String broadcastSound = config.getString("Broadcast_Commands.Command.Broadcast.Sound");
 		String announcementSound = config.getString("Broadcast_Commands.Command.Announcement.Sound");
@@ -35,15 +35,16 @@ public class CommandBroadcast implements CommandExecutor {
 			if (sender.hasPermission("chatmanager.broadcast")) {
 				if (args.length != 0) {
 					StringBuilder message = new StringBuilder();
+
 					for (int i = 0; i < args.length; i++) {
 						message.append(args[i] + " ");
 					}
-					for (Player online : Bukkit.getServer().getOnlinePlayers()) {
+
+					for (Player online : plugin.getServer().getOnlinePlayers()) {
 						online.sendMessage(Methods.color(prefix + color + message));
 						try {
 							online.playSound(online.getLocation(), Sound.valueOf(broadcastSound), 10, 1);
-						} catch (IllegalArgumentException ignored) {
-						}
+						} catch (IllegalArgumentException ignored) {}
 					}
 				} else {
 					sender.sendMessage(Methods.color("&cCommand Usage: &7/Broadcast <message>"));
@@ -57,11 +58,13 @@ public class CommandBroadcast implements CommandExecutor {
 			if (sender.hasPermission("chatmanager.announcement")) {
 				if (args.length != 0) {
 					StringBuilder message = new StringBuilder();
+
 					for (int i = 0; i < args.length; i++) {
 						message.append(args[i] + " ");
 					}
+
 					for (String announce : announcement) {
-						for (Player online : Bukkit.getServer().getOnlinePlayers()) {
+						for (Player online : plugin.getServer().getOnlinePlayers()) {
 							if (sender instanceof Player) {
 								Player player = (Player) sender;
 								online.sendMessage(PlaceholderManager.setPlaceholders(player, announce.replace("{player}", player.getName()).replace("{message}", message).replace("\\n", "\n")));
@@ -70,9 +73,7 @@ public class CommandBroadcast implements CommandExecutor {
 								online.playSound(online.getLocation(), Sound.valueOf(announcementSound), 10, 1);
 							} catch (IllegalArgumentException ignored) {}
 						}
-						if (sender instanceof ConsoleCommandSender) {
-							Bukkit.broadcastMessage(Methods.color(announce.replace("{player}", sender.getName()).replace("{message}", message).replace("\\n", "\n")));
-						}
+						if (sender instanceof ConsoleCommandSender) plugin.getServer().broadcastMessage(Methods.color(announce.replace("{player}", sender.getName()).replace("{message}", message).replace("\\n", "\n")));
 					}
 				} else {
 					sender.sendMessage(Methods.color("&cCommand Usage: &7/Announcement <message>"));
@@ -86,23 +87,24 @@ public class CommandBroadcast implements CommandExecutor {
 			if (sender.hasPermission("chatmanager.warning")) {
 				if (args.length != 0) {
 					StringBuilder message = new StringBuilder();
+
 					for (int i = 0; i < args.length; i++) {
 						message.append(args[i] + " ");
 					}
+
 					for (String announce : warning) {
-						for (Player online : Bukkit.getServer().getOnlinePlayers()) {
+						for (Player online : plugin.getServer().getOnlinePlayers()) {
 							if (sender instanceof Player) {
 								Player player = (Player) sender;
 								online.sendMessage(PlaceholderManager.setPlaceholders(player, announce.replace("{player}", player.getName()).replace("{message}", message).replace("\\n", "\n")));
 							}
+
 							try {
 								online.playSound(online.getLocation(), Sound.valueOf(warningSound), 10, 1);
-							} catch (IllegalArgumentException ignored) {
-							}
+							} catch (IllegalArgumentException ignored) {}
 						}
-						if (sender instanceof ConsoleCommandSender) {
-							Bukkit.broadcastMessage(Methods.color(announce.replace("{player}", sender.getName()).replace("{message}", message).replace("\\n", "\n")));
-						}
+
+						if (sender instanceof ConsoleCommandSender) plugin.getServer().broadcastMessage(Methods.color(announce.replace("{player}", sender.getName()).replace("{message}", message).replace("\\n", "\n")));
 					}
 				} else {
 					sender.sendMessage(Methods.color("&cCommand Usage: &7/Warning <message>"));
@@ -111,6 +113,7 @@ public class CommandBroadcast implements CommandExecutor {
 				sender.sendMessage(Methods.noPermission());
 			}
 		}
+
 		return true;
 	}
 }

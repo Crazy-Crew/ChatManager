@@ -2,29 +2,26 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import me.h1dd3nxn1nja.chatmanager.utils.JSONMessage;
-import me.h1dd3nxn1nja.chatmanager.utils.Version;
-
+import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-
 import java.util.List;
 
 public class CommandAntiSwear implements CommandExecutor {
-	
-	public ChatManager plugin;
-	
-	public CommandAntiSwear(ChatManager plugin) {
-		this.plugin = plugin;
-	}
+
+	private final ChatManager plugin = ChatManager.getPlugin();
+
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
-		FileConfiguration bannedWords = ChatManager.settings.getBannedWords();
-		FileConfiguration messages = ChatManager.settings.getMessages();
+		FileConfiguration bannedWords = settingsManager.getBannedWords();
+		FileConfiguration messages = settingsManager.getMessages();
 		
 		if (!(sender instanceof Player)) {
 			sender.sendMessage("Error: You can only use that command in game");
@@ -32,11 +29,12 @@ public class CommandAntiSwear implements CommandExecutor {
 		}
 		
 		Player player = (Player) sender;
+
 		if (sender instanceof Player) {
 			if (cmd.getName().equalsIgnoreCase("AntiSwear")) {
 				if (player.hasPermission("chatmanager.antiswear")) {
 					if (args.length == 0) {
-						if (Version.getCurrentVersion().isNewer(Version.v1_8_R2) && Version.getCurrentVersion().isOlder(Version.v1_17_R1)) {
+						if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1) && ServerProtocol.isOlder(ServerProtocol.v1_17_R1)) {
 							JSONMessage.create("").send(player);
 							JSONMessage.create(" &3Anti Swear Help Menu &f(v" + plugin.getDescription().getVersion() + ")").send(player);
 							JSONMessage.create("").send(player);
@@ -68,10 +66,11 @@ public class CommandAntiSwear implements CommandExecutor {
 					player.sendMessage(Methods.noPermission());
 					return true;
 				}
+
 				if (args[0].equalsIgnoreCase("help")) {
 					if (player.hasPermission("chatmanager.antiswear.help")) {
 						if (args.length == 1) {
-							if (Version.getCurrentVersion().isNewer(Version.v1_8_R2) && Version.getCurrentVersion().isOlder(Version.v1_17_R1)) {
+							if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1) && ServerProtocol.isOlder(ServerProtocol.v1_17_R1)) {
 								JSONMessage.create("").send(player);
 								JSONMessage.create(Methods.color(" &3Anti Swear Help Menu &f(v" + plugin.getDescription().getVersion() + ")")).send(player);
 								JSONMessage.create("").send(player);
@@ -122,8 +121,8 @@ public class CommandAntiSwear implements CommandExecutor {
 									List<String> swearWords = bannedWords.getStringList("Banned-Words");
 									swearWords.add(args[2].toLowerCase());
 									bannedWords.set("Banned-Words", swearWords);
-									ChatManager.settings.saveBannedWords();
-									ChatManager.settings.reloadBannedWords();
+									settingsManager.saveBannedWords();
+									settingsManager.reloadBannedWords();
 									player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Blacklisted_Word.Added").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 								} else {
 									player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Blacklisted_Word.Exists").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
@@ -143,8 +142,8 @@ public class CommandAntiSwear implements CommandExecutor {
 									List<String> swearWords = bannedWords.getStringList("Whitelisted_Words");
 									swearWords.add(args[2].toLowerCase());
 									bannedWords.set("Whitelisted_Words", swearWords);
-									ChatManager.settings.saveBannedWords();
-									ChatManager.settings.reloadBannedWords();
+									settingsManager.saveBannedWords();
+									settingsManager.reloadBannedWords();
 									player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Whitelisted_Word.Added").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 								} else {
 									player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Whitelisted_Word.Exists").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
@@ -163,6 +162,7 @@ public class CommandAntiSwear implements CommandExecutor {
 						player.sendMessage(Methods.noPermission());
 						return true;
 					}
+
 					if (args.length == 1) {
 						player.sendMessage(Methods.color("&cCommand Usage: &7/Antiswear remove <blacklist|whitelist> <word>"));
 						return true;
@@ -175,8 +175,8 @@ public class CommandAntiSwear implements CommandExecutor {
 									List<String> list = bannedWords.getStringList("Banned-Words");
 									list.remove(args[2].toLowerCase());
 									bannedWords.set("Banned-Words", list);
-									ChatManager.settings.saveBannedWords();
-									ChatManager.settings.reloadBannedWords();
+									settingsManager.saveBannedWords();
+									settingsManager.reloadBannedWords();
 									player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Blacklisted_Word.Removed").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 								} else {
 									player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Blacklisted_Word.Not_Found").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
@@ -196,8 +196,8 @@ public class CommandAntiSwear implements CommandExecutor {
 									List<String> list = bannedWords.getStringList("Whitelisted_Words");
 									list.remove(args[2].toLowerCase());
 									bannedWords.set("Whitelisted_Words", list);
-									ChatManager.settings.saveBannedWords();
-									ChatManager.settings.reloadBannedWords();
+									settingsManager.saveBannedWords();
+									settingsManager.reloadBannedWords();
 									player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Whitelisted_Word.Removed").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 								} else {
 									player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Whitelisted_Word.Not_Found").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));

@@ -1,38 +1,36 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
-import org.bukkit.Bukkit;
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
+import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.hooks.EssentialsHook;
 import me.h1dd3nxn1nja.chatmanager.hooks.HookManager;
 import me.h1dd3nxn1nja.chatmanager.hooks.SuperVanishHook;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
-import me.h1dd3nxn1nja.chatmanager.utils.Version;
 
 public class CommandMessage implements CommandExecutor {
 
-	public ChatManager plugin;
+	private final ChatManager plugin = ChatManager.getPlugin();
 
-	public CommandMessage(ChatManager plugin) {
-		this.plugin = plugin;
-	}
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-		FileConfiguration config = ChatManager.settings.getConfig();
-		FileConfiguration messages = ChatManager.settings.getMessages();
+		FileConfiguration config = settingsManager.getConfig();
+		FileConfiguration messages = settingsManager.getMessages();
 
 		Player player = (Player) sender;
 		if (cmd.getName().equalsIgnoreCase("Message")) {
 			if (player.hasPermission("chatmanager.message")) {
 				StringBuilder message = new StringBuilder();
+
 				for (int i = 1; i < args.length; i++) {
 					message.append(args[i] + " ");
 				}
@@ -42,7 +40,7 @@ public class CommandMessage implements CommandExecutor {
 					return true;
 				}
 
-				Player target = Bukkit.getPlayer(args[0]);
+				Player target = plugin.getServer().getPlayer(args[0]);
 
 				if (target == null || !target.isOnline()) {
 					player.sendMessage(Methods.color(messages.getString("Message.Player_Not_Found")
@@ -55,7 +53,7 @@ public class CommandMessage implements CommandExecutor {
 					return true;
 				}
 
-				if (Version.getCurrentVersion().isNewer(Version.v1_8_R2)) {
+				if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1)) {
 					if ((target.getGameMode().equals(GameMode.SPECTATOR) && (!player.hasPermission("chatmanager.bypass.spectator")))) {
 						player.sendMessage(Methods.color(messages.getString("Message.Player_Not_Found")
 								.replace("{Prefix}", messages.getString("Message.Prefix"))
@@ -96,9 +94,7 @@ public class CommandMessage implements CommandExecutor {
 						return true;
 					}
 
-					if (EssentialsHook.isMuted(player)) {
-						return true;
-					}
+					if (EssentialsHook.isMuted(player)) return true;
 				}
 
 				if ((HookManager.isSuperVanishLoaded()) && (SuperVanishHook.isVanished(target)) && (!player.hasPermission("chatmanager.bypass.vanish"))) {
@@ -117,7 +113,7 @@ public class CommandMessage implements CommandExecutor {
 				Methods.cm_replied.put(player, target);
 				Methods.cm_replied.put(target, player);
 
-				for (Player staff : Bukkit.getOnlinePlayers()) {
+				for (Player staff : plugin.getServer().getOnlinePlayers()) {
 					if ((staff != player) && (staff != target)) {
 						if ((!player.hasPermission("chatmanager.bypass.socialspy")) && (!target.hasPermission("chatmanager.bypass.socialspy"))) {
 							if (Methods.cm_socialSpy.contains(staff.getUniqueId())) {
@@ -135,10 +131,13 @@ public class CommandMessage implements CommandExecutor {
 			if (player.hasPermission("chatmanager.reply")) {
 				if (args.length > 0) {
 					StringBuilder message = new StringBuilder();
+
 					for (int i = 0; i < args.length; i++) {
 						message.append(args[i] + " ");
 					}
+
 					Player target = Methods.cm_replied.get(player);
+
 					if (target == null || !target.isOnline()) {
 						player.sendMessage(Methods.color(messages.getString("Private_Message.Recipient_Not_Found")
 								.replace("{Prefix}", messages.getString("Message.Prefix"))));
@@ -179,9 +178,7 @@ public class CommandMessage implements CommandExecutor {
 							return true;
 						}
 
-						if (EssentialsHook.isMuted(player)) {
-							return true;
-						}
+						if (EssentialsHook.isMuted(player)) return true;
 					}
 
 					if ((HookManager.isSuperVanishLoaded()) && (SuperVanishHook.isVanished(target)) && (!player.hasPermission("chatmanager.bypass.vanish"))) {
@@ -201,7 +198,7 @@ public class CommandMessage implements CommandExecutor {
 					Methods.cm_replied.put(target, player);
 					Methods.cm_replied.put(player, target);
 
-					for (Player staff : Bukkit.getOnlinePlayers()) {
+					for (Player staff : plugin.getServer().getOnlinePlayers()) {
 						if ((staff != player) && (staff != target)) {
 							if ((!player.hasPermission("chatmanager.bypass.socialspy")) && (!target.hasPermission("chatmanager.bypass.socialspy"))) {
 								if (Methods.cm_socialSpy.contains(staff.getUniqueId())) {
@@ -218,6 +215,7 @@ public class CommandMessage implements CommandExecutor {
 				player.sendMessage(Methods.noPermission());
 			}
 		}
+
 		if (cmd.getName().equalsIgnoreCase("TogglePM")) {
 			if (player.hasPermission("chatmanager.toggle.pm")) {
 				if (args.length == 0) {

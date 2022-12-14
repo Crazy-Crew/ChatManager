@@ -1,8 +1,9 @@
 package me.h1dd3nxn1nja.chatmanager.hooks;
 
 import java.text.DecimalFormat;
+
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -11,12 +12,10 @@ import me.h1dd3nxn1nja.chatmanager.utils.Ping;
 public class PlaceholderAPIHook extends PlaceholderExpansion {
 	
 	public PlaceholderAPIHook() {}
-	
-	private Plugin plugin;
-	
-	public PlaceholderAPIHook(Plugin plugin) {
-		this.plugin = plugin;
-	}
+
+	private final ChatManager plugin = ChatManager.getPlugin();
+
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 	
 	@Override
 	public String getIdentifier() {
@@ -52,11 +51,11 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 		switch (lower) {
 		case "radius": //Returns which chat radius channel the player is in.
 			if (Methods.cm_localChat.contains(player.getUniqueId())) {
-				return ChatManager.settings.getConfig().getString("Chat_Radius.Local_Chat.Prefix");
+				return settingsManager.getConfig().getString("Chat_Radius.Local_Chat.Prefix");
 			} else if (Methods.cm_globalChat.contains(player.getUniqueId())) {
-				return ChatManager.settings.getConfig().getString("Chat_Radius.Global_Chat.Prefix");
+				return settingsManager.getConfig().getString("Chat_Radius.Global_Chat.Prefix");
 			} else if (Methods.cm_worldChat.contains(player.getUniqueId())) {
-				return ChatManager.settings.getConfig().getString("Chat_Radius.World_Chat.Prefix");
+				return settingsManager.getConfig().getString("Chat_Radius.World_Chat.Prefix");
 			}
 		case "toggle_pm": //Returns if the toggle pm is enabled/disabled for a player.
 			if (Methods.cm_togglePM.contains(player.getUniqueId())) {

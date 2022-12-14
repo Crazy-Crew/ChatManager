@@ -2,7 +2,6 @@ package me.h1dd3nxn1nja.chatmanager.tabcompleter;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -19,8 +18,7 @@ public class TabCompleteChatManager implements TabCompleter {
 			completions.add("help");
 			if (hasPermission(sender, "reload")) completions.add("reload");
 			if (hasPermission(sender, "debug")) completions.add("debug");
-			if (hasPermission(sender, "preview")) completions.add("preview");
-				return StringUtil.copyPartialMatches(args[0], completions, new ArrayList<>());
+			if (hasPermission(sender, "preview")) completions.add("preview"); return StringUtil.copyPartialMatches(args[0], completions, new ArrayList<>());
 		} else if (args.length == 2) {
 			switch (args[0].toLowerCase()) {
 				case "help":
@@ -38,6 +36,7 @@ public class TabCompleteChatManager implements TabCompleter {
 					completions.add("actionbar");
 					break;
 			}
+
 			return StringUtil.copyPartialMatches(args[1], completions, new ArrayList<>());
 		} else if (args.length == 3) {
 			switch (args[0].toLowerCase()) {
@@ -46,8 +45,10 @@ public class TabCompleteChatManager implements TabCompleter {
 					completions.add("firstjoin");
 					break;
 			}
+
 			return StringUtil.copyPartialMatches(args[2], completions, new ArrayList<>());
 		}
+
 		return new ArrayList<>();
 	}
 	public boolean hasPermission(CommandSender sender, String node) {

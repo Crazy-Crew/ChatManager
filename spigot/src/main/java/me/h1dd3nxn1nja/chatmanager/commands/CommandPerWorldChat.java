@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,12 +11,14 @@ import org.bukkit.entity.Player;
 
 public class CommandPerWorldChat implements CommandExecutor {
 
-	public CommandPerWorldChat(ChatManager plugin) {}
+	private final ChatManager plugin = ChatManager.getPlugin();
+
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-		FileConfiguration config = ChatManager.settings.getConfig();
-		FileConfiguration messages = ChatManager.settings.getMessages();
+		FileConfiguration config = settingsManager.getConfig();
+		FileConfiguration messages = settingsManager.getMessages();
 
 		if (!(sender instanceof Player)) {
 			sender.sendMessage("Error: You can only use that command in game");
@@ -23,6 +26,7 @@ public class CommandPerWorldChat implements CommandExecutor {
 		}
 		
 		Player player = (Player) sender;
+
 		if (sender instanceof Player) {
 			if (cmd.getName().equalsIgnoreCase("perworldchat")) {
 				if (player.hasPermission("chatmanager.perworldchat")) {
@@ -34,6 +38,7 @@ public class CommandPerWorldChat implements CommandExecutor {
 					player.sendMessage(Methods.noPermission());
 					return true;
 				}
+
 				if (args[0].equalsIgnoreCase("bypass")) {
 					if (player.hasPermission("chatmanager.perworldchat")) {
 						if (args.length == 1) {
@@ -57,6 +62,7 @@ public class CommandPerWorldChat implements CommandExecutor {
 				}
 			}
 		}
+
 		return true;
 	}
 }

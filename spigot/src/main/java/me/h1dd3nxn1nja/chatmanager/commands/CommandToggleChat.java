@@ -2,8 +2,8 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,11 +12,13 @@ import org.bukkit.entity.Player;
 
 public class CommandToggleChat implements CommandExecutor {
 
-	public CommandToggleChat(ChatManager plugin) {}
+	private final ChatManager plugin = ChatManager.getPlugin();
+
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
-		FileConfiguration messages = ChatManager.settings.getMessages();
+		FileConfiguration messages = settingsManager.getMessages();
 		
 		if (!(sender instanceof Player)) {
 			sender.sendMessage("Error: You can only use that command in game");
@@ -24,6 +26,7 @@ public class CommandToggleChat implements CommandExecutor {
 		}
 		
 		Player player = (Player) sender;
+
 		if (sender instanceof Player) {
 			if (cmd.getName().equalsIgnoreCase("toggleChat")) {
 				if (player.hasPermission("chatmanager.toggle.chat")) {
@@ -35,6 +38,7 @@ public class CommandToggleChat implements CommandExecutor {
 							Methods.cm_toggleChat.add(player.getUniqueId());
 							player.sendMessage(PlaceholderManager.setPlaceholders(player, messages.getString("Toggle_Chat.Enabled")));
 						}
+
 						return true;
 					} else {
 						player.sendMessage(Methods.color("&cCommand Usage: &7/Togglechat"));
@@ -44,6 +48,7 @@ public class CommandToggleChat implements CommandExecutor {
 				}
 			}
 		}
+
 		return true;
 	}
 }

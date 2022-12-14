@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import org.bukkit.Bukkit;
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
+import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -8,23 +9,22 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.hooks.EssentialsHook;
 import me.h1dd3nxn1nja.chatmanager.hooks.HookManager;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
 import me.h1dd3nxn1nja.chatmanager.utils.JSONMessage;
-import me.h1dd3nxn1nja.chatmanager.utils.Version;
 
 public class ListenerMentions implements Listener {
-	
-	public ListenerMentions(ChatManager plguin) {}
+
+	private final ChatManager plugin = ChatManager.getPlugin();
+
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 	
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
-		
-		FileConfiguration config = ChatManager.settings.getConfig();
+		FileConfiguration config = settingsManager.getConfig();
 		
 		Player player = event.getPlayer();
 		
@@ -33,33 +33,32 @@ public class ListenerMentions implements Listener {
 		
 		if (config.getBoolean("Mentions.Enable")) {
 			event.setMessage(ChatColor.translateAlternateColorCodes('&', event.getMessage()));
-			Bukkit.getServer().getOnlinePlayers().forEach(target -> {
+
+			plugin.getServer().getOnlinePlayers().forEach(target -> {
 				if (player.hasPermission("chatmanager.mention")) {
 					if (event.getMessage().contains(tagSymbol + target.getName())) {
-						if (Methods.cm_toggleMentions.contains(target.getUniqueId())) {
-							return;
-						}
+						if (Methods.cm_toggleMentions.contains(target.getUniqueId())) return;
+
 						if (HookManager.isEssentialsLoaded()) {
-							if ((EssentialsHook.isIgnored(target, player)) || (EssentialsHook.isMuted(player))) {
-								return;
-							}
+							if ((EssentialsHook.isIgnored(target, player)) || (EssentialsHook.isMuted(player))) return;
 						}
-						if (Methods.cm_toggleChat.contains(target.getUniqueId())) {
-							return;
-						}
+
+						if (Methods.cm_toggleChat.contains(target.getUniqueId())) return;
+
 						if (config.getBoolean("Chat_Radius.Enable")) {
 							if ((!Methods.inRange(target, player, config.getInt("Chat_Radius.Block_Distance"))) || (!Methods.inWorld(target, player))) {
 								return;
 							}
 						}
+
 						try {
 							target.playSound(target.getLocation(), Sound.valueOf(config.getString("Mentions.Sound")), 10, 1);
 						} catch (IllegalArgumentException ignored) {}
-						if (Version.getCurrentVersion().isNewer(Version.v1_8_R2)) {
+						if ((ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1))) {
 							if (config.getBoolean("Mentions.Title.Enable")) {
 								String header = PlaceholderManager.setPlaceholders(player, config.getString("Mentions.Title.Header"));
 								String footer = PlaceholderManager.setPlaceholders(player, config.getString("Mentions.Title.Footer"));
-								if (Version.getCurrentVersion().isNewer(Version.v1_15_R2)) {
+								if ((ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1))) {
 									target.sendTitle(header, footer, 40, 20, 40);
 								} else {
 									JSONMessage.create(header).title(40, 20, 40, target);
@@ -67,6 +66,7 @@ public class ListenerMentions implements Listener {
 								}
 							}
 						}
+
 						if (!config.getString("Mentions.Mention_Color").equals("")) {
 							String before = event.getMessage();
 							String lastColor = ChatColor.getLastColors(before).equals("") ? ChatColor.WHITE.toString() : ChatColor.getLastColors(before);
@@ -78,16 +78,17 @@ public class ListenerMentions implements Listener {
 			});
 			
 			if (event.getMessage().toLowerCase().contains(tagSymbol + "everyone")) {
-				Bukkit.getOnlinePlayers().forEach(target -> {
+				plugin.getServer().getOnlinePlayers().forEach(target -> {
 					if (player.hasPermission("chatmanager.mention.everyone")) {
 						try {
 							target.playSound(target.getLocation(), Sound.valueOf(config.getString("Mentions.Sound")), 10, 1);
 						} catch (IllegalArgumentException ignored) {}
-						if (Version.getCurrentVersion().isNewer(Version.v1_8_R2)) {
+						if ((ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1))) {
 							if (config.getBoolean("Mentions.Title.Enable")) {
 								String header = PlaceholderManager.setPlaceholders(player, config.getString("Mentions.Title.Header"));
 								String footer = PlaceholderManager.setPlaceholders(player, config.getString("Mentions.Title.Footer"));
-								if (Version.getCurrentVersion().isNewer(Version.v1_15_R2)) {
+
+								if ((ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1))) {
 									target.sendTitle(header, footer, 40, 20, 40);
 								} else {
 									JSONMessage.create(header).title(40, 20, 40, target);
@@ -95,6 +96,7 @@ public class ListenerMentions implements Listener {
 								}
 							}
 						}
+
 						if (!config.getString("Mentions.Mention_Color").equals("")) {
 							String before = event.getMessage();
 							String lastColor = ChatColor.getLastColors(before).equals("") ? ChatColor.WHITE.toString() : ChatColor.getLastColors(before);

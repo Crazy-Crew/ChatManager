@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import org.bukkit.Bukkit;
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
+import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -14,22 +15,18 @@ import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
 import me.h1dd3nxn1nja.chatmanager.utils.JSONMessage;
-import me.h1dd3nxn1nja.chatmanager.utils.Version;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
 public class ListenerPlayerJoin implements Listener {
 
-	private ChatManager plugin;
+	private final ChatManager plugin = ChatManager.getPlugin();
 
-	public ListenerPlayerJoin(ChatManager plugin) {
-		this.plugin = plugin;
-	}
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void firstJoinMessage(PlayerJoinEvent event) {
-		
-		FileConfiguration config = ChatManager.settings.getConfig();
+		FileConfiguration config = settingsManager.getConfig();
 		
 		Player player = event.getPlayer();
 		
@@ -37,29 +34,33 @@ public class ListenerPlayerJoin implements Listener {
 			if (config.getBoolean("Messages.First_Join.Welcome_Message.Enable")) {
 				String message = config.getString("Messages.First_Join.Welcome_Message.First_Join_Message");
 				event.setJoinMessage(PlaceholderManager.setPlaceholders(player, message));
-				for (Player online : Bukkit.getServer().getOnlinePlayers()) {
+
+				for (Player online : plugin.getServer().getOnlinePlayers()) {
 					try {
 						online.playSound(online.getLocation(), Sound.valueOf(config.getString("Messages.First_Join.Welcome_Message.Sound")), 10, 1);
-					} catch (IllegalArgumentException ignored) {
-					}
+					} catch (IllegalArgumentException ignored) {}
 				}
 			}
+
 			if (config.getBoolean("Messages.First_Join.Actionbar_Message.Enable")) {
 				String message = config.getString("Messages.First_Join.Actionbar_Message.First_Join_Message");
-				if (Version.getCurrentVersion().isNewer(Version.v1_15_R2)) {
+
+				if ((ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1))) {
 					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(PlaceholderManager.setPlaceholders(player, message)));
 				} else {
 					JSONMessage.create().actionbar(PlaceholderManager.setPlaceholders(player, message), player);
 				}
 			}
-			if (Version.getCurrentVersion().isNewer(Version.v1_8_R2)) {
+
+			if ((ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1))) {
 				if (config.getBoolean("Messages.First_Join.Title_Message.Enable")) {
 					int fadeIn = config.getInt("Messages.First_Join.Title_Message.Fade_In");
 					int stay = config.getInt("Messages.First_Join.Title_Message.Stay");
 					int fadeOut = config.getInt("Messages.First_Join.Title_Message.Fade_Out");
 					String header = PlaceholderManager.setPlaceholders(player, config.getString("Messages.First_Join.Title_Message.First_Join_Message.Header"));
 					String footer = PlaceholderManager.setPlaceholders(player, config.getString("Messages.First_Join.Title_Message.First_Join_Message.Footer"));
-					if (Version.getCurrentVersion().isNewer(Version.v1_15_R2)) {
+
+					if ((ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1))) {
 						player.sendTitle(header, footer, fadeIn, stay, fadeOut);
 					} else {
 						JSONMessage.create(header).title(fadeIn, stay, fadeOut, player);
@@ -72,8 +73,7 @@ public class ListenerPlayerJoin implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void JoinMessage(PlayerJoinEvent event) {
-		
-		FileConfiguration config = ChatManager.settings.getConfig();
+		FileConfiguration config = settingsManager.getConfig();
 		
 		Player player = event.getPlayer();
 		
@@ -82,23 +82,25 @@ public class ListenerPlayerJoin implements Listener {
 					&& (config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable")) == false) {
 				String message = config.getString("Messages.Join_Quit_Messages.Join_Message.Message");
 				event.setJoinMessage(PlaceholderManager.setPlaceholders(player, message));
-				for (Player online : Bukkit.getServer().getOnlinePlayers()) {
+
+				for (Player online : plugin.getServer().getOnlinePlayers()) {
 					try {
 						online.playSound(online.getLocation(), Sound.valueOf(config.getString("Messages.Join_Quit_Messages.Join_Message.Sound")), 10, 1);
-					} catch (IllegalArgumentException ignored) {
-					}
+					} catch (IllegalArgumentException ignored) {}
 				}
 			}
 			if ((config.getBoolean("Messages.Join_Quit_Messages.Actionbar_Message.Enable") == true)
 					&& (config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable")) == false) {
 				String message = config.getString("Messages.Join_Quit_Messages.Actionbar_Message.Message");
-				if (Version.getCurrentVersion().isNewer(Version.v1_15_R2)) {
+
+				if ((ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1))) {
 					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(PlaceholderManager.setPlaceholders(player, message)));
 				} else {
 					JSONMessage.create().actionbar(PlaceholderManager.setPlaceholders(player, message), player);
 				}
 			}
-			if (Version.getCurrentVersion().isNewer(Version.v1_8_R2)) {
+
+			if ((ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1))) {
 				if ((config.getBoolean("Messages.Join_Quit_Messages.Title_Message.Enable") == true)
 						&& (config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable")) == false) {
 					int fadeIn = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_In");
@@ -106,7 +108,8 @@ public class ListenerPlayerJoin implements Listener {
 					int fadeOut = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_Out");
 					String header = PlaceholderManager.setPlaceholders(player, config.getString("Messages.Join_Quit_Messages.Title_Message.Message.Header"));
 					String footer = PlaceholderManager.setPlaceholders(player, config.getString("Messages.Join_Quit_Messages.Title_Message.Message.Footer"));
-					if (Version.getCurrentVersion().isNewer(Version.v1_15_R2)) {
+
+					if ((ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1))) {
 						player.sendTitle(header, footer, fadeIn, stay, fadeOut);
 					} else {
 						JSONMessage.create(header).title(fadeIn, stay, fadeOut, player);
@@ -114,6 +117,7 @@ public class ListenerPlayerJoin implements Listener {
 					}
 				}
 			}
+
 			if (config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable")) {
 				for (String key : config.getConfigurationSection("Messages.Join_Quit_Messages.Group_Messages").getKeys(false)) {
 					String permission = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Permission");
@@ -125,6 +129,7 @@ public class ListenerPlayerJoin implements Listener {
 					int stay = config.getInt("Messages.Join_Quit_Messages.Title_Message.Stay");
 					int fadeOut = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_Out");
 					String sound = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Sound");
+
 					if (permission != null && player.hasPermission(permission)) {
 						if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Join_Message")) {
 							try {
@@ -133,9 +138,10 @@ public class ListenerPlayerJoin implements Listener {
 								ex.printStackTrace();
 							}
 						}
+
 						if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Actionbar")) {
 							try {
-								if (Version.getCurrentVersion().isNewer(Version.v1_15_R2)) {
+								if ((ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1))) {
 									player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(PlaceholderManager.setPlaceholders(player, actionbarMessage)));
 								} else {
 									JSONMessage.create().actionbar(PlaceholderManager.setPlaceholders(player, actionbarMessage), player);
@@ -144,9 +150,10 @@ public class ListenerPlayerJoin implements Listener {
 								ex.printStackTrace();
 							}
 						}
+
 						if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Title")) {
 							try {
-								if (Version.getCurrentVersion().isNewer(Version.v1_15_R2)) {
+								if ((ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1))) {
 									player.sendTitle(PlaceholderManager.setPlaceholders(player, titleHeader), PlaceholderManager.setPlaceholders(player, titleFooter), fadeIn, stay, fadeOut);
 								} else {
 									JSONMessage.create(PlaceholderManager.setPlaceholders(player, titleHeader)).title(fadeIn, stay, fadeOut, player);
@@ -156,12 +163,12 @@ public class ListenerPlayerJoin implements Listener {
 								ex.printStackTrace();
 							}
 						}
+
 						if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Sound")) {
-							for (Player online : Bukkit.getServer().getOnlinePlayers()) {
+							for (Player online : plugin.getServer().getOnlinePlayers()) {
 								try {
 									online.playSound(online.getLocation(), Sound.valueOf(sound), 10, 1);
-								} catch (IllegalArgumentException ignored) {
-								}
+								} catch (IllegalArgumentException ignored) {}
 							}
 						}
 					}
@@ -172,8 +179,7 @@ public class ListenerPlayerJoin implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerQuit(PlayerQuitEvent event) {
-
-		FileConfiguration config = ChatManager.settings.getConfig();
+		FileConfiguration config = settingsManager.getConfig();
 
 		Player player = event.getPlayer();
 		
@@ -181,17 +187,19 @@ public class ListenerPlayerJoin implements Listener {
 				&& (config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable")) == false) {
 			String message = config.getString("Messages.Join_Quit_Messages.Quit_Message.Message");
 			event.setQuitMessage(PlaceholderManager.setPlaceholders(player, message));
-			for (Player online : Bukkit.getServer().getOnlinePlayers()) {
+
+			for (Player online : plugin.getServer().getOnlinePlayers()) {
 				try {
 					online.playSound(online.getLocation(), Sound.valueOf(config.getString("Messages.Join_Quit_Messages.Quit_Message.Sound")), 10, 1);
-				} catch (IllegalArgumentException ignored) {
-				}
+				} catch (IllegalArgumentException ignored) {}
 			}
 		}
+
 		if (config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable")) {
 			for (String key : config.getConfigurationSection("Messages.Join_Quit_Messages.Group_Messages").getKeys(false)) {
 				String permission = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Permission");
 				String quitMessage = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Quit_Message");
+
 				if (permission != null && player.hasPermission(permission)) {
 					if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Quit_Message")) {
 						event.setQuitMessage(PlaceholderManager.setPlaceholders(player, quitMessage));
@@ -203,8 +211,7 @@ public class ListenerPlayerJoin implements Listener {
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
-
-		FileConfiguration config = ChatManager.settings.getConfig();
+		FileConfiguration config = settingsManager.getConfig();
 
 		Player player = event.getPlayer();
 		int lines = config.getInt("Clear_Chat.Broadcasted_Lines");
@@ -219,34 +226,22 @@ public class ListenerPlayerJoin implements Listener {
 		}
 		
 		if (config.getBoolean("Social_Spy.Enable_On_Join")) {
-			if (player.hasPermission("chatmanager.socialspy")) {
-				Methods.cm_socialSpy.add(player.getUniqueId());
-			}
+			if (player.hasPermission("chatmanager.socialspy")) Methods.cm_socialSpy.add(player.getUniqueId());
 		}
 		
 		if (config.getBoolean("Command_Spy.Enable_On_Join")) {
-			if (player.hasPermission("chatmanager.commandspy")) {
-				Methods.cm_commandSpy.add(player.getUniqueId());
-			}
+			if (player.hasPermission("chatmanager.commandspy")) Methods.cm_commandSpy.add(player.getUniqueId());
 		}
 		
 		if (config.getBoolean("Chat_Radius.Enable")) {
-			if (config.getString("Chat_Radius.Default_Channel").equals("Local")) {
-				Methods.cm_localChat.add(player.getUniqueId());
-			}
-			if (config.getString("Chat_Radius.Default_Channel").equals("Global")) {
-				Methods.cm_globalChat.add(player.getUniqueId());
-			}
-			if (config.getString("Chat_Radius.Default_Channel").equals("World")) {
-				Methods.cm_worldChat.add(player.getUniqueId());
-			}
+			if (config.getString("Chat_Radius.Default_Channel").equals("Local")) Methods.cm_localChat.add(player.getUniqueId());
+			if (config.getString("Chat_Radius.Default_Channel").equals("Global")) Methods.cm_globalChat.add(player.getUniqueId());
+			if (config.getString("Chat_Radius.Default_Channel").equals("World")) Methods.cm_worldChat.add(player.getUniqueId());
 		}
 		
 		if (config.getBoolean("Chat_Radius.Enable")) {
 			if (config.getBoolean("Chat_Radius.Enable_Spy_On_Join")) {
-				if (player.hasPermission("chatmanager.chatradius.spy")) {
-					Methods.cm_spyChat.add(player.getUniqueId());
-				}
+				if (player.hasPermission("chatmanager.chatradius.spy")) Methods.cm_spyChat.add(player.getUniqueId());
 			}
 		}
 		

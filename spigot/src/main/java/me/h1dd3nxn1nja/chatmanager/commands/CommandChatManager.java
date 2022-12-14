@@ -1,37 +1,35 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
-import org.bukkit.Bukkit;
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
+import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
+import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.managers.AutoBroadcastManager;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
 import me.h1dd3nxn1nja.chatmanager.utils.Debug;
 import me.h1dd3nxn1nja.chatmanager.utils.JSONMessage;
-import me.h1dd3nxn1nja.chatmanager.utils.Version;
 
 public class CommandChatManager implements CommandExecutor {
 
-	private ChatManager chatManager;
+	private final ChatManager plugin = ChatManager.getPlugin();
 
-	public CommandChatManager(ChatManager chatManager) {
-		this.chatManager = chatManager;
-	}
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-		FileConfiguration messages = ChatManager.settings.getMessages();
+		FileConfiguration messages = settingsManager.getMessages();
 
 		if (cmd.getName().equalsIgnoreCase("ChatManager")) {
 			if (args.length == 0) {
 				sender.sendMessage(Methods.color("&7This server is using the plugin &cChatManager "
-						+ "&7version " + chatManager.getDescription().getVersion() + " by &cH1DD3NxN1NJA."));
+						+ "&7version " + plugin.getDescription().getVersion() + " by &cH1DD3NxN1NJA."));
 				sender.sendMessage(Methods.color("&7Commands: &c/Chatmanager help"));
 				return true;
 			}
@@ -39,43 +37,35 @@ public class CommandChatManager implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("reload")) {
 				if (sender.hasPermission("chatmanager.reload")) {
 					if (args.length == 1) {
-						for (Player all : Bukkit.getOnlinePlayers()) {
+						for (Player all : plugin.getServer().getOnlinePlayers()) {
 							Methods.cm_chatCooldown.remove(all);
 							Methods.cm_cooldownTask.remove(all);
 							Methods.cm_commandCooldown.remove(all);
 							Methods.cm_cooldownTask.remove(all);
-							if (Version.getCurrentVersion().isNewer(Version.v1_8_R3)) {
+
+							if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1)) {
 								BossBarUtil bossBar = new BossBarUtil();
 								bossBar.removeBossBar(all);
 							}
 						}
 						
-						ChatManager.settings.reloadConfig();
-						ChatManager.settings.reloadMessages();
-						ChatManager.settings.reloadAutoBroadcast();
-						ChatManager.settings.reloadBannedCommands();
-						ChatManager.settings.reloadBannedWords();
-						ChatManager.settings.setup(chatManager);
+						settingsManager.reloadConfig();
+						settingsManager.reloadMessages();
+						settingsManager.reloadAutoBroadcast();
+						settingsManager.reloadBannedCommands();
+						settingsManager.reloadBannedWords();
+						settingsManager.setup();
 						
-						chatManager.getServer().getScheduler().cancelTasks(chatManager);
+						plugin.getServer().getScheduler().cancelTasks(plugin);
+
 						try {
-							if (ChatManager.settings.getAutoBroadcast().getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) {
-								AutoBroadcastManager.actionbarMessages(chatManager);
-							}
-							if (ChatManager.settings.getAutoBroadcast().getBoolean("Auto_Broadcast.Global_Messages.Enable")) {
-								AutoBroadcastManager.globalMessages(chatManager);
-							}
-							if (ChatManager.settings.getAutoBroadcast().getBoolean("Auto_Broadcast.Per_World_Messages.Enable")) {
-								AutoBroadcastManager.perWorldMessages(chatManager);
-							}
-							if (ChatManager.settings.getAutoBroadcast().getBoolean("Auto_Broadcast.Title_Messages.Enable")) {
-								AutoBroadcastManager.titleMessages(chatManager);
-							}
-							if (ChatManager.settings.getAutoBroadcast().getBoolean("Auto_Broadcast.Bossbar_Messages.Enable")) {
-								AutoBroadcastManager.bossBarMessages(chatManager);
-							}
+							if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) AutoBroadcastManager.actionbarMessages();
+							if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Global_Messages.Enable")) AutoBroadcastManager.globalMessages();
+							if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Per_World_Messages.Enable")) AutoBroadcastManager.perWorldMessages();
+							if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Title_Messages.Enable")) AutoBroadcastManager.titleMessages();
+							if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Bossbar_Messages.Enable")) AutoBroadcastManager.bossBarMessages();
 						} catch (Exception ex) {
-							Bukkit.getConsoleSender().sendMessage("There has been an error setting up auto broadcast. Stacktrace...");
+							plugin.getServer().getConsoleSender().sendMessage("There has been an error setting up auto broadcast. Stacktrace...");
 							ex.printStackTrace();
 						}
 						
@@ -88,14 +78,16 @@ public class CommandChatManager implements CommandExecutor {
 					sender.sendMessage(Methods.noPermission());
 				}
 			}
+
 			if (args[0].equalsIgnoreCase("debug")) {
 				if (!sender.hasPermission("chatmanager.debug")) {
 					sender.sendMessage(Methods.noPermission());
 					return true;
 				}
+
 				if (args.length == 1) {
 					sender.sendMessage("");
-					sender.sendMessage(Methods.color(" &3Chat Manager Debug Help Menu &f(v" + chatManager.getDescription().getVersion() + ")"));
+					sender.sendMessage(Methods.color(" &3Chat Manager Debug Help Menu &f(v" + plugin.getDescription().getVersion() + ")"));
 					sender.sendMessage("");
 					sender.sendMessage(Methods.color(" &f/Chatmanager Debug &e- Shows a list of commands to debug."));
 					sender.sendMessage(Methods.color(" &f/Chatmanager Debug All &e- Debugs all the configuration files."));
@@ -105,6 +97,7 @@ public class CommandChatManager implements CommandExecutor {
 					sender.sendMessage("");
 					return true;
 				}
+
 				if (args[1].equalsIgnoreCase("all")) {
 					if (sender.hasPermission("chatmanager.debug")) {
 						if (args.length == 2) {
@@ -119,6 +112,7 @@ public class CommandChatManager implements CommandExecutor {
 						sender.sendMessage(Methods.noPermission());
 					}
 				}
+
 				if (args[1].equalsIgnoreCase("autobroadcast")) {
 					if (sender.hasPermission("chatmanager.debug")) {
 						if (args.length == 2) {
@@ -131,6 +125,7 @@ public class CommandChatManager implements CommandExecutor {
 						sender.sendMessage(Methods.noPermission());
 					}
 				}
+
 				if (args[1].equalsIgnoreCase("config")) {
 					if (sender.hasPermission("chatmanager.debug")) {
 						if (args.length == 2) {
@@ -143,6 +138,7 @@ public class CommandChatManager implements CommandExecutor {
 						sender.sendMessage(Methods.noPermission());
 					}
 				}
+
 				if (args[1].equalsIgnoreCase("messages")) {
 					if (sender.hasPermission("chatmanager.debug")) {
 						if (args.length == 2) {
@@ -161,9 +157,9 @@ public class CommandChatManager implements CommandExecutor {
 				Player player = (Player) sender;
 				if (args[0].equalsIgnoreCase("help")) {
 					if (args.length == 1) {
-						if (Version.getCurrentVersion().isNewer(Version.v1_8_R2) && Version.getCurrentVersion().isOlder(Version.v1_17_R1)) {
+						if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1) && ServerProtocol.isOlder(ServerProtocol.v1_17_R1)) {
 							JSONMessage.create("").send(player);
-							JSONMessage.create(" &3Chat Manager &f(v" + chatManager.getDescription().getVersion() + ")").send(player);
+							JSONMessage.create(" &3Chat Manager &f(v" + plugin.getDescription().getVersion() + ")").send(player);
 							JSONMessage.create("").send(player);
 							JSONMessage.create(" &6<> &f= Required Arguments").send(player);
 							JSONMessage.create("").send(player);
@@ -188,7 +184,7 @@ public class CommandChatManager implements CommandExecutor {
 						return true;
 					} else {
 						player.sendMessage("");
-						player.sendMessage(Methods.color(" &3Chat Manager &f(v" + chatManager.getDescription().getVersion() + ")"));
+						player.sendMessage(Methods.color(" &3Chat Manager &f(v" + plugin.getDescription().getVersion() + ")"));
 						player.sendMessage("");
 						player.sendMessage(Methods.color(" &6<> &f= Required Arguments"));
 						player.sendMessage("");
@@ -208,9 +204,9 @@ public class CommandChatManager implements CommandExecutor {
 
 					if (args[1].equalsIgnoreCase("1")) {
 						if (args.length == 2) {
-							if (Version.getCurrentVersion().isNewer(Version.v1_8_R2) && Version.getCurrentVersion().isOlder(Version.v1_17_R1)) {
+							if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1) && ServerProtocol.isOlder(ServerProtocol.v1_17_R1)) {
 								JSONMessage.create("").send(player);
-								JSONMessage.create(" &3Chat Manager &f(v" + chatManager.getDescription().getVersion() + ")").send(player);
+								JSONMessage.create(" &3Chat Manager &f(v" + plugin.getDescription().getVersion() + ")").send(player);
 								JSONMessage.create("").send(player);
 								JSONMessage.create(" &6<> &f= Required Arguments").send(player);
 								JSONMessage.create("").send(player);
@@ -234,7 +230,7 @@ public class CommandChatManager implements CommandExecutor {
 							return true;
 						} else {
 							player.sendMessage("");
-							player.sendMessage(Methods.color(" &3Chat Manager &f(v" + chatManager.getDescription().getVersion() + ")"));
+							player.sendMessage(Methods.color(" &3Chat Manager &f(v" + plugin.getDescription().getVersion() + ")"));
 							player.sendMessage("");
 							player.sendMessage(Methods.color(" &6<> &f= Required Arguments"));
 							player.sendMessage("");
@@ -255,9 +251,9 @@ public class CommandChatManager implements CommandExecutor {
 
 					if (args[1].equalsIgnoreCase("2")) {
 						if (args.length == 2) {
-							if (Version.getCurrentVersion().isNewer(Version.v1_8_R2) && Version.getCurrentVersion().isOlder(Version.v1_17_R1)) {
+							if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1) && ServerProtocol.isOlder(ServerProtocol.v1_17_R1)) {
 								JSONMessage.create("").send(player);
-								JSONMessage.create(" &3Chat Manager &f(v" + chatManager.getDescription().getVersion() + ")").send(player);
+								JSONMessage.create(" &3Chat Manager &f(v" + plugin.getDescription().getVersion() + ")").send(player);
 								JSONMessage.create("").send(player);
 								JSONMessage.create(" &6<> &f= Required Arguments").send(player);
 								JSONMessage.create(" &2[] &f= Optional Arguments").send(player);
@@ -287,7 +283,7 @@ public class CommandChatManager implements CommandExecutor {
 								return true;
 							} else {
 								player.sendMessage("");
-								player.sendMessage(Methods.color(" &3Chat Manager &f(v" + chatManager.getDescription().getVersion() + ")"));
+								player.sendMessage(Methods.color(" &3Chat Manager &f(v" + plugin.getDescription().getVersion() + ")"));
 								player.sendMessage("");
 								player.sendMessage(Methods.color(" &6<> &f= Required Arguments"));
 								player.sendMessage(Methods.color(" &2[] &f= Optional Arguments"));
@@ -311,9 +307,9 @@ public class CommandChatManager implements CommandExecutor {
 
 					if (args[1].equalsIgnoreCase("3")) {
 						if (args.length == 2) {
-							if (Version.getCurrentVersion().isNewer(Version.v1_8_R2) && Version.getCurrentVersion().isOlder(Version.v1_17_R1)) {
+							if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1) && ServerProtocol.isOlder(ServerProtocol.v1_17_R1)) {
 								JSONMessage.create("").send(player);
-								JSONMessage.create(" &3Chat Manager &f(v" + chatManager.getDescription().getVersion() + ")").send(player);
+								JSONMessage.create(" &3Chat Manager &f(v" + plugin.getDescription().getVersion() + ")").send(player);
 								JSONMessage.create("").send(player);
 								JSONMessage.create(" &6<> &f= Required Arguments").send(player);
 								JSONMessage.create(" &2[] &f= Optional Arguments").send(player);
@@ -343,7 +339,7 @@ public class CommandChatManager implements CommandExecutor {
 								return true;
 							} else {
 								player.sendMessage("");
-								player.sendMessage(Methods.color(" &3Chat Manager &f(v" + chatManager.getDescription().getVersion() + ")"));
+								player.sendMessage(Methods.color(" &3Chat Manager &f(v" + plugin.getDescription().getVersion() + ")"));
 								player.sendMessage("");
 								player.sendMessage(Methods.color(" &6<> &f= Required Arguments"));
 								player.sendMessage(Methods.color(" &2[] &f= Optional Arguments"));
@@ -369,6 +365,7 @@ public class CommandChatManager implements CommandExecutor {
 				sender.sendMessage("Error: You can only use that command in game");
 			}
 		}
+
 		return true;
 	}
 }

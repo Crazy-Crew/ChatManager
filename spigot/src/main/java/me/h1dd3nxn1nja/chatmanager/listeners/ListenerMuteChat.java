@@ -2,7 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandMuteChat;
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,15 +11,14 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class ListenerMuteChat implements Listener {
-	
-	public ListenerMuteChat(CommandMuteChat plugin) {}
-	
-	public ListenerMuteChat(ChatManager plugin) {}
+
+	private final ChatManager plugin = ChatManager.getPlugin();
+
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 	
 	@EventHandler
 	public void muteChat(AsyncPlayerChatEvent event) {
-		
-		FileConfiguration messages = ChatManager.settings.getMessages();
+		FileConfiguration messages = settingsManager.getMessages();
 		
 		Player player = event.getPlayer();
 		
@@ -33,9 +32,8 @@ public class ListenerMuteChat implements Listener {
 	
 	@EventHandler
 	public void onCommand(PlayerCommandPreprocessEvent event) {
-		
-		FileConfiguration config = ChatManager.settings.getConfig();
-		FileConfiguration messages = ChatManager.settings.getMessages();
+		FileConfiguration config = settingsManager.getConfig();
+		FileConfiguration messages = settingsManager.getMessages();
 		
 		Player player = event.getPlayer();
 		

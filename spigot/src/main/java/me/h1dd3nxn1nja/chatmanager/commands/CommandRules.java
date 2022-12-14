@@ -1,20 +1,22 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 
 public class CommandRules implements CommandExecutor {
 
-	public CommandRules(ChatManager plugin) {}
+	private final ChatManager plugin = ChatManager.getPlugin();
+
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-		FileConfiguration config = ChatManager.settings.getConfig();
+		FileConfiguration config = settingsManager.getConfig();
 
 		if (cmd.getName().equalsIgnoreCase("rules")) {
 			if (sender.hasPermission("chatmanager.rules")) {
@@ -34,6 +36,7 @@ public class CommandRules implements CommandExecutor {
 				sender.sendMessage(Methods.noPermission());
 			}
 		}
+
 		return true;
 	}
 }

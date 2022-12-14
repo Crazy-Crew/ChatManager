@@ -6,21 +6,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
 import java.util.Set;
 
 public class ListenerToggleChat implements Listener {
 
-	public ListenerToggleChat(ChatManager plugin) {}
+	private final ChatManager plugin = ChatManager.getPlugin();
 
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
-
 		Player player = event.getPlayer();
 
-		if (Methods.cm_toggleChat.contains(player.getUniqueId())) {
-			return;
-		}
+		if (Methods.cm_toggleChat.contains(player.getUniqueId())) return;
 
 		Set<Player> recipients = event.getRecipients();
 

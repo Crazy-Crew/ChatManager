@@ -15,36 +15,43 @@ public class Format {
 	public static String formatStringColor(String string) {
 		string = COLOR_PATTERN.matcher(string).replaceAll("\u00A7$1");
 		string = string.replaceAll("%", "\\%");
+
 		return string;
 	}
 	
 	public static String formatStringMagic(String string) {
 		string = MAGIC_PATTERN.matcher(string).replaceAll("\u00A7$1");
+
 		return string;
 	}
 	
 	public static String formatStringBold(String string) {
 		string = BOLD_PATTERN.matcher(string).replaceAll("\u00A7$1");
+
 		return string;
 	}
 	
 	public static String formatStringStrikethrough(String string) {
 		string = STRIKETHROUGH_PATTERN.matcher(string).replaceAll("\u00A7$1");
+
 		return string;
 	}
 	
 	public static String formatStringUnderline(String string) {
 		string = UNDERLINE_PATTERN.matcher(string).replaceAll("\u00A7$1");
+
 		return string;
 	}
 	
 	public static String formatStringItalic(String string) {
 		string = ITALIC_PATTERN.matcher(string).replaceAll("\u00A7$1");
+
 		return string;
 	}
 	
 	public static String formatStringReset(String string) {
 		string = RESET_PATTERN.matcher(string).replaceAll("\u00A7$1");
+
 		return string;
 	}
 	
@@ -56,6 +63,7 @@ public class Format {
 		string = ITALIC_PATTERN.matcher(string).replaceAll("\u00A7$1");
 		string = RESET_PATTERN.matcher(string).replaceAll("\u00A7$1");
 		string = string.replaceAll("%", "\\%");
+
 		return string;
 	}
 	
@@ -68,6 +76,7 @@ public class Format {
 		string = ITALIC_PATTERN.matcher(string).replaceAll("\u00A7$1");
 		string = RESET_PATTERN.matcher(string).replaceAll("\u00A7$1");
 		string = string.replaceAll("%", "\\%");
+
 		return string;
 	}
 }

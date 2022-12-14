@@ -17,10 +17,9 @@ public class SuperVanishHook {
 
 	public static boolean isVanished(Player player) {
 		for (MetadataValue localMetadataValue : player.getMetadata("vanished")) {
-			if (localMetadataValue.asBoolean()) {
-				return true;
-			}
+			if (localMetadataValue.asBoolean()) return true;
 		}
+
 		return false;
 	}
 }

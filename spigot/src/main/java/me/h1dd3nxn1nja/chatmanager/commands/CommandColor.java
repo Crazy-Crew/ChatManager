@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 public class CommandColor implements CommandExecutor {
 
-	public CommandColor(ChatManager plugin) {}
+	private final ChatManager plugin = ChatManager.getPlugin();
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
@@ -20,6 +20,7 @@ public class CommandColor implements CommandExecutor {
 		}
 
 		Player player = (Player) sender;
+
 		if (sender instanceof Player) {
 			if (cmd.getName().equalsIgnoreCase("Colors")) {
 				if (player.hasPermission("chatmanager.colors")) {
@@ -54,6 +55,7 @@ public class CommandColor implements CommandExecutor {
 					player.sendMessage(Methods.noPermission());
 				}
 			}
+
 			if (cmd.getName().equalsIgnoreCase("Formats")) {
 				if (player.hasPermission("chatmanager.formats")) {
 					if (args.length == 0) {
@@ -78,6 +80,7 @@ public class CommandColor implements CommandExecutor {
 				}
 			}
 		}
+
 		return true;
 	}
 }

@@ -2,7 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import java.util.Set;
 
-import org.bukkit.Bukkit;
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -10,29 +10,27 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 
 public class ListenerRadius implements Listener {
 
-	public ListenerRadius(ChatManager plugin) {}
+	private final ChatManager plugin = ChatManager.getPlugin();
+
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 	
 	@EventHandler (priority = EventPriority.HIGHEST)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
-
-		FileConfiguration config = ChatManager.settings.getConfig();
+		FileConfiguration config = settingsManager.getConfig();
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 		Set<Player> recipients = event.getRecipients();
 
-		
 		String localOverrideChar = config.getString("Chat_Radius.Local_Chat.Override_Symbol");
 		String globalOverrideChar = config.getString("Chat_Radius.Global_Chat.Override_Symbol");
 		String worldOverrideChar = config.getString("Chat_Radius.World_Chat.Override_Symbol");
-		
 
-		int radius = ChatManager.settings.getConfig().getInt("Chat_Radius.Block_Distance");
+		int radius = settingsManager.getConfig().getInt("Chat_Radius.Block_Distance");
 
 		if (config.getBoolean("Chat_Radius.Enable")) {
 			if (!Methods.cm_staffChat.contains(player.getUniqueId())) {
@@ -46,6 +44,7 @@ public class ListenerRadius implements Listener {
 						}
 					}
 				}
+
 				if (player.hasPermission("chatmanager.chatradius.local.override")) {
 					if (!localOverrideChar.equals("")) {
 						if (ChatColor.stripColor(message).charAt(0) == localOverrideChar.charAt(0)) {
@@ -57,6 +56,7 @@ public class ListenerRadius implements Listener {
 						}
 					}
 				}
+
 				if (player.hasPermission("chatmanager.chatradius.world.override")) {
 					if (!worldOverrideChar.equals("")) {
 						if (ChatColor.stripColor(message).charAt(0) == worldOverrideChar.charAt(0)) {
@@ -68,28 +68,30 @@ public class ListenerRadius implements Listener {
 						}
 					}
 				}
+
 				if (Methods.cm_localChat.contains(player.getUniqueId())) {
-					for (Player receiver : Bukkit.getOnlinePlayers()) {
+					for (Player receiver : plugin.getServer().getOnlinePlayers()) {
 						recipients.remove(receiver);
+
 						if (Methods.inRange(player, receiver, radius)) {
 							recipients.add(player);
 							recipients.add(receiver);
 						}
-						if (Methods.cm_spyChat.contains(receiver.getUniqueId())) {
-							recipients.add(receiver);
-						}
+
+						if (Methods.cm_spyChat.contains(receiver.getUniqueId())) recipients.add(receiver);
 					}
 				}
+
 				if (Methods.cm_worldChat.contains(player.getUniqueId())) {
-					for (Player receiver : Bukkit.getOnlinePlayers()) {
+					for (Player receiver : plugin.getServer().getOnlinePlayers()) {
 						recipients.remove(receiver);
+
 						if (Methods.inWorld(player, receiver)) {
 							recipients.add(player);
 							recipients.add(receiver);
 						}
-						if (Methods.cm_spyChat.contains(receiver.getUniqueId())) {
-							recipients.add(receiver);
-						}
+
+						if (Methods.cm_spyChat.contains(receiver.getUniqueId())) recipients.add(receiver);
 					}
 				}
 			}

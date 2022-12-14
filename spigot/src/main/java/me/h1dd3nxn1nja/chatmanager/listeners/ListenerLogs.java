@@ -1,13 +1,13 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.Calendar;
@@ -15,17 +15,14 @@ import java.util.Date;
 import java.util.List;
 
 public class ListenerLogs implements Listener {
-	
-	public ChatManager plugin;
-	
-	public ListenerLogs(ChatManager instance) {
-		this.plugin = instance;
-	}
+
+	private final ChatManager plugin = ChatManager.getPlugin();
+
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
-		
-		FileConfiguration config = ChatManager.settings.getConfig();
+		FileConfiguration config = settingsManager.getConfig();
 		
 		String playername = event.getPlayer().getName();
 		String message = event.getMessage();
@@ -33,7 +30,7 @@ public class ListenerLogs implements Listener {
 		
 		if (config.getBoolean("Logs.Log_Chat") == true) {
 			try {
-				FileWriter fw = new FileWriter(ChatManager.settings.getChatLogs(), true);
+				FileWriter fw = new FileWriter(settingsManager.getChatLogs(), true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write("[" + time + "] " + playername + ": " + message.replaceAll("§", "&"));
 				bw.newLine();
@@ -47,8 +44,7 @@ public class ListenerLogs implements Listener {
 	
 	@EventHandler
 	public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
-
-		FileConfiguration config = ChatManager.settings.getConfig();
+		FileConfiguration config = settingsManager.getConfig();
 
 		List<String> blacklist = config.getStringList("Logs.Blacklist_Commands");
 
@@ -58,15 +54,13 @@ public class ListenerLogs implements Listener {
 
 		if (config.getBoolean("Logs.Log_Commands")) {
 			for (String command : blacklist) {
-				if (event.getMessage().toLowerCase().startsWith(command)) {
-					return;
-				}
+				if (event.getMessage().toLowerCase().startsWith(command)) return;
 			}
-			if ((message.equals("/")) || (message.equals("//"))) {
-				return;
-			}
+
+			if ((message.equals("/")) || (message.equals("//"))) return;
+
 			try {
-				FileWriter fw = new FileWriter(ChatManager.settings.getCommandLogs(), true);
+				FileWriter fw = new FileWriter(settingsManager.getCommandLogs(), true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write("[" + time + "] " + playername + ": " + message.replaceAll("§", "&"));
 				bw.newLine();
@@ -80,8 +74,7 @@ public class ListenerLogs implements Listener {
 	
 	@EventHandler
 	public void onSignChange(SignChangeEvent event) {
-
-		FileConfiguration config = ChatManager.settings.getConfig();
+		FileConfiguration config = settingsManager.getConfig();
 
 		String playername = event.getPlayer().getName();
 		Date time = Calendar.getInstance().getTime();
@@ -95,7 +88,7 @@ public class ListenerLogs implements Listener {
 
 			if (config.getBoolean("Logs.Log_Signs")) {
 				try {
-					FileWriter fw = new FileWriter(ChatManager.settings.getSignLogs(), true);
+					FileWriter fw = new FileWriter(settingsManager.getSignLogs(), true);
 					BufferedWriter bw = new BufferedWriter(fw);
 					bw.write("[" + time + "] " + playername + " | Location: X: " + X + " Y: " + Y + " Z: " + Z + " | Line: " + line + " | "+ message.replaceAll("§", "&"));
 					bw.newLine();

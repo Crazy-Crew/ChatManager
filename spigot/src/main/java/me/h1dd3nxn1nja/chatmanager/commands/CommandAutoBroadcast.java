@@ -3,31 +3,29 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
+import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
 import me.h1dd3nxn1nja.chatmanager.utils.JSONMessage;
-import me.h1dd3nxn1nja.chatmanager.utils.Version;
 import me.h1dd3nxn1nja.chatmanager.utils.World;
 
 public class CommandAutoBroadcast implements CommandExecutor {
-	
-	public ChatManager plugin;
-	
-	public CommandAutoBroadcast(ChatManager plugin) {
-		this.plugin = plugin;
-	}
+
+	private final ChatManager plugin = ChatManager.getPlugin();
+
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
-		FileConfiguration autobroadcast = ChatManager.settings.getAutoBroadcast();
-		FileConfiguration messages = ChatManager.settings.getMessages();
+		FileConfiguration autobroadcast = settingsManager.getAutoBroadcast();
+		FileConfiguration messages = settingsManager.getMessages();
 		
 		if (!(sender instanceof Player)) {
 			sender.sendMessage("Error: You can only use that command in game");
@@ -35,11 +33,12 @@ public class CommandAutoBroadcast implements CommandExecutor {
 		}
 		
 		Player player = (Player) sender;
+
 		if (sender instanceof Player) {
 			if (cmd.getName().equalsIgnoreCase("autobroadcast")) {
 				if (player.hasPermission("chatmanager.autobroadcast")) {
 					if (args.length == 0) {
-						if (Version.getCurrentVersion().isNewer(Version.v1_8_R2) && Version.getCurrentVersion().isOlder(Version.v1_17_R1)) {
+						if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1) && ServerProtocol.isOlder(ServerProtocol.v1_17_R1)) {
 							JSONMessage.create("").send(player);
 							JSONMessage.create(" &3Auto-Broadcast Help Menu &f(v" + plugin.getDescription().getVersion() + ")").send(player);
 							JSONMessage.create("").send(player);
@@ -77,7 +76,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 				if (args[0].equalsIgnoreCase("help")) {
 					if (player.hasPermission("chatmanager.autobroadcast.help")) {
 						if (args.length == 1) {
-							if (Version.getCurrentVersion().isNewer(Version.v1_8_R2) && Version.getCurrentVersion().isOlder(Version.v1_17_R1)) {
+							if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1) && ServerProtocol.isOlder(ServerProtocol.v1_17_R1)) {
 								JSONMessage.create("").send(player);
 								JSONMessage.create(" &3Auto-Broadcast Help Menu &f(v" + plugin.getDescription().getVersion() + ")").send(player);
 								JSONMessage.create("").send(player);
@@ -112,6 +111,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						return true;
 					}
 				}
+
 				if (args[0].equalsIgnoreCase("list")) {
 					if (player.hasPermission("chatmanager.autobroadcast.list")) {
 						if (args.length == 1) {
@@ -122,6 +122,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						player.sendMessage(Methods.noPermission());
 						return true;
 					}
+
 					if (args[1].equalsIgnoreCase("global")) {
 						if (player.hasPermission("chatmanager.autobroadcast.list")) {
 							if (args.length == 2) {
@@ -138,6 +139,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							player.sendMessage(Methods.noPermission());
 						}
 					}
+
 					if (args[1].equalsIgnoreCase("actionbar")) {
 						if (player.hasPermission("chatmanager.autobroadcast.list")) {
 							if (args.length == 2) {
@@ -154,6 +156,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							player.sendMessage(Methods.noPermission());
 						}
 					}
+
 					if (args[1].equalsIgnoreCase("title")) {
 						if (player.hasPermission("chatmanager.autobroadcast.list")) {
 							if (args.length == 2) {
@@ -170,6 +173,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							player.sendMessage(Methods.noPermission());
 						}
 					}
+
 					if (args[1].equalsIgnoreCase("bossbar")) {
 						if (player.hasPermission("chatmanager.autobroadcast.list")) {
 							if (args.length == 2) {
@@ -186,6 +190,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							player.sendMessage(Methods.noPermission());
 						}
 					}
+
 					if (args[1].equalsIgnoreCase("world")) {
 						if (player.hasPermission("chatmanager.autobroadcast.list")) {
 							if (args.length == 3) {
@@ -210,6 +215,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						}
 					}
 				}
+
 				if (args[0].equalsIgnoreCase("add")) {
 					if (player.hasPermission("chatmanager.autobroadcast.add")) {
 						if (args.length == 1) {
@@ -220,6 +226,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						player.sendMessage(Methods.noPermission());
 						return true;
 					}
+
 					if (args[1].equalsIgnoreCase("global")) {
 						if (player.hasPermission("chatmanager.autobroadcast.add")) {
 							if (args.length != 2) {
@@ -231,8 +238,8 @@ public class CommandAutoBroadcast implements CommandExecutor {
 								List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Global_Messages.Messages");
 								msgs.add(msg);
 								autobroadcast.set("Auto_Broadcast.Global_Messages.Messages", msgs);
-								ChatManager.settings.saveAutoBroadcast();
-								ChatManager.settings.reloadAutoBroadcast();
+								settingsManager.saveAutoBroadcast();
+								settingsManager.reloadAutoBroadcast();
 								player.sendMessage(Methods.color(player, messages.getString("Auto_Broadcast.Added")
 										.replace("{Prefix}", messages.getString("Message.Prefix"))
 										.replace("{message}", msg)
@@ -245,6 +252,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							player.sendMessage(Methods.noPermission());
 						}
 					}
+
 					if (args[1].equalsIgnoreCase("actionbar")) {
 						if (player.hasPermission("chatmanager.autobroadcast.add")) {
 							if (args.length != 2) {
@@ -256,8 +264,8 @@ public class CommandAutoBroadcast implements CommandExecutor {
 								List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Actionbar_Messages.Messages");
 								msgs.add(msg);
 								autobroadcast.set("Auto_Broadcast.Actionbar_Messages.Messages", msgs);
-								ChatManager.settings.saveAutoBroadcast();
-								ChatManager.settings.reloadAutoBroadcast();
+								settingsManager.saveAutoBroadcast();
+								settingsManager.reloadAutoBroadcast();
 								player.sendMessage(Methods.color(player, messages.getString("Auto_Broadcast.Added")
 										.replace("{Prefix}", messages.getString("Message.Prefix"))
 										.replace("{message}", msg)
@@ -270,6 +278,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							player.sendMessage(Methods.noPermission());
 						}
 					}
+
 					if (args[1].equalsIgnoreCase("title")) {
 						if (player.hasPermission("chatmanager.autobroadcast.add")) {
 							if (args.length != 2) {
@@ -281,8 +290,8 @@ public class CommandAutoBroadcast implements CommandExecutor {
 								List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Title_Messages.Messages");
 								msgs.add(msg);
 								autobroadcast.set("Auto_Broadcast.Title_Messages.Messages", msgs);
-								ChatManager.settings.saveAutoBroadcast();
-								ChatManager.settings.reloadAutoBroadcast();
+								settingsManager.saveAutoBroadcast();
+								settingsManager.reloadAutoBroadcast();
 								player.sendMessage(Methods.color(player, messages.getString("Auto_Broadcast.Added")
 										.replace("{Prefix}", messages.getString("Message.Prefix"))
 										.replace("{message}", msg)
@@ -295,6 +304,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							player.sendMessage(Methods.noPermission());
 						}
 					}
+
 					if (args[1].equalsIgnoreCase("bossbar")) {
 						if (player.hasPermission("chatmanager.autobroadcast.add")) {
 							if (args.length != 2) {
@@ -306,8 +316,8 @@ public class CommandAutoBroadcast implements CommandExecutor {
 								List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Bossbar_Messages.Messages");
 								msgs.add(msg);
 								autobroadcast.set("Auto_Broadcast.Bossbar_Messages.Messages", msgs);
-								ChatManager.settings.saveAutoBroadcast();
-								ChatManager.settings.reloadAutoBroadcast();
+								settingsManager.saveAutoBroadcast();
+								settingsManager.reloadAutoBroadcast();
 								player.sendMessage(Methods.color(player, messages.getString("Auto_Broadcast.Added")
 										.replace("{Prefix}", messages.getString("Message.Prefix"))
 										.replace("{message}", msg)
@@ -320,6 +330,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							player.sendMessage(Methods.noPermission());
 						}
 					}
+
 					if (args[1].equalsIgnoreCase("world")) {
 						if (player.hasPermission("chatmanager.autobroadcast.add")) {
 							if (args.length != 2) {
@@ -340,8 +351,8 @@ public class CommandAutoBroadcast implements CommandExecutor {
 										List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Per_World_Messages.Messages." + key);
 										msgs.add(msg);
 										autobroadcast.set("Auto_Broadcast.Per_World_Messages.Messages." + key, msgs);
-										ChatManager.settings.saveAutoBroadcast();
-										ChatManager.settings.reloadAutoBroadcast();
+										settingsManager.saveAutoBroadcast();
+										settingsManager.reloadAutoBroadcast();
 										player.sendMessage(Methods.color(player, messages.getString("Auto_Broadcast.Added")
 												.replace("{Prefix}", messages.getString("Message.Prefix"))
 												.replace("{message}", msg)
@@ -357,6 +368,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						}
 					}
 				}
+
 				if (args[0].equalsIgnoreCase("Create")) {
 					if (player.hasPermission("chatmanager.autobroadcast.create")) {
 						if (args.length >= 2) {
@@ -368,8 +380,8 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Per_World_Messages.Messages");
 							msgs.add(msg);
 							autobroadcast.set("Auto_Broadcast.Per_World_Messages.Messages." + args[1], msgs);
-							ChatManager.settings.saveAutoBroadcast();
-							ChatManager.settings.reloadAutoBroadcast();
+							settingsManager.saveAutoBroadcast();
+							settingsManager.reloadAutoBroadcast();
 							player.sendMessage(Methods.color(player, messages.getString("Auto_Broadcast.Created")
 									.replace("{Prefix}", messages.getString("Message.Prefix"))
 									.replace("{world}", args[1])
@@ -384,6 +396,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 				}
 			}
 		}
+
 		return true;
 	}
 }

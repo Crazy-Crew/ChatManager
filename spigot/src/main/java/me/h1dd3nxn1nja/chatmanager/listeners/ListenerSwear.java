@@ -2,7 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import org.bukkit.Bukkit;
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,7 +11,6 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.Calendar;
@@ -20,20 +19,17 @@ import java.util.List;
 
 public class ListenerSwear implements Listener {
 
-	public ChatManager plugin;
+	private final ChatManager plugin = ChatManager.getPlugin();
 
-	public ListenerSwear(ChatManager plugin) {
-		this.plugin = plugin;
-	}
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 	
 	 //Add a way so that chat manager highlights the swear word in the notify feature.
 	
 	@EventHandler
 	public void onSwear(AsyncPlayerChatEvent event) {
-		
-		FileConfiguration config = ChatManager.settings.getConfig();
-		FileConfiguration bannedWords = ChatManager.settings.getBannedWords();
-		FileConfiguration messages = ChatManager.settings.getMessages();
+		FileConfiguration config = settingsManager.getConfig();
+		FileConfiguration bannedWords = settingsManager.getBannedWords();
+		FileConfiguration messages = settingsManager.getMessages();
 
 		Player player = event.getPlayer();
 		String message = event.getMessage();
@@ -50,30 +46,30 @@ public class ListenerSwear implements Listener {
 					if (config.getBoolean("Anti_Swear.Chat.Increase_Sensitivity")) {
 						for (String blockedWords : blockedWordsList) {
 							for (String allowed : whitelisted) {
-								if (event.getMessage().contains(allowed.toLowerCase())) {
-									return;
-								}
+								if (event.getMessage().contains(allowed.toLowerCase())) return;
 							}
+
 							if (sensitiveMessage.contains(blockedWords)) {
 								player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Chat.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
-								if (config.getBoolean("Anti_Swear.Chat.Block_Message")) {
-									event.setCancelled(true);
-								}
+								if (config.getBoolean("Anti_Swear.Chat.Block_Message")) event.setCancelled(true);
+
 								if (config.getBoolean("Anti_Swear.Chat.Notify_Staff")) {
-									for (Player staff : Bukkit.getOnlinePlayers()) {
+									for (Player staff : plugin.getServer().getOnlinePlayers()) {
 										if (staff.hasPermission("chatmanager.notify.antiswear")) {
 											staff.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Chat.Notify_Staff_Format")
 													.replace("{player}", player.getName()).replace("{message}", message)
 													.replace("{Prefix}", messages.getString("Message.Prefix"))));
 										}
 									}
+
 									Methods.tellConsole(Methods.color(player, messages.getString("Anti_Swear.Chat.Notify_Staff_Format")
 											.replace("{player}", player.getName()).replace("{message}", message)
 											.replace("{Prefix}", messages.getString("Message.Prefix"))));
 								}
+
 								if (config.getBoolean("Anti_Swear.Chat.Log_Swearing")) {
 									try {
-										FileWriter fw = new FileWriter(ChatManager.settings.getSwearLogs(), true);
+										FileWriter fw = new FileWriter(settingsManager.getSwearLogs(), true);
 										BufferedWriter bw = new BufferedWriter(fw);
 										bw.write("[" + time + "] [Chat] " + player.getName() + ": " + message.replaceAll("§", "&"));
 										bw.newLine();
@@ -83,15 +79,16 @@ public class ListenerSwear implements Listener {
 										ex.printStackTrace();
 									}
 								}
+
 								if (config.getBoolean("Anti_Swear.Chat.Execute_Command")) {
 									if (config.contains("Anti_Swear.Chat.Executed_Command")) {
 										String command = config.getString("Anti_Swear.Chat.Executed_Command").replace("{player}", player.getName());
 										List<String> commands = config.getStringList("Anti_Swear.Chat.Executed_Command");
 										new BukkitRunnable() {
 											public void run() {
-												Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), command);
+												plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
 												for (String cmd : commands) {
-													Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
+													plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 												}
 											}
 										}.runTask(plugin);
@@ -102,28 +99,31 @@ public class ListenerSwear implements Listener {
 							}
 						}
 					}
+
 					if (config.getBoolean("Anti_Swear.Chat.Increase_Sensitivity") == false) {
 						for (String blockedWords : blockedWordsList) {
 							if (curseMessage.contains(blockedWords)) {
 								player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Chat.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
-								if (config.getBoolean("Anti_Swear.Chat.Block_Message")) {
-									event.setCancelled(true);
-								}
+
+								if (config.getBoolean("Anti_Swear.Chat.Block_Message")) event.setCancelled(true);
+
 								if (config.getBoolean("Anti_Swear.Chat.Notify_Staff")) {
-									for (Player staff : Bukkit.getOnlinePlayers()) {
+									for (Player staff : plugin.getServer().getOnlinePlayers()) {
 										if (staff.hasPermission("chatmanager.notify.antiswear")) {
 											staff.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Chat.Notify_Staff_Format")
 													.replace("{player}", player.getName()).replace("{message}", message)
 													.replace("{Prefix}", messages.getString("Message.Prefix"))));
 										}
 									}
+
 									Methods.tellConsole(Methods.color(player, messages.getString("Anti_Swear.Chat.Notify_Staff_Format")
 											.replace("{player}", player.getName()).replace("{message}", message)
 											.replace("{Prefix}", messages.getString("Message.Prefix"))));
 								}
+
 								if (config.getBoolean("Anti_Swear.Chat.Log_Swearing")) {
 									try {
-										FileWriter fw = new FileWriter(ChatManager.settings.getSwearLogs(), true);
+										FileWriter fw = new FileWriter(settingsManager.getSwearLogs(), true);
 										BufferedWriter bw = new BufferedWriter(fw);
 										bw.write("[" + time + "] [Chat] " + player.getName() + ": " + message.replaceAll("§", "&"));
 										bw.newLine();
@@ -133,15 +133,18 @@ public class ListenerSwear implements Listener {
 										ex.printStackTrace();
 									}
 								}
+
 								if (config.getBoolean("Anti_Swear.Chat.Execute_Command")) {
 									if (config.contains("Anti_Swear.Chat.Executed_Command")) {
 										String command = config.getString("Anti_Swear.Chat.Executed_Command").replace("{player}", player.getName());
 										List<String> commands = config.getStringList("Anti_Swear.Chat.Executed_Command");
+
 										new BukkitRunnable() {
 											public void run() {
-												Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), command);
+												plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+
 												for (String cmd : commands) {
-													Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
+													plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 												}
 											}
 										}.runTask(plugin);
@@ -159,10 +162,9 @@ public class ListenerSwear implements Listener {
 	
 	@EventHandler
 	public void onSwearCommand(PlayerCommandPreprocessEvent event) {
-		
-		FileConfiguration config = ChatManager.settings.getConfig();
-		FileConfiguration messages = ChatManager.settings.getMessages();
-		FileConfiguration bannedWords = ChatManager.settings.getBannedWords();
+		FileConfiguration config = settingsManager.getConfig();
+		FileConfiguration messages = settingsManager.getMessages();
+		FileConfiguration bannedWords = settingsManager.getBannedWords();
 		
 		Player player = event.getPlayer();
 		String message = event.getMessage();
@@ -179,30 +181,30 @@ public class ListenerSwear implements Listener {
 				if (config.getBoolean("Anti_Swear.Commands.Increase_Sensitivity")) {
 					for (String blockedWords : blockedWordsList) {
 						for (String allowed : whitelisted) {
-							if (event.getMessage().contains(allowed.toLowerCase())) {
-								return;
-							}
+							if (event.getMessage().contains(allowed.toLowerCase())) return;
 						}
+
 						if (sensitiveMessage.contains(blockedWords)) {
 							player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Commands.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
-							if (config.getBoolean("Anti_Swear.Commands.Block_Command")) {
-								event.setCancelled(true);
-							}
+							if (config.getBoolean("Anti_Swear.Commands.Block_Command")) event.setCancelled(true);
+
 							if (config.getBoolean("Anti_Swear.Commands.Notify_Staff")) {
-								for (Player staff : Bukkit.getOnlinePlayers()) {
+								for (Player staff : plugin.getServer().getOnlinePlayers()) {
 									if (staff.hasPermission("chatmanager.notify.antiswear")) {
 										staff.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Commands.Notify_Staff_Format")
 												.replace("{player}", player.getName()).replace("{message}", message)
 												.replace("{Prefix}", messages.getString("Message.Prefix"))));
 									}
 								}
+
 								Methods.tellConsole(Methods.color(player, messages.getString("Anti_Swear.Commands.Notify_Staff_Format")
 										.replace("{player}", player.getName()).replace("{message}", message)
 										.replace("{Prefix}", messages.getString("Message.Prefix"))));
 							}
+
 							if (config.getBoolean("Anti_Swear.Commands.Log_Swearing")) {
 								try {
-									FileWriter fw = new FileWriter(ChatManager.settings.getSwearLogs(), true);
+									FileWriter fw = new FileWriter(settingsManager.getSwearLogs(), true);
 									BufferedWriter bw = new BufferedWriter(fw);
 									bw.write("[" + time + "] [Command] " + player.getName() + ": " + message.replaceAll("§", "&"));
 									bw.newLine();
@@ -212,15 +214,17 @@ public class ListenerSwear implements Listener {
 									ex.printStackTrace();
 								}
 							}
+
 							if (config.getBoolean("Anti_Swear.Commands.Execute_Command")) {
 								if (config.contains("Anti_Swear.Commands.Executed_Command")) {
 									String command = config.getString("Anti_Swear.Commands.Executed_Command").replace("{player}", player.getName());
 									List<String> commands = config.getStringList("Anti_Swear.Commands.Executed_Command");
 									new BukkitRunnable() {
 										public void run() {
-											Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), command);
+											plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+
 											for (String cmd : commands) {
-												Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
+												plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 											}
 										}
 									}.runTask(plugin);
@@ -229,35 +233,37 @@ public class ListenerSwear implements Listener {
 							}
 							break;
 						}
+
 						for (String command : whitelistedCommands) {
-							if (message.toLowerCase().startsWith(command)) {
-								return;
-							}
+							if (message.toLowerCase().startsWith(command)) return;
 						}
 					}
 				}
+
 				if (config.getBoolean("Anti_Swear.Commands.Increase_Sensitivity") == false) {
 					for (String blockedWords : blockedWordsList) {
 						if (curseMessage.contains(blockedWords)) {
 							player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Commands.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
-							if (config.getBoolean("Anti_Swear.Commands.Block_Command")) {
-								event.setCancelled(true);
-							}
+
+							if (config.getBoolean("Anti_Swear.Commands.Block_Command")) event.setCancelled(true);
+
 							if (config.getBoolean("Anti_Swear.Commands.Notify_Staff")) {
-								for (Player staff : Bukkit.getOnlinePlayers()) {
+								for (Player staff : plugin.getServer().getOnlinePlayers()) {
 									if (staff.hasPermission("chatmanager.notify.antiswear")) {
 										staff.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Commands.Notify_Staff_Format")
 												.replace("{player}", player.getName()).replace("{message}", message)
 												.replace("{Prefix}", messages.getString("Message.Prefix"))));
 									}
 								}
+
 								Methods.tellConsole(Methods.color(player, messages.getString("Anti_Swear.Commands.Notify_Staff_Format")
 										.replace("{player}", player.getName()).replace("{message}", message)
 										.replace("{Prefix}", messages.getString("Message.Prefix"))));
 							}
+
 							if (config.getBoolean("Anti_Swear.Commands.Log_Swearing")) {
 								try {
-									FileWriter fw = new FileWriter(ChatManager.settings.getSwearLogs(), true);
+									FileWriter fw = new FileWriter(settingsManager.getSwearLogs(), true);
 									BufferedWriter bw = new BufferedWriter(fw);
 									bw.write("[" + time + "] [Command] " + player.getName() + ": " + message.replaceAll("§", "&"));
 									bw.newLine();
@@ -267,15 +273,17 @@ public class ListenerSwear implements Listener {
 									ex.printStackTrace();
 								}
 							}
+
 							if (config.getBoolean("Anti_Swear.Commands.Execute_Command")) {
 								if (config.contains("Anti_Swear.Commands.Executed_Command")) {
 									String command = config.getString("Anti_Swear.Commands.Executed_Command").replace("{player}", player.getName());
 									List<String> commands = config.getStringList("Anti_Swear.Commands.Executed_Command");
 									new BukkitRunnable() {
 										public void run() {
-											Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), command);
+											plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+
 											for (String cmd : commands) {
-												Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
+												plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 											}
 										}
 									}.runTask(plugin);
@@ -284,10 +292,9 @@ public class ListenerSwear implements Listener {
 							}
 							break;
 						}
+
 						for (String command : whitelistedCommands) {
-							if (message.toLowerCase().startsWith(command)) {
-								return;
-							}
+							if (message.toLowerCase().startsWith(command)) return;
 						}
 					}
 				}
@@ -297,10 +304,9 @@ public class ListenerSwear implements Listener {
 	
 	@EventHandler
 	public void onSwearSign(SignChangeEvent event) {
-		
-		FileConfiguration config = ChatManager.settings.getConfig();
-		FileConfiguration bannedWords = ChatManager.settings.getBannedWords();
-		FileConfiguration messages = ChatManager.settings.getMessages();
+		FileConfiguration config = settingsManager.getConfig();
+		FileConfiguration bannedWords = settingsManager.getBannedWords();
+		FileConfiguration messages = settingsManager.getMessages();
 		
 		Player player = event.getPlayer();
 		Date time = Calendar.getInstance().getTime();
@@ -314,32 +320,33 @@ public class ListenerSwear implements Listener {
 					for (int line = 0; line < 4; line++) {
 						String message = event.getLine(line);
 						String curseMessage = message.toLowerCase().replaceAll("[^a-zA-Z0-9 ]", "").replaceAll("\\s+", "");
+
 						for (String blockedWords : blockedWordsList) {
 							for (String allowed : whitelisted) {
-								if (message.contains(allowed.toLowerCase())) {
-									return;
-								}
+								if (message.contains(allowed.toLowerCase())) return;
 							}
+
 							if (curseMessage.contains(blockedWords)) {
 								player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Signs.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
-								if (config.getBoolean("Anti_Swear.Signs.Block_Sign")) {
-									event.setCancelled(true);
-								}
+								if (config.getBoolean("Anti_Swear.Signs.Block_Sign")) event.setCancelled(true);
+
 								if (config.getBoolean("Anti_Swear.Signs.Notify_Staff")) {
-									for (Player staff : Bukkit.getOnlinePlayers()) {
+									for (Player staff : plugin.getServer().getOnlinePlayers()) {
 										if (staff.hasPermission("chatmanager.notify.antiswear")) {
 											staff.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Signs.Notify_Staff_Format")
 													.replace("{player}", player.getName()).replace("{message}", message)
 													.replace("{Prefix}", messages.getString("Message.Prefix"))));
 										}
 									}
+
 									Methods.tellConsole(Methods.color(player, messages.getString("Anti_Swear.Signs.Notify_Staff_Format")
 											.replace("{player}", player.getName()).replace("{message}", message)
 											.replace("{Prefix}", messages.getString("Message.Prefix"))));
 								}
+
 								if (config.getBoolean("Anti_Swear.Signs.Log_Swearing")) {
 									try {
-										FileWriter fw = new FileWriter(ChatManager.settings.getSwearLogs(), true);
+										FileWriter fw = new FileWriter(settingsManager.getSwearLogs(), true);
 										BufferedWriter bw = new BufferedWriter(fw);
 										bw.write("[" + time + "] [Sign] " +  player.getName() + ": Line: " + line + " Text: " + message.replaceAll("§", "&"));
 										bw.newLine();
@@ -349,15 +356,17 @@ public class ListenerSwear implements Listener {
 										ex.printStackTrace();
 									}
 								}
+
 								if (config.getBoolean("Anti_Swear.Signs.Execute_Command")) {
 									if (config.contains("Anti_Swear.Signs.Executed_Command")) {
 										String command = config.getString("Anti_Swear.Signs.Executed_Command").replace("{player}", player.getName());
 										List<String> commands = config.getStringList("Anti_Swear.Signs.Executed_Command");
 										new BukkitRunnable() {
 											public void run() {
-												Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), command);
+												plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+
 												for (String cmd : commands) {
-													Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
+													plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 												}
 											}
 										}.runTask(plugin);
@@ -369,6 +378,7 @@ public class ListenerSwear implements Listener {
 						}
 					}
 				}
+
 				if (config.getBoolean("Anti_Swear.Signs.Increase_Sensitivity") == false) {
 					for (int line = 0; line < 4; line++) {
 						String message = event.getLine(line);
@@ -376,24 +386,26 @@ public class ListenerSwear implements Listener {
 							if (!player.hasPermission("chatmanager.bypass.antiswear")) {
 								if (bannedWords.getStringList("Banned-Words").contains(curseMessages)) {
 									player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Signs.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
-									if (config.getBoolean("Anti_Swear.Signs.Block_Sign")) {
-										event.setCancelled(true);
-									}
+
+									if (config.getBoolean("Anti_Swear.Signs.Block_Sign")) event.setCancelled(true);
+
 									if (config.getBoolean("Anti_Swear.Signs.Notify_Staff")) {
-										for (Player staff : Bukkit.getOnlinePlayers()) {
+										for (Player staff : plugin.getServer().getOnlinePlayers()) {
 											if (staff.hasPermission("ChatManager.Notify.AntiSwear")) {
 												staff.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Signs.Notify_Staff_Format")
 														.replace("{player}", player.getName()).replace("{message}", message)
 														.replace("{Prefix}", messages.getString("Message.Prefix"))));
 											}
 										}
+
 										Methods.tellConsole(Methods.color(player, messages.getString("Anti_Swear.Signs.Notify_Staff_Format")
 												.replace("{player}", player.getName()).replace("{message}", message)
 												.replace("{Prefix}", messages.getString("Message.Prefix"))));
 									}
+
 									if (config.getBoolean("Anti_Swear.Signs.Log_Swearing")) {
 										try {
-											FileWriter fw = new FileWriter(ChatManager.settings.getSwearLogs(), true);
+											FileWriter fw = new FileWriter(settingsManager.getSwearLogs(), true);
 											BufferedWriter bw = new BufferedWriter(fw);
 											bw.write("[" + time + "] [Sign] " +  player.getName() + ": Line: " + line + " Text: " + message.replaceAll("§", "&"));
 											bw.newLine();
@@ -403,15 +415,16 @@ public class ListenerSwear implements Listener {
 											ex.printStackTrace();
 										}
 									}
+
 									if (config.getBoolean("Anti_Swear.Signs.Execute_Command")) {
 										if (config.contains("Anti_Swear.Signs.Executed_Command")) {
 											String command = config.getString("Anti_Swear.Signs.Executed_Command").replace("{player}", player.getName());
 											List<String> commands = config.getStringList("Anti_Swear.Signs.Executed_Command");
 											new BukkitRunnable() {
 												public void run() {
-													Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), command);
+													plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
 													for (String cmd : commands) {
-														Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
+														plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 													}
 												}
 											}.runTask(plugin);

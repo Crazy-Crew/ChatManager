@@ -2,9 +2,9 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import me.h1dd3nxn1nja.chatmanager.utils.JSONMessage;
-import me.h1dd3nxn1nja.chatmanager.utils.Version;
-
+import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,16 +12,14 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class CommandRadius implements CommandExecutor {
-	
-	public ChatManager plugin;
-	
-	public CommandRadius(ChatManager plugin) {
-		this.plugin = plugin;
-	}
+
+	private final ChatManager plugin = ChatManager.getPlugin();
+
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
-		FileConfiguration messages = ChatManager.settings.getMessages();
+		FileConfiguration messages = settingsManager.getMessages();
 		
 		if (!(sender instanceof Player)) {
 			sender.sendMessage("Error: You can only use that command in game");
@@ -29,11 +27,12 @@ public class CommandRadius implements CommandExecutor {
 		}
 
 		Player player = (Player) sender;
+
 		if (sender instanceof Player) {
 			if (cmd.getName().equalsIgnoreCase("chatradius")) {
 				if (player.hasPermission("chatmanager.chatradius")) {
 					if (args.length == 0) {
-						if (Version.getCurrentVersion().isNewer(Version.v1_8_R2) && Version.getCurrentVersion().isOlder(Version.v1_17_R1)) {
+						if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1) && ServerProtocol.isOlder(ServerProtocol.v1_17_R1)) {
 							JSONMessage.create("").send(player);
 							JSONMessage.create(" &3Chat Radius Help Menu &f(v" + plugin.getDescription().getVersion() + ")").send(player);
 							JSONMessage.create("").send(player);
@@ -61,10 +60,11 @@ public class CommandRadius implements CommandExecutor {
 					player.sendMessage(Methods.noPermission());
 					return true;
 				}
+
 				if (args[0].equalsIgnoreCase("help")) {
 					if (player.hasPermission("chatmanager.chatradius")) {
 						if (args.length == 1) {
-							if (Version.getCurrentVersion().isNewer(Version.v1_8_R2) && Version.getCurrentVersion().isOlder(Version.v1_17_R1)) {
+							if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1) && ServerProtocol.isOlder(ServerProtocol.v1_17_R1)) {
 								JSONMessage.create("").send(player);
 								JSONMessage.create(" &3Chat Radius Help Menu &f(v" + plugin.getDescription().getVersion() + ")").send(player);
 								JSONMessage.create("").send(player);
@@ -95,6 +95,7 @@ public class CommandRadius implements CommandExecutor {
 						return true;
 					}
 				}
+
 				if (args[0].equalsIgnoreCase("Local")) {
 					if (player.hasPermission("chatmanager.chatradius.local")) {
 						if (args.length == 1) {
@@ -113,6 +114,7 @@ public class CommandRadius implements CommandExecutor {
 						player.sendMessage(Methods.noPermission());
 					}
 				}
+
 				if (args[0].equalsIgnoreCase("Global")) {
 					if (player.hasPermission("chatmanager.chatradius.global")) {
 						if (args.length == 1) {
@@ -131,6 +133,7 @@ public class CommandRadius implements CommandExecutor {
 						player.sendMessage(Methods.noPermission());
 					}
 				}
+
 				if (args[0].equalsIgnoreCase("World")) {
 					if (player.hasPermission("chatmanager.chatradius.world")) {
 						if (args.length == 1) {
@@ -149,6 +152,7 @@ public class CommandRadius implements CommandExecutor {
 						player.sendMessage(Methods.noPermission());
 					}
 				}
+
 				if (args[0].equalsIgnoreCase("Spy")) {
 					if (player.hasPermission("chatmanager.chatradius.spy")) {
 						if (args.length == 1) {
@@ -170,7 +174,7 @@ public class CommandRadius implements CommandExecutor {
 				}
 			}
 		}
+
 		return true;
 	}
-
 }

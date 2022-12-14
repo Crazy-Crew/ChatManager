@@ -1,22 +1,24 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
 
 public class CommandToggleMentions implements CommandExecutor {
-	
-	public CommandToggleMentions(ChatManager plugin) {}
+
+	private final ChatManager plugin = ChatManager.getPlugin();
+
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
-		FileConfiguration messages = ChatManager.settings.getMessages();
+		FileConfiguration messages = settingsManager.getMessages();
 		
 		if (!(sender instanceof Player)) {
 			sender.sendMessage("Error: You can only use that command in game");
@@ -24,6 +26,7 @@ public class CommandToggleMentions implements CommandExecutor {
 		}
 		
 		Player player = (Player)sender;
+
 		if (sender instanceof Player) {
 			if (cmd.getName().equalsIgnoreCase("togglementions")) {
 				if (player.hasPermission("chatmanager.toggle.mentions")) {
@@ -43,6 +46,7 @@ public class CommandToggleMentions implements CommandExecutor {
 				}
 			}
 		}
+
 		return true;
 	}
 }

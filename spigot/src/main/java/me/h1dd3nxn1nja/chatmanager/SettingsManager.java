@@ -1,26 +1,14 @@
 package me.h1dd3nxn1nja.chatmanager;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 public class SettingsManager {
-
-	static SettingsManager instance = new SettingsManager();
-
-	public static SettingsManager getInstance() {
-		return instance;
-	}
-
-	Plugin p;
 
 	FileConfiguration config;
 	File cfile;
@@ -46,145 +34,159 @@ public class SettingsManager {
 	File swearLog;
 	
 	File signLog;
-	
-	public void setup(Plugin p) {
-		if (!p.getDataFolder().exists()) {
-			p.getDataFolder().mkdir();
-		}
+
+	private final ChatManager plugin = ChatManager.getPlugin();
+
+	public void setup() {
+		if (!plugin.getDataFolder().exists()) plugin.getDataFolder().mkdir();
 		
-		cfile = new File(p.getDataFolder(), "config.yml");
+		cfile = new File(plugin.getDataFolder(), "config.yml");
+
 		if (!cfile.exists()) {
 			try {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] The config.yml file cannot be found, creating one.");
-				File en = new File(p.getDataFolder(), "/config.yml");
+				plugin.getLogger().info("The config.yml file cannot be found, creating one.");
+				File en = new File(plugin.getDataFolder(), "/config.yml");
 				InputStream E = getClass().getResourceAsStream("/config.yml");
 				copyFile(E, en);
 			} catch (Exception e) {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] " + ChatColor.RED + "Error: The config.yml file could not be created! StackTrace:");
+				plugin.getLogger().severe("Error: The config.yml file could not be created! StackTrace:");
 				e.printStackTrace();
 			}
 		}
 		config = YamlConfiguration.loadConfiguration(cfile);
 		
-		abfile = new File(p.getDataFolder(), "AutoBroadcast.yml");
+		abfile = new File(plugin.getDataFolder(), "AutoBroadcast.yml");
 		if (!abfile.exists()) {
 			try {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] The autobroadcast.yml file cannot be found, creating one.");
-				File en = new File(p.getDataFolder(), "/AutoBroadcast.yml");
+				plugin.getLogger().info("The autobroadcast.yml file cannot be found, creating one.");
+				File en = new File(plugin.getDataFolder(), "/AutoBroadcast.yml");
 				InputStream E = getClass().getResourceAsStream("/AutoBroadcast.yml");
 				copyFile(E, en);
 			} catch (Exception e) {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] " + ChatColor.RED + "Error: The autobroadcast.yml file could not be created! StackTrace:");
+				plugin.getLogger().severe("Error: The autobroadcast.yml file could not be created!");
 				e.printStackTrace();
 			}
 		}
+
 		AutoBroadcast = YamlConfiguration.loadConfiguration(abfile);
 		
-		msgfile = new File(p.getDataFolder(), "Messages.yml");
+		msgfile = new File(plugin.getDataFolder(), "Messages.yml");
+
 		if(!msgfile.exists()) {
 			try {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] The messages.yml file cannot be found, creating one.");
-				File en = new File(p.getDataFolder(), "/Messages.yml");
+				plugin.getLogger().info("The messages.yml file cannot be found, creating one.");
+				File en = new File(plugin.getDataFolder(), "/Messages.yml");
 				InputStream E = getClass().getResourceAsStream("/Messages.yml");
 				copyFile(E, en);
 			} catch (Exception e) {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] " + ChatColor.RED + "Error: The messages.yml file could not be created! StackTrace:");
+				plugin.getLogger().severe("Error: The messages.yml file could not be created! StackTrace:");
 				e.printStackTrace();
 			}
 		}
+
 		Messages = YamlConfiguration.loadConfiguration(msgfile);
 		
-		cmdfile = new File(p.getDataFolder(), "bannedcommands.yml");
+		cmdfile = new File(plugin.getDataFolder(), "bannedcommands.yml");
+
 		if (!cmdfile.exists()) {
 			try {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] The bannedcommands.yml file cannot be found, creating one.");
-				File en = new File(p.getDataFolder(), "/bannedcommands.yml");
+				plugin.getLogger().info("The bannedcommands.yml file cannot be found, creating one.");
+				File en = new File(plugin.getDataFolder(), "/bannedcommands.yml");
 				InputStream E = getClass().getResourceAsStream("/bannedcommands.yml");
 				copyFile(E, en);
 			} catch (Exception e) {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] " + ChatColor.RED + "Error: The bannedcommands.yml file could not be created! StackTrace:");
+				plugin.getLogger().severe("Error: The bannedcommands.yml file could not be created! StackTrace:");
 				e.printStackTrace();
 			}
 		}
+
 		bannedcommands = YamlConfiguration.loadConfiguration(cmdfile);
 		
-		wordfile = new File(p.getDataFolder(), "bannedwords.yml");
+		wordfile = new File(plugin.getDataFolder(), "bannedwords.yml");
+
 		if (!wordfile.exists()) {
 			try {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] The bannedwords.yml file cannot be found, creating one.");
-				File en = new File(p.getDataFolder(), "/bannedwords.yml");
+				plugin.getLogger().info("The bannedwords.yml file cannot be found, creating one.");
+				File en = new File(plugin.getDataFolder(), "/bannedwords.yml");
 				InputStream E = getClass().getResourceAsStream("/bannedwords.yml");
 				copyFile(E, en);
 			} catch (Exception e) {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] " + ChatColor.RED + "Error: The bannedwords.yml file could not be created! StackTrace:");
+				plugin.getLogger().severe("Error: The bannedwords.yml file could not be created! StackTrace:");
 				e.printStackTrace();
 			}
 		}
+
 		bannedwords = YamlConfiguration.loadConfiguration(wordfile);
 		
-		File folder = new File(p.getDataFolder(), "Logs");
+		File folder = new File(plugin.getDataFolder(), "Logs");
 		folder.mkdir();
+
 		if (!folder.exists()) {
 			try {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] The Logs folder cannot be found, creating one.");
+				plugin.getLogger().info("The Logs folder cannot be found, creating one.");
 				folder.createNewFile();
 			} catch (Exception e) {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] " + ChatColor.RED + "Error: The Logs folder could not be created! StackTrace:");
+				plugin.getLogger().severe("Error: The Logs folder could not be created! StackTrace:");
 				e.printStackTrace();
 			}
 		}
 		
 		advertisementsLog = new File(folder, "Advertisements.txt");
+
 		if (!advertisementsLog.exists()) {
 			try {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] The Advertisements.txt file cannot be found, creating one.");
+				plugin.getLogger().info("The Advertisements.txt file cannot be found, creating one.");
 				advertisementsLog.createNewFile();
 			} catch (Exception e) {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] " + ChatColor.RED + "Error: The Advertisements.txt file could not be created! StackTrace:");
+				plugin.getLogger().severe("Error: The Advertisements.txt file could not be created! StackTrace:");
 				e.printStackTrace();
 			}
 		}
 		
 		chatLog = new File(folder, "Chat.txt");
+
 		if (!chatLog.exists()) {
 			try {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] The Chat.txt file cannot be found, creating one.");
+				plugin.getLogger().info("The Chat.txt file cannot be found, creating one.");
 				chatLog.createNewFile();
 			} catch (Exception e) {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] " + ChatColor.RED + "Error: The Chat.txt file could not be created! StackTrace:");
+				plugin.getLogger().severe("Error: The Chat.txt file could not be created! StackTrace:");
 				e.printStackTrace();
 			}
 		}
 		
 		commandLog = new File(folder, "Commands.txt");
+
 		if (!commandLog.exists()) {
 			try {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] The Commands.txt file cannot be found, creating one.");
+				plugin.getLogger().info("The Commands.txt file cannot be found, creating one.");
 				commandLog.createNewFile();
 			} catch (Exception e) {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] " + ChatColor.RED + "Error: The Commands.txt file could not be created! StackTrace:");
+				plugin.getLogger().severe("Error: The Commands.txt file could not be created! StackTrace:");
 				e.printStackTrace();
 			}
 		}
 		
 		swearLog = new File(folder, "Swears.txt");
+
 		if (!swearLog.exists()) {
 			try {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] The Swears.txt file cannot be found, creating one.");
+				plugin.getLogger().info("The Swears.txt file cannot be found, creating one.");
 				swearLog.createNewFile();
 			} catch (Exception e) {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] " + ChatColor.RED + "Error: The Swears.txt file could not be created! StackTrace:");
+				plugin.getLogger().severe("Error: The Swears.txt file could not be created! StackTrace:");
 				e.printStackTrace();
 			}
 		}
+
 		signLog = new File(folder, "Signs.txt");
 		
 		if (!signLog.exists()) {
 			try {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] The Signs.txt file cannot be found, creating one.");
+				plugin.getLogger().info("The Signs.txt file cannot be found, creating one.");
 				signLog.createNewFile();
 			} catch (Exception e) {
-				Bukkit.getConsoleSender().sendMessage("[ChatManager] " + ChatColor.RED + "Error: The Signs.txt file could not be created! StackTrace:");
+				plugin.getLogger().severe("Error: The Signs.txt file could not be created! StackTrace:");
 				e.printStackTrace();
 			}
 		}
@@ -230,7 +232,7 @@ public class SettingsManager {
 		try {
 			bannedwords.save(wordfile);
 		} catch (IOException e) {
-			Bukkit.getServer().getLogger().severe(ChatColor.RED + "Could not save BannedWords.yml!");
+			plugin.getLogger().severe("Could not save BannedWords.yml!");
 		}
 	}
 	
@@ -238,7 +240,7 @@ public class SettingsManager {
 		try {
 			bannedcommands.save(cmdfile);
 		} catch (IOException e) {
-			Bukkit.getServer().getLogger().severe(ChatColor.RED + "Could not save BannedCommands.yml!");
+			plugin.getLogger().severe("Could not save BannedCommands.yml!");
 		}
 	}
 	
@@ -246,7 +248,7 @@ public class SettingsManager {
 		try {
 			AutoBroadcast.save(abfile);
 		} catch (IOException e) {
-			Bukkit.getServer().getLogger().severe(ChatColor.RED + "Could not save AutoBroadcast.yml!");
+			plugin.getLogger().severe("Could not save AutoBroadcast.yml!");
 		}
 	}
 	
@@ -274,7 +276,7 @@ public class SettingsManager {
 		try {
 			config.save(cfile);
 		} catch (IOException e) {
-			Bukkit.getServer().getLogger().severe(ChatColor.RED + "Could not save config.yml!");
+			plugin.getLogger().severe( "Could not save config.yml!");
 		}
 	}
 
@@ -283,26 +285,16 @@ public class SettingsManager {
 	}
 	
 	public PluginDescriptionFile getDesc() {
-		return p.getDescription();
+		return plugin.getDescription();
 	}
-	
-	public static void copyFile(InputStream in, File out) throws Exception {
-		InputStream fis = in;
-		FileOutputStream fos = new FileOutputStream(out);
-		try {
+
+	private void copyFile(InputStream in, File out) throws Exception {
+		try (InputStream fis = in; FileOutputStream fos = new FileOutputStream(out)) {
 			byte[] buf = new byte[1024];
-			int i = 0;
+			int i;
+
 			while ((i = fis.read(buf)) != -1) {
 				fos.write(buf, 0, i);
-			}
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			if (fis != null) {
-				fis.close();
-			}
-			if (fos != null) {
-				fos.close();
 			}
 		}
 	}

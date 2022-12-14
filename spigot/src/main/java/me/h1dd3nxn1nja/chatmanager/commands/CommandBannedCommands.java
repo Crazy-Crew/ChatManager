@@ -2,29 +2,26 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import me.h1dd3nxn1nja.chatmanager.utils.JSONMessage;
-import me.h1dd3nxn1nja.chatmanager.utils.Version;
-
+import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-
 import java.util.List;
 
 public class CommandBannedCommands implements CommandExecutor {
-	
-	public ChatManager plugin;
-	
-	public CommandBannedCommands(ChatManager plugin) {
-		this.plugin = plugin;
-	}
+
+	private final ChatManager plugin = ChatManager.getPlugin();
+
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
-		FileConfiguration messages = ChatManager.settings.getMessages();
-		FileConfiguration bannedCommands = ChatManager.settings.getBannedCommands();
+		FileConfiguration messages = settingsManager.getMessages();
+		FileConfiguration bannedCommands = settingsManager.getBannedCommands();
 		
 		if (!(sender instanceof Player)) {
 			sender.sendMessage("Error: You can only use that command in game");
@@ -36,7 +33,7 @@ public class CommandBannedCommands implements CommandExecutor {
 			if (cmd.getName().equalsIgnoreCase("BannedCommands")) {
 				if (player.hasPermission("chatmanager.bannedcommands")) {
 					if (args.length == 0) {
-						if (Version.getCurrentVersion().isNewer(Version.v1_8_R2) && Version.getCurrentVersion().isOlder(Version.v1_17_R1)) {
+						if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1) && ServerProtocol.isOlder(ServerProtocol.v1_17_R1)) {
 							JSONMessage.create("").send(player);
 							JSONMessage.create(" &3Banned Commands Help Menu &f(v" + plugin.getDescription().getVersion() + ")").send(player);
 							JSONMessage.create("").send(player);
@@ -72,7 +69,7 @@ public class CommandBannedCommands implements CommandExecutor {
 				if (args[0].equalsIgnoreCase("help")) {
 					if (player.hasPermission("chatmanager.bannedcommands.help")) {
 						if (args.length == 1) {
-							if (Version.getCurrentVersion().isNewer(Version.v1_8_R2) && Version.getCurrentVersion().isOlder(Version.v1_17_R1)) {
+							if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1) && ServerProtocol.isOlder(ServerProtocol.v1_17_R1)) {
 								JSONMessage.create("").send(player);
 								JSONMessage.create(Methods.color(" &3Banned Commands Help Menu &f(v" + plugin.getDescription().getVersion() + ")")).send(player);
 								JSONMessage.create("").send(player);
@@ -112,8 +109,8 @@ public class CommandBannedCommands implements CommandExecutor {
 								List<String> list = bannedCommands.getStringList("Banned-Commands");
 								list.add(args[1].toLowerCase());
 								bannedCommands.set("Banned-Commands", list);
-								ChatManager.settings.saveBannedCommands();
-								ChatManager.settings.reloadBannedCommands();
+								settingsManager.saveBannedCommands();
+								settingsManager.reloadBannedCommands();
 								player.sendMessage(Methods.color(player, messages.getString("Banned_Commands.Command_Added").replace("{command}", args[1]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							} else {
 								player.sendMessage(Methods.color(player, messages.getString("Banned_Commands.Command_Exists").replace("{command}", args[1]).replace("{Prefix}", messages.getString("Message.Prefix"))));
@@ -132,8 +129,8 @@ public class CommandBannedCommands implements CommandExecutor {
 								List<String> list = bannedCommands.getStringList("Banned-Commands");
 								list.remove(args[1].toLowerCase());
 								bannedCommands.set("Banned-Commands", list);
-								ChatManager.settings.saveBannedCommands();
-								ChatManager.settings.reloadBannedCommands();
+								settingsManager.saveBannedCommands();
+								settingsManager.reloadBannedCommands();
 								player.sendMessage(Methods.color(player, messages.getString("Banned_Commands.Command_Removed").replace("{command}", args[1]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							} else {
 								player.sendMessage(Methods.color(player, messages.getString("Banned_Commands.Command_Not_Found").replace("{command}", args[1]).replace("{Prefix}", messages.getString("Message.Prefix"))));
@@ -161,6 +158,7 @@ public class CommandBannedCommands implements CommandExecutor {
 				}
 			}
 		}
+
 		return true;
 	}
 }

@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,15 +12,16 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class ListenerCaps implements Listener {
 
-	public ListenerCaps(ChatManager plugin) {}
+	private final ChatManager plugin = ChatManager.getPlugin();
+
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
 	public static String upperCase;
 
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
-
-		FileConfiguration config = ChatManager.settings.getConfig();
-		FileConfiguration messages = ChatManager.settings.getMessages();
+		FileConfiguration config = settingsManager.getConfig();
+		FileConfiguration messages = settingsManager.getMessages();
 
 		Player player = event.getPlayer();
 		String message = event.getMessage();
@@ -41,6 +43,7 @@ public class ListenerCaps implements Listener {
 								}
 							}
 						}
+
 						if (upperChar + lowerChar != 0) {
 							if (1.0D * upperChar / (upperChar + lowerChar) * 100.0D >= config.getInt("Anti_Caps.Required_Percentage")) {
 								player.sendMessage(Methods.color(player, messages.getString("Anti_Caps.Message_Chat")
@@ -56,9 +59,8 @@ public class ListenerCaps implements Listener {
 
 	@EventHandler
 	public void onCapsCommands(PlayerCommandPreprocessEvent event) {
-
-		FileConfiguration config = ChatManager.settings.getConfig();
-		FileConfiguration messages = ChatManager.settings.getMessages();
+		FileConfiguration config = settingsManager.getConfig();
+		FileConfiguration messages = settingsManager.getMessages();
 
 		Player player = event.getPlayer();
 		String message = event.getMessage();

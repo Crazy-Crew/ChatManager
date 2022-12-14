@@ -8,14 +8,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
-
 import me.h1dd3nxn1nja.chatmanager.Methods;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.json.simple.JSONObject;
-
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Constructor;
@@ -36,16 +32,16 @@ import java.util.Vector;
  */
 @SuppressWarnings({ "unused" })
 public class JSONMessage {
+
 	private static final BiMap<ChatColor, String> stylesToNames;
 
 	static {
 		ImmutableBiMap.Builder<ChatColor, String> builder = ImmutableBiMap.builder();
 		for (final ChatColor style : ChatColor.values()) {
-			if (!style.isFormat()) {
-				continue;
-			}
+			if (!style.isFormat()) continue;
 
 			String styleName;
+
 			switch (style) {
 			case MAGIC:
 				styleName = "obfuscated";
@@ -60,6 +56,7 @@ public class JSONMessage {
 
 			builder.put(style, styleName);
 		}
+
 		stylesToNames = builder.build();
 	}
 
@@ -101,8 +98,7 @@ public class JSONMessage {
 	 * @param players The players you want to send it to
 	 */
 	public void actionbar(String message, Player... players) {
-		ReflectionHelper.sendPacket(
-				ReflectionHelper.createActionbarPacket(ChatColor.translateAlternateColorCodes('&', message)), players);
+		ReflectionHelper.sendPacket(ReflectionHelper.createActionbarPacket(ChatColor.translateAlternateColorCodes('&', message)), players);
 	}
 
 	/**
@@ -110,9 +106,8 @@ public class JSONMessage {
 	 * @throws ArrayIndexOutOfBoundsException If {@code parts.size() <= 0}.
 	 */
 	public MessagePart last() {
-		if (parts.size() <= 0) {
-			throw new ArrayIndexOutOfBoundsException("No MessageParts exist!");
-		}
+		if (parts.size() == 0) throw new ArrayIndexOutOfBoundsException("No MessageParts exist!");
+
 		return parts.get(parts.size() - 1);
 	}
 
@@ -454,11 +449,13 @@ public class JSONMessage {
 		public JsonObject toJSON() {
 			JsonObject obj = new JsonObject();
 			obj.addProperty("action", action);
+
 			if (value instanceof JsonElement) {
 				obj.add("value", (JsonElement) value);
 			} else {
 				obj.addProperty("value", value.toString());
 			}
+
 			return obj;
 		}
 
@@ -489,7 +486,6 @@ public class JSONMessage {
 		public void setValue(Object value) {
 			this.value = value;
 		}
-
 	}
 
 	public static class ClickEvent {
@@ -533,7 +529,6 @@ public class JSONMessage {
 		public static MessageEvent changePage(int page) {
 			return new MessageEvent("change_page", page);
 		}
-
 	}
 
 	public static class HoverEvent {
@@ -570,7 +565,6 @@ public class JSONMessage {
 		public static MessageEvent showAchievement(String id) {
 			return new MessageEvent("show_achievement", id);
 		}
-
 	}
 
 	private static class ReflectionHelper {
@@ -637,21 +631,16 @@ public class JSONMessage {
 					enumChatMessage = getChatMessageType.invoke(null, (byte) 1);
 					enumActionbarMessage = getChatMessageType.invoke(null, (byte) 2);
 				}
-
 			} catch (Exception e) {
 				e.printStackTrace();
 				SETUP = false;
 			}
-
 		}
 
 		static void sendPacket(Object packet, Player... players) {
-			if (!SETUP) {
-				throw new IllegalStateException("ReflectionHelper is not set up!");
-			}
-			if (packet == null) {
-				return;
-			}
+			if (!SETUP) throw new IllegalStateException("ReflectionHelper is not set up!");
+
+			if (packet == null) return;
 
 			for (Player player : players) {
 				try {
@@ -661,7 +650,6 @@ public class JSONMessage {
 					e.printStackTrace();
 				}
 			}
-
 		}
 
 		private static void setType(Object object, byte type) {
@@ -683,18 +671,16 @@ public class JSONMessage {
 		}
 
 		static Object createActionbarPacket(String message) {
-			if (!SETUP) {
-				throw new IllegalStateException("ReflectionHelper is not set up!");
-			}
+			if (!SETUP) throw new IllegalStateException("ReflectionHelper is not set up!");
+
 			Object packet = createTextPacket(message);
 			setType(packet, (byte) 2);
 			return packet;
 		}
 
 		static Object createTextPacket(String message) {
-			if (!SETUP) {
-				throw new IllegalStateException("ReflectionHelper is not set up!");
-			}
+			if (!SETUP) throw new IllegalStateException("ReflectionHelper is not set up!");
+
 			try {
 				Object packet = packetPlayOutChat.newInstance();
 				set("a", packet, fromJson(message));
@@ -704,7 +690,6 @@ public class JSONMessage {
 				e.printStackTrace();
 				return null;
 			}
-
 		}
 
 		@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -729,9 +714,8 @@ public class JSONMessage {
 		}
 
 		static Object createTitlePacket(String message) {
-			if (!SETUP) {
-				throw new IllegalStateException("ReflectionHelper is not set up!");
-			}
+			if (!SETUP) throw new IllegalStateException("ReflectionHelper is not set up!");
+
 			try {
 				return packetPlayOutTitle.getConstructor(titleAction, iChatBaseComponent).newInstance(enumActionTitle,
 						fromJson(message));
@@ -739,13 +723,11 @@ public class JSONMessage {
 				e.printStackTrace();
 				return null;
 			}
-
 		}
 
 		static Object createSubtitlePacket(String message) {
-			if (!SETUP) {
-				throw new IllegalStateException("ReflectionHelper is not set up!");
-			}
+			if (!SETUP) throw new IllegalStateException("ReflectionHelper is not set up!");
+
 			try {
 				return packetPlayOutTitle.getConstructor(titleAction, iChatBaseComponent)
 						.newInstance(enumActionSubtitle, fromJson(message));
@@ -757,9 +739,8 @@ public class JSONMessage {
 		}
 
 		static Object createTitleTimesPacket(int fadeIn, int stay, int fadeOut) {
-			if (!SETUP) {
-				throw new IllegalStateException("ReflectionHelper is not set up!");
-			}
+			if (!SETUP) throw new IllegalStateException("ReflectionHelper is not set up!");
+
 			try {
 				return packetPlayOutTitle.getConstructor(int.class, int.class, int.class).newInstance(fadeIn, stay,
 						fadeOut);
@@ -767,7 +748,6 @@ public class JSONMessage {
 				e.printStackTrace();
 				return null;
 			}
-
 		}
 
 		/**
@@ -777,16 +757,14 @@ public class JSONMessage {
 		 * @return The chat component
 		 */
 		static Object componentText(String message) {
-			if (!SETUP) {
-				throw new IllegalStateException("ReflectionHelper is not set up!");
-			}
+			if (!SETUP) throw new IllegalStateException("ReflectionHelper is not set up!");
+
 			try {
 				return chatComponentText.newInstance(message);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
 			}
-
 		}
 
 		/**
@@ -797,12 +775,9 @@ public class JSONMessage {
 		 *         if something went wrong converting the String to JSON data
 		 */
 		static Object fromJson(String json) {
-			if (!SETUP) {
-				throw new IllegalStateException("ReflectionHelper is not set up!");
-			}
-			if (!json.trim().startsWith("{")) {
-				return componentText(json);
-			}
+			if (!SETUP) throw new IllegalStateException("ReflectionHelper is not set up!");
+
+			if (!json.trim().startsWith("{")) return componentText(json);
 
 			try {
 				return STRING_TO_CHAT.invoke(json);
@@ -810,7 +785,6 @@ public class JSONMessage {
 				e.printStackTrace();
 				return null;
 			}
-
 		}
 
 		/**
@@ -829,9 +803,8 @@ public class JSONMessage {
 		 * @throws ClassNotFoundException If the class was not found
 		 */
 		static Class<?> getClass(String path) throws ClassNotFoundException {
-			if (!SETUP) {
-				throw new IllegalStateException("ReflectionHelper is not set up!");
-			}
+			if (!SETUP) throw new IllegalStateException("ReflectionHelper is not set up!");
+
 			return Class.forName(path.replace("{nms}", "net.minecraft.server." + version).replace("{obc}",
 					"org.bukkit.craftbukkit." + version));
 		}
@@ -858,18 +831,15 @@ public class JSONMessage {
 		}
 
 		static int getVersion() {
-			if (!SETUP) {
-				throw new IllegalStateException("ReflectionHelper is not set up!");
-			}
+			if (!SETUP) throw new IllegalStateException("ReflectionHelper is not set up!");
+
 			try {
 				return Integer.parseInt(version.split("_")[1]);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 				return 10;
 			}
-
 		}
-
 	}
 
 	/**
@@ -903,21 +873,15 @@ public class JSONMessage {
 			JsonObject obj = new JsonObject();
 			obj.addProperty("text", text);
 
-			if (color != null) {
-				obj.addProperty("color", color.name().toLowerCase());
-			}
+			if (color != null) obj.addProperty("color", color.name().toLowerCase());
 
 			for (ChatColor style : styles) {
 				obj.addProperty(stylesToNames.get(style), true);
 			}
 
-			if (onClick != null) {
-				obj.add("clickEvent", onClick.toJSON());
-			}
+			if (onClick != null) obj.add("clickEvent", onClick.toJSON());
 
-			if (onHover != null) {
-				obj.add("hoverEvent", onHover.toJSON());
-			}
+			if (onHover != null) obj.add("hoverEvent", onHover.toJSON());
 
 			return obj;
 
@@ -928,9 +892,9 @@ public class JSONMessage {
 		 */
 		public String toLegacy() {
 			StringBuilder output = new StringBuilder();
-			if (color != null) {
-				output.append(color.toString());
-			}
+
+			if (color != null) output.append(color);
+
 			styles.stream().map(ChatColor::toString).forEach(output::append);
 
 			return output.append(text).toString();
@@ -975,9 +939,8 @@ public class JSONMessage {
 		 * @param color The color to set
 		 */
 		public void setColor(ChatColor color) {
-			if (!color.isColor()) {
-				throw new IllegalArgumentException(color.name() + " is not a color!");
-			}
+			if (!color.isColor()) throw new IllegalArgumentException(color.name() + " is not a color!");
+
 			this.color = color;
 		}
 
@@ -992,12 +955,10 @@ public class JSONMessage {
 		 * @param style The new style to add
 		 */
 		public void addStyle(ChatColor style) {
-			if (style == null) {
-				throw new IllegalArgumentException("Style cannot be null!");
-			}
-			if (!style.isFormat()) {
-				throw new IllegalArgumentException(color.name() + " is not a style!");
-			}
+			if (style == null) throw new IllegalArgumentException("Style cannot be null!");
+
+			if (!style.isFormat()) throw new IllegalArgumentException(color.name() + " is not a style!");
+
 			styles.add(style);
 		}
 
@@ -1014,7 +975,5 @@ public class JSONMessage {
 		public void setText(String text) {
 			this.text = text;
 		}
-
 	}
-
 }

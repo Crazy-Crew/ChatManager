@@ -2,23 +2,22 @@ package me.h1dd3nxn1nja.chatmanager.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-
-import org.bukkit.Bukkit;
+import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.bukkit.entity.Player;
 
 public class Ping {
 
+	private final static ChatManager plugin = ChatManager.getPlugin();
+
 	public static int getPing(Player player) {
 
-		String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+		String version = plugin.getServer().getClass().getPackage().getName().split("\\.")[3];
 		
-		if (!player.getClass().getName().equals("org.bukkit.craftbukkit." + version + ".entity.CraftPlayer")) {
-            player = Bukkit.getPlayer(player.getUniqueId());
-		}
+		if (!player.getClass().getName().equals("org.bukkit.craftbukkit." + version + ".entity.CraftPlayer")) player = plugin.getServer().getPlayer(player.getUniqueId());
 
 		try {
 			
-			if (Version.getCurrentVersion().isOlder(Version.v1_16_R2)) {
+			if ((ServerProtocol.isOlder(ServerProtocol.v1_16_R1))) {
 				Class<?> CPClass = Class.forName("org.bukkit.craftbukkit." + version + ".entity.CraftPlayer");
 				Object craftPlayer = CPClass.cast(player);
 
@@ -29,12 +28,12 @@ public class Ping {
 
 				return ping.getInt(EntityPlayer);
 			} else {
-				int ping = player.getPing();
-				return ping;
+				return player.getPing();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		return 0;
 	}
 }

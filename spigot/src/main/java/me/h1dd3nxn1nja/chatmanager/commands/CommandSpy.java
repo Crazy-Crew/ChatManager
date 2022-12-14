@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,11 +11,13 @@ import org.bukkit.entity.Player;
 
 public class CommandSpy implements CommandExecutor {
 
-	public CommandSpy(ChatManager plugin) {}
+	private final ChatManager plugin = ChatManager.getPlugin();
+
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-		FileConfiguration messages = ChatManager.settings.getMessages();
+		FileConfiguration messages = settingsManager.getMessages();
 
 		if (!(sender instanceof Player)) {
 			sender.sendMessage("Error: You can only use that command in game");
@@ -22,6 +25,7 @@ public class CommandSpy implements CommandExecutor {
 		}
 
 		Player player = (Player) sender;
+
 		if (sender instanceof Player) {
 			if (cmd.getName().equalsIgnoreCase("CommandSpy")) {
 				if (player.hasPermission("chatmanager.commandspy")) {
@@ -33,6 +37,7 @@ public class CommandSpy implements CommandExecutor {
 							Methods.cm_commandSpy.add(player.getUniqueId());
 							player.sendMessage(Methods.color(player, messages.getString("Command_Spy.Enabled").replace("{Prefix}", messages.getString("Message.Prefix"))));
 						}
+
 						return true;
 					} else {
 						player.sendMessage(Methods.color("&cCommand Usage: &7/Commandspy"));
@@ -41,7 +46,7 @@ public class CommandSpy implements CommandExecutor {
 					player.sendMessage(Methods.noPermission());
 				}
 			}
-			
+
 			if (cmd.getName().equalsIgnoreCase("SocialSpy")) {
 				if (player.hasPermission("chatmanager.socialspy")) {
 					if (args.length == 0) {
@@ -52,7 +57,8 @@ public class CommandSpy implements CommandExecutor {
 							Methods.cm_socialSpy.add(player.getUniqueId());
 							player.sendMessage(Methods.color(player, messages.getString("Social_Spy.Enabled").replace("{Prefix}", messages.getString("Message.Prefix"))));
 						}
-					return true;
+
+						return true;
 					} else {
 						player.sendMessage(Methods.color("&cCommand Usage: &7/Socialspy"));
 					}
@@ -61,6 +67,7 @@ public class CommandSpy implements CommandExecutor {
 				}
 			}
 		}
+
 		return true;
 	}
 }
