@@ -4,20 +4,15 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
-group = "me.h1dd3nxn1nja.chatmanager"
-version = "3.9.0"
-description = "The kitchen sink of Chat Management."
-
 val buildNumber: String? = System.getenv("BUILD_NUMBER")
-
-val jenkinsVersion = "${project.version}-b$buildNumber"
+val buildVersion = "${project.version}-b$buildNumber-SNAPSHOT"
 
 tasks {
     shadowJar {
         if (buildNumber != null) {
-            archiveFileName.set("${rootProject.name}-[v${jenkinsVersion}]-Spigot.jar")
+            archiveFileName.set("${rootProject.name}-${buildVersion}.jar")
         } else {
-            archiveFileName.set("${rootProject.name}-[v${project.version}]-Spigot.jar")
+            archiveFileName.set("${rootProject.name}-${project.version}.jar")
         }
 
         listOf(
@@ -32,7 +27,7 @@ tasks {
             expand(
                 "name" to rootProject.name,
                 "group" to project.group,
-                "version" to project.version,
+                "version" to if (buildNumber != null) buildVersion else project.version,
                 "description" to project.description
             )
         }

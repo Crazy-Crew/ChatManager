@@ -1,6 +1,6 @@
-name: "ChatManager"
-main: "${group}.ChatManager"
-author: [H1DD3NxN1NJA, Ryder Belserion]
+name: ${name}
+main: ${group}
+authors: [H1DD3NxN1NJA, Ryder Belserion]
 
 version: ${version}
 api-version: "1.13"

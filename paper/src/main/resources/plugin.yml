@@ -1,6 +1,6 @@
-name: "ChatManager"
-main: "${group}.ChatManager"
-author: [H1DD3NxN1NJA, Ryder Belserion]
+name: ${name}
+main: ${group}
+authors: [H1DD3NxN1NJA, Ryder Belserion]
 
 version: ${version}
 api-version: "1.13"
@@ -104,7 +104,7 @@ commands:
         description: Sends a warning message to the entire server.
         usage: /<command> <message>
         aliases: [alert]
-        
+
 permissions:
     chatmanager.antiswear:
         description: Permission to view all the commands for the anti swear.

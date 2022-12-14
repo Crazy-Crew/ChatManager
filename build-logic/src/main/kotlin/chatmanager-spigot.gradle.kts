@@ -2,6 +2,10 @@ plugins {
     `java-library`
 }
 
+project.version = "${extra["plugin_version"]}"
+project.group = "${rootProject.group}.ChatManager"
+project.description = "The kitchen sink of Chat Management."
+
 repositories {
     /**
      * PAPI Team
@@ -39,7 +43,7 @@ repositories {
 dependencies {
     implementation("org.bstats", "bstats-bukkit", "3.0.0")
 
-    compileOnly("org.spigotmc", "spigot-api", "1.19.3-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc", "spigot-api", "${project.extra["minecraft_version"]}-R0.1-SNAPSHOT")
 
     compileOnly("net.essentialsx", "EssentialsX", "2.19.0")
 
