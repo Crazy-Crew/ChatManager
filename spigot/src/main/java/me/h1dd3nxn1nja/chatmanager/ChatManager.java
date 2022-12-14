@@ -1,6 +1,10 @@
 package me.h1dd3nxn1nja.chatmanager;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Warning;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -55,6 +59,7 @@ import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
 import me.h1dd3nxn1nja.chatmanager.utils.Metrics;
 import me.h1dd3nxn1nja.chatmanager.utils.UpdateChecker;
 import me.h1dd3nxn1nja.chatmanager.utils.Version;
+import org.checkerframework.checker.units.qual.C;
 
 public class ChatManager extends JavaPlugin {
 	
@@ -70,7 +75,6 @@ public class ChatManager extends JavaPlugin {
 		if (!setupVault()) return;
 		setupPermissionsPlugin();
 		registerCommands();
-		registerTabCompleter();
 		registerEvents();
 		setupAutoBroadcast();
 		setupChatRadius();
@@ -102,40 +106,66 @@ public class ChatManager extends JavaPlugin {
 	}
 
 	public void registerCommands() {
-		getCommand("Announcement").setExecutor(new CommandBroadcast(this));
-		getCommand("AntiSwear").setExecutor(new CommandAntiSwear(this));
-		getCommand("AutoBroadcast").setExecutor(new CommandAutoBroadcast(this));
-		getCommand("BannedCommands").setExecutor(new CommandBannedCommands(this));
-		getCommand("Broadcast").setExecutor(new CommandBroadcast(this));
-		getCommand("cc").setExecutor(new CommandClearChat(this));
-		getCommand("ChatRadius").setExecutor(new CommandRadius(this));
-		getCommand("ClearChat").setExecutor(new CommandClearChat(this));
-		getCommand("Colors").setExecutor(new CommandColor(this));
-		getCommand("ChatManager").setExecutor(new CommandChatManager(this));
-		getCommand("CommandSpy").setExecutor(new CommandSpy(this));
-		getCommand("Formats").setExecutor(new CommandColor(this));
-		getCommand("List").setExecutor(new CommandLists(this));
-		getCommand("Message").setExecutor(new CommandMessage(this));
-		getCommand("Message").setTabCompleter((TabCompleter) new TabCompleteMessage(this));
-		getCommand("MuteChat").setExecutor(new CommandMuteChat(this));
-		getCommand("PerWorldChat").setExecutor(new CommandPerWorldChat(this));
-		getCommand("Ping").setExecutor(new CommandPing(this));
-		getCommand("Reply").setExecutor(new CommandMessage(this));
-		getCommand("Rules").setExecutor(new CommandRules(this));
-		getCommand("Staff").setExecutor(new CommandLists(this));
-		getCommand("StaffChat").setExecutor(new CommandStaffChat(this));
-		getCommand("SocialSpy").setExecutor(new CommandSpy(this));
-		getCommand("ToggleChat").setExecutor(new CommandToggleChat(this));
-		getCommand("ToggleMentions").setExecutor(new CommandToggleMentions(this));
-		getCommand("TogglePM").setExecutor(new CommandMessage(this));
-		getCommand("Warning").setExecutor(new CommandBroadcast(this));
+		CommandBroadcast broadCastCommand = new CommandBroadcast(this);
+
+		registerCommand(getCommand("Announcement"), null, broadCastCommand);
+		registerCommand(getCommand("Warning"), null, broadCastCommand);
+		registerCommand(getCommand("Broadcast"), null, broadCastCommand);
+
+		registerCommand(getCommand("AutoBroadcast"), new TabCompleteAutoBroadcast(), new CommandAutoBroadcast(this));
+
+		CommandLists listsCommand = new CommandLists(this);
+
+		registerCommand(getCommand("List"), null, listsCommand);
+		registerCommand(getCommand("Staff"), null, listsCommand);
+
+		registerCommand(getCommand("ClearChat"), null, new CommandClearChat(this));
+
+		registerCommand(getCommand("BannedCommands"), new TabCompleteBannedCommands(), new CommandBannedCommands(this));
+
+		registerCommand(getCommand("AntiSwear"), new TabCompleteAntiSwear(), new CommandAntiSwear(this));
+
+		CommandColor commandColor = new CommandColor(this);
+
+		registerCommand(getCommand("Colors"), null, commandColor);
+		registerCommand(getCommand("Formats"), null, commandColor);
+
+		CommandMessage commandMessage = new CommandMessage(this);
+
+		registerCommand(getCommand("Reply"), null, commandMessage);
+		registerCommand(getCommand("TogglePM"), null, commandMessage);
+		registerCommand(getCommand("Message"), new TabCompleteMessage(this), commandMessage);
+
+		registerCommand(getCommand("StaffChat"), null, new CommandStaffChat(this));
+
+		registerCommand(getCommand("ChatRadius"), null, new CommandRadius(this));
+
+		registerCommand(getCommand("ChatManager"), new TabCompleteChatManager(), new CommandChatManager(this));
+
+		CommandSpy commandSpy = new CommandSpy(this);
+
+		registerCommand(getCommand("CommandSpy"), null, commandSpy);
+		registerCommand(getCommand("SocialSpy"), null, commandSpy);
+
+		registerCommand(getCommand("MuteChat"), null, new CommandMuteChat(this));
+
+		registerCommand(getCommand("PerWorldChat"), null, new CommandPerWorldChat(this));
+
+		registerCommand(getCommand("Ping"), null, new CommandPing(this));
+
+		registerCommand(getCommand("Rules"), null, new CommandRadius(this));
+
+		registerCommand(getCommand("ToggleChat"), null, new CommandToggleChat(this));
+
+		registerCommand(getCommand("ToggleMentions"), null, new CommandToggleMentions(this));
 	}
-	
-	public void registerTabCompleter() {
-		Bukkit.getServer().getPluginCommand("AntiSwear").setTabCompleter(new TabCompleteAntiSwear());
-		Bukkit.getServer().getPluginCommand("AutoBroadcast").setTabCompleter(new TabCompleteAutoBroadcast());
-		Bukkit.getServer().getPluginCommand("BannedCommands").setTabCompleter(new TabCompleteBannedCommands());
-		Bukkit.getServer().getPluginCommand("ChatManager").setTabCompleter(new TabCompleteChatManager());
+
+	private void registerCommand(PluginCommand pluginCommand, TabCompleter tabCompleter, CommandExecutor commandExecutor) {
+		if (pluginCommand != null) {
+			pluginCommand.setExecutor(commandExecutor);
+
+			if (tabCompleter != null) pluginCommand.setTabCompleter(tabCompleter);
+		}
 	}
 
 	public void registerEvents() {
