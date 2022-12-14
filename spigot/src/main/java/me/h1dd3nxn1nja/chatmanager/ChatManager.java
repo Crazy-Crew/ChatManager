@@ -276,15 +276,7 @@ public class ChatManager extends JavaPlugin {
 			}
 		}
 	}
-	
-	public Metrics getMetrics() {
-		return metrics;
-	}
 
-	public void setMetrics(Metrics metrics) {
-		this.metrics = metrics;
-	}
-	
 	public void setupMetrics() {
 		metrics = new Metrics(this, 3291);
 		metrics.addCustomChart(new Metrics.SimplePie("chat_format", () -> {
