@@ -10,12 +10,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
 import me.h1dd3nxn1nja.chatmanager.utils.JSONMessage;
-import me.h1dd3nxn1nja.chatmanager.utils.UpdateChecker;
 import me.h1dd3nxn1nja.chatmanager.utils.Version;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -211,7 +209,6 @@ public class ListenerPlayerJoin implements Listener {
 		Player player = event.getPlayer();
 		int lines = config.getInt("Clear_Chat.Broadcasted_Lines");
 		int delay = config.getInt("MOTD.Delay");
-		String version = Methods.getPlugin().getDescription().getVersion();
 		
 		if (config.getBoolean("Clear_Chat.Clear_On_Join")) {
 			if (!player.hasPermission("chatmanager.bypass.clearchat.onjoin")) {
@@ -260,27 +257,7 @@ public class ListenerPlayerJoin implements Listener {
 						player.sendMessage(PlaceholderManager.setPlaceholders(player, motd));
 					}
 				}
-				if (player.getName().equals("H1DD3NxNINJA") || player.getName().equals("H1DD3NxN1NJ4")) {
-					player.sendMessage("");
-					player.sendMessage(Methods.color(Methods.getPrefix() + " &7This server is using the plugin &cChat Manager &7version &c" + version + "&7."));
-					player.sendMessage("");
-				}
-				if (ChatManager.settings.getConfig().getBoolean("Update_Checker")) {
-					if (player.isOp()) {
-						UpdateChecker updater = new UpdateChecker(plugin, 52245);
-						try {
-							if (updater.checkForUpdates()) {
-								player.sendMessage("");
-								player.sendMessage(Methods.color(Methods.getPrefix() + " &7An update is available for &cChatManager&7!"));
-								player.sendMessage(Methods.color("&7Your server is running &cv" + version + "&7 and the newest version is &cv" + UpdateChecker.getLatestVersion() + "&7!"));
-								player.sendMessage(Methods.color("&7Download: &c" + UpdateChecker.getResourceURL()));
-								player.sendMessage("");
-							}
-						} catch (Exception ex) {
-						}
-					}
-				}
 			}
-		}.runTaskLaterAsynchronously(plugin, 20L * delay);
+		}.runTaskLater(plugin, 20L * delay);
 	}
 }

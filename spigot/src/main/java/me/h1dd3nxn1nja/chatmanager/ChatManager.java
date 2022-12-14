@@ -62,15 +62,22 @@ import me.h1dd3nxn1nja.chatmanager.utils.Version;
 import org.checkerframework.checker.units.qual.C;
 
 public class ChatManager extends JavaPlugin {
-	
-  public static SettingsManager settings = SettingsManager.getInstance();
-  
-  private Metrics metrics;
-  
+
+	private static ChatManager plugin;
+
+	private UpdateChecker updateChecker;
+
+	public static SettingsManager settings = SettingsManager.getInstance();
+
+	private Metrics metrics;
+
 	public void onEnable() {
+		plugin = this;
+
+		updateChecker = new UpdateChecker(52245);
 
 		settings.setup(this);
-		
+
 		HookManager.loadDependencies();
 		if (!setupVault()) return;
 		setupPermissionsPlugin();
@@ -80,7 +87,7 @@ public class ChatManager extends JavaPlugin {
 		setupChatRadius();
 		updateChecker();
 		setupMetrics();
-		
+
 		Bukkit.getConsoleSender().sendMessage("=========================");
 		Bukkit.getConsoleSender().sendMessage("Chat Manager");
 		Bukkit.getConsoleSender().sendMessage("Version " + this.getDescription().getVersion());
@@ -254,16 +261,17 @@ public class ChatManager extends JavaPlugin {
 	
 	public void updateChecker() {
 		if (settings.getConfig().getBoolean("Update_Checker")) {
-			UpdateChecker updater = new UpdateChecker(this, 52245);
+
 			try {
-				if (updater.checkForUpdates()) {
-					getLogger().info("ChatManager has a new update available! New version: " + UpdateChecker.getLatestVersion());
-					getLogger().info("Download: " + UpdateChecker.getResourceURL());
-				} else {
-					getLogger().info("Plugin is up to date - v" + this.getDescription().getVersion());
+				if (updateChecker.hasUpdate()) {
+					getLogger().warning("ChatManager has a new update available! New version: " + updateChecker.getNewVersion());
+					getLogger().warning("Download: " + updateChecker.getResourcePage());
 				}
+
+				getLogger().info("Plugin is up to date! - v" + getDescription().getVersion());
 			} catch (Exception e) {
-				getLogger().info("Could not check for updates! Stacktrace:");
+				getLogger().severe("Could not check for updates! Stacktrace:");
+
 				e.printStackTrace();
 			}
 		}
