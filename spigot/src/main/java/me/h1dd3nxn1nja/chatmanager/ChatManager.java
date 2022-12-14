@@ -1,6 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager;
 
-import org.bukkit.Bukkit;
+import me.h1dd3nxn1nja.chatmanager.utils.MetricsHandler;
 import org.bukkit.Warning;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -56,7 +56,6 @@ import me.h1dd3nxn1nja.chatmanager.tabcompleter.TabCompleteBannedCommands;
 import me.h1dd3nxn1nja.chatmanager.tabcompleter.TabCompleteChatManager;
 import me.h1dd3nxn1nja.chatmanager.tabcompleter.TabCompleteMessage;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
-import me.h1dd3nxn1nja.chatmanager.utils.Metrics;
 import me.h1dd3nxn1nja.chatmanager.utils.UpdateChecker;
 import me.h1dd3nxn1nja.chatmanager.utils.Version;
 import org.checkerframework.checker.units.qual.C;
@@ -69,14 +68,27 @@ public class ChatManager extends JavaPlugin {
 
 	public static SettingsManager settings = SettingsManager.getInstance();
 
-	private Metrics metrics;
-
 	public void onEnable() {
 		plugin = this;
 
 		updateChecker = new UpdateChecker(52245);
 
 		settings.setup(this);
+
+		String metricsValue = settingsManager.getConfig().getString("Metrics_Enabled");
+
+		if (metricsValue == null) {
+			settingsManager.getConfig().set("Metrics_Enabled", false);
+			settingsManager.saveConfig();
+		}
+
+		boolean metricsEnabled = settingsManager.getConfig().getBoolean("Metrics_Enabled");
+
+		if (metricsEnabled) {
+			MetricsHandler metricsHandler = new MetricsHandler();
+
+			metricsHandler.start();
+		}
 
 		HookManager.loadDependencies();
 		if (!setupVault()) return;
