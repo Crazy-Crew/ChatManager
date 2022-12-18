@@ -39,8 +39,7 @@ public enum ServerProtocol {
 		this.versionProtocol = versionProtocol;
 	}
 
-	public static ServerProtocol getCurrentProtocol() {
-
+	public static void getCurrentProtocol() {
 		String serVer = plugin.getServer().getClass().getPackage().getName();
 
 		int serProt = Integer.parseInt(
@@ -57,8 +56,6 @@ public enum ServerProtocol {
 		}
 
 		if (currentProtocol == null) currentProtocol = ServerProtocol.TOO_NEW;
-
-		return currentProtocol;
 	}
 
 	public static boolean isLegacy() {
