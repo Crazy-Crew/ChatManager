@@ -61,12 +61,8 @@ public class ChatManager extends JavaPlugin {
 	
 	private SettingsManager settingsManager;
 
-	private UpdateChecker updateChecker;
-
 	public void onEnable() {
 		plugin = this;
-
-		updateChecker = new UpdateChecker(52245);
 
 		settingsManager = new SettingsManager();
 
@@ -262,6 +258,7 @@ public class ChatManager extends JavaPlugin {
 
 	public void updateChecker() {
 		if (settingsManager.getConfig().getBoolean("Update_Checker")) {
+			UpdateChecker updateChecker = new UpdateChecker(52245);
 
 			try {
 				if (updateChecker.hasUpdate()) {
