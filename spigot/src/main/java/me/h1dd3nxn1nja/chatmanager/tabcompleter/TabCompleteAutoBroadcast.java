@@ -29,12 +29,6 @@ public class TabCompleteAutoBroadcast implements TabCompleter {
 			switch (args[0].toLowerCase()) {
 				case "help":
 				case "list":
-					completions.add("global");
-					completions.add("world");
-					completions.add("actionbar");
-					completions.add("title");
-					completions.add("bossbar");
-					break;
 				case "add":
 					completions.add("global");
 					completions.add("world");

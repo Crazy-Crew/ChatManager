@@ -26,14 +26,12 @@ public class TabCompleteAntiSwear implements TabCompleter {
 			case "reload":
 			case "list":
 			case "add":
-				completions.add("blacklist");
-				completions.add("whitelist");
-				break;
 			case "remove":
 				completions.add("blacklist");
 				completions.add("whitelist");
 				break;
 			}
+			
 			return StringUtil.copyPartialMatches(args[1], completions, new ArrayList<>());
 		}
 
