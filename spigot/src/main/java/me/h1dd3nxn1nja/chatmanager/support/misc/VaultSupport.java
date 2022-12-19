@@ -1,4 +1,4 @@
-package me.h1dd3nxn1nja.chatmanager.hooks;
+package me.h1dd3nxn1nja.chatmanager.support.misc;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
@@ -6,51 +6,61 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
-public class VaultHook {
+public class VaultSupport {
 
-	public static Permission permission;
-	public static Chat chat;
+	private Permission permission;
+	private Chat chat;
 
-	public VaultHook() {
+	public VaultSupport() {
 		permission = null;
 		chat = null;
 	}
 
-	public static boolean hook() {
+	public void configure() {
 		setupChat();
 		setupPermissions();
-		return true;
 	}
 
-	public static String getPlayerPrefix(Player player) {
+	public String getPlayerPrefix(Player player) {
 		if (chat.getPlayerPrefix(player) == null) return "";
 
 		return chat.getPlayerPrefix(player);
 	}
 
-	public static String getPlayerSuffix(Player player) {
+	public String getPlayerSuffix(Player player) {
 		if (chat.getPlayerSuffix(player) == null) return "";
+
 		return chat.getPlayerSuffix(player);
 	}
 
-	public static String getPlayerGroup(Player player) {
+	public String getPlayerGroup(Player player) {
 		if (chat.getPrimaryGroup(player) == null) return "";
+
 		return chat.getPrimaryGroup(player);
 	}
 
-	public static boolean setupPermissions() {
+	private void setupPermissions() {
 		RegisteredServiceProvider<Permission> permissionProvider = Bukkit.getServer().getServicesManager().getRegistration(Permission.class);
 
 		if (permissionProvider != null) permission = permissionProvider.getProvider();
 
-		return (permission != null);
 	}
 
-	public static boolean setupChat() {
+	private void setupChat() {
 		RegisteredServiceProvider<Chat> chatProvider = Bukkit.getServer().getServicesManager().getRegistration(Chat.class);
 
 		if (chatProvider != null) chat = chatProvider.getProvider();
+	}
 
-		return (chat != null);
+	public boolean isChatReady() {
+		return chat != null;
+	}
+
+	public boolean isPermissionReady() {
+		return permission != null;
+	}
+
+	public Permission getPermission() {
+		return permission;
 	}
 }
