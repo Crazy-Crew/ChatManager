@@ -43,6 +43,8 @@ repositories {
 dependencies {
     implementation("org.bstats", "bstats-bukkit", "3.0.0")
 
+    implementation("org.jetbrains:annotations:23.0.0")
+
     compileOnly("org.spigotmc", "spigot-api", "${project.extra["minecraft_version"]}-R0.1-SNAPSHOT")
 
     compileOnly("net.essentialsx", "EssentialsX", "2.19.0")
