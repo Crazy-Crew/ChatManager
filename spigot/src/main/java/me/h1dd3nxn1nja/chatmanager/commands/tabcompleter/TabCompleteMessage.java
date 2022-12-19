@@ -1,14 +1,15 @@
-package me.h1dd3nxn1nja.chatmanager.tabcompleter;
+package me.h1dd3nxn1nja.chatmanager.commands.tabcompleter;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import me.h1dd3nxn1nja.chatmanager.hooks.EssentialsHook;
-import me.h1dd3nxn1nja.chatmanager.hooks.HookManager;
-import me.h1dd3nxn1nja.chatmanager.hooks.SuperVanishHook;
+import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
+import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
+import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +17,11 @@ public class TabCompleteMessage implements TabCompleter {
 
 	private final ChatManager plugin = ChatManager.getPlugin();
 
-	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+	private final PluginManager pluginManager = plugin.getPluginManager();
 
+	private final EssentialsSupport essentialsSupport = pluginManager.getEssentialsSupport();
+
+	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
 		if (args.length == 0) return null;
 
 		List<Player> matchPlayer = plugin.getServer().matchPlayer(args[args.length - 1]);
@@ -34,11 +38,10 @@ public class TabCompleteMessage implements TabCompleter {
 		boolean hasPermission3 = player2.hasPermission("chatmanager.bypass.togglepm");
 
 		for (Player player3 : matchPlayer) {
-			if (!hasPermission && HookManager.isEssentialsLoaded() && EssentialsHook.isIgnored(player3, player2)) continue;
+			if (!hasPermission && PluginSupport.ESSENTIALS.isPluginEnabled() && essentialsSupport.isIgnored(player3, player2)) continue;
 			if (!hasPermission2) {
-				if (HookManager.isEssentialsLoaded() && EssentialsHook.isHidden(player3)) continue;
-				if (HookManager.isSuperVanishLoaded() && SuperVanishHook.isVanished(player3)) continue;
-				if (HookManager.isPremiumVanishLoaded() && SuperVanishHook.isVanished(player3)) continue;
+				if (PluginSupport.ESSENTIALS.isPluginEnabled() && pluginManager.getEssentialsVanishSupport().isVanished(player3)) continue;
+				if (PluginSupport.SUPER_VANISH.isPluginEnabled() || PluginSupport.PREMIUM_VANISH.isPluginEnabled() && pluginManager.getGenericVanishSupport().isVanished(player3)) continue;
 			}
 
 			if (!hasPermission3 && Methods.cm_togglePM.contains(player3.getUniqueId())) continue;

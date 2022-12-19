@@ -1,4 +1,4 @@
-package me.h1dd3nxn1nja.chatmanager.tabcompleter;
+package me.h1dd3nxn1nja.chatmanager.commands.tabcompleter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,12 +6,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.util.StringUtil;
+import org.jetbrains.annotations.NotNull;
 
 public class TabCompleteChatManager implements TabCompleter {
 	
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command, String commandLable, String[] args) {
-		
+	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String commandLabel, String[] args) {
 		List<String> completions = new ArrayList<>();
 		
 		if (args.length == 1) {
