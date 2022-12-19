@@ -68,6 +68,13 @@ public class ChatManager extends JavaPlugin {
 
 		settingsManager.setup();
 
+		String version = settingsManager.getConfig().getString("Config_Version");
+
+		if (version == null) {
+			settingsManager.getConfig().set("Config_Version", 1);
+			settingsManager.saveConfig();
+		}
+
 		String metricsValue = settingsManager.getConfig().getString("Metrics_Enabled");
 
 		if (metricsValue == null) {
@@ -77,6 +84,16 @@ public class ChatManager extends JavaPlugin {
 
 		boolean metricsEnabled = settingsManager.getConfig().getBoolean("Metrics_Enabled");
 
+		int configVersion = 1;
+		if (configVersion != settingsManager.getConfig().getInt("Config_Version")) {
+			plugin.getLogger().warning("========================================================================");
+			plugin.getLogger().warning("You have an outdated config, Please run the command /chatmanager update!");
+			plugin.getLogger().warning("This will take a backup of your entire folder & update your configs.");
+			plugin.getLogger().warning("Default values will be used in place of missing options!");
+			plugin.getLogger().warning("If you have any issues, Please contact Discord Support.");
+			plugin.getLogger().warning("https://discord.gg/mh7Ydaf");
+			plugin.getLogger().warning("========================================================================");
+		}
 		if (metricsEnabled) {
 			MetricsHandler metricsHandler = new MetricsHandler();
 

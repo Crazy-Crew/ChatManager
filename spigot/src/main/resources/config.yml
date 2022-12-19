@@ -874,3 +874,6 @@ Metrics_Enabled: true
 #=================================================================================================#
 # You are done with the config!
 #=================================================================================================#
+
+# Do not change this. We use this to check if your Configs are outdated.
+Config_Version: 1
