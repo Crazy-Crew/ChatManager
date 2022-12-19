@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandRules implements CommandExecutor {
 
@@ -14,26 +15,26 @@ public class CommandRules implements CommandExecutor {
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
 	
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
+	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
 		FileConfiguration config = settingsManager.getConfig();
 
 		if (cmd.getName().equalsIgnoreCase("rules")) {
 			if (sender.hasPermission("chatmanager.rules")) {
 				if (args.length == 0) {
 					for (String rules : config.getStringList("Server_Rules.Rules.1")) {
-						sender.sendMessage(Methods.color(rules));
+						Methods.sendMessage(sender, rules, true);
 					}
 				} else if (args.length == 1) {
 					int page = Integer.parseInt(args[0]);
+
 					for (String rules : config.getStringList("Server_Rules.Rules." + page)) {
-						sender.sendMessage(Methods.color(rules));
+						Methods.sendMessage(sender, rules, true);
 					}
 				} else {
-					sender.sendMessage(Methods.color("&cCommand Usage: &7/Rules <page>"));
+					Methods.sendMessage(sender, "&cCommand Usage: &7/Rules <page>", true);
 				}
 			} else {
-				sender.sendMessage(Methods.noPermission());
+				Methods.sendMessage(sender, Methods.noPermission(), true);
 			}
 		}
 

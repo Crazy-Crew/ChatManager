@@ -46,16 +46,13 @@ public class ListenerAntiUnicode implements Listener {
 						if (config.getBoolean("Anti_Unicode.Notify_Staff")) {
 							for (Player staff : plugin.getServer().getOnlinePlayers()) {
 								if (staff.hasPermission("chatmanager.notify.antiunicode")) {
-									staff.sendMessage(Methods.color(player, messages.getString("Anti_Unicode.Notify_Staff_Format")
-											.replace("{player}", player.getName()).replace("{message}", message)
-											.replace("{prefix}", messages.getString("Message.Prefix"))));
+									Methods.sendMessage(staff, messages.getString("Anti_Unicode.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 								}
 							}
 
-							Methods.tellConsole(Methods.color(player, messages.getString("Anti_Unicode.Notify_Staff_Format")
-											.replace("{player}", player.getName()).replace("{message}", message)
-											.replace("{prefix}", messages.getString("Message.Prefix"))));
+							Methods.tellConsole(messages.getString("Anti_Unicode.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 						}
+
 						if (config.getBoolean("Anti_Unicode.Execute_Command")) {
 							if (config.contains("Anti_Unicode.Executed_Command")) {
 								String command = config.getString("Anti_Unicode.Executed_Command").replace("{player}", player.getName());
@@ -64,6 +61,7 @@ public class ListenerAntiUnicode implements Listener {
 								new BukkitRunnable() {
 									public void run() {
 										plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+
 										for (String cmd : commands) {
 											plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 										}

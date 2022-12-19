@@ -36,10 +36,8 @@ public class ListenerSpy implements Listener {
 				for (Player staff : plugin.getServer().getOnlinePlayers()) {
 					if (Methods.cm_commandSpy.contains(staff.getUniqueId())) {
 						if (staff.hasPermission("chatmanager.commandspy")) {
-							staff.sendMessage(Methods.color(staff, messages.getString("Command_Spy.Format")
-									.replace("{player}", player.getName())
-									.replace("{command}", message)
-									.replace("{Prefix}", messages.getString("Message.Prefix"))));
+							Methods.sendMessage(staff, messages.getString("Command_Spy.Format")
+									.replace("{player}", player.getName()).replace("{command}", message), true);
 						}
 					}
 				}

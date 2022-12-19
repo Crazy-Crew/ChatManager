@@ -10,6 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class CommandBannedCommands implements CommandExecutor {
@@ -18,13 +19,12 @@ public class CommandBannedCommands implements CommandExecutor {
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
 	
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		FileConfiguration messages = settingsManager.getMessages();
 		FileConfiguration bannedCommands = settingsManager.getBannedCommands();
 		
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("Error: You can only use that command in game");
+			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
 
@@ -48,21 +48,21 @@ public class CommandBannedCommands implements CommandExecutor {
 							JSONMessage.create("").send(player);
 							return true;
 						} else {
-							player.sendMessage("");
-							player.sendMessage(Methods.color(" &3Banned Commands Help Menu &f(v" + plugin.getDescription().getVersion() + ")"));
-							player.sendMessage("");
-							player.sendMessage(Methods.color(" &6<> &f= Required Arguments"));
-							player.sendMessage("");
-							player.sendMessage(Methods.color(" &f/BannedCommands Help &e- Shows the banned commands help menu."));
-							player.sendMessage(Methods.color(" &f/BannedCommands Add &6<command> &e- Add a command to the banned command list."));
-							player.sendMessage(Methods.color(" &f/BannedCommands Remove &6<command> &e- Remove a command from the banned command list."));
-							player.sendMessage(Methods.color(" &f/BannedCommands List &e- Shows a list of the servers banned commands."));
-							player.sendMessage("");
+							Methods.sendMessage(player, "", true);
+							Methods.sendMessage(player, " &3Banned Commands Help Menu &f(v" + plugin.getDescription().getVersion() + ")", true);
+							Methods.sendMessage(player, "", true);
+							Methods.sendMessage(player, " &6<> &f= Required Arguments", true);
+							Methods.sendMessage(player, "", true);
+							Methods.sendMessage(player, " &f/BannedCommands Help &e- Shows the banned commands help menu.", true);
+							Methods.sendMessage(player, " &f/BannedCommands Add &6<command> &e- Add a command to the banned command list.", true);
+							Methods.sendMessage(player, " &f/BannedCommands Remove &6<command> &e- Remove a command from the banned command list.", true);
+							Methods.sendMessage(player, " &f/BannedCommands List &e- Shows a list of the servers banned commands.", true);
+							Methods.sendMessage(player, "", true);
 							return true;
 						}
 					}
 				} else {
-					player.sendMessage(Methods.noPermission());
+					Methods.sendMessage(player, Methods.noPermission(), true);
 					return true;
 				}
 
@@ -84,21 +84,21 @@ public class CommandBannedCommands implements CommandExecutor {
 								JSONMessage.create("").send(player);
 								return true;
 							} else {
-								player.sendMessage("");
-								player.sendMessage(Methods.color(" &3Banned Commands Help Menu &f(v" + plugin.getDescription().getVersion() + ")"));
-								player.sendMessage("");
-								player.sendMessage(Methods.color(" &6<> &f= Required Arguments"));
-								player.sendMessage("");
-								player.sendMessage(Methods.color(" &f/BannedCommands Help &e- Shows the banned commands help menu."));
-								player.sendMessage(Methods.color(" &f/BannedCommands Add &6<command> &e- Add a command to the banned command list."));
-								player.sendMessage(Methods.color(" &f/BannedCommands Remove &6<command> &e- Remove a command from the banned command list."));
-								player.sendMessage(Methods.color(" &f/BannedCommands List &e- Shows a list of the servers banned commands."));
-								player.sendMessage("");
+								Methods.sendMessage(player, "", true);
+								Methods.sendMessage(player, " &3Banned Commands Help Menu &f(v" + plugin.getDescription().getVersion() + ")", true);
+								Methods.sendMessage(player, "", true);
+								Methods.sendMessage(player, " &6<> &f= Required Arguments", true);
+								Methods.sendMessage(player, "", true);
+								Methods.sendMessage(player, " &f/BannedCommands Help &e- Shows the banned commands help menu.", true);
+								Methods.sendMessage(player, " &f/BannedCommands Add &6<command> &e- Add a command to the banned command list.", true);
+								Methods.sendMessage(player, " &f/BannedCommands Remove &6<command> &e- Remove a command from the banned command list.", true);
+								Methods.sendMessage(player, " &f/BannedCommands List &e- Shows a list of the servers banned commands.", true);
+								Methods.sendMessage(player, "", true);
 								return true;
 							}
 						}
 					} else {
-						player.sendMessage(Methods.noPermission());
+						Methods.sendMessage(player, Methods.noPermission(), true);
 						return true;
 					}
 				}
@@ -111,15 +111,15 @@ public class CommandBannedCommands implements CommandExecutor {
 								bannedCommands.set("Banned-Commands", list);
 								settingsManager.saveBannedCommands();
 								settingsManager.reloadBannedCommands();
-								player.sendMessage(Methods.color(player, messages.getString("Banned_Commands.Command_Added").replace("{command}", args[1]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								Methods.sendMessage(player,messages.getString("Banned_Commands.Command_Added").replace("{command}", args[1]), true);
 							} else {
-								player.sendMessage(Methods.color(player, messages.getString("Banned_Commands.Command_Exists").replace("{command}", args[1]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								Methods.sendMessage(player, messages.getString("Banned_Commands.Command_Exists").replace("{command}", args[1]), true);
 							}
 						} else {
-							player.sendMessage(Methods.color("&cCommand Usage: &7/Bannedcommands add <command>"));
+							Methods.sendMessage(player, "&cCommand Usage: &7/Bannedcommands add <command>", true);
 						}
 					} else {
-						player.sendMessage(Methods.noPermission());
+						Methods.sendMessage(player, Methods.noPermission(), true);
 					}
 				}
 				if (args[0].equalsIgnoreCase("remove")) {
@@ -131,29 +131,29 @@ public class CommandBannedCommands implements CommandExecutor {
 								bannedCommands.set("Banned-Commands", list);
 								settingsManager.saveBannedCommands();
 								settingsManager.reloadBannedCommands();
-								player.sendMessage(Methods.color(player, messages.getString("Banned_Commands.Command_Removed").replace("{command}", args[1]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								Methods.sendMessage(player, messages.getString("Banned_Commands.Command_Removed").replace("{command}", args[1]), true);
 							} else {
-								player.sendMessage(Methods.color(player, messages.getString("Banned_Commands.Command_Not_Found").replace("{command}", args[1]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								Methods.sendMessage(player, messages.getString("Banned_Commands.Command_Not_Found").replace("{command}", args[1]), true);
 							}
 						} else {
-							player.sendMessage(Methods.color("&cCommand Usage: &7/Bannedcommands remove <command>"));
+							Methods.sendMessage(player, "&cCommand Usage: &7/Bannedcommands remove <command>", true);
 						}
 					} else {
-						player.sendMessage(Methods.noPermission());
+						Methods.sendMessage(player, Methods.noPermission(), true);;
 					}
 				}
 				if (args[0].equalsIgnoreCase("list")) {
 					if (player.hasPermission("chatmanager.bannedcommands.list")) {
 						if (args.length == 1) {
 							String list = bannedCommands.getStringList("Banned-Commands").toString().replace("[", "").replace("]", "");
-							player.sendMessage("");
-							player.sendMessage(Methods.color("&cCommands: &7" + list));
+							Methods.sendMessage(player, "", true);
+							Methods.sendMessage(player, "&cCommands: &7" + list, true);
 							player.sendMessage(" ");
 						} else {
-							player.sendMessage(Methods.color("&cCommand Usage: &7/Bannedcommands list"));
+							Methods.sendMessage(player, "&cCommand Usage: &7/Bannedcommands list", true);
 						}
 					} else {
-						player.sendMessage(Methods.noPermission());
+						Methods.sendMessage(player, Methods.noPermission(), true);
 					}
 				}
 			}

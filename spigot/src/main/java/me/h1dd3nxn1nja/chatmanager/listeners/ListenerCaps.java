@@ -46,8 +46,7 @@ public class ListenerCaps implements Listener {
 
 						if (upperChar + lowerChar != 0) {
 							if (1.0D * upperChar / (upperChar + lowerChar) * 100.0D >= config.getInt("Anti_Caps.Required_Percentage")) {
-								player.sendMessage(Methods.color(player, messages.getString("Anti_Caps.Message_Chat")
-										.replace("{Prefix}", messages.getString("Message.Prefix"))));
+								Methods.sendMessage(player, messages.getString("Anti_Caps.Message_Chat"), true);
 								event.setMessage(message.toLowerCase());
 							}
 						}
@@ -86,8 +85,7 @@ public class ListenerCaps implements Listener {
 
 							if (upperChar + lowerChar != 0) {
 								if (1.0D * upperChar / (upperChar + lowerChar) * 100.0D >= config.getInt("Anti_Caps.Required_Percentage")) {
-									player.sendMessage(Methods.color(player, messages.getString("Anti_Caps.Message_Commands")
-											.replace("{Prefix}", messages.getString("Message.Prefix"))));
+									Methods.sendMessage(player, messages.getString("Anti_Caps.Message_Commands"), true);
 									event.setMessage(message.toLowerCase());
 								}
 							}

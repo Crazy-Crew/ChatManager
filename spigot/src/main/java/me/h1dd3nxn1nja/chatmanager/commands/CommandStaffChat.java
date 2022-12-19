@@ -12,6 +12,7 @@ import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandStaffChat implements CommandExecutor {
 
@@ -19,8 +20,9 @@ public class CommandStaffChat implements CommandExecutor {
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
 
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration messages = settingsManager.getMessages();
 
@@ -37,7 +39,7 @@ public class CommandStaffChat implements CommandExecutor {
 									bossBar.removeStaffBossBar(player);
 								}
 
-								player.sendMessage(Methods.color(player, messages.getString("Staff_Chat.Disabled").replace("{Prefix}", messages.getString("Message.Prefix"))));
+								Methods.sendMessage(player, messages.getString("Staff_Chat.Disabled"), true);
 							} else {
 								Methods.cm_staffChat.add(player.getUniqueId());
 
@@ -46,13 +48,13 @@ public class CommandStaffChat implements CommandExecutor {
 									bossBar.setStaffBossBar(player);
 								}
 
-								player.sendMessage(Methods.color(player, messages.getString("Staff_Chat.Enabled").replace("{Prefix}", messages.getString("Message.Prefix"))));
+								Methods.sendMessage(player, messages.getString("Staff_Chat.Enabled"), true);
 							}
 
 							return true;
 
 						} else {
-							player.sendMessage(Methods.color("&4Error: &cStaff chat is currently disabled and cannot be used at this time."));
+							Methods.sendMessage(player, "&4Error: &cStaff Chat is currently disabled & cannot be used at this time.", true);
 							return true;
 						}
 					} else {
@@ -64,17 +66,17 @@ public class CommandStaffChat implements CommandExecutor {
 							}
 
 							for (Player staff : plugin.getServer().getOnlinePlayers()) {
-								if (staff.hasPermission("chatmanager.staffchat")) staff.sendMessage(PlaceholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)));
+								Methods.sendMessage(staff, placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)), true);
 							}
 
-							Methods.tellConsole(PlaceholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)));
+							Methods.tellConsole(placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)), true);
 						} else {
-							player.sendMessage(Methods.color("&4Error: &cStaff chat is currently disabled and cannot be used at this time."));
+							Methods.sendMessage(player, "&4Error: &cStaff Chat is currently disabled & cannot be used at this time.", true);
 							return true;
 						}
 					}
 				} else {
-					player.sendMessage(Methods.noPermission());
+					Methods.sendMessage(player, Methods.noPermission(), true);
 				}
 			}
 		} else if (sender instanceof ConsoleCommandSender) {
@@ -86,12 +88,12 @@ public class CommandStaffChat implements CommandExecutor {
 				}
 
 				for (Player staff : plugin.getServer().getOnlinePlayers()) {
-					if (staff.hasPermission("chatmanager.staffchat")) staff.sendMessage(Methods.color(config.getString("Staff_Chat.Format").replace("{player}", sender.getName()).replace("{message}", message)));
+					if (staff.hasPermission("chatmanager.staffchat")) Methods.sendMessage(staff, config.getString("Staff_Chat.Format").replace("{player}", sender.getName()).replace("{message}", message), true);
 				}
 
-				sender.sendMessage(Methods.color(config.getString("Staff_Chat.Format").replace("{player}", sender.getName()).replace("{message}", message)));
+				Methods.sendMessage(sender, config.getString("Staff_Chat.Format").replace("{player}", sender.getName()).replace("{message}", message), true);
 			} else {
-				sender.sendMessage(Methods.color("&4Error: &cStaff chat is currently disabled and cannot be used at this time."));
+				Methods.sendMessage(sender, "&4Error: &cStaff Chat is currently disabled & cannot be used at this time.", true);
 				return true;
 			}
 		}

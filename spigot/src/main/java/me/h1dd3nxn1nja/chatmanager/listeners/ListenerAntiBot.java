@@ -64,7 +64,7 @@ public class ListenerAntiBot implements Listener {
 			if (!player.hasPermission("chatmanager.bypass.antibot")) {
 				if (Methods.cm_antiBot.contains(player.getUniqueId())) {
 					event.setCancelled(true);
-					player.sendMessage(Methods.color(player, messages.getString("Anti_Bot.Deny_Chat_Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+					Methods.sendMessage(player, messages.getString("Anti_Bot.Deny_Chat_Message"), true);
 				}
 			}
 		}
@@ -81,7 +81,7 @@ public class ListenerAntiBot implements Listener {
 			if (!player.hasPermission("chatmanager.bypass.antibot")) {
 				if (Methods.cm_antiBot.contains(player.getUniqueId())) {
 					event.setCancelled(true);
-					player.sendMessage(Methods.color(player, messages.getString("Anti_Bot.Deny_Command_Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+					Methods.sendMessage(player, messages.getString("Anti_Bot.Deny_Command_Message"), true);
 				}
 			}
 		}

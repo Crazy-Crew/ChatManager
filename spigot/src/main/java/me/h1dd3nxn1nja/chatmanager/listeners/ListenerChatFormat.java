@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
+import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,15 +11,18 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import me.h1dd3nxn1nja.chatmanager.hooks.HookManager;
-import me.h1dd3nxn1nja.chatmanager.hooks.VaultHook;
+import me.h1dd3nxn1nja.chatmanager.support.misc.VaultSupport;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
 
 public class ListenerChatFormat implements Listener {
 
-	private static final ChatManager plugin = ChatManager.getPlugin();
+	private final ChatManager plugin = ChatManager.getPlugin();
 
-	private static final SettingsManager settingsManager = plugin.getSettingsManager();
+	private final SettingsManager settingsManager = plugin.getSettingsManager();
+
+	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
+
+	private final VaultSupport vaultSupport = plugin.getPluginManager().getVaultSupport();
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onChatFormat(AsyncPlayerChatEvent event) {
@@ -26,7 +30,7 @@ public class ListenerChatFormat implements Listener {
 
 		Player player = event.getPlayer();
 		String message = event.getMessage();
-		String key = VaultHook.permission.getPrimaryGroup(player);
+		String key = vaultSupport.getPermission().getPrimaryGroup(player);
 		String format = "";
 
 		if (config.getBoolean("Chat_Format.Enable")) {
@@ -37,7 +41,7 @@ public class ListenerChatFormat implements Listener {
 			}
 
 			format = setupPlaceholderAPI(player, format);
-			format = PlaceholderManager.setPlaceholders(player, format);
+			format = placeholderManager.setPlaceholders(player, format);
 			format = setupChatRadius(player, format);
 			format = Methods.color(format);
 			format = format.replace("{message}", message);
@@ -48,8 +52,7 @@ public class ListenerChatFormat implements Listener {
 		}
 	}
 
-	public static String setupChatRadius(Player player, String message) {
-		
+	public String setupChatRadius(Player player, String message) {
 		FileConfiguration config = settingsManager.getConfig();
 		String placeholders = message;
 		
@@ -68,7 +71,7 @@ public class ListenerChatFormat implements Listener {
 	public String setupPlaceholderAPI(Player player, String message) {
 		String placeholders = message;
 
-		if ((HookManager.isPlaceholderAPILoaded()) && (PlaceholderAPI.containsPlaceholders(placeholders))) placeholders = PlaceholderAPI.setPlaceholders(player, placeholders);
+		if ((PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) && (PlaceholderAPI.containsPlaceholders(placeholders))) placeholders = PlaceholderAPI.setPlaceholders(player, placeholders);
 
 		return placeholders;
 	}

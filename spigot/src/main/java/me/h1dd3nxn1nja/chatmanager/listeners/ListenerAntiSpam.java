@@ -1,7 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import java.util.List;
-
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -37,15 +36,14 @@ public class ListenerAntiSpam implements Listener {
 							event.setCancelled(true);
 						}
 					}
+
 					Methods.cm_previousMessages.put(player, message);
 				}
 			}
 			if (config.getInt("Anti_Spam.Chat.Chat_Delay") != 0) {
 				if (!player.hasPermission("chatmanager.bypass.chatdelay")) {
 					if (Methods.cm_chatCooldown.containsKey(player)) {
-						player.sendMessage(Methods.color(player, messages.getString("Anti_Spam.Chat.Delay_Message")
-								.replace("{Prefix}", messages.getString("Message.Prefix"))
-								.replace("{Time}", String.valueOf(Methods.cm_chatCooldown.get(player)))));
+						Methods.sendMessage(player, messages.getString("Anti_Spam.Chat.Delay_Message").replace("{Time}", String.valueOf(Methods.cm_chatCooldown.get(player))), true);
 						event.setCancelled(true);
 						return;
 					}
@@ -55,6 +53,7 @@ public class ListenerAntiSpam implements Listener {
 					Methods.cm_cooldownTask.put(player, new BukkitRunnable() {
 						public void run() {
 							Methods.cm_chatCooldown.put(player, Integer.valueOf(Methods.cm_chatCooldown.get(player).intValue() - 1));
+
 							if (Methods.cm_chatCooldown.get(player).intValue() == 0) {
 								Methods.cm_chatCooldown.remove(player);
 								Methods.cm_cooldownTask.remove(player);
@@ -69,6 +68,7 @@ public class ListenerAntiSpam implements Listener {
 				return;
 			}
 
+			// TODO() I don't fucking know.
 			/*if (config.getBoolean("Anti_Spam.Chat.Anti_Flood.Enable")) {
 				if (!player.hasPermission("chatmanager.bypass.antiflood")) {
 					
@@ -98,8 +98,8 @@ public class ListenerAntiSpam implements Listener {
 
 				if (Methods.cm_previousCommand.containsKey(player)) {
 					if (command.equalsIgnoreCase(Methods.cm_previousCommand.get(player))) {
-						player.sendMessage(Methods.color(player, messages.getString("Anti_Spam.Command.Repetitive_Message")
-								.replace("{Prefix}", messages.getString("Message.Prefix"))));
+						Methods.sendMessage(player, messages.getString("Anti_Spam.Command.Repetitive_Message"), true);
+
 						event.setCancelled(true);
 					}
 				}
@@ -110,9 +110,7 @@ public class ListenerAntiSpam implements Listener {
 			if (config.getInt("Anti_Spam.Command.Command_Delay") != 0) {
 				if (!player.hasPermission("chatmanager.bypass.commanddelay")) {
 					if (Methods.cm_commandCooldown.containsKey(player)) {
-						player.sendMessage(Methods.color(player, messages.getString("Anti_Spam.Command.Delay_Message")
-								.replace("{Prefix}", messages.getString("Message.Prefix"))
-								.replace("{Time}", String.valueOf(Methods.cm_commandCooldown.get(player)))));
+						Methods.sendMessage(player, messages.getString("Anti_Spam.Command.Delay_Message").replace("{Time}", String.valueOf(Methods.cm_commandCooldown.get(player))), true);
 						event.setCancelled(true);
 						return;
 					}
@@ -121,12 +119,13 @@ public class ListenerAntiSpam implements Listener {
 						if (event.getMessage().contains(commands)) return;
 					}
 
-					Methods.cm_commandCooldown.put(player, Integer.valueOf(config.getInt("Anti_Spam.Command.Command_Delay")));
+					Methods.cm_commandCooldown.put(player, config.getInt("Anti_Spam.Command.Command_Delay"));
 
 					Methods.cm_cooldownTask.put(player, new BukkitRunnable() {
 						public void run() {
-							Methods.cm_commandCooldown.put(player, Integer.valueOf(Methods.cm_commandCooldown.get(player).intValue() - 1));
-							if (Methods.cm_commandCooldown.get(player).intValue() == 0) {
+							Methods.cm_commandCooldown.put(player, Methods.cm_commandCooldown.get(player) - 1);
+
+							if (Methods.cm_commandCooldown.get(player) == 0) {
 								Methods.cm_commandCooldown.remove(player);
 								Methods.cm_cooldownTask.remove(player);
 								cancel();
@@ -135,8 +134,6 @@ public class ListenerAntiSpam implements Listener {
 					});
 					Methods.cm_cooldownTask.get(player).runTaskTimer(plugin, 20L, 20L);
 				}
-			} else {
-				return;
 			}
 		}
 	}

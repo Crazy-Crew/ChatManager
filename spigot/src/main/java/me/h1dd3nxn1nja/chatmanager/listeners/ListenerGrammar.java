@@ -33,9 +33,8 @@ public class ListenerGrammar implements Listener {
 					String message = event.getMessage();
 
 					try {
-						message = message.replaceFirst(message.charAt(0) + "",
-								StringUtils.capitalize(message.charAt(0) + ""));
-					} catch (Exception ex) {}
+						message = message.replaceFirst(message.charAt(0) + "", StringUtils.capitalize(message.charAt(0) + ""));
+					} catch (Exception ignored) {}
 
 					if ((!(message.charAt(listChar.length - 1) + "").equals("!"))
 							&& (!(message.charAt(listChar.length - 1) + "").equals("."))

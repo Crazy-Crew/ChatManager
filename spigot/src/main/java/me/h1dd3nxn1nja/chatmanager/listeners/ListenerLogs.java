@@ -28,7 +28,7 @@ public class ListenerLogs implements Listener {
 		String message = event.getMessage();
 		Date time = Calendar.getInstance().getTime();
 		
-		if (config.getBoolean("Logs.Log_Chat") == true) {
+		if (config.getBoolean("Logs.Log_Chat")) {
 			try {
 				FileWriter fw = new FileWriter(settingsManager.getChatLogs(), true);
 				BufferedWriter bw = new BufferedWriter(fw);

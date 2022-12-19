@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
+import me.h1dd3nxn1nja.chatmanager.api.CrazyManager;
 import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -23,6 +24,8 @@ public class AutoBroadcastManager {
 
 	private static final SettingsManager settingsManager = plugin.getSettingsManager();
 	
+	private static final CrazyManager crazyManager = plugin.getCrazyManager();
+	
 	public static List<World> worlds = new ArrayList<>();
 	
 	public static void globalMessages() {
@@ -40,10 +43,10 @@ public class AutoBroadcastManager {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
 						if (autobroadcast.getBoolean("Auto_Broadcast.Global_Messages.Header_And_Footer")) {
 							player.sendMessage(Methods.color(player, autobroadcast.getString("Auto_Broadcast.Global_Messages.Header")));
-							player.sendMessage(PlaceholderManager.setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix).replace("\\n", "\n")));
+							player.sendMessage(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix).replace("\\n", "\n")));
 							player.sendMessage(Methods.color(player, autobroadcast.getString("Auto_Broadcast.Global_Messages.Footer")));	
 						} else {
-							player.sendMessage(PlaceholderManager.setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix).replace("\\n", "\n")));
+							player.sendMessage(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix).replace("\\n", "\n")));
 						}
 
 						try {
@@ -79,10 +82,10 @@ public class AutoBroadcastManager {
 							if (player.getWorld().getName().equals(world.getName())) {
 								if (autobroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Header_And_Footer")) {
 									player.sendMessage(Methods.color(player, autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Header")));
-									player.sendMessage(PlaceholderManager.setPlaceholders(player, ((String) world.getMessages().get(world.getIndex())).replace("{Prefix}", prefix).replace("\\n", "\n")));
+									player.sendMessage(crazyManager.getPlaceholderManager().setPlaceholders(player, world.getMessages().get(world.getIndex()).replace("{Prefix}", prefix).replace("\\n", "\n")));
 									player.sendMessage(Methods.color(player, autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Footer")));
 								} else {
-									player.sendMessage(PlaceholderManager.setPlaceholders(player, ((String) world.getMessages().get(world.getIndex())).replace("{Prefix}", prefix).replace("\\n", "\n")));
+									player.sendMessage(crazyManager.getPlaceholderManager().setPlaceholders(player, world.getMessages().get(world.getIndex()).replace("{Prefix}", prefix).replace("\\n", "\n")));
 								}
 								try {
 									player.playSound(player.getLocation(), Sound.valueOf(sound), 10, 1);
@@ -117,9 +120,9 @@ public class AutoBroadcastManager {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
 						if (ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1)) {
-							player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(PlaceholderManager.setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix))));
+							player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix))));
 						} else {
-							JSONMessage.create().actionbar(PlaceholderManager.setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix)), player);
+							JSONMessage.create().actionbar(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix)), player);
 						}
 
 						try {
@@ -147,14 +150,14 @@ public class AutoBroadcastManager {
 			public void run() {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
-						String title = PlaceholderManager.setPlaceholders(player, autobroadcast.getString("Auto_Broadcast.Title_Messages.Title"));
+						String title = crazyManager.getPlaceholderManager().setPlaceholders(player, autobroadcast.getString("Auto_Broadcast.Title_Messages.Title"));
 
 						if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1)) {
 							if (ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1)) {
-								player.sendTitle(title, PlaceholderManager.setPlaceholders(player, messages.get(line)), 40, 20, 40);
+								player.sendTitle(title, crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line)), 40, 20, 40);
 							} else {
 								JSONMessage.create(title).title(40, 20, 40, player);
-								JSONMessage.create(PlaceholderManager.setPlaceholders(player, messages.get(line))).subtitle(player);
+								JSONMessage.create(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line))).subtitle(player);
 							}
 						}
 
@@ -184,7 +187,7 @@ public class AutoBroadcastManager {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Bossbar_Messages.Enable")) {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
 						if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1)) {
-							BossBarUtil bossBar = new BossBarUtil(PlaceholderManager.setPlaceholders(player, messages.get(line)), org.bukkit.boss.BarColor.PINK, org.bukkit.boss.BarStyle.SOLID);
+							BossBarUtil bossBar = new BossBarUtil(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line)), org.bukkit.boss.BarColor.PINK, org.bukkit.boss.BarStyle.SOLID);
 
 							if (autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Bar_Time") == -1) {
 								bossBar.removeBossBar(player);

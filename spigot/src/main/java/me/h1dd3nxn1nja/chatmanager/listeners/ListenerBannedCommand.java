@@ -33,9 +33,7 @@ public class ListenerBannedCommand implements Listener {
 					for (String command : cmd) {
 						if (event.getMessage().toLowerCase().equals("/" + command)) {
 							event.setCancelled(true);
-							player.sendMessage(Methods.color(player, messages.getString("Banned_Commands.Message")
-									.replace("{Prefix}", messages.getString("Message.Prefix"))
-									.replace("{command}", command)));
+							Methods.sendMessage(player, messages.getString("Banned_Commands.Message").replace("{command}", command), true);
 							NotifyStaff(player, command);
 							TellConsole(player, command);
 							ExecuteCommand(player);
@@ -45,9 +43,7 @@ public class ListenerBannedCommand implements Listener {
 					for (String command : cmd) {
 						if (event.getMessage().toLowerCase().contains("/" + command)) {
 							event.setCancelled(true);
-							player.sendMessage(Methods.color(player, messages.getString("Banned_Commands.Message")
-									.replace("{Prefix}", messages.getString("Message.Prefix"))
-									.replace("{command}", command)));
+							Methods.sendMessage(player, messages.getString("Banned_Commands.Message").replace("{command}", command), true);
 							NotifyStaff(player, command);
 							TellConsole(player, command);
 							ExecuteCommand(player);
@@ -59,8 +55,7 @@ public class ListenerBannedCommand implements Listener {
 			if (!player.hasPermission("chatmanager.bypass.coloncommands")) {
 				if (event.getMessage().split(" ")[0].contains(":")) {
 					event.setCancelled(true);
-					player.sendMessage(Methods.color(player, messages.getString("Banned_Commands.Message")
-							.replace("{Prefix}", messages.getString("Message.Prefix")).replace("{command}", event.getMessage().replace("/", ""))));
+					Methods.sendMessage(player, messages.getString("Banned_Commands.Message").replace("{command}", event.getMessage().replace("/", "")), true);
 					NotifyStaff(player, event.getMessage().replace("/", ""));
 					TellConsole(player, event.getMessage().replace("/", ""));
 					ExecuteCommand(player);
@@ -76,9 +71,7 @@ public class ListenerBannedCommand implements Listener {
 		if (config.getBoolean("Banned_Commands.Notify_Staff")) {
 			for (Player staff : plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission("chatmanager.notify.bannedcommands")) {
-					staff.sendMessage(Methods.color(player, messages.getString("Banned_Commands.Notify_Staff_Format")
-							.replace("{player}", player.getName()).replace("{command}", message)
-							.replace("{Prefix}", messages.getString("Message.Prefix"))));
+					Methods.sendMessage(staff, messages.getString("Banned_Commands.Message").replace("{player}", player.getName()).replace("{command}", message), true);
 				}
 			}
 		}
@@ -89,9 +82,7 @@ public class ListenerBannedCommand implements Listener {
 		FileConfiguration messages = settingsManager.getMessages();
 		
 		if (config.getBoolean("Banned_Commands.Notify_Staff")) {
-			Methods.tellConsole(Methods.color(player, messages.getString("Banned_Commands.Notify_Staff_Format")
-					.replace("{player}", player.getName()).replace("{command}", message)
-					.replace("{Prefix}", messages.getString("Message.Prefix"))));
+			Methods.tellConsole(messages.getString("Banned_Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{command}", message), true);
 		}
 	}
 
@@ -106,6 +97,7 @@ public class ListenerBannedCommand implements Listener {
 				new BukkitRunnable() {
 					public void run() {
 						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+
 						for (String cmd : commands) {
 							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 						}

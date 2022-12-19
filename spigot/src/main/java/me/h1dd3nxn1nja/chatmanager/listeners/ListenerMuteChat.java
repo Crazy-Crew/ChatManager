@@ -24,7 +24,7 @@ public class ListenerMuteChat implements Listener {
 		
 		if (!player.hasPermission("chatmanager.bypass.mutechat")) {
 			if (Methods.getMuted()) {
-				player.sendMessage(Methods.color(player, messages.getString("Mute_Chat.Denied_Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+				Methods.sendMessage(player, messages.getString("Mute_Chat.Denied_Message"), true);
 				event.setCancelled(true);
 			}
 		}
@@ -42,7 +42,7 @@ public class ListenerMuteChat implements Listener {
 				if (Methods.getMuted()) {
 					for (String command : config.getStringList("Mute_Chat.Disabled_Commands")) {
 						if (event.getMessage().toLowerCase().contains(command)) {
-							player.sendMessage(Methods.color(player, messages.getString("Mute_Chat.Blocked_Commands.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+							Methods.sendMessage(player, messages.getString("Mute_Chat.Blocked_Commands.Message"), true);
 							event.setCancelled(true);
 							return;
 						}

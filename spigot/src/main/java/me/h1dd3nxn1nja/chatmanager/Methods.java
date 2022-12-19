@@ -8,6 +8,8 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -82,11 +84,11 @@ public class Methods {
 	}
 	
 	public static String getPrefix() {
-		return color(settingsManager.getMessages().getString("Message.Prefix"));
+		return settingsManager.getMessages().getString("Message.Prefix");
 	}
 	
 	public static String noPermission() {
-		return color(settingsManager.getMessages().getString("Message.No_Permission").replace("{Prefix}", settingsManager.getMessages().getString("Message.Prefix")));
+		return settingsManager.getMessages().getString("Message.No_Permission");
 	}
 	
 	public static boolean getMuted() {
@@ -97,12 +99,13 @@ public class Methods {
 		return ListenerCaps.upperCase.contains(string);
 	}
 	
-	public static void tellConsole(String message){
-	    new BukkitRunnable() {
-			public void run() {
-				plugin.getServer().getConsoleSender().sendMessage(message);
-			}
-		}.runTask(plugin);
+	public static void tellConsole(String message, boolean prefix) {
+		if (prefix) {
+			sendMessage(plugin.getServer().getConsoleSender(), message, true);
+			return;
+		}
+
+		sendMessage(plugin.getServer().getConsoleSender(), message, false);
 	}
 	
 	public static boolean inRange(Player player, Player receiver, int radius) {
@@ -118,11 +121,36 @@ public class Methods {
 
 		return false;
 	}
-	
-	public static boolean doesPluginExist(String pluginName) {
-		boolean hooked = plugin.getServer().getPluginManager().getPlugin(pluginName) != null;
-		if (hooked) plugin.getLogger().info("Hooked into: " + pluginName + " v" + plugin.getServer().getPluginManager().getPlugin(pluginName).getDescription().getVersion());
 
-		return hooked;
+	public static void sendMessage(CommandSender commandSender, String message, boolean prefixToggle) {
+		if (message == null || message.isEmpty()) return;
+
+		SettingsManager messages = plugin.getSettingsManager();
+
+		String prefix = messages.Messages.getString("Message.Prefix");
+
+		if (commandSender instanceof Player) {
+			Player player = (Player) commandSender;
+
+			if (prefix != null && !prefix.isEmpty() && prefixToggle) player.sendMessage(color(message.replace("{Prefix}", prefix))); else player.sendMessage(color(message));
+
+			return;
+		}
+
+		if (prefix != null && !prefix.isEmpty() && prefixToggle) commandSender.sendMessage(color(message.replace("{Prefix}", prefix))); else commandSender.sendMessage(color(message));
+	}
+
+	public static void broadcast(String message) {
+		if (message == null || message.isEmpty()) return;
+
+		SettingsManager messages = plugin.getSettingsManager();
+
+		String prefix = messages.Messages.getString("Message.Prefix");
+
+		if (prefix != null && !prefix.isEmpty()) plugin.getServer().broadcastMessage(color(message.replace("{Prefix}", prefix))); else plugin.getServer().broadcastMessage(color(message));
+	}
+
+	public static void logWarning(String message) {
+		plugin.getLogger().warning(message);
 	}
 }

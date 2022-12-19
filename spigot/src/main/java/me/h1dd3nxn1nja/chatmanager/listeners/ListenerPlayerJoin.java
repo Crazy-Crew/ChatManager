@@ -23,6 +23,8 @@ public class ListenerPlayerJoin implements Listener {
 	private final ChatManager plugin = ChatManager.getPlugin();
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
+
+	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void firstJoinMessage(PlayerJoinEvent event) {
@@ -33,7 +35,7 @@ public class ListenerPlayerJoin implements Listener {
 		if (!player.hasPlayedBefore()) {
 			if (config.getBoolean("Messages.First_Join.Welcome_Message.Enable")) {
 				String message = config.getString("Messages.First_Join.Welcome_Message.First_Join_Message");
-				event.setJoinMessage(PlaceholderManager.setPlaceholders(player, message));
+				event.setJoinMessage(placeholderManager.setPlaceholders(player, message));
 
 				for (Player online : plugin.getServer().getOnlinePlayers()) {
 					try {
@@ -46,9 +48,9 @@ public class ListenerPlayerJoin implements Listener {
 				String message = config.getString("Messages.First_Join.Actionbar_Message.First_Join_Message");
 
 				if ((ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1))) {
-					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(PlaceholderManager.setPlaceholders(player, message)));
+					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(placeholderManager.setPlaceholders(player, message)));
 				} else {
-					JSONMessage.create().actionbar(PlaceholderManager.setPlaceholders(player, message), player);
+					JSONMessage.create().actionbar(placeholderManager.setPlaceholders(player, message), player);
 				}
 			}
 
@@ -57,8 +59,8 @@ public class ListenerPlayerJoin implements Listener {
 					int fadeIn = config.getInt("Messages.First_Join.Title_Message.Fade_In");
 					int stay = config.getInt("Messages.First_Join.Title_Message.Stay");
 					int fadeOut = config.getInt("Messages.First_Join.Title_Message.Fade_Out");
-					String header = PlaceholderManager.setPlaceholders(player, config.getString("Messages.First_Join.Title_Message.First_Join_Message.Header"));
-					String footer = PlaceholderManager.setPlaceholders(player, config.getString("Messages.First_Join.Title_Message.First_Join_Message.Footer"));
+					String header = placeholderManager.setPlaceholders(player, config.getString("Messages.First_Join.Title_Message.First_Join_Message.Header"));
+					String footer = placeholderManager.setPlaceholders(player, config.getString("Messages.First_Join.Title_Message.First_Join_Message.Footer"));
 
 					if ((ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1))) {
 						player.sendTitle(header, footer, fadeIn, stay, fadeOut);
@@ -78,10 +80,10 @@ public class ListenerPlayerJoin implements Listener {
 		Player player = event.getPlayer();
 		
 		if (player.hasPlayedBefore()) {
-			if ((config.getBoolean("Messages.Join_Quit_Messages.Join_Message.Enable") == true) 
-					&& (config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable")) == false) {
+			if ((config.getBoolean("Messages.Join_Quit_Messages.Join_Message.Enable"))
+					&& !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
 				String message = config.getString("Messages.Join_Quit_Messages.Join_Message.Message");
-				event.setJoinMessage(PlaceholderManager.setPlaceholders(player, message));
+				event.setJoinMessage(placeholderManager.setPlaceholders(player, message));
 
 				for (Player online : plugin.getServer().getOnlinePlayers()) {
 					try {
@@ -89,25 +91,25 @@ public class ListenerPlayerJoin implements Listener {
 					} catch (IllegalArgumentException ignored) {}
 				}
 			}
-			if ((config.getBoolean("Messages.Join_Quit_Messages.Actionbar_Message.Enable") == true)
-					&& (config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable")) == false) {
+			if ((config.getBoolean("Messages.Join_Quit_Messages.Actionbar_Message.Enable"))
+					&& !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
 				String message = config.getString("Messages.Join_Quit_Messages.Actionbar_Message.Message");
 
 				if ((ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1))) {
-					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(PlaceholderManager.setPlaceholders(player, message)));
+					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(placeholderManager.setPlaceholders(player, message)));
 				} else {
-					JSONMessage.create().actionbar(PlaceholderManager.setPlaceholders(player, message), player);
+					JSONMessage.create().actionbar(placeholderManager.setPlaceholders(player, message), player);
 				}
 			}
 
 			if ((ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1))) {
-				if ((config.getBoolean("Messages.Join_Quit_Messages.Title_Message.Enable") == true)
-						&& (config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable")) == false) {
+				if ((config.getBoolean("Messages.Join_Quit_Messages.Title_Message.Enable"))
+						&& !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
 					int fadeIn = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_In");
 					int stay = config.getInt("Messages.Join_Quit_Messages.Title_Message.Stay");
 					int fadeOut = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_Out");
-					String header = PlaceholderManager.setPlaceholders(player, config.getString("Messages.Join_Quit_Messages.Title_Message.Message.Header"));
-					String footer = PlaceholderManager.setPlaceholders(player, config.getString("Messages.Join_Quit_Messages.Title_Message.Message.Footer"));
+					String header = placeholderManager.setPlaceholders(player, config.getString("Messages.Join_Quit_Messages.Title_Message.Message.Header"));
+					String footer = placeholderManager.setPlaceholders(player, config.getString("Messages.Join_Quit_Messages.Title_Message.Message.Footer"));
 
 					if ((ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1))) {
 						player.sendTitle(header, footer, fadeIn, stay, fadeOut);
@@ -133,7 +135,7 @@ public class ListenerPlayerJoin implements Listener {
 					if (permission != null && player.hasPermission(permission)) {
 						if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Join_Message")) {
 							try {
-							event.setJoinMessage(PlaceholderManager.setPlaceholders(player, joinMessage));
+							event.setJoinMessage(placeholderManager.setPlaceholders(player, joinMessage));
 							} catch (NullPointerException ex) {
 								ex.printStackTrace();
 							}
@@ -142,9 +144,9 @@ public class ListenerPlayerJoin implements Listener {
 						if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Actionbar")) {
 							try {
 								if ((ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1))) {
-									player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(PlaceholderManager.setPlaceholders(player, actionbarMessage)));
+									player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(placeholderManager.setPlaceholders(player, actionbarMessage)));
 								} else {
-									JSONMessage.create().actionbar(PlaceholderManager.setPlaceholders(player, actionbarMessage), player);
+									JSONMessage.create().actionbar(placeholderManager.setPlaceholders(player, actionbarMessage), player);
 								}
 							} catch (NullPointerException ex) {
 								ex.printStackTrace();
@@ -154,10 +156,10 @@ public class ListenerPlayerJoin implements Listener {
 						if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Title")) {
 							try {
 								if ((ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1))) {
-									player.sendTitle(PlaceholderManager.setPlaceholders(player, titleHeader), PlaceholderManager.setPlaceholders(player, titleFooter), fadeIn, stay, fadeOut);
+									player.sendTitle(placeholderManager.setPlaceholders(player, titleHeader), placeholderManager.setPlaceholders(player, titleFooter), fadeIn, stay, fadeOut);
 								} else {
-									JSONMessage.create(PlaceholderManager.setPlaceholders(player, titleHeader)).title(fadeIn, stay, fadeOut, player);
-									JSONMessage.create(PlaceholderManager.setPlaceholders(player, titleFooter)).subtitle(player);
+									JSONMessage.create(placeholderManager.setPlaceholders(player, titleHeader)).title(fadeIn, stay, fadeOut, player);
+									JSONMessage.create(placeholderManager.setPlaceholders(player, titleFooter)).subtitle(player);
 								}
 							} catch (NullPointerException ex) {
 								ex.printStackTrace();
@@ -183,10 +185,10 @@ public class ListenerPlayerJoin implements Listener {
 
 		Player player = event.getPlayer();
 		
-		if ((config.getBoolean("Messages.Join_Quit_Messages.Quit_Message.Enable") == true) 
-				&& (config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable")) == false) {
+		if ((config.getBoolean("Messages.Join_Quit_Messages.Quit_Message.Enable"))
+				&& !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
 			String message = config.getString("Messages.Join_Quit_Messages.Quit_Message.Message");
-			event.setQuitMessage(PlaceholderManager.setPlaceholders(player, message));
+			event.setQuitMessage(placeholderManager.setPlaceholders(player, message));
 
 			for (Player online : plugin.getServer().getOnlinePlayers()) {
 				try {
@@ -202,7 +204,7 @@ public class ListenerPlayerJoin implements Listener {
 
 				if (permission != null && player.hasPermission(permission)) {
 					if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Quit_Message")) {
-						event.setQuitMessage(PlaceholderManager.setPlaceholders(player, quitMessage));
+						event.setQuitMessage(placeholderManager.setPlaceholders(player, quitMessage));
 					}
 				}
 			}
@@ -249,7 +251,7 @@ public class ListenerPlayerJoin implements Listener {
 			public void run() {
 				if (config.getBoolean("MOTD.Enable")) {
 					for (String motd : config.getStringList("MOTD.Message")) {
-						player.sendMessage(PlaceholderManager.setPlaceholders(player, motd));
+						player.sendMessage(placeholderManager.setPlaceholders(player, motd));
 					}
 				}
 			}

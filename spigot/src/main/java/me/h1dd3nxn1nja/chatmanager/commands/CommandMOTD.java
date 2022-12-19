@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,6 +16,8 @@ public class CommandMOTD implements Listener {
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
+	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
+
 	@EventHandler
 	public void MOTD(PlayerCommandPreprocessEvent e) {
 		Player player = e.getPlayer();
@@ -26,7 +29,7 @@ public class CommandMOTD implements Listener {
 		if (config.getBoolean("MOTD.Enable")) {
 			if (message.equalsIgnoreCase("/MOTD")) {
 				for (String motd : config.getStringList("MOTD.Message")) {
-					player.sendMessage(PlaceholderManager.setPlaceholders(player, motd));
+					Methods.sendMessage(player, placeholderManager.setPlaceholders(player, motd), true);
 				}
 
 				e.setCancelled(true);

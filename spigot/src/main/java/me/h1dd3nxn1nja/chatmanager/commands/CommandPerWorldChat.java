@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandPerWorldChat implements CommandExecutor {
 
@@ -15,50 +16,47 @@ public class CommandPerWorldChat implements CommandExecutor {
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration messages = settingsManager.getMessages();
 
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("Error: You can only use that command in game");
+			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
 		
 		Player player = (Player) sender;
 
-		if (sender instanceof Player) {
-			if (cmd.getName().equalsIgnoreCase("perworldchat")) {
-				if (player.hasPermission("chatmanager.perworldchat")) {
-					if (args.length == 0) {
-						player.sendMessage(Methods.color("&cCommand Usage: &7/Perworldchat bypass"));
-						return true;
-					}
-				} else {
-					player.sendMessage(Methods.noPermission());
+		if (cmd.getName().equalsIgnoreCase("perworldchat")) {
+			if (player.hasPermission("chatmanager.perworldchat")) {
+				if (args.length == 0) {
+					Methods.sendMessage(player, "&cCommand Usage: &7/Perworldchat bypass", true);
 					return true;
 				}
+			} else {
+				Methods.sendMessage(player, Methods.noPermission(), true);
+				return true;
+			}
 
-				if (args[0].equalsIgnoreCase("bypass")) {
-					if (player.hasPermission("chatmanager.perworldchat")) {
-						if (args.length == 1) {
-							if (config.getBoolean("Per_World_Chat.Enable")) {
-								if (!Methods.cm_pwcGlobal.contains(player.getUniqueId())) {
-									Methods.cm_pwcGlobal.add(player.getUniqueId());
-									player.sendMessage(Methods.color(player, messages.getString("Per_World_Chat.Bypass_Enabled").replace("{Prefix}", messages.getString("Message.Prefix"))));
-								} else {
-									Methods.cm_pwcGlobal.remove(player.getUniqueId());
-									player.sendMessage(Methods.color(player, messages.getString("Per_World_Chat.Bypass_Disabled").replace("{Prefix}", messages.getString("Message.Prefix"))));
-								}
+			if (args[0].equalsIgnoreCase("bypass")) {
+				if (player.hasPermission("chatmanager.perworldchat")) {
+					if (args.length == 1) {
+						if (config.getBoolean("Per_World_Chat.Enable")) {
+							if (!Methods.cm_pwcGlobal.contains(player.getUniqueId())) {
+								Methods.cm_pwcGlobal.add(player.getUniqueId());
+								Methods.sendMessage(player, messages.getString("Per_World_Chat.Bypass_Enabled"), true);
 							} else {
-								player.sendMessage(Methods.color("&4Error: &cPer-world chat is currently disabled and you cannot execute that command at this time."));
+								Methods.cm_pwcGlobal.remove(player.getUniqueId());
+								Methods.sendMessage(player, messages.getString("Per_World_Chat.Bypass_Disabled"), true);
 							}
 						} else {
-							player.sendMessage(Methods.color("&cCommand Usage: &7/Perworldchat bypass"));
+							Methods.sendMessage(player, "&4Error: &cPer-world chat is currently disabled and you cannot execute that command at this time.", true);
 						}
 					} else {
-						player.sendMessage(Methods.noPermission());
+						Methods.sendMessage(player, "&cCommand Usage: &7/Perworldchat bypass", true);
 					}
+				} else {
+					Methods.sendMessage(player, Methods.noPermission(), true);
 				}
 			}
 		}

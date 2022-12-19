@@ -16,6 +16,8 @@ public class ListenerStaffChat implements Listener {
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
+	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
+
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
 
@@ -28,10 +30,10 @@ public class ListenerStaffChat implements Listener {
 			event.setCancelled(true);
 
 			for (Player staff : plugin.getServer().getOnlinePlayers()) {
-				if (staff.hasPermission("chatmanager.staffchat")) staff.sendMessage(PlaceholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)));
+				if (staff.hasPermission("chatmanager.staffchat")) staff.sendMessage(placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)));
 			}
 
-			Methods.tellConsole(PlaceholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)));
+			Methods.tellConsole(placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)), false);
 		}
 	}
 }

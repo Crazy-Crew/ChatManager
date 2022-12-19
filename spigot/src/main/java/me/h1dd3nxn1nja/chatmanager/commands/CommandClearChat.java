@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandClearChat implements CommandExecutor {
 
@@ -16,8 +17,7 @@ public class CommandClearChat implements CommandExecutor {
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
 	
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		
+	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
 		FileConfiguration messages = settingsManager.getMessages();
 		
 		if (cmd.getName().equalsIgnoreCase("ClearChat")) {
@@ -31,26 +31,24 @@ public class CommandClearChat implements CommandExecutor {
 								Player player = (Player) sender;
 
 								for (String broadcastMessage : messages.getStringList("Clear_Chat.Broadcast_Message")) {
-									members.sendMessage(Methods.color(player, broadcastMessage.replace("{player}", player.getName())));
+									Methods.sendMessage(members, broadcastMessage.replace("{player}", player.getName()), true);
 								}
 							} else if (sender instanceof ConsoleCommandSender) {
 								for (String broadcastMessage : messages.getStringList("Clear_Chat.Broadcast_Message")) {
-									members.sendMessage(Methods.color(broadcastMessage.replace("{player}", sender.getName())));
+									Methods.sendMessage(members, broadcastMessage.replace("{player}", sender.getName()), true);
 								}
 
-								sender.sendMessage(Methods.color(messages.getString("Clear_Chat.Staff_Message")
-										.replace("{player}", sender.getName()).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								Methods.sendMessage(sender, messages.getString("Clear_Chat.Staff_Message").replace("{player}", sender.getName()), true);
 							}
 						} else {
-							members.sendMessage(Methods.color(messages.getString("Clear_Chat.Staff_Message")
-									.replace("{player}", sender.getName()).replace("{Prefix}", messages.getString("Message.Prefix"))));
+							Methods.sendMessage(sender, messages.getString("Clear_Chat.Staff_Message").replace("{player}", sender.getName()), true);
 						}
 					}
 				} else {
-					sender.sendMessage(Methods.color("&cCommand Usage: &7/Clearchat"));
+					Methods.sendMessage(sender, "&cCommand Usage: &7/Clearchat", true);
 				}
 			} else {
-				sender.sendMessage(Methods.noPermission());
+				Methods.sendMessage(sender, Methods.noPermission(), true);
 			}
 		}
 

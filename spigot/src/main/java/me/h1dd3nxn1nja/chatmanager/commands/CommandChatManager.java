@@ -2,7 +2,6 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
-import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,6 +14,7 @@ import me.h1dd3nxn1nja.chatmanager.managers.AutoBroadcastManager;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
 import me.h1dd3nxn1nja.chatmanager.utils.Debug;
 import me.h1dd3nxn1nja.chatmanager.utils.JSONMessage;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandChatManager implements CommandExecutor {
 
@@ -22,15 +22,14 @@ public class CommandChatManager implements CommandExecutor {
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
+	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
 		FileConfiguration messages = settingsManager.getMessages();
 
 		if (cmd.getName().equalsIgnoreCase("ChatManager")) {
 			if (args.length == 0) {
-				sender.sendMessage(Methods.color("&7This server is using the plugin &cChatManager "
-						+ "&7version " + plugin.getDescription().getVersion() + " by &cH1DD3NxN1NJA."));
-				sender.sendMessage(Methods.color("&7Commands: &c/Chatmanager help"));
+				Methods.sendMessage(sender, "&7This server is using the plugin &cChatManager &7version " + plugin.getDescription().getVersion() + " by &cH1DD3NxN1NJA.", true);
+				Methods.sendMessage(sender, "&7Commands: &c/Chatmanager help", true);
+				
 				return true;
 			}
 			
@@ -64,91 +63,93 @@ public class CommandChatManager implements CommandExecutor {
 							if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Per_World_Messages.Enable")) AutoBroadcastManager.perWorldMessages();
 							if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Title_Messages.Enable")) AutoBroadcastManager.titleMessages();
 							if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Bossbar_Messages.Enable")) AutoBroadcastManager.bossBarMessages();
-						} catch (Exception ex) {
-							plugin.getServer().getConsoleSender().sendMessage("There has been an error setting up auto broadcast. Stacktrace...");
-							ex.printStackTrace();
+						} catch (Exception e) {
+							Methods.tellConsole("There was an error setting up auto broadcast. Stack-trace:", true);
+							e.printStackTrace();
 						}
 						
-						sender.sendMessage(Methods.color(messages.getString("Message.Reload").replace("{Prefix}", messages.getString("Message.Prefix"))));
+						Methods.sendMessage(sender, messages.getString("Message.Reload"), true);
 						
 					} else {
-						sender.sendMessage(Methods.color("&cCommand Usage: &7/Chatmanager reload"));
+						Methods.sendMessage(sender, "&cCommand Usage: &7/Chatmanager reload", true);
 					}
 				} else {
-					sender.sendMessage(Methods.noPermission());
+					Methods.sendMessage(sender, Methods.noPermission(), true);
 				}
 			}
 
 			if (args[0].equalsIgnoreCase("debug")) {
 				if (!sender.hasPermission("chatmanager.debug")) {
-					sender.sendMessage(Methods.noPermission());
+					Methods.sendMessage(sender, Methods.noPermission(), true);
 					return true;
 				}
 
 				if (args.length == 1) {
-					sender.sendMessage("");
-					sender.sendMessage(Methods.color(" &3Chat Manager Debug Help Menu &f(v" + plugin.getDescription().getVersion() + ")"));
-					sender.sendMessage("");
-					sender.sendMessage(Methods.color(" &f/Chatmanager Debug &e- Shows a list of commands to debug."));
-					sender.sendMessage(Methods.color(" &f/Chatmanager Debug All &e- Debugs all the configuration files."));
-					sender.sendMessage(Methods.color(" &f/Chatmanager Debug AutoBroadcast &e- Debugs the autobroadcast.yml file"));
-					sender.sendMessage(Methods.color(" &f/Chatmanager Debug Config &e- Debugs the config.yml file."));
-					sender.sendMessage(Methods.color(" &f/Chatmanager Debug Messages &e- Debugs the messages.yml file."));
-					sender.sendMessage("");
+					
+					Methods.sendMessage(sender, "", true);
+					Methods.sendMessage(sender, "&3ChatManager Debug Help Menu &f(v" + plugin.getDescription().getVersion() + ")", true);
+					Methods.sendMessage(sender, "", true);
+					Methods.sendMessage(sender, " &f/Chatmanager Debug &e- Shows a list of commands to debug.", true);
+					Methods.sendMessage(sender, " &f/Chatmanager Debug All &e- Debugs all configuration files.", true);
+					Methods.sendMessage(sender, " &f/Chatmanager Debug AutoBroadcast &e- Debugs the autobroadcast.yml file.", true);
+					Methods.sendMessage(sender, " &f/Chatmanager Debug Config &e- Debugs the config.yml file.", true);
+					Methods.sendMessage(sender, " &f/Chatmanager Debug Messages &e- Debugs the messages.yml file", true);
+					Methods.sendMessage(sender, "", true);
+					
 					return true;
 				}
 
 				if (args[1].equalsIgnoreCase("all")) {
 					if (sender.hasPermission("chatmanager.debug")) {
 						if (args.length == 2) {
-							sender.sendMessage(Methods.color(Methods.getPrefix() + " &7Debugging all configuration files, please go to your console to see the debug log."));
+							Methods.sendMessage(sender, "&7Debugging all configuration files, Please go to your console to see the debug low.", true);
 							Debug.debugAutoBroadcast();
 							Debug.debugConfig();
 							Debug.debugMessages();
 						} else {
-							sender.sendMessage(Methods.color("&cCommand Usage: &7/Chatmanager debug all"));
+							Methods.sendMessage(sender, "&cCommand Usage: &7/Chatmanager debug all", true);
 						}
 					} else {
-						sender.sendMessage(Methods.noPermission());
+						Methods.sendMessage(sender, Methods.noPermission(), true);
 					}
 				}
 
 				if (args[1].equalsIgnoreCase("autobroadcast")) {
 					if (sender.hasPermission("chatmanager.debug")) {
 						if (args.length == 2) {
-							sender.sendMessage(Methods.color(Methods.getPrefix() + " &7Debugging autobroadcast, please go to your console to see the debug log."));
+							Methods.sendMessage(sender, "&7Debugging autobroadcast, Please go to your console to see the debug log.", true);
 							Debug.debugAutoBroadcast();
 						} else {
-							sender.sendMessage(Methods.color("&cCommand Usage: &7/Chatmanager debug autobroadcast"));
+							Methods.sendMessage(sender, "&cCommand Usage: &7/Chatmanager debug autobroadcast", true);
 						}
 					} else {
-						sender.sendMessage(Methods.noPermission());
+						Methods.sendMessage(sender, Methods.noPermission(), true);
 					}
 				}
 
 				if (args[1].equalsIgnoreCase("config")) {
 					if (sender.hasPermission("chatmanager.debug")) {
 						if (args.length == 2) {
-							sender.sendMessage(Methods.color(Methods.getPrefix() + " &7Debugging config, please go to your console to see the debug."));
+							Methods.sendMessage(sender, "&7Debugging config, Please go to your console to see the debug log.", true);
 							Debug.debugConfig();
 						} else {
-							sender.sendMessage(Methods.color("&cCommand Usage: &7/Chatmanager debug config"));
+							Methods.sendMessage(sender, "&cCommand Usage: &7/Chatmanager debug config", true);
 						}
 					} else {
-						sender.sendMessage(Methods.noPermission());
+						Methods.sendMessage(sender, Methods.noPermission(), true);
 					}
 				}
 
 				if (args[1].equalsIgnoreCase("messages")) {
 					if (sender.hasPermission("chatmanager.debug")) {
 						if (args.length == 2) {
-							sender.sendMessage(Methods.color(Methods.getPrefix() + " &7Debugging messages, please go to your console to see the debug."));
+							Methods.sendMessage(sender, "&7Debugging config, Please go to your console to see the debug log.", true);
 							Debug.debugMessages();
 						} else {
-							sender.sendMessage(Methods.color("&cCommand Usage: &7/Chatmanager debug messages"));
+							Methods.sendMessage(sender, "&cCommand Usage: &7/Chatmanager debug messages", true);
 						}
 					} else {
-						sender.sendMessage(Methods.noPermission());
+						Methods.sendMessage(sender, Methods.noPermission(), true);
 					}
 				}
 			}
@@ -183,21 +184,21 @@ public class CommandChatManager implements CommandExecutor {
 							JSONMessage.create("").send(player);
 						return true;
 					} else {
-						player.sendMessage("");
-						player.sendMessage(Methods.color(" &3Chat Manager &f(v" + plugin.getDescription().getVersion() + ")"));
-						player.sendMessage("");
-						player.sendMessage(Methods.color(" &6<> &f= Required Arguments"));
-						player.sendMessage("");
-						player.sendMessage(Methods.color(" &f/Chatmanager Help &e- Help menu for chat manager."));
-						player.sendMessage(Methods.color(" &f/Chatmanager Reload &e- Reloads all the configuration files."));
-						player.sendMessage(Methods.color(" &f/Chatmanager Debug &e- Debugs all the configuration files."));
-						player.sendMessage(Methods.color(" &f/AntiSwear &6- Shows a list of commands for Anti Swear."));
-						player.sendMessage(Methods.color(" &f/AutoBroadcast &e- Shows a list of commands for Auto-Broadcast."));
-						player.sendMessage(Methods.color(" &f/BannedCommands &e- Shows a list of commands for Banned Commands."));
-						player.sendMessage(Methods.color(" &f/ChatRadius &e- Shows a list of commands for Chat Radius."));
-						player.sendMessage("");
-						player.sendMessage(Methods.color(" &7Page 1/3. Type /Chatmanager help 2 to go to the next page."));
-						player.sendMessage("");
+						Methods.sendMessage(player,"", true);
+						Methods.sendMessage(player, "&3Chat Manager &f(v" + plugin.getDescription().getVersion() + ")", true);
+						Methods.sendMessage(player,"", true);
+						Methods.sendMessage(player, "&6<> &f= Required Arguments", true);
+						Methods.sendMessage(player,"", true);
+						Methods.sendMessage(player, "&f/Chatmanager Help &e- Help menu for chat manager.", true);
+						Methods.sendMessage(player, "&f/Chatmanager Reload &e- Reloads all the configuration files.", true);
+						Methods.sendMessage(player, "&f/Chatmanager Debug &e- Debugs all the configuration files.", true);
+						Methods.sendMessage(player, "&f/AntiSwear &6- Shows a list of commands for Anti Swear.", true);
+						Methods.sendMessage(player, "&f/AutoBroadcast &e- Shows a list of commands for Auto-Broadcast.", true);
+						Methods.sendMessage(player, "&f/BannedCommands &e- Shows a list of commands for Banned Commands.", true);
+						Methods.sendMessage(player, "&f/ChatRadius &e- Shows a list of commands for Chat Radius.", true);
+						Methods.sendMessage(player,"", true);
+						Methods.sendMessage(player, "&7Page 1/3. Type /Chatmanager help 2 to go to the next page.", true);
+						Methods.sendMessage(player,"", true);
 						return true;
 						}
 					}
@@ -229,21 +230,21 @@ public class CommandChatManager implements CommandExecutor {
 								JSONMessage.create("").send(player);
 							return true;
 						} else {
-							player.sendMessage("");
-							player.sendMessage(Methods.color(" &3Chat Manager &f(v" + plugin.getDescription().getVersion() + ")"));
-							player.sendMessage("");
-							player.sendMessage(Methods.color(" &6<> &f= Required Arguments"));
-							player.sendMessage("");
-							player.sendMessage(Methods.color(" &f/Chatmanager Help &e- Help menu for chat manager."));
-							player.sendMessage(Methods.color(" &f/Chatmanager Reload &e- Reloads all the configuration files."));
-							player.sendMessage(Methods.color(" &f/Chatmanager Debug &e- Debugs all the configuration files."));
-							player.sendMessage(Methods.color(" &f/AntiSwear &6- Shows a list of commands for Anti Swear."));
-							player.sendMessage(Methods.color(" &f/AutoBroadcast &e- Shows a list of commands for Auto-Broadcast."));
-							player.sendMessage(Methods.color(" &f/BannedCommands &e- Shows a list of commands for Banned Commands."));
-							player.sendMessage(Methods.color(" &f/ChatRadius &e- Shows a list of commands for Chat Radius."));
-							player.sendMessage("");
-							player.sendMessage(Methods.color(" &7Page 1/3. Type /Chatmanager help 2 to go to the next page."));
-							player.sendMessage("");
+							Methods.sendMessage(player,"", true);
+							Methods.sendMessage(player, "&3Chat Manager &f(v" + plugin.getDescription().getVersion() + ")", true);
+							Methods.sendMessage(player,"", true);
+							Methods.sendMessage(player, "&6<> &f= Required Arguments", true);
+							Methods.sendMessage(player,"", true);
+							Methods.sendMessage(player, "&f/Chatmanager Help &e- Help menu for chat manager.", true);
+							Methods.sendMessage(player, "&f/Chatmanager Reload &e- Reloads all the configuration files.", true);
+							Methods.sendMessage(player, "&f/Chatmanager Debug &e- Debugs all the configuration files.", true);
+							Methods.sendMessage(player, "&f/AntiSwear &6- Shows a list of commands for Anti Swear.", true);
+							Methods.sendMessage(player, "&f/AutoBroadcast &e- Shows a list of commands for Auto-Broadcast.", true);
+							Methods.sendMessage(player, "&f/BannedCommands &e- Shows a list of commands for Banned Commands.", true);
+							Methods.sendMessage(player, "&f/ChatRadius &e- Shows a list of commands for Chat Radius.", true);
+							Methods.sendMessage(player,"", true);
+							Methods.sendMessage(player, "&7Page 1/3. Type /Chatmanager help 2 to go to the next page.", true);
+							Methods.sendMessage(player,"", true);
 							return true;
 							}
 						}
@@ -282,24 +283,24 @@ public class CommandChatManager implements CommandExecutor {
 								JSONMessage.create("").send(player);
 								return true;
 							} else {
-								player.sendMessage("");
-								player.sendMessage(Methods.color(" &3Chat Manager &f(v" + plugin.getDescription().getVersion() + ")"));
-								player.sendMessage("");
-								player.sendMessage(Methods.color(" &6<> &f= Required Arguments"));
-								player.sendMessage(Methods.color(" &2[] &f= Optional Arguments"));
-								player.sendMessage("");
-								player.sendMessage(Methods.color(" &f/Announcement &6<message> &e- Broadcasts an announcement message to the server."));
-								player.sendMessage(Methods.color(" &f/Broadcast &6<message> &e- Broadcasts a message to the server."));
-								player.sendMessage(Methods.color(" &f/Clearchat &e- Clears global chat."));
-								player.sendMessage(Methods.color(" &f/Colors &e- Shows a list of color codes."));
-								player.sendMessage(Methods.color(" &f/Commandspy &e- Staff can see what commands every player types on the server."));
-								player.sendMessage(Methods.color(" &f/Formats &e- Shows a list of format codes."));
-								player.sendMessage(Methods.color(" &f/Message &6<player> <message> &e- Sends a player a private message."));
-								player.sendMessage(Methods.color(" &f/Motd &e- Shows the servers MOTD."));
-								player.sendMessage(Methods.color(" &f/Mutechat &e- Mutes the server chat preventing players from talking in chat."));
-								player.sendMessage("");
-								player.sendMessage(Methods.color(" &7Page 2/3. Type /Chatmanager help 3 to go to the next page."));
-								player.sendMessage("");
+								Methods.sendMessage(player,"", true);
+								Methods.sendMessage(player, "&3Chat Manager &f(v" + plugin.getDescription().getVersion() + ")", true);
+								Methods.sendMessage(player,"", true);
+								Methods.sendMessage(player, "&6<> &f= Required Arguments", true);
+								Methods.sendMessage(player, "&2[] &f= Optional Arguments", true);
+								Methods.sendMessage(player,"", true);
+								Methods.sendMessage(player, "&f/Announcement &6<message> &e- Broadcasts an announcement message to the server.", true);
+								Methods.sendMessage(player, "&f/Broadcast &6<message> &e- Broadcasts a message to the server.", true);
+								Methods.sendMessage(player, "&f/Clearchat &e- Clears global chat.", true);
+								Methods.sendMessage(player, "&f/Colors &e- Shows a list of color codes.", true);
+								Methods.sendMessage(player, "&f/Commandspy &e- Staff can see what commands every player types on the server.", true);
+								Methods.sendMessage(player, "&f/Formats &e- Shows a list of format codes.", true);
+								Methods.sendMessage(player, "&f/Message &6<player> <message> &e- Sends a player a private message.", true);
+								Methods.sendMessage(player, "&f/Motd &e- Shows the servers MOTD.", true);
+								Methods.sendMessage(player, "&f/Mutechat &e- Mutes the server chat preventing players from talking in chat.", true);
+								Methods.sendMessage(player,"", true);
+								Methods.sendMessage(player, "&7Page 2/3. Type /Chatmanager help 3 to go to the next page.", true);
+								Methods.sendMessage(player,"", true);
 								return true;
 							}
 						}
@@ -338,31 +339,31 @@ public class CommandChatManager implements CommandExecutor {
 								JSONMessage.create("").send(player);
 								return true;
 							} else {
-								player.sendMessage("");
-								player.sendMessage(Methods.color(" &3Chat Manager &f(v" + plugin.getDescription().getVersion() + ")"));
-								player.sendMessage("");
-								player.sendMessage(Methods.color(" &6<> &f= Required Arguments"));
-								player.sendMessage(Methods.color(" &2[] &f= Optional Arguments"));
-								player.sendMessage("");
-								player.sendMessage(Methods.color(" &f/Perworldchat Bypass &e- Bypass the perworld chat feature."));
-								player.sendMessage(Methods.color(" &f/Ping &2 [player] &e- Shows your current ping."));
-								player.sendMessage(Methods.color(" &f/Reply &6<message> &e- Quickly reply to the last player to message you."));
-								player.sendMessage(Methods.color(" &f/Rules &e- Shows a list of the server rules."));
-								player.sendMessage(Methods.color(" &f/StaffChat &2[message] &e- Talk secretly to other staff members online."));
-								player.sendMessage(Methods.color(" &f/Togglechat &e- Blocks a player from receiving chat messages."));
-								player.sendMessage(Methods.color(" &f/Togglementions &e- Blocks a player from receiving mention notifications."));
-								player.sendMessage(Methods.color(" &f/Togglepm &e- Blocks players from sending private messages to you."));
-								player.sendMessage(Methods.color(" &f/Warning &6<message> &e - Broadcasts a warning message to the server."));
-								player.sendMessage("");
-								player.sendMessage(Methods.color(" &7Page 3/3. Type /Chatmanager help 2 to go to the previous page."));
-								player.sendMessage("");
+								Methods.sendMessage(player,"", true);
+								Methods.sendMessage(player, "&3Chat Manager &f(v" + plugin.getDescription().getVersion() + ")", true);
+								Methods.sendMessage(player,"", true);
+								Methods.sendMessage(player, "&6<> &f= Required Arguments", true);
+								Methods.sendMessage(player, "&2[] &f= Optional Arguments", true);
+								Methods.sendMessage(player,"", true);
+								Methods.sendMessage(player, "&f/Perworldchat Bypass &e- Bypass the perworld chat feature.", true);
+								Methods.sendMessage(player, "&f/Ping &2 [player] &e- Shows your current ping.", true);
+								Methods.sendMessage(player, "&f/Reply &6<message> &e- Quickly reply to the last player to message you.", true);
+								Methods.sendMessage(player, "&f/Rules &e- Shows a list of the server rules.", true);
+								Methods.sendMessage(player, "&f/StaffChat &2[message] &e- Talk secretly to other staff members online.", true);
+								Methods.sendMessage(player, "&f/Togglechat &e- Blocks a player from receiving chat messages.", true);
+								Methods.sendMessage(player, "&f/Togglementions &e- Blocks a player from receiving mention notifications.", true);
+								Methods.sendMessage(player, "&f/Togglepm &e- Blocks players from sending private messages to you.", true);
+								Methods.sendMessage(player, "&f/Warning &6<message> &e - Broadcasts a warning message to the server.", true);
+								Methods.sendMessage(player,"", true);
+								Methods.sendMessage(player, "&7Page 3/3. Type /Chatmanager help 2 to go to the previous page.", true);
+								Methods.sendMessage(player,"", true);
 								return true;
 							}
 						}
 					}
 				}
 			} else {
-				sender.sendMessage("Error: You can only use that command in game");
+				Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
 			}
 		}
 

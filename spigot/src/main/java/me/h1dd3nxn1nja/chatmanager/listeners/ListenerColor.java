@@ -24,7 +24,7 @@ public class ListenerColor implements Listener {
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 		
-		if (settingsManager.getConfig().getBoolean("Formatted_Messages.Enable") == true) {
+		if (settingsManager.getConfig().getBoolean("Formatted_Messages.Enable")) {
 			String format = formatChat(player, message);
 			event.setMessage(format);
 		}
