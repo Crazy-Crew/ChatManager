@@ -1,11 +1,18 @@
 package me.h1dd3nxn1nja.chatmanager;
 
+import me.h1dd3nxn1nja.chatmanager.api.CrazyManager;
+import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
+import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
 import me.h1dd3nxn1nja.chatmanager.utils.MetricsHandler;
 import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import me.h1dd3nxn1nja.chatmanager.commands.CommandAntiSwear;
 import me.h1dd3nxn1nja.chatmanager.commands.CommandAutoBroadcast;
@@ -25,8 +32,6 @@ import me.h1dd3nxn1nja.chatmanager.commands.CommandSpy;
 import me.h1dd3nxn1nja.chatmanager.commands.CommandStaffChat;
 import me.h1dd3nxn1nja.chatmanager.commands.CommandToggleChat;
 import me.h1dd3nxn1nja.chatmanager.commands.CommandToggleMentions;
-import me.h1dd3nxn1nja.chatmanager.hooks.HookManager;
-import me.h1dd3nxn1nja.chatmanager.hooks.VaultHook;
 import me.h1dd3nxn1nja.chatmanager.listeners.ListenerAntiAdvertising;
 import me.h1dd3nxn1nja.chatmanager.listeners.ListenerAntiBot;
 import me.h1dd3nxn1nja.chatmanager.listeners.ListenerAntiSpam;
@@ -47,19 +52,23 @@ import me.h1dd3nxn1nja.chatmanager.listeners.ListenerStaffChat;
 import me.h1dd3nxn1nja.chatmanager.listeners.ListenerSwear;
 import me.h1dd3nxn1nja.chatmanager.listeners.ListenerToggleChat;
 import me.h1dd3nxn1nja.chatmanager.managers.AutoBroadcastManager;
-import me.h1dd3nxn1nja.chatmanager.tabcompleter.TabCompleteAntiSwear;
-import me.h1dd3nxn1nja.chatmanager.tabcompleter.TabCompleteAutoBroadcast;
-import me.h1dd3nxn1nja.chatmanager.tabcompleter.TabCompleteBannedCommands;
-import me.h1dd3nxn1nja.chatmanager.tabcompleter.TabCompleteChatManager;
-import me.h1dd3nxn1nja.chatmanager.tabcompleter.TabCompleteMessage;
+import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.TabCompleteAntiSwear;
+import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.TabCompleteAutoBroadcast;
+import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.TabCompleteBannedCommands;
+import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.TabCompleteChatManager;
+import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.TabCompleteMessage;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
 import me.h1dd3nxn1nja.chatmanager.utils.UpdateChecker;
 
-public class ChatManager extends JavaPlugin {
+public class ChatManager extends JavaPlugin implements Listener {
 
 	private static ChatManager plugin;
 	
 	private SettingsManager settingsManager;
+
+	private CrazyManager crazyManager;
+
+	private PluginManager pluginManager;
 
 	public void onEnable() {
 		plugin = this;
@@ -94,29 +103,27 @@ public class ChatManager extends JavaPlugin {
 			plugin.getLogger().warning("https://discord.gg/mh7Ydaf");
 			plugin.getLogger().warning("========================================================================");
 		}
+
+		pluginManager = new PluginManager();
+
+		crazyManager = new CrazyManager();
+
 		if (metricsEnabled) {
 			MetricsHandler metricsHandler = new MetricsHandler();
 
 			metricsHandler.start();
 		}
 
-		updateChecker();
+		checkUpdate(null, true);
 
-		HookManager.loadDependencies();
+		crazyManager.load(true);
 
-		if (!setupVault()) return;
+		if (!PluginSupport.LUCKPERMS.isPluginEnabled()) plugin.getLogger().warning("A permissions plugin was not found. You will likely have issues without one.");
 
-		setupPermissionsPlugin();
 		registerCommands();
 		registerEvents();
 		setupAutoBroadcast();
 		setupChatRadius();
-
-		getServer().getConsoleSender().sendMessage("=========================");
-		getServer().getConsoleSender().sendMessage("Chat Manager");
-		getServer().getConsoleSender().sendMessage("Version " + getDescription().getVersion());
-		getServer().getConsoleSender().sendMessage("Author: H1DD3NxN1NJA");
-		getServer().getConsoleSender().sendMessage("=========================");
 	}
 
 	public void onDisable() {
@@ -219,6 +226,8 @@ public class ChatManager extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new ListenerStaffChat(), this);
 		getServer().getPluginManager().registerEvents(new ListenerSwear(), this);
 		getServer().getPluginManager().registerEvents(new ListenerToggleChat(), this);
+
+		getServer().getPluginManager().registerEvents(this, this);
 	}
 
 	public void setupChatRadius() {
@@ -248,47 +257,41 @@ public class ChatManager extends JavaPlugin {
 		}
 	}
 
-	public boolean setupVault() {
-		if (HookManager.isVaultLoaded()) {
-			VaultHook.hook();
-			return true;
-		} else {
-			getLogger().warning("Vault is required to use chat manager, disabling plugin!");
-			getServer().getPluginManager().disablePlugin(this);
-		}
-
-		return false;
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onPlayerJoin(PlayerJoinEvent e) {
+		checkUpdate(e.getPlayer(), false);
 	}
 
-	public boolean setupPermissionsPlugin() {
-		if (Methods.doesPluginExist("LuckPerms") ||
-				Methods.doesPluginExist("PermissionsEx") ||
-				Methods.doesPluginExist("GroupManager") ||
-				Methods.doesPluginExist("UltraPermissions")) {
-			return true;
-		} else {
-			getLogger().warning("A permissions plugin is required to use Chat Manager, otherwise errors will occur!");
-		}
+	public void checkUpdate(Player player, boolean consolePrint) {
+		boolean updaterEnabled = settingsManager.getConfig().getBoolean("Update_Checker");
 
-		return false;
-	}
+		if (!updaterEnabled) return;
 
-	public void updateChecker() {
-		if (settingsManager.getConfig().getBoolean("Update_Checker")) {
-			UpdateChecker updateChecker = new UpdateChecker(52245);
+		UpdateChecker updateChecker = new UpdateChecker(52245);
 
-			try {
-				if (updateChecker.hasUpdate()) {
-					getLogger().warning("ChatManager has a new update available! New version: " + updateChecker.getNewVersion());
+		try {
+			if (updateChecker.hasUpdate() && !getDescription().getVersion().contains("SNAPSHOT")) {
+				if (consolePrint) {
+					getLogger().warning("CrazyCrates has a new update available! New version: " + updateChecker.getNewVersion());
+					getLogger().warning("Current Version: v" + getDescription().getVersion());
 					getLogger().warning("Download: " + updateChecker.getResourcePage());
+
+					return;
+				} else {
+					if (!player.isOp() || !player.hasPermission("chatmanager.updater")) return;
+
+					player.sendMessage(Methods.color("&8> &cCrazyCrates has a new update available! New version: &e&n" + updateChecker.getNewVersion()));
+					player.sendMessage(Methods.color("&8> &cCurrent Version: &e&n" + getDescription().getVersion()));
+					player.sendMessage(Methods.color("&8> &cDownload: &e&n" + updateChecker.getResourcePage()));
 				}
 
-				getLogger().info("Plugin is up to date! - v" + getDescription().getVersion());
-			} catch (Exception e) {
-				getLogger().severe("Could not check for updates! Stacktrace:");
-
-				e.printStackTrace();
+				return;
 			}
+
+			getLogger().info("Plugin is up to date! - " + updateChecker.getNewVersion());
+		} catch (Exception exception) {
+			getLogger().warning("Could not check for updates! Perhaps the call failed or you are using a snapshot build:");
+			getLogger().warning("You can turn off the update checker in config.yml if on a snapshot build.");
 		}
 	}
 
@@ -298,5 +301,13 @@ public class ChatManager extends JavaPlugin {
 
 	public SettingsManager getSettingsManager() {
 		return settingsManager;
+	}
+
+	public CrazyManager getCrazyManager() {
+		return crazyManager;
+	}
+
+	public PluginManager getPluginManager() {
+		return pluginManager;
 	}
 }
