@@ -139,7 +139,7 @@ public class CommandBannedCommands implements CommandExecutor {
 							Methods.sendMessage(player, "&cCommand Usage: &7/Bannedcommands remove <command>", true);
 						}
 					} else {
-						Methods.sendMessage(player, Methods.noPermission(), true);;
+						Methods.sendMessage(player, Methods.noPermission(), true);
 					}
 				}
 				if (args[0].equalsIgnoreCase("list")) {
