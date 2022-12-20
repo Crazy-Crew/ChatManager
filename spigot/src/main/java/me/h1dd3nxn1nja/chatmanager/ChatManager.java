@@ -272,7 +272,7 @@ public class ChatManager extends JavaPlugin implements Listener {
 		try {
 			if (updateChecker.hasUpdate() && !getDescription().getVersion().contains("SNAPSHOT")) {
 				if (consolePrint) {
-					getLogger().warning("CrazyCrates has a new update available! New version: " + updateChecker.getNewVersion());
+					getLogger().warning("ChatManager has a new update available! New version: " + updateChecker.getNewVersion());
 					getLogger().warning("Current Version: v" + getDescription().getVersion());
 					getLogger().warning("Download: " + updateChecker.getResourcePage());
 
@@ -280,7 +280,7 @@ public class ChatManager extends JavaPlugin implements Listener {
 				} else {
 					if (!player.isOp() || !player.hasPermission("chatmanager.updater")) return;
 
-					player.sendMessage(Methods.color("&8> &cCrazyCrates has a new update available! New version: &e&n" + updateChecker.getNewVersion()));
+					player.sendMessage(Methods.color("&8> &cChatManager has a new update available! New version: &e&n" + updateChecker.getNewVersion()));
 					player.sendMessage(Methods.color("&8> &cCurrent Version: &e&n" + getDescription().getVersion()));
 					player.sendMessage(Methods.color("&8> &cDownload: &e&n" + updateChecker.getResourcePage()));
 				}
