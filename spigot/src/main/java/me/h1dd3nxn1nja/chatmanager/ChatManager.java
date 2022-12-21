@@ -1,10 +1,22 @@
 package me.h1dd3nxn1nja.chatmanager;
 
+import io.flydev.chatmanager.handlers.ChatProcessorHandler;
+import io.flydev.chatmanager.processor.mentions.MentionPlayerChatProcessor;
+import io.flydev.chatmanager.strategy.ChatProcessingStrategy;
+import io.flydev.chatmanager.strategy.ChatProcessingStrategyBuilder;
 import me.h1dd3nxn1nja.chatmanager.api.CrazyManager;
+import me.h1dd3nxn1nja.chatmanager.commands.*;
+import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.*;
+import me.h1dd3nxn1nja.chatmanager.configuration.ConfigurationKey;
+import me.h1dd3nxn1nja.chatmanager.listeners.*;
+import me.h1dd3nxn1nja.chatmanager.managers.AutoBroadcastManager;
 import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
+import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
 import me.h1dd3nxn1nja.chatmanager.utils.MetricsHandler;
 import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
+import me.h1dd3nxn1nja.chatmanager.utils.UpdateChecker;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
@@ -14,61 +26,18 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandAntiSwear;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandAutoBroadcast;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandBannedCommands;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandBroadcast;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandChatManager;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandClearChat;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandColor;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandLists;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandMOTD;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandMessage;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandMuteChat;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandPerWorldChat;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandPing;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandRadius;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandSpy;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandStaffChat;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandToggleChat;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandToggleMentions;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerAntiAdvertising;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerAntiBot;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerAntiSpam;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerAntiUnicode;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerBannedCommand;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerCaps;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerColor;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerChatFormat;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerGrammar;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerLogs;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerMentions;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerMuteChat;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerPerWorldChat;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerPlayerJoin;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerRadius;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerSpy;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerStaffChat;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerSwear;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerToggleChat;
-import me.h1dd3nxn1nja.chatmanager.managers.AutoBroadcastManager;
-import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.TabCompleteAntiSwear;
-import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.TabCompleteAutoBroadcast;
-import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.TabCompleteBannedCommands;
-import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.TabCompleteChatManager;
-import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.TabCompleteMessage;
-import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
-import me.h1dd3nxn1nja.chatmanager.utils.UpdateChecker;
 
 public class ChatManager extends JavaPlugin implements Listener {
 
 	private static ChatManager plugin;
-	
+
 	private SettingsManager settingsManager;
 
 	private CrazyManager crazyManager;
 
 	private PluginManager pluginManager;
+
+	private ChatProcessingStrategy chatProcessingStrategy;
 
 	public void onEnable() {
 		plugin = this;
@@ -118,7 +87,14 @@ public class ChatManager extends JavaPlugin implements Listener {
 
 		crazyManager.load(true);
 
-		if (!PluginSupport.LUCKPERMS.isPluginEnabled()) plugin.getLogger().warning("A permissions plugin was not found. You will likely have issues without one.");
+		if (!PluginSupport.LUCKPERMS.isPluginEnabled())
+			plugin.getLogger().warning("A permissions plugin was not found. You will likely have issues without one.");
+
+		// Construct the chat processing strategy
+		this.chatProcessingStrategy = constructProcessingStrategy();
+
+		// Register the handler
+		Bukkit.getPluginManager().registerEvents(new ChatProcessorHandler(this.chatProcessingStrategy), this);
 
 		registerCommands();
 		registerEvents();
@@ -205,6 +181,17 @@ public class ChatManager extends JavaPlugin implements Listener {
 		}
 	}
 
+	public ChatProcessingStrategy constructProcessingStrategy() {
+		ChatProcessingStrategyBuilder chatProcessingStrategyBuilder = new ChatProcessingStrategyBuilder();
+
+		// The mention chat strategy
+		if (ConfigurationKey.MENTIONS_ENABLED.getValue(Boolean.class))
+			chatProcessingStrategyBuilder.addChatProcessor(new MentionPlayerChatProcessor());
+
+		// Build the chat strategy
+		return chatProcessingStrategyBuilder.build();
+	}
+
 	public void registerEvents() {
 		getServer().getPluginManager().registerEvents(new ListenerAntiAdvertising(), this);
 		getServer().getPluginManager().registerEvents(new ListenerAntiBot(), this);
@@ -246,11 +233,16 @@ public class ChatManager extends JavaPlugin implements Listener {
 
 	public void setupAutoBroadcast() {
 		try {
-			if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) AutoBroadcastManager.actionbarMessages();
-			if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Global_Messages.Enable")) AutoBroadcastManager.globalMessages();
-			if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Per_World_Messages.Enable")) AutoBroadcastManager.perWorldMessages();
-			if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Title_Messages.Enable")) AutoBroadcastManager.titleMessages();
-			if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Bossbar_Messages.Enable")) AutoBroadcastManager.bossBarMessages();
+			if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Actionbar_Messages.Enable"))
+				AutoBroadcastManager.actionbarMessages();
+			if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Global_Messages.Enable"))
+				AutoBroadcastManager.globalMessages();
+			if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Per_World_Messages.Enable"))
+				AutoBroadcastManager.perWorldMessages();
+			if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Title_Messages.Enable"))
+				AutoBroadcastManager.titleMessages();
+			if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Bossbar_Messages.Enable"))
+				AutoBroadcastManager.bossBarMessages();
 		} catch (Exception ex) {
 			getLogger().severe("There has been an error setting up auto broadcast. Stacktrace...");
 			ex.printStackTrace();
