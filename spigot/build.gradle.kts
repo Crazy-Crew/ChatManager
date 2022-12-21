@@ -22,6 +22,19 @@ tasks {
         }
     }
 
+    val copyToServer by creating {
+            dependsOn(shadowJar)
+            doLast {
+                val shadowJarOutputs = shadowJar.get().outputs
+                logger.lifecycle("Copying shadow JAR(s) ${shadowJarOutputs.files.joinToString(", ")} to server...")
+                copy {
+                    from(shadowJarOutputs)
+                    into("${project.rootDir}/.idea/.server/plugins")
+                }
+                logger.lifecycle("Shadow JAR(s) ${shadowJarOutputs.files.joinToString(", ")} copied to server.")
+            }
+    }
+
     processResources {
         filesMatching("plugin.yml") {
             expand(
