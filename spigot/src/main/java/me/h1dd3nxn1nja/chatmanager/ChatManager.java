@@ -114,7 +114,7 @@ public class ChatManager extends JavaPlugin implements Listener {
 			metricsHandler.start();
 		}
 
-		checkUpdate(null, true);
+		getServer().getScheduler().runTaskAsynchronously(this, () -> checkUpdate(null, true));
 
 		crazyManager.load(true);
 
@@ -259,7 +259,7 @@ public class ChatManager extends JavaPlugin implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerJoin(PlayerJoinEvent e) {
-		checkUpdate(e.getPlayer(), false);
+		getServer().getScheduler().runTaskAsynchronously(this, () -> checkUpdate(e.getPlayer(), false));
 	}
 
 	public void checkUpdate(Player player, boolean consolePrint) {
