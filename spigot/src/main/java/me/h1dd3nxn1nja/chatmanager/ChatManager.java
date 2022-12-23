@@ -1,13 +1,15 @@
 package me.h1dd3nxn1nja.chatmanager;
 
 import io.flydev.chatmanager.handlers.ChatProcessorHandler;
-import io.flydev.chatmanager.processor.mentions.MentionPlayerChatProcessor;
+import io.flydev.chatmanager.processors.mentions.MentionPlayerChatProcessor;
+import io.flydev.chatmanager.processors.spam.RepeatingChatMessageProcessor;
+import io.flydev.chatmanager.processors.spam.RepeatingCommandProcessor;
 import io.flydev.chatmanager.strategy.ChatProcessingStrategy;
 import io.flydev.chatmanager.strategy.ChatProcessingStrategyBuilder;
 import me.h1dd3nxn1nja.chatmanager.api.CrazyManager;
 import me.h1dd3nxn1nja.chatmanager.commands.*;
 import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.*;
-import me.h1dd3nxn1nja.chatmanager.configuration.ConfigurationKey;
+import me.h1dd3nxn1nja.chatmanager.configuration.Configuration;
 import me.h1dd3nxn1nja.chatmanager.listeners.*;
 import me.h1dd3nxn1nja.chatmanager.managers.AutoBroadcastManager;
 import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
@@ -185,8 +187,16 @@ public class ChatManager extends JavaPlugin implements Listener {
 		ChatProcessingStrategyBuilder chatProcessingStrategyBuilder = new ChatProcessingStrategyBuilder();
 
 		// The mention chat strategy
-		if (ConfigurationKey.MENTIONS_ENABLED.getValue(Boolean.class))
+		if (Configuration.MENTIONS_ENABLED.bool())
 			chatProcessingStrategyBuilder.addChatProcessor(new MentionPlayerChatProcessor());
+
+		// The repeating strategies should be added at the end of the chain
+		// this to ensure that it won't trigger after being cancelled by another strategy
+		if (Configuration.SPAM_BLOCK_REPEATING_MESSAGES_ENABLED.bool())
+			chatProcessingStrategyBuilder.addChatProcessor(new RepeatingChatMessageProcessor());
+
+		if (Configuration.SPAM_BLOCK_REPEATING_COMMANDS_ENABLED.bool())
+			chatProcessingStrategyBuilder.addChatProcessor(new RepeatingCommandProcessor());
 
 		// Build the chat strategy
 		return chatProcessingStrategyBuilder.build();

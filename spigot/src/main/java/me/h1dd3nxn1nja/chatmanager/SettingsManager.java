@@ -1,6 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager;
 
-import me.h1dd3nxn1nja.chatmanager.configuration.ConfigurationKey;
+import me.h1dd3nxn1nja.chatmanager.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -286,7 +286,7 @@ public class SettingsManager {
         config = YamlConfiguration.loadConfiguration(cfile);
 
         // Reload the config.yml file
-        ConfigurationKey.reload();
+        Configuration.reload();
     }
 
     public PluginDescriptionFile getDesc() {
