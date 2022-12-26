@@ -644,6 +644,10 @@ Messages:
       
       #Enable or disable this section.
       Enable: false
+
+      # If the default join message should be set to null
+      # and after a tick a broadcast message should be sent
+      Async: false
       
       #Group id, can be named anything
       Default:
@@ -674,7 +678,7 @@ Messages:
         Permission: "chatmanager.join.donator"
         
         Join_Message: "{player} &ejoined the server!"
-        
+
         Quit_Message: "{player} &eleft the server!"
         
         Actionbar: "&eWelcome back to &b{server_name} {vault_prefix}{player}&e!"

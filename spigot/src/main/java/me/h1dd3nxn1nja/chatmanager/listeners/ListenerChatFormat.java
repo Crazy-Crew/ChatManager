@@ -71,7 +71,8 @@ public class ListenerChatFormat implements Listener {
 	public String setupPlaceholderAPI(Player player, String message) {
 		String placeholders = message;
 
-		if ((PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) && (PlaceholderAPI.containsPlaceholders(placeholders))) placeholders = PlaceholderAPI.setPlaceholders(player, placeholders);
+		if ((PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) && (PlaceholderAPI.containsPlaceholders(placeholders)))
+			placeholders = PlaceholderAPI.setPlaceholders(player, placeholders);
 
 		return placeholders;
 	}
