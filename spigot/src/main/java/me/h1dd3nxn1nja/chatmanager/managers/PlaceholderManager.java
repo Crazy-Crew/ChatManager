@@ -1,13 +1,15 @@
 package me.h1dd3nxn1nja.chatmanager.managers;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
 import me.h1dd3nxn1nja.chatmanager.support.misc.VaultSupport;
-import java.text.DecimalFormat;
 import org.bukkit.entity.Player;
+
+import java.text.DecimalFormat;
 
 public class PlaceholderManager {
 
@@ -21,7 +23,7 @@ public class PlaceholderManager {
 
 	public String setPlaceholders(Player player, String placeholders) {
 		DecimalFormat df = new DecimalFormat("#,###");
-		
+
 		placeholders = Methods.color(player, placeholders.replace("{player}", player.getName()));
 		placeholders = Methods.color(player, placeholders.replace("{Prefix}", settingsManager.getMessages().getString("Message.Prefix")));
 		placeholders = Methods.color(player, placeholders.replace("{prefix}", settingsManager.getMessages().getString("Message.Prefix")));
@@ -41,6 +43,10 @@ public class PlaceholderManager {
 		if (PluginSupport.ESSENTIALS.isPluginEnabled()) {
 			placeholders = Methods.color(player, placeholders.replace("{ess_player_balance}", essentialsSupport.getPlayerBalance(player)));
 			placeholders = Methods.color(player, placeholders.replace("{ess_player_nickname}", essentialsSupport.getPlayerNickname(player)));
+		}
+
+		if (PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) {
+			placeholders = PlaceholderAPI.setPlaceholders(player, placeholders);
 		}
 
 		return placeholders;
