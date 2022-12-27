@@ -85,7 +85,7 @@ public class ListenerPlayerJoin implements Listener {
             if ((config.getBoolean("Messages.Join_Quit_Messages.Join_Message.Enable"))
                     && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
                 String message = config.getString("Messages.Join_Quit_Messages.Join_Message.Message");
-                boolean isAsync = config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Async", false);
+                boolean isAsync = config.getBoolean("Messages.Async", false);
 
                 if (isAsync) {
                     if (event.getJoinMessage() != null) {
@@ -149,7 +149,7 @@ public class ListenerPlayerJoin implements Listener {
 
                     if (permission != null && player.hasPermission(permission)) {
                         if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Join_Message")) {
-                            boolean isAsync = config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Async", false);
+                            boolean isAsync = config.getBoolean("Messages.Async", false);
 
                             if (isAsync) {
                                 if (event.getJoinMessage() != null) {

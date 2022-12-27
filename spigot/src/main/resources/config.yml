@@ -25,7 +25,7 @@
 #   5. Wiki: https://github.com/H1DD3NxN1NJA/ChatManager/wiki
 #
 #=================================================================================================#
-  
+
 #=================================================================================================#
 # Block players from advertising other servers.
 #=================================================================================================#
@@ -35,13 +35,13 @@ Anti_Advertising:
     
     #Block advertising in chat.
     Enable: true
-  
+
     #Should the anti advertising checker be more sensitive? This may cause false positives.
     Increase_Sensitivity: false
 
     #Should staff get notified when a player advertises in chat?
     Notify_Staff: true
-  
+
     #Should a command be executed to the player that advertises?
     Execute_Command: false
 
@@ -51,18 +51,18 @@ Anti_Advertising:
 
     #Every time a player advertises in chat, their message will be logged in the Advertisements.txt file.
     Log_Advertisers: true
-    
+
   Commands:
-  
+
     #Block advertising in commands.
     Enable: true
-  
+
     #Should the anti advertising checker be more sensitive? This may cause false positives.
     Increase_Sensitivity: false
 
     #Should staff get notified when a player advertises in commands?
     Notify_Staff: true
-  
+
     #Should a command be executed to the player that advertises?
     Execute_Command: false
 
@@ -75,19 +75,19 @@ Anti_Advertising:
     
     #If a player executes one of these commands with an advertisement in it, the command will not be blocked.
     Whitelist:
-    - "/report"
-    
+      - "/report"
+
   Signs:
-  
+
     #Block advertising on signs. 
     Enable: true
-  
+
     #Should the anti advertising checker be more sensitive? This may cause false positives.
     Increase_Sensitivity: false
 
     #Should staff get notified when a player advertises on a sign?
     Notify_Staff: true
-  
+
     #Should a command be executed to the player that advertises?
     Execute_Command: false
 
@@ -100,7 +100,7 @@ Anti_Advertising:
 
   #Websites that wont be blocked if said in chat, commands, or signs.
   Whitelist:
-  - "google.com"
+    - "google.com"
 
 #=================================================================================================#
 # Prevent players from executing commands, or typing in chat until they move when they join your server.
@@ -156,7 +156,7 @@ Anti_Spam:
     
     #Whitelisted commands that won't be effected by the anti spam.
     Whitelist:
-    - "/spawn"
+      - "/spawn"
 
 #=================================================================================================#
 # Prevent players from swearing in chat, comamnds, and signs.
@@ -167,7 +167,7 @@ Anti_Swear:
     
     #Block swearing in chat
     Enable: true
-  
+
     #Should the anti-swear checker be more sensitive? This may cause false positives.
     Increase_Sensitivity: false
     
@@ -181,15 +181,15 @@ Anti_Swear:
     Execute_Command: true
 
     #The command that is executed when a player swears in chat.
-    Executed_Command: 
-    - kick {player} Do not swear in chat
-    - warn {player} Do not swear in chat
+    Executed_Command:
+      - kick {player} Do not swear in chat
+      - warn {player} Do not swear in chat
     
     #Every time a player swears in chat their message will be logged in the Swears.txt file.
     Log_Swearing: true
   
   Commands:
-  
+
     #Block swearing in commands.
     Enable: true
     
@@ -198,12 +198,12 @@ Anti_Swear:
     
     #Should chat manager block the command from being sent?
     Block_Command: true
-  
+
     #If a player executes one of these commands with a swear word in it, the command will not be blocked.
     Whitelisted_Commands:
-    - "/report"
-    - "/login"
-    - "/register"
+      - "/report"
+      - "/login"
+      - "/register"
     
     #Should staff get notified when a player swears in commands?
     Notify_Staff: true
@@ -213,14 +213,14 @@ Anti_Swear:
 
     #The command that is executed when a player swears in commands.
     Executed_Command:
-    - kick {player} Do not swear in chat
-    - warn {player} Do not swear in chat
+      - kick {player} Do not swear in chat
+      - warn {player} Do not swear in chat
     
     #Every time a player swears in commands their message will be logged in the Swears.txt file.
     Log_Swearing: true
-    
+
   Signs:
-  
+
     #Block swearing on signs.
     Enable: true
     
@@ -229,7 +229,7 @@ Anti_Swear:
     
     #Should chat manager block the message from being added to the sign?
     Block_Sign: true
-  
+
     #Should staff get notified when a player swears on signs?
     Notify_Staff: true
 
@@ -238,12 +238,12 @@ Anti_Swear:
 
     #The command that is executed when a player swears on signs.
     Executed_Command:
-    - kick {player} Do not swear in chat
-    - warn {player} Do not swear in chat
+      - kick {player} Do not swear in chat
+      - warn {player} Do not swear in chat
     
     #Every time a player swears on signs their message will be logged in the Swears.txt file.
     Log_Swearing: true
-    
+
 #=================================================================================================#
 # Prevent players from using special chat characters.
 #=================================================================================================#
@@ -251,10 +251,10 @@ Anti_Unicode:
   
   #Block special characters in chat.
   Enable: true
-    
+
   #Should staff get notified when a player uses special characters?
   Notify_Staff: true
-    
+
   #Should a command be executed when a player uses special characters?
   Execute_Command: false
 
@@ -264,8 +264,8 @@ Anti_Unicode:
   
   #Anything thats in this list won’t be blocked by the anti unicode checker.
   Whitelist:
-  - "«"
-  - "»"
+    - "«"
+    - "»"
 
 #=================================================================================================#
 # Prevent players from using certain commands.
@@ -297,7 +297,7 @@ Broadcast_Commands:
     
     #Broadcast Command
     Broadcast:
-    
+
       #The default prefix that goes infront of the broadcasted message.
       Prefix: "&c[&4Broadcast&c]&r "
       
@@ -307,10 +307,10 @@ Broadcast_Commands:
       #The sound that will be sent to everyone on the server when a broadcasted message is sent.
       #Set to '' to disable
       Sound: ''
-      
+
     #Announcement Command
     Announcement:
-    
+
       #The sound that will be sent to everyone on the server when an announcement is sent.
       #Set to '' to disable
       Sound: ''
@@ -321,10 +321,10 @@ Broadcast_Commands:
         - "&e&lANNOUNCEMENT"
         - "{message}"
         - "&8&m--------------------------"
-        
+
     #Warning Command
     Warning:
-    
+
       #The sound that will be sent to everyone on the server when a warning message is sent.
       #Set to '' to disable
       Sound: ''
@@ -335,7 +335,7 @@ Broadcast_Commands:
         - "&4&lWARNING"
         - "{message}"
         - "&8&m--------------------------"
-        
+
 #=================================================================================================#
 # Per-Group chat formats. REQUIRES VAULT TO WORK!!!!!
 # How to use chat format: https://github.com/H1DD3NxN1NJA/ChatManager/wiki/Chat-Format
@@ -361,12 +361,12 @@ Chat_Format:
       Format: "&8[&cAdmin&8] &4{player} &9> &a{message}"
     owner:
       Format: "&b[&6Owner&b] {player} &9> &e{message}"
- 
+
 #=================================================================================================#     
 # Players can only send messages to other players that are in range.
 # How to use chat radius: https://github.com/H1DD3NxN1NJA/ChatManager/wiki/Chat-Radius
 #=================================================================================================#
-Chat_Radius: 
+Chat_Radius:
 
   Enable: false
   
@@ -384,7 +384,7 @@ Chat_Radius:
     #sending the message to all players in the server, then keeps you in local chat.
     #Do Override_Symbol: '' to disable.
     Override_Symbol: "#"
- 
+
   Global_Chat:
 
     #The prefix thats sent in global chat.
@@ -394,7 +394,7 @@ Chat_Radius:
     #sending the message to all players in the server, then keeps you in global chat.
     #Do Override_Symbol: '' to disable.
     Override_Symbol: "!"
- 
+
   World_Chat:
 
     #The prefix thats sent in world chat.
@@ -432,9 +432,9 @@ Command_Spy:
   
   #Commands that wont be shown in command spy.
   Blacklist_Commands:
-  - "/login"
-  - "/register"
-  
+    - "/login"
+    - "/register"
+
 #=================================================================================================#
 # Formatted Messages
 # This section allows you to enable or disable the use of color codes and format codes in chat.
@@ -447,7 +447,7 @@ Command_Spy:
 Formatted_Messages:
 
   Enable: true
-  
+
 #=================================================================================================#
 # Correct player's grammar.
 #=================================================================================================#
@@ -460,9 +460,9 @@ Grammar:
 
   #Correct words from "i" to "I", "dont" to "don't", and many more pre-set words!
   Autocorrect:
-  
+
     Enable: true
-    
+
 #=================================================================================================#
 # Staff and Player List:
 #=================================================================================================#
@@ -471,7 +471,7 @@ Lists:
   Staff_List:
     - "&7&m---------------&8[ &aStaff List &8]&7&m---------------"
     - "&7Online Staff Members&7: {staff}"
-    
+
   Player_List:
     - "&7&m---------------&8[ &aPlayer List &8]&7&m---------------"
     - "&7Online Players &a{server_online}&8/&a{server_max_players}&7: {players}"
@@ -493,9 +493,9 @@ Logs:
   #Commands that wont be logged in the Command.txt file.
   #Commands in the Blacklist_Commands list must be lowercase.
   Blacklist_Commands:
-  - "/login"
-  - "/register"
-  
+    - "/login"
+    - "/register"
+
 #=================================================================================================#
 # First Join, Join, and Quit Text, Actionbar, and Title Messages.
 # 
@@ -547,27 +547,32 @@ Logs:
 # 
 #=================================================================================================#
 Messages:
-  
+  # If the default join message should be set to null
+  # and after a tick a broadcast message should be sent
+  # this could be useful if some placeholders are not loaded directly
+  # after the player joins the server (fx. TAB plugin)
+  Async: false
+
   First_Join:
-  
+
     Welcome_Message:
-    
+
       Enable: true
-    
+
       #The sound thats played to the entire server.
       #Do Sound: '' to disable
       Sound: ''
-    
+
       First_Join_Message: "&eWelcome to &b{server_name} {vault_prefix}{player}&e!"
-      
+
     Actionbar_Message:
-    
+
       Enable: true
       
       First_Join_Message: "&eWelcome to &b{server_name} {vault_prefix}{player}&e!"
-        
+
     Title_Message:
-    
+
       Enable: true
       
       #The time it takes for the title to fade into the screen.
@@ -580,15 +585,15 @@ Messages:
       Fade_Out: 40
       
       First_Join_Message:
-          
+
         Header: "&eWelcome"
-          
+
         Footer: "&b{player} to {server_name}"
-        
+
   Join_Quit_Messages:
     
     Join_Message:
-    
+
       #Keep false if you're using group messages
       #Enable if you don't want to use group messages
       #If players doesn't have a permission set in group messages these messages will send.
@@ -602,23 +607,23 @@ Messages:
       Message: "&b{player} &ajoined the server"
     
     Quit_Message:
-    
+
       Enable: true
       
       #The sound thats played to the entire server.
       #Do Sound: '' to disable
       Sound: ''
-    
+
       Message: "&b{player} &cleft the server"
     
     Actionbar_Message:
-    
+
       Enable: true
-    
+
       Message: "&eWelcome back to &b{server_name} {vault_prefix}{player}&e!"
     
     Title_Message:
-    
+
       Enable: true
       
       #The Fade In, Stay, Fade Out applies for all group and default title messages.
@@ -632,9 +637,9 @@ Messages:
       Fade_Out: 40
       
       Message:
-      
+
         Header: "&eWelcome Back"
-          
+
         Footer: "&b{player} to {server_name}"
     
     
@@ -644,14 +649,10 @@ Messages:
       
       #Enable or disable this section.
       Enable: false
-
-      # If the default join message should be set to null
-      # and after a tick a broadcast message should be sent
-      Async: false
       
       #Group id, can be named anything
       Default:
-      
+
         #Permission you give the group for then to send these messages.
         Permission: "chatmanager.join.default"
         
@@ -664,7 +665,7 @@ Messages:
         
         #Title Messages groups will receive on join.
         Title:
-        
+
           Header: "&eWelcome Back"
           
           Footer: "&b{player} to {server_name}"
@@ -672,8 +673,8 @@ Messages:
         #The sound thats played to the entire server.
         #Do Sound: '' to disable
         Sound: ''
-        
-      Donator: 
+
+      Donator:
         
         Permission: "chatmanager.join.donator"
         
@@ -684,15 +685,15 @@ Messages:
         Actionbar: "&eWelcome back to &b{server_name} {vault_prefix}{player}&e!"
         
         Title:
-        
+
           Header: "&eWelcome Back"
           
           Footer: "&b{player} to {server_name}"
         
         Sound: ''
-        
+
       Owner:
-            
+
         Permission: "chatmanager.join.owner"
         
         Join_Message: "{player} &ejoined the server!"
@@ -702,13 +703,13 @@ Messages:
         Actionbar: "&eWelcome back to &b{server_name} {vault_prefix}{player}&e!"
         
         Title:
-        
+
           Header: "&eWelcome Back"
           
           Footer: "&b{player} to {server_name}"
         
         Sound: ''
-    
+
 #=================================================================================================#
 # When a player mentions another players name.
 #=================================================================================================#
@@ -743,13 +744,13 @@ MOTD:
   Delay: 2
 
   Message:
-  - "&7&m------------------------------------"
-  - "&aWelcome to the server &b{player}&a!"
-  - ""
-  - "&aIf you need any help please message any online staff member."
-  - ""
-  - "&aYou can change this message in the ChatManager - Config.yml"
-  - "&7&m------------------------------------"
+    - "&7&m------------------------------------"
+    - "&aWelcome to the server &b{player}&a!"
+    - ""
+    - "&aIf you need any help please message any online staff member."
+    - ""
+    - "&aYou can change this message in the ChatManager - Config.yml"
+    - "&7&m------------------------------------"
 
 #=================================================================================================#
 # Mute Chat.
@@ -761,16 +762,16 @@ Mute_Chat:
   #Commands that cannot be executed when chat is muted 
   #if the boolean "Disable_Commands" is set to true.
   Disabled_Commands:
-  - "/message"
-  - "/msg"
-  - "/m"
-  - "/tell"
-  - "/t"
-  - "/whisper"
-  - "/w"
-  - "/me"
-  - "/reply"
-  - "/r"
+    - "/message"
+    - "/msg"
+    - "/m"
+    - "/tell"
+    - "/t"
+    - "/whisper"
+    - "/w"
+    - "/me"
+    - "/reply"
+    - "/r"
 
 #=================================================================================================#
 # Players can only talk to other players that are in the same world as them!
@@ -785,18 +786,18 @@ Per_World_Chat:
   Enable: false
   
   Group_Worlds:
-  
+
     Enable: false
     
     Worlds:
       1:
-      - "world"
-      - "world_nether"
-      - "world_the_end"
+        - "world"
+        - "world_nether"
+        - "world_the_end"
       2:
-      - "Test1"
-      - "Test2"
-      - "Test3"
+        - "Test1"
+        - "Test2"
+        - "Test3"
 
 #=================================================================================================#
 # Private messages allow you to secretly message another player without everyone else seeing.
@@ -804,11 +805,11 @@ Per_World_Chat:
 Private_Messages:
 
   Sender:
-  
+
     Format: "&c&l(!) &f&l[&e&lYou &d-> &e{receiver}&f&l] &b"
-    
+
   Receiver:
-  
+
     Format: "&c&l(!) &f&l[&e{player} &d-> &e&lYou&f&l] &b"
 
   #The sound thats played to the receiver
@@ -826,7 +827,7 @@ Server_Name: "Server Name"
 Server_Rules:
   
   Rules:
-  
+
     1:
       - "&7&m----------&8[ &aServer Rules Page 1/3 &8]&7&m----------"
       - "&aNo Hacking"
@@ -842,7 +843,7 @@ Server_Rules:
       - "&aDo not use any special characters in chat."
       - "&aDo not ask for staff."
       - "&aDo not spam in chat."
-  
+
 #=================================================================================================#
 # Staff can see what players type in certain commands.
 #=================================================================================================#
@@ -866,7 +867,7 @@ Staff_Chat:
     Enable: false
     
     Title: "&eStaff Chat"
-  
+
 #=================================================================================================#
 # Checks if there is an available update for chat manager.
 #=================================================================================================#
