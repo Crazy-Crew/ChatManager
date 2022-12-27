@@ -28,18 +28,18 @@ public class ListenerAntiSpam implements Listener {
 		String message = event.getMessage();
 		
 		if (!Methods.cm_staffChat.contains(player.getUniqueId())) {
-			if (config.getBoolean("Anti_Spam.Chat.Block_Repetitive_Messages")) {
-				if (!player.hasPermission("chatmanager.bypass.dupe.chat")) {
-					if (Methods.cm_previousMessages.containsKey(player)) {
-						if (message.equalsIgnoreCase(Methods.cm_previousMessages.get(player))) {
-							player.sendMessage(Methods.color(player, messages.getString("Anti_Spam.Chat.Repetitive_Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
-							event.setCancelled(true);
-						}
-					}
-
-					Methods.cm_previousMessages.put(player, message);
-				}
-			}
+//			if (config.getBoolean("Anti_Spam.Chat.Block_Repetitive_Messages")) {
+//				if (!player.hasPermission("chatmanager.bypass.dupe.chat")) {
+//					if (Methods.cm_previousMessages.containsKey(player)) {
+//						if (message.equalsIgnoreCase(Methods.cm_previousMessages.get(player))) {
+//							player.sendMessage(Methods.color(player, messages.getString("Anti_Spam.Chat.Repetitive_Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+//							event.setCancelled(true);
+//						}
+//					}
+//
+//					Methods.cm_previousMessages.put(player, message);
+//				}
+//			}
 			if (config.getInt("Anti_Spam.Chat.Chat_Delay") != 0) {
 				if (!player.hasPermission("chatmanager.bypass.chatdelay")) {
 					if (Methods.cm_chatCooldown.containsKey(player)) {
