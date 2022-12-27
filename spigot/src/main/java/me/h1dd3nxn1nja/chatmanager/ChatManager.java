@@ -56,11 +56,25 @@ public class ChatManager extends JavaPlugin implements Listener {
 		}
 
 		String metricsValue = settingsManager.getConfig().getString("Metrics_Enabled");
-
 		if (metricsValue == null) {
 			settingsManager.getConfig().set("Metrics_Enabled", false);
 			settingsManager.saveConfig();
 		}
+
+		String asyncMessages = settingsManager.getConfig().getString("Messages.Async");
+		if (asyncMessages == null) {
+			settingsManager.getConfig().set("Messages.Async", true);
+			settingsManager.saveConfig();
+		}
+
+		if (!PluginSupport.LUCKPERMS.isPluginEnabled())
+			plugin.getLogger().warning("A permissions plugin was not found. You will likely have issues without one.");
+
+		// Construct the chat processing strategy
+		this.chatProcessingStrategy = constructProcessingStrategy();
+
+		// Register the handler
+		Bukkit.getPluginManager().registerEvents(new ChatProcessorHandler(this.chatProcessingStrategy), this);
 
 		boolean metricsEnabled = settingsManager.getConfig().getBoolean("Metrics_Enabled");
 
@@ -91,12 +105,6 @@ public class ChatManager extends JavaPlugin implements Listener {
 
 		if (!PluginSupport.LUCKPERMS.isPluginEnabled())
 			plugin.getLogger().warning("A permissions plugin was not found. You will likely have issues without one.");
-
-		// Construct the chat processing strategy
-		this.chatProcessingStrategy = constructProcessingStrategy();
-
-		// Register the handler
-		Bukkit.getPluginManager().registerEvents(new ChatProcessorHandler(this.chatProcessingStrategy), this);
 
 		registerCommands();
 		registerEvents();
@@ -175,14 +183,6 @@ public class ChatManager extends JavaPlugin implements Listener {
 		registerCommand(getCommand("ToggleMentions"), null, new CommandToggleMentions());
 	}
 
-	private void registerCommand(PluginCommand pluginCommand, TabCompleter tabCompleter, CommandExecutor commandExecutor) {
-		if (pluginCommand != null) {
-			pluginCommand.setExecutor(commandExecutor);
-
-			if (tabCompleter != null) pluginCommand.setTabCompleter(tabCompleter);
-		}
-	}
-
 	public ChatProcessingStrategy constructProcessingStrategy() {
 		ChatProcessingStrategyBuilder chatProcessingStrategyBuilder = new ChatProcessingStrategyBuilder();
 
@@ -200,6 +200,14 @@ public class ChatManager extends JavaPlugin implements Listener {
 
 		// Build the chat strategy
 		return chatProcessingStrategyBuilder.build();
+	}
+
+	private void registerCommand(PluginCommand pluginCommand, TabCompleter tabCompleter, CommandExecutor commandExecutor) {
+		if (pluginCommand != null) {
+			pluginCommand.setExecutor(commandExecutor);
+
+			if (tabCompleter != null) pluginCommand.setTabCompleter(tabCompleter);
+		}
 	}
 
 	public void registerEvents() {
@@ -312,4 +320,5 @@ public class ChatManager extends JavaPlugin implements Listener {
 	public PluginManager getPluginManager() {
 		return pluginManager;
 	}
+
 }
