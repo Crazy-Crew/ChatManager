@@ -1,6 +1,6 @@
 package io.flydev.chatmanager.processors.mentions;
 
-import io.flydev.chatmanager.processors.ChatProcessor;
+import io.flydev.chatmanager.processors.FormattedChatProcessor;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.configuration.Configuration;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 /**
  * @author Niels Warrens - 21/12/2022
  */
-public class MentionPlayerChatProcessor implements ChatProcessor<AsyncPlayerChatEvent> {
+public class MentionPlayerChatProcessor extends FormattedChatProcessor<AsyncPlayerChatEvent> {
 
 	private static final String MENTION_PLAYER_PERMISSION = "chatmanager.mention";
 
@@ -52,15 +52,17 @@ public class MentionPlayerChatProcessor implements ChatProcessor<AsyncPlayerChat
 		for (Player player : eligiblePlayers) {
 			String partBeforeMention = eventMessage.substring(0, eventMessage.indexOf(mentionSymbol + player.getName()));
 
-			event.setMessage(eventMessage.replace(mentionSymbol + player.getName(), ChatColor.translateAlternateColorCodes('&', mentionColor + mentionSymbol + player.getName()) + ChatColor.RESET + ChatColor.getLastColors(partBeforeMention)));
+			event.setMessage(eventMessage.replace(mentionSymbol + player.getName(),
+				this.format(player, mentionColor + mentionSymbol + player.getName())
+					+ ChatColor.RESET + ChatColor.getLastColors(partBeforeMention)));
 
 			// Play the mention sound
 			String mentionSound = Configuration.MENTIONS_SOUND.string();
 			if (!mentionSound.isEmpty()) player.playSound(player.getLocation(), Sound.valueOf(mentionSound), 10, 1);
 
 			// Construct the title
-			String titleHeader = ChatColor.translateAlternateColorCodes('&', this.placeholderManager.setPlaceholders(player, Configuration.MENTIONS_TITLE_HEADER.getValue(String.class)));
-			String titleFooter = ChatColor.translateAlternateColorCodes('&', this.placeholderManager.setPlaceholders(player, Configuration.MENTIONS_TITLE_FOOTER.getValue(String.class)));
+			String titleHeader = this.format(player, this.placeholderManager.setPlaceholders(player, Configuration.MENTIONS_TITLE_HEADER.getValue(String.class)));
+			String titleFooter = this.format(player, this.placeholderManager.setPlaceholders(player, Configuration.MENTIONS_TITLE_FOOTER.getValue(String.class)));
 
 			// Send the title
 			if ((ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1))) {
