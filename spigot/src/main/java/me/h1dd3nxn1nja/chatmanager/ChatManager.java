@@ -52,8 +52,8 @@ public class ChatManager extends JavaPlugin implements Listener {
             settingsManager.saveConfig();
         }
 
-        String asyncGroupMessages = settingsManager.getConfig().getString("Messages.Async");
-        if (asyncGroupMessages == null) {
+        String asyncMessages = settingsManager.getConfig().getString("Messages.Async");
+        if (asyncMessages == null) {
             settingsManager.getConfig().set("Messages.Async", true);
             settingsManager.saveConfig();
         }
