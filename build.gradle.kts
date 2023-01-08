@@ -26,7 +26,7 @@ webhook {
             this.fields {
                 this.field(
                     "Version ${project.version}",
-                    "Download Link: https://modrinth.com/plugin/chatmanager/version/3.9.0"
+                    "Download Link: https://modrinth.com/plugin/chatmanager/version/${project.version}"
                 )
 
                 if (commitMessage != null) {
