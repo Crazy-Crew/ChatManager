@@ -49,11 +49,12 @@
 </details>
 
 ## Downloads
-N/A
+> https://modrinth.com/plugin/chatmanager
 
-## Snapshot Builds
-### Get the latest changes before they are uploaded to Spigot!
-https://ci.crazycrew.us/view/ChatManager/job/ChatManager%20Beta/
+## Beta Builds
+### Get the latest changes before they are changed to release!
+All beta builds will be on Modrinth.<br>
+> https://modrinth.com/plugin/chatmanager/versions/
 
 ## Getting Started
 
@@ -63,7 +64,7 @@ How to get started with contributing / maintaining your own version of CrazyCrat
 
 A list of things necessary to make sure you can build CrazyCrates properly.
 * Intellij IDEA
-    * https://www.jetbrains.com/idea/download/
+    * > https://www.jetbrains.com/idea/download/
 * Gradle
 
 ### Installation
@@ -80,7 +81,7 @@ A list of things necessary to make sure you can build CrazyCrates properly.
 4. Find the build in build/libs inside the **spigot** folder
 
 ## Roadmap
-N/A
+A working plugin.
 
 ## Contributing
 
@@ -88,7 +89,7 @@ N/A
 2. Create your Feature Branch (`git checkout -b feature/yourfeature`)
 3. Commit your Changes (`git commit -m 'your amazing feature.'`)
 4. Push to the Branch (`git push`)
-5. Open a Pull Request to the `beta` branch
+5. Open a Pull Request to add your feature/fix.
 
 ## License
 

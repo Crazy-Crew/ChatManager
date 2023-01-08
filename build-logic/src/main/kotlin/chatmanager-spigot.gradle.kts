@@ -2,8 +2,6 @@ plugins {
     `java-library`
 }
 
-project.version = "${extra["plugin_version"]}"
-project.group = "${rootProject.group}.ChatManager"
 project.description = "The kitchen sink of Chat Management."
 
 repositories {
@@ -40,6 +38,11 @@ repositories {
     mavenCentral()
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
 dependencies {
     implementation("org.bstats", "bstats-bukkit", "3.0.0")
 
@@ -55,11 +58,4 @@ dependencies {
     }
 
     compileOnly("com.github.MilkBowl", "VaultAPI", "1.7")
-}
-
-tasks {
-    compileJava {
-        targetCompatibility = "8"
-        sourceCompatibility = "8"
-    }
 }

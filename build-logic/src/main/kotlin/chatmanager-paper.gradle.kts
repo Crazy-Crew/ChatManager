@@ -2,8 +2,6 @@ plugins {
     `java-library`
 }
 
-project.version = "${extra["plugin_version"]}"
-project.group = "${rootProject.group}.ChatManager"
 project.description = "The kitchen sink of Chat Management."
 
 repositories {
