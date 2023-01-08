@@ -15,9 +15,9 @@ webhook {
 
     this.username("Ryder Belserion")
 
-    //this.content("New version of ChatManager is ready! <@888222546573537280>")
+    //this.content("New version of ${project.name} is ready! <@888222546573537280>")
 
-    this.content("New version of ChatManager is ready!")
+    this.content("New version of ${project.name} is ready!")
 
     this.embeds {
         this.embed {
@@ -26,7 +26,7 @@ webhook {
             this.fields {
                 this.field(
                     "Version ${project.version}",
-                    "Download Link: https://modrinth.com/plugin/chatmanager/version/${project.version}"
+                    "Download Link: https://modrinth.com/plugin/${project.name.toLowerCase()}/version/${project.version}"
                 )
 
                 if (commitMessage != null) {
@@ -44,8 +44,8 @@ webhook {
             }
 
             this.author(
-                "ChatManager",
-                "https://modrinth.com/mod/chatmanager/versions",
+                project.name,
+                "https://modrinth.com/mod/${project.name.toLowerCase()}/versions",
                 "https://cdn-raw.modrinth.com/data/IwVOgYiT/c742dee969a8e37393ea6150670c151384ee4ad2.png"
             )
         }
