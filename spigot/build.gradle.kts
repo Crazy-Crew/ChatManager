@@ -8,7 +8,7 @@ plugins {
     `maven-publish`
 }
 
-val isBeta = true
+val isBeta: Boolean = extra["isBeta"].toString().toBoolean()
 
 fun getPluginVersion(): String {
     return if (isBeta) "${project.version}-BETA" else project.version.toString()

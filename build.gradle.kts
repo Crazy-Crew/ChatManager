@@ -9,6 +9,7 @@ val releaseUpdate = Color(27,217,106)
 val snapshotUpdate = Color(255,163,71)
 
 val commitMessage: String? = System.getenv("COMMIT_MESSAGE")
+val isBeta: Boolean = extra["isBeta"].toString().toBoolean()
 
 webhook {
     this.avatar("https://cdn.discordapp.com/avatars/209853986646261762/eefe3c03882cbb885d98107857d0b022.png?size=4096")
@@ -21,7 +22,7 @@ webhook {
 
     this.embeds {
         this.embed {
-            this.color(snapshotUpdate)
+            if (isBeta) this.color(snapshotUpdate) else this.color(releaseUpdate)
 
             this.fields {
                 this.field(
@@ -29,8 +30,8 @@ webhook {
                     "Download Link: https://modrinth.com/plugin/${project.name.toLowerCase()}/version/${project.version}"
                 )
 
-                if (commitMessage != null) {
-                    this.field("Commit Message", commitMessage)
+                if (isBeta) {
+                    if (commitMessage != null) this.field("Commit Message", commitMessage)
 
                     this.field("Snapshots", "They will be hosted on the same page labeled as `Beta`")
 
@@ -38,9 +39,9 @@ webhook {
                         "API Update",
                         "Version ${project.version} has been pushed to https://repo.crazycrew.us/#/snapshots/"
                     )
-
-                    //this.field("API Update","Version ${project.version} has been pushed to https://repo.crazycrew.us/#/releases/")
                 }
+
+                if (!isBeta) this.field("API Update","Version ${project.version} has been pushed to https://repo.crazycrew.us/#/releases/")
             }
 
             this.author(
