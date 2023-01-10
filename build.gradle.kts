@@ -1,7 +1,7 @@
 import java.awt.Color
 
 plugins {
-    id("chatmanager.root-conventions")
+    id("chatmanager.root-plugin")
 }
 
 val legacyUpdate = Color(255,73,110)
@@ -46,7 +46,7 @@ webhook {
 
             this.author(
                 project.name,
-                "https://modrinth.com/mod/${project.name.toLowerCase()}/versions",
+                "https://modrinth.com/plugin/${project.name.toLowerCase()}/versions",
                 "https://cdn-raw.modrinth.com/data/IwVOgYiT/c742dee969a8e37393ea6150670c151384ee4ad2.png"
             )
         }

@@ -1,5 +1,5 @@
 plugins {
-    id("chatmanager-spigot")
+    id("chatmanager.spigot-plugin")
 
     id("com.modrinth.minotaur") version "2.6.0"
 
