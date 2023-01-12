@@ -1,5 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.support.misc;
 
+import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
@@ -8,12 +9,14 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class VaultSupport {
 
+	private final ChatManager plugin = ChatManager.getPlugin();
+
 	private Permission permission;
 	private Chat chat;
 
 	public VaultSupport() {
-		permission = null;
-		chat = null;
+		this.permission = null;
+		this.chat = null;
 	}
 
 	public void configure() {
@@ -22,45 +25,45 @@ public class VaultSupport {
 	}
 
 	public String getPlayerPrefix(Player player) {
-		if (chat.getPlayerPrefix(player) == null) return "";
+		if (this.chat.getPlayerPrefix(player) == null) return "";
 
-		return chat.getPlayerPrefix(player);
+		return this.chat.getPlayerPrefix(player);
 	}
 
 	public String getPlayerSuffix(Player player) {
-		if (chat.getPlayerSuffix(player) == null) return "";
+		if (this.chat.getPlayerSuffix(player) == null) return "";
 
-		return chat.getPlayerSuffix(player);
+		return this.chat.getPlayerSuffix(player);
 	}
 
 	public String getPlayerGroup(Player player) {
-		if (chat.getPrimaryGroup(player) == null) return "";
+		if (this.chat.getPrimaryGroup(player) == null) return "";
 
-		return chat.getPrimaryGroup(player);
+		return this.chat.getPrimaryGroup(player);
 	}
 
 	private void setupPermissions() {
-		RegisteredServiceProvider<Permission> permissionProvider = Bukkit.getServer().getServicesManager().getRegistration(Permission.class);
+		RegisteredServiceProvider<Permission> permissionProvider = plugin.getServer().getServicesManager().getRegistration(Permission.class);
 
-		if (permissionProvider != null) permission = permissionProvider.getProvider();
+		if (permissionProvider != null) this.permission = permissionProvider.getProvider();
 
 	}
 
 	private void setupChat() {
-		RegisteredServiceProvider<Chat> chatProvider = Bukkit.getServer().getServicesManager().getRegistration(Chat.class);
+		RegisteredServiceProvider<Chat> chatProvider = plugin.getServer().getServicesManager().getRegistration(Chat.class);
 
-		if (chatProvider != null) chat = chatProvider.getProvider();
+		if (chatProvider != null) this.chat = chatProvider.getProvider();
 	}
 
 	public boolean isChatReady() {
-		return chat != null;
+		return this.chat != null;
 	}
 
 	public boolean isPermissionReady() {
-		return permission != null;
+		return this.permission != null;
 	}
 
 	public Permission getPermission() {
-		return permission;
+		return this.permission;
 	}
 }

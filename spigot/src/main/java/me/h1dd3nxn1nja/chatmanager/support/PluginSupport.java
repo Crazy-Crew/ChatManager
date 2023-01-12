@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.support;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import org.bukkit.plugin.Plugin;
 
 public enum PluginSupport {
 
@@ -25,5 +26,9 @@ public enum PluginSupport {
 
     public boolean isPluginEnabled() {
         return plugin.getServer().getPluginManager().isPluginEnabled(name);
+    }
+
+    public Plugin getPlugin() {
+        return plugin.getServer().getPluginManager().getPlugin(name);
     }
 }

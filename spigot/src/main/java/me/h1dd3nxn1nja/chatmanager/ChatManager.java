@@ -25,6 +25,8 @@ public class ChatManager extends JavaPlugin implements Listener {
 
     private static ChatManager plugin;
 
+    private boolean isEnabled;
+
     private SettingsManager settingsManager;
 
     private CrazyManager crazyManager;
@@ -85,13 +87,14 @@ public class ChatManager extends JavaPlugin implements Listener {
 
         crazyManager.load(true);
 
-        if (!PluginSupport.LUCKPERMS.isPluginEnabled())
-            plugin.getLogger().warning("A permissions plugin was not found. You will likely have issues without one.");
+        if (!PluginSupport.LUCKPERMS.isPluginEnabled()) plugin.getLogger().severe("A permissions plugin was not found. You will likely have issues without one.");
 
-        registerCommands();
-        registerEvents();
-        setupAutoBroadcast();
-        setupChatRadius();
+        if (PluginSupport.VAULT.isPluginEnabled()) {
+            registerCommands();
+            registerEvents();
+            setupAutoBroadcast();
+            setupChatRadius();
+        }
     }
 
     public void onDisable() {
@@ -243,7 +246,7 @@ public class ChatManager extends JavaPlugin implements Listener {
         UpdateChecker updateChecker = new UpdateChecker(52245);
 
         try {
-            if (updateChecker.hasUpdate() && !getDescription().getVersion().contains("SNAPSHOT")) {
+            if (updateChecker.hasUpdate() && !getDescription().getVersion().contains("Beta")) {
                 if (consolePrint) {
                     getLogger().warning("ChatManager has a new update available! New version: " + updateChecker.getNewVersion());
                     getLogger().warning("Current Version: v" + getDescription().getVersion());

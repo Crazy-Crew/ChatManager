@@ -2,17 +2,14 @@ package me.h1dd3nxn1nja.chatmanager.support;
 
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.bukkit.entity.Player;
 
 public class EssentialsSupport {
 
-	private final Essentials essentials;
+	private Essentials essentials = null;
 
 	public EssentialsSupport() {
-		ChatManager plugin = ChatManager.getPlugin();
-		PluginManager pluginManager = plugin.getPluginManager();
-		essentials = (Essentials) pluginManager.getPluginEnabled(PluginSupport.ESSENTIALS.getName());
+		if (PluginSupport.ESSENTIALS.isPluginEnabled()) essentials = (Essentials) PluginSupport.ESSENTIALS.getPlugin();
 	}
 
 	public boolean isPlayerAFK(String player) {
@@ -26,19 +23,19 @@ public class EssentialsSupport {
 	public boolean isIgnored(Player player, Player player2) {
 		if (isEssentialsReady()) return false;
 
-		User user = essentials.getUser(player);
+		User user = this.essentials.getUser(player);
 
 		if (user == null) return false;
 
-		User user2 = essentials.getUser(player2);
+		User user2 = this.essentials.getUser(player2);
 
         return user2 != null && user.isIgnoredPlayer(user2);
 	}
 	
 	public String getPlayerNickname(Player player) {
-		if (isEssentialsReady()) return null;
+		if (isEssentialsReady()) return "Essentials is not enabled.";
 
-		User user = essentials.getUser(player);
+		User user = this.essentials.getUser(player);
 
 		if (user == null) return null;
 

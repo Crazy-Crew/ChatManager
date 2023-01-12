@@ -43,16 +43,6 @@ public class PluginManager {
         printHooks();
     }
 
-    public boolean isPluginEnabled(String pluginName) {
-        return plugin.getServer().getPluginManager().isPluginEnabled(pluginName);
-    }
-
-    public Plugin getPluginEnabled(String pluginName) {
-        if (isPluginEnabled(pluginName)) return null;
-
-        return plugin.getServer().getPluginManager().getPlugin(pluginName);
-    }
-
     public EssentialsSupport getEssentialsSupport() {
         return essentialsSupport;
     }
