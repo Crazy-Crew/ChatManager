@@ -48,9 +48,9 @@ releaseBuild {
             gameVersions.addAll(listOf("1.8", "1.9", "1.10", "1.11", "1.12", "1.13", "1.14", "1.15", "1.16", "1.17", "1.18", "1.19"))
             loaders.addAll(listOf("spigot", "paper", "purpur"))
 
-            //<h3>The first release for CrazyCrates on Modrinth! 🎉🎉🎉🎉🎉<h3><br> If we want a header.
+            //<h3>The first release for ChatManager on Modrinth! 🎉🎉🎉🎉🎉<h3><br> If we want a header.
             changelog.set("""
-             <h3>The first release for ChatManager on Modrinth! 🎉🎉🎉🎉🎉<h3><br>
+             <h3>⚠️ Do not use in production unless you are certain there is no issues. ⚠️<h3><br>
                 <h2>Changes:</h2>
                  <p>Changed warning label about permissions plugin to severe.</p>
                  <p>Disable auto broadcast by default so it doesn't spam you on first install</p>
