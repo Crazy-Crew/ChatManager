@@ -54,11 +54,11 @@ dependencies {
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(project.properties["java_version"].toString().toInt()))
 }
 
 tasks {
     compileJava {
-        options.release.set(17)
+        options.release.set(project.properties["java_version"].toString().toInt())
     }
 }

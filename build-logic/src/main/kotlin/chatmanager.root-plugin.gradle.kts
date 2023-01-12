@@ -1,24 +1,24 @@
+import task.BuildExtension
+import task.ReleaseBuild
 import task.ReleaseWebhook
 import task.WebhookExtension
 
 plugins {
-    `java-library`
-}
-
-java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    id("chatmanager.common-plugin")
 }
 
 tasks {
     // Creating the extension to be available on the root gradle
     val webhookExtension = extensions.create("webhook", WebhookExtension::class)
 
+    val buildExtension = extensions.create("releaseBuild", BuildExtension::class)
+
     // Register the task
     register<ReleaseWebhook>("releaseWebhook") {
         extension = webhookExtension
     }
 
-    compileJava {
-        options.release.set(17)
+    register<ReleaseBuild>("releaseBuild") {
+        extension = buildExtension
     }
 }

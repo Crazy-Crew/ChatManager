@@ -1,8 +1,21 @@
 .gradle
 .idea
 
-build
 build-logic/.gradle
 build-logic/build
+build-logic/bin
 
-server
+paper/build
+paper/bin
+paper/run/*
+
+!paper/run/eula.txt
+
+common/build
+common/bin
+
+spigot/build
+spigot/bin
+spigot/run/*
+
+!spigot/run/eula.txt

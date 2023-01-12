@@ -1,8 +1,6 @@
 plugins {
-    `java-library`
+    id("chatmanager.root-plugin")
 }
-
-project.description = "The kitchen sink of Chat Management."
 
 repositories {
     /**
@@ -24,18 +22,6 @@ repositories {
      * EssentialsX Team
      */
     maven("https://repo.essentialsx.net/releases/")
-
-    /**
-     * CrazyCrew Team
-     */
-    maven("https://repo.crazycrew.us/plugins/")
-
-    /**
-     * Everything else we need.
-     */
-    maven("https://jitpack.io/")
-
-    mavenCentral()
 }
 
 java {
@@ -48,7 +34,7 @@ dependencies {
 
     implementation("org.jetbrains:annotations:23.0.0")
 
-    compileOnly("org.spigotmc", "spigot-api", "${project.extra["minecraft_version"]}-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc", "spigot-api", "${project.properties["minecraft_version"]}-R0.1-SNAPSHOT")
 
     compileOnly("net.essentialsx", "EssentialsX", "2.19.0")
 

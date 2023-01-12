@@ -4,51 +4,62 @@ plugins {
     id("chatmanager.root-plugin")
 }
 
-val legacyUpdate = Color(255,73,110)
-val releaseUpdate = Color(27,217,106)
-val snapshotUpdate = Color(255,163,71)
+val legacyUpdate = Color(255, 73, 110)
+val releaseUpdate = Color(27, 217, 106)
+val snapshotUpdate = Color(255, 163, 71)
 
 val commitMessage: String? = System.getenv("COMMIT_MESSAGE")
-val isBeta: Boolean = extra["isBeta"].toString().toBoolean()
 
-webhook {
-    this.avatar("https://cdn.discordapp.com/avatars/209853986646261762/eefe3c03882cbb885d98107857d0b022.png?size=4096")
+releaseBuild {
+    val pluginVersion = getProjectVersion()
+    val pluginName = getProjectName()
 
-    this.username("Ryder Belserion")
+    val versionColor = if (isBeta()) snapshotUpdate else releaseUpdate
 
-    //this.content("New version of ${project.name} is ready! <@888222546573537280>")
+    val pageExtension = getExtension()
 
-    this.content("New version of ${project.name} is ready!")
+    webhook {
+        this.avatar("https://cdn.discordapp.com/avatars/209853986646261762/eefe3c03882cbb885d98107857d0b022.png")
 
-    this.embeds {
-        this.embed {
-            if (isBeta) this.color(snapshotUpdate) else this.color(releaseUpdate)
+        this.username("Ryder Belserion")
 
-            this.fields {
-                this.field(
-                    "Version ${project.version}",
-                    "Download Link: https://modrinth.com/plugin/${project.name.toLowerCase()}/version/${project.version}"
-                )
+        this.content("New version of $pluginName is ready! <@888222546573537280>")
 
-                if (isBeta) {
-                    if (commitMessage != null) this.field("Commit Message", commitMessage)
+        // this.content("New version of $pluginName is ready!")
 
-                    this.field("Beta", "They will be hosted on the same page labeled as `Beta`")
+        this.embeds {
+            this.embed {
+                this.color(versionColor)
 
+                this.fields {
                     this.field(
+                        "Version $pluginVersion",
+                        "Download Link: https://modrinth.com/$pageExtension/${pluginName.toLowerCase()}/version/$pluginVersion"
+                    )
+
+                    if (isBeta()) {
+                        if (commitMessage != null) this.field("Commit Message", commitMessage)
+
+                        this.field("Beta", "They will be hosted on the same page labeled as `Beta`")
+
+                        this.field(
+                            "API Update",
+                            "Version $pluginVersion has been pushed to https://repo.crazycrew.us/#/beta/"
+                        )
+                    }
+
+                    if (!isBeta()) this.field(
                         "API Update",
-                        "Version ${project.version} has been pushed to https://repo.crazycrew.us/#/beta/"
+                        "Version $pluginVersion has been pushed to https://repo.crazycrew.us/#/releases/"
                     )
                 }
 
-                if (!isBeta) this.field("API Update","Version ${project.version} has been pushed to https://repo.crazycrew.us/#/releases/")
+                this.author(
+                    pluginName,
+                    "https://modrinth.com/$pageExtension/${pluginName.toLowerCase()}/versions",
+                    "https://cdn-raw.modrinth.com/data/IwVOgYiT/c742dee969a8e37393ea6150670c151384ee4ad2.png"
+                )
             }
-
-            this.author(
-                project.name,
-                "https://modrinth.com/plugin/${project.name.toLowerCase()}/versions",
-                "https://cdn-raw.modrinth.com/data/IwVOgYiT/c742dee969a8e37393ea6150670c151384ee4ad2.png"
-            )
         }
     }
 }

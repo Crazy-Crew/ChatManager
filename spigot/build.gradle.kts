@@ -1,97 +1,103 @@
 plugins {
+
+    id("com.github.johnrengelman.shadow")
+
+    id("xyz.jpenilla.run-paper")
+
+    id("com.modrinth.minotaur")
+
     id("chatmanager.spigot-plugin")
-
-    id("com.modrinth.minotaur") version "2.6.0"
-
-    id("com.github.johnrengelman.shadow") version "7.1.2"
 
     `maven-publish`
 }
 
-val isBeta: Boolean = extra["isBeta"].toString().toBoolean()
+releaseBuild {
 
-fun getPluginVersion(): String {
-    return if (isBeta) "${project.version}-BETA" else project.version.toString()
-}
+    tasks {
+        shadowJar {
+            archiveFileName.set("${getProjectName()}+${getProjectVersion()}.jar")
 
-fun getPluginVersionType(): String {
-    return if (isBeta) "beta" else "release"
-}
-
-tasks {
-    shadowJar {
-        archiveFileName.set("${rootProject.name}-${getPluginVersion()}.jar")
-
-        listOf(
-            "org.bstats"
-        ).forEach {
-            relocate(it, "${rootProject.group}.plugin.lib.$it")
-        }
-    }
-
-    modrinth {
-        token.set(System.getenv("MODRINTH_TOKEN"))
-        projectId.set("chatmanager")
-
-        versionName.set("${rootProject.name} ${getPluginVersion()}")
-        versionNumber.set(getPluginVersion())
-
-        versionType.set(getPluginVersionType())
-
-        uploadFile.set(shadowJar.get())
-
-        autoAddDependsOn.set(true)
-
-        dependencies {
-            optional.project("essentialsx")
+            listOf(
+                "org.bstats"
+            ).forEach { value ->
+                relocate(value, "${getProjectGroup()}.plugin.library.$value")
+            }
         }
 
-        gameVersions.addAll(listOf("1.8", "1.9", "1.10", "1.11", "1.12", "1.13", "1.14", "1.15", "1.16", "1.17", "1.18", "1.19"))
-        loaders.addAll(listOf("spigot", "paper", "purpur"))
+        runServer {
+            minecraftVersion("1.8.8")
+        }
 
-        //<h3>The first release for CrazyCrates on Modrinth! 🎉🎉🎉🎉🎉<h3><br> If we want a header.
-        changelog.set("""
+        modrinth {
+            token.set(System.getenv("MODRINTH_TOKEN"))
+            projectId.set(getProjectName().toLowerCase())
+
+            versionName.set("${getProjectName()} ${getProjectVersion()}")
+            versionNumber.set(getProjectVersion())
+
+            versionType.set(getProjectType())
+
+            uploadFile.set(shadowJar.get())
+
+            autoAddDependsOn.set(true)
+
+            dependencies {
+                optional.project("essentialsx")
+            }
+
+            gameVersions.addAll(listOf("1.8", "1.9", "1.10", "1.11", "1.12", "1.13", "1.14", "1.15", "1.16", "1.17", "1.18", "1.19"))
+            loaders.addAll(listOf("spigot", "paper", "purpur"))
+
+            //<h3>The first release for CrazyCrates on Modrinth! 🎉🎉🎉🎉🎉<h3><br> If we want a header.
+            changelog.set("""
              <h3>The first release for ChatManager on Modrinth! 🎉🎉🎉🎉🎉<h3><br>
                 <h2>Changes:</h2>
-                 <p>N/A</p>
+                 <p>Changed warning label about permissions plugin to severe.</p>
+                 <p>Disable auto broadcast by default so it doesn't spam you on first install</p>
                 <h2>Bug Fixes:</h2>
-                 <p>N/A</p>
+                 <p>Fixed a few bugs due to Essentials not being invoked correctly./p>
+                 <p>Fixed a few bugs due to Vault not being invoked correctly.</p>
+                 <p>Fixed a bug where tasks or listeners will still try to run if Vault not found</p>
+                 <p>Fixed a bug where messages/prefixes weren't being colored or replaced.</p>
+                 <p>Fixed a bug where messages weren't showing up in /reply or /msg</p>
+                 <p>Fixed a bug where it would say Cannot use this command when doing /chatmanager reload</p>
             """.trimIndent())
-    }
-
-    processResources {
-        filesMatching("plugin.yml") {
-            expand(
-                "name" to rootProject.name,
-                "group" to project.group,
-                "version" to getPluginVersion(),
-                "description" to project.description,
-                "website" to "https://modrinth.com/plugin/chatmanager"
-            )
         }
-    }
-}
 
-publishing {
-    val mavenExt: String = if (isBeta) "beta" else "releases"
-
-    repositories {
-        maven("https://repo.crazycrew.us/$mavenExt") {
-            name = "crazycrew"
-            //credentials(PasswordCredentials::class)
-            credentials {
-                username = System.getenv("REPOSITORY_USERNAME")
-                password = System.getenv("REPOSITORY_PASSWORD")
+        processResources {
+            filesMatching("plugin.yml") {
+                expand(
+                    "name" to getProjectName(),
+                    "group" to getProjectGroup(),
+                    "version" to getProjectVersion(),
+                    "description" to getProjectDescription(),
+                    "website" to "https://modrinth.com/${getExtension()}/${getProjectName().toLowerCase()}"
+                )
             }
         }
     }
 
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = "${project.group}"
-            artifactId = rootProject.name.toLowerCase()
-            version = getPluginVersion()
-            from(components["java"])
+    publishing {
+        repositories {
+            maven("https://repo.crazycrew.us/libraries") {
+                name = "crazycrew"
+                // Used for locally publishing.
+                // credentials(PasswordCredentials::class)
+
+                credentials {
+                    username = System.getenv("REPOSITORY_USERNAME")
+                    password = System.getenv("REPOSITORY_PASSWORD")
+                }
+            }
+        }
+
+        publications {
+            create<MavenPublication>("maven") {
+                groupId = getProjectGroup()
+                artifactId = "${getProjectName().toLowerCase()}-paper"
+                version = getProjectVersion()
+                from(components["java"])
+            }
         }
     }
 }
