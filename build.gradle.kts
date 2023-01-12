@@ -23,7 +23,7 @@ releaseBuild {
 
         this.username("Ryder Belserion")
 
-        this.content("New version of $pluginName is ready! <@888222546573537280>")
+        this.content("New version of $pluginName is ready! <@&888222546573537280>")
 
         // this.content("New version of $pluginName is ready!")
 

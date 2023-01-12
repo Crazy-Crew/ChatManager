@@ -79,10 +79,10 @@ releaseBuild {
 
     publishing {
         repositories {
-            maven("https://repo.crazycrew.us/libraries") {
+            maven("https://repo.crazycrew.us/beta") {
                 name = "crazycrew"
                 // Used for locally publishing.
-                // credentials(PasswordCredentials::class)
+                //credentials(PasswordCredentials::class)
 
                 credentials {
                     username = System.getenv("REPOSITORY_USERNAME")
@@ -94,7 +94,7 @@ releaseBuild {
         publications {
             create<MavenPublication>("maven") {
                 groupId = getProjectGroup()
-                artifactId = "${getProjectName().toLowerCase()}-paper"
+                artifactId = "${getProjectName().toLowerCase()}-spigot"
                 version = getProjectVersion()
                 from(components["java"])
             }
