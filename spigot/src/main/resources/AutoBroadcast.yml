@@ -1,6 +1,6 @@
 Auto_Broadcast:
   Global_Messages:
-    Enable: true
+    Enable: false
     Header_And_Footer: true
     Interval: 30
     Prefix: "&7[&6AutoBroadcast&7]"
@@ -12,7 +12,7 @@ Auto_Broadcast:
       - "{Prefix} &7Plugin created by H1DD3NxN1NJA."
       - "{Prefix} &7Hello &c{player} &7there are &c{online} &7players online."
   Per_World_Messages:
-    Enable: true
+    Enable: false
     Header_And_Footer: true
     Interval: 60
     Prefix: "&7[&6AutoBroadcast&7]"
@@ -47,7 +47,7 @@ Auto_Broadcast:
       - "{Prefix} &7Plugin created by H1DD3NxN1NJA."
       - "{Prefix} &7Hello &c{player} &7there are &c{online} &7players online."
   Title_Messages:
-    Enable: true
+    Enable: false
     Interval: 60
     Sound: ''
     Title: "&cTitle"
