@@ -9,7 +9,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -84,11 +83,11 @@ public class Methods {
 	}
 	
 	public static String getPrefix() {
-		return settingsManager.getMessages().getString("Message.Prefix");
+		return color(settingsManager.getMessages().getString("Message.Prefix"));
 	}
 	
 	public static String noPermission() {
-		return settingsManager.getMessages().getString("Message.No_Permission");
+		return color(settingsManager.getMessages().getString("Message.No_Permission").replace("{Prefix}", getPrefix()));
 	}
 	
 	public static boolean getMuted() {
@@ -125,32 +124,24 @@ public class Methods {
 	public static void sendMessage(CommandSender commandSender, String message, boolean prefixToggle) {
 		if (message == null || message.isEmpty()) return;
 
-		SettingsManager messages = plugin.getSettingsManager();
-
-		String prefix = messages.Messages.getString("Message.Prefix");
+		String prefix = getPrefix();
 
 		if (commandSender instanceof Player) {
 			Player player = (Player) commandSender;
 
-			if (prefix != null && !prefix.isEmpty() && prefixToggle) player.sendMessage(color(message.replace("{Prefix}", prefix))); else player.sendMessage(color(message));
+			if (!prefix.isEmpty() && prefixToggle) player.sendMessage(color(message.replace("{Prefix}", prefix))); else player.sendMessage(color(message));
 
 			return;
 		}
 
-		if (prefix != null && !prefix.isEmpty() && prefixToggle) commandSender.sendMessage(color(message.replace("{Prefix}", prefix))); else commandSender.sendMessage(color(message));
+		if (!prefix.isEmpty() && prefixToggle) commandSender.sendMessage(color(message.replace("{Prefix}", prefix))); else commandSender.sendMessage(color(message));
 	}
 
 	public static void broadcast(String message) {
 		if (message == null || message.isEmpty()) return;
 
-		SettingsManager messages = plugin.getSettingsManager();
+		String prefix = getPrefix();
 
-		String prefix = messages.Messages.getString("Message.Prefix");
-
-		if (prefix != null && !prefix.isEmpty()) plugin.getServer().broadcastMessage(color(message.replace("{Prefix}", prefix))); else plugin.getServer().broadcastMessage(color(message));
-	}
-
-	public static void logWarning(String message) {
-		plugin.getLogger().warning(message);
+		if (!prefix.isEmpty()) plugin.getServer().broadcastMessage(color(message.replace("{Prefix}", prefix))); else plugin.getServer().broadcastMessage(color(message));
 	}
 }

@@ -93,11 +93,11 @@ public class CommandMessage implements CommandExecutor {
 
 				Methods.sendMessage(player, placeholderManager.setPlaceholders(target, config.getString("Private_Messages.Sender.Format")
 						.replace("{receiver}", target.getName())
-						.replace("{receiver_displayname}", target.getDisplayName() + message)), true);
+						.replace("{receiver_displayname}", target.getDisplayName()) + message), true);
 
 				Methods.sendMessage(target, placeholderManager.setPlaceholders(player, config.getString("Private_Messages.Receiver.Format")
 						.replace("{receiver}", target.getName())
-						.replace("{receiver_displayname}", player.getDisplayName() + message)), true);
+						.replace("{receiver_displayname}", player.getDisplayName()) + message), true);
 
 				Methods.cm_replied.put(player, target);
 				Methods.cm_replied.put(target, player);
@@ -115,6 +115,7 @@ public class CommandMessage implements CommandExecutor {
 				player.sendMessage(Methods.noPermission());
 			}
 		}
+
 		if (cmd.getName().equalsIgnoreCase("Reply")) {
 			if (player.hasPermission("chatmanager.reply")) {
 				if (args.length > 0) {
@@ -150,11 +151,11 @@ public class CommandMessage implements CommandExecutor {
 
 					Methods.sendMessage(player, placeholderManager.setPlaceholders(target, config.getString("Private_Messages.Sender.Format")
 							.replace("{receiver}", target.getName())
-							.replace("{receiver_displayname}", target.getDisplayName() + message)), true);
+							.replace("{receiver_displayname}", target.getDisplayName()) + message), true);
 
 					Methods.sendMessage(target, placeholderManager.setPlaceholders(player, config.getString("Private_Messages.Receiver.Format")
 							.replace("{receiver}", target.getName())
-							.replace("{receiver_displayname}", player.getDisplayName() + message)), true);
+							.replace("{receiver_displayname}", player.getDisplayName()) + message), true);
 
 					Methods.cm_replied.put(target, player);
 					Methods.cm_replied.put(player, target);
@@ -162,9 +163,7 @@ public class CommandMessage implements CommandExecutor {
 					for (Player staff : plugin.getServer().getOnlinePlayers()) {
 						if ((staff != player) && (staff != target)) {
 							if ((!player.hasPermission("chatmanager.bypass.socialspy")) && (!target.hasPermission("chatmanager.bypass.socialspy"))) {
-								if (Methods.cm_socialSpy.contains(staff.getUniqueId())) {
-									Methods.sendMessage(staff, messages.getString("Social_Spy.Format").replace("{player}", player.getName()).replace("{receiver}", target.getName()).replace("{message}", message), true);
-								}
+								if (Methods.cm_socialSpy.contains(staff.getUniqueId())) Methods.sendMessage(staff, messages.getString("Social_Spy.Format").replace("{player}", player.getName()).replace("{receiver}", target.getName()).replace("{message}", message), true);
 							}
 						}
 					}
@@ -217,6 +216,7 @@ public class CommandMessage implements CommandExecutor {
 
 			return essentialsSupport.isMuted(player);
 		}
+
 		return false;
 	}
 }

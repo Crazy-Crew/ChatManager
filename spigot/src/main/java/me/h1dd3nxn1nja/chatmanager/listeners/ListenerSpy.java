@@ -18,7 +18,6 @@ public class ListenerSpy implements Listener {
 
 	@EventHandler
 	public void onCommand(PlayerCommandPreprocessEvent event) {
-
 		FileConfiguration messages = settingsManager.getMessages();
 		FileConfiguration config = settingsManager.getConfig();
 
