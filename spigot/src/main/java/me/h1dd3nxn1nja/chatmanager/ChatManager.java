@@ -60,6 +60,13 @@ public class ChatManager extends JavaPlugin implements Listener {
             settingsManager.saveConfig();
         }
 
+        String hexColorFormat = settingsManager.getConfig().getString("Hex_Color_Format");
+
+        if (hexColorFormat == null) {
+            settingsManager.getConfig().set("Hex_Color_Format", "#");
+            settingsManager.saveConfig();
+        }
+
         boolean metricsEnabled = settingsManager.getConfig().getBoolean("Metrics_Enabled");
 
         int configVersion = 1;

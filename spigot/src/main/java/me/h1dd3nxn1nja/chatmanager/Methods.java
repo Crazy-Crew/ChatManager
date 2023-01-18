@@ -7,14 +7,15 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
 import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.h1dd3nxn1nja.chatmanager.commands.CommandMuteChat;
 import me.h1dd3nxn1nja.chatmanager.listeners.ListenerCaps;
-import net.md_5.bungee.api.ChatColor;
 
 public class Methods {
 
@@ -47,36 +48,46 @@ public class Methods {
 	public static ArrayList<UUID> cm_socialSpy = new ArrayList<>();
 	public static ArrayList<UUID> cm_staffChat = new ArrayList<>();
 	public static ArrayList<UUID> cm_togglePM = new ArrayList<>();
-	
-	public final static Pattern HEX_COLOR_PATTERN = Pattern.compile("#([A-Fa-f0-9]{6})");
+
+	private static final char COLOR_CHAR = ChatColor.COLOR_CHAR;
 	
 	public static String color(String message) {
 		if (ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1)) {
-			Matcher matcher = HEX_COLOR_PATTERN.matcher(message);
-			StringBuffer buffer = new StringBuffer();
-			
-			while (matcher.find()) {
-				matcher.appendReplacement(buffer, ChatColor.of(matcher.group()).toString());
-			}
+			String format = settingsManager.getConfig().getString("Hex_Color_Format");
+			Pattern hex = Pattern.compile(format + "([A-Fa-f0-9]{6})");
+			Matcher matcher = hex.matcher(message);
+			StringBuffer buffer = new StringBuffer(message.length() + 4 * 8);
 
-			return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
+			while (matcher.find()) {
+				String group = matcher.group(1);
+				matcher.appendReplacement(buffer, COLOR_CHAR + "x"
+						+ COLOR_CHAR + group.charAt(0) + COLOR_CHAR + group.charAt(1)
+						+ COLOR_CHAR + group.charAt(2) + COLOR_CHAR + group.charAt(3)
+						+ COLOR_CHAR + group.charAt(4) + COLOR_CHAR + group.charAt(5)
+				);
+			}
 		}
 
 		return ChatColor.translateAlternateColorCodes('&', message);
 	}
 	
 	public static String color(Player player, String message) {
-		if (plugin.getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
-			if (ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1)) {
-				Matcher matcher = HEX_COLOR_PATTERN.matcher(message);
-				StringBuffer buffer = new StringBuffer();
+		if (ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1)) {
+			String format = settingsManager.getConfig().getString("Hex_Color_Format");
+			Pattern hex = Pattern.compile(format + "([A-Fa-f0-9]{6})");
+			Matcher matcher = hex.matcher(message);
+			StringBuffer buffer = new StringBuffer(message.length() + 4 * 8);
 
-				while (matcher.find()) {
-					matcher.appendReplacement(buffer, ChatColor.of(matcher.group()).toString());
-				}
-
-				return ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(player, matcher.appendTail(buffer).toString()));
+			while (matcher.find()) {
+				String group = matcher.group(1);
+				matcher.appendReplacement(buffer, COLOR_CHAR + "x"
+						+ COLOR_CHAR + group.charAt(0) + COLOR_CHAR + group.charAt(1)
+						+ COLOR_CHAR + group.charAt(2) + COLOR_CHAR + group.charAt(3)
+						+ COLOR_CHAR + group.charAt(4) + COLOR_CHAR + group.charAt(5)
+				);
 			}
+
+			if (PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) return ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(player, matcher.appendTail(buffer).toString()));else return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
 		}
 
 		return ChatColor.translateAlternateColorCodes('&', message);
