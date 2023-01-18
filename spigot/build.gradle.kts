@@ -58,6 +58,7 @@ releaseBuild {
                  <p>Applies to both `@everyone` & `@<username>` | Players also need the permission `chatmanager.mention.receive` to get mention at all.</p>
                 <h2>Bug Fixes:</h2>
                  <p>Maybe fixed sounds still playing when toggle mentions is on.</p>
+             <a href="https://github.com/orgs/Crazy-Crew/discussions">Send your bug reports/suggestions here</a> 
             """.trimIndent())
         }
 
