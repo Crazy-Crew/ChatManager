@@ -25,7 +25,7 @@ releaseBuild {
         }
 
         runServer {
-            minecraftVersion("1.8.8")
+            minecraftVersion("1.19.3")
         }
 
         modrinth {
@@ -52,15 +52,12 @@ releaseBuild {
             changelog.set("""
              <h3>⚠️ Do not use in production unless you are certain there is no issues. ⚠️<h3><br>
                 <h2>Changes:</h2>
-                 <p>Changed warning label about permissions plugin to severe.</p>
-                 <p>Disable auto broadcast by default so it doesn't spam you on first install</p>
+                 <p>Added the ability to change the hex color format.</p>
+                 <p>Note: You cannot use `<>` or () around it, It only supports letters like # or &#'</p>
+                 <p>Added a new permission, `chatmanager.mention.receive` which means if the permission is false, They can't get mentioned.</p>
+                 <p>Applies to both `@everyone` & `@<username>` | Players also need the permission `chatmanager.mention.receive` to get mention at all.</p>
                 <h2>Bug Fixes:</h2>
-                 <p>Fixed a few bugs due to Essentials not being invoked correctly./p>
-                 <p>Fixed a few bugs due to Vault not being invoked correctly.</p>
-                 <p>Fixed a bug where tasks or listeners will still try to run if Vault not found</p>
-                 <p>Fixed a bug where messages/prefixes weren't being colored or replaced.</p>
-                 <p>Fixed a bug where messages weren't showing up in /reply or /msg</p>
-                 <p>Fixed a bug where it would say Cannot use this command when doing /chatmanager reload</p>
+                 <p>Maybe fixed sounds still playing when toggle mentions is on.</p>
             """.trimIndent())
         }
 
