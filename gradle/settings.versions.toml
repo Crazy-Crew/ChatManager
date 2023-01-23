@@ -1,0 +1,16 @@
+[versions]
+
+# Project Settings
+projectVersion = "3.9.1.1"
+
+projectGroup = "me.h1dd3nxn1nja.chatmanager"
+projectName = "ChatManager"
+projectDescription = "The kitchen sink of Chat Management."
+projectGithub = "https://github.com/Crazy-Crew/ChatManager"
+projectBeta = "true"
+projectExtension = "plugin"
+
+[plugins]
+
+minotaur = { id = "com.modrinth.minotaur", version = "2.6.0" }
+run-paper = { id = "xyz.jpenilla.run-paper", version = "2.0.0" }

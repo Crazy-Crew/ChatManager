@@ -4,11 +4,6 @@ plugins {
 
 repositories {
     /**
-     * PAPI Team
-     */
-    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-
-    /**
      * Spigot Team
      */
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
@@ -22,26 +17,4 @@ repositories {
      * EssentialsX Team
      */
     maven("https://repo.essentialsx.net/releases/")
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
-dependencies {
-    implementation("org.bstats", "bstats-bukkit", "3.0.0")
-
-    implementation("org.jetbrains:annotations:23.0.0")
-
-    compileOnly("org.spigotmc", "spigot-api", "${project.properties["minecraft_version"]}-R0.1-SNAPSHOT")
-
-    compileOnly("net.essentialsx", "EssentialsX", "2.19.0")
-
-    compileOnly("me.clip", "placeholderapi", "2.11.2") {
-        exclude(group = "org.spigotmc", module = "spigot")
-        exclude(group = "org.bukkit", module = "bukkit")
-    }
-
-    compileOnly("com.github.MilkBowl", "VaultAPI", "1.7")
 }

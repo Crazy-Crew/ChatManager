@@ -6,51 +6,48 @@ plugins {
 
 val legacyUpdate = Color(255, 73, 110)
 val releaseUpdate = Color(27, 217, 106)
-val snapshotUpdate = Color(255, 163, 71)
+val betaUpdate = Color(255, 163, 71)
 
-val commitMessage: String? = System.getenv("COMMIT_MESSAGE")
+val isBeta = settings.versions.projectBeta.get().toBoolean()
+val projectVersion = settings.versions.projectVersion.get()
+val projectName = settings.versions.projectName.get()
+val projectExt = settings.versions.projectExtension.get()
 
-releaseBuild {
-    val pluginVersion = getProjectVersion()
-    val pluginName = getProjectName()
+val finalVersion = if (isBeta) "$projectVersion+Beta" else projectVersion
 
-    val versionColor = if (isBeta()) snapshotUpdate else releaseUpdate
+val projectNameLowerCase = projectName.toLowerCase()
 
-    val pageExtension = getExtension()
+val color = if (isBeta) betaUpdate else releaseUpdate
+val repo = if (isBeta) "beta" else "releases"
 
-    webhook {
-        this.avatar("https://cdn.discordapp.com/avatars/209853986646261762/eefe3c03882cbb885d98107857d0b022.png")
+webhook {
+    this.avatar("https://cdn.discordapp.com/avatars/209853986646261762/eefe3c03882cbb885d98107857d0b022.png?size=4096")
 
-        this.username("Ryder Belserion")
+    this.username("Ryder Belserion")
 
-        this.content("New version of $pluginName is ready! <@&888222546573537280>")
+    this.content("New version of $projectName is ready! <@&929463450214735912>")
 
-        // this.content("New version of $pluginName is ready!")
+    this.embeds {
+        this.embed {
+            this.color(color)
 
-        this.embeds {
-            this.embed {
-                this.color(versionColor)
+            this.fields {
+                this.field(
+                    "Version $finalVersion",
+                    "Download Link: https://modrinth.com/$projectExt/$projectNameLowerCase/version/$finalVersion"
+                )
 
-                this.fields {
-                    this.field(
-                        "Version $pluginVersion",
-                        "Download Link: https://modrinth.com/$pageExtension/${pluginName.toLowerCase()}/version/$pluginVersion"
-                    )
-
-                    val urlExt = if (isBeta()) "beta" else "releases"
-
-                    this.field(
-                        "API Update",
-                        "Version $pluginVersion has been pushed to https://repo.crazycrew.us/#/$urlExt/"
-                    )
-                }
-
-                this.author(
-                    pluginName,
-                    "https://modrinth.com/$pageExtension/${pluginName.toLowerCase()}/versions",
-                    "https://cdn-raw.modrinth.com/data/IwVOgYiT/c742dee969a8e37393ea6150670c151384ee4ad2.png"
+                this.field(
+                    "API Update",
+                    "Version $finalVersion has been pushed to https://repo.crazycrew.us/#/$repo"
                 )
             }
+
+            this.author(
+                projectName,
+                "https://modrinth.com/$projectExt/$projectNameLowerCase/versions",
+                "https://cdn-raw.modrinth.com/data/IwVOgYiT/c742dee969a8e37393ea6150670c151384ee4ad2.png"
+            )
         }
     }
 }
