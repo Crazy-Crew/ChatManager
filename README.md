@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[![chatmanager](https://cdn-raw.modrinth.com/data/IwVOgYiT/c742dee969a8e37393ea6150670c151384ee4ad2.png)](https://ci.crazycrew.us/view/ChatManager/job/ChatManager%20Beta/)
+[![chatmanager](https://cdn-raw.modrinth.com/data/IwVOgYiT/c742dee969a8e37393ea6150670c151384ee4ad2.png)](https://modrinth.com/plugin/chatmanager/versions)
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -17,9 +17,9 @@
 ![Purpur](https://cdn.jsdelivr.net/gh/intergrav/devins-badges/assets/compact/supported/purpur_vector.svg)
 
   <p align="center">
-    A crates plugin that offers quality crates with ease!
+    The kitchen sink of Chat Management!
     <br />
-    <a href="https://github.com/H1DD3NxN1NJA/ChatManager/wiki"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/Crazy-Crew/ChatManager/wiki"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/Crazy-Crew/ChatManager/issues">Report Bug</a>
@@ -58,11 +58,11 @@ All beta builds will be on Modrinth.<br>
 
 ## Getting Started
 
-How to get started with contributing / maintaining your own version of CrazyCrates!
+How to get started with contributing / maintaining your own version of ChatManager!
 
 ### Prerequisites
 
-A list of things necessary to make sure you can build CrazyCrates properly.
+A list of things necessary to make sure you can build ChatManager properly.
 * Intellij IDEA
     * > https://www.jetbrains.com/idea/download/
 * Gradle
@@ -109,4 +109,4 @@ Distributed under the MIT License. See [`LICENSE`](/LICENSE) for more informatio
 [license-shield]: https://img.shields.io/github/license/Crazy-Crew/ChatManager.svg?style=flat&logo=appveyor
 [license-url]: https://github.com/Crazy-Crew/ChatManager/blob/master/LICENSE
 
-[codefactor-shield]: https://img.shields.io/codefactor/grade/github/crazy-crew/ChatManager/beta?style=flat&logo=appveyor
+[codefactor-shield]: https://img.shields.io/codefactor/grade/github/crazy-crew/ChatManager/main?style=flat&logo=appveyor
