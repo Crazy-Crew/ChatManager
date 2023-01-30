@@ -18,9 +18,8 @@ public class ListenerStaffChat implements Listener {
 
 	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
-
 		FileConfiguration config = settingsManager.getConfig();
 
 		Player player = event.getPlayer();

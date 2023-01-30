@@ -23,9 +23,8 @@ public class ListenerSwear implements Listener {
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
-	//Add a way so that chat manager highlights the swear word in the notify feature.
-
-	@EventHandler
+	// Add a way so that chat manager highlights the swear word in the notify feature.
+	@EventHandler(ignoreCancelled = true)
 	public void onSwear(AsyncPlayerChatEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration bannedWords = settingsManager.getBannedWords();
@@ -111,7 +110,7 @@ public class ListenerSwear implements Listener {
 		return false;
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onSwearCommand(PlayerCommandPreprocessEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration messages = settingsManager.getMessages();
@@ -215,7 +214,7 @@ public class ListenerSwear implements Listener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onSwearSign(SignChangeEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration bannedWords = settingsManager.getBannedWords();

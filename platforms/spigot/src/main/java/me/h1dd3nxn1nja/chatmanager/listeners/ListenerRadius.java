@@ -17,8 +17,8 @@ public class ListenerRadius implements Listener {
 	private final ChatManager plugin = ChatManager.getPlugin();
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
-	
-	@EventHandler (priority = EventPriority.HIGHEST)
+
+	@EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
 		Player player = event.getPlayer();

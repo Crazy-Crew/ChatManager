@@ -27,7 +27,7 @@ public class ListenerPlayerJoin implements Listener {
 
     private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void firstJoinMessage(PlayerJoinEvent event) {
         FileConfiguration config = settingsManager.getConfig();
 
@@ -75,8 +75,8 @@ public class ListenerPlayerJoin implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void JoinMessage(PlayerJoinEvent event) {
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void joinMessage(PlayerJoinEvent event) {
         FileConfiguration config = settingsManager.getConfig();
 
         Player player = event.getPlayer();
@@ -203,7 +203,7 @@ public class ListenerPlayerJoin implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerQuit(PlayerQuitEvent event) {
         FileConfiguration config = settingsManager.getConfig();
 
@@ -236,7 +236,7 @@ public class ListenerPlayerJoin implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent event) {
         FileConfiguration config = settingsManager.getConfig();
 

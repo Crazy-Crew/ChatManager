@@ -15,13 +15,13 @@ public class ListenerMuteChat implements Listener {
 	private final ChatManager plugin = ChatManager.getPlugin();
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
-	
-	@EventHandler
+
+	@EventHandler(ignoreCancelled = true)
 	public void muteChat(AsyncPlayerChatEvent event) {
 		FileConfiguration messages = settingsManager.getMessages();
-		
+
 		Player player = event.getPlayer();
-		
+
 		if (!player.hasPermission("chatmanager.bypass.mutechat")) {
 			if (Methods.getMuted()) {
 				Methods.sendMessage(player, messages.getString("Mute_Chat.Denied_Message"), true);
@@ -29,14 +29,14 @@ public class ListenerMuteChat implements Listener {
 			}
 		}
 	}
-	
-	@EventHandler
+
+	@EventHandler(ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration messages = settingsManager.getMessages();
-		
+
 		Player player = event.getPlayer();
-		
+
 		if (config.getBoolean("Mute_Chat.Disable_Commands")) {
 			if (!player.hasPermission("chatmanager.bypass.mutechat")) {
 				if (Methods.getMuted()) {

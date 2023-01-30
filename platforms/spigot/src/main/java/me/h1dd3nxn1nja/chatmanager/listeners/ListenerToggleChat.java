@@ -12,7 +12,7 @@ public class ListenerToggleChat implements Listener {
 
 	private final ChatManager plugin = ChatManager.getPlugin();
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 

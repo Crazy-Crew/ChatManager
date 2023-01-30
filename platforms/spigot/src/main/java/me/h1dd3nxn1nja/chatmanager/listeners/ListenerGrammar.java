@@ -17,9 +17,8 @@ public class ListenerGrammar implements Listener {
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void grammarCheck(AsyncPlayerChatEvent event) {
-
 		FileConfiguration config = settingsManager.getConfig();
 
 		Player player = event.getPlayer();

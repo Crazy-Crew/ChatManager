@@ -17,7 +17,7 @@ public class ListenerBannedCommand implements Listener {
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration bannedcommands = settingsManager.getBannedCommands();
@@ -34,9 +34,9 @@ public class ListenerBannedCommand implements Listener {
 						if (event.getMessage().toLowerCase().equals("/" + command)) {
 							event.setCancelled(true);
 							Methods.sendMessage(player, messages.getString("Banned_Commands.Message").replace("{command}", command), true);
-							NotifyStaff(player, command);
-							TellConsole(player, command);
-							ExecuteCommand(player);
+							notifyStaff(player, command);
+							tellConsole(player, command);
+							executeCommand(player);
 						}
 					}
 				} else {
@@ -44,9 +44,9 @@ public class ListenerBannedCommand implements Listener {
 						if (event.getMessage().toLowerCase().contains("/" + command)) {
 							event.setCancelled(true);
 							Methods.sendMessage(player, messages.getString("Banned_Commands.Message").replace("{command}", command), true);
-							NotifyStaff(player, command);
-							TellConsole(player, command);
-							ExecuteCommand(player);
+							notifyStaff(player, command);
+							tellConsole(player, command);
+							executeCommand(player);
 						}
 					}
 				}
@@ -56,15 +56,15 @@ public class ListenerBannedCommand implements Listener {
 				if (event.getMessage().split(" ")[0].contains(":")) {
 					event.setCancelled(true);
 					Methods.sendMessage(player, messages.getString("Banned_Commands.Message").replace("{command}", event.getMessage().replace("/", "")), true);
-					NotifyStaff(player, event.getMessage().replace("/", ""));
-					TellConsole(player, event.getMessage().replace("/", ""));
-					ExecuteCommand(player);
+					notifyStaff(player, event.getMessage().replace("/", ""));
+					tellConsole(player, event.getMessage().replace("/", ""));
+					executeCommand(player);
 				}
 			}
 		}
 	}
 
-	public void NotifyStaff(Player player, String message) {
+	public void notifyStaff(Player player, String message) {
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration messages = settingsManager.getMessages();
 
@@ -76,19 +76,19 @@ public class ListenerBannedCommand implements Listener {
 			}
 		}
 	}
-	
-	public void TellConsole(Player player, String message) {
+
+	public void tellConsole(Player player, String message) {
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration messages = settingsManager.getMessages();
-		
+
 		if (config.getBoolean("Banned_Commands.Notify_Staff")) {
 			Methods.tellConsole(messages.getString("Banned_Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{command}", message), true);
 		}
 	}
 
-	public void ExecuteCommand(Player player) {
+	public void executeCommand(Player player) {
 		FileConfiguration config = settingsManager.getConfig();
-		
+
 		if (config.getBoolean("Banned_Commands.Execute_Command")) {
 			if (config.contains("Banned_Commands.Executed_Command")) {
 				String command = config.getString("Banned_Commands.Executed_Command").replace("{player}", player.getName());

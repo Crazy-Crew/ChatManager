@@ -19,15 +19,14 @@ public class ListenerAntiUnicode implements Listener {
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
-
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration messages = settingsManager.getMessages();
-		
+
 		List<String> whitelisted = config.getStringList("Anti_Unicode.Whitelist");
 
 		Pattern pattern = Pattern.compile("^[A-Za-z0-9-~!@#$%^&*()<>_+=-{}|';:.,\\[\"\"]|';:.,/?><_.]+$");

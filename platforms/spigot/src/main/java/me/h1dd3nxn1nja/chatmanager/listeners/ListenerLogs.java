@@ -20,19 +20,19 @@ public class ListenerLogs implements Listener {
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
-		
-		String playername = event.getPlayer().getName();
+
+		String playerName = event.getPlayer().getName();
 		String message = event.getMessage();
 		Date time = Calendar.getInstance().getTime();
-		
+
 		if (config.getBoolean("Logs.Log_Chat")) {
 			try {
 				FileWriter fw = new FileWriter(settingsManager.getChatLogs(), true);
 				BufferedWriter bw = new BufferedWriter(fw);
-				bw.write("[" + time + "] " + playername + ": " + message.replaceAll("§", "&"));
+				bw.write("[" + time + "] " + playerName + ": " + message.replaceAll("§", "&"));
 				bw.newLine();
 				fw.flush();
 				bw.close();
@@ -41,14 +41,14 @@ public class ListenerLogs implements Listener {
 			}
 		}
 	}
-	
-	@EventHandler
+
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
 
 		List<String> blacklist = config.getStringList("Logs.Blacklist_Commands");
 
-		String playername = event.getPlayer().getName();
+		String playerName = event.getPlayer().getName();
 		String message = event.getMessage();
 		Date time = Calendar.getInstance().getTime();
 
@@ -62,7 +62,7 @@ public class ListenerLogs implements Listener {
 			try {
 				FileWriter fw = new FileWriter(settingsManager.getCommandLogs(), true);
 				BufferedWriter bw = new BufferedWriter(fw);
-				bw.write("[" + time + "] " + playername + ": " + message.replaceAll("§", "&"));
+				bw.write("[" + time + "] " + playerName + ": " + message.replaceAll("§", "&"));
 				bw.newLine();
 				fw.flush();
 				bw.close();
@@ -71,17 +71,17 @@ public class ListenerLogs implements Listener {
 			}
 		}
 	}
-	
-	@EventHandler
+
+	@EventHandler(ignoreCancelled = true)
 	public void onSignChange(SignChangeEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
 
-		String playername = event.getPlayer().getName();
+		String playerName = event.getPlayer().getName();
 		Date time = Calendar.getInstance().getTime();
 
 		for (int line = 0; line < 4; line++) {
 			String message = event.getLine(line);
-			
+
 			int X = event.getBlock().getLocation().getBlockX();
 			int Y = event.getBlock().getLocation().getBlockY();
 			int Z = event.getBlock().getLocation().getBlockZ();
@@ -90,7 +90,7 @@ public class ListenerLogs implements Listener {
 				try {
 					FileWriter fw = new FileWriter(settingsManager.getSignLogs(), true);
 					BufferedWriter bw = new BufferedWriter(fw);
-					bw.write("[" + time + "] " + playername + " | Location: X: " + X + " Y: " + Y + " Z: " + Z + " | Line: " + line + " | "+ message.replaceAll("§", "&"));
+					bw.write("[" + time + "] " + playerName + " | Location: X: " + X + " Y: " + Y + " Z: " + Z + " | Line: " + line + " | "+ message.replaceAll("§", "&"));
 					bw.newLine();
 					fw.flush();
 					bw.close();

@@ -15,10 +15,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ChatManager extends JavaPlugin implements Listener {
@@ -90,7 +87,7 @@ public class ChatManager extends JavaPlugin implements Listener {
             metricsHandler.start();
         }
 
-        getServer().getScheduler().runTaskAsynchronously(this, () -> checkUpdate(null, true));
+        getServer().getScheduler().runTaskAsynchronously(this, () -> checkUpdate());
 
         crazyManager.load(true);
 
@@ -99,7 +96,7 @@ public class ChatManager extends JavaPlugin implements Listener {
         if (PluginSupport.VAULT.isPluginEnabled()) {
             registerCommands();
             registerEvents();
-            setupAutoBroadcast();
+            setupAutoBroadcast(this.settingsManager);
             setupChatRadius();
         }
     }
@@ -120,7 +117,7 @@ public class ChatManager extends JavaPlugin implements Listener {
         }
     }
 
-    public void registerCommands() {
+    private void registerCommands() {
         CommandBroadcast broadCastCommand = new CommandBroadcast();
 
         registerCommand(getCommand("Announcement"), null, broadCastCommand);
@@ -183,7 +180,7 @@ public class ChatManager extends JavaPlugin implements Listener {
         }
     }
 
-    public void registerEvents() {
+    private void registerEvents() {
         getServer().getPluginManager().registerEvents(new ListenerAntiAdvertising(), this);
         getServer().getPluginManager().registerEvents(new ListenerAntiBot(), this);
         getServer().getPluginManager().registerEvents(new ListenerAntiSpam(), this);
@@ -208,7 +205,7 @@ public class ChatManager extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this, this);
     }
 
-    public void setupChatRadius() {
+    private void setupChatRadius() {
         if (settingsManager.getConfig().getBoolean("Chat_Radius.Enable")) {
             for (Player all : getServer().getOnlinePlayers()) {
                 if (settingsManager.getConfig().getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Local")) {
@@ -222,30 +219,20 @@ public class ChatManager extends JavaPlugin implements Listener {
         }
     }
 
-    public void setupAutoBroadcast() {
-        try {
-            if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Actionbar_Messages.Enable"))
-                AutoBroadcastManager.actionbarMessages();
-            if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Global_Messages.Enable"))
-                AutoBroadcastManager.globalMessages();
-            if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Per_World_Messages.Enable"))
-                AutoBroadcastManager.perWorldMessages();
-            if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Title_Messages.Enable"))
-                AutoBroadcastManager.titleMessages();
-            if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Bossbar_Messages.Enable"))
-                AutoBroadcastManager.bossBarMessages();
-        } catch (Exception ex) {
-            getLogger().severe("There has been an error setting up auto broadcast. Stacktrace...");
-            ex.printStackTrace();
-        }
+    public static void setupAutoBroadcast(SettingsManager settingsManager) {
+        if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Actionbar_Messages.Enable"))
+            AutoBroadcastManager.actionbarMessages();
+        if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Global_Messages.Enable"))
+            AutoBroadcastManager.globalMessages();
+        if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Per_World_Messages.Enable"))
+            AutoBroadcastManager.perWorldMessages();
+        if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Title_Messages.Enable"))
+            AutoBroadcastManager.titleMessages();
+        if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Bossbar_Messages.Enable"))
+            AutoBroadcastManager.bossBarMessages();
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerJoin(PlayerJoinEvent e) {
-        getServer().getScheduler().runTaskAsynchronously(this, () -> checkUpdate(e.getPlayer(), false));
-    }
-
-    public void checkUpdate(Player player, boolean consolePrint) {
+    private void checkUpdate() {
         boolean updaterEnabled = settingsManager.getConfig().getBoolean("Update_Checker");
 
         if (!updaterEnabled) return;
@@ -254,19 +241,9 @@ public class ChatManager extends JavaPlugin implements Listener {
 
         try {
             if (updateChecker.hasUpdate() && !getDescription().getVersion().contains("Beta")) {
-                if (consolePrint) {
-                    getLogger().warning("ChatManager has a new update available! New version: " + updateChecker.getNewVersion());
-                    getLogger().warning("Current Version: v" + getDescription().getVersion());
-                    getLogger().warning("Download: " + updateChecker.getResourcePage());
-
-                    return;
-                } else {
-                    if (!player.isOp() || !player.hasPermission("chatmanager.updater")) return;
-
-                    player.sendMessage(Methods.color("&8> &cChatManager has a new update available! New version: &e&n" + updateChecker.getNewVersion()));
-                    player.sendMessage(Methods.color("&8> &cCurrent Version: &e&n" + getDescription().getVersion()));
-                    player.sendMessage(Methods.color("&8> &cDownload: &e&n" + updateChecker.getResourcePage()));
-                }
+                getLogger().warning("ChatManager has a new update available! New version: " + updateChecker.getNewVersion());
+                getLogger().warning("Current Version: v" + getDescription().getVersion());
+                getLogger().warning("Download: " + updateChecker.getResourcePage());
 
                 return;
             }

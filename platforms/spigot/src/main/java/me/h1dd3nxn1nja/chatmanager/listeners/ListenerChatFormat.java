@@ -24,14 +24,14 @@ public class ListenerChatFormat implements Listener {
 
 	private final VaultSupport vaultSupport = plugin.getPluginManager().getVaultSupport();
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onChatFormat(AsyncPlayerChatEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
 
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 		String key = vaultSupport.getPermission().getPrimaryGroup(player);
-		String format = "";
+		String format;
 
 		if (config.getBoolean("Chat_Format.Enable")) {
 			if (config.getConfigurationSection("Chat_Format.Groups." + key) != null) {
@@ -52,10 +52,10 @@ public class ListenerChatFormat implements Listener {
 		}
 	}
 
-	public String setupChatRadius(Player player, String message) {
+	private String setupChatRadius(Player player, String message) {
 		FileConfiguration config = settingsManager.getConfig();
 		String placeholders = message;
-		
+
 		if (config.getBoolean("Chat_Radius.Enable")) {
 			if (Methods.cm_globalChat.contains(player.getUniqueId())) placeholders = placeholders.replace("{radius}", config.getString("Chat_Radius.Global_Chat.Prefix"));
 
@@ -67,8 +67,8 @@ public class ListenerChatFormat implements Listener {
 
 		return placeholders;
 	}
-	
-	public String setupPlaceholderAPI(Player player, String message) {
+
+	private String setupPlaceholderAPI(Player player, String message) {
 		String placeholders = message;
 
 		if ((PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) && (PlaceholderAPI.containsPlaceholders(placeholders)))

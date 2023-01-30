@@ -8,7 +8,6 @@ import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
 import me.h1dd3nxn1nja.chatmanager.support.misc.VaultSupport;
 import org.bukkit.entity.Player;
-
 import java.text.DecimalFormat;
 
 public class PlaceholderManager {

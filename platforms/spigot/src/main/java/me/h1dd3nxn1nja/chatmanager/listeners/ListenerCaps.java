@@ -18,7 +18,7 @@ public class ListenerCaps implements Listener {
 
 	public static String upperCase;
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration messages = settingsManager.getMessages();
@@ -56,7 +56,7 @@ public class ListenerCaps implements Listener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onCapsCommands(PlayerCommandPreprocessEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration messages = settingsManager.getMessages();

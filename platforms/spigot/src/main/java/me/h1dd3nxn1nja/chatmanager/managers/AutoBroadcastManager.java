@@ -2,7 +2,6 @@ package me.h1dd3nxn1nja.chatmanager.managers;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import me.h1dd3nxn1nja.chatmanager.api.CrazyManager;
 import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
@@ -23,19 +22,19 @@ public class AutoBroadcastManager {
 	private static final ChatManager plugin = ChatManager.getPlugin();
 
 	private static final SettingsManager settingsManager = plugin.getSettingsManager();
-	
+
 	private static final CrazyManager crazyManager = plugin.getCrazyManager();
-	
+
 	public static List<World> worlds = new ArrayList<>();
-	
+
 	public static void globalMessages() {
 		FileConfiguration autobroadcast = settingsManager.getAutoBroadcast();
-		
+
 		String sound = autobroadcast.getString("Auto_Broadcast.Global_Messages.Sound");
 		String prefix = autobroadcast.getString("Auto_Broadcast.Global_Messages.Prefix");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Global_Messages.Interval");
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Global_Messages.Messages");
-		
+
 		new BukkitRunnable() {
 			int line = 0;
 			public void run() {
@@ -44,7 +43,7 @@ public class AutoBroadcastManager {
 						if (autobroadcast.getBoolean("Auto_Broadcast.Global_Messages.Header_And_Footer")) {
 							player.sendMessage(Methods.color(player, autobroadcast.getString("Auto_Broadcast.Global_Messages.Header")));
 							player.sendMessage(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix).replace("\\n", "\n")));
-							player.sendMessage(Methods.color(player, autobroadcast.getString("Auto_Broadcast.Global_Messages.Footer")));	
+							player.sendMessage(Methods.color(player, autobroadcast.getString("Auto_Broadcast.Global_Messages.Footer")));
 						} else {
 							player.sendMessage(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix).replace("\\n", "\n")));
 						}
@@ -60,10 +59,10 @@ public class AutoBroadcastManager {
 			}
 		}.runTaskTimer(plugin, 0L, 20L * interval);
 	}
-	
+
 	public static void perWorldMessages() {
 		FileConfiguration autobroadcast = settingsManager.getAutoBroadcast();
-		
+
 		String sound = autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Sound");
 		String prefix = autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Prefix");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Per_World_Messages.Interval");
@@ -104,15 +103,15 @@ public class AutoBroadcastManager {
 			}
 		}.runTaskTimer(plugin, 0L, 20L * interval);
 	}
-	
+
 	public static void actionbarMessages() {
 		FileConfiguration autobroadcast = settingsManager.getAutoBroadcast();
-		
+
 		String sound = autobroadcast.getString("Auto_Broadcast.Actionbar_Messages.Sound");
 		String prefix = autobroadcast.getString("Auto_Broadcast.Actionbar_Messages.Prefix");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Actionbar_Messages.Interval");
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Actionbar_Messages.Messages");
-		
+
 		new BukkitRunnable() {
 			int line = 0;
 
@@ -135,16 +134,16 @@ public class AutoBroadcastManager {
 				if (line >= messages.size() ) line = 0;
 			}
 		}.runTaskTimer(plugin, 0L, 20L * interval);
-		
+
 	}
-	
+
 	public static void titleMessages() {
 		FileConfiguration autobroadcast = settingsManager.getAutoBroadcast();
-		
+
 		String sound = autobroadcast.getString("Auto_Broadcast.Title_Messages.Sound");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Title_Messages.Interval");
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Title_Messages.Messages");
-		
+
 		new BukkitRunnable() {
 			int line = 0;
 			public void run() {
@@ -172,15 +171,15 @@ public class AutoBroadcastManager {
 			}
 		}.runTaskTimer(plugin, 0L, 20L * interval);
 	}
-	
+
 	public static void bossBarMessages() {
 		FileConfiguration autobroadcast = settingsManager.getAutoBroadcast();
-		
+
 		String sound = autobroadcast.getString("Auto_Broadcast.Bossbar_Messages.Sound");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Interval");
 		int time = autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Bar_Time");
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Bossbar_Messages.Messages");
-		
+
 		new BukkitRunnable() {
 			int line = 0;
 			public void run() {
@@ -208,7 +207,7 @@ public class AutoBroadcastManager {
 			}
 		}.runTaskTimer(plugin, 0L, 20L * interval);
 	}
-	
+
 	public static List<World> getWorld() {
 		return worlds;
 	}

@@ -18,17 +18,17 @@ public class ListenerPerWorldChat implements Listener {
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onWorldChat(AsyncPlayerChatEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
-		
+
 		Player player = event.getPlayer();
 		String world = player.getWorld().getName();
 		UUID worldUID = event.getPlayer().getWorld().getUID();
 		Set<Player> recipients = event.getRecipients();
-		
+
 		List<String> playerGroup = null;
-		
+
 		if (config.getBoolean("Per_World_Chat.Enable")) {
 			if (!Methods.cm_staffChat.contains(player.getUniqueId())) {
 				if (Methods.cm_pwcGlobal.contains(player.getUniqueId())) return;
@@ -52,7 +52,7 @@ public class ListenerPerWorldChat implements Listener {
 						}
 					}
 				} else {
-					recipients.removeIf(players -> !worldUID.equals(players.getWorld().getUID()) && !Methods.cm_pwcGlobal.contains(players.getUniqueId()));	
+					recipients.removeIf(players -> !worldUID.equals(players.getWorld().getUID()) && !Methods.cm_pwcGlobal.contains(players.getUniqueId()));
 				}
 			}
 		}

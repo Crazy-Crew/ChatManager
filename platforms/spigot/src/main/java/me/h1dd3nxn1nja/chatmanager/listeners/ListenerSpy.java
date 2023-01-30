@@ -16,7 +16,7 @@ public class ListenerSpy implements Listener {
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
 		FileConfiguration messages = settingsManager.getMessages();
 		FileConfiguration config = settingsManager.getConfig();

@@ -18,15 +18,14 @@ public class ListenerAntiSpam implements Listener {
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
-	@EventHandler
-	public void antiSpamChat(AsyncPlayerChatEvent event) {
-		
+	@EventHandler(ignoreCancelled = true)
+	public void antiChatSpam(AsyncPlayerChatEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration messages = settingsManager.getMessages();
 
 		Player player = event.getPlayer();
 		String message = event.getMessage();
-		
+
 		if (!Methods.cm_staffChat.contains(player.getUniqueId())) {
 			if (config.getBoolean("Anti_Spam.Chat.Block_Repetitive_Messages")) {
 				if (!player.hasPermission("chatmanager.bypass.dupe.chat")) {
@@ -71,22 +70,22 @@ public class ListenerAntiSpam implements Listener {
 			// TODO() I don't fucking know.
 			/*if (config.getBoolean("Anti_Spam.Chat.Anti_Flood.Enable")) {
 				if (!player.hasPermission("chatmanager.bypass.antiflood")) {
-					
+
 				}
 			}*/
 		}
 	}
-	
-	@EventHandler
-	public void onSpamCommand(PlayerCommandPreprocessEvent event) {
+
+	@EventHandler(ignoreCancelled = true)
+	public void onCommandSpam(PlayerCommandPreprocessEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration messages = settingsManager.getMessages();
 
 		Player player = event.getPlayer();
 		String command = event.getMessage();
-		
+
 		List<String> whitelistedCommands = config.getStringList("Anti_Spam.Command.Whitelist");
-		
+
 		if (config.getBoolean("Anti_Spam.Command.Block_Repetitive_Commands")) {
 			if (!player.hasPermission("chatmanager.bypass.dupe.command")) {
 				for (String commands : whitelistedCommands) {
@@ -132,6 +131,7 @@ public class ListenerAntiSpam implements Listener {
 							}
 						}
 					});
+
 					Methods.cm_cooldownTask.get(player).runTaskTimer(plugin, 20L, 20L);
 				}
 			}

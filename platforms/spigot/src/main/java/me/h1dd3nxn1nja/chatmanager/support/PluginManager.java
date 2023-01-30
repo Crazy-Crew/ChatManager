@@ -6,7 +6,6 @@ import me.h1dd3nxn1nja.chatmanager.support.misc.VaultSupport;
 import me.h1dd3nxn1nja.chatmanager.support.placeholders.PlaceholderAPISupport;
 import me.h1dd3nxn1nja.chatmanager.support.vanish.EssentialsVanishSupport;
 import me.h1dd3nxn1nja.chatmanager.support.vanish.GenericVanishSupport;
-import org.bukkit.plugin.Plugin;
 
 public class PluginManager {
 

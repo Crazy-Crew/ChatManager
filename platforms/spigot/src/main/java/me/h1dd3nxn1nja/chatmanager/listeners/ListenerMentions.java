@@ -31,7 +31,7 @@ public class ListenerMentions implements Listener {
 
 	private final EssentialsSupport essentialsSupport = pluginManager.getEssentialsSupport();
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
 
