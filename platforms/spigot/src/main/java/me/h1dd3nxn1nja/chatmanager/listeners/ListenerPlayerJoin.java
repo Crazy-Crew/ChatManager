@@ -212,7 +212,6 @@ public class ListenerPlayerJoin implements Listener {
         if ((config.getBoolean("Messages.Join_Quit_Messages.Quit_Message.Enable"))
                 && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
             String message = config.getString("Messages.Join_Quit_Messages.Quit_Message.Message");
-            System.out.println("Setting quit message 1");
             event.setQuitMessage(placeholderManager.setPlaceholders(player, message));
 
             for (Player online : plugin.getServer().getOnlinePlayers()) {
@@ -230,7 +229,6 @@ public class ListenerPlayerJoin implements Listener {
 
                 if (permission != null && player.hasPermission(permission)) {
                     if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Quit_Message")) {
-                        System.out.println("Setting quit message 2");
                         event.setQuitMessage(placeholderManager.setPlaceholders(player, quitMessage));
                     }
                 }
