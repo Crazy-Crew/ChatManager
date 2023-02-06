@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[![chatmanager](https://cdn-raw.modrinth.com/data/IwVOgYiT/c742dee969a8e37393ea6150670c151384ee4ad2.png)](https://ci.crazycrew.us/view/ChatManager/job/ChatManager%20Beta/)
+[![chatmanager](https://cdn-raw.modrinth.com/data/IwVOgYiT/c742dee969a8e37393ea6150670c151384ee4ad2.png)](https://modrinth.com/plugin/chatmanager)
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
