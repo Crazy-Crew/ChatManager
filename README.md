@@ -12,12 +12,11 @@
 [![Contact][discord-shield]][discord-url]
 ![CodeFactor][codefactor-shield]
 
-![Spigot](https://cdn.jsdelivr.net/gh/intergrav/devins-badges/assets/compact/supported/spigot_vector.svg)
 ![Paper](https://cdn.jsdelivr.net/gh/intergrav/devins-badges/assets/compact/supported/paper_vector.svg)
 ![Purpur](https://cdn.jsdelivr.net/gh/intergrav/devins-badges/assets/compact/supported/purpur_vector.svg)
 
   <p align="center">
-    The kitchen sink of Chat Management!
+    The kitchen sink of ChatManagement
     <br />
     <a href="https://github.com/Crazy-Crew/ChatManager/wiki"><strong>Explore the docs »</strong></a>
     <br />
@@ -26,7 +25,7 @@
     ·
     <a href="https://github.com/Crazy-Crew/ChatManager/discussions/categories/feature-requests">Request Feature</a>
     ·
-    <a href="https://github.com/Crazy-Crew/ChatManager/discussions/categories/support">Get Support</a>
+    <a href="https://discord.gg/SekseczrWz">Get Support</a>
   </p>
 </div>
 
@@ -52,9 +51,9 @@
 > https://modrinth.com/plugin/chatmanager
 
 ## Beta Builds
-### Get the latest changes before they are changed to release!
+### Get the latest changes before marked as release.
 All beta builds will be on Modrinth.<br>
-> https://modrinth.com/plugin/chatmanager/versions/
+> https://modrinth.com/plugin/chatmanager/versions
 
 ## Getting Started
 
@@ -78,10 +77,10 @@ A list of things necessary to make sure you can build ChatManager properly.
    ```gradle
    ./gradlew shadowJar
    ```
-4. Find the build in build/libs inside the **spigot** folder
 
 ## Roadmap
-A working plugin.
+
+Check our public [trello board](https://trello.com/b/Q37AYC3I) for our current plans, any bugs and general tracking of the project progress.
 
 ## Contributing
 
@@ -89,14 +88,14 @@ A working plugin.
 2. Create your Feature Branch (`git checkout -b feature/yourfeature`)
 3. Commit your Changes (`git commit -m 'your amazing feature.'`)
 4. Push to the Branch (`git push`)
-5. Open a Pull Request to add your feature/fix.
+5. Open a Pull Request to the dev branch to add your feature/fix.
 
 ## License
 
 Distributed under the MIT License. See [`LICENSE`](/LICENSE) for more information.
 
 [discord-shield]: https://img.shields.io/discord/415940589712965632.svg?style=flat&logo=appveyor
-[discord-url]: https://discord.gg/aTAex5TPDs
+[discord-url]: https://discord.gg/crazycrew
 
 [contributors-shield]: https://img.shields.io/github/contributors/Crazy-Crew/ChatManager.svg?style=flat&logo=appveyor
 [contributors-url]: https://github.com/Crazy-Crew/ChatManager/graphs/contributors
@@ -109,4 +108,4 @@ Distributed under the MIT License. See [`LICENSE`](/LICENSE) for more informatio
 [license-shield]: https://img.shields.io/github/license/Crazy-Crew/ChatManager.svg?style=flat&logo=appveyor
 [license-url]: https://github.com/Crazy-Crew/ChatManager/blob/master/LICENSE
 
-[codefactor-shield]: https://img.shields.io/codefactor/grade/github/crazy-crew/chatmanager/main?style=flat&logo=appveyor
+[codefactor-shield]: https://img.shields.io/codefactor/grade/github/crazy-crew/ChatManager/main?style=flat&logo=appveyor
