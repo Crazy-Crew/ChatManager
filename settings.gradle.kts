@@ -12,14 +12,12 @@ dependencyResolutionManagement {
 
 pluginManagement {
     repositories {
-        maven("https://papermc.io/repo/repository/maven-public/")
-
         gradlePluginPortal()
         mavenCentral()
     }
 }
 
-val lowerCase = rootProject.name.toLowerCase()
+val lowerCase = rootProject.name.lowercase()
 
 listOf("spigot").forEach(::includePlatform)
 
