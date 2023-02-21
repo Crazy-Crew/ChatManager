@@ -4,7 +4,6 @@ plugins {
     id("chatmanager.spigot-plugin")
 
     alias(settings.plugins.minotaur)
-    alias(settings.plugins.run.paper)
 }
 
 repositories {
@@ -55,10 +54,6 @@ tasks {
         listOf(
             "org.bstats"
         ).forEach { relocate(it, "$projectGroup.plugin.library.$it") }
-    }
-
-    runServer {
-        minecraftVersion("1.19.3")
     }
 
     modrinth {
