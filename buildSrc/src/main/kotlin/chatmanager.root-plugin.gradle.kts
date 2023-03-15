@@ -1,3 +1,6 @@
+import task.ReleaseWebhook
+import task.WebhookExtension
+
 plugins {
     `java-library`
 
@@ -20,6 +23,10 @@ repositories {
     mavenCentral()
 }
 
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of("17"))
+}
+
 tasks {
     // Creating the extension to be available on the root gradle
     val webhookExtension = extensions.create("webhook", WebhookExtension::class)
@@ -27,6 +34,10 @@ tasks {
     // Register the task
     register<ReleaseWebhook>("webhook") {
         extension = webhookExtension
+    }
+
+    compileJava {
+        options.release.set(17)
     }
 }
 
@@ -37,9 +48,4 @@ license {
     mapping("java", "JAVADOC_STYLE")
 
     include("**/*.java")
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
 }

@@ -4,9 +4,9 @@ plugins {
 
 repositories {
     /**
-     * Spigot Team
+     * Paper Team
      */
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    maven("https://repo.papermc.io/repository/maven-public/")
 
     /**
      * NBT API

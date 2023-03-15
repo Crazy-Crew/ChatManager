@@ -3,16 +3,16 @@
 
 build
 
-build-logic/.gradle
-build-logic/build
+buildSrc/.gradle
+buildSrc/build
 
-core/build
+api/build
 
-platforms/spigot/build
-platforms/spigot/run/*
+platforms/paper/build
+platforms/paper/run/*
 
-!platforms/spigot/run/eula.txt
-!platforms/spigot/run/bukkit.yml
-!platforms/spigot/run/spigot.yml
-!platforms/spigot/run/server.properties
-!platforms/spigot/run/config
+!platforms/paper/run/eula.txt
+!platforms/paper/run/bukkit.yml
+!platforms/paper/run/spigot.yml
+!platforms/paper/run/server.properties
+!platforms/paper/run/config

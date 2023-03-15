@@ -1,8 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
 dependencyResolutionManagement {
-    includeBuild("build-logic")
-
     versionCatalogs {
         create("settings") {
             from(files("gradle/settings.versions.toml"))
@@ -21,7 +19,9 @@ pluginManagement {
 
 val lowerCase = rootProject.name.lowercase()
 
-listOf("spigot").forEach(::includePlatform)
+//listOf("api").forEach(::includeProject)
+
+listOf("paper").forEach(::includePlatform)
 
 fun includeProject(name: String) {
     include(name) {
@@ -29,17 +29,17 @@ fun includeProject(name: String) {
     }
 }
 
-fun includePlatform(name: String) {
-    include(name) {
-        this.name = "$lowerCase-platform-$name"
-        this.projectDir = file("platforms/$name")
-    }
-}
-
 fun includeModule(name: String) {
     include(name) {
         this.name = "$lowerCase-module-$name"
         this.projectDir = file("modules/$name")
+    }
+}
+
+fun includePlatform(name: String) {
+    include(name) {
+        this.name = "$lowerCase-$name"
+        this.projectDir = file("platforms/$name")
     }
 }
 

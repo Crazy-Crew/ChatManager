@@ -1,16 +1,16 @@
 [versions]
 
 # Minecraft
-paper = "1.19.3-R0.1-SNAPSHOT"
+paper = "1.19.4-R0.1-SNAPSHOT"
 
 # Adventure
-adventure = "4.12.0"
+adventure = "4.13.0"
 
 [libraries]
 
 # Minecraft
 papermc = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
-spigotmc = { module = "org.spigotmc:spigot-api", version.ref = "paper" }
+paperlib = { module = "io.papermc:paperlib", version = "1.0.8-SNAPSHOT" }
 
 # EssentialsX
 essentialsx = { module = "net.essentialsx:EssentialsX", version = "2.19.0" }
