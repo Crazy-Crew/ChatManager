@@ -1,8 +1,8 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
-import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
-import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
+import com.ryderbelserion.support.PluginManager;
+import com.ryderbelserion.support.PluginSupport;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
+import com.ryderbelserion.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
 
 public class ListenerMentions implements Listener {

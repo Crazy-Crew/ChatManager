@@ -1,4 +1,4 @@
-package me.h1dd3nxn1nja.chatmanager.support;
+package com.ryderbelserion.support;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.bukkit.plugin.Plugin;

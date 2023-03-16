@@ -1,4 +1,4 @@
-package me.h1dd3nxn1nja.chatmanager.api.interfaces;
+package com.ryderbelserion.api.interfaces;
 
 import org.bukkit.entity.Player;
 

@@ -868,21 +868,6 @@ Staff_Chat:
     
     Title: "&eStaff Chat"
 
-#=================================================================================================#
-# Checks if there is an available update for chat manager.
-#=================================================================================================#
-Update_Checker: true
-
-# If metrics is enabled or not
-Metrics_Enabled: true
-
 # The hex color format.
 # Does not support <>, Only used to do &# etc. or any other identifier.
 Hex_Color_Format: "#"
-
-#=================================================================================================#
-# You are done with the config!
-#=================================================================================================#
-
-# Do not change this. We use this to check if your Configs are outdated.
-Config_Version: 1

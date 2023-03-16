@@ -696,11 +696,6 @@ public class Debug {
 		if (!config.contains("Staff_Chat.Boss_Bar.Title"))
 			plugin.getLogger().warning("Missing the section Staff_Chat.Boss_Bar.Title in the config.yml file.");
 
-		//Update Checker
-
-		if (!config.contains("Update_Checker"))
-			plugin.getLogger().warning("Missing the section Update_Checker in the config.yml file.");
-
 		plugin.getLogger().warning("Debug Complete!");
 		plugin.getLogger().warning("If any of the sections are missing in the config.yml file please contact the developer.");
 

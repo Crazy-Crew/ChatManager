@@ -1,11 +1,11 @@
-package me.h1dd3nxn1nja.chatmanager.support;
+package com.ryderbelserion.support;
 
+import com.ryderbelserion.support.misc.VaultSupport;
+import com.ryderbelserion.support.placeholders.PlaceholderAPISupport;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import me.h1dd3nxn1nja.chatmanager.support.misc.VaultSupport;
-import me.h1dd3nxn1nja.chatmanager.support.placeholders.PlaceholderAPISupport;
-import me.h1dd3nxn1nja.chatmanager.support.vanish.EssentialsVanishSupport;
-import me.h1dd3nxn1nja.chatmanager.support.vanish.GenericVanishSupport;
+import com.ryderbelserion.support.vanish.EssentialsVanishSupport;
+import com.ryderbelserion.support.vanish.GenericVanishSupport;
 
 public class PluginManager {
 

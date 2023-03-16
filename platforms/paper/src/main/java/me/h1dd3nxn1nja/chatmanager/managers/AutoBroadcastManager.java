@@ -3,7 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.managers;
 import java.util.ArrayList;
 import java.util.List;
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
-import me.h1dd3nxn1nja.chatmanager.api.CrazyManager;
+import com.ryderbelserion.api.CrazyManager;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;

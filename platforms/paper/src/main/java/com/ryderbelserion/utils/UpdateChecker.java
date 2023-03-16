@@ -1,4 +1,4 @@
-package me.h1dd3nxn1nja.chatmanager.utils;
+package com.ryderbelserion.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

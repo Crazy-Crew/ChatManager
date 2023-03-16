@@ -1,9 +1,9 @@
-package me.h1dd3nxn1nja.chatmanager.support.vanish;
+package com.ryderbelserion.support.vanish;
 
 import com.earth2me.essentials.User;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import me.h1dd3nxn1nja.chatmanager.api.interfaces.VanishController;
-import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
+import com.ryderbelserion.api.interfaces.VanishController;
+import com.ryderbelserion.support.PluginManager;
 import org.bukkit.entity.Player;
 
 public class EssentialsVanishSupport implements VanishController {

@@ -1,4 +1,4 @@
-package me.h1dd3nxn1nja.chatmanager.support.placeholders;
+package com.ryderbelserion.support.placeholders;
 
 import java.text.DecimalFormat;
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;

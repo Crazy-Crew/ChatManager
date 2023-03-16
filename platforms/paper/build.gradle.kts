@@ -22,6 +22,10 @@ repositories {
 dependencies {
     implementation(libs.bstats.bukkit)
 
+    implementation(libs.config.me)
+
+    implementation(libs.triumph.cmds)
+
     compileOnly(libs.papermc)
 
     compileOnly(libs.essentialsx)
@@ -40,13 +44,16 @@ val type = if (beta) "beta" else "release"
 
 tasks {
     shadowJar {
-        archiveFileName.set("${rootProject.name}+Paper+${rootProject.version}.jar")
+        archiveFileName.set("${rootProject.name}+${rootProject.version}.jar")
 
         listOf(
             "de.tr7zw.changeme.nbtapi",
             "org.bstats",
-            "dev.triumphteam.cmd"
-        ).forEach { relocate(it, "${rootProject.group}.library.$it") }
+            "dev.triumphteam.cmd",
+            "ch.jalu"
+        ).forEach { pack ->
+            relocate(pack, "${rootProject.group}.$pack")
+        }
     }
 
     runServer {
@@ -87,7 +94,7 @@ tasks {
                 <h4>Under the hood changes</h4>
                  <p>Simplified build script</p>
                 <h4>Bug Fixes:</h4>
-                 <p>N/A</p>
+                 <p>Fixed a bug where </p>
             """.trimIndent()
         )
     }

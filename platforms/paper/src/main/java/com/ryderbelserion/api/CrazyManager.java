@@ -1,8 +1,8 @@
-package me.h1dd3nxn1nja.chatmanager.api;
+package com.ryderbelserion.api;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
-import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
+import com.ryderbelserion.support.PluginManager;
 
 public class CrazyManager {
 

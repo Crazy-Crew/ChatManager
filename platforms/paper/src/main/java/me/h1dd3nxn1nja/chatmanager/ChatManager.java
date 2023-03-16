@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager;
 
-import me.h1dd3nxn1nja.chatmanager.api.CrazyManager;
+import com.ryderbelserion.ApiLoader;
+import com.ryderbelserion.api.CrazyManager;
 import me.h1dd3nxn1nja.chatmanager.commands.CommandAntiSwear;
 import me.h1dd3nxn1nja.chatmanager.commands.CommandAutoBroadcast;
 import me.h1dd3nxn1nja.chatmanager.commands.CommandBannedCommands;
@@ -45,11 +46,9 @@ import me.h1dd3nxn1nja.chatmanager.listeners.ListenerStaffChat;
 import me.h1dd3nxn1nja.chatmanager.listeners.ListenerSwear;
 import me.h1dd3nxn1nja.chatmanager.listeners.ListenerToggleChat;
 import me.h1dd3nxn1nja.chatmanager.managers.AutoBroadcastManager;
-import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
-import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
+import com.ryderbelserion.support.PluginManager;
+import com.ryderbelserion.support.PluginSupport;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
-import me.h1dd3nxn1nja.chatmanager.utils.MetricsHandler;
-import me.h1dd3nxn1nja.chatmanager.utils.UpdateChecker;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
@@ -70,61 +69,15 @@ public class ChatManager extends JavaPlugin implements Listener {
     public void onEnable() {
         plugin = this;
 
+        ApiLoader.load();
+
         settingsManager = new SettingsManager();
 
         settingsManager.setup();
 
-        String version = settingsManager.getConfig().getString("Config_Version");
-
-        if (version == null) {
-            settingsManager.getConfig().set("Config_Version", 1);
-            settingsManager.saveConfig();
-        }
-
-        String metricsValue = settingsManager.getConfig().getString("Metrics_Enabled");
-
-        if (metricsValue == null) {
-            settingsManager.getConfig().set("Metrics_Enabled", false);
-            settingsManager.saveConfig();
-        }
-
-        String asyncMessages = settingsManager.getConfig().getString("Messages.Async");
-        if (asyncMessages == null) {
-            settingsManager.getConfig().set("Messages.Async", true);
-            settingsManager.saveConfig();
-        }
-
-        String hexColorFormat = settingsManager.getConfig().getString("Hex_Color_Format");
-
-        if (hexColorFormat == null) {
-            settingsManager.getConfig().set("Hex_Color_Format", "#");
-            settingsManager.saveConfig();
-        }
-
-        boolean metricsEnabled = settingsManager.getConfig().getBoolean("Metrics_Enabled");
-
-        int configVersion = 1;
-        if (configVersion != settingsManager.getConfig().getInt("Config_Version")) {
-            plugin.getLogger().warning("========================================================================");
-            plugin.getLogger().warning("You have an outdated config, Please run the command /chatmanager update!");
-            plugin.getLogger().warning("This will take a backup of your entire folder & update your configs.");
-            plugin.getLogger().warning("Default values will be used in place of missing options!");
-            plugin.getLogger().warning("If you have any issues, Please contact Discord Support.");
-            plugin.getLogger().warning("https://discord.gg/mh7Ydaf");
-            plugin.getLogger().warning("========================================================================");
-        }
-
         pluginManager = new PluginManager();
 
         crazyManager = new CrazyManager();
-
-        if (metricsEnabled) {
-            MetricsHandler metricsHandler = new MetricsHandler();
-
-            metricsHandler.start();
-        }
-
-        getServer().getScheduler().runTaskAsynchronously(this, this::checkUpdate);
 
         crazyManager.load(true);
 
@@ -265,29 +218,6 @@ public class ChatManager extends JavaPlugin implements Listener {
             AutoBroadcastManager.titleMessages();
         if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Bossbar_Messages.Enable"))
             AutoBroadcastManager.bossBarMessages();
-    }
-
-    private void checkUpdate() {
-        boolean updaterEnabled = settingsManager.getConfig().getBoolean("Update_Checker");
-
-        if (!updaterEnabled) return;
-
-        UpdateChecker updateChecker = new UpdateChecker(52245);
-
-        try {
-            if (updateChecker.hasUpdate() && !getDescription().getVersion().contains("Beta")) {
-                getLogger().warning("ChatManager has a new update available! New version: " + updateChecker.getNewVersion());
-                getLogger().warning("Current Version: v" + getDescription().getVersion());
-                getLogger().warning("Download: " + updateChecker.getResourcePage());
-
-                return;
-            }
-
-            getLogger().info("Plugin is up to date! - " + updateChecker.getNewVersion());
-        } catch (Exception exception) {
-            getLogger().warning("Could not check for updates! Perhaps the call failed or you are using a snapshot build:");
-            getLogger().warning("You can turn off the update checker in config.yml if on a snapshot build.");
-        }
     }
 
     public static ChatManager getPlugin() {

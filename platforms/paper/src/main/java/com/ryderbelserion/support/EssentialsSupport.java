@@ -1,7 +1,8 @@
-package me.h1dd3nxn1nja.chatmanager.support;
+package com.ryderbelserion.support;
 
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
+import com.ryderbelserion.support.PluginSupport;
 import org.bukkit.entity.Player;
 
 public class EssentialsSupport {

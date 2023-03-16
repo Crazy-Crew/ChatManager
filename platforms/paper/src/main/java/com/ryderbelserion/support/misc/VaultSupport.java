@@ -1,4 +1,4 @@
-package me.h1dd3nxn1nja.chatmanager.support.misc;
+package com.ryderbelserion.support.misc;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import net.milkbowl.vault.chat.Chat;

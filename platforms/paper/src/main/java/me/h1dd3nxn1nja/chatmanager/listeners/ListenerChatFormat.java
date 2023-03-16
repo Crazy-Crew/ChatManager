@@ -1,7 +1,8 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
+import com.ryderbelserion.support.misc.VaultSupport;
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
-import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
+import com.ryderbelserion.support.PluginSupport;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,7 +12,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import me.h1dd3nxn1nja.chatmanager.support.misc.VaultSupport;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
 
 public class ListenerChatFormat implements Listener {

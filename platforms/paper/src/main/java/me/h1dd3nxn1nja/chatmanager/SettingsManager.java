@@ -284,10 +284,6 @@ public class SettingsManager {
 	public void reloadConfig() {
 		config = YamlConfiguration.loadConfiguration(cfile);
 	}
-	
-	public PluginDescriptionFile getDesc() {
-		return plugin.getDescription();
-	}
 
 	private void copyFile(InputStream in, File out) throws Exception {
 		try (InputStream fis = in; FileOutputStream fos = new FileOutputStream(out)) {

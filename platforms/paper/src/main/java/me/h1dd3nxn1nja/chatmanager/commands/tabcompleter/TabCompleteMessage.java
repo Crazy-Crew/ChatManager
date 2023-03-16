@@ -2,9 +2,9 @@ package me.h1dd3nxn1nja.chatmanager.commands.tabcompleter;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
-import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
-import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
+import com.ryderbelserion.support.EssentialsSupport;
+import com.ryderbelserion.support.PluginManager;
+import com.ryderbelserion.support.PluginSupport;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;

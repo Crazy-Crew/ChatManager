@@ -3,11 +3,10 @@ package me.h1dd3nxn1nja.chatmanager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
+import com.ryderbelserion.support.PluginSupport;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -28,12 +27,8 @@ public class Methods {
 	public static HashMap<Player, Integer> cm_chatCooldown = new HashMap<>();
 	public static HashMap<Player, BukkitRunnable> cm_cooldownTask = new HashMap<>();
 	public static HashMap<Player, Integer> cm_commandCooldown = new HashMap<>();
-	public static HashMap<Player, Integer> cm_MOTDTask = new HashMap<>();
-	
-	public static Set<Player> cm_cooldowns = new HashSet<>();
 	
 	public static HashSet<UUID> cm_pwcGlobal = new HashSet<>();
-	public static HashSet<UUID> cm_pwcSpy = new HashSet<>();
 	public static HashSet<UUID> cm_toggleChat = new HashSet<>();
 	public static HashSet<UUID> cm_toggleMentions = new HashSet<>();
 	
@@ -47,8 +42,6 @@ public class Methods {
 	public static ArrayList<UUID> cm_socialSpy = new ArrayList<>();
 	public static ArrayList<UUID> cm_staffChat = new ArrayList<>();
 	public static ArrayList<UUID> cm_togglePM = new ArrayList<>();
-
-	private static final char COLOR_CHAR = ChatColor.COLOR_CHAR;
 
 	private static final String format = settingsManager.getConfig().getString("Hex_Color_Format");
 	private static final Pattern HEX_PATTERN = Pattern.compile(format + "([A-Fa-f0-9]{6})");
