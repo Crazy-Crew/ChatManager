@@ -47,13 +47,13 @@ public class ListenerAntiSpam implements Listener {
 						return;
 					}
 
-					Methods.cm_chatCooldown.put(player, Integer.valueOf(config.getInt("Anti_Spam.Chat.Chat_Delay")));
+					Methods.cm_chatCooldown.put(player, config.getInt("Anti_Spam.Chat.Chat_Delay"));
 
 					Methods.cm_cooldownTask.put(player, new BukkitRunnable() {
 						public void run() {
-							Methods.cm_chatCooldown.put(player, Integer.valueOf(Methods.cm_chatCooldown.get(player).intValue() - 1));
+							Methods.cm_chatCooldown.put(player, Methods.cm_chatCooldown.get(player) - 1);
 
-							if (Methods.cm_chatCooldown.get(player).intValue() == 0) {
+							if (Methods.cm_chatCooldown.get(player) == 0) {
 								Methods.cm_chatCooldown.remove(player);
 								Methods.cm_cooldownTask.remove(player);
 								cancel();
@@ -63,8 +63,6 @@ public class ListenerAntiSpam implements Listener {
 
 					Methods.cm_cooldownTask.get(player).runTaskTimer(plugin, 20L, 20L);
 				}
-			} else {
-				return;
 			}
 
 			// TODO() I don't fucking know.

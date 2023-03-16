@@ -4,8 +4,8 @@ import java.util.List;
 
 public class World {
 
-	private String name;
-	private List<String> messages;
+	private final String name;
+	private final List<String> messages;
 	private int index;
 
 	public World(String name, List<String> messages, int index) {

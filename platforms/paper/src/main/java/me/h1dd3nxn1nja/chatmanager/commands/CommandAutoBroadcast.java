@@ -3,7 +3,6 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 import java.util.ArrayList;
 import java.util.List;
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
-import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,7 +11,6 @@ import org.bukkit.entity.Player;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
-import me.h1dd3nxn1nja.chatmanager.utils.JSONMessage;
 import me.h1dd3nxn1nja.chatmanager.utils.World;
 
 public class CommandAutoBroadcast implements CommandExecutor {
@@ -356,33 +354,17 @@ public class CommandAutoBroadcast implements CommandExecutor {
 	}
 
 	private boolean checkProtocol(Player player) {
-		if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1) && ServerProtocol.isOlder(ServerProtocol.v1_17_R1)) {
-			JSONMessage.create("").send(player);
-			JSONMessage.create(" &3Auto-Broadcast Help Menu &f(v" + plugin.getDescription().getVersion() + ")").send(player);
-			JSONMessage.create("").send(player);
-			JSONMessage.create(" &6<> &f= Required Arguments").send(player);
-			JSONMessage.create(" &2[] &f= Optional Arguments").send(player);
-			JSONMessage.create("").send(player);
-			JSONMessage.create(" &f/AutoBroadcast Help &e- Shows a list of commands for Auto-Broadcast.").tooltip(Methods.color("&f/AutoBroadcast Help \n&7Shows a list of commands for Auto-Broadcast.")).suggestCommand("/autobroadcast help").send(player);
-			JSONMessage.create(" &f/AutoBroadcast Add &6<Global|World|Actionbar|Title|Bossbar> &2[World] &6<message> &e- Add a message to the Auto-Broadcast to a specific world.").tooltip(Methods.color("&f/AutoBroadcast Add &6<global|world|actionbar|title|bossbar> &2[world] &6<message> \n&7Add a message to the Auto-Broadcast to a specific world.")).suggestCommand("/autobroadcast add <global|world|actionbar|title|bossbar> [world] <message>").send(player);
-			JSONMessage.create(" &f/AutoBroadcast Create &6<world> <message> &e- Create a new world in the \n &eAuto-Broadcast file.").tooltip(Methods.color("&f/AutoBroadcast Create &6<world> <message> \n&7Create a new world in the Auto-Broadcast file.")).suggestCommand("/autobroadcast create <world> <message>").send(player);
-			JSONMessage.create(" &f/AutoBroadcast List &6<Global|World|Actionbar|Title|Bossbar> &2[World] &e- Shows a \n&elist of all the broadcast messages in a world.").tooltip(Methods.color("&f/AutoBroadcast List &6<global|world|actionbar|title|bossbar> &2[world] \n&7Shows a list of all the broadcast messages in a world.")).suggestCommand("/autobroadcast list <global|world|actionbar|title|bossbar> [World]").send(player);
-			JSONMessage.create("").send(player);
-			JSONMessage.create(" &e&lTIP &7Try to hover or click the command!").tooltip(Methods.color("&7Hover over the commands to get information about them. \n&7Click on the commands to insert them in the chat.")).send(player);
-			JSONMessage.create("").send(player);
-		} else {
-			Methods.sendMessage(player, "", false);
-			Methods.sendMessage(player, " &3Auto-Broadcast Help Menu &f(v" + plugin.getDescription().getVersion() + ")", false);
-			Methods.sendMessage(player,"", false);
-			Methods.sendMessage(player, " &6<> &f= Required Arguments", false);
-			Methods.sendMessage(player, " &2[] &f= Optional Arguments", false);
-			Methods.sendMessage(player, " ", false);
-			Methods.sendMessage(player, " &f/AutoBroadcast Help &e- Shows a list of commands for Auto-Broadcast.", false);
-			Methods.sendMessage(player, "  &f/AutoBroadcast Add &6<Global|World|Actionbar|Title|Bossbar> &2[World] &6<message> &e- Add a message to the Auto-Broadcast to a specific world.", false);
-			Methods.sendMessage(player, " &f/AutoBroadcast Create &6<world> <message> &e- Create a new world in the Auto-Broadcast file.", false);
-			Methods.sendMessage(player, " &f/AutoBroadcast List &6<Global|World|Actionbar|Title|Bossbar> &2[World] &e- Shows a list of all the broadcast messages in a world.", false);
-			Methods.sendMessage(player, "", false);
-		}
+		Methods.sendMessage(player, "", false);
+		Methods.sendMessage(player, " &3Auto-Broadcast Help Menu &f(v" + plugin.getDescription().getVersion() + ")", false);
+		Methods.sendMessage(player, "", false);
+		Methods.sendMessage(player, " &6<> &f= Required Arguments", false);
+		Methods.sendMessage(player, " &2[] &f= Optional Arguments", false);
+		Methods.sendMessage(player, " ", false);
+		Methods.sendMessage(player, " &f/AutoBroadcast Help &e- Shows a list of commands for Auto-Broadcast.", false);
+		Methods.sendMessage(player, " &f/AutoBroadcast Add &6<Global|World|Actionbar|Title|Bossbar> &2[World] &6<message> &e- Add a message to the Auto-Broadcast to a specific world.", false);
+		Methods.sendMessage(player, " &f/AutoBroadcast Create &6<world> <message> &e- Create a new world in the Auto-Broadcast file.", false);
+		Methods.sendMessage(player, " &f/AutoBroadcast List &6<Global|World|Actionbar|Title|Bossbar> &2[World] &e- Shows a list of all the broadcast messages in a world.", false);
+		Methods.sendMessage(player, "", false);
 
 		return true;
 	}

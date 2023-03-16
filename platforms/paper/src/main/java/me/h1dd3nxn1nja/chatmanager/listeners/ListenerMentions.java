@@ -3,7 +3,6 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
-import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,9 +14,6 @@ import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
-import me.h1dd3nxn1nja.chatmanager.utils.JSONMessage;
-
-import java.util.Objects;
 
 public class ListenerMentions implements Listener {
 
@@ -64,21 +60,15 @@ public class ListenerMentions implements Listener {
 					if (!Methods.cm_toggleMentions.contains(target.getUniqueId())) {
 						try {
 							target.playSound(target.getLocation(), Sound.valueOf(config.getString("Mentions.Sound")), 10, 1);
-						} catch (IllegalArgumentException ignored) {}
+						} catch (IllegalArgumentException ignored) {
+						}
 					}
 
-					if ((ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1))) {
-						if (config.getBoolean("Mentions.Title.Enable")) {
-							String header = placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Header"));
-							String footer = placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Footer"));
+					if (config.getBoolean("Mentions.Title.Enable")) {
+						String header = placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Header"));
+						String footer = placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Footer"));
 
-							if ((ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1))) {
-								target.sendTitle(header, footer, 40, 20, 40);
-							} else {
-								JSONMessage.create(header).title(40, 20, 40, target);
-								JSONMessage.create(footer).subtitle(target);
-							}
-						}
+						target.sendTitle(header, footer, 40, 20, 40);
 					}
 
 					if (!config.getString("Mentions.Mention_Color").equals("")) {
@@ -97,21 +87,15 @@ public class ListenerMentions implements Listener {
 					if (!Methods.cm_toggleMentions.contains(target.getUniqueId())) {
 						try {
 							target.playSound(target.getLocation(), Sound.valueOf(config.getString("Mentions.Sound")), 10, 1);
-						} catch (IllegalArgumentException ignored) {}
+						} catch (IllegalArgumentException ignored) {
+						}
 					}
 
-					if ((ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1))) {
-						if (config.getBoolean("Mentions.Title.Enable")) {
-							String header = placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Header"));
-							String footer = placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Footer"));
+					if (config.getBoolean("Mentions.Title.Enable")) {
+						String header = placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Header"));
+						String footer = placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Footer"));
 
-							if ((ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1))) {
-								target.sendTitle(header, footer, 40, 20, 40);
-							} else {
-								JSONMessage.create(header).title(40, 20, 40, target);
-								JSONMessage.create(footer).subtitle(target);
-							}
-						}
+						target.sendTitle(header, footer, 40, 20, 40);
 					}
 
 					if (!config.getString("Mentions.Mention_Color").equals("")) {

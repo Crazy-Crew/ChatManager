@@ -1,7 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
-import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,15 +24,14 @@ public class CommandStaffChat implements CommandExecutor {
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration messages = settingsManager.getMessages();
 
-		if (sender instanceof Player) {
-			Player player = (Player) sender;
+		if (sender instanceof Player player) {
 			if (cmd.getName().equalsIgnoreCase("StaffChat")) {
 				if (player.hasPermission("chatmanager.staffchat")) {
 					if (args.length == 0) {
 						if (config.getBoolean("Staff_Chat.Enable")) {
 							if (Methods.cm_staffChat.contains(player.getUniqueId())) {
 								Methods.cm_staffChat.remove(player.getUniqueId());
-								if ((config.getBoolean("Staff_Chat.Boss_Bar.Enable")) && (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1))) {
+								if ((config.getBoolean("Staff_Chat.Boss_Bar.Enable"))) {
 									BossBarUtil bossBar = new BossBarUtil(Methods.color(config.getString("Staff_Chat.Boss_Bar.Title")));
 									bossBar.removeStaffBossBar(player);
 								}
@@ -42,7 +40,7 @@ public class CommandStaffChat implements CommandExecutor {
 							} else {
 								Methods.cm_staffChat.add(player.getUniqueId());
 
-								if ((config.getBoolean("Staff_Chat.Boss_Bar.Enable")) && (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1))) {
+								if ((config.getBoolean("Staff_Chat.Boss_Bar.Enable"))) {
 									BossBarUtil bossBar = new BossBarUtil(Methods.color(config.getString("Staff_Chat.Boss_Bar.Title")));
 									bossBar.setStaffBossBar(player);
 								}
@@ -50,12 +48,11 @@ public class CommandStaffChat implements CommandExecutor {
 								Methods.sendMessage(player, messages.getString("Staff_Chat.Enabled"), true);
 							}
 
-							return true;
-
 						} else {
 							Methods.sendMessage(player, "&4Error: &cStaff Chat is currently disabled & cannot be used at this time.", true);
-							return true;
 						}
+
+						return true;
 					} else {
 						if (config.getBoolean("Staff_Chat.Enable")) {
 							StringBuilder message = new StringBuilder();

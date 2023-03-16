@@ -5,7 +5,6 @@ import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
 import me.h1dd3nxn1nja.chatmanager.support.vanish.EssentialsVanishSupport;
 import me.h1dd3nxn1nja.chatmanager.support.vanish.GenericVanishSupport;
-import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -72,11 +71,9 @@ public class CommandMessage implements CommandExecutor {
 					return true;
 				}
 
-				if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1)) {
-					if ((target.getGameMode().equals(GameMode.SPECTATOR) && (!player.hasPermission("chatmanager.bypass.spectator")))) {
-						if (playerNotFound != null) Methods.sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
-						return true;
-					}
+				if ((target.getGameMode().equals(GameMode.SPECTATOR) && (!player.hasPermission("chatmanager.bypass.spectator")))) {
+					if (playerNotFound != null) Methods.sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
+					return true;
 				}
 
 				if ((Methods.cm_togglePM.contains(target.getUniqueId()) && !player.hasPermission("chatmanager.bypass.togglepm"))) {

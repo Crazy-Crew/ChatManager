@@ -20,29 +20,25 @@ public class TabCompleteChatManager implements TabCompleter {
 			if (hasPermission(sender, "preview")) completions.add("preview"); return StringUtil.copyPartialMatches(args[0], completions, new ArrayList<>());
 		} else if (args.length == 2) {
 			switch (args[0].toLowerCase()) {
-				case "help":
-				case "reload":
-				case "debug":
+				case "help", "reload", "debug" -> {
 					completions.add("all");
 					completions.add("autobroadcast");
 					completions.add("chatbot");
 					completions.add("config");
 					completions.add("messages");
 					completions.add("rules");
-					break;
-				case "preview":
+				}
+				case "preview" -> {
 					completions.add("title");
 					completions.add("actionbar");
-					break;
+				}
 			}
 
 			return StringUtil.copyPartialMatches(args[1], completions, new ArrayList<>());
 		} else if (args.length == 3) {
-			switch (args[0].toLowerCase()) {
-				case "preview":
-					completions.add("join");
-					completions.add("firstjoin");
-					break;
+			if (args[0].toLowerCase().equals("preview")) {
+				completions.add("join");
+				completions.add("firstjoin");
 			}
 
 			return StringUtil.copyPartialMatches(args[2], completions, new ArrayList<>());
@@ -50,6 +46,7 @@ public class TabCompleteChatManager implements TabCompleter {
 
 		return new ArrayList<>();
 	}
+
 	public boolean hasPermission(CommandSender sender, String node) {
 		return sender.hasPermission("chatmanager." + node) || sender.hasPermission("chatmanager.commands.all") ||sender.hasPermission("chatmanager.*");
 	}

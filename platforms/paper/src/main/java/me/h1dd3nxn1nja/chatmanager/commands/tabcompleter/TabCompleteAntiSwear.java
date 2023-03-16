@@ -21,14 +21,10 @@ public class TabCompleteAntiSwear implements TabCompleter {
 			if (hasPermission(sender, "list")) completions.add("list"); return StringUtil.copyPartialMatches(args[0], completions, new ArrayList<>());
 		} else if (args.length == 2) {
 			switch (args[0].toLowerCase()) {
-			case "help":
-			case "reload":
-			case "list":
-			case "add":
-			case "remove":
-				completions.add("blacklist");
-				completions.add("whitelist");
-				break;
+				case "help", "reload", "list", "add", "remove" -> {
+					completions.add("blacklist");
+					completions.add("whitelist");
+				}
 			}
 
 			return StringUtil.copyPartialMatches(args[1], completions, new ArrayList<>());

@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import me.h1dd3nxn1nja.chatmanager.utils.Ping;
 
 public class PlaceholderAPISupport extends PlaceholderExpansion {
 
@@ -69,7 +68,7 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
 						return "Disabled";
 					}
 				case "ping":
-					return df.format(Ping.getPing(playerOnline));
+					return df.format(playerOnline.getPing());
 				default:
 					return "";
 			}

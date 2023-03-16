@@ -23,8 +23,8 @@ public class BossBarUtil {
 	private boolean isVisible;
 	private BossBar bar;
 	private BossBar staffBar;
-	private static HashMap<UUID, BossBarUtil> playerBars = new HashMap<>();
-	private static HashMap<UUID, BossBarUtil> staffBars = new HashMap<>();
+	private static final HashMap<UUID, BossBarUtil> playerBars = new HashMap<>();
+	private static final HashMap<UUID, BossBarUtil> staffBars = new HashMap<>();
 	HashMap<UUID, BossBar> bossBars = new HashMap<>();
 
 	public BossBarUtil() {

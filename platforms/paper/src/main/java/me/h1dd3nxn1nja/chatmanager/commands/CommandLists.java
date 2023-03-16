@@ -32,7 +32,7 @@ public class CommandLists implements CommandExecutor {
 					for (Player players : plugin.getServer().getOnlinePlayers()) {
 						if (str.length() > 0) str.append(", ");
 
-						str.append("&a" + players.getName() + "&8");
+						str.append("&a").append(players.getName()).append("&8");
 					}
 
 					String online = df.format(plugin.getServer().getOnlinePlayers().size());
@@ -66,7 +66,7 @@ public class CommandLists implements CommandExecutor {
 						if ((staff.hasPermission("chatmanager.staff")) || (staff.isOp())) {
 							if (str.length() > 0) str.append(", ");
 
-							str.append("&a" + staff.getName() + "&8");
+							str.append("&a").append(staff.getName()).append("&8");
 						}
 					}
 

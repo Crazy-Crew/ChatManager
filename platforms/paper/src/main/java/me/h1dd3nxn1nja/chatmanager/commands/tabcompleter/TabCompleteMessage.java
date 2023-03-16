@@ -26,12 +26,11 @@ public class TabCompleteMessage implements TabCompleter {
 		List<Player> matchPlayer = plugin.getServer().matchPlayer(args[args.length - 1]);
 		ArrayList<String> list = new ArrayList<>();
 
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player player2)) {
 			matchPlayer.forEach(player -> list.add(player.getName()));
 			return list;
 		}
 
-		Player player2 = (Player) sender;
 		boolean hasPermission = player2.hasPermission("chatmanager.bypass.ignored");
 		boolean hasPermission2 = player2.hasPermission("chatmanager.bypass.vanish");
 		boolean hasPermission3 = player2.hasPermission("chatmanager.bypass.togglepm");

@@ -11,12 +11,10 @@ public class CommandColor implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
-
-		Player player = (Player) sender;
 
 		if (cmd.getName().equalsIgnoreCase("Colors")) {
 			if (player.hasPermission("chatmanager.colors")) {

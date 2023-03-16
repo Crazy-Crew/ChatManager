@@ -3,8 +3,6 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
-import me.h1dd3nxn1nja.chatmanager.utils.JSONMessage;
-import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,31 +20,34 @@ public class CommandAntiSwear implements CommandExecutor {
 		FileConfiguration bannedWords = settingsManager.getBannedWords();
 		FileConfiguration messages = settingsManager.getMessages();
 
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
 
-		Player player = (Player) sender;
-
 		if (cmd.getName().equalsIgnoreCase("AntiSwear")) {
 			if (player.hasPermission("chatmanager.antiswear")) {
 				if (args.length == 0) {
-					if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1) && ServerProtocol.isOlder(ServerProtocol.v1_17_R1)) {
-						JSONMessage.create("").send(player);
-						JSONMessage.create(" &3Anti Swear Help Menu &f(v" + plugin.getDescription().getVersion() + ")").send(player);
-						JSONMessage.create("").send(player);
-						JSONMessage.create(" &6<> &f= Required Arguments").send(player);
-						JSONMessage.create("").send(player);
-						JSONMessage.create(" &f/AntiSwear Help &e- Shows a list of commands for Anti Swear.").tooltip(Methods.color("&f/AntiSwear Help \n&7Shows a list of commands for Anti Swear.")).suggestCommand("/antiswear help").send(player);
-						JSONMessage.create(" &f/AntiSwear add &6<blacklist|whitelist> <word> &e- Add a blacklisted or whitelisted swear word.").tooltip(Methods.color("&f/AntiSwear add &6<blacklist|whitelist> <word> \n&7Add a blacklisted or whitelisted swear word.")).suggestCommand("/antiswear add <blacklist|whitelist> <word>").send(player);
-						JSONMessage.create(" &f/AntiSwear remove &6<blacklist|whitelist> <word> &e- Remove a blacklisted or whitelisted swear word.").tooltip(Methods.color("&f/AntiSwear remove &6<blacklist|whitelist> <word> \n&7Remove a blacklisted or whitelisted swear word.")).suggestCommand("/antiswear remove <blacklist|whitelist> <word>").send(player);
-						JSONMessage.create(" &f/AntiSwear List &e- Shows your list of blacklisted and whitelisted swear words.").tooltip(Methods.color("&f/AntiSwear List \n&7Shows your list of blacklisted swear words.")).suggestCommand("/antiswear list").send(player);
-						JSONMessage.create("").send(player);
-						JSONMessage.create(" &e&lTIP &7Try to hover or click the command!").tooltip(Methods.color("&7Hover over the commands to get information about them. \n&7Click on the commands to insert them in the chat.")).send(player);
-						JSONMessage.create("").send(player);
-						return true;
-					} else {
+					player.sendMessage("");
+					player.sendMessage(Methods.color(" &3Anti Swear Help Menu &f(v" + plugin.getDescription().getVersion() + ")"));
+					player.sendMessage("");
+					player.sendMessage(Methods.color(" &6<> &f= Required Arguments"));
+					player.sendMessage("");
+					player.sendMessage(Methods.color(" &f/AntiSwear Help &e- Shows a list of commands for Anti Swear."));
+					player.sendMessage(Methods.color(" &f/AntiSwear add &6<blacklist|whitelist> <word> &e- Add a blacklisted or whitelisted swear word."));
+					player.sendMessage(Methods.color(" &f/AntiSwear remove &6<blacklist|whitelist> <word> &e- Remove a blacklisted or whitelisted swear word."));
+					player.sendMessage(Methods.color(" &f/AntiSwear List &e- Shows your list of blacklisted swear words."));
+					player.sendMessage("");
+					return true;
+				}
+			} else {
+				player.sendMessage(Methods.noPermission());
+				return true;
+			}
+
+			if (args[0].equalsIgnoreCase("help")) {
+				if (player.hasPermission("chatmanager.antiswear.help")) {
+					if (args.length == 1) {
 						player.sendMessage("");
 						player.sendMessage(Methods.color(" &3Anti Swear Help Menu &f(v" + plugin.getDescription().getVersion() + ")"));
 						player.sendMessage("");
@@ -58,43 +59,6 @@ public class CommandAntiSwear implements CommandExecutor {
 						player.sendMessage(Methods.color(" &f/AntiSwear List &e- Shows your list of blacklisted swear words."));
 						player.sendMessage("");
 						return true;
-					}
-				}
-			} else {
-				player.sendMessage(Methods.noPermission());
-				return true;
-			}
-
-			if (args[0].equalsIgnoreCase("help")) {
-				if (player.hasPermission("chatmanager.antiswear.help")) {
-					if (args.length == 1) {
-						if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1) && ServerProtocol.isOlder(ServerProtocol.v1_17_R1)) {
-							JSONMessage.create("").send(player);
-							JSONMessage.create(Methods.color(" &3Anti Swear Help Menu &f(v" + plugin.getDescription().getVersion() + ")")).send(player);
-							JSONMessage.create("").send(player);
-							JSONMessage.create(Methods.color(" &6<> &f= Required Arguments")).send(player);
-							JSONMessage.create("").send(player);
-							JSONMessage.create(Methods.color(" &f/AntiSwear Help &e- Shows a list of commands for Anti Swear.")).tooltip(Methods.color("&f/AntiSwear Help \n&7Shows a list of commands for Anti Swear.")).suggestCommand("/antiswear help").send(player);
-							JSONMessage.create(Methods.color(" &f/AntiSwear add &6<blacklist|whitelist> <word> &e- Add a blacklisted or whitelisted swear word.")).tooltip(Methods.color("&f/AntiSwear add &6<blacklist|whitelist> <word> \n&7Add a blacklisted or whitelisted swear word.")).suggestCommand("/antiswear add <blacklist|whitelist> <word>").send(player);
-							JSONMessage.create(Methods.color(" &f/AntiSwear remove &6<blacklist|whitelist> <word> &e- Remove a blacklisted or whitelisted swear word.")).tooltip(Methods.color("&f/AntiSwear remove &6<blacklist|whitelist> <word> \n&7Remove a blacklisted or whitelisted swear word.")).suggestCommand("/antiswear remove <blacklist|whitelist> <word>").send(player);
-							JSONMessage.create(Methods.color(" &f/AntiSwear List &e- Shows your list of blacklisted swear words.")).tooltip(Methods.color("&f/AntiSwear List \n&7Shows your list of blacklisted swear words.")).suggestCommand("/antiswear list").send(player);
-							JSONMessage.create("").send(player);
-							JSONMessage.create(Methods.color(" &e&lTIP &7Try to hover or click the command!")).tooltip(Methods.color("&7Hover over the commands to get information about them. \n&7Click on the commands to insert them in the chat.")).send(player);
-							JSONMessage.create("").send(player);
-							return true;
-						} else {
-							player.sendMessage("");
-							player.sendMessage(Methods.color(" &3Anti Swear Help Menu &f(v" + plugin.getDescription().getVersion() + ")"));
-							player.sendMessage("");
-							player.sendMessage(Methods.color(" &6<> &f= Required Arguments"));
-							player.sendMessage("");
-							player.sendMessage(Methods.color(" &f/AntiSwear Help &e- Shows a list of commands for Anti Swear."));
-							player.sendMessage(Methods.color(" &f/AntiSwear add &6<blacklist|whitelist> <word> &e- Add a blacklisted or whitelisted swear word."));
-							player.sendMessage(Methods.color(" &f/AntiSwear remove &6<blacklist|whitelist> <word> &e- Remove a blacklisted or whitelisted swear word."));
-							player.sendMessage(Methods.color(" &f/AntiSwear List &e- Shows your list of blacklisted swear words."));
-							player.sendMessage("");
-							return true;
-						}
 					}
 				} else {
 					player.sendMessage(Methods.noPermission());

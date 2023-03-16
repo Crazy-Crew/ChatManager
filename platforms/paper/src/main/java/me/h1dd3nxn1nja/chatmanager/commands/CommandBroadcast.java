@@ -91,8 +91,7 @@ public class CommandBroadcast implements CommandExecutor {
 
 		for (String announce : warning) {
 			for (Player online : plugin.getServer().getOnlinePlayers()) {
-				if (sender instanceof Player) {
-					Player player = (Player) sender;
+				if (sender instanceof Player player) {
 					online.sendMessage(placeholderManager.setPlaceholders(player, announce.replace("{player}", player.getName()).replace("{message}", message).replace("\\n", "\n")));
 				}
 

@@ -1,15 +1,54 @@
 package me.h1dd3nxn1nja.chatmanager;
 
 import me.h1dd3nxn1nja.chatmanager.api.CrazyManager;
-import me.h1dd3nxn1nja.chatmanager.commands.*;
-import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.*;
-import me.h1dd3nxn1nja.chatmanager.listeners.*;
+import me.h1dd3nxn1nja.chatmanager.commands.CommandAntiSwear;
+import me.h1dd3nxn1nja.chatmanager.commands.CommandAutoBroadcast;
+import me.h1dd3nxn1nja.chatmanager.commands.CommandBannedCommands;
+import me.h1dd3nxn1nja.chatmanager.commands.CommandBroadcast;
+import me.h1dd3nxn1nja.chatmanager.commands.CommandChatManager;
+import me.h1dd3nxn1nja.chatmanager.commands.CommandClearChat;
+import me.h1dd3nxn1nja.chatmanager.commands.CommandColor;
+import me.h1dd3nxn1nja.chatmanager.commands.CommandLists;
+import me.h1dd3nxn1nja.chatmanager.commands.CommandMOTD;
+import me.h1dd3nxn1nja.chatmanager.commands.CommandMessage;
+import me.h1dd3nxn1nja.chatmanager.commands.CommandMuteChat;
+import me.h1dd3nxn1nja.chatmanager.commands.CommandPerWorldChat;
+import me.h1dd3nxn1nja.chatmanager.commands.CommandPing;
+import me.h1dd3nxn1nja.chatmanager.commands.CommandRadius;
+import me.h1dd3nxn1nja.chatmanager.commands.CommandRules;
+import me.h1dd3nxn1nja.chatmanager.commands.CommandSpy;
+import me.h1dd3nxn1nja.chatmanager.commands.CommandStaffChat;
+import me.h1dd3nxn1nja.chatmanager.commands.CommandToggleChat;
+import me.h1dd3nxn1nja.chatmanager.commands.CommandToggleMentions;
+import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.TabCompleteAntiSwear;
+import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.TabCompleteAutoBroadcast;
+import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.TabCompleteBannedCommands;
+import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.TabCompleteChatManager;
+import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.TabCompleteMessage;
+import me.h1dd3nxn1nja.chatmanager.listeners.ListenerAntiAdvertising;
+import me.h1dd3nxn1nja.chatmanager.listeners.ListenerAntiBot;
+import me.h1dd3nxn1nja.chatmanager.listeners.ListenerAntiSpam;
+import me.h1dd3nxn1nja.chatmanager.listeners.ListenerAntiUnicode;
+import me.h1dd3nxn1nja.chatmanager.listeners.ListenerBannedCommand;
+import me.h1dd3nxn1nja.chatmanager.listeners.ListenerCaps;
+import me.h1dd3nxn1nja.chatmanager.listeners.ListenerChatFormat;
+import me.h1dd3nxn1nja.chatmanager.listeners.ListenerColor;
+import me.h1dd3nxn1nja.chatmanager.listeners.ListenerGrammar;
+import me.h1dd3nxn1nja.chatmanager.listeners.ListenerLogs;
+import me.h1dd3nxn1nja.chatmanager.listeners.ListenerMentions;
+import me.h1dd3nxn1nja.chatmanager.listeners.ListenerMuteChat;
+import me.h1dd3nxn1nja.chatmanager.listeners.ListenerPerWorldChat;
+import me.h1dd3nxn1nja.chatmanager.listeners.ListenerPlayerJoin;
+import me.h1dd3nxn1nja.chatmanager.listeners.ListenerRadius;
+import me.h1dd3nxn1nja.chatmanager.listeners.ListenerSpy;
+import me.h1dd3nxn1nja.chatmanager.listeners.ListenerStaffChat;
+import me.h1dd3nxn1nja.chatmanager.listeners.ListenerSwear;
+import me.h1dd3nxn1nja.chatmanager.listeners.ListenerToggleChat;
 import me.h1dd3nxn1nja.chatmanager.managers.AutoBroadcastManager;
 import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
 import me.h1dd3nxn1nja.chatmanager.utils.MetricsHandler;
-import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
 import me.h1dd3nxn1nja.chatmanager.utils.UpdateChecker;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
@@ -21,8 +60,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class ChatManager extends JavaPlugin implements Listener {
 
     private static ChatManager plugin;
-
-    private boolean isEnabled;
 
     private SettingsManager settingsManager;
 
@@ -87,7 +124,7 @@ public class ChatManager extends JavaPlugin implements Listener {
             metricsHandler.start();
         }
 
-        getServer().getScheduler().runTaskAsynchronously(this, () -> checkUpdate());
+        getServer().getScheduler().runTaskAsynchronously(this, this::checkUpdate);
 
         crazyManager.load(true);
 
@@ -110,10 +147,8 @@ public class ChatManager extends JavaPlugin implements Listener {
             Methods.cm_commandCooldown.remove(all);
             Methods.cm_cooldownTask.remove(all);
 
-            if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1)) {
-                BossBarUtil bossBar = new BossBarUtil();
-                bossBar.removeAllBossBars(all);
-            }
+            BossBarUtil bossBar = new BossBarUtil();
+            bossBar.removeAllBossBars(all);
         }
     }
 

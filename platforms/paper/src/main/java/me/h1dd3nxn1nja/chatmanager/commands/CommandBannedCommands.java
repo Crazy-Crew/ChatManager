@@ -3,8 +3,6 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
-import me.h1dd3nxn1nja.chatmanager.utils.JSONMessage;
-import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,21 +29,26 @@ public class CommandBannedCommands implements CommandExecutor {
 		if (cmd.getName().equalsIgnoreCase("BannedCommands")) {
 			if (player.hasPermission("chatmanager.bannedcommands")) {
 				if (args.length == 0) {
-					if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1) && ServerProtocol.isOlder(ServerProtocol.v1_17_R1)) {
-						JSONMessage.create("").send(player);
-						JSONMessage.create(" &3Banned Commands Help Menu &f(v" + plugin.getDescription().getVersion() + ")").send(player);
-						JSONMessage.create("").send(player);
-						JSONMessage.create(" &6<> &f= Required Arguments").send(player);
-						JSONMessage.create("").send(player);
-						JSONMessage.create(" &f/BannedCommands Help &e- Shows the banned commands help menu.").tooltip(Methods.color("&f/BannedCommands Help \n&7Shows the banned commands help menu.")).suggestCommand("/bannedcommands help").send(player);
-						JSONMessage.create(" &f/BannedCommands Add &6<command> &e- Add a command to the \n&ebanned command list.").tooltip(Methods.color("&f/BannedCommands add &6<command> \n&7Add a command to the banned command list.")).suggestCommand("/bannedcommands add <command>").send(player);
-						JSONMessage.create(" &f/BannedCommands Remove &6<command> &e- Remove a command from the \n&ebanned command list.").tooltip(Methods.color("&f/BannedCommands remove &6<command> \n&7Remove a command from the banned command list.")).suggestCommand("/bannedcommands remove <command>").send(player);
-						JSONMessage.create(" &f/BannedCommands List &e- Shows a list of the servers banned commands.").tooltip(Methods.color("&f/BannedCommands List \n&7Shows a list of the servers banned commands")).suggestCommand("/bannedcommands list").send(player);
-						JSONMessage.create("").send(player);
-						JSONMessage.create(" &e&lTIP &7Try to hover or click the command!").tooltip(Methods.color("&7Hover over the commands to get information about them. \n&7Click on the commands to insert them in the chat.")).send(player);
-						JSONMessage.create("").send(player);
-						return true;
-					} else {
+					Methods.sendMessage(player, "", true);
+					Methods.sendMessage(player, " &3Banned Commands Help Menu &f(v" + plugin.getDescription().getVersion() + ")", true);
+					Methods.sendMessage(player, "", true);
+					Methods.sendMessage(player, " &6<> &f= Required Arguments", true);
+					Methods.sendMessage(player, "", true);
+					Methods.sendMessage(player, " &f/BannedCommands Help &e- Shows the banned commands help menu.", true);
+					Methods.sendMessage(player, " &f/BannedCommands Add &6<command> &e- Add a command to the banned command list.", true);
+					Methods.sendMessage(player, " &f/BannedCommands Remove &6<command> &e- Remove a command from the banned command list.", true);
+					Methods.sendMessage(player, " &f/BannedCommands List &e- Shows a list of the servers banned commands.", true);
+					Methods.sendMessage(player, "", true);
+					return true;
+				}
+			} else {
+				Methods.sendMessage(player, Methods.noPermission(), true);
+				return true;
+			}
+
+			if (args[0].equalsIgnoreCase("help")) {
+				if (player.hasPermission("chatmanager.bannedcommands.help")) {
+					if (args.length == 1) {
 						Methods.sendMessage(player, "", true);
 						Methods.sendMessage(player, " &3Banned Commands Help Menu &f(v" + plugin.getDescription().getVersion() + ")", true);
 						Methods.sendMessage(player, "", true);
@@ -58,48 +61,12 @@ public class CommandBannedCommands implements CommandExecutor {
 						Methods.sendMessage(player, "", true);
 						return true;
 					}
-				}
-			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
-				return true;
-			}
-
-			if (args[0].equalsIgnoreCase("help")) {
-				if (player.hasPermission("chatmanager.bannedcommands.help")) {
-					if (args.length == 1) {
-						if (ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1) && ServerProtocol.isOlder(ServerProtocol.v1_17_R1)) {
-							JSONMessage.create("").send(player);
-							JSONMessage.create(Methods.color(" &3Banned Commands Help Menu &f(v" + plugin.getDescription().getVersion() + ")")).send(player);
-							JSONMessage.create("").send(player);
-							JSONMessage.create(Methods.color(" &6<> &f= Required Arguments")).send(player);
-							JSONMessage.create("").send(player);
-							JSONMessage.create(Methods.color(" &f/BannedCommands Help &e- Shows the banned commands help menu.")).tooltip(Methods.color("&f/BannedCommands Help \n&7Shows the banned commands help menu.")).suggestCommand("/bannedcommands help").send(player);
-							JSONMessage.create(Methods.color(" &f/BannedCommands Add &6<command> &e- Add a command to the \n&ebanned command list.")).tooltip(Methods.color("&f/BannedCommands add &6<command> \n&7Add a command to the banned command list.")).suggestCommand("/bannedcommands add <command>").send(player);
-							JSONMessage.create(Methods.color(" &f/BannedCommands Remove &6<command> &e- Remove a command from the \n&ebanned command list.")).tooltip(Methods.color("&f/BannedCommands remove &6<command> \n&7Remove a command from the banned command list.")).suggestCommand("/bannedcommands remove <command>").send(player);
-							JSONMessage.create(Methods.color(" &f/BannedCommands List &e- Shows a list of the servers banned commands.")).tooltip(Methods.color("&f/BannedCommands List \n&7Shows a list of the servers banned commands")).suggestCommand("/bannedcommands list").send(player);
-							JSONMessage.create("").send(player);
-							JSONMessage.create(Methods.color(" &e&lTIP &7Try to hover or click the command!")).tooltip(Methods.color("&7Hover over the commands to get information about them. \n&7Click on the commands to insert them in the chat.")).send(player);
-							JSONMessage.create("").send(player);
-							return true;
-						} else {
-							Methods.sendMessage(player, "", true);
-							Methods.sendMessage(player, " &3Banned Commands Help Menu &f(v" + plugin.getDescription().getVersion() + ")", true);
-							Methods.sendMessage(player, "", true);
-							Methods.sendMessage(player, " &6<> &f= Required Arguments", true);
-							Methods.sendMessage(player, "", true);
-							Methods.sendMessage(player, " &f/BannedCommands Help &e- Shows the banned commands help menu.", true);
-							Methods.sendMessage(player, " &f/BannedCommands Add &6<command> &e- Add a command to the banned command list.", true);
-							Methods.sendMessage(player, " &f/BannedCommands Remove &6<command> &e- Remove a command from the banned command list.", true);
-							Methods.sendMessage(player, " &f/BannedCommands List &e- Shows a list of the servers banned commands.", true);
-							Methods.sendMessage(player, "", true);
-							return true;
-						}
-					}
 				} else {
 					Methods.sendMessage(player, Methods.noPermission(), true);
 					return true;
 				}
 			}
+
 			if (args[0].equalsIgnoreCase("add")) {
 				if (player.hasPermission("chatmanager.bannedcommands.add")) {
 					if (args.length == 2) {
@@ -120,6 +87,7 @@ public class CommandBannedCommands implements CommandExecutor {
 					Methods.sendMessage(player, Methods.noPermission(), true);
 				}
 			}
+
 			if (args[0].equalsIgnoreCase("remove")) {
 				if (player.hasPermission("chatmanager.bannedcommands.remove")) {
 					if (args.length == 2) {
@@ -140,6 +108,7 @@ public class CommandBannedCommands implements CommandExecutor {
 					Methods.sendMessage(player, Methods.noPermission(), true);
 				}
 			}
+
 			if (args[0].equalsIgnoreCase("list")) {
 				if (player.hasPermission("chatmanager.bannedcommands.list")) {
 					if (args.length == 1) {

@@ -8,7 +8,6 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
-import me.h1dd3nxn1nja.chatmanager.utils.ServerProtocol;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -50,47 +49,30 @@ public class Methods {
 	public static ArrayList<UUID> cm_togglePM = new ArrayList<>();
 
 	private static final char COLOR_CHAR = ChatColor.COLOR_CHAR;
-	
-	public static String color(String message) {
-		if (ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1)) {
-			String format = settingsManager.getConfig().getString("Hex_Color_Format");
-			Pattern hex = Pattern.compile(format + "([A-Fa-f0-9]{6})");
-			Matcher matcher = hex.matcher(message);
-			StringBuffer buffer = new StringBuffer(message.length() + 4 * 8);
 
-			while (matcher.find()) {
-				String group = matcher.group(1);
-				matcher.appendReplacement(buffer, COLOR_CHAR + "x"
-						+ COLOR_CHAR + group.charAt(0) + COLOR_CHAR + group.charAt(1)
-						+ COLOR_CHAR + group.charAt(2) + COLOR_CHAR + group.charAt(3)
-						+ COLOR_CHAR + group.charAt(4) + COLOR_CHAR + group.charAt(5)
-				);
-			}
+	private static final String format = settingsManager.getConfig().getString("Hex_Color_Format");
+	private static final Pattern HEX_PATTERN = Pattern.compile(format + "([A-Fa-f0-9]{6})");
+
+	public static String color(String message) {
+		Matcher matcher = HEX_PATTERN.matcher(message);
+		StringBuilder buffer = new StringBuilder();
+
+		while (matcher.find()) {
+			matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of(matcher.group()).toString());
 		}
 
-		return ChatColor.translateAlternateColorCodes('&', message);
+		return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
 	}
 	
 	public static String color(Player player, String message) {
-		if (ServerProtocol.isAtLeast(ServerProtocol.v1_16_R1)) {
-			String format = settingsManager.getConfig().getString("Hex_Color_Format");
-			Pattern hex = Pattern.compile(format + "([A-Fa-f0-9]{6})");
-			Matcher matcher = hex.matcher(message);
-			StringBuffer buffer = new StringBuffer(message.length() + 4 * 8);
+		Matcher matcher = HEX_PATTERN.matcher(message);
+		StringBuilder buffer = new StringBuilder();
 
-			while (matcher.find()) {
-				String group = matcher.group(1);
-				matcher.appendReplacement(buffer, COLOR_CHAR + "x"
-						+ COLOR_CHAR + group.charAt(0) + COLOR_CHAR + group.charAt(1)
-						+ COLOR_CHAR + group.charAt(2) + COLOR_CHAR + group.charAt(3)
-						+ COLOR_CHAR + group.charAt(4) + COLOR_CHAR + group.charAt(5)
-				);
-			}
-
-			if (PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) return ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(player, matcher.appendTail(buffer).toString()));else return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
+		while (matcher.find()) {
+			matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of(matcher.group()).toString());
 		}
 
-		return ChatColor.translateAlternateColorCodes('&', message);
+		return PluginSupport.PLACEHOLDERAPI.isPluginEnabled() ? ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(player, matcher.appendTail(buffer).toString())) : ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
 	}
 	
 	public static String getPrefix() {
@@ -120,16 +102,14 @@ public class Methods {
 	
 	public static boolean inRange(Player player, Player receiver, int radius) {
 		if (receiver.getLocation().getWorld().equals(player.getLocation().getWorld())) {
-			if (receiver.getLocation().distanceSquared(player.getLocation()) <= radius * radius) return true;
+			return receiver.getLocation().distanceSquared(player.getLocation()) <= radius * radius;
 		}
 
 		return false;
 	}
 	
 	public static boolean inWorld(Player player, Player receiver) {
-		if (receiver.getLocation().getWorld().equals(player.getLocation().getWorld())) return true;
-
-		return false;
+		return receiver.getLocation().getWorld().equals(player.getLocation().getWorld());
 	}
 
 	public static void sendMessage(CommandSender commandSender, String message, boolean prefixToggle) {
@@ -137,9 +117,7 @@ public class Methods {
 
 		String prefix = getPrefix();
 
-		if (commandSender instanceof Player) {
-			Player player = (Player) commandSender;
-
+		if (commandSender instanceof Player player) {
 			if (!prefix.isEmpty() && prefixToggle) player.sendMessage(color(message.replace("{Prefix}", prefix))); else player.sendMessage(color(message));
 
 			return;

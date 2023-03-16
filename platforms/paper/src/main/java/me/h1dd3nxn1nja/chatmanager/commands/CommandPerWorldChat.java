@@ -19,12 +19,10 @@ public class CommandPerWorldChat implements CommandExecutor {
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration messages = settingsManager.getMessages();
 
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
-
-		Player player = (Player) sender;
 
 		if (cmd.getName().equalsIgnoreCase("perworldchat")) {
 			if (player.hasPermission("chatmanager.perworldchat")) {

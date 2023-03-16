@@ -53,6 +53,7 @@ public class SettingsManager {
 				e.printStackTrace();
 			}
 		}
+
 		config = YamlConfiguration.loadConfiguration(cfile);
 		
 		abfile = new File(plugin.getDataFolder(), "AutoBroadcast.yml");

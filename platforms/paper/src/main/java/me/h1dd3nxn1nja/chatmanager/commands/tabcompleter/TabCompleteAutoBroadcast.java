@@ -26,39 +26,28 @@ public class TabCompleteAutoBroadcast implements TabCompleter {
 			if (hasPermission(sender, "create")) completions.add("create");return StringUtil.copyPartialMatches(args[0], completions, new ArrayList<>());
 		} else if (args.length == 2) {
 			switch (args[0].toLowerCase()) {
-				case "help":
-				case "list":
-				case "add":
+				case "help", "list", "add" -> {
 					completions.add("global");
 					completions.add("world");
 					completions.add("actionbar");
 					completions.add("title");
 					completions.add("bossbar");
-					break;
-				case "create":
-					plugin.getServer().getWorlds().forEach(world -> completions.add(world.getName()));
-					break;
+				}
+				case "create" -> plugin.getServer().getWorlds().forEach(world -> completions.add(world.getName()));
 			}
 			return StringUtil.copyPartialMatches(args[1], completions, new ArrayList<>());
 		} else if (args.length == 3) {
 			switch (args[0].toLowerCase()) {
-				case "list":
-					completions.addAll(settingsManager.getAutoBroadcast().getConfigurationSection("Auto_Broadcast.Per_World_Messages.Messages").getKeys(false));
-					break;
-				case "add":
-					plugin.getServer().getWorlds().forEach(world -> completions.add(world.getName()));
-					break;
-				case "create":
-					completions.add("<message>");
-					break;
+				case "list" ->
+						completions.addAll(settingsManager.getAutoBroadcast().getConfigurationSection("Auto_Broadcast.Per_World_Messages.Messages").getKeys(false));
+				case "add" -> plugin.getServer().getWorlds().forEach(world -> completions.add(world.getName()));
+				case "create" -> completions.add("<message>");
 			}
 
 			return StringUtil.copyPartialMatches(args[2], completions, new ArrayList<>());
 		} else if (args.length == 4) {
-			switch (args[0].toLowerCase()) {
-				case "add":
-					completions.add("<message>");
-					break;
+			if (args[0].equalsIgnoreCase("add")) {
+				completions.add("<message>");
 			}
 
 			return StringUtil.copyPartialMatches(args[3], completions, new ArrayList<>());

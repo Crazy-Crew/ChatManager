@@ -19,7 +19,7 @@ public class CommandMOTD implements Listener {
 	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
 
 	@EventHandler
-	public void MOTD(PlayerCommandPreprocessEvent e) {
+	public void preProcessEvent(PlayerCommandPreprocessEvent e) {
 		Player player = e.getPlayer();
 
 		FileConfiguration config = settingsManager.getConfig();
