@@ -10,6 +10,7 @@ import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
@@ -32,7 +33,6 @@ public class CommandMessage implements CommandExecutor {
 	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration messages = settingsManager.getMessages();
 
@@ -40,7 +40,13 @@ public class CommandMessage implements CommandExecutor {
 
 		String playerNotFound = messages.getString("Message.Player_Not_Found");
 
+		if (sender instanceof ConsoleCommandSender) {
+			plugin.getLogger().warning("This command can only be used by a player.");
+			return true;
+		}
+
 		Player player = (Player) sender;
+
 		if (cmd.getName().equalsIgnoreCase("Message")) {
 			if (player.hasPermission("chatmanager.message")) {
 				StringBuilder message = new StringBuilder();
