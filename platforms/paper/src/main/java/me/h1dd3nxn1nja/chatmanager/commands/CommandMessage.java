@@ -39,12 +39,10 @@ public class CommandMessage implements CommandExecutor {
 
 		String playerNotFound = messages.getString("Message.Player_Not_Found");
 
-		if (sender instanceof ConsoleCommandSender) {
-			plugin.getLogger().warning("This command can only be used by a player.");
+		if (!(sender instanceof Player player)) {
+			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
-
-		Player player = (Player) sender;
 
 		if (cmd.getName().equalsIgnoreCase("Message")) {
 			if (player.hasPermission("chatmanager.message")) {
