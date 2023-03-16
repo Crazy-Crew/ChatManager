@@ -91,10 +91,11 @@ tasks {
                 <h4>Changes:</h4>
                  <p>Added 1.19.4 support</p>
                  <p>Removed 1.18.2 and below support</p>
+                 <p>Only allow the player to use /message for now</p>
                 <h4>Under the hood changes</h4>
                  <p>Simplified build script</p>
                 <h4>Bug Fixes:</h4>
-                 <p>Fixed a bug where </p>
+                 <p>N/A</p>
             """.trimIndent()
         )
     }
