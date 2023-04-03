@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[![chatmanager](https://cdn-raw.modrinth.com/data/IwVOgYiT/c742dee969a8e37393ea6150670c151384ee4ad2.png)](https://modrinth.com/plugin/chatmanager/versions)
+[![chatmanager](https://raw.githubusercontent.com/RyderBelserion/Assets/main/crazycrew/webp/ChatManagerWebsite.webp)](https://modrinth.com/plugin/chatmanager/versions)
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -23,7 +23,7 @@
     <br />
     <a href="https://github.com/Crazy-Crew/ChatManager/issues">Report Bug</a>
     ·
-    <a href="https://github.com/Crazy-Crew/ChatManager/discussions/categories/feature-requests">Request Feature</a>
+    <a href="https://github.com/Crazy-Crew/ChatManager/discussions/categories/features">Request Feature</a>
     ·
     <a href="https://discord.gg/SekseczrWz">Get Support</a>
   </p>
@@ -47,13 +47,13 @@
   </ol>
 </details>
 
-## Downloads
-> https://modrinth.com/plugin/chatmanager
+### Resource Page
+<a href="https://modrinth.com/plugin/chatmanager">![Modrinth](https://raw.githubusercontent.com/intergrav/devins-badges/v3/assets/compact/available/modrinth_46h.png)</a>
 
-## Beta Builds
-### Get the latest changes before marked as release.
-All beta builds will be on Modrinth.<br>
-> https://modrinth.com/plugin/chatmanager/versions
+### Beta Builds
+<p>Get the latest changes before marked as release.</p>
+
+> https://ci.crazycrew.us/job/ChatManager/
 
 ## Getting Started
 
@@ -95,7 +95,7 @@ Check our public [trello board](https://trello.com/b/Q37AYC3I) for our current p
 Distributed under the MIT License. See [`LICENSE`](/LICENSE) for more information.
 
 [discord-shield]: https://img.shields.io/discord/415940589712965632.svg?style=flat&logo=appveyor
-[discord-url]: https://discord.gg/crazycrew
+[discord-url]: https://discord.gg/SekseczrWz
 
 [contributors-shield]: https://img.shields.io/github/contributors/Crazy-Crew/ChatManager.svg?style=flat&logo=appveyor
 [contributors-url]: https://github.com/Crazy-Crew/ChatManager/graphs/contributors

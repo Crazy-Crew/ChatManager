@@ -1,0 +1,49 @@
+[17:07:14] [ServerMain/INFO]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
+[17:07:14] [ServerMain/INFO]: Found new data pack file/bukkit, loading it automatically
+[17:07:15] [ServerMain/INFO]: Loaded 7 recipes
+[17:07:16] [Server thread/INFO]: Starting minecraft server version 1.19.4
+[17:07:16] [Server thread/INFO]: Loading properties
+[17:07:16] [Server thread/INFO]: This server is running Paper version git-Paper-490 (MC: 1.19.4) (Implementing API version 1.19.4-R0.1-SNAPSHOT) (Git: 0849144)
+[17:07:16] [Server thread/INFO]: Server Ping Player Sample Count: 12
+[17:07:16] [Server thread/INFO]: Using 4 threads for Netty based IO
+[17:07:16] [Server thread/WARN]: [!] The timings profiler has been enabled but has been scheduled for removal from Paper in the future.
+    We recommend installing the spark profiler as a replacement: https://spark.lucko.me/
+    For more information please visit: https://github.com/PaperMC/Paper/issues/8948
+[17:07:16] [Server thread/INFO]: [ChunkTaskScheduler] Chunk system is using 1 I/O threads, 4 worker threads, and gen parallelism of 4 threads
+[17:07:16] [Server thread/INFO]: Default game type: SURVIVAL
+[17:07:16] [Server thread/INFO]: Generating keypair
+[17:07:16] [Server thread/INFO]: Starting Minecraft server on *:25565
+[17:07:16] [Server thread/INFO]: Using default channel type
+[17:07:16] [Server thread/INFO]: Paper: Using Java compression from Velocity.
+[17:07:16] [Server thread/INFO]: Paper: Using Java cipher from Velocity.
+[17:07:16] [Server thread/INFO]: [Vault] Loading server plugin Vault v1.7.3-b131
+[17:07:16] [Server thread/INFO]: [ChatManager] Loading server plugin ChatManager vf180f06
+[17:07:16] [Server thread/INFO]: Server permissions file permissions.yml is empty, ignoring it
+[17:07:16] [Server thread/INFO]: [Vault] Enabling Vault v1.7.3-b131
+[17:07:16] [Server thread/INFO]: [Vault] [Permission] SuperPermissions loaded as backup permission system.
+[17:07:16] [Server thread/INFO]: [Vault] Enabled Version 1.7.3-b131
+[17:07:16] [Server thread/INFO]: Preparing level "world"
+[17:07:21] [Server thread/INFO]: Preparing start region for dimension minecraft:overworld
+[17:07:21] [Server thread/INFO]: Time elapsed: 121 ms
+[17:07:21] [Server thread/INFO]: Preparing start region for dimension minecraft:the_nether
+[17:07:21] [Server thread/INFO]: Time elapsed: 28 ms
+[17:07:21] [Server thread/INFO]: Preparing start region for dimension minecraft:the_end
+[17:07:21] [Server thread/INFO]: Time elapsed: 30 ms
+[17:07:21] [Server thread/INFO]: [ChatManager] Enabling ChatManager vf180f06
+[17:07:21] [Server thread/INFO]: [ChatManager] Metrics has been enabled.
+[17:07:21] [Server thread/INFO]: [ChatManager] §6§lESSENTIALS §c§lNOT FOUND
+[17:07:21] [Server thread/INFO]: [ChatManager] §6§lVAULT §a§lFOUND
+[17:07:21] [Server thread/INFO]: [ChatManager] §6§lSUPER_VANISH §c§lNOT FOUND
+[17:07:21] [Server thread/INFO]: [ChatManager] §6§lPLACEHOLDERAPI §c§lNOT FOUND
+[17:07:21] [Server thread/INFO]: [ChatManager] §6§lLUCKPERMS §c§lNOT FOUND
+[17:07:21] [Server thread/INFO]: [ChatManager] §6§lPREMIUM_VANISH §c§lNOT FOUND
+[17:07:21] [Server thread/ERROR]: [ChatManager] A permissions plugin was not found. You will likely have issues without one.
+[17:07:21] [Server thread/INFO]: Running delayed init tasks
+[17:07:21] [Server thread/INFO]: Done (5.580s)! For help, type "help"
+[17:07:21] [Server thread/INFO]: Timings Reset
+[17:07:21] [Craft Scheduler Thread - 3 - Vault/INFO]: [Vault] Checking for Updates ... 
+[17:07:22] [Craft Scheduler Thread - 3 - Vault/INFO]: [Vault] No new version available
+[17:07:33] [Tuinity Chunk System Worker #2/WARN]: Skipping Entity with id minecraft:camel
+[17:07:42] [Server thread/INFO]: Server Plugins (2):
+[17:07:42] [Server thread/INFO]: Bukkit Plugins:
+[17:07:42] [Server thread/INFO]:  - ChatManager, Vault

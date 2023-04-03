@@ -1,21 +1,47 @@
 dependencyResolutionManagement {
-    includeBuild("build-logic")
+    versionCatalogs {
+        create("settings") {
+            from(files("gradle/settings.versions.toml"))
+        }
+    }
+
+    repositories.gradlePluginPortal()
 }
 
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        maven("https://papermc.io/repo/repository/maven-public/")
-    }
-
-    plugins {
-        id("com.modrinth.minotaur") version "2.6.0"
-        id("com.github.johnrengelman.shadow") version "7.1.2"
-        id("xyz.jpenilla.run-paper") version "2.0.0"
+        mavenCentral()
     }
 }
 
 rootProject.name = "ChatManager"
 
-//include("paper", "spigot")
-include("spigot")
+val lowerCase = rootProject.name.lowercase()
+
+listOf("paper").forEach(::includeProject)
+
+fun includeProject(name: String) {
+    include(name) {
+        this.name = "$lowerCase-$name"
+    }
+}
+
+fun includeModule(name: String) {
+    include(name) {
+        this.name = "$lowerCase-module-$name"
+        this.projectDir = file("modules/$name")
+    }
+}
+
+fun includeType(name: String) {
+    include(name) {
+        this.name = "$lowerCase-$name"
+        this.projectDir = file("minecraft/$name")
+    }
+}
+
+fun include(name: String, block: ProjectDescriptor.() -> Unit) {
+    include(name)
+    project(":$name").apply(block)
+}

@@ -1,63 +1,70 @@
+import com.lordcodes.turtle.shellRun
+import task.WebhookExtension
 import java.awt.Color
 
 plugins {
     id("chatmanager.root-plugin")
 }
 
-val legacyUpdate = Color(255, 73, 110)
 val releaseUpdate = Color(27, 217, 106)
-val snapshotUpdate = Color(255, 163, 71)
+val betaUpdate = Color(255, 163, 71)
+val changeLogs = Color(37, 137, 204)
 
-val commitMessage: String? = System.getenv("COMMIT_MESSAGE")
+val beta = settings.versions.beta.get().toBoolean()
+val extension = settings.versions.extension.get()
 
-releaseBuild {
-    val pluginVersion = getProjectVersion()
-    val pluginName = getProjectName()
+val color = if (beta) betaUpdate else releaseUpdate
+val repo = if (beta) "beta" else "releases"
 
-    val versionColor = if (isBeta()) snapshotUpdate else releaseUpdate
+val url = if (beta) "https://ci.crazycrew.us/job/${rootProject.name}/" else "https://modrinth.com/$extension/${rootProject.name.lowercase()}/versions"
+val download = if (beta) "https://ci.crazycrew.us/job/${rootProject.name}/" else "https://modrinth.com/$extension/${rootProject.name.lowercase()}/version/${rootProject.version}"
+val msg = if (beta) "New version of ${rootProject.name} is ready!" else "New version of ${rootProject.name} is ready! <@&929463441159254066>"
 
-    val pageExtension = getExtension()
+val hash = shellRun("git", listOf("rev-parse", "--short", "HEAD"))
 
-    webhook {
-        this.avatar("https://cdn.discordapp.com/avatars/209853986646261762/eefe3c03882cbb885d98107857d0b022.png")
+rootProject.version = if (beta) hash else "3.9.0"
 
-        this.username("Ryder Belserion")
+webhook {
+    this.avatar("https://en.gravatar.com/avatar/${WebhookExtension.Gravatar().md5Hex("no-reply@ryderbelserion.com")}.jpeg")
 
-        this.content("New version of $pluginName is ready! <@&888222546573537280>")
+    this.username("Ryder Belserion")
 
-        // this.content("New version of $pluginName is ready!")
+    this.content(msg)
 
-        this.embeds {
-            this.embed {
-                this.color(versionColor)
+    this.embeds {
+        this.embed {
+            this.color(color)
 
-                this.fields {
-                    this.field(
-                        "Version $pluginVersion",
-                        "Download Link: https://modrinth.com/$pageExtension/${pluginName.toLowerCase()}/version/$pluginVersion"
-                    )
+            this.fields {
+                this.field(
+                    "Download: ",
+                    url
+                )
 
-                    if (isBeta()) {
-                        if (commitMessage != null) this.field("Commit Message", commitMessage)
-
-                        this.field(
-                            "API Update",
-                            "Version $pluginVersion has been pushed to https://repo.crazycrew.us/#/beta/"
-                        )
-                    }
-
-                    if (!isBeta()) this.field(
-                        "API Update",
-                        "Version $pluginVersion has been pushed to https://repo.crazycrew.us/#/releases/"
-                    )
-                }
-
-                this.author(
-                    pluginName,
-                    "https://modrinth.com/$pageExtension/${pluginName.toLowerCase()}/versions",
-                    "https://cdn-raw.modrinth.com/data/IwVOgYiT/c742dee969a8e37393ea6150670c151384ee4ad2.png"
+                this.field(
+                    "API: ",
+                    "https://repo.crazycrew.us/#/$repo/${rootProject.group.toString().replace(".", "/")}/${rootProject.name.lowercase()}-api/${rootProject.version}"
                 )
             }
+
+            this.author(
+                "${rootProject.name} | Version ${rootProject.version}",
+                url,
+                "https://raw.githubusercontent.com/RyderBelserion/assets/main/crazycrew/png/${rootProject.name}Website.png"
+            )
+        }
+
+        this.embed {
+            this.color(changeLogs)
+
+            this.title("What changed?")
+
+            this.description("""
+                Changes:
+                » Added 1.19.4 support
+                » Removed 1.8.8-1.18.2 support, It will be moved into another branch.
+                » Likely will only be supporting https://papermc.io from this point on.
+            """.trimIndent())
         }
     }
 }

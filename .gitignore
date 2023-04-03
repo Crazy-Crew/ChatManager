@@ -1,21 +1,16 @@
 .gradle
 .idea
 
-build-logic/.gradle
-build-logic/build
-build-logic/bin
+buildSrc/build
+buildSrc/.gradle
 
+api/build
+api/.gradle
+paper/.gradle
 paper/build
-paper/bin
-paper/run/*
 
+!paper/run/plugins/Vault.jar
+!paper/run/plugins/LuckPerms.jar
 !paper/run/eula.txt
 
-common/build
-common/bin
-
-spigot/build
-spigot/bin
-spigot/run/*
-
-!spigot/run/eula.txt
+build
