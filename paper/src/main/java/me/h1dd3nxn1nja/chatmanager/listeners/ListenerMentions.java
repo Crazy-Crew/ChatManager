@@ -40,7 +40,7 @@ public class ListenerMentions implements Listener {
 			event.setMessage(ChatColor.translateAlternateColorCodes('&', event.getMessage()));
 
 			plugin.getServer().getOnlinePlayers().forEach(target -> {
-				if (player.hasPermission("chatmanager.mention")) {
+				if (player.hasPermission("chatmanager.mention") && target.hasPermission("chatmanager.mention.receive")) {
 					if (event.getMessage().contains(tagSymbol + target.getName())) {
 						if (Methods.cm_toggleMentions.contains(target.getUniqueId())) return;
 

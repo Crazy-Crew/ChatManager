@@ -158,7 +158,7 @@ public class ChatManager extends JavaPlugin {
 
         registerCommand(getCommand("Ping"), null, new CommandPing());
 
-        registerCommand(getCommand("Rules"), null, new CommandRadius());
+        registerCommand(getCommand("Rules"), null, new CommandRules());
 
         registerCommand(getCommand("ToggleChat"), null, new CommandToggleChat());
 

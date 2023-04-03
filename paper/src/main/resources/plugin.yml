@@ -196,6 +196,9 @@ permissions:
     chatmanager.mention:
         description: Permission to send mention notifications to other players.
         default: op
+    chatmanager.mention.receive:
+      description: Permission to receive mention notifications
+      default: op
     chatmanager.mention.everyone:
         description: Permission to send everyone mention notifications.
         default: op
