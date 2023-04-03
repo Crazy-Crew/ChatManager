@@ -57,9 +57,11 @@ public class ListenerMentions implements Listener {
 							}
 						}
 
-						try {
-							target.playSound(target.getLocation(), Sound.valueOf(config.getString("Mentions.Sound")), 10, 1);
-						} catch (IllegalArgumentException ignored) {}
+						if (!Methods.cm_toggleMentions.contains(target.getUniqueId())) {
+							try {
+								target.playSound(target.getLocation(), Sound.valueOf(config.getString("Mentions.Sound")), 10, 1);
+							} catch (IllegalArgumentException ignored) {}
+						}
 
 						if (config.getBoolean("Mentions.Title.Enable")) {
 							String header = placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Header"));
@@ -79,10 +81,12 @@ public class ListenerMentions implements Listener {
 
 			if (event.getMessage().toLowerCase().contains(tagSymbol + "everyone")) {
 				plugin.getServer().getOnlinePlayers().forEach(target -> {
-					if (player.hasPermission("chatmanager.mention.everyone")) {
-						try {
-							target.playSound(target.getLocation(), Sound.valueOf(config.getString("Mentions.Sound")), 10, 1);
-						} catch (IllegalArgumentException ignored) {}
+					if (player.hasPermission("chatmanager.mention.everyone") && target.hasPermission("chatmanager.mentions.receive")) {
+						if (!Methods.cm_toggleMentions.contains(target.getUniqueId())) {
+							try {
+								target.playSound(target.getLocation(), Sound.valueOf(config.getString("Mentions.Sound")), 10, 1);
+							} catch (IllegalArgumentException ignored) {}
+						}
 
 						if (config.getBoolean("Mentions.Title.Enable")) {
 							String header = placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Header"));
