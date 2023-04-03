@@ -43,42 +43,29 @@ public class Methods {
 	public static ArrayList<UUID> cm_staffChat = new ArrayList<>();
 	public static ArrayList<UUID> cm_togglePM = new ArrayList<>();
 
-	private static final char COLOR_CHAR = ChatColor.COLOR_CHAR;
+	private static final String format = settingsManager.getConfig().getString("Hex_Color_Format");
+	private static final Pattern HEX_PATTERN = Pattern.compile(format + "([A-Fa-f0-9]{6})");
 
 	public static String color(String message) {
-		String format = settingsManager.getConfig().getString("Hex_Color_Format");
-		Pattern hex = Pattern.compile(format + "([A-Fa-f0-9]{6})");
-		Matcher matcher = hex.matcher(message);
-		StringBuilder buffer = new StringBuilder(message.length() + 4 * 8);
+		Matcher matcher = HEX_PATTERN.matcher(message);
+		StringBuilder buffer = new StringBuilder();
 
 		while (matcher.find()) {
-			String group = matcher.group(1);
-			matcher.appendReplacement(buffer, COLOR_CHAR + "x"
-					+ COLOR_CHAR + group.charAt(0) + COLOR_CHAR + group.charAt(1)
-					+ COLOR_CHAR + group.charAt(2) + COLOR_CHAR + group.charAt(3)
-					+ COLOR_CHAR + group.charAt(4) + COLOR_CHAR + group.charAt(5)
-			);
+			matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of(matcher.group()).toString());
 		}
 
-		return ChatColor.translateAlternateColorCodes('&', message);
+		return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
 	}
 
 	public static String color(Player player, String message) {
-		String format = settingsManager.getConfig().getString("Hex_Color_Format");
-		Pattern hex = Pattern.compile(format + "([A-Fa-f0-9]{6})");
-		Matcher matcher = hex.matcher(message);
-		StringBuilder buffer = new StringBuilder(message.length() + 4 * 8);
+		Matcher matcher = HEX_PATTERN.matcher(message);
+		StringBuilder buffer = new StringBuilder();
 
 		while (matcher.find()) {
-			String group = matcher.group(1);
-			matcher.appendReplacement(buffer, COLOR_CHAR + "x"
-					+ COLOR_CHAR + group.charAt(0) + COLOR_CHAR + group.charAt(1)
-					+ COLOR_CHAR + group.charAt(2) + COLOR_CHAR + group.charAt(3)
-					+ COLOR_CHAR + group.charAt(4) + COLOR_CHAR + group.charAt(5)
-			);
+			matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of(matcher.group()).toString());
 		}
 
-		return PluginSupport.PLACEHOLDERAPI.isPluginEnabled() ? ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(player, matcher.appendTail(buffer).toString())) : color(message);
+		return PluginSupport.PLACEHOLDERAPI.isPluginEnabled() ? ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(player, matcher.appendTail(buffer).toString())) : ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
 	}
 	
 	public static String getPrefix() {
