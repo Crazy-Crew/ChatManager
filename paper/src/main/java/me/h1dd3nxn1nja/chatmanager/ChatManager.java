@@ -41,6 +41,13 @@ public class ChatManager extends JavaPlugin {
             settingsManager.saveConfig();
         }
 
+        String hexColorFormat = settingsManager.getConfig().getString("Hex_Color_Format");
+
+        if (hexColorFormat == null) {
+            settingsManager.getConfig().set("Hex_Color_Format", "#");
+            settingsManager.saveConfig();
+        }
+
         String metricsValue = settingsManager.getConfig().getString("Metrics_Enabled");
 
         if (metricsValue == null) {
