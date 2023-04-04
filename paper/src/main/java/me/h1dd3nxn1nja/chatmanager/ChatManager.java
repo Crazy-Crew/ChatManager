@@ -34,45 +34,7 @@ public class ChatManager extends JavaPlugin {
 
         settingsManager.setup();
 
-        String version = settingsManager.getConfig().getString("Config_Version");
-
-        if (version == null) {
-            settingsManager.getConfig().set("Config_Version", 1);
-            settingsManager.saveConfig();
-        }
-
-        String hexColorFormat = settingsManager.getConfig().getString("Hex_Color_Format");
-
-        if (hexColorFormat == null) {
-            settingsManager.getConfig().set("Hex_Color_Format", "#");
-            settingsManager.saveConfig();
-        }
-
-        String metricsValue = settingsManager.getConfig().getString("Metrics_Enabled");
-
-        if (metricsValue == null) {
-            settingsManager.getConfig().set("Metrics_Enabled", false);
-            settingsManager.saveConfig();
-        }
-
-        String asyncMessages = settingsManager.getConfig().getString("Messages.Async");
-        if (asyncMessages == null) {
-            settingsManager.getConfig().set("Messages.Async", true);
-            settingsManager.saveConfig();
-        }
-
         boolean metricsEnabled = settingsManager.getConfig().getBoolean("Metrics_Enabled");
-
-        int configVersion = 1;
-        if (configVersion != settingsManager.getConfig().getInt("Config_Version")) {
-            plugin.getLogger().warning("========================================================================");
-            plugin.getLogger().warning("You have an outdated config, Please run the command /chatmanager update!");
-            plugin.getLogger().warning("This will take a backup of your entire folder & update your configs.");
-            plugin.getLogger().warning("Default values will be used in place of missing options!");
-            plugin.getLogger().warning("If you have any issues, Please contact Discord Support.");
-            plugin.getLogger().warning("https://discord.gg/mh7Ydaf");
-            plugin.getLogger().warning("========================================================================");
-        }
 
         pluginManager = new PluginManager();
 

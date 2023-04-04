@@ -4,6 +4,8 @@ import java.awt.Color
 
 plugins {
     id("chatmanager.root-plugin")
+
+    id("featherpatcher") version "8ef64e4"
 }
 
 val releaseUpdate = Color(27, 217, 106)
@@ -22,7 +24,7 @@ val msg = if (beta) "New version of ${rootProject.name} is ready!" else "New ver
 
 val hash = shellRun("git", listOf("rev-parse", "--short", "HEAD"))
 
-rootProject.version = if (beta) hash else "3.9.0"
+rootProject.version = if (beta) hash else "3.9.1"
 
 webhook {
     this.avatar("https://en.gravatar.com/avatar/${WebhookExtension.Gravatar().md5Hex("no-reply@ryderbelserion.com")}.jpeg")
@@ -67,4 +69,6 @@ webhook {
             """.trimIndent())
         }
     }
+
+    this.url("DISCORD_WEBHOOK")
 }

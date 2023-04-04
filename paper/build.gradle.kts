@@ -10,6 +10,8 @@ plugins {
 dependencies {
     implementation(libs.bstats.bukkit)
 
+    implementation(libs.triumph.cmds)
+
     compileOnly(libs.placeholder.api)
     compileOnly(libs.vault.api)
 
@@ -28,6 +30,7 @@ tasks {
         fun reloc(pkg: String) = relocate(pkg, "${rootProject.group}.dependency.$pkg")
 
         reloc("org.bstats")
+        reloc("dev.triumphteam")
     }
 
     runServer {
