@@ -13,6 +13,8 @@ paper/build
 !paper/run/plugins/LuckPerms.jar
 !paper/run/eula.txt
 
+paper/run
+
 build
 
 jars
