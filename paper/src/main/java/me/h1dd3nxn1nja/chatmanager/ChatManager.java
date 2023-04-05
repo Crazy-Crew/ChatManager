@@ -31,13 +31,13 @@ public class ChatManager extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
-        api = new ApiLoader();
-
-        api.load();
-
         settingsManager = new SettingsManager();
 
         settingsManager.setup();
+
+        api = new ApiLoader();
+
+        api.load();
 
         boolean metricsEnabled = settingsManager.getConfig().getBoolean("Metrics_Enabled");
 
