@@ -33,6 +33,8 @@ public class ChatManager extends JavaPlugin {
 
         api = new ApiLoader();
 
+        api.load();
+
         settingsManager = new SettingsManager();
 
         settingsManager.setup();
