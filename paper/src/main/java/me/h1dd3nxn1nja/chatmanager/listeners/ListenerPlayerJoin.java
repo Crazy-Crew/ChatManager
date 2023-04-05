@@ -88,7 +88,8 @@ public class ListenerPlayerJoin implements Listener {
                 for (Player online : plugin.getServer().getOnlinePlayers()) {
                     try {
                         online.playSound(online.getLocation(), Sound.valueOf(config.getString("Messages.Join_Quit_Messages.Join_Message.Sound")), 10, 1);
-                    } catch (IllegalArgumentException ignored) {}
+                    } catch (IllegalArgumentException ignored) {
+                    }
                 }
             }
             if ((config.getBoolean("Messages.Join_Quit_Messages.Actionbar_Message.Enable"))
@@ -216,44 +217,41 @@ public class ListenerPlayerJoin implements Listener {
         int delay = config.getInt("MOTD.Delay");
 
         if (config.getBoolean("Clear_Chat.Clear_On_Join")) {
-            if (!player.hasPermission("chatmanager.bypass.clearchat.onjoin")) {
-                for (int i = 0; i < lines; i++) {
-                    player.sendMessage("");
-                }
+            if (player.hasPermission("chatmanager.bypass.clearchat.onjoin")) return;
+
+            for (int i = 0; i < lines; i++) {
+                player.sendMessage("");
             }
         }
 
         if (config.getBoolean("Social_Spy.Enable_On_Join")) {
-            if (player.hasPermission("chatmanager.socialspy")) Methods.cm_socialSpy.add(player.getUniqueId());
+            if (player.hasPermission("chatmanager.socialspy")) plugin.api().getSocialSpyData().addUser(player.getUniqueId());
         }
 
         if (config.getBoolean("Command_Spy.Enable_On_Join")) {
-            if (player.hasPermission("chatmanager.commandspy")) Methods.cm_commandSpy.add(player.getUniqueId());
+            if (player.hasPermission("chatmanager.commandspy")) plugin.api().getCommandSpyData().addUser(player.getUniqueId());
         }
 
         if (config.getBoolean("Chat_Radius.Enable")) {
-            if (config.getString("Chat_Radius.Default_Channel").equals("Local"))
-                Methods.cm_localChat.add(player.getUniqueId());
-            if (config.getString("Chat_Radius.Default_Channel").equals("Global"))
-                Methods.cm_globalChat.add(player.getUniqueId());
-            if (config.getString("Chat_Radius.Default_Channel").equals("World"))
-                Methods.cm_worldChat.add(player.getUniqueId());
+            if (config.getString("Chat_Radius.Default_Channel").equals("Local")) plugin.api().getLocalChatData().addUser(player.getUniqueId());
+            if (config.getString("Chat_Radius.Default_Channel").equals("Global")) plugin.api().getGlobalChatData().addUser(player.getUniqueId());
+            if (config.getString("Chat_Radius.Default_Channel").equals("World")) plugin.api().getWorldChatData().addUser(player.getUniqueId());
         }
 
         if (config.getBoolean("Chat_Radius.Enable")) {
-            if (config.getBoolean("Chat_Radius.Enable_Spy_On_Join")) {
-                if (player.hasPermission("chatmanager.chatradius.spy")) Methods.cm_spyChat.add(player.getUniqueId());
-            }
+            if (!config.getBoolean("Chat_Radius.Enable_Spy_On_Join")) return;
+
+            if (player.hasPermission("chatmanager.chatradius.spy")) plugin.api().getSpyChatData().addUser(player.getUniqueId());
         }
 
-        new BukkitRunnable() {
-            public void run() {
-                if (config.getBoolean("MOTD.Enable")) {
+        if (config.getBoolean("MOTD.Enable")) {
+            new BukkitRunnable() {
+                public void run() {
                     for (String motd : config.getStringList("MOTD.Message")) {
                         player.sendMessage(placeholderManager.setPlaceholders(player, motd));
                     }
                 }
-            }
-        }.runTaskLater(plugin, 20L * delay);
+            }.runTaskLater(plugin, 20L * delay);
+        }
     }
 }

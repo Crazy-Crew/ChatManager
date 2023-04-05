@@ -20,63 +20,56 @@ public class ListenerAntiSpam implements Listener {
 
 	@EventHandler
 	public void antiSpamChat(AsyncPlayerChatEvent event) {
-		
+
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration messages = settingsManager.getMessages();
 
 		Player player = event.getPlayer();
 		String message = event.getMessage();
-		
-		if (!Methods.cm_staffChat.contains(player.getUniqueId())) {
-			if (config.getBoolean("Anti_Spam.Chat.Block_Repetitive_Messages")) {
-				if (!player.hasPermission("chatmanager.bypass.dupe.chat")) {
-					if (Methods.cm_previousMessages.containsKey(player)) {
-						if (message.equalsIgnoreCase(Methods.cm_previousMessages.get(player))) {
-							player.sendMessage(Methods.color(player, messages.getString("Anti_Spam.Chat.Repetitive_Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
-							event.setCancelled(true);
-						}
-					}
 
-					Methods.cm_previousMessages.put(player, message);
+		boolean isValid = plugin.api().getStaffChatData().containsUser(player.getUniqueId());
+
+		if (isValid) return;
+
+		if (config.getBoolean("Anti_Spam.Chat.Block_Repetitive_Messages")) {
+			if (player.hasPermission("chatmanager.bypass.dupe.chat")) return;
+
+			if (Methods.cm_previousMessages.containsKey(player)) {
+				if (message.equalsIgnoreCase(Methods.cm_previousMessages.get(player))) {
+					player.sendMessage(Methods.color(player, messages.getString("Anti_Spam.Chat.Repetitive_Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+					event.setCancelled(true);
 				}
 			}
-			if (config.getInt("Anti_Spam.Chat.Chat_Delay") != 0) {
-				if (!player.hasPermission("chatmanager.bypass.chatdelay")) {
-					if (Methods.cm_chatCooldown.containsKey(player)) {
-						Methods.sendMessage(player, messages.getString("Anti_Spam.Chat.Delay_Message").replace("{Time}", String.valueOf(Methods.cm_chatCooldown.get(player))), true);
-						event.setCancelled(true);
-						return;
-					}
 
-					Methods.cm_chatCooldown.put(player, Integer.valueOf(config.getInt("Anti_Spam.Chat.Chat_Delay")));
-
-					Methods.cm_cooldownTask.put(player, new BukkitRunnable() {
-						public void run() {
-							Methods.cm_chatCooldown.put(player, Integer.valueOf(Methods.cm_chatCooldown.get(player).intValue() - 1));
-
-							if (Methods.cm_chatCooldown.get(player).intValue() == 0) {
-								Methods.cm_chatCooldown.remove(player);
-								Methods.cm_cooldownTask.remove(player);
-								cancel();
-							}
-						}
-					});
-
-					Methods.cm_cooldownTask.get(player).runTaskTimer(plugin, 20L, 20L);
-				}
-			} else {
-				return;
-			}
-
-			// TODO() I don't fucking know.
-			/*if (config.getBoolean("Anti_Spam.Chat.Anti_Flood.Enable")) {
-				if (!player.hasPermission("chatmanager.bypass.antiflood")) {
-					
-				}
-			}*/
+			Methods.cm_previousMessages.put(player, message);
 		}
+
+		if (config.getInt("Anti_Spam.Chat.Chat_Delay") == 0 && player.hasPermission("chatmanager.bypass.chatdelay"))
+			return;
+
+		if (Methods.cm_chatCooldown.containsKey(player)) {
+			Methods.sendMessage(player, messages.getString("Anti_Spam.Chat.Delay_Message").replace("{Time}", String.valueOf(Methods.cm_chatCooldown.get(player))), true);
+			event.setCancelled(true);
+			return;
+		}
+
+		Methods.cm_chatCooldown.put(player, config.getInt("Anti_Spam.Chat.Chat_Delay"));
+
+		Methods.cm_cooldownTask.put(player, new BukkitRunnable() {
+			public void run() {
+				Methods.cm_chatCooldown.put(player, Methods.cm_chatCooldown.get(player) - 1);
+
+				if (Methods.cm_chatCooldown.get(player) == 0) {
+					Methods.cm_chatCooldown.remove(player);
+					Methods.cm_cooldownTask.remove(player);
+					cancel();
+				}
+			}
+		});
+
+		Methods.cm_cooldownTask.get(player).runTaskTimer(plugin, 20L, 20L);
 	}
-	
+
 	@EventHandler
 	public void onSpamCommand(PlayerCommandPreprocessEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
@@ -84,9 +77,9 @@ public class ListenerAntiSpam implements Listener {
 
 		Player player = event.getPlayer();
 		String command = event.getMessage();
-		
+
 		List<String> whitelistedCommands = config.getStringList("Anti_Spam.Command.Whitelist");
-		
+
 		if (config.getBoolean("Anti_Spam.Command.Block_Repetitive_Commands")) {
 			if (!player.hasPermission("chatmanager.bypass.dupe.command")) {
 				for (String commands : whitelistedCommands) {
@@ -132,6 +125,7 @@ public class ListenerAntiSpam implements Listener {
 							}
 						}
 					});
+
 					Methods.cm_cooldownTask.get(player).runTaskTimer(plugin, 20L, 20L);
 				}
 			}

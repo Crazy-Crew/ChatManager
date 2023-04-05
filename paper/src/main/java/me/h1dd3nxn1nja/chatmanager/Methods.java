@@ -31,17 +31,6 @@ public class Methods {
 	public static HashSet<UUID> cm_pwcGlobal = new HashSet<>();
 	public static HashSet<UUID> cm_toggleChat = new HashSet<>();
 	public static HashSet<UUID> cm_toggleMentions = new HashSet<>();
-	
-	public static HashSet<UUID> cm_localChat = new HashSet<>();
-	public static HashSet<UUID> cm_globalChat = new HashSet<>();
-	public static HashSet<UUID> cm_worldChat = new HashSet<>();
-	public static HashSet<UUID> cm_spyChat = new HashSet<>();
-	
-	public static ArrayList<UUID> cm_antiBot = new ArrayList<>();
-	public static ArrayList<UUID> cm_commandSpy = new ArrayList<>();
-	public static ArrayList<UUID> cm_socialSpy = new ArrayList<>();
-	public static ArrayList<UUID> cm_staffChat = new ArrayList<>();
-	public static ArrayList<UUID> cm_togglePM = new ArrayList<>();
 
 	private static final String format = settingsManager.getConfig().getString("Hex_Color_Format");
 	private static final Pattern HEX_PATTERN = Pattern.compile(format + "([A-Fa-f0-9]{6})");

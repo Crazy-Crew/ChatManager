@@ -43,7 +43,7 @@ public class TabCompleteMessage implements TabCompleter {
 				if (PluginSupport.SUPER_VANISH.isPluginEnabled() || PluginSupport.PREMIUM_VANISH.isPluginEnabled() && pluginManager.getGenericVanishSupport().isVanished(player3)) continue;
 			}
 
-			if (!hasPermission3 && Methods.cm_togglePM.contains(player3.getUniqueId())) continue;
+			if (!hasPermission3 && plugin.api().getToggleMessageData().containsUser(player3.getUniqueId())) continue;
 			list.add(player3.getName());
 		}
 

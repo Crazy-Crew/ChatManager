@@ -57,10 +57,10 @@ public class ListenerChatFormat implements Listener {
 		String placeholders = message;
 		
 		if (config.getBoolean("Chat_Radius.Enable")) {
-			if (Methods.cm_globalChat.contains(player.getUniqueId())) placeholders = placeholders.replace("{radius}", config.getString("Chat_Radius.Global_Chat.Prefix"));
+			if (plugin.api().getGlobalChatData().containsUser(player.getUniqueId())) placeholders = placeholders.replace("{radius}", config.getString("Chat_Radius.Global_Chat.Prefix"));
 
-			if (Methods.cm_localChat.contains(player.getUniqueId())) placeholders = placeholders.replace("{radius}", config.getString("Chat_Radius.Local_Chat.Prefix"));
-			if (Methods.cm_worldChat.contains(player.getUniqueId())) placeholders = placeholders.replace("{radius}", config.getString("Chat_Radius.World_Chat.Prefix"));
+			if (plugin.api().getLocalChatData().containsUser(player.getUniqueId())) placeholders = placeholders.replace("{radius}", config.getString("Chat_Radius.Local_Chat.Prefix"));
+			if (plugin.api().getWorldChatData().containsUser(player.getUniqueId())) placeholders = placeholders.replace("{radius}", config.getString("Chat_Radius.World_Chat.Prefix"));
 		} else {
 			placeholders = placeholders.replace("{radius}", "");
 		}
@@ -71,8 +71,7 @@ public class ListenerChatFormat implements Listener {
 	public String setupPlaceholderAPI(Player player, String message) {
 		String placeholders = message;
 
-		if ((PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) && (PlaceholderAPI.containsPlaceholders(placeholders)))
-			placeholders = PlaceholderAPI.setPlaceholders(player, placeholders);
+		if ((PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) && (PlaceholderAPI.containsPlaceholders(placeholders))) placeholders = PlaceholderAPI.setPlaceholders(player, placeholders);
 
 		return placeholders;
 	}

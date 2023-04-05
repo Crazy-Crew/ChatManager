@@ -1,5 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager;
 
+import com.ryderbelserion.chatmanager.ApiLoader;
 import me.h1dd3nxn1nja.chatmanager.api.CrazyManager;
 import me.h1dd3nxn1nja.chatmanager.commands.*;
 import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.*;
@@ -19,16 +20,18 @@ public class ChatManager extends JavaPlugin {
 
     private static ChatManager plugin;
 
-    private boolean isEnabled;
-
     private SettingsManager settingsManager;
 
     private CrazyManager crazyManager;
 
     private PluginManager pluginManager;
 
+    private ApiLoader api;
+
     public void onEnable() {
         plugin = this;
+
+        api = new ApiLoader();
 
         settingsManager = new SettingsManager();
 
@@ -162,11 +165,11 @@ public class ChatManager extends JavaPlugin {
         if (settingsManager.getConfig().getBoolean("Chat_Radius.Enable")) {
             for (Player all : getServer().getOnlinePlayers()) {
                 if (settingsManager.getConfig().getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Local")) {
-                    Methods.cm_localChat.add(all.getUniqueId());
+                    plugin.api().getLocalChatData().addUser(all.getUniqueId());
                 } else if (settingsManager.getConfig().getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Global")) {
-                    Methods.cm_globalChat.add(all.getUniqueId());
+                    plugin.api.getGlobalChatData().addUser(all.getUniqueId());
                 } else if (settingsManager.getConfig().getString("Chat_Radius.Default_Channel").equalsIgnoreCase("World")) {
-                    Methods.cm_worldChat.add(all.getUniqueId());
+                    plugin.api.getWorldChatData().addUser(all.getUniqueId());
                 }
             }
         }
@@ -184,14 +187,19 @@ public class ChatManager extends JavaPlugin {
                 AutoBroadcastManager.titleMessages();
             if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Bossbar_Messages.Enable"))
                 AutoBroadcastManager.bossBarMessages();
-        } catch (Exception ex) {
+        } catch (Exception e) {
             getLogger().severe("There has been an error setting up auto broadcast. Stacktrace...");
-            ex.printStackTrace();
+
+            e.printStackTrace();
         }
     }
 
     public static ChatManager getPlugin() {
         return plugin;
+    }
+
+    public ApiLoader api() {
+        return this.api;
     }
 
     public SettingsManager getSettingsManager() {

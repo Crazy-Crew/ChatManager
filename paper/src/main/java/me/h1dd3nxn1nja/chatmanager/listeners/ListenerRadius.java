@@ -17,8 +17,8 @@ public class ListenerRadius implements Listener {
 	private final ChatManager plugin = ChatManager.getPlugin();
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
-	
-	@EventHandler (priority = EventPriority.HIGHEST)
+
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
 		Player player = event.getPlayer();
@@ -31,71 +31,70 @@ public class ListenerRadius implements Listener {
 
 		int radius = settingsManager.getConfig().getInt("Chat_Radius.Block_Distance");
 
-		if (config.getBoolean("Chat_Radius.Enable")) {
-			if (!Methods.cm_staffChat.contains(player.getUniqueId())) {
-				if (player.hasPermission("chatmanager.chatradius.global.override")) {
-					assert globalOverrideChar != null;
-					if (!globalOverrideChar.equals("")) {
-						if (ChatColor.stripColor(message).charAt(0) == globalOverrideChar.charAt(0)) {
-								Methods.cm_worldChat.remove(player.getUniqueId());
-								Methods.cm_localChat.remove(player.getUniqueId());
-								Methods.cm_globalChat.add(player.getUniqueId());
-							return;
-						}
-					}
+		if (!config.getBoolean("Chat_Radius.Enable") || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
+
+		if (player.hasPermission("chatmanager.chatradius.global.override")) {
+			assert globalOverrideChar != null;
+			if (!globalOverrideChar.equals("")) {
+				if (ChatColor.stripColor(message).charAt(0) == globalOverrideChar.charAt(0)) {
+					plugin.api().getWorldChatData().removeUser(player.getUniqueId());
+					plugin.api().getLocalChatData().removeUser(player.getUniqueId());
+					plugin.api().getGlobalChatData().addUser(player.getUniqueId());
+					return;
+				}
+			}
+		}
+
+		if (player.hasPermission("chatmanager.chatradius.local.override")) {
+			assert localOverrideChar != null;
+
+			if (!localOverrideChar.equals("")) {
+				if (ChatColor.stripColor(message).charAt(0) == localOverrideChar.charAt(0)) {
+					plugin.api().getWorldChatData().removeUser(player.getUniqueId());
+					plugin.api().getGlobalChatData().removeUser(player.getUniqueId());
+					plugin.api().getLocalChatData().addUser(player.getUniqueId());
+					event.setMessage(message);
+					return;
+				}
+			}
+		}
+
+		if (player.hasPermission("chatmanager.chatradius.world.override")) {
+			assert worldOverrideChar != null;
+			if (!worldOverrideChar.equals("")) {
+				if (ChatColor.stripColor(message).charAt(0) == worldOverrideChar.charAt(0)) {
+					plugin.api().getGlobalChatData().removeUser(player.getUniqueId());
+					plugin.api().getLocalChatData().removeUser(player.getUniqueId());
+					plugin.api().getWorldChatData().addUser(player.getUniqueId());
+					event.setMessage(message);
+					return;
+				}
+			}
+		}
+
+		if (plugin.api().getLocalChatData().containsUser(player.getUniqueId())) {
+			for (Player receiver : plugin.getServer().getOnlinePlayers()) {
+				recipients.remove(receiver);
+
+				if (Methods.inRange(player, receiver, radius)) {
+					recipients.add(player);
+					recipients.add(receiver);
 				}
 
-				if (player.hasPermission("chatmanager.chatradius.local.override")) {
-					assert localOverrideChar != null;
-					if (!localOverrideChar.equals("")) {
-						if (ChatColor.stripColor(message).charAt(0) == localOverrideChar.charAt(0)) {
-								Methods.cm_worldChat.remove(player.getUniqueId());
-								Methods.cm_globalChat.remove(player.getUniqueId());
-								Methods.cm_localChat.add(player.getUniqueId());
-								event.setMessage(message);
-							return;
-						}
-					}
+				if (plugin.api().getSpyChatData().containsUser(receiver.getUniqueId())) recipients.add(receiver);
+			}
+		}
+
+		if (plugin.api().getWorldChatData().containsUser(player.getUniqueId())) {
+			for (Player receiver : plugin.getServer().getOnlinePlayers()) {
+				recipients.remove(receiver);
+
+				if (Methods.inWorld(player, receiver)) {
+					recipients.add(player);
+					recipients.add(receiver);
 				}
 
-				if (player.hasPermission("chatmanager.chatradius.world.override")) {
-					assert worldOverrideChar != null;
-					if (!worldOverrideChar.equals("")) {
-						if (ChatColor.stripColor(message).charAt(0) == worldOverrideChar.charAt(0)) {
-								Methods.cm_localChat.remove(player.getUniqueId());
-								Methods.cm_globalChat.remove(player.getUniqueId());
-								Methods.cm_worldChat.add(player.getUniqueId());
-								event.setMessage(message);
-							return;
-						}
-					}
-				}
-
-				if (Methods.cm_localChat.contains(player.getUniqueId())) {
-					for (Player receiver : plugin.getServer().getOnlinePlayers()) {
-						recipients.remove(receiver);
-
-						if (Methods.inRange(player, receiver, radius)) {
-							recipients.add(player);
-							recipients.add(receiver);
-						}
-
-						if (Methods.cm_spyChat.contains(receiver.getUniqueId())) recipients.add(receiver);
-					}
-				}
-
-				if (Methods.cm_worldChat.contains(player.getUniqueId())) {
-					for (Player receiver : plugin.getServer().getOnlinePlayers()) {
-						recipients.remove(receiver);
-
-						if (Methods.inWorld(player, receiver)) {
-							recipients.add(player);
-							recipients.add(receiver);
-						}
-
-						if (Methods.cm_spyChat.contains(receiver.getUniqueId())) recipients.add(receiver);
-					}
-				}
+				if (plugin.api().getSpyChatData().containsUser(receiver.getUniqueId())) recipients.add(receiver);
 			}
 		}
 	}

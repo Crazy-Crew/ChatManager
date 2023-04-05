@@ -22,9 +22,9 @@ public class ListenerAntiBot implements Listener {
 
 		FileConfiguration config = settingsManager.getConfig();
 
-		if (config.getBoolean("Anti_Bot.Block_Chat_Until_Moved")) {
-			if (!player.hasPermission("chatmanager.bypass.antibot")) Methods.cm_antiBot.add(player.getUniqueId());
-		}
+		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission("chatmanager.bypass.antibot")) return;
+
+		plugin.api().getAntiBotData().addUser(player.getUniqueId());
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -33,11 +33,9 @@ public class ListenerAntiBot implements Listener {
 
 		FileConfiguration config = settingsManager.getConfig();
 
-		if (config.getBoolean("Anti_Bot.Block_Chat_Until_Moved")) {
-			if (!player.hasPermission("chatmanager.bypass.antibot")) {
-				if (Methods.cm_antiBot.contains(player.getUniqueId())) Methods.cm_antiBot.remove(player.getUniqueId());
-			}
-		}
+		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission("chatmanager.bypass.antibot")) return;
+
+		plugin.api().getAntiBotData().removeUser(player.getUniqueId());
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -46,11 +44,9 @@ public class ListenerAntiBot implements Listener {
 
 		FileConfiguration config = settingsManager.getConfig();
 
-		if (config.getBoolean("Anti_Bot.Block_Chat_Until_Moved")) {
-			if (!player.hasPermission("chatmanager.bypass.antibot")) {
-				if (Methods.cm_antiBot.contains(player.getUniqueId())) Methods.cm_antiBot.remove(player.getUniqueId());
-			}
-		}
+		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission("chatmanager.bypass.antibot")) return;
+
+		plugin.api().getAntiBotData().removeUser(player.getUniqueId());
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -60,14 +56,12 @@ public class ListenerAntiBot implements Listener {
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration messages = settingsManager.getMessages();
 
-		if (config.getBoolean("Anti_Bot.Block_Chat_Until_Moved")) {
-			if (!player.hasPermission("chatmanager.bypass.antibot")) {
-				if (Methods.cm_antiBot.contains(player.getUniqueId())) {
-					event.setCancelled(true);
-					Methods.sendMessage(player, messages.getString("Anti_Bot.Deny_Chat_Message"), true);
-				}
-			}
-		}
+		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission("chatmanager.bypass.antibot")) return;
+
+		if (!plugin.api().getAntiBotData().containsUser(player.getUniqueId())) return;
+
+		event.setCancelled(true);
+		Methods.sendMessage(player, messages.getString("Anti_Bot.Deny_Chat_Message"), true);
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -77,13 +71,11 @@ public class ListenerAntiBot implements Listener {
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration messages = settingsManager.getMessages();
 
-		if (config.getBoolean("Anti_Bot.Block_Commands_Until_Moved")) {
-			if (!player.hasPermission("chatmanager.bypass.antibot")) {
-				if (Methods.cm_antiBot.contains(player.getUniqueId())) {
-					event.setCancelled(true);
-					Methods.sendMessage(player, messages.getString("Anti_Bot.Deny_Command_Message"), true);
-				}
-			}
-		}
+		if (!config.getBoolean("Anti_Bot.Block_Commands_Until_Moved") || player.hasPermission("chatmanager.bypass.antibot")) return;
+
+		if (!plugin.api().getAntiBotData().containsUser(player.getUniqueId())) return;
+
+		event.setCancelled(true);
+		Methods.sendMessage(player, messages.getString("Anti_Bot.Deny_Command_Message"), true);
 	}
 }

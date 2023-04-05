@@ -26,31 +26,29 @@ public class ListenerCaps implements Listener {
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 
-		if (config.getBoolean("Anti_Caps.Enable")) {
-			if (!Methods.cm_staffChat.contains(player.getUniqueId())) {
-				if (!player.hasPermission("chatmanager.bypass.caps")) {
+		if (!config.getBoolean("Anti_Caps.Enable") || plugin.api().getStaffChatData().containsUser(player.getUniqueId()))
+			return;
 
-					int upperChar = 0;
-					int lowerChar = 0;
+		if (player.hasPermission("chatmanager.bypass.caps")) return;
 
-					if (event.getMessage().toLowerCase().length() >= config.getInt("Anti_Caps.Min_Message_Length")) {
-						for (int number = 0; number < message.length(); number++) {
-							if (Character.isLetter(message.charAt(number))) {
-								if (Character.isUpperCase(event.getMessage().charAt(number))) {
-									upperChar++;
-								} else {
-									lowerChar++;
-								}
-							}
-						}
+		int upperChar = 0;
+		int lowerChar = 0;
 
-						if (upperChar + lowerChar != 0) {
-							if (1.0D * upperChar / (upperChar + lowerChar) * 100.0D >= config.getInt("Anti_Caps.Required_Percentage")) {
-								Methods.sendMessage(player, messages.getString("Anti_Caps.Message_Chat"), true);
-								event.setMessage(message.toLowerCase());
-							}
-						}
+		if (event.getMessage().toLowerCase().length() >= config.getInt("Anti_Caps.Min_Message_Length")) {
+			for (int number = 0; number < message.length(); number++) {
+				if (Character.isLetter(message.charAt(number))) {
+					if (Character.isUpperCase(event.getMessage().charAt(number))) {
+						upperChar++;
+					} else {
+						lowerChar++;
 					}
+				}
+			}
+
+			if (upperChar + lowerChar != 0) {
+				if (1.0D * upperChar / (upperChar + lowerChar) * 100.0D >= config.getInt("Anti_Caps.Required_Percentage")) {
+					Methods.sendMessage(player, messages.getString("Anti_Caps.Message_Chat"), true);
+					event.setMessage(message.toLowerCase());
 				}
 			}
 		}
@@ -64,33 +62,28 @@ public class ListenerCaps implements Listener {
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 
-		if (config.getBoolean("Anti_Caps.Enable")) {
-			if (config.getBoolean("Anti_Caps.Enable_In_Commands")) {
-				if (!Methods.cm_staffChat.contains(player.getUniqueId())) {
-					if (!player.hasPermission("chatmanager.bypass.caps")) {
+		if (!config.getBoolean("Anti_Caps.Enable") && !config.getBoolean("Anti_Caps.Enable_In_Commands") || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
 
-						int upperChar = 0;
-						int lowerChar = 0;
+		if (player.hasPermission("chatmanager.bypass.caps")) return;
 
-						if (event.getMessage().toLowerCase().length() >= config.getInt("Anti_Caps.Min_Message_Length")) {
-							for (int number = 0; number < message.length(); number++) {
-								if (Character.isLetter(message.charAt(number))) {
-									if (Character.isUpperCase(event.getMessage().charAt(number))) {
-										upperChar++;
-									} else {
-										lowerChar++;
-									}
-								}
-							}
+		int upperChar = 0;
+		int lowerChar = 0;
 
-							if (upperChar + lowerChar != 0) {
-								if (1.0D * upperChar / (upperChar + lowerChar) * 100.0D >= config.getInt("Anti_Caps.Required_Percentage")) {
-									Methods.sendMessage(player, messages.getString("Anti_Caps.Message_Commands"), true);
-									event.setMessage(message.toLowerCase());
-								}
-							}
-						}
+		if (event.getMessage().toLowerCase().length() >= config.getInt("Anti_Caps.Min_Message_Length")) {
+			for (int number = 0; number < message.length(); number++) {
+				if (Character.isLetter(message.charAt(number))) {
+					if (Character.isUpperCase(event.getMessage().charAt(number))) {
+						upperChar++;
+					} else {
+						lowerChar++;
 					}
+				}
+			}
+
+			if (upperChar + lowerChar != 0) {
+				if (1.0D * upperChar / (upperChar + lowerChar) * 100.0D >= config.getInt("Anti_Caps.Required_Percentage")) {
+					Methods.sendMessage(player, messages.getString("Anti_Caps.Message_Commands"), true);
+					event.setMessage(message.toLowerCase());
 				}
 			}
 		}

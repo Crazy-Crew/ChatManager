@@ -77,7 +77,7 @@ public class CommandMessage implements CommandExecutor {
 					return true;
 				}
 
-				if ((Methods.cm_togglePM.contains(target.getUniqueId()) && !player.hasPermission("chatmanager.bypass.togglepm"))) {
+				if (plugin.api().getToggleMessageData().containsUser(target.getUniqueId()) && !player.hasPermission("chatmanager.bypass.togglepm")) {
 					Methods.sendMessage(player, messages.getString("Private_Message.Toggled"), true);
 					return true;
 				}
@@ -108,9 +108,9 @@ public class CommandMessage implements CommandExecutor {
 				for (Player staff : plugin.getServer().getOnlinePlayers()) {
 					if ((staff != player) && (staff != target)) {
 						if ((!player.hasPermission("chatmanager.bypass.socialspy")) && (!target.hasPermission("chatmanager.bypass.socialspy"))) {
-							if (Methods.cm_socialSpy.contains(staff.getUniqueId())) {
-								Methods.sendMessage(staff, messages.getString("Social_Spy.Format").replace("{player}", player.getName()).replace("{receiver}", target.getName()).replace("{message}", message), true);
-							}
+							boolean contains = plugin.api().getSocialSpyData().containsUser(staff.getUniqueId());
+
+							if (contains) Methods.sendMessage(staff, messages.getString("Social_Spy.Format").replace("{player}", player.getName()).replace("{receiver}", target.getName()).replace("{message}", message), true);
 						}
 					}
 				}
@@ -135,7 +135,7 @@ public class CommandMessage implements CommandExecutor {
 						return true;
 					}
 
-					if (Methods.cm_togglePM.contains(target.getUniqueId())) {
+					if (plugin.api().getToggleMessageData().containsUser(target.getUniqueId())) {
 						Methods.sendMessage(player, messages.getString("Private_Message.Toggled"), true);
 						return true;
 					}
@@ -166,7 +166,8 @@ public class CommandMessage implements CommandExecutor {
 					for (Player staff : plugin.getServer().getOnlinePlayers()) {
 						if ((staff != player) && (staff != target)) {
 							if ((!player.hasPermission("chatmanager.bypass.socialspy")) && (!target.hasPermission("chatmanager.bypass.socialspy"))) {
-								if (Methods.cm_socialSpy.contains(staff.getUniqueId())) Methods.sendMessage(staff, messages.getString("Social_Spy.Format").replace("{player}", player.getName()).replace("{receiver}", target.getName()).replace("{message}", message), true);
+								boolean contains = plugin.api().getSocialSpyData().containsUser(staff.getUniqueId());
+								if (contains) Methods.sendMessage(staff, messages.getString("Social_Spy.Format").replace("{player}", player.getName()).replace("{receiver}", target.getName()).replace("{message}", message), true);
 							}
 						}
 					}
@@ -181,13 +182,18 @@ public class CommandMessage implements CommandExecutor {
 		if (cmd.getName().equalsIgnoreCase("TogglePM")) {
 			if (player.hasPermission("chatmanager.toggle.pm")) {
 				if (args.length == 0) {
-					if (Methods.cm_togglePM.contains(player.getUniqueId())) {
-						Methods.cm_togglePM.remove(player.getUniqueId());
+
+					boolean isValid = plugin.api().getToggleMessageData().containsUser(player.getUniqueId());
+
+					if (isValid) {
+						plugin.api().getToggleMessageData().removeUser(player.getUniqueId());
 						Methods.sendMessage(player, messages.getString("TogglePM.Disabled"), true);
-					} else {
-						Methods.cm_togglePM.add(player.getUniqueId());
-						Methods.sendMessage(player, messages.getString("TogglePM.Enabled"), true);
+						return true;
 					}
+
+					plugin.api().getToggleMessageData().addUser(player.getUniqueId());
+					Methods.sendMessage(player, messages.getString("TogglePM.Enabled"), true);
+
 					return true;
 				} else {
 					Methods.sendMessage(player, "&cCommand Usage: &7/Togglepm", true);

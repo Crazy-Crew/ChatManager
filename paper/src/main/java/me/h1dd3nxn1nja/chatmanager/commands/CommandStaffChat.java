@@ -30,20 +30,25 @@ public class CommandStaffChat implements CommandExecutor {
 				if (player.hasPermission("chatmanager.staffchat")) {
 					if (args.length == 0) {
 						if (config.getBoolean("Staff_Chat.Enable")) {
-							if (Methods.cm_staffChat.contains(player.getUniqueId())) {
-								Methods.cm_staffChat.remove(player.getUniqueId());
+							boolean isValid = plugin.api().getStaffChatData().containsUser(player.getUniqueId());
+
+							if (isValid) {
+								plugin.api().getStaffChatData().removeUser(player.getUniqueId());
+
 								BossBarUtil bossBar = new BossBarUtil(Methods.color(config.getString("Staff_Chat.Boss_Bar.Title")));
 								bossBar.removeStaffBossBar(player);
 
 								Methods.sendMessage(player, messages.getString("Staff_Chat.Disabled"), true);
-							} else {
-								Methods.cm_staffChat.add(player.getUniqueId());
 
-								BossBarUtil bossBar = new BossBarUtil(Methods.color(config.getString("Staff_Chat.Boss_Bar.Title")));
-								bossBar.setStaffBossBar(player);
-
-								Methods.sendMessage(player, messages.getString("Staff_Chat.Enabled"), true);
+								return true;
 							}
+
+							plugin.api().getStaffChatData().addUser(player.getUniqueId());
+
+							BossBarUtil bossBar = new BossBarUtil(Methods.color(config.getString("Staff_Chat.Boss_Bar.Title")));
+							bossBar.setStaffBossBar(player);
+
+							Methods.sendMessage(player, messages.getString("Staff_Chat.Enabled"), true);
 
 							return true;
 

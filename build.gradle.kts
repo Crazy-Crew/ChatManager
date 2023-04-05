@@ -64,7 +64,8 @@ webhook {
             this.description("""
                 Changes:
                 » Added 1.19.4 support
-                » Removed 1.8.8-1.18.2 support, It will be moved into another branch.
+                » Removed 1.8.8-1.18.2 support, It will be moved into another github branch.
+                » Expect that the branch likely won't be maintained after a period of time.
                 » Likely will only be supporting https://papermc.io from this point on.
             """.trimIndent())
         }

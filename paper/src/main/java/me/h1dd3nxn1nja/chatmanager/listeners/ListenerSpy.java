@@ -31,15 +31,13 @@ public class ListenerSpy implements Listener {
 				if (message.toLowerCase().startsWith(command)) return;
 			}
 
-			if ((!message.equals("/")) || (!message.equals("//"))) {
-				for (Player staff : plugin.getServer().getOnlinePlayers()) {
-					if (Methods.cm_commandSpy.contains(staff.getUniqueId())) {
-						if (staff.hasPermission("chatmanager.commandspy")) {
-							Methods.sendMessage(staff, messages.getString("Command_Spy.Format")
-									.replace("{player}", player.getName()).replace("{command}", message), true);
-						}
-					}
-				}
+			for (Player staff : plugin.getServer().getOnlinePlayers()) {
+
+				boolean isValid = plugin.api().getCommandSpyData().containsUser(staff.getUniqueId());
+
+				if (!isValid || !staff.hasPermission("chatmanager.commandspy")) return;
+
+				Methods.sendMessage(staff, messages.getString("Command_Spy.Format").replace("{player}", player.getName()).replace("{command}", message), true);
 			}
 		}
 	}
