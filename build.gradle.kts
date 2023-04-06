@@ -79,5 +79,5 @@ webhook {
         }
     }
 
-    this.url("DISCORD_WEBHOOK")
+    this.url("SECOND_WEBHOOK")
 }
