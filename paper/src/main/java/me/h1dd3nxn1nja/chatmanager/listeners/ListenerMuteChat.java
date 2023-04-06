@@ -15,39 +15,33 @@ public class ListenerMuteChat implements Listener {
 	private final ChatManager plugin = ChatManager.getPlugin();
 
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
-	
+
 	@EventHandler
 	public void muteChat(AsyncPlayerChatEvent event) {
 		FileConfiguration messages = settingsManager.getMessages();
-		
+
 		Player player = event.getPlayer();
-		
-		if (!player.hasPermission("chatmanager.bypass.mutechat")) {
-			if (Methods.getMuted()) {
-				Methods.sendMessage(player, messages.getString("Mute_Chat.Denied_Message"), true);
-				event.setCancelled(true);
-			}
-		}
+
+		if (player.hasPermission("chatmanager.bypass.mutechat") || !Methods.isMuted()) return;
+
+		Methods.sendMessage(player, messages.getString("Mute_Chat.Denied_Message"), true);
+		event.setCancelled(true);
 	}
-	
+
 	@EventHandler
 	public void onCommand(PlayerCommandPreprocessEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
 		FileConfiguration messages = settingsManager.getMessages();
-		
+
 		Player player = event.getPlayer();
-		
-		if (config.getBoolean("Mute_Chat.Disable_Commands")) {
-			if (!player.hasPermission("chatmanager.bypass.mutechat")) {
-				if (Methods.getMuted()) {
-					for (String command : config.getStringList("Mute_Chat.Disabled_Commands")) {
-						if (event.getMessage().toLowerCase().contains(command)) {
-							Methods.sendMessage(player, messages.getString("Mute_Chat.Blocked_Commands.Message"), true);
-							event.setCancelled(true);
-							return;
-						}
-					}
-				}
+
+		if (!config.getBoolean("Mute_Chat.Disable_Commands") || player.hasPermission("chatmanager.bypass.mutechat") || !Methods.isMuted()) return;
+
+		for (String command : config.getStringList("Mute_Chat.Disabled_Commands")) {
+			if (event.getMessage().toLowerCase().contains(command)) {
+				Methods.sendMessage(player, messages.getString("Mute_Chat.Blocked_Commands.Message"), true);
+				event.setCancelled(true);
+				return;
 			}
 		}
 	}

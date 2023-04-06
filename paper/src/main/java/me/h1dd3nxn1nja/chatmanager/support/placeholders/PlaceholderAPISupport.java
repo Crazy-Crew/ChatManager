@@ -3,6 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.support.placeholders;
 import java.text.DecimalFormat;
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
@@ -33,24 +34,21 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
 					} else if (plugin.api().getWorldChatData().containsUser(player.getUniqueId())) {
 						return settingsManager.getConfig().getString("Chat_Radius.World_Chat.Prefix");
 					}
-				case "toggle_pm": //Returns if the toggle pm is enabled/disabled for a player.
+				case "toggle_pm": // Returns if the toggle pm is enabled/disabled for a player.
 					return plugin.api().getToggleMessageData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
-				case "toggle_chat": //Returns if the toggle chat is enabled/disabled for a player.
+				case "toggle_chat": // Returns if the toggle chat is enabled/disabled for a player.
 					return plugin.api().getToggleChatData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
-				case "command_spy": //Returns if the command spy is enabled/disabled for a player.
+				case "command_spy": // Returns if the command spy is enabled/disabled for a player.
 					return plugin.api().getCommandSpyData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
 				case "social_spy": // Returns if the social spy is enabled/disabled for a player.
 					return plugin.api().getSocialSpyData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
-				case "staff_chat": //Returns if the staff chat is enabled/disabled for a player.
+				case "staff_chat": // Returns if the staff chat is enabled/disabled for a player.
 					return plugin.api().getStaffChatData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
-				case "mute_chat": //Returns if mute chat is enabled/disabled.
-					if (Methods.getMuted()) {
-						return "Enabled";
-					} else {
-						return "Disabled";
-					}
-				//case "ping":
-				//	return df.format(playerOnline.);
+				case "mute_chat": // Returns if mute chat is enabled/disabled.
+					return Methods.isMuted() ? "Enabled" : "Disabled";
+				case "ping":
+					CraftPlayer craftPlayer = (CraftPlayer) playerOnline;
+					return df.format(craftPlayer.getPing());
 				default:
 					return "";
 			}
@@ -66,7 +64,7 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
 
 	@Override
 	public @NotNull String getIdentifier() {
-		return "chatmanager";
+		return plugin.getName().toLowerCase();
 	}
 
 	@Override

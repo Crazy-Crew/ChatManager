@@ -20,14 +20,13 @@ public class ListenerColor implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onColorChat(AsyncPlayerChatEvent event) {
-		
 		Player player = event.getPlayer();
 		String message = event.getMessage();
-		
-		if (settingsManager.getConfig().getBoolean("Formatted_Messages.Enable")) {
-			String format = formatChat(player, message);
-			event.setMessage(format);
-		}
+
+		if (!settingsManager.getConfig().getBoolean("Formatted_Messages.Enable")) return;
+
+		String format = formatChat(player, message);
+		event.setMessage(format);
 	}
 	
 	@EventHandler

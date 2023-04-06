@@ -23,22 +23,22 @@ public class ListenerLogs implements Listener {
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
-		
-		String playername = event.getPlayer().getName();
+
+		String playerName = event.getPlayer().getName();
 		String message = event.getMessage();
 		Date time = Calendar.getInstance().getTime();
-		
-		if (config.getBoolean("Logs.Log_Chat")) {
-			try {
-				FileWriter fw = new FileWriter(settingsManager.getChatLogs(), true);
-				BufferedWriter bw = new BufferedWriter(fw);
-				bw.write("[" + time + "] " + playername + ": " + message.replaceAll("§", "&"));
-				bw.newLine();
-				fw.flush();
-				bw.close();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
+
+		if (!config.getBoolean("Logs.Log_Chat")) return;
+
+		try {
+			FileWriter fw = new FileWriter(settingsManager.getChatLogs(), true);
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write("[" + time + "] " + playerName + ": " + message.replaceAll("§", "&"));
+			bw.newLine();
+			fw.flush();
+			bw.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 	
@@ -48,27 +48,27 @@ public class ListenerLogs implements Listener {
 
 		List<String> blacklist = config.getStringList("Logs.Blacklist_Commands");
 
-		String playername = event.getPlayer().getName();
+		String playerName = event.getPlayer().getName();
 		String message = event.getMessage();
 		Date time = Calendar.getInstance().getTime();
 
-		if (config.getBoolean("Logs.Log_Commands")) {
-			for (String command : blacklist) {
-				if (event.getMessage().toLowerCase().startsWith(command)) return;
-			}
+		if (!config.getBoolean("Logs.Log_Commands")) return;
 
-			if ((message.equals("/")) || (message.equals("//"))) return;
+		for (String command : blacklist) {
+			if (event.getMessage().toLowerCase().startsWith(command)) return;
+		}
 
-			try {
-				FileWriter fw = new FileWriter(settingsManager.getCommandLogs(), true);
-				BufferedWriter bw = new BufferedWriter(fw);
-				bw.write("[" + time + "] " + playername + ": " + message.replaceAll("§", "&"));
-				bw.newLine();
-				fw.flush();
-				bw.close();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
+		if ((message.equals("/")) || (message.equals("//"))) return;
+
+		try {
+			FileWriter fw = new FileWriter(settingsManager.getCommandLogs(), true);
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write("[" + time + "] " + playerName + ": " + message.replaceAll("§", "&"));
+			bw.newLine();
+			fw.flush();
+			bw.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 	
@@ -76,27 +76,27 @@ public class ListenerLogs implements Listener {
 	public void onSignChange(SignChangeEvent event) {
 		FileConfiguration config = settingsManager.getConfig();
 
-		String playername = event.getPlayer().getName();
+		String playerName = event.getPlayer().getName();
 		Date time = Calendar.getInstance().getTime();
 
 		for (int line = 0; line < 4; line++) {
 			String message = event.getLine(line);
-			
+
 			int X = event.getBlock().getLocation().getBlockX();
 			int Y = event.getBlock().getLocation().getBlockY();
 			int Z = event.getBlock().getLocation().getBlockZ();
 
-			if (config.getBoolean("Logs.Log_Signs")) {
-				try {
-					FileWriter fw = new FileWriter(settingsManager.getSignLogs(), true);
-					BufferedWriter bw = new BufferedWriter(fw);
-					bw.write("[" + time + "] " + playername + " | Location: X: " + X + " Y: " + Y + " Z: " + Z + " | Line: " + line + " | "+ message.replaceAll("§", "&"));
-					bw.newLine();
-					fw.flush();
-					bw.close();
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
+			if (!config.getBoolean("Logs.Log_Signs")) return;
+
+			try {
+				FileWriter fw = new FileWriter(settingsManager.getSignLogs(), true);
+				BufferedWriter bw = new BufferedWriter(fw);
+				bw.write("[" + time + "] " + playerName + " | Location: X: " + X + " Y: " + Y + " Z: " + Z + " | Line: " + line + " | " + message.replaceAll("§", "&"));
+				bw.newLine();
+				fw.flush();
+				bw.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
 			}
 		}
 	}

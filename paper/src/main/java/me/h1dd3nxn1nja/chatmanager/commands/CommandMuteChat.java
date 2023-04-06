@@ -19,8 +19,6 @@ public class CommandMuteChat implements CommandExecutor {
 
 	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
 
-	public static boolean muted;
-
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		FileConfiguration messages = settingsManager.getMessages();
 		
@@ -32,11 +30,11 @@ public class CommandMuteChat implements CommandExecutor {
 		if (cmd.getName().equalsIgnoreCase("MuteChat")) {
 			if (player.hasPermission("chatmanager.mutechat")) {
 				if (args.length == 0) {
-					if (muted) {
-						muted = false;
+					if (Methods.isMuted()) {
+						Methods.setMuted();
 						Methods.broadcast(placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Enabled").replace("{player}", player.getName())));
 					} else {
-						muted = true;
+						Methods.setMuted();
 						Methods.broadcast(placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Disabled").replace("{player}", player.getName())));
 					}
 
@@ -50,8 +48,8 @@ public class CommandMuteChat implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("-s")) {
 				if (player.hasPermission("chatmanager.mutechat.silent")) {
 					if (args.length == 1) {
-						if (muted) {
-							muted = false;
+						if (Methods.isMuted()) {
+							Methods.setMuted();
 							for (Player staff : plugin.getServer().getOnlinePlayers()) {
 								if (staff.hasPermission("chatmanager.bypass.mutechat")) {
 									Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Enabled").replace("{player}", player.getName())), true);
@@ -60,7 +58,7 @@ public class CommandMuteChat implements CommandExecutor {
 							}
 
 						} else {
-							muted = true;
+							Methods.setMuted();
 							for (Player staff : plugin.getServer().getOnlinePlayers()) {
 								if (staff.hasPermission("chatmanager.bypass.mutechat")) {
 									Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Disabled").replace("{player}", player.getName())), true);

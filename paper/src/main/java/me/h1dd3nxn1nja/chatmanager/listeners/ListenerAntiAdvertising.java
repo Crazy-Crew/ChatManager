@@ -32,7 +32,7 @@ public class ListenerAntiAdvertising implements Listener {
 		FileConfiguration messages = settingsManager.getMessages();
 
 		Player player = event.getPlayer();
-		String playername = event.getPlayer().getName();
+		String playerName = event.getPlayer().getName();
 		String message = event.getMessage();
 		Date time = Calendar.getInstance().getTime();
 
@@ -58,11 +58,11 @@ public class ListenerAntiAdvertising implements Listener {
 		}
 
 		if (config.getBoolean("Anti_Advertising.Chat.Increase_Sensitivity")) {
-			chatMatch(event, config, messages, player, playername, message, time, firstMatchIncrease, secondMatchIncrease);
+			chatMatch(event, config, messages, player, playerName, message, time, firstMatchIncrease, secondMatchIncrease);
 			return;
 		}
 
-		chatMatch(event, config, messages, player, playername, message, time, firstMatch, secondMatch);
+		chatMatch(event, config, messages, player, playerName, message, time, firstMatch, secondMatch);
 	}
 
 	private void chatMatch(AsyncPlayerChatEvent event, FileConfiguration config, FileConfiguration messages, Player player, String playername, String message, Date time, Matcher firstMatch, Matcher secondMatch) {
@@ -250,6 +250,7 @@ public class ListenerAntiAdvertising implements Listener {
 
 	private boolean findMatches(SignChangeEvent event, FileConfiguration config, FileConfiguration messages, Player player, String message, String str, Matcher firstMatch, Matcher secondMatch) {
 		if (!firstMatch.find() || !secondMatch.find()) return false;
+
 		event.setCancelled(true);
 		Methods.sendMessage(player, messages.getString("Anti_Advertising.Signs.Message"), true);
 

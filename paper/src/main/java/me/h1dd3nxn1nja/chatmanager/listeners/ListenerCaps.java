@@ -26,8 +26,7 @@ public class ListenerCaps implements Listener {
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 
-		if (!config.getBoolean("Anti_Caps.Enable") || plugin.api().getStaffChatData().containsUser(player.getUniqueId()))
-			return;
+		if (!config.getBoolean("Anti_Caps.Enable") || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
 
 		if (player.hasPermission("chatmanager.bypass.caps")) return;
 

@@ -48,9 +48,15 @@ public class Methods {
 	public static String noPermission() {
 		return color(settingsManager.getMessages().getString("Message.No_Permission").replace("{Prefix}", getPrefix()));
 	}
-	
-	public static boolean getMuted() {
-	    return CommandMuteChat.muted;
+
+	private static boolean isMuted;
+
+	public static boolean isMuted() {
+	    return isMuted;
+	}
+
+	public static void setMuted() {
+		isMuted = !isMuted;
 	}
 	
 	public static void tellConsole(String message, boolean prefix) {

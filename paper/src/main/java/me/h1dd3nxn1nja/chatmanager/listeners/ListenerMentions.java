@@ -41,16 +41,14 @@ public class ListenerMentions implements Listener {
 		event.setMessage(Methods.color(event.getMessage()));
 
 		plugin.getServer().getOnlinePlayers().forEach(target -> {
-			if (!player.hasPermission("chatmanager.mention") || !target.hasPermission("chatmanager.mention.receive"))
-				return;
+			if (!player.hasPermission("chatmanager.mention") || !target.hasPermission("chatmanager.mention.receive")) return;
 
 			if (!event.getMessage().contains(tagSymbol + target.getName())) return;
 
 			if (plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) return;
 
 			if (PluginSupport.ESSENTIALS.isPluginEnabled()) {
-				if (essentialsSupport.isIgnored(target, player) || essentialsSupport.isMuted(player))
-					return;
+				if (essentialsSupport.isIgnored(target, player) || essentialsSupport.isMuted(player)) return;
 			}
 
 			if (plugin.api().getToggleChatData().containsUser(target.getUniqueId())) return;
