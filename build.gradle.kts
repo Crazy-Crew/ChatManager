@@ -63,14 +63,10 @@ webhook {
 
             this.description("""
                 Changes:
-                » Added 1.19.4 support
-                » Removed 1.8.8-1.17.1 support.
-                » Likely will only be supporting https://papermc.io from this point on.
+                » N/A
                 
                 API:
-                 » All methods handling data in the features has been moved to **com.ryderbelserion.chatmanager.api**
-                 » It can be accessed via our static instance of the plugin i.e ChatManager.getPlugin().api().whateveryouwanttouse
-                 » Warning: It likely will change in the future so don't get to comfy with it.
+                 » N/A
                  
                 Bugs:
                  » Submit any bugs @ https://github.com/Crazy-Crew/ChatManager/issues
