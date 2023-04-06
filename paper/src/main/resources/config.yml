@@ -22,7 +22,7 @@
 #   
 #   4. All messages can be changed in the Messages.yml file.
 #
-#   5. Wiki: https://github.com/H1DD3NxN1NJA/ChatManager/wiki
+#   5. Wiki: https://github.com/Crazy-Crew/ChatManager/wiki
 #
 #=================================================================================================#
 
@@ -338,8 +338,8 @@ Broadcast_Commands:
 
 #=================================================================================================#
 # Per-Group chat formats. REQUIRES VAULT TO WORK!!!!!
-# How to use chat format: https://github.com/H1DD3NxN1NJA/ChatManager/wiki/Chat-Format
-# Available Placeholders: https://github.com/H1DD3NxN1NJA/ChatManager/wiki/Chat-Format#placeholders-top
+# How to use chat format: https://github.com/Crazy-Crew/ChatManager/wiki/Chat-Format
+# Available Placeholders: https://github.com/Crazy-Crew/ChatManager/wiki/Chat-Format#placeholders-top
 #=================================================================================================#
 Chat_Format:
 
@@ -351,7 +351,7 @@ Chat_Format:
   #Chat Formats are set depending on what permission group the player is in.
   #If a player is in the permission group named "Default" they will have the default chat format.
   Groups:
-    default: #The name of the group, this is case sensitive!
+    default: #The name of the group, this is case-sensitive!
       Format: "&8[&7Default&8] &7{player} &9> &7{message}" #The format you want the group to have.
     vip:
       Format: "&8[&5VIP&8] &7{displayname} &9> &7{message}"
@@ -364,7 +364,7 @@ Chat_Format:
 
 #=================================================================================================#     
 # Players can only send messages to other players that are in range.
-# How to use chat radius: https://github.com/H1DD3NxN1NJA/ChatManager/wiki/Chat-Radius
+# How to use chat radius: https://github.com/Crazy-Crew/ChatManager/wiki/Chat-Radius
 #=================================================================================================#
 Chat_Radius:
 
