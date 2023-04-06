@@ -38,9 +38,9 @@ public class AutoBroadcastManager {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Global_Messages.Enable")) {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
 						if (autobroadcast.getBoolean("Auto_Broadcast.Global_Messages.Header_And_Footer")) {
-							player.sendMessage(Methods.color(player, autobroadcast.getString("Auto_Broadcast.Global_Messages.Header")));
+							player.sendMessage(Methods.color(player.getUniqueId(), autobroadcast.getString("Auto_Broadcast.Global_Messages.Header")));
 							player.sendMessage(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix).replace("\\n", "\n")));
-							player.sendMessage(Methods.color(player, autobroadcast.getString("Auto_Broadcast.Global_Messages.Footer")));	
+							player.sendMessage(Methods.color(player.getUniqueId(), autobroadcast.getString("Auto_Broadcast.Global_Messages.Footer")));
 						} else {
 							player.sendMessage(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix).replace("\\n", "\n")));
 						}
@@ -77,9 +77,9 @@ public class AutoBroadcastManager {
 						for (Player player : plugin.getServer().getOnlinePlayers()) {
 							if (player.getWorld().getName().equals(world.getName())) {
 								if (autobroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Header_And_Footer")) {
-									player.sendMessage(Methods.color(player, autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Header")));
+									player.sendMessage(Methods.color(player.getUniqueId(), autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Header")));
 									player.sendMessage(crazyManager.getPlaceholderManager().setPlaceholders(player, world.getMessages().get(world.getIndex()).replace("{Prefix}", prefix).replace("\\n", "\n")));
-									player.sendMessage(Methods.color(player, autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Footer")));
+									player.sendMessage(Methods.color(player.getUniqueId(), autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Footer")));
 								} else {
 									player.sendMessage(crazyManager.getPlaceholderManager().setPlaceholders(player, world.getMessages().get(world.getIndex()).replace("{Prefix}", prefix).replace("\\n", "\n")));
 								}

@@ -16,6 +16,7 @@ import java.io.FileWriter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class ListenerSwear implements Listener {
 
@@ -66,7 +67,7 @@ public class ListenerSwear implements Listener {
 	private boolean curseMessageContains(AsyncPlayerChatEvent event, FileConfiguration config, FileConfiguration messages, Player player, String message, Date time, String curseMessage, String blockedWords) {
 		if (!curseMessage.contains(blockedWords)) return false;
 
-		player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Chat.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+		player.sendMessage(Methods.color(player.getUniqueId(), messages.getString("Anti_Swear.Chat.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 
 		if (config.getBoolean("Anti_Swear.Chat.Block_Message")) event.setCancelled(true);
 
@@ -117,6 +118,8 @@ public class ListenerSwear implements Listener {
 		String message = event.getMessage();
 		Date time = Calendar.getInstance().getTime();
 
+		UUID uuid = player.getUniqueId();
+
 		List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
 		List<String> whitelistedCommands = config.getStringList("Anti_Swear.Commands.Whitelisted_Commands");
 		List<String> blockedWordsList = bannedWords.getStringList("Banned-Words");
@@ -132,7 +135,7 @@ public class ListenerSwear implements Listener {
 						}
 
 						if (sensitiveMessage.contains(blockedWords)) {
-							player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Commands.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+							player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Commands.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 							if (config.getBoolean("Anti_Swear.Commands.Block_Command")) event.setCancelled(true);
 
 							if (config.getBoolean("Anti_Swear.Commands.Notify_Staff")) {
@@ -156,7 +159,7 @@ public class ListenerSwear implements Listener {
 					if (!config.getBoolean("Anti_Swear.Commands.Increase_Sensitivity")) {
 						for (String blockedWords : blockedWordsList) {
 							if (curseMessage.contains(blockedWords)) {
-								player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Commands.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(Methods.color(player.getUniqueId(), messages.getString("Anti_Swear.Commands.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 
 								if (config.getBoolean("Anti_Swear.Commands.Block_Command")) event.setCancelled(true);
 
@@ -220,6 +223,8 @@ public class ListenerSwear implements Listener {
 		Player player = event.getPlayer();
 		Date time = Calendar.getInstance().getTime();
 
+		UUID uuid = player.getUniqueId();
+
 		List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
 		List<String> blockedWordsList = bannedWords.getStringList("Banned-Words");
 
@@ -237,7 +242,7 @@ public class ListenerSwear implements Listener {
 							}
 
 							if (curseMessage.contains(blockedWords)) {
-								player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Signs.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Signs.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 								if (config.getBoolean("Anti_Swear.Signs.Block_Sign")) event.setCancelled(true);
 
 								if (config.getBoolean("Anti_Swear.Signs.Notify_Staff")) {
@@ -264,7 +269,7 @@ public class ListenerSwear implements Listener {
 							for (String curseMessages : message.toLowerCase().split(" ")) {
 								if (!player.hasPermission("chatmanager.bypass.antiswear")) {
 									if (bannedWords.getStringList("Banned-Words").contains(curseMessages)) {
-										player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Signs.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+										player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Signs.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 
 										if (config.getBoolean("Anti_Swear.Signs.Block_Sign")) event.setCancelled(true);
 

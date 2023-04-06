@@ -1,13 +1,12 @@
 package me.h1dd3nxn1nja.chatmanager;
 
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.h1dd3nxn1nja.chatmanager.commands.CommandMuteChat;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerCaps;
 import net.md_5.bungee.api.ChatColor;
 
 public class Methods {
@@ -30,13 +29,15 @@ public class Methods {
 		return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
 	}
 
-	public static String color(Player player, String message) {
+	public static String color(UUID uuid, String message) {
 		Matcher matcher = HEX_PATTERN.matcher(message);
 		StringBuilder buffer = new StringBuilder();
 
 		while (matcher.find()) {
 			matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of(matcher.group()).toString());
 		}
+
+		Player player = plugin.getServer().getPlayer(uuid);
 
 		return PluginSupport.PLACEHOLDERAPI.isPluginEnabled() ? ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(player, matcher.appendTail(buffer).toString())) : ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
 	}
@@ -68,16 +69,22 @@ public class Methods {
 		sendMessage(plugin.getServer().getConsoleSender(), message, false);
 	}
 	
-	public static boolean inRange(Player player, Player receiver, int radius) {
-		if (receiver.getLocation().getWorld().equals(player.getLocation().getWorld())) {
-			return receiver.getLocation().distanceSquared(player.getLocation()) <= radius * radius;
+	public static boolean inRange(UUID uuid, UUID receiver, int radius) {
+		Player player = plugin.getServer().getPlayer(uuid);
+		Player other = plugin.getServer().getPlayer(receiver);
+
+		if (other.getLocation().getWorld().equals(player.getLocation().getWorld())) {
+			return other.getLocation().distanceSquared(player.getLocation()) <= radius * radius;
 		}
 
 		return false;
 	}
 	
-	public static boolean inWorld(Player player, Player receiver) {
-		return receiver.getLocation().getWorld().equals(player.getLocation().getWorld());
+	public static boolean inWorld(UUID uuid, UUID receiver) {
+		Player player = plugin.getServer().getPlayer(uuid);
+		Player other = plugin.getServer().getPlayer(receiver);
+
+		return other.getLocation().getWorld().equals(player.getLocation().getWorld());
 	}
 
 	public static void sendMessage(CommandSender commandSender, String message, boolean prefixToggle) {
@@ -86,7 +93,6 @@ public class Methods {
 		String prefix = getPrefix();
 
 		if (commandSender instanceof Player player) {
-
 			if (!prefix.isEmpty() && prefixToggle) player.sendMessage(color(message.replace("{Prefix}", prefix))); else player.sendMessage(color(message));
 
 			return;

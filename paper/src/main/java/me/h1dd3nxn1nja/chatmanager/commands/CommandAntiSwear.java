@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import java.util.List;
+import java.util.UUID;
 
 public class CommandAntiSwear implements CommandExecutor {
 
@@ -21,12 +22,12 @@ public class CommandAntiSwear implements CommandExecutor {
 		FileConfiguration bannedWords = settingsManager.getBannedWords();
 		FileConfiguration messages = settingsManager.getMessages();
 		
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
-		
-		Player player = (Player) sender;
+
+		UUID uuid = player.getUniqueId();
 
 		if (cmd.getName().equalsIgnoreCase("AntiSwear")) {
 			if (player.hasPermission("chatmanager.antiswear")) {
@@ -87,9 +88,9 @@ public class CommandAntiSwear implements CommandExecutor {
 								bannedWords.set("Banned-Words", swearWords);
 								settingsManager.saveBannedWords();
 								settingsManager.reloadBannedWords();
-								player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Blacklisted_Word.Added").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Blacklisted_Word.Added").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							} else {
-								player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Blacklisted_Word.Exists").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Blacklisted_Word.Exists").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							}
 						} else {
 							player.sendMessage(Methods.color("&cCommand Usage: &7/Antiswear add blacklist <word>"));
@@ -108,9 +109,9 @@ public class CommandAntiSwear implements CommandExecutor {
 								bannedWords.set("Whitelisted_Words", swearWords);
 								settingsManager.saveBannedWords();
 								settingsManager.reloadBannedWords();
-								player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Whitelisted_Word.Added").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Whitelisted_Word.Added").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							} else {
-								player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Whitelisted_Word.Exists").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Whitelisted_Word.Exists").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							}
 						} else {
 							player.sendMessage(Methods.color("&cCommand Usage: &7/Antiswear add whitelist <word>"));
@@ -141,9 +142,9 @@ public class CommandAntiSwear implements CommandExecutor {
 								bannedWords.set("Banned-Words", list);
 								settingsManager.saveBannedWords();
 								settingsManager.reloadBannedWords();
-								player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Blacklisted_Word.Removed").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Blacklisted_Word.Removed").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							} else {
-								player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Blacklisted_Word.Not_Found").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Blacklisted_Word.Not_Found").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							}
 						} else {
 							player.sendMessage(Methods.color("&cCommand Usage: &7/Antiswear remove blacklist <word>"));
@@ -162,9 +163,9 @@ public class CommandAntiSwear implements CommandExecutor {
 								bannedWords.set("Whitelisted_Words", list);
 								settingsManager.saveBannedWords();
 								settingsManager.reloadBannedWords();
-								player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Whitelisted_Word.Removed").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Whitelisted_Word.Removed").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							} else {
-								player.sendMessage(Methods.color(player, messages.getString("Anti_Swear.Whitelisted_Word.Not_Found").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Whitelisted_Word.Not_Found").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							}
 						} else {
 							player.sendMessage(Methods.color("&cCommand Usage: &7/Antiswear remove whitelist <word>"));

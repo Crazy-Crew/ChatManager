@@ -42,7 +42,7 @@ public class ListenerAntiSpam implements Listener {
 				String msg = plugin.api().getPreviousMsgData().getMessage(player.getUniqueId());
 
 				if (message.equalsIgnoreCase(msg)) {
-					player.sendMessage(Methods.color(player, messages.getString("Anti_Spam.Chat.Repetitive_Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+					player.sendMessage(Methods.color(player.getUniqueId(), messages.getString("Anti_Spam.Chat.Repetitive_Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 					event.setCancelled(true);
 				}
 			}

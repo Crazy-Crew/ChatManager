@@ -160,7 +160,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 									Methods.sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", key), true);
 
 									for (String bcmsg : autobroadcast.getStringList("Auto_Broadcast.Per_World_Messages.Messages." + key)) {
-										if (broadcast != null) player.sendMessage(Methods.color(player, "&7 - " + bcmsg.replace("{Prefix}", broadcast)));
+										if (broadcast != null) player.sendMessage(Methods.color(player.getUniqueId(), "&7 - " + bcmsg.replace("{Prefix}", broadcast)));
 									}
 
 									Methods.sendMessage(player, "", true);

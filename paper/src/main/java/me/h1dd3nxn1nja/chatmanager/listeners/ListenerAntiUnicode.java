@@ -44,7 +44,7 @@ public class ListenerAntiUnicode implements Listener {
 		if (matcher.find()) return;
 
 		event.setCancelled(true);
-		player.sendMessage(Methods.color(player, messages.getString("Anti_Unicode.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+		player.sendMessage(Methods.color(player.getUniqueId(), messages.getString("Anti_Unicode.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 
 		if (config.getBoolean("Anti_Unicode.Notify_Staff")) {
 			for (Player staff : plugin.getServer().getOnlinePlayers()) {

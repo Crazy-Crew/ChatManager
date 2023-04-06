@@ -54,7 +54,7 @@ public class ListenerMentions implements Listener {
 			if (plugin.api().getToggleChatData().containsUser(target.getUniqueId())) return;
 
 			if (config.getBoolean("Chat_Radius.Enable")) {
-				if ((!Methods.inRange(target, player, config.getInt("Chat_Radius.Block_Distance"))) || (!Methods.inWorld(target, player))) return;
+				if ((!Methods.inRange(target.getUniqueId(), player.getUniqueId(), config.getInt("Chat_Radius.Block_Distance"))) || (!Methods.inWorld(target.getUniqueId(), player.getUniqueId()))) return;
 			}
 
 			if (plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) {
