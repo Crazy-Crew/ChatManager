@@ -87,10 +87,10 @@ public class ListenerPlayerJoin implements Listener {
                 for (Player online : plugin.getServer().getOnlinePlayers()) {
                     try {
                         online.playSound(online.getLocation(), Sound.valueOf(config.getString("Messages.Join_Quit_Messages.Join_Message.Sound")), 10, 1);
-                    } catch (IllegalArgumentException ignored) {
-                    }
+                    } catch (IllegalArgumentException ignored) {}
                 }
             }
+
             if ((config.getBoolean("Messages.Join_Quit_Messages.Actionbar_Message.Enable"))
                     && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
                 String message = config.getString("Messages.Join_Quit_Messages.Actionbar_Message.Message");
@@ -162,8 +162,7 @@ public class ListenerPlayerJoin implements Listener {
                             for (Player online : plugin.getServer().getOnlinePlayers()) {
                                 try {
                                     online.playSound(online.getLocation(), Sound.valueOf(sound), 10, 1);
-                                } catch (IllegalArgumentException ignored) {
-                                }
+                                } catch (IllegalArgumentException ignored) {}
                             }
                         }
                     }
@@ -181,14 +180,12 @@ public class ListenerPlayerJoin implements Listener {
         if ((config.getBoolean("Messages.Join_Quit_Messages.Quit_Message.Enable"))
                 && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
             String message = config.getString("Messages.Join_Quit_Messages.Quit_Message.Message");
-            System.out.println("Setting quit message 1");
             event.setQuitMessage(placeholderManager.setPlaceholders(player, message));
 
             for (Player online : plugin.getServer().getOnlinePlayers()) {
                 try {
                     online.playSound(online.getLocation(), Sound.valueOf(config.getString("Messages.Join_Quit_Messages.Quit_Message.Sound")), 10, 1);
-                } catch (IllegalArgumentException ignored) {
-                }
+                } catch (IllegalArgumentException ignored) {}
             }
         }
 
@@ -199,7 +196,6 @@ public class ListenerPlayerJoin implements Listener {
 
                 if (permission != null && player.hasPermission(permission)) {
                     if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Quit_Message")) {
-                        System.out.println("Setting quit message 2");
                         event.setQuitMessage(placeholderManager.setPlaceholders(player, quitMessage));
                     }
                 }
