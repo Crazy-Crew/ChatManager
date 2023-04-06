@@ -1,15 +1,10 @@
 package me.h1dd3nxn1nja.chatmanager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.h1dd3nxn1nja.chatmanager.commands.CommandMuteChat;
 import me.h1dd3nxn1nja.chatmanager.listeners.ListenerCaps;
@@ -20,17 +15,6 @@ public class Methods {
 	private static final ChatManager plugin = ChatManager.getPlugin();
 
 	private static final SettingsManager settingsManager = plugin.getSettingsManager();
-	
-	public static HashMap<Player, Player> cm_replied = new HashMap<Player, Player>();
-	public static HashMap<Player, String> cm_previousMessages = new HashMap<>();
-	public static HashMap<Player, String> cm_previousCommand = new HashMap<>();
-	public static HashMap<Player, Integer> cm_chatCooldown = new HashMap<>();
-	public static HashMap<Player, BukkitRunnable> cm_cooldownTask = new HashMap<>();
-	public static HashMap<Player, Integer> cm_commandCooldown = new HashMap<>();
-	
-	public static HashSet<UUID> cm_pwcGlobal = new HashSet<>();
-	public static HashSet<UUID> cm_toggleChat = new HashSet<>();
-	public static HashSet<UUID> cm_toggleMentions = new HashSet<>();
 
 	private static final String format = settingsManager.getConfig().getString("Hex_Color_Format");
 	private static final Pattern HEX_PATTERN = Pattern.compile(format + "([A-Fa-f0-9]{6})");
@@ -67,10 +51,6 @@ public class Methods {
 	
 	public static boolean getMuted() {
 	    return CommandMuteChat.muted;
-	}
-	
-	public boolean isUppercase(String string) {
-		return ListenerCaps.upperCase.contains(string);
 	}
 	
 	public static void tellConsole(String message, boolean prefix) {

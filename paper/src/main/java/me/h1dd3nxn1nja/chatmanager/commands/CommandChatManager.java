@@ -33,14 +33,13 @@ public class CommandChatManager implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("reload")) {
 				if (sender.hasPermission("chatmanager.reload")) {
 					if (args.length == 1) {
-						for (Player all : plugin.getServer().getOnlinePlayers()) {
-							Methods.cm_chatCooldown.remove(all);
-							Methods.cm_cooldownTask.remove(all);
-							Methods.cm_commandCooldown.remove(all);
-							Methods.cm_cooldownTask.remove(all);
+						for (Player player : plugin.getServer().getOnlinePlayers()) {
+							plugin.api().getChatCooldowns().removeUser(player.getUniqueId());
+							plugin.api().getCooldownTask().removeUser(player.getUniqueId());
+							plugin.api().getCmdCooldowns().removeUser(player.getUniqueId());
 
 							BossBarUtil bossBar = new BossBarUtil();
-							bossBar.removeBossBar(all);
+							bossBar.removeAllBossBars(player);
 						}
 
 						settingsManager.reloadConfig();

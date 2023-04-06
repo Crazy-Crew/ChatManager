@@ -38,8 +38,7 @@ public class ListenerPlayerJoin implements Listener {
                 for (Player online : plugin.getServer().getOnlinePlayers()) {
                     try {
                         online.playSound(online.getLocation(), Sound.valueOf(config.getString("Messages.First_Join.Welcome_Message.Sound")), 10, 1);
-                    } catch (IllegalArgumentException ignored) {
-                    }
+                    } catch (IllegalArgumentException ignored) {}
                 }
             }
 

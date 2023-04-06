@@ -5,7 +5,7 @@ import java.awt.Color
 plugins {
     id("chatmanager.root-plugin")
 
-    id("featherpatcher") version "8ef64e4"
+    id("featherpatcher") version "0.0.0.1"
 }
 
 val releaseUpdate = Color(27, 217, 106)

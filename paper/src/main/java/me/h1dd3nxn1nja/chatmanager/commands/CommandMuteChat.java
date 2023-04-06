@@ -35,12 +35,12 @@ public class CommandMuteChat implements CommandExecutor {
 					if (muted) {
 						muted = false;
 						Methods.broadcast(placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Enabled").replace("{player}", player.getName())));
-						return true;
 					} else {
 						muted = true;
 						Methods.broadcast(placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Disabled").replace("{player}", player.getName())));
-						return true;
 					}
+
+					return true;
 				}
 			} else {
 				Methods.sendMessage(player, Methods.noPermission(), true);

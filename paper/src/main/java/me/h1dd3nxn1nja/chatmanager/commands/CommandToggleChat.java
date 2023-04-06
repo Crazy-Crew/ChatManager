@@ -18,34 +18,36 @@ public class CommandToggleChat implements CommandExecutor {
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
 	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
-	
+
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		FileConfiguration messages = settingsManager.getMessages();
-		
+
 		if (!(sender instanceof Player player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
 
-		if (cmd.getName().equalsIgnoreCase("toggleChat")) {
-			if (player.hasPermission("chatmanager.toggle.chat")) {
-				if (args.length == 0) {
-					if (Methods.cm_toggleChat.contains(player.getUniqueId())) {
-						Methods.cm_toggleChat.remove(player.getUniqueId());
-						Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Chat.Disabled")), true);
-					} else {
-						Methods.cm_toggleChat.add(player.getUniqueId());
-						Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Chat.Enabled")), true);
-					}
+		if (!cmd.getName().equalsIgnoreCase("toggleChat")) return true;
 
-					return true;
-				} else {
-					Methods.sendMessage(player, "&cCommand Usage: &7/Togglechat", true);
-				}
-			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
-			}
+		if (!player.hasPermission("chatmanager.toggle.chat")) {
+			Methods.sendMessage(player, Methods.noPermission(), true);
+			return true;
 		}
+
+		if (args.length == 0) {
+			if (plugin.api().getToggleChatData().containsUser(player.getUniqueId())) {
+				plugin.api().getToggleChatData().removeUser(player.getUniqueId());
+				Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Chat.Disabled")), true);
+				return true;
+			}
+
+			plugin.api().getToggleChatData().addUser(player.getUniqueId());
+			Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Chat.Enabled")), true);
+
+			return true;
+		}
+
+		Methods.sendMessage(player, "&cCommand Usage: &7/Togglechat", true);
 
 		return true;
 	}

@@ -40,8 +40,7 @@ public class ListenerSwear implements Listener {
 		String sensitiveMessage = event.getMessage().toLowerCase().replaceAll("[^a-zA-Z0-9 ]", "").replaceAll("\\s+", "");
 		String curseMessage = event.getMessage().toLowerCase();
 
-		if (plugin.api().getStaffChatData().containsUser(player.getUniqueId()) || !config.getBoolean("Anti_Swear.Chat.Enable"))
-			return;
+		if (plugin.api().getStaffChatData().containsUser(player.getUniqueId()) || !config.getBoolean("Anti_Swear.Chat.Enable")) return;
 
 		if (player.hasPermission("chatmanager.bypass.antiswear")) return;
 

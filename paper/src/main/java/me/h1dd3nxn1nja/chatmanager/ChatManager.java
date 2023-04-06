@@ -66,14 +66,13 @@ public class ChatManager extends JavaPlugin {
     public void onDisable() {
         getServer().getScheduler().cancelTasks(this);
 
-        for (Player all : getServer().getOnlinePlayers()) {
-            Methods.cm_chatCooldown.remove(all);
-            Methods.cm_cooldownTask.remove(all);
-            Methods.cm_commandCooldown.remove(all);
-            Methods.cm_cooldownTask.remove(all);
+        for (Player player : getServer().getOnlinePlayers()) {
+            api.getChatCooldowns().removeUser(player.getUniqueId());
+            api.getCooldownTask().removeUser(player.getUniqueId());
+            api.getCmdCooldowns().removeUser(player.getUniqueId());
 
             BossBarUtil bossBar = new BossBarUtil();
-            bossBar.removeAllBossBars(all);
+            bossBar.removeAllBossBars(player);
         }
     }
 

@@ -18,6 +18,8 @@ import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.UUID;
+
 public class CommandMessage implements CommandExecutor {
 
 	private final ChatManager plugin = ChatManager.getPlugin();
@@ -102,8 +104,8 @@ public class CommandMessage implements CommandExecutor {
 						.replace("{receiver}", target.getName())
 						.replace("{receiver_displayname}", player.getDisplayName()) + message), true);
 
-				Methods.cm_replied.put(player, target);
-				Methods.cm_replied.put(target, player);
+				plugin.api().getUserRepliedData().addUser(player.getUniqueId(), target.getUniqueId());
+				plugin.api().getUserRepliedData().addUser(target.getUniqueId(), player.getUniqueId());
 
 				for (Player staff : plugin.getServer().getOnlinePlayers()) {
 					if ((staff != player) && (staff != target)) {
@@ -128,7 +130,9 @@ public class CommandMessage implements CommandExecutor {
 						message.append(arg).append(" ");
 					}
 
-					Player target = Methods.cm_replied.get(player);
+					UUID other = plugin.api().getUserRepliedData().getUser(player.getUniqueId());
+
+					Player target = plugin.getServer().getPlayer(other);
 
 					if (target == null || !target.isOnline()) {
 						Methods.sendMessage(player, messages.getString("Private_Message.Recipient_Not_Found"), true);
@@ -160,8 +164,8 @@ public class CommandMessage implements CommandExecutor {
 							.replace("{receiver}", target.getName())
 							.replace("{receiver_displayname}", player.getDisplayName()) + message), true);
 
-					Methods.cm_replied.put(target, player);
-					Methods.cm_replied.put(player, target);
+					plugin.api().getUserRepliedData().addUser(target.getUniqueId(), player.getUniqueId());
+					plugin.api().getUserRepliedData().addUser(player.getUniqueId(), target.getUniqueId());
 
 					for (Player staff : plugin.getServer().getOnlinePlayers()) {
 						if ((staff != player) && (staff != target)) {

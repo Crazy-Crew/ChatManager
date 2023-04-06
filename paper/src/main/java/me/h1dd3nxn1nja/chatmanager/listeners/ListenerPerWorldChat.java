@@ -32,7 +32,7 @@ public class ListenerPerWorldChat implements Listener {
 		if (!config.getBoolean("Per_World_Chat.Enable") || plugin.api().getStaffChatData().containsUser(player.getUniqueId()))
 			return;
 
-		if (Methods.cm_pwcGlobal.contains(player.getUniqueId())) return;
+		if (plugin.api().getPerWorldChatData().containsUser(player.getUniqueId())) return;
 
 		if (config.getBoolean("Per_World_Chat.Group_Worlds.Enable")) {
 			for (String key : config.getConfigurationSection("Per_World_Chat.Group_Worlds.Worlds").getKeys(false)) {
@@ -44,11 +44,11 @@ public class ListenerPerWorldChat implements Listener {
 				String world2 = player2.getWorld().getName();
 				if (playerGroup != null) {
 					if (!playerGroup.contains(world2)) {
-						if (!Methods.cm_pwcGlobal.contains(player2.getUniqueId())) recipients.remove(player2);
+						if (!plugin.api().getPerWorldChatData().containsUser(player2.getUniqueId())) recipients.remove(player2);
 					}
 				} else {
 					if (!world.equals(world2)) {
-						if (!Methods.cm_pwcGlobal.contains(player2.getUniqueId())) recipients.remove(player2);
+						if (!plugin.api().getPerWorldChatData().containsUser(player2.getUniqueId())) recipients.remove(player2);
 					}
 				}
 			}
@@ -56,6 +56,6 @@ public class ListenerPerWorldChat implements Listener {
 			return;
 		}
 
-		recipients.removeIf(players -> !worldUID.equals(players.getWorld().getUID()) && !Methods.cm_pwcGlobal.contains(players.getUniqueId()));
+		recipients.removeIf(players -> !worldUID.equals(players.getWorld().getUID()) && !plugin.api().getPerWorldChatData().containsUser(players.getUniqueId()));
 	}
 }

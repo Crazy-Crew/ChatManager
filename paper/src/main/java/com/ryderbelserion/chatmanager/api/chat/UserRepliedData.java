@@ -1,27 +1,28 @@
 package com.ryderbelserion.chatmanager.api.chat;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class UserRepliedData {
 
-    private final HashSet<UUID> users = new HashSet<>();
+    private final HashMap<UUID, UUID> userReplied = new HashMap<>();
 
-    public void addUser(UUID uuid) {
-        if (!containsUser(uuid)) users.add(uuid);
+    public void addUser(UUID uuid, UUID other) {
+        if (!containsUser(uuid)) userReplied.put(uuid, other);
     }
 
     public void removeUser(UUID uuid) {
-        if (containsUser(uuid)) users.remove(uuid);
+        if (containsUser(uuid)) userReplied.remove(uuid);
     }
 
     public boolean containsUser(UUID uuid) {
-        return getUsers().contains(uuid);
+        return getUsers().containsKey(uuid);
     }
 
-    public Set<UUID> getUsers() {
-        return Collections.unmodifiableSet(users);
+    public UUID getUser(UUID uuid) {
+        return getUsers().get(uuid);
+    }
+
+    public Map<UUID, UUID> getUsers() {
+        return Collections.unmodifiableMap(userReplied);
     }
 }

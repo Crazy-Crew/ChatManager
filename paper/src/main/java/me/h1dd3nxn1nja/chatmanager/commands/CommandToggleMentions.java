@@ -18,32 +18,36 @@ public class CommandToggleMentions implements CommandExecutor {
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
 
 	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
-	
+
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		FileConfiguration messages = settingsManager.getMessages();
-		
+
 		if (!(sender instanceof Player player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
 
-		if (cmd.getName().equalsIgnoreCase("togglementions")) {
-			if (player.hasPermission("chatmanager.toggle.mentions")) {
-				if (args.length == 0) {
-					if (Methods.cm_toggleMentions.contains(player.getUniqueId())) {
-						Methods.cm_toggleMentions.remove(player.getUniqueId());
-						Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Mentions.Disabled")), true);
-					} else {
-						Methods.cm_toggleMentions.add(player.getUniqueId());
-						Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Mentions.Enabled")), true);
-					}
-				} else {
-					Methods.sendMessage(player, "&cCommand Usage: &7/ToggleMentions", true);
-				}
-			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
-			}
+		if (!cmd.getName().equalsIgnoreCase("togglementions")) return true;
+
+		if (!player.hasPermission("chatmanager.toggle.mentions")) {
+			Methods.sendMessage(player, Methods.noPermission(), true);
+			return true;
 		}
+
+		if (args.length == 0) {
+			if (plugin.api().getToggleMentionsData().containsUser(player.getUniqueId())) {
+				plugin.api().getToggleMentionsData().removeUser(player.getUniqueId());
+				Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Mentions.Disabled")), true);
+				return true;
+			}
+
+			plugin.api().getToggleMentionsData().addUser(player.getUniqueId());
+			Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Mentions.Enabled")), true);
+
+			return true;
+		}
+
+		Methods.sendMessage(player, "&cCommand Usage: &7/ToggleMentions", true);
 
 		return true;
 	}

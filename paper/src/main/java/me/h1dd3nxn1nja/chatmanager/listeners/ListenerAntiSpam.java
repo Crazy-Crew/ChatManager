@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import java.util.List;
+import java.util.UUID;
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -27,47 +28,56 @@ public class ListenerAntiSpam implements Listener {
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 
-		boolean isValid = plugin.api().getStaffChatData().containsUser(player.getUniqueId());
+		UUID uuid = player.getUniqueId();
+
+		boolean isValid = plugin.api().getStaffChatData().containsUser(uuid);
 
 		if (isValid) return;
 
 		if (config.getBoolean("Anti_Spam.Chat.Block_Repetitive_Messages")) {
 			if (player.hasPermission("chatmanager.bypass.dupe.chat")) return;
 
-			if (Methods.cm_previousMessages.containsKey(player)) {
-				if (message.equalsIgnoreCase(Methods.cm_previousMessages.get(player))) {
+			if (plugin.api().getPreviousMsgData().containsUser(uuid)) {
+
+				String msg = plugin.api().getPreviousMsgData().getMessage(player.getUniqueId());
+
+				if (message.equalsIgnoreCase(msg)) {
 					player.sendMessage(Methods.color(player, messages.getString("Anti_Spam.Chat.Repetitive_Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 					event.setCancelled(true);
 				}
 			}
 
-			Methods.cm_previousMessages.put(player, message);
+			plugin.api().getPreviousMsgData().addUser(uuid, message);
 		}
 
-		if (config.getInt("Anti_Spam.Chat.Chat_Delay") == 0 && player.hasPermission("chatmanager.bypass.chatdelay"))
-			return;
+		if (config.getInt("Anti_Spam.Chat.Chat_Delay") == 0 && player.hasPermission("chatmanager.bypass.chatdelay")) return;
 
-		if (Methods.cm_chatCooldown.containsKey(player)) {
-			Methods.sendMessage(player, messages.getString("Anti_Spam.Chat.Delay_Message").replace("{Time}", String.valueOf(Methods.cm_chatCooldown.get(player))), true);
+		if (plugin.api().getChatCooldowns().containsUser(uuid)) {
+			int time = plugin.api().getChatCooldowns().getUsers().get(uuid);
+
+			Methods.sendMessage(player, messages.getString("Anti_Spam.Chat.Delay_Message").replace("{Time}", String.valueOf(time)), true);
 			event.setCancelled(true);
 			return;
 		}
 
-		Methods.cm_chatCooldown.put(player, config.getInt("Anti_Spam.Chat.Chat_Delay"));
+		plugin.api().getChatCooldowns().addUser(uuid, config.getInt("Anti_Spam.Chat.Chat_Delay"));
 
-		Methods.cm_cooldownTask.put(player, new BukkitRunnable() {
+		plugin.api().getCooldownTask().addUser(uuid, new BukkitRunnable() {
+			@Override
 			public void run() {
-				Methods.cm_chatCooldown.put(player, Methods.cm_chatCooldown.get(player) - 1);
+				int time = plugin.api().getChatCooldowns().getTime(uuid);
 
-				if (Methods.cm_chatCooldown.get(player) == 0) {
-					Methods.cm_chatCooldown.remove(player);
-					Methods.cm_cooldownTask.remove(player);
+				plugin.api().getChatCooldowns().addUser(uuid, time - 1);
+
+				if (time == 0) {
+					plugin.api().getChatCooldowns().removeUser(uuid);
+					plugin.api().getCooldownTask().removeUser(uuid);
 					cancel();
 				}
 			}
 		});
 
-		Methods.cm_cooldownTask.get(player).runTaskTimer(plugin, 20L, 20L);
+		plugin.api().getCooldownTask().getUsers().get(player.getUniqueId()).runTaskTimer(plugin, 20L, 20L);
 	}
 
 	@EventHandler
@@ -78,32 +88,35 @@ public class ListenerAntiSpam implements Listener {
 		Player player = event.getPlayer();
 		String command = event.getMessage();
 
+		UUID uuid = player.getUniqueId();
+
 		List<String> whitelistedCommands = config.getStringList("Anti_Spam.Command.Whitelist");
 
 		if (config.getBoolean("Anti_Spam.Command.Block_Repetitive_Commands")) {
 			if (!player.hasPermission("chatmanager.bypass.dupe.command")) {
 				for (String commands : whitelistedCommands) {
 					if (event.getMessage().contains(commands)) {
-						Methods.cm_previousCommand.remove(player);
+						plugin.api().getPreviousCmdData().removeUser(uuid);
 						return;
 					}
 				}
 
-				if (Methods.cm_previousCommand.containsKey(player)) {
-					if (command.equalsIgnoreCase(Methods.cm_previousCommand.get(player))) {
+				if (plugin.api().getPreviousCmdData().containsUser(uuid)) {
+					String cmd = plugin.api().getPreviousCmdData().getMessage(uuid);
+					if (command.equalsIgnoreCase(cmd)) {
 						Methods.sendMessage(player, messages.getString("Anti_Spam.Command.Repetitive_Message"), true);
 
 						event.setCancelled(true);
 					}
 				}
 
-				Methods.cm_previousCommand.put(player, command);
+				plugin.api().getPreviousCmdData().addUser(player.getUniqueId(), command);
 			}
 
 			if (config.getInt("Anti_Spam.Command.Command_Delay") != 0) {
 				if (!player.hasPermission("chatmanager.bypass.commanddelay")) {
-					if (Methods.cm_commandCooldown.containsKey(player)) {
-						Methods.sendMessage(player, messages.getString("Anti_Spam.Command.Delay_Message").replace("{Time}", String.valueOf(Methods.cm_commandCooldown.get(player))), true);
+					if (plugin.api().getCmdCooldowns().containsUser(uuid)) {
+						Methods.sendMessage(player, messages.getString("Anti_Spam.Command.Delay_Message").replace("{Time}", String.valueOf(plugin.api().getCmdCooldowns().getTime(uuid))), true);
 						event.setCancelled(true);
 						return;
 					}
@@ -112,21 +125,24 @@ public class ListenerAntiSpam implements Listener {
 						if (event.getMessage().contains(commands)) return;
 					}
 
-					Methods.cm_commandCooldown.put(player, config.getInt("Anti_Spam.Command.Command_Delay"));
+					plugin.api().getCmdCooldowns().addUser(uuid, config.getInt("Anti_Spam.Command.Command_Delay"));
 
-					Methods.cm_cooldownTask.put(player, new BukkitRunnable() {
+					plugin.api().getCooldownTask().addUser(uuid, new BukkitRunnable() {
+						@Override
 						public void run() {
-							Methods.cm_commandCooldown.put(player, Methods.cm_commandCooldown.get(player) - 1);
+							int time = plugin.api().getCmdCooldowns().getTime(uuid);
 
-							if (Methods.cm_commandCooldown.get(player) == 0) {
-								Methods.cm_commandCooldown.remove(player);
-								Methods.cm_cooldownTask.remove(player);
+							plugin.api().getCmdCooldowns().addUser(uuid, time - 1);
+
+							if (time == 0) {
+								plugin.api().getCmdCooldowns().removeUser(uuid);
+								plugin.api().getCooldownTask().removeUser(uuid);
 								cancel();
 							}
 						}
 					});
 
-					Methods.cm_cooldownTask.get(player).runTaskTimer(plugin, 20L, 20L);
+					plugin.api().getCooldownTask().getUsers().get(player.getUniqueId()).runTaskTimer(plugin, 20L, 20L);
 				}
 			}
 		}
