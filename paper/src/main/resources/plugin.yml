@@ -4,7 +4,7 @@ main: ${group}.ChatManager
 authors: [H1DD3NxN1NJA, Ryder Belserion]
 
 version: ${version}
-api-version: "1.13"
+api-version: "1.18"
 description: ${description}
 website: ${website}
 
