@@ -2,29 +2,19 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import java.util.List;
 import java.util.UUID;
-import me.h1dd3nxn1nja.chatmanager.SettingsManager;
-import org.bukkit.configuration.file.FileConfiguration;
+import com.ryderbelserion.chatmanager.api.Universal;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 
-public class ListenerAntiSpam implements Listener {
-
-	private final ChatManager plugin = ChatManager.getPlugin();
-
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
+public class ListenerAntiSpam implements Listener, Universal {
 
 	@EventHandler
 	public void antiSpamChat(AsyncPlayerChatEvent event) {
-
-		FileConfiguration config = settingsManager.getConfig();
-		FileConfiguration messages = settingsManager.getMessages();
-
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 
@@ -49,11 +39,23 @@ public class ListenerAntiSpam implements Listener {
 
 			plugin.api().getPreviousMsgData().addUser(uuid, message);
 		}
+	}
 
-		if (config.getInt("Anti_Spam.Chat.Chat_Delay") == 0 && player.hasPermission("chatmanager.bypass.chatdelay")) return;
+	@EventHandler
+	public void onChatCooldown(AsyncPlayerChatEvent event) {
+		Player player = event.getPlayer();
+		UUID uuid = player.getUniqueId();
+
+		boolean isValid = plugin.api().getStaffChatData().containsUser(uuid);
+
+		if (isValid) return;
+
+		int delay = config.getInt("Anti_Spam.Chat.Chat_Delay");
+
+		if (delay == 0 || player.hasPermission("chatmanager.bypass.chatdelay")) return;
 
 		if (plugin.api().getChatCooldowns().containsUser(uuid)) {
-			int time = plugin.api().getChatCooldowns().getUsers().get(uuid);
+			int time = plugin.api().getChatCooldowns().getTime(uuid);
 
 			Methods.sendMessage(player, messages.getString("Anti_Spam.Chat.Delay_Message").replace("{Time}", String.valueOf(time)), true);
 			event.setCancelled(true);
@@ -67,9 +69,10 @@ public class ListenerAntiSpam implements Listener {
 			public void run() {
 				int time = plugin.api().getChatCooldowns().getTime(uuid);
 
-				plugin.api().getChatCooldowns().addUser(uuid, time - 1);
+				plugin.api().getChatCooldowns().subtract(uuid);
 
 				if (time == 0) {
+					System.out.println("Cancelled the tasks!");
 					plugin.api().getChatCooldowns().removeUser(uuid);
 					plugin.api().getCooldownTask().removeUser(uuid);
 					cancel();
@@ -82,9 +85,6 @@ public class ListenerAntiSpam implements Listener {
 
 	@EventHandler
 	public void onSpamCommand(PlayerCommandPreprocessEvent event) {
-		FileConfiguration config = settingsManager.getConfig();
-		FileConfiguration messages = settingsManager.getMessages();
-
 		Player player = event.getPlayer();
 		String command = event.getMessage();
 
@@ -132,7 +132,7 @@ public class ListenerAntiSpam implements Listener {
 						public void run() {
 							int time = plugin.api().getCmdCooldowns().getTime(uuid);
 
-							plugin.api().getCmdCooldowns().addUser(uuid, time - 1);
+							plugin.api().getCmdCooldowns().addUser(uuid, time--);
 
 							if (time == 0) {
 								plugin.api().getCmdCooldowns().removeUser(uuid);
