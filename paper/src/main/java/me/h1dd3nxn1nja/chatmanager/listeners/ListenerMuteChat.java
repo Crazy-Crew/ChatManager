@@ -1,25 +1,17 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.api.Universal;
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import me.h1dd3nxn1nja.chatmanager.SettingsManager;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-public class ListenerMuteChat implements Listener {
+public class ListenerMuteChat implements Listener, Universal {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
-
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
-
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void muteChat(AsyncPlayerChatEvent event) {
-		FileConfiguration messages = settingsManager.getMessages();
-
 		Player player = event.getPlayer();
 
 		if (player.hasPermission("chatmanager.bypass.mutechat") || !Methods.isMuted()) return;
@@ -28,11 +20,8 @@ public class ListenerMuteChat implements Listener {
 		event.setCancelled(true);
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
-		FileConfiguration config = settingsManager.getConfig();
-		FileConfiguration messages = settingsManager.getMessages();
-
 		Player player = event.getPlayer();
 
 		if (!config.getBoolean("Mute_Chat.Disable_Commands") || player.hasPermission("chatmanager.bypass.mutechat") || !Methods.isMuted()) return;

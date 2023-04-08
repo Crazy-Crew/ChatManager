@@ -1,33 +1,19 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import me.h1dd3nxn1nja.chatmanager.SettingsManager;
+import com.ryderbelserion.chatmanager.api.Universal;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import me.h1dd3nxn1nja.chatmanager.support.misc.VaultSupport;
-import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
+public class ListenerChatFormat implements Listener, Universal {
 
-public class ListenerChatFormat implements Listener {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
-
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
-
-	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
-
-	private final VaultSupport vaultSupport = plugin.getPluginManager().getVaultSupport();
-
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onChatFormat(AsyncPlayerChatEvent event) {
-		FileConfiguration config = settingsManager.getConfig();
-
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 		String key = vaultSupport.getPermission().getPrimaryGroup(player);
@@ -49,7 +35,6 @@ public class ListenerChatFormat implements Listener {
 	}
 
 	public String setupChatRadius(Player player, String message) {
-		FileConfiguration config = settingsManager.getConfig();
 		String placeholders = message;
 
 		if (config.getBoolean("Chat_Radius.Enable")) {

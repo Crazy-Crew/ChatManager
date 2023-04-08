@@ -63,7 +63,7 @@ webhook {
 
             this.description("""
                 Changes:
-                » N/A
+                » Fixed an issue with message/command cooldowns not working.
                 
                 API:
                  » N/A

@@ -13,7 +13,7 @@ import me.h1dd3nxn1nja.chatmanager.Methods;
 
 public class ListenerAntiSpam implements Listener, Universal {
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void antiSpamChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 		String message = event.getMessage();
@@ -41,7 +41,7 @@ public class ListenerAntiSpam implements Listener, Universal {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onChatCooldown(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
@@ -83,7 +83,7 @@ public class ListenerAntiSpam implements Listener, Universal {
 		plugin.api().getCooldownTask().getUsers().get(player.getUniqueId()).runTaskTimer(plugin, 20L, 20L);
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onSpamCommand(PlayerCommandPreprocessEvent event) {
 		Player player = event.getPlayer();
 		String command = event.getMessage();

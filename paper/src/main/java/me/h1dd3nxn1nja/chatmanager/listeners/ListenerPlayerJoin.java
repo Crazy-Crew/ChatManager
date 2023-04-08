@@ -1,9 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import me.h1dd3nxn1nja.chatmanager.Methods;
-import me.h1dd3nxn1nja.chatmanager.SettingsManager;
-import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
+import com.ryderbelserion.chatmanager.api.Universal;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -16,18 +13,10 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class ListenerPlayerJoin implements Listener {
+public class ListenerPlayerJoin implements Listener, Universal {
 
-    private final ChatManager plugin = ChatManager.getPlugin();
-
-    private final SettingsManager settingsManager = plugin.getSettingsManager();
-
-    private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
-
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void firstJoinMessage(PlayerJoinEvent event) {
-        FileConfiguration config = settingsManager.getConfig();
-
         Player player = event.getPlayer();
 
         if (!player.hasPlayedBefore()) {
@@ -62,10 +51,8 @@ public class ListenerPlayerJoin implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void JoinMessage(PlayerJoinEvent event) {
-        FileConfiguration config = settingsManager.getConfig();
-
         Player player = event.getPlayer();
 
         if (player.hasPlayedBefore()) {
@@ -171,10 +158,8 @@ public class ListenerPlayerJoin implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerQuit(PlayerQuitEvent event) {
-        FileConfiguration config = settingsManager.getConfig();
-
         Player player = event.getPlayer();
 
         if ((config.getBoolean("Messages.Join_Quit_Messages.Quit_Message.Enable"))
@@ -203,10 +188,8 @@ public class ListenerPlayerJoin implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent event) {
-        FileConfiguration config = settingsManager.getConfig();
-
         Player player = event.getPlayer();
         int lines = config.getInt("Clear_Chat.Broadcasted_Lines");
         int delay = config.getInt("MOTD.Delay");

@@ -1,9 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.api.Universal;
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import me.h1dd3nxn1nja.chatmanager.SettingsManager;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,18 +9,10 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import java.util.List;
 
-public class ListenerBannedCommand implements Listener {
+public class ListenerBannedCommand implements Listener, Universal {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
-
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
-
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
-		FileConfiguration config = settingsManager.getConfig();
-		FileConfiguration bannedCommands = settingsManager.getBannedCommands();
-		FileConfiguration messages = settingsManager.getMessages();
-
 		Player player = event.getPlayer();
 
 		List<String> cmd = bannedCommands.getStringList("Banned-Commands");
@@ -35,9 +25,9 @@ public class ListenerBannedCommand implements Listener {
 					if (event.getMessage().toLowerCase().equals("/" + command)) {
 						event.setCancelled(true);
 						Methods.sendMessage(player, messages.getString("Banned_Commands.Message").replace("{command}", command), true);
-						NotifyStaff(player, command);
-						TellConsole(player, command);
-						ExecuteCommand(player);
+						notifyStaff(player, command);
+						tellConsole(player, command);
+						executeCommand(player);
 					}
 				}
 			} else {
@@ -45,9 +35,9 @@ public class ListenerBannedCommand implements Listener {
 					if (event.getMessage().toLowerCase().contains("/" + command)) {
 						event.setCancelled(true);
 						Methods.sendMessage(player, messages.getString("Banned_Commands.Message").replace("{command}", command), true);
-						NotifyStaff(player, command);
-						TellConsole(player, command);
-						ExecuteCommand(player);
+						notifyStaff(player, command);
+						tellConsole(player, command);
+						executeCommand(player);
 					}
 				}
 			}
@@ -57,17 +47,14 @@ public class ListenerBannedCommand implements Listener {
 			if (event.getMessage().split(" ")[0].contains(":")) {
 				event.setCancelled(true);
 				Methods.sendMessage(player, messages.getString("Banned_Commands.Message").replace("{command}", event.getMessage().replace("/", "")), true);
-				NotifyStaff(player, event.getMessage().replace("/", ""));
-				TellConsole(player, event.getMessage().replace("/", ""));
-				ExecuteCommand(player);
+				notifyStaff(player, event.getMessage().replace("/", ""));
+				tellConsole(player, event.getMessage().replace("/", ""));
+				executeCommand(player);
 			}
 		}
 	}
 
-	public void NotifyStaff(Player player, String message) {
-		FileConfiguration config = settingsManager.getConfig();
-		FileConfiguration messages = settingsManager.getMessages();
-
+	public void notifyStaff(Player player, String message) {
 		if (!config.getBoolean("Banned_Commands.Notify_Staff")) return;
 
 		for (Player staff : plugin.getServer().getOnlinePlayers()) {
@@ -77,18 +64,13 @@ public class ListenerBannedCommand implements Listener {
 		}
 	}
 
-	public void TellConsole(Player player, String message) {
-		FileConfiguration config = settingsManager.getConfig();
-		FileConfiguration messages = settingsManager.getMessages();
-
+	public void tellConsole(Player player, String message) {
 		if (!config.getBoolean("Banned_Commands.Notify_Staff")) return;
 
 		Methods.tellConsole(messages.getString("Banned_Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{command}", message), true);
 	}
 
-	public void ExecuteCommand(Player player) {
-		FileConfiguration config = settingsManager.getConfig();
-
+	public void executeCommand(Player player) {
 		if (!config.getBoolean("Banned_Commands.Execute_Command")) return;
 
 		if (!config.contains("Banned_Commands.Executed_Command")) return;

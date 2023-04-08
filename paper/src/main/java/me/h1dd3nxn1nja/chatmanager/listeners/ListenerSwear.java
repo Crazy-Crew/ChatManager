@@ -1,8 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.api.Universal;
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,20 +17,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class ListenerSwear implements Listener {
+public class ListenerSwear implements Listener, Universal {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	//TODO() Add a way so that chat manager highlights the swear word in the notify feature.
 
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
-
-	//Add a way so that chat manager highlights the swear word in the notify feature.
-
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onSwear(AsyncPlayerChatEvent event) {
-		FileConfiguration config = settingsManager.getConfig();
-		FileConfiguration bannedWords = settingsManager.getBannedWords();
-		FileConfiguration messages = settingsManager.getMessages();
-
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 		Date time = Calendar.getInstance().getTime();
@@ -51,8 +42,7 @@ public class ListenerSwear implements Listener {
 					if (event.getMessage().contains(allowed.toLowerCase())) return;
 				}
 
-				if (curseMessageContains(event, config, messages, player, message, time, sensitiveMessage, blockedWords))
-					break;
+				if (curseMessageContains(event, config, messages, player, message, time, sensitiveMessage, blockedWords)) break;
 			}
 		}
 
@@ -108,12 +98,8 @@ public class ListenerSwear implements Listener {
 		return false;
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onSwearCommand(PlayerCommandPreprocessEvent event) {
-		FileConfiguration config = settingsManager.getConfig();
-		FileConfiguration messages = settingsManager.getMessages();
-		FileConfiguration bannedWords = settingsManager.getBannedWords();
-
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 		Date time = Calendar.getInstance().getTime();
@@ -214,12 +200,8 @@ public class ListenerSwear implements Listener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onSwearSign(SignChangeEvent event) {
-		FileConfiguration config = settingsManager.getConfig();
-		FileConfiguration bannedWords = settingsManager.getBannedWords();
-		FileConfiguration messages = settingsManager.getMessages();
-
 		Player player = event.getPlayer();
 		Date time = Calendar.getInstance().getTime();
 

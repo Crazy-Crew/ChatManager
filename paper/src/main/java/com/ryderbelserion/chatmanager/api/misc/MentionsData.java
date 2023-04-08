@@ -1,11 +1,11 @@
-package com.ryderbelserion.chatmanager.api;
+package com.ryderbelserion.chatmanager.api.misc;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class AntiBotData {
+public class MentionsData {
 
     private final HashSet<UUID> users = new HashSet<>();
 
@@ -18,7 +18,7 @@ public class AntiBotData {
     }
 
     public boolean containsUser(UUID uuid) {
-        return getUsers().contains(uuid);
+        return users.contains(uuid);
     }
 
     public Set<UUID> getUsers() {

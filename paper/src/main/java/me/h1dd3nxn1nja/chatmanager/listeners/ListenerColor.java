@@ -1,35 +1,30 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import me.h1dd3nxn1nja.chatmanager.SettingsManager;
+import com.ryderbelserion.chatmanager.api.Universal;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.utils.Format;
 import net.md_5.bungee.api.ChatColor;
 
-public class ListenerColor implements Listener {
-
-	private final ChatManager plugin = ChatManager.getPlugin();
-
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
+public class ListenerColor implements Listener, Universal {
 	
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onColorChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 
-		if (!settingsManager.getConfig().getBoolean("Formatted_Messages.Enable")) return;
+		if (!config.getBoolean("Formatted_Messages.Enable")) return;
 
 		String format = formatChat(player, message);
 		event.setMessage(format);
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onSignChange(SignChangeEvent event) {
 		Player player = event.getPlayer();
 		

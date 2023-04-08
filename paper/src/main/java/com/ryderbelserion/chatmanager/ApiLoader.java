@@ -1,6 +1,6 @@
 package com.ryderbelserion.chatmanager;
 
-import com.ryderbelserion.chatmanager.api.AntiBotData;
+import com.ryderbelserion.chatmanager.api.misc.AntiBotData;
 import com.ryderbelserion.chatmanager.api.chat.*;
 import com.ryderbelserion.chatmanager.api.chat.logging.PreviousCmdData;
 import com.ryderbelserion.chatmanager.api.chat.logging.PreviousMsgData;

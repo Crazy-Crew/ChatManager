@@ -1,28 +1,17 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.api.Universal;
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import me.h1dd3nxn1nja.chatmanager.SettingsManager;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-public class ListenerCaps implements Listener {
+public class ListenerCaps implements Listener, Universal {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
-
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
-
-	public static String upperCase;
-
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
-		FileConfiguration config = settingsManager.getConfig();
-		FileConfiguration messages = settingsManager.getMessages();
-
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 
@@ -53,11 +42,8 @@ public class ListenerCaps implements Listener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onCapsCommands(PlayerCommandPreprocessEvent event) {
-		FileConfiguration config = settingsManager.getConfig();
-		FileConfiguration messages = settingsManager.getMessages();
-
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 

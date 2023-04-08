@@ -1,4 +1,4 @@
-package me.h1dd3nxn1nja.chatmanager.api;
+package com.ryderbelserion.chatmanager.api;
 
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;

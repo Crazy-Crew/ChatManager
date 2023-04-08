@@ -18,7 +18,7 @@ public class CommandSpyData {
     }
 
     public boolean containsUser(UUID uuid) {
-        return getUsers().contains(uuid);
+        return users.contains(uuid);
     }
 
     public Set<UUID> getUsers() {

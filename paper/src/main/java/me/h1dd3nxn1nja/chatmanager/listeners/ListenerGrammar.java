@@ -1,25 +1,17 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import me.h1dd3nxn1nja.chatmanager.SettingsManager;
+import com.ryderbelserion.chatmanager.api.Universal;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public class ListenerGrammar implements Listener {
+public class ListenerGrammar implements Listener, Universal {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
-
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
-
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void grammarCheck(AsyncPlayerChatEvent event) {
-		FileConfiguration config = settingsManager.getConfig();
-
 		Player player = event.getPlayer();
 
 		if (event.getMessage().toCharArray().length < config.getInt("Grammar.Min_Message_Length") || !config.getBoolean("Grammar.Enable") || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;

@@ -1,8 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.api.Universal;
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,17 +19,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ListenerAntiAdvertising implements Listener {
-
-	private final ChatManager plugin = ChatManager.getPlugin();
-
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
+public class ListenerAntiAdvertising implements Listener, Universal {
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
-		FileConfiguration config = settingsManager.getConfig();
-		FileConfiguration messages = settingsManager.getMessages();
-
 		Player player = event.getPlayer();
 		String playerName = event.getPlayer().getName();
 		String message = event.getMessage();
@@ -114,9 +106,6 @@ public class ListenerAntiAdvertising implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
-		FileConfiguration config = settingsManager.getConfig();
-		FileConfiguration messages = settingsManager.getMessages();
-
 		Player player = event.getPlayer();
 		String playerName = event.getPlayer().getName();
 		String message = event.getMessage();
@@ -204,9 +193,6 @@ public class ListenerAntiAdvertising implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onSign(SignChangeEvent event) {
-		FileConfiguration config = settingsManager.getConfig();
-		FileConfiguration messages = settingsManager.getMessages();
-
 		Player player = event.getPlayer();
 		String playerName = event.getPlayer().getName();
 		Date time = Calendar.getInstance().getTime();

@@ -7,25 +7,25 @@ import java.util.UUID;
 
 public class PreviousCmdData {
 
-    private final HashMap<UUID, String> previousMessages = new HashMap<>();
+    private final HashMap<UUID, String> map = new HashMap<>();
 
     public void addUser(UUID uuid, String message) {
-        if (!containsUser(uuid)) previousMessages.put(uuid, message);
+        if (!containsUser(uuid)) map.put(uuid, message);
     }
 
     public void removeUser(UUID uuid) {
-        if (containsUser(uuid)) previousMessages.remove(uuid);
+        if (containsUser(uuid)) map.remove(uuid);
     }
 
     public boolean containsUser(UUID uuid) {
-        return getUsers().containsKey(uuid);
+        return map.containsKey(uuid);
     }
 
     public String getMessage(UUID uuid) {
-        return getUsers().get(uuid);
+        return map.get(uuid);
     }
 
     public Map<UUID, String> getUsers() {
-        return Collections.unmodifiableMap(previousMessages);
+        return Collections.unmodifiableMap(map);
     }
 }

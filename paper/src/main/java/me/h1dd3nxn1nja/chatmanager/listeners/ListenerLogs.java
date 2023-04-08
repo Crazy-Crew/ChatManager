@@ -1,5 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
+import com.ryderbelserion.chatmanager.api.Universal;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,16 +15,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class ListenerLogs implements Listener {
+public class ListenerLogs implements Listener, Universal {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
-
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
-
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
-		FileConfiguration config = settingsManager.getConfig();
-
 		String playerName = event.getPlayer().getName();
 		String message = event.getMessage();
 		Date time = Calendar.getInstance().getTime();
@@ -42,10 +37,8 @@ public class ListenerLogs implements Listener {
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
-		FileConfiguration config = settingsManager.getConfig();
-
 		List<String> blacklist = config.getStringList("Logs.Blacklist_Commands");
 
 		String playerName = event.getPlayer().getName();
@@ -72,10 +65,8 @@ public class ListenerLogs implements Listener {
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onSignChange(SignChangeEvent event) {
-		FileConfiguration config = settingsManager.getConfig();
-
 		String playerName = event.getPlayer().getName();
 		Date time = Calendar.getInstance().getTime();
 

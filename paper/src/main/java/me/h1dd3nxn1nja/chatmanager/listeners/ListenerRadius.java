@@ -2,27 +2,19 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import java.util.Set;
 import java.util.UUID;
-
-import me.h1dd3nxn1nja.chatmanager.SettingsManager;
+import com.ryderbelserion.chatmanager.api.Universal;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 
-public class ListenerRadius implements Listener {
+public class ListenerRadius implements Listener, Universal {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
-
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
-
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
-		FileConfiguration config = settingsManager.getConfig();
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 		Set<Player> recipients = event.getRecipients();

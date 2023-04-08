@@ -3,25 +3,16 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import me.h1dd3nxn1nja.chatmanager.SettingsManager;
-import org.bukkit.configuration.file.FileConfiguration;
+import com.ryderbelserion.chatmanager.api.Universal;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import me.h1dd3nxn1nja.chatmanager.Methods;
 
-public class ListenerPerWorldChat implements Listener {
-
-	private final ChatManager plugin = ChatManager.getPlugin();
-
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
+public class ListenerPerWorldChat implements Listener, Universal {
 
 	@EventHandler
 	public void onWorldChat(AsyncPlayerChatEvent event) {
-		FileConfiguration config = settingsManager.getConfig();
-
 		Player player = event.getPlayer();
 		String world = player.getWorld().getName();
 		UUID worldUID = event.getPlayer().getWorld().getUID();
@@ -29,8 +20,7 @@ public class ListenerPerWorldChat implements Listener {
 
 		List<String> playerGroup = null;
 
-		if (!config.getBoolean("Per_World_Chat.Enable") || plugin.api().getStaffChatData().containsUser(player.getUniqueId()))
-			return;
+		if (!config.getBoolean("Per_World_Chat.Enable") || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
 
 		if (plugin.api().getPerWorldChatData().containsUser(player.getUniqueId())) return;
 

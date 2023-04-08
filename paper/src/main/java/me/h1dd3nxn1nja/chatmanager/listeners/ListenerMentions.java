@@ -1,36 +1,19 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import me.h1dd3nxn1nja.chatmanager.SettingsManager;
-import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
+import com.ryderbelserion.chatmanager.api.Universal;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
-import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
 
-public class ListenerMentions implements Listener {
+public class ListenerMentions implements Listener, Universal {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
-
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
-
-	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
-
-	private final PluginManager pluginManager = plugin.getPluginManager();
-
-	private final EssentialsSupport essentialsSupport = pluginManager.getEssentialsSupport();
-
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
-		FileConfiguration config = settingsManager.getConfig();
-
 		Player player = event.getPlayer();
 
 		String tagSymbol = config.getString("Mentions.Tag_Symbol");

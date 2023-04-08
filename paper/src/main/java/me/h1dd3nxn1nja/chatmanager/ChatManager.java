@@ -1,7 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager;
 
 import com.ryderbelserion.chatmanager.ApiLoader;
-import me.h1dd3nxn1nja.chatmanager.api.CrazyManager;
+import com.ryderbelserion.chatmanager.api.CrazyManager;
 import me.h1dd3nxn1nja.chatmanager.commands.*;
 import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.*;
 import me.h1dd3nxn1nja.chatmanager.listeners.*;
