@@ -72,7 +72,6 @@ public class ListenerAntiSpam implements Listener, Universal {
 				plugin.api().getChatCooldowns().subtract(uuid);
 
 				if (time == 0) {
-					System.out.println("Cancelled the tasks!");
 					plugin.api().getChatCooldowns().removeUser(uuid);
 					plugin.api().getCooldownTask().removeUser(uuid);
 					cancel();
