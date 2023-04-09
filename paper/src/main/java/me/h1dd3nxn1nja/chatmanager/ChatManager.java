@@ -3,6 +3,7 @@ package me.h1dd3nxn1nja.chatmanager;
 import com.ryderbelserion.chatmanager.ApiLoader;
 import com.ryderbelserion.chatmanager.api.CrazyManager;
 import com.ryderbelserion.chatmanager.commands.CommandManager;
+import com.ryderbelserion.chatmanager.commands.subcommands.admin.CommandStaffChat;
 import me.h1dd3nxn1nja.chatmanager.commands.*;
 import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.*;
 import me.h1dd3nxn1nja.chatmanager.listeners.*;
@@ -105,8 +106,6 @@ public class ChatManager extends JavaPlugin {
         registerCommand(getCommand("TogglePM"), null, commandMessage);
         registerCommand(getCommand("Message"), new TabCompleteMessage(), commandMessage);
 
-        registerCommand(getCommand("StaffChat"), null, new CommandStaffChat());
-
         registerCommand(getCommand("ChatRadius"), null, new CommandRadius());
 
         CommandSpy commandSpy = new CommandSpy();
@@ -130,6 +129,8 @@ public class ChatManager extends JavaPlugin {
     }
 
     public void registerEvents() {
+        getServer().getPluginManager().registerEvents(new CommandStaffChat(), this);
+
         getServer().getPluginManager().registerEvents(new ListenerAntiAdvertising(), this);
         getServer().getPluginManager().registerEvents(new ListenerAntiBot(), this);
         getServer().getPluginManager().registerEvents(new ListenerAntiSpam(), this);

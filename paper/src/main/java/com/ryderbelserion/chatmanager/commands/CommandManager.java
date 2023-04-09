@@ -5,6 +5,7 @@ import com.ryderbelserion.chatmanager.api.enums.DebugOptions;
 import com.ryderbelserion.chatmanager.api.enums.ToggleOptions;
 import com.ryderbelserion.chatmanager.commands.subcommands.admin.CommandDebug;
 import com.ryderbelserion.chatmanager.commands.subcommands.admin.CommandReload;
+import com.ryderbelserion.chatmanager.commands.subcommands.admin.CommandStaffChat;
 import com.ryderbelserion.chatmanager.commands.subcommands.player.CommandMOTD;
 import com.ryderbelserion.chatmanager.commands.subcommands.player.CommandToggle;
 import dev.triumphteam.cmd.bukkit.BukkitCommandManager;
@@ -175,6 +176,7 @@ public class CommandManager extends BaseCommand implements Universal {
         // Admin Commands.
         commandManager.registerCommand(new CommandReload());
         commandManager.registerCommand(new CommandDebug());
+        commandManager.registerCommand(new CommandStaffChat());
 
         // Player Commands.
         commandManager.registerCommand(new CommandToggle());
