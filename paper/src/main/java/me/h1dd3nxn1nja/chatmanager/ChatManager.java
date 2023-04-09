@@ -33,6 +33,24 @@ public class ChatManager extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
+        plugin.getLogger().warning("""
+                Notifying you of deprecated placeholders:
+                ==========================================================
+                {server_online}, {server_max_players}, {server_name}
+                
+                {vault_prefix}, {vault_suffix}
+                
+                {ess_player_balance}, {ess_player_nickname}
+                
+                {displayname}, {display_name}
+                
+                These variables are considered deprecated & marked for removal, It is recommended to use:
+                https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders
+                
+                You would use the command /papi expansion download <name>
+                ==========================================================
+                """);
+
         settingsManager = new SettingsManager();
 
         settingsManager.setup();

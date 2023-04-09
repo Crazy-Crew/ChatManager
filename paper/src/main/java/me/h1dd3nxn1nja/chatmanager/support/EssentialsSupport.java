@@ -31,7 +31,8 @@ public class EssentialsSupport {
 
         return user2 != null && user.isIgnoredPlayer(user2);
 	}
-	
+
+	@Deprecated(forRemoval = true)
 	public String getPlayerNickname(Player player) {
 		if (isEssentialsReady()) return "Essentials is not enabled.";
 
@@ -43,7 +44,8 @@ public class EssentialsSupport {
 
 		return user.getName();
 	}
-	
+
+	@Deprecated(forRemoval = true)
 	public String getPlayerBalance(Player player) {
 		if (isEssentialsReady()) return "0";
 

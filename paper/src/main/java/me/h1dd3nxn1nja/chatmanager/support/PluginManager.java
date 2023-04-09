@@ -6,7 +6,6 @@ import me.h1dd3nxn1nja.chatmanager.support.misc.VaultSupport;
 import me.h1dd3nxn1nja.chatmanager.support.placeholders.PlaceholderAPISupport;
 import me.h1dd3nxn1nja.chatmanager.support.vanish.EssentialsVanishSupport;
 import me.h1dd3nxn1nja.chatmanager.support.vanish.GenericVanishSupport;
-import org.bukkit.plugin.Plugin;
 
 public class PluginManager {
 
@@ -21,12 +20,11 @@ public class PluginManager {
     private VaultSupport vaultSupport;
 
     public void load() {
-        if (!PluginSupport.VAULT.isPluginEnabled()) {
-            plugin.getLogger().warning("Vault is required to use ChatManager, Disabling plugin!");
-            plugin.getServer().getPluginManager().disablePlugin(plugin);
-        } else {
+        if (PluginSupport.VAULT.isPluginEnabled()) {
             vaultSupport = new VaultSupport();
             vaultSupport.configure();
+
+            plugin.getLogger().warning("Vault Support is deprecated in favor of using PlaceholderAPI Expansions!");
         }
 
         // Load EssentialsX support if plugin is enabled.

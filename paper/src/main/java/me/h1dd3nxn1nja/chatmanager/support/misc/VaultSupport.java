@@ -3,10 +3,10 @@ package me.h1dd3nxn1nja.chatmanager.support.misc;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
+@Deprecated(forRemoval = true)
 public class VaultSupport {
 
 	private final ChatManager plugin = ChatManager.getPlugin();

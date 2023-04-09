@@ -11,14 +11,11 @@
 #
 # Information:
 #   1. Color Codes are supported with the "&" character.
-#      - To view a list of COLOR CODES you can do /Colors in-game.
-#      - To view a list of FORMAT CODES you can do /Formats in-game.
 #
 #   2. HEX Codes are supported with the #000000 format.
 #   
 #   3. Sound List
 #      - 1.9 and newer: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
-#      - 1.8 and older: http://docs.codelanx.com/Bukkit/1.8/org/bukkit/Sound.html
 #   
 #   4. All messages can be changed in the messages.yml file.
 #
@@ -98,7 +95,7 @@ Anti_Advertising:
     #Every time a player advertises on signs, their message will be logged in the advertisements.txt file.
     Log_Advertisers: true
 
-  #Websites that wont be blocked if said in chat, commands, or signs.
+  #Websites that won't be blocked if said in chat, commands, or signs.
   Whitelist:
     - "google.com"
 
@@ -154,12 +151,12 @@ Anti_Spam:
     #Prevent players from repeating the same commands.
     Block_Repetitive_Commands: true
     
-    #Whitelisted commands that won't be effected by the anti spam.
+    #Whitelisted commands that won't be effected by the anti-spam.
     Whitelist:
       - "/spawn"
 
 #=================================================================================================#
-# Prevent players from swearing in chat, comamnds, and signs.
+# Prevent players from swearing in chat, commands, and signs.
 #=================================================================================================#
 Anti_Swear:
 
@@ -262,7 +259,7 @@ Anti_Unicode:
   #Set this section to Executed_Command: '' to disable
   Executed_Command: kick {player} Please do not use special characters in chat.
   
-  #Anything thats in this list won’t be blocked by the anti unicode checker.
+  #Anything that's in this list won’t be blocked by the anti unicode checker.
   Whitelist:
     - "«"
     - "»"
@@ -275,7 +272,7 @@ Banned_Commands:
   Enable: true
   
   #Increase banned commands sensitivity so if you add the command /gamemode, 
-  #players wont be able to do /gamemode creative, /gamemode survival, etc.
+  #players won't be able to do /gamemode creative, /gamemode survival, etc.
   Increase_Sensitivity: false
 
   #Should staff get notified when a player uses a banned command?
@@ -298,7 +295,7 @@ Broadcast_Commands:
     #Broadcast Command
     Broadcast:
 
-      #The default prefix that goes infront of the broadcasted message.
+      #The default prefix that goes in-front of the broadcasted message.
       Prefix: "&c[&4Broadcast&c]&r "
       
       #The default color the broadcasted message will be.
@@ -346,7 +343,7 @@ Chat_Format:
   Enable: true
 
   #This will only be used if the players permission group isn't on the bottom of this section.
-  Default_Format: "{vault_prefix} &7{player} &9> &7{message}"
+  Default_Format: "%vault_prefix% &7{player} &9> &7{message}"
 
   #Chat Formats are set depending on what permission group the player is in.
   #If a player is in the permission group named "Default" they will have the default chat format.
@@ -354,7 +351,7 @@ Chat_Format:
     default: #The name of the group, this is case-sensitive!
       Format: "&8[&7Default&8] &7{player} &9> &7{message}" #The format you want the group to have.
     vip:
-      Format: "&8[&5VIP&8] &7{displayname} &9> &7{message}"
+      Format: "&8[&5VIP&8] &7%player_displayname% &9> &7{message}"
     moderator:
       Format: "&a[&3Moderator&a] &b{player} &9> &e{message}"
     admin:
@@ -377,7 +374,7 @@ Chat_Radius:
   
   Local_Chat:
 
-    #The prefix thats sent in local chat.
+    #The prefix that's sent in local chat.
     Prefix: "&7[&cLocal&7]"
 
     #If you put this symbol in front of your message, it will override any channel which you are in, 
@@ -387,7 +384,7 @@ Chat_Radius:
 
   Global_Chat:
 
-    #The prefix thats sent in global chat.
+    #The prefix that's sent in global chat.
     Prefix: "&7[&bGlobal&7]"
 
     #If you put this symbol in front of your message, it will override any channel which you are in, 
@@ -397,7 +394,7 @@ Chat_Radius:
 
   World_Chat:
 
-    #The prefix thats sent in world chat.
+    #The prefix that's sent in world chat.
     Prefix: "&7[&dWorld&7]"
 
     #If you put this symbol in front of your message, it will override any channel which you are in, 
@@ -430,7 +427,7 @@ Command_Spy:
   #Turn on command spy when players with the correct permission join the server.
   Enable_On_Join: false
   
-  #Commands that wont be shown in command spy.
+  #Commands that won't be shown in command spy.
   Blacklist_Commands:
     - "/login"
     - "/register"
@@ -474,7 +471,7 @@ Lists:
 
   Player_List:
     - "&7&m---------------&8[ &aPlayer List &8]&7&m---------------"
-    - "&7Online Players &a{server_online}&8/&a{server_max_players}&7: {players}"
+    - "&7Online Players &a%server_online%&8/&a%server_max_players%&7: {players}"
 
 #=================================================================================================#
 # Logs
@@ -490,7 +487,7 @@ Logs:
   #Should every message placed on a sign be logged in the signs.txt file?
   Log_Signs: true
   
-  #Commands that wont be logged in the Command.txt file.
+  #Commands that won't be logged in the Command.txt file.
   #Commands in the Blacklist_Commands list must be lowercase.
   Blacklist_Commands:
     - "/login"
@@ -529,7 +526,7 @@ Logs:
 #    - Sound is played when players both join and quit the server.
 #
 # 4. Operator Complications:
-#    - If you or another player is opped, the GROUP MESSAGES wont work 100% for you.
+#    - If you or another player is opped, the GROUP MESSAGES won't work 100% for you.
 #    - Opped players will receive the last groups messages in the list
 #    - If you remove a section in the last group, it will just take the message from the group above it.
 #
@@ -539,10 +536,10 @@ Logs:
 #       Permission: "chatmanager.join.donator"
 #       Join_Message: "{player} &ejoined the server!"
 #       Quit_Message: "{player} &eleft the server!"
-#       Actionbar: "&eWelcome back to &b{server_name} {vault_prefix}{player}&e!"
+#       Actionbar: "&eWelcome back to &b%server_name% %vault_prefix%{player}&e!"
 #       Title:
 #         Header: "&eWelcome Back"
-#         Footer: "&b{player} to {server_name}"
+#         Footer: "&b{player} to %server_name%"
 #       Sound: ''
 # 
 #=================================================================================================#
@@ -559,17 +556,17 @@ Messages:
 
       Enable: true
 
-      #The sound thats played to the entire server.
+      #The sound that's played to the entire server.
       #Do Sound: '' to disable
       Sound: ''
 
-      First_Join_Message: "&eWelcome to &b{server_name} {vault_prefix}{player}&e!"
+      First_Join_Message: "&eWelcome to &b%server_name% %vault_prefix%{player}&e!"
 
     Actionbar_Message:
 
       Enable: true
       
-      First_Join_Message: "&eWelcome to &b{server_name} {vault_prefix}{player}&e!"
+      First_Join_Message: "&eWelcome to &b%server_name% %vault_prefix%{player}&e!"
 
     Title_Message:
 
@@ -588,7 +585,7 @@ Messages:
 
         Header: "&eWelcome"
 
-        Footer: "&b{player} to {server_name}"
+        Footer: "&b{player} to %server_name%"
 
   Join_Quit_Messages:
     
@@ -600,7 +597,7 @@ Messages:
       #Same rules apply for the Quit, Actionbar, and Title Messages.
       Enable: true
       
-      #The sound thats played to the entire server.
+      #The sound that's played to the entire server.
       #Do Sound: '' to disable
       Sound: ''
 
@@ -610,7 +607,7 @@ Messages:
 
       Enable: true
       
-      #The sound thats played to the entire server.
+      #The sound that's played to the entire server.
       #Do Sound: '' to disable
       Sound: ''
 
@@ -620,7 +617,7 @@ Messages:
 
       Enable: true
 
-      Message: "&eWelcome back to &b{server_name} {vault_prefix}{player}&e!"
+      Message: "&eWelcome back to &b%server_name% %vault_prefix%{player}&e!"
     
     Title_Message:
 
@@ -640,7 +637,7 @@ Messages:
 
         Header: "&eWelcome Back"
 
-        Footer: "&b{player} to {server_name}"
+        Footer: "&b{player} to %server_name%"
     
     
     #Per group messages
@@ -661,16 +658,16 @@ Messages:
         Quit_Message: "{player} &eleft the server!"
         
         #Actionbar Messages groups will receive on join.
-        Actionbar: "&eWelcome back to &b{server_name} {vault_prefix}{player}&e!"
+        Actionbar: "&eWelcome back to &b%server_name% %vault_prefix%{player}&e!"
         
         #Title Messages groups will receive on join.
         Title:
 
           Header: "&eWelcome Back"
           
-          Footer: "&b{player} to {server_name}"
+          Footer: "&b{player} to %server_name%"
         
-        #The sound thats played to the entire server.
+        #The sound that's played to the entire server.
         #Do Sound: '' to disable
         Sound: ''
 
@@ -682,13 +679,13 @@ Messages:
 
         Quit_Message: "{player} &eleft the server!"
         
-        Actionbar: "&eWelcome back to &b{server_name} {vault_prefix}{player}&e!"
+        Actionbar: "&eWelcome back to &b%server_name% %vault_prefix%{player}&e!"
         
         Title:
 
           Header: "&eWelcome Back"
           
-          Footer: "&b{player} to {server_name}"
+          Footer: "&b{player} to %server_name%"
         
         Sound: ''
 
@@ -700,13 +697,13 @@ Messages:
         
         Quit_Message: "{player} &eleft the server!"
         
-        Actionbar: "&eWelcome back to &b{server_name} {vault_prefix}{player}&e!"
+        Actionbar: "&eWelcome back to &b%server_name% %vault_prefix%{player}&e!"
         
         Title:
 
           Header: "&eWelcome Back"
           
-          Footer: "&b{player} to {server_name}"
+          Footer: "&b{player} to %server_name%"
         
         Sound: ''
 
@@ -717,7 +714,7 @@ Mentions:
 
   Enable: true
   
-  #The sound thats played to the player thats mentioned. Do Sound: '' to disable.
+  #The sound that's played to the player that's mentioned. Do Sound: '' to disable.
   Sound: ''
   
   #The symbol players have to use to tag other players, Leave it blank for nothing.
@@ -727,7 +724,7 @@ Mentions:
   #To disable make it Mention_Color: ""
   Mention_Color: ""
 
-  #The title message thats sent to the player thats mentioned.
+  #The title message that's sent to the player that's mentioned.
   Title:
     Enable: true
     Header: "&cMentioned"
@@ -812,12 +809,12 @@ Private_Messages:
 
     Format: "&c&l(!) &f&l[&e{player} &d-> &e&lYou&f&l] &b"
 
-  #The sound thats played to the receiver
+  #The sound that's played to the receiver
   #Do Sound: '' to disable
   Sound: ''
 
 #=================================================================================================#
-# The server name used in {server_name} variable.
+# The server name used in %server_name% variable.
 #=================================================================================================#
 Server_Name: "Server Name"
 
