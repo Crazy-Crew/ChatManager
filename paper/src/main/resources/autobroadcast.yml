@@ -25,14 +25,14 @@ Auto_Broadcast:
         - "{Prefix} &aHope you enjoy our server!"
         - "{Prefix} &aJoin our discord <Link>"
         - "{Prefix} &aThis server is running the plugin ChatManager by H1DD3NxN1NJA"
-        - "{Prefix} &bYou can edit these in the ChatManager > AutoBroadcast.yml"
+        - "{Prefix} &bYou can edit these in the ChatManager > autobroadcast.yml"
       world_nether:
         - "{Prefix} &7The nether is a scary place"
         - "{Prefix} &aWelcome to the server!"
         - "{Prefix} &aHope you enjoy our server!"
         - "{Prefix} &aJoin our discord <Link>"
         - "{Prefix} &aThis server is running the plugin ChatManager by H1DD3NxN1NJA"
-        - "{Prefix} &bYou can edit these in the ChatManager > AutoBroadcast.yml"
+        - "{Prefix} &bYou can edit these in the ChatManager > autobroadcast.yml"
       world_the_end:
         - "{Prefix} &aThe end is a scary place"
         - "{Prefix} &aWatch out for the ender dragon!"

@@ -20,7 +20,7 @@
 #      - 1.9 and newer: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
 #      - 1.8 and older: http://docs.codelanx.com/Bukkit/1.8/org/bukkit/Sound.html
 #   
-#   4. All messages can be changed in the Messages.yml file.
+#   4. All messages can be changed in the messages.yml file.
 #
 #   5. Wiki: https://github.com/Crazy-Crew/ChatManager/wiki
 #
@@ -49,7 +49,7 @@ Anti_Advertising:
     #Set this section to Executed_Command: '' to disable
     Executed_Command: kick {player} Please do not advertise in chat
 
-    #Every time a player advertises in chat, their message will be logged in the Advertisements.txt file.
+    #Every time a player advertises in chat, their message will be logged in the advertisements.txt file.
     Log_Advertisers: true
 
   Commands:
@@ -70,7 +70,7 @@ Anti_Advertising:
     #Set this section to Executed_Command: '' to disable
     Executed_Command: kick {player} Please do not advertise in chat
 
-    #Every time a player advertises in commands, their message will be logged in the Advertisements.txt file.
+    #Every time a player advertises in commands, their message will be logged in the advertisements.txt file.
     Log_Advertisers: true
     
     #If a player executes one of these commands with an advertisement in it, the command will not be blocked.
@@ -95,7 +95,7 @@ Anti_Advertising:
     #Set this section to Executed_Command: '' to disable
     Executed_Command: kick {player} Please do not advertise in chat
 
-    #Every time a player advertises on signs, their message will be logged in the Advertisements.txt file.
+    #Every time a player advertises on signs, their message will be logged in the advertisements.txt file.
     Log_Advertisers: true
 
   #Websites that wont be blocked if said in chat, commands, or signs.
@@ -185,7 +185,7 @@ Anti_Swear:
       - kick {player} Do not swear in chat
       - warn {player} Do not swear in chat
     
-    #Every time a player swears in chat their message will be logged in the Swears.txt file.
+    #Every time a player swears in chat their message will be logged in the swears.txt file.
     Log_Swearing: true
   
   Commands:
@@ -216,7 +216,7 @@ Anti_Swear:
       - kick {player} Do not swear in chat
       - warn {player} Do not swear in chat
     
-    #Every time a player swears in commands their message will be logged in the Swears.txt file.
+    #Every time a player swears in commands their message will be logged in the swears.txt file.
     Log_Swearing: true
 
   Signs:
@@ -241,7 +241,7 @@ Anti_Swear:
       - kick {player} Do not swear in chat
       - warn {player} Do not swear in chat
     
-    #Every time a player swears on signs their message will be logged in the Swears.txt file.
+    #Every time a player swears on signs their message will be logged in the swears.txt file.
     Log_Swearing: true
 
 #=================================================================================================#
@@ -481,13 +481,13 @@ Lists:
 #=================================================================================================#
 Logs:
 
-  #Should every message in chat be logged in the Chat.txt file?
+  #Should every message in chat be logged in the chat.txt file?
   Log_Chat: true
 
-  #Should every command that is executed be logged in the Commands.txt file?
+  #Should every command that is executed be logged in the commands.txt file?
   Log_Commands: true
   
-  #Should every message placed on a sign be logged in the Signs.txt file?
+  #Should every message placed on a sign be logged in the signs.txt file?
   Log_Signs: true
   
   #Commands that wont be logged in the Command.txt file.

@@ -55,12 +55,12 @@ public class SettingsManager {
 		}
 		config = YamlConfiguration.loadConfiguration(cfile);
 		
-		abfile = new File(plugin.getDataFolder(), "AutoBroadcast.yml");
+		abfile = new File(plugin.getDataFolder(), "autobroadcast.yml");
 		if (!abfile.exists()) {
 			try {
 				plugin.getLogger().info("The autobroadcast.yml file cannot be found, creating one.");
-				File en = new File(plugin.getDataFolder(), "/AutoBroadcast.yml");
-				InputStream E = getClass().getResourceAsStream("/AutoBroadcast.yml");
+				File en = new File(plugin.getDataFolder(), "/autobroadcast.yml");
+				InputStream E = getClass().getResourceAsStream("/autobroadcast.yml");
 				copyFile(E, en);
 			} catch (Exception e) {
 				plugin.getLogger().severe("Error: The autobroadcast.yml file could not be created!");
@@ -70,13 +70,13 @@ public class SettingsManager {
 
 		AutoBroadcast = YamlConfiguration.loadConfiguration(abfile);
 		
-		msgfile = new File(plugin.getDataFolder(), "Messages.yml");
+		msgfile = new File(plugin.getDataFolder(), "messages.yml");
 
 		if(!msgfile.exists()) {
 			try {
 				plugin.getLogger().info("The messages.yml file cannot be found, creating one.");
-				File en = new File(plugin.getDataFolder(), "/Messages.yml");
-				InputStream E = getClass().getResourceAsStream("/Messages.yml");
+				File en = new File(plugin.getDataFolder(), "/messages.yml");
+				InputStream E = getClass().getResourceAsStream("/messages.yml");
 				copyFile(E, en);
 			} catch (Exception e) {
 				plugin.getLogger().severe("Error: The messages.yml file could not be created! StackTrace:");
@@ -118,7 +118,7 @@ public class SettingsManager {
 
 		bannedwords = YamlConfiguration.loadConfiguration(wordfile);
 		
-		File folder = new File(plugin.getDataFolder(), "Logs");
+		File folder = new File(plugin.getDataFolder(), "logs");
 		folder.mkdir();
 
 		if (!folder.exists()) {
@@ -131,62 +131,62 @@ public class SettingsManager {
 			}
 		}
 		
-		advertisementsLog = new File(folder, "Advertisements.txt");
+		advertisementsLog = new File(folder, "advertisements.txt");
 
 		if (!advertisementsLog.exists()) {
 			try {
-				plugin.getLogger().info("The Advertisements.txt file cannot be found, creating one.");
+				plugin.getLogger().info("The advertisements.txt file cannot be found, creating one.");
 				advertisementsLog.createNewFile();
 			} catch (Exception e) {
-				plugin.getLogger().severe("Error: The Advertisements.txt file could not be created! StackTrace:");
+				plugin.getLogger().severe("Error: The advertisements.txt file could not be created! StackTrace:");
 				e.printStackTrace();
 			}
 		}
 		
-		chatLog = new File(folder, "Chat.txt");
+		chatLog = new File(folder, "chat.txt");
 
 		if (!chatLog.exists()) {
 			try {
-				plugin.getLogger().info("The Chat.txt file cannot be found, creating one.");
+				plugin.getLogger().info("The chat.txt file cannot be found, creating one.");
 				chatLog.createNewFile();
 			} catch (Exception e) {
-				plugin.getLogger().severe("Error: The Chat.txt file could not be created! StackTrace:");
+				plugin.getLogger().severe("Error: The chat.txt file could not be created! StackTrace:");
 				e.printStackTrace();
 			}
 		}
 		
-		commandLog = new File(folder, "Commands.txt");
+		commandLog = new File(folder, "commands.txt");
 
 		if (!commandLog.exists()) {
 			try {
-				plugin.getLogger().info("The Commands.txt file cannot be found, creating one.");
+				plugin.getLogger().info("The commands.txt file cannot be found, creating one.");
 				commandLog.createNewFile();
 			} catch (Exception e) {
-				plugin.getLogger().severe("Error: The Commands.txt file could not be created! StackTrace:");
+				plugin.getLogger().severe("Error: The commands.txt file could not be created! StackTrace:");
 				e.printStackTrace();
 			}
 		}
 		
-		swearLog = new File(folder, "Swears.txt");
+		swearLog = new File(folder, "swears.txt");
 
 		if (!swearLog.exists()) {
 			try {
-				plugin.getLogger().info("The Swears.txt file cannot be found, creating one.");
+				plugin.getLogger().info("The swears.txt file cannot be found, creating one.");
 				swearLog.createNewFile();
 			} catch (Exception e) {
-				plugin.getLogger().severe("Error: The Swears.txt file could not be created! StackTrace:");
+				plugin.getLogger().severe("Error: The swears.txt file could not be created! StackTrace:");
 				e.printStackTrace();
 			}
 		}
 
-		signLog = new File(folder, "Signs.txt");
+		signLog = new File(folder, "signs.txt");
 		
 		if (!signLog.exists()) {
 			try {
-				plugin.getLogger().info("The Signs.txt file cannot be found, creating one.");
+				plugin.getLogger().info("The signs.txt file cannot be found, creating one.");
 				signLog.createNewFile();
 			} catch (Exception e) {
-				plugin.getLogger().severe("Error: The Signs.txt file could not be created! StackTrace:");
+				plugin.getLogger().severe("Error: The signs.txt file could not be created! StackTrace:");
 				e.printStackTrace();
 			}
 		}
@@ -248,7 +248,7 @@ public class SettingsManager {
 		try {
 			AutoBroadcast.save(abfile);
 		} catch (IOException e) {
-			plugin.getLogger().severe("Could not save AutoBroadcast.yml!");
+			plugin.getLogger().severe("Could not save autobroadcast.yml!");
 		}
 	}
 	

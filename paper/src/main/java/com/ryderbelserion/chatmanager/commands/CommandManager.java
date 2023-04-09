@@ -3,6 +3,7 @@ package com.ryderbelserion.chatmanager.commands;
 import com.ryderbelserion.chatmanager.api.Universal;
 import com.ryderbelserion.chatmanager.api.enums.DebugOptions;
 import com.ryderbelserion.chatmanager.api.enums.ToggleOptions;
+import com.ryderbelserion.chatmanager.commands.subcommands.admin.CommandConvert;
 import com.ryderbelserion.chatmanager.commands.subcommands.admin.CommandDebug;
 import com.ryderbelserion.chatmanager.commands.subcommands.admin.CommandReload;
 import com.ryderbelserion.chatmanager.commands.subcommands.admin.CommandStaffChat;
@@ -22,8 +23,9 @@ import dev.triumphteam.cmd.core.suggestion.SuggestionKey;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionDefault;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.io.File;
+import java.util.*;
 
 @Command("chatmanager")
 public class CommandManager extends BaseCommand implements Universal {
@@ -150,9 +152,9 @@ public class CommandManager extends BaseCommand implements Universal {
 
         commandManager.registerMessage(BukkitMessageKey.CONSOLE_ONLY, (sender, context) -> Methods.sendMessage(sender, "&eOnly the console can use this command.", true));
 
-        commandManager.registerSuggestion(SuggestionKey.of("pages"), ((sender, context) -> List.of("1", "2", "3")));
+        commandManager.registerSuggestion(SuggestionKey.of("pages"), (sender, context) -> List.of("1", "2", "3"));
 
-        commandManager.registerSuggestion(SuggestionKey.of("debugs"), ((sender, context) -> {
+        commandManager.registerSuggestion(SuggestionKey.of("debugs"), (sender, context) -> {
             ArrayList<String> values = new ArrayList<>();
 
             for (DebugOptions value : DebugOptions.values()) {
@@ -160,9 +162,9 @@ public class CommandManager extends BaseCommand implements Universal {
             }
 
             return values;
-        }));
+        });
 
-        commandManager.registerSuggestion(SuggestionKey.of("toggles"), ((sender, context) -> {
+        commandManager.registerSuggestion(SuggestionKey.of("toggles"), (sender, context) -> {
             ArrayList<String> values = new ArrayList<>();
 
             for (ToggleOptions value : ToggleOptions.values()) {
@@ -170,7 +172,29 @@ public class CommandManager extends BaseCommand implements Universal {
             }
 
             return values;
-        }));
+        });
+
+        commandManager.registerSuggestion(SuggestionKey.of("file-convert"), (sender, context) -> {
+            ArrayList<String> files = new ArrayList<>();
+
+            File logsFolder = null;
+
+            for (File file : Objects.requireNonNull(plugin.getDataFolder().listFiles())) {
+                files.add(file.getPath());
+
+                if (file.isDirectory()) logsFolder = new File(file.getPath());
+            }
+
+            if (logsFolder != null) {
+                if (logsFolder.exists()) {
+                    for (File file : Objects.requireNonNull(logsFolder.listFiles())) {
+                        files.add(file.getPath());
+                    }
+                }
+            }
+
+            return files;
+        });
 
         commandManager.registerCommand(new CommandManager());
 
@@ -178,6 +202,7 @@ public class CommandManager extends BaseCommand implements Universal {
         commandManager.registerCommand(new CommandReload());
         commandManager.registerCommand(new CommandDebug());
         commandManager.registerCommand(new CommandStaffChat());
+        commandManager.registerCommand(new CommandConvert());
 
         // Player Commands.
         commandManager.registerCommand(new CommandToggle());
