@@ -1,13 +1,11 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.api.Universal;
-import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import me.clip.placeholderapi.PlaceholderAPI;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 public class ListenerChatFormat implements Listener, Universal {
 
@@ -23,7 +21,6 @@ public class ListenerChatFormat implements Listener, Universal {
 
 		format = config.getConfigurationSection("Chat_Format.Groups." + key) != null ? config.getString("Chat_Format.Groups." + key + ".Format") : config.getString("Chat_Format.Default_Format");
 
-		format = setupPlaceholderAPI(player, format);
 		format = placeholderManager.setPlaceholders(player, format);
 		format = setupChatRadius(player, format);
 		format = Methods.color(format);
@@ -45,14 +42,6 @@ public class ListenerChatFormat implements Listener, Universal {
 		} else {
 			placeholders = placeholders.replace("{radius}", "");
 		}
-
-		return placeholders;
-	}
-	
-	public String setupPlaceholderAPI(Player player, String message) {
-		String placeholders = message;
-
-		if ((PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) && (PlaceholderAPI.containsPlaceholders(placeholders))) placeholders = PlaceholderAPI.setPlaceholders(player, placeholders);
 
 		return placeholders;
 	}

@@ -47,7 +47,7 @@ public class PlaceholderManager {
 			placeholders = Methods.color(uuid, placeholders.replace("{ess_player_nickname}", essentialsSupport.getPlayerNickname(player)));
 		}
 
-		if (PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) placeholders = PlaceholderAPI.setPlaceholders(player, placeholders);
+		if (PluginSupport.PLACEHOLDERAPI.isPluginEnabled() && PlaceholderAPI.containsPlaceholders(placeholders)) placeholders = PlaceholderAPI.setPlaceholders(player, placeholders);
 
 		return placeholders;
 	}
