@@ -19,35 +19,36 @@ public class ListenerPlayerJoin implements Listener, Universal {
     public void firstJoinMessage(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.hasPlayedBefore()) {
-            if (config.getBoolean("Messages.First_Join.Welcome_Message.Enable")) {
-                String message = config.getString("Messages.First_Join.Welcome_Message.First_Join_Message");
-                event.setJoinMessage(placeholderManager.setPlaceholders(player, message));
+        if (player.hasPlayedBefore()) return;
 
-                for (Player online : plugin.getServer().getOnlinePlayers()) {
-                    try {
-                        online.playSound(online.getLocation(), Sound.valueOf(config.getString("Messages.First_Join.Welcome_Message.Sound")), 10, 1);
-                    } catch (IllegalArgumentException ignored) {}
+        if (config.getBoolean("Messages.First_Join.Welcome_Message.Enable")) {
+            String message = config.getString("Messages.First_Join.Welcome_Message.First_Join_Message");
+            event.setJoinMessage(placeholderManager.setPlaceholders(player, message));
+
+            for (Player online : plugin.getServer().getOnlinePlayers()) {
+                try {
+                    online.playSound(online.getLocation(), Sound.valueOf(config.getString("Messages.First_Join.Welcome_Message.Sound")), 10, 1);
+                } catch (IllegalArgumentException ignored) {
                 }
             }
+        }
 
-            if (config.getBoolean("Messages.First_Join.Actionbar_Message.Enable")) {
-                String message = config.getString("Messages.First_Join.Actionbar_Message.First_Join_Message");
+        if (config.getBoolean("Messages.First_Join.Actionbar_Message.Enable")) {
+            String message = config.getString("Messages.First_Join.Actionbar_Message.First_Join_Message");
 
-                CraftPlayer craftPlayer = (CraftPlayer) player;
+            CraftPlayer craftPlayer = (CraftPlayer) player;
 
-                craftPlayer.sendActionBar(placeholderManager.setPlaceholders(player, message));
-            }
+            craftPlayer.sendActionBar(placeholderManager.setPlaceholders(player, message));
+        }
 
-            if (config.getBoolean("Messages.First_Join.Title_Message.Enable")) {
-                int fadeIn = config.getInt("Messages.First_Join.Title_Message.Fade_In");
-                int stay = config.getInt("Messages.First_Join.Title_Message.Stay");
-                int fadeOut = config.getInt("Messages.First_Join.Title_Message.Fade_Out");
-                String header = placeholderManager.setPlaceholders(player, config.getString("Messages.First_Join.Title_Message.First_Join_Message.Header"));
-                String footer = placeholderManager.setPlaceholders(player, config.getString("Messages.First_Join.Title_Message.First_Join_Message.Footer"));
+        if (config.getBoolean("Messages.First_Join.Title_Message.Enable")) {
+            int fadeIn = config.getInt("Messages.First_Join.Title_Message.Fade_In");
+            int stay = config.getInt("Messages.First_Join.Title_Message.Stay");
+            int fadeOut = config.getInt("Messages.First_Join.Title_Message.Fade_Out");
+            String header = placeholderManager.setPlaceholders(player, config.getString("Messages.First_Join.Title_Message.First_Join_Message.Header"));
+            String footer = placeholderManager.setPlaceholders(player, config.getString("Messages.First_Join.Title_Message.First_Join_Message.Footer"));
 
-                player.sendTitle(header, footer, fadeIn, stay, fadeOut);
-            }
+            player.sendTitle(header, footer, fadeIn, stay, fadeOut);
         }
     }
 
@@ -55,102 +56,100 @@ public class ListenerPlayerJoin implements Listener, Universal {
     public void JoinMessage(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        if (player.hasPlayedBefore()) {
-            if ((config.getBoolean("Messages.Join_Quit_Messages.Join_Message.Enable"))
-                    && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
-                String message = config.getString("Messages.Join_Quit_Messages.Join_Message.Message");
-                boolean isAsync = config.getBoolean("Messages.Async", false);
+        if (!player.hasPlayedBefore()) return;
 
-                if (isAsync) {
-                    if (event.getJoinMessage() != null) {
-                        event.setJoinMessage(null);
+        if ((config.getBoolean("Messages.Join_Quit_Messages.Join_Message.Enable")) && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
+            String message = config.getString("Messages.Join_Quit_Messages.Join_Message.Message");
+            boolean isAsync = config.getBoolean("Messages.Async", false);
 
-                        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> Bukkit.broadcastMessage(placeholderManager.setPlaceholders(player, message)));
-                    }
-                } else {
-                    event.setJoinMessage(placeholderManager.setPlaceholders(player, message));
+            if (isAsync) {
+                if (event.getJoinMessage() != null) {
+                    event.setJoinMessage(null);
+
+                    Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> Bukkit.broadcastMessage(placeholderManager.setPlaceholders(player, message)));
                 }
-
-                for (Player online : plugin.getServer().getOnlinePlayers()) {
-                    try {
-                        online.playSound(online.getLocation(), Sound.valueOf(config.getString("Messages.Join_Quit_Messages.Join_Message.Sound")), 10, 1);
-                    } catch (IllegalArgumentException ignored) {}
-                }
+            } else {
+                event.setJoinMessage(placeholderManager.setPlaceholders(player, message));
             }
 
-            if ((config.getBoolean("Messages.Join_Quit_Messages.Actionbar_Message.Enable"))
-                    && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
-                String message = config.getString("Messages.Join_Quit_Messages.Actionbar_Message.Message");
-
-                CraftPlayer craftPlayer = (CraftPlayer) player;
-
-                craftPlayer.sendActionBar(placeholderManager.setPlaceholders(player, message));
+            for (Player online : plugin.getServer().getOnlinePlayers()) {
+                try {
+                    online.playSound(online.getLocation(), Sound.valueOf(config.getString("Messages.Join_Quit_Messages.Join_Message.Sound")), 10, 1);
+                } catch (IllegalArgumentException ignored) {}
             }
+        }
 
-            if ((config.getBoolean("Messages.Join_Quit_Messages.Title_Message.Enable"))
-                    && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
+        if ((config.getBoolean("Messages.Join_Quit_Messages.Actionbar_Message.Enable"))
+                && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
+            String message = config.getString("Messages.Join_Quit_Messages.Actionbar_Message.Message");
+
+            CraftPlayer craftPlayer = (CraftPlayer) player;
+
+            craftPlayer.sendActionBar(placeholderManager.setPlaceholders(player, message));
+        }
+
+        if ((config.getBoolean("Messages.Join_Quit_Messages.Title_Message.Enable")) && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
+            int fadeIn = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_In");
+            int stay = config.getInt("Messages.Join_Quit_Messages.Title_Message.Stay");
+            int fadeOut = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_Out");
+            String header = placeholderManager.setPlaceholders(player, config.getString("Messages.Join_Quit_Messages.Title_Message.Message.Header"));
+            String footer = placeholderManager.setPlaceholders(player, config.getString("Messages.Join_Quit_Messages.Title_Message.Message.Footer"));
+
+            player.sendTitle(header, footer, fadeIn, stay, fadeOut);
+        }
+
+        if (config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable")) {
+            for (String key : config.getConfigurationSection("Messages.Join_Quit_Messages.Group_Messages").getKeys(false)) {
+                String permission = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Permission");
+                String joinMessage = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Join_Message");
+                String actionbarMessage = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Actionbar");
+                String titleHeader = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Title.Header");
+                String titleFooter = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Title.Footer");
                 int fadeIn = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_In");
                 int stay = config.getInt("Messages.Join_Quit_Messages.Title_Message.Stay");
                 int fadeOut = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_Out");
-                String header = placeholderManager.setPlaceholders(player, config.getString("Messages.Join_Quit_Messages.Title_Message.Message.Header"));
-                String footer = placeholderManager.setPlaceholders(player, config.getString("Messages.Join_Quit_Messages.Title_Message.Message.Footer"));
+                String sound = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Sound");
 
-                player.sendTitle(header, footer, fadeIn, stay, fadeOut);
-            }
+                if (permission != null && player.hasPermission(permission)) {
+                    if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Join_Message")) {
+                        boolean isAsync = config.getBoolean("Messages.Async", false);
 
-            if (config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable")) {
-                for (String key : config.getConfigurationSection("Messages.Join_Quit_Messages.Group_Messages").getKeys(false)) {
-                    String permission = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Permission");
-                    String joinMessage = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Join_Message");
-                    String actionbarMessage = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Actionbar");
-                    String titleHeader = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Title.Header");
-                    String titleFooter = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Title.Footer");
-                    int fadeIn = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_In");
-                    int stay = config.getInt("Messages.Join_Quit_Messages.Title_Message.Stay");
-                    int fadeOut = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_Out");
-                    String sound = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Sound");
+                        if (isAsync) {
+                            if (event.getJoinMessage() != null) {
+                                event.setJoinMessage(null);
 
-                    if (permission != null && player.hasPermission(permission)) {
-                        if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Join_Message")) {
-                            boolean isAsync = config.getBoolean("Messages.Async", false);
-
-                            if (isAsync) {
-                                if (event.getJoinMessage() != null) {
-                                    event.setJoinMessage(null);
-
-                                    Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                                        Bukkit.broadcastMessage(placeholderManager.setPlaceholders(player, joinMessage));
-                                    });
-                                }
-                            } else {
-                                event.setJoinMessage(placeholderManager.setPlaceholders(player, joinMessage));
+                                Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+                                    Bukkit.broadcastMessage(placeholderManager.setPlaceholders(player, joinMessage));
+                                });
                             }
+                        } else {
+                            event.setJoinMessage(placeholderManager.setPlaceholders(player, joinMessage));
                         }
+                    }
 
-                        if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Actionbar")) {
+                    if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Actionbar")) {
+                        try {
+                            CraftPlayer craftPlayer = (CraftPlayer) player;
+
+                            craftPlayer.sendActionBar(placeholderManager.setPlaceholders(player, actionbarMessage));
+                        } catch (NullPointerException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+
+                    if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Title")) {
+                        try {
+                            player.sendTitle(placeholderManager.setPlaceholders(player, titleHeader), placeholderManager.setPlaceholders(player, titleFooter), fadeIn, stay, fadeOut);
+                        } catch (NullPointerException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+
+                    if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Sound")) {
+                        for (Player online : plugin.getServer().getOnlinePlayers()) {
                             try {
-                                CraftPlayer craftPlayer = (CraftPlayer) player;
-
-                                craftPlayer.sendActionBar(placeholderManager.setPlaceholders(player, actionbarMessage));
-                            } catch (NullPointerException ex) {
-                                ex.printStackTrace();
-                            }
-                        }
-
-                        if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Title")) {
-                            try {
-                                player.sendTitle(placeholderManager.setPlaceholders(player, titleHeader), placeholderManager.setPlaceholders(player, titleFooter), fadeIn, stay, fadeOut);
-                            } catch (NullPointerException ex) {
-                                ex.printStackTrace();
-                            }
-                        }
-
-                        if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Sound")) {
-                            for (Player online : plugin.getServer().getOnlinePlayers()) {
-                                try {
-                                    online.playSound(online.getLocation(), Sound.valueOf(sound), 10, 1);
-                                } catch (IllegalArgumentException ignored) {}
-                            }
+                                online.playSound(online.getLocation(), Sound.valueOf(sound), 10, 1);
+                            } catch (IllegalArgumentException ignored) {}
                         }
                     }
                 }
@@ -162,8 +161,7 @@ public class ListenerPlayerJoin implements Listener, Universal {
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        if ((config.getBoolean("Messages.Join_Quit_Messages.Quit_Message.Enable"))
-                && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
+        if ((config.getBoolean("Messages.Join_Quit_Messages.Quit_Message.Enable")) && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
             String message = config.getString("Messages.Join_Quit_Messages.Quit_Message.Message");
             event.setQuitMessage(placeholderManager.setPlaceholders(player, message));
 

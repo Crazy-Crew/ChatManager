@@ -47,10 +47,8 @@ public class TabCompleteAutoBroadcast implements TabCompleter {
 
 			return StringUtil.copyPartialMatches(args[2], completions, new ArrayList<>());
 		} else if (args.length == 4) {
-			switch (args[0].toLowerCase()) {
-				case "add":
-					completions.add("<message>");
-					break;
+			if (args[0].equalsIgnoreCase("add")) {
+				completions.add("<message>");
 			}
 
 			return StringUtil.copyPartialMatches(args[3], completions, new ArrayList<>());

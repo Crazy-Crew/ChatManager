@@ -37,11 +37,9 @@ public class TabCompleteChatManager implements TabCompleter {
 
 			return StringUtil.copyPartialMatches(args[1], completions, new ArrayList<>());
 		} else if (args.length == 3) {
-			switch (args[0].toLowerCase()) {
-				case "preview":
-					completions.add("join");
-					completions.add("firstjoin");
-					break;
+			if (args[0].equalsIgnoreCase("preview")) {
+				completions.add("join");
+				completions.add("firstjoin");
 			}
 
 			return StringUtil.copyPartialMatches(args[2], completions, new ArrayList<>());

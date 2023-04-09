@@ -32,6 +32,7 @@ public class ListenerPerWorldChat implements Listener, Universal {
 
 			for (Player player2 : plugin.getServer().getOnlinePlayers()) {
 				String world2 = player2.getWorld().getName();
+
 				if (playerGroup != null) {
 					if (!playerGroup.contains(world2)) {
 						if (!plugin.api().getPerWorldChatData().containsUser(player2.getUniqueId())) recipients.remove(player2);

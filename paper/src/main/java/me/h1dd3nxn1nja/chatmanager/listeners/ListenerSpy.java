@@ -17,19 +17,19 @@ public class ListenerSpy implements Listener, Universal {
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 
-		if (!player.hasPermission("chatmanager.bypass.commandspy")) {
-			for (String command : blacklist) {
-				if (message.toLowerCase().startsWith(command)) return;
-			}
+		if (player.hasPermission("chatmanager.bypass.commandspy")) return;
 
-			for (Player staff : plugin.getServer().getOnlinePlayers()) {
+		for (String command : blacklist) {
+			if (message.toLowerCase().startsWith(command)) return;
+		}
 
-				boolean isValid = plugin.api().getCommandSpyData().containsUser(staff.getUniqueId());
+		for (Player staff : plugin.getServer().getOnlinePlayers()) {
 
-				if (!isValid || !staff.hasPermission("chatmanager.commandspy")) return;
+			boolean isValid = plugin.api().getCommandSpyData().containsUser(staff.getUniqueId());
 
-				Methods.sendMessage(staff, messages.getString("Command_Spy.Format").replace("{player}", player.getName()).replace("{command}", message), true);
-			}
+			if (!isValid || !staff.hasPermission("chatmanager.commandspy")) return;
+
+			Methods.sendMessage(staff, messages.getString("Command_Spy.Format").replace("{player}", player.getName()).replace("{command}", message), true);
 		}
 	}
 }

@@ -77,22 +77,23 @@ public class ListenerSwear implements Listener, Universal {
 		}
 
 		if (config.getBoolean("Anti_Swear.Chat.Execute_Command")) {
-			if (config.contains("Anti_Swear.Chat.Executed_Command")) {
-				String command = config.getString("Anti_Swear.Chat.Executed_Command").replace("{player}", player.getName());
-				List<String> commands = config.getStringList("Anti_Swear.Chat.Executed_Command");
 
-				new BukkitRunnable() {
-					public void run() {
-						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+			if (!config.contains("Anti_Swear.Chat.Executed_Command")) return true;
 
-						for (String cmd : commands) {
-							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
-						}
+			String command = config.getString("Anti_Swear.Chat.Executed_Command").replace("{player}", player.getName());
+			List<String> commands = config.getStringList("Anti_Swear.Chat.Executed_Command");
+
+			new BukkitRunnable() {
+				public void run() {
+					plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+
+					for (String cmd : commands) {
+						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 					}
-				}.runTask(plugin);
+				}
+			}.runTask(plugin);
 
-				return true;
-			}
+			return true;
 		}
 
 		return false;

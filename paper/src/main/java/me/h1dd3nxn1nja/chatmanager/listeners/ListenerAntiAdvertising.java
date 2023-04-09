@@ -50,14 +50,14 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 		}
 
 		if (config.getBoolean("Anti_Advertising.Chat.Increase_Sensitivity")) {
-			chatMatch(event, config, messages, player, playerName, message, time, firstMatchIncrease, secondMatchIncrease);
+			chatMatch(event, player, playerName, message, time, firstMatchIncrease, secondMatchIncrease);
 			return;
 		}
 
-		chatMatch(event, config, messages, player, playerName, message, time, firstMatch, secondMatch);
+		chatMatch(event, player, playerName, message, time, firstMatch, secondMatch);
 	}
 
-	private void chatMatch(AsyncPlayerChatEvent event, FileConfiguration config, FileConfiguration messages, Player player, String playername, String message, Date time, Matcher firstMatch, Matcher secondMatch) {
+	private void chatMatch(AsyncPlayerChatEvent event, Player player, String playerName, String message, Date time, Matcher firstMatch, Matcher secondMatch) {
 		if (!firstMatch.find() || !secondMatch.find()) return;
 
 		event.setCancelled(true);
@@ -95,7 +95,7 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 		try {
 			FileWriter fw = new FileWriter(settingsManager.getAdvertisementLogs(), true);
 			BufferedWriter bw2 = new BufferedWriter(fw);
-			bw2.write("[" + time + "] [Chat] " + playername + ": " + message.replaceAll("§", "&"));
+			bw2.write("[" + time + "] [Chat] " + playerName + ": " + message.replaceAll("§", "&"));
 			bw2.newLine();
 			fw.flush();
 			bw2.close();
@@ -222,7 +222,7 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 				Matcher firstMatchIncrease = firstPattern.matcher(message.toLowerCase().replaceAll("\\s+", ""));
 				Matcher secondMatchIncrease = secondPattern.matcher(message.toLowerCase().replaceAll("\\s+", ""));
 
-				if (findMatches(event, config, messages, player, message, str, firstMatchIncrease, secondMatchIncrease)) return;
+				if (findMatches(event, player, message, str, firstMatchIncrease, secondMatchIncrease)) return;
 
 				return;
 			}
@@ -230,11 +230,11 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 			Matcher firstMatch = firstPattern.matcher(message.toLowerCase());
 			Matcher secondMatch = secondPattern.matcher(message.toLowerCase());
 
-			if (findMatches(event, config, messages, player, message, str, firstMatch, secondMatch)) return;
+			if (findMatches(event, player, message, str, firstMatch, secondMatch)) return;
 		}
 	}
 
-	private boolean findMatches(SignChangeEvent event, FileConfiguration config, FileConfiguration messages, Player player, String message, String str, Matcher firstMatch, Matcher secondMatch) {
+	private boolean findMatches(SignChangeEvent event, Player player, String message, String str, Matcher firstMatch, Matcher secondMatch) {
 		if (!firstMatch.find() || !secondMatch.find()) return false;
 
 		event.setCancelled(true);

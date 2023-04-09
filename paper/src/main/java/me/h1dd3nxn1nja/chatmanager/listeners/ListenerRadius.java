@@ -31,6 +31,7 @@ public class ListenerRadius implements Listener, Universal {
 
 		if (player.hasPermission("chatmanager.chatradius.global.override")) {
 			assert globalOverrideChar != null;
+
 			if (!globalOverrideChar.equals("")) {
 				if (ChatColor.stripColor(message).charAt(0) == globalOverrideChar.charAt(0)) {
 					plugin.api().getWorldChatData().removeUser(uuid);
