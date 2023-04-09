@@ -183,30 +183,6 @@ public class CommandMessage implements CommandExecutor {
 			}
 		}
 
-		if (cmd.getName().equalsIgnoreCase("TogglePM")) {
-			if (player.hasPermission("chatmanager.toggle.pm")) {
-				if (args.length == 0) {
-
-					boolean isValid = plugin.api().getToggleMessageData().containsUser(player.getUniqueId());
-
-					if (isValid) {
-						plugin.api().getToggleMessageData().removeUser(player.getUniqueId());
-						Methods.sendMessage(player, messages.getString("TogglePM.Disabled"), true);
-						return true;
-					}
-
-					plugin.api().getToggleMessageData().addUser(player.getUniqueId());
-					Methods.sendMessage(player, messages.getString("TogglePM.Enabled"), true);
-
-					return true;
-				} else {
-					Methods.sendMessage(player, "&cCommand Usage: &7/Togglepm", true);
-				}
-			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
-			}
-		}
-
 		return true;
 	}
 

@@ -1,4 +1,4 @@
-package com.ryderbelserion.chatmanager.commands;
+package com.ryderbelserion.chatmanager.commands.subcommands.admin;
 
 import dev.triumphteam.cmd.bukkit.annotation.Permission;
 import dev.triumphteam.cmd.core.BaseCommand;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 @Command(value = "chatmanager")
-public class ChatBaseCommand extends BaseCommand {
+public class CommandConvert extends BaseCommand {
 
     private final ChatManager plugin = ChatManager.getPlugin();
 

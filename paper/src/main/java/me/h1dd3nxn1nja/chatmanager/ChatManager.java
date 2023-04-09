@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager;
 
 import com.ryderbelserion.chatmanager.ApiLoader;
 import com.ryderbelserion.chatmanager.api.CrazyManager;
+import com.ryderbelserion.chatmanager.commands.CommandManager;
 import me.h1dd3nxn1nja.chatmanager.commands.*;
 import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.*;
 import me.h1dd3nxn1nja.chatmanager.listeners.*;
@@ -55,8 +56,10 @@ public class ChatManager extends JavaPlugin {
 
         if (!PluginSupport.LUCKPERMS.isPluginEnabled()) plugin.getLogger().severe("A permissions plugin was not found. You will likely have issues without one.");
 
+        CommandManager.setup();
+
         if (PluginSupport.VAULT.isPluginEnabled()) {
-            registerCommands();
+            //registerCommands();
             registerEvents();
             setupAutoBroadcast();
             setupChatRadius();
@@ -96,11 +99,6 @@ public class ChatManager extends JavaPlugin {
 
         registerCommand(getCommand("AntiSwear"), new TabCompleteAntiSwear(), new CommandAntiSwear());
 
-        CommandColor commandColor = new CommandColor();
-
-        registerCommand(getCommand("Colors"), null, commandColor);
-        registerCommand(getCommand("Formats"), null, commandColor);
-
         CommandMessage commandMessage = new CommandMessage();
 
         registerCommand(getCommand("Reply"), null, commandMessage);
@@ -111,8 +109,6 @@ public class ChatManager extends JavaPlugin {
 
         registerCommand(getCommand("ChatRadius"), null, new CommandRadius());
 
-        registerCommand(getCommand("ChatManager"), new TabCompleteChatManager(), new CommandChatManager());
-
         CommandSpy commandSpy = new CommandSpy();
 
         registerCommand(getCommand("CommandSpy"), null, commandSpy);
@@ -122,13 +118,7 @@ public class ChatManager extends JavaPlugin {
 
         registerCommand(getCommand("PerWorldChat"), null, new CommandPerWorldChat());
 
-        registerCommand(getCommand("Ping"), null, new CommandPing());
-
         registerCommand(getCommand("Rules"), null, new CommandRules());
-
-        registerCommand(getCommand("ToggleChat"), null, new CommandToggleChat());
-
-        registerCommand(getCommand("ToggleMentions"), null, new CommandToggleMentions());
     }
 
     private void registerCommand(PluginCommand pluginCommand, TabCompleter tabCompleter, CommandExecutor commandExecutor) {
@@ -151,7 +141,6 @@ public class ChatManager extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ListenerRadius(), this);
         getServer().getPluginManager().registerEvents(new ListenerGrammar(), this);
         getServer().getPluginManager().registerEvents(new ListenerLogs(), this);
-        getServer().getPluginManager().registerEvents(new CommandMOTD(), this);
         getServer().getPluginManager().registerEvents(new ListenerMentions(), this);
         getServer().getPluginManager().registerEvents(new ListenerMuteChat(), this);
         getServer().getPluginManager().registerEvents(new ListenerPerWorldChat(), this);
