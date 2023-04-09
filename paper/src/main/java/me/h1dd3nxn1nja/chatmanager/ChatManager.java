@@ -147,7 +147,6 @@ public class ChatManager extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ListenerPerWorldChat(), this);
         getServer().getPluginManager().registerEvents(new ListenerPlayerJoin(), this);
         getServer().getPluginManager().registerEvents(new ListenerSpy(), this);
-        getServer().getPluginManager().registerEvents(new ListenerStaffChat(), this);
         getServer().getPluginManager().registerEvents(new ListenerSwear(), this);
         getServer().getPluginManager().registerEvents(new ListenerToggleChat(), this);
     }

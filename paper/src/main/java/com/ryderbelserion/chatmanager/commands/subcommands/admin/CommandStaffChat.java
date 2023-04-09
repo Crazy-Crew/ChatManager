@@ -74,6 +74,8 @@ public class CommandStaffChat extends CommandManager implements Listener {
 
         if (!isValid || player.hasPermission("chatmanager.staffchat")) return;
 
+        event.setCancelled(true);
+
         plugin.getServer().getOnlinePlayers().forEach(staff -> {
             if (staff.hasPermission("chatmanager.staffchat")) Methods.sendMessage(staff, config.getString("Staff_Chat.Format").replace("{player}", player.getName()).replace("{message}", event.getMessage()), true);
         });
