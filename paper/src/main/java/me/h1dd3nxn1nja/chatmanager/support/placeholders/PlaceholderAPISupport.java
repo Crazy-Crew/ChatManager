@@ -27,23 +27,23 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
 
 			switch (lower) {
 				case "radius": //Returns which chat radius channel the player is in.
-					if (plugin.api().getLocalChatData().containsUser(player.getUniqueId())) {
+					if (plugin.getCrazyManager().api().getLocalChatData().containsUser(player.getUniqueId())) {
 						return settingsManager.getConfig().getString("Chat_Radius.Local_Chat.Prefix");
-					} else if (plugin.api().getGlobalChatData().containsUser(player.getUniqueId())) {
+					} else if (plugin.getCrazyManager().api().getGlobalChatData().containsUser(player.getUniqueId())) {
 						return settingsManager.getConfig().getString("Chat_Radius.Global_Chat.Prefix");
-					} else if (plugin.api().getWorldChatData().containsUser(player.getUniqueId())) {
+					} else if (plugin.getCrazyManager().api().getWorldChatData().containsUser(player.getUniqueId())) {
 						return settingsManager.getConfig().getString("Chat_Radius.World_Chat.Prefix");
 					}
 				case "toggle_pm": // Returns if the toggle pm is enabled/disabled for a player.
-					return plugin.api().getToggleMessageData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
+					return plugin.getCrazyManager().api().getToggleMessageData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
 				case "toggle_chat": // Returns if the toggle chat is enabled/disabled for a player.
-					return plugin.api().getToggleChatData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
+					return plugin.getCrazyManager().api().getToggleChatData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
 				case "command_spy": // Returns if the command spy is enabled/disabled for a player.
-					return plugin.api().getCommandSpyData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
+					return plugin.getCrazyManager().api().getCommandSpyData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
 				case "social_spy": // Returns if the social spy is enabled/disabled for a player.
-					return plugin.api().getSocialSpyData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
+					return plugin.getCrazyManager().api().getSocialSpyData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
 				case "staff_chat": // Returns if the staff chat is enabled/disabled for a player.
-					return plugin.api().getStaffChatData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
+					return plugin.getCrazyManager().api().getStaffChatData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
 				case "mute_chat": // Returns if mute chat is enabled/disabled.
 					return Methods.isMuted() ? "Enabled" : "Disabled";
 				case "ping":

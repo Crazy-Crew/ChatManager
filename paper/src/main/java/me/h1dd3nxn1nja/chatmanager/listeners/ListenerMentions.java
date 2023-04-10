@@ -28,19 +28,19 @@ public class ListenerMentions implements Listener, Universal {
 
 			if (!event.getMessage().contains(tagSymbol + target.getName())) return;
 
-			if (plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) return;
+			if (plugin.getCrazyManager().api().getToggleMentionsData().containsUser(target.getUniqueId())) return;
 
 			if (PluginSupport.ESSENTIALS.isPluginEnabled()) {
 				if (essentialsSupport.isIgnored(target, player) || essentialsSupport.isMuted(player)) return;
 			}
 
-			if (plugin.api().getToggleChatData().containsUser(target.getUniqueId())) return;
+			if (plugin.getCrazyManager().api().getToggleChatData().containsUser(target.getUniqueId())) return;
 
 			if (config.getBoolean("Chat_Radius.Enable")) {
 				if ((!Methods.inRange(target.getUniqueId(), player.getUniqueId(), config.getInt("Chat_Radius.Block_Distance"))) || (!Methods.inWorld(target.getUniqueId(), player.getUniqueId()))) return;
 			}
 
-			if (plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) {
+			if (plugin.getCrazyManager().api().getToggleMentionsData().containsUser(target.getUniqueId())) {
 				try {
 					target.playSound(target.getLocation(), Sound.valueOf(config.getString("Mentions.Sound")), 10, 1);
 				} catch (IllegalArgumentException ignored) {}
@@ -63,7 +63,7 @@ public class ListenerMentions implements Listener, Universal {
 		if (event.getMessage().toLowerCase().contains(tagSymbol + "everyone")) {
 			plugin.getServer().getOnlinePlayers().forEach(target -> {
 				if (player.hasPermission("chatmanager.mention.everyone") && target.hasPermission("chatmanager.mentions.receive")) {
-					if (plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) {
+					if (plugin.getCrazyManager().api().getToggleMentionsData().containsUser(target.getUniqueId())) {
 						try {
 							target.playSound(target.getLocation(), Sound.valueOf(config.getString("Mentions.Sound")), 10, 1);
 						} catch (IllegalArgumentException ignored) {}

@@ -25,7 +25,7 @@ public class ListenerSpy implements Listener, Universal {
 
 		for (Player staff : plugin.getServer().getOnlinePlayers()) {
 
-			boolean isValid = plugin.api().getCommandSpyData().containsUser(staff.getUniqueId());
+			boolean isValid = plugin.getCrazyManager().api().getCommandSpyData().containsUser(staff.getUniqueId());
 
 			if (!isValid || !staff.hasPermission("chatmanager.commandspy")) return;
 

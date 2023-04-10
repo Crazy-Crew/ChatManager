@@ -20,9 +20,9 @@ public class ListenerPerWorldChat implements Listener, Universal {
 
 		List<String> playerGroup = null;
 
-		if (!config.getBoolean("Per_World_Chat.Enable") || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
+		if (!config.getBoolean("Per_World_Chat.Enable") || plugin.getCrazyManager().api().getStaffChatData().containsUser(player.getUniqueId())) return;
 
-		if (plugin.api().getPerWorldChatData().containsUser(player.getUniqueId())) return;
+		if (plugin.getCrazyManager().api().getPerWorldChatData().containsUser(player.getUniqueId())) return;
 
 		if (config.getBoolean("Per_World_Chat.Group_Worlds.Enable")) {
 			for (String key : config.getConfigurationSection("Per_World_Chat.Group_Worlds.Worlds").getKeys(false)) {
@@ -35,11 +35,11 @@ public class ListenerPerWorldChat implements Listener, Universal {
 
 				if (playerGroup != null) {
 					if (!playerGroup.contains(world2)) {
-						if (!plugin.api().getPerWorldChatData().containsUser(player2.getUniqueId())) recipients.remove(player2);
+						if (!plugin.getCrazyManager().api().getPerWorldChatData().containsUser(player2.getUniqueId())) recipients.remove(player2);
 					}
 				} else {
 					if (!world.equals(world2)) {
-						if (!plugin.api().getPerWorldChatData().containsUser(player2.getUniqueId())) recipients.remove(player2);
+						if (!plugin.getCrazyManager().api().getPerWorldChatData().containsUser(player2.getUniqueId())) recipients.remove(player2);
 					}
 				}
 			}
@@ -47,6 +47,6 @@ public class ListenerPerWorldChat implements Listener, Universal {
 			return;
 		}
 
-		recipients.removeIf(players -> !worldUID.equals(players.getWorld().getUID()) && !plugin.api().getPerWorldChatData().containsUser(players.getUniqueId()));
+		recipients.removeIf(players -> !worldUID.equals(players.getWorld().getUID()) && !plugin.getCrazyManager().api().getPerWorldChatData().containsUser(players.getUniqueId()));
 	}
 }

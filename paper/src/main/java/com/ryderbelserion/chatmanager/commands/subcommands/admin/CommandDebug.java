@@ -6,7 +6,6 @@ import dev.triumphteam.cmd.bukkit.annotation.Permission;
 import dev.triumphteam.cmd.core.annotation.SubCommand;
 import dev.triumphteam.cmd.core.annotation.Suggestion;
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import me.h1dd3nxn1nja.chatmanager.utils.Debug;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionDefault;
 
@@ -18,24 +17,24 @@ public class CommandDebug extends CommandManager {
         switch (debug.getName()) {
             case "broadcast" -> {
                 Methods.sendMessage(sender, "&eDebugging autobroadcast, Please go to your console to see the debug log.", true);
-                Debug.debugAutoBroadcast();
+                //Debug.debugAutoBroadcast();
             }
 
             case "config" -> {
                 Methods.sendMessage(sender, "&eDebugging config, Please go to your console to see the debug log.", true);
-                Debug.debugConfig();
+                //Debug.debugConfig();
             }
 
             case "messages" -> {
                 Methods.sendMessage(sender, "&eDebugging config, Please go to your console to see the debug log.", true);
-                Debug.debugMessages();
+                //Debug.debugMessages();
             }
 
             case "all" -> {
                 Methods.sendMessage(sender, "&eDebugging all configuration files, Please go to your console to see the debug low.", true);
-                Debug.debugAutoBroadcast();
-                Debug.debugConfig();
-                Debug.debugMessages();
+                //Debug.debugAutoBroadcast();
+                //Debug.debugConfig();
+                //Debug.debugMessages();
             }
         }
     }

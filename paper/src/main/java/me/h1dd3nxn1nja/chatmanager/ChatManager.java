@@ -1,21 +1,9 @@
 package me.h1dd3nxn1nja.chatmanager;
 
-import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.api.CrazyManager;
-import com.ryderbelserion.chatmanager.commands.CommandManager;
+import com.ryderbelserion.chatmanager.CrazyManager;
 import com.ryderbelserion.chatmanager.commands.subcommands.admin.CommandStaffChat;
-import me.h1dd3nxn1nja.chatmanager.commands.*;
-import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.*;
 import me.h1dd3nxn1nja.chatmanager.listeners.*;
-import me.h1dd3nxn1nja.chatmanager.managers.AutoBroadcastManager;
 import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
-import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
-import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
-import me.h1dd3nxn1nja.chatmanager.utils.MetricsHandler;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ChatManager extends JavaPlugin {
@@ -27,8 +15,6 @@ public class ChatManager extends JavaPlugin {
     private CrazyManager crazyManager;
 
     private PluginManager pluginManager;
-
-    private ApiLoader api;
 
     public void onEnable() {
         plugin = this;
@@ -52,93 +38,34 @@ public class ChatManager extends JavaPlugin {
                 """);
 
         settingsManager = new SettingsManager();
-
         settingsManager.setup();
-
-        api = new ApiLoader();
-
-        api.load();
-
-        boolean metricsEnabled = settingsManager.getConfig().getBoolean("Metrics_Enabled");
 
         pluginManager = new PluginManager();
 
         crazyManager = new CrazyManager();
 
-        if (metricsEnabled) {
-            MetricsHandler metricsHandler = new MetricsHandler();
-
-            metricsHandler.start();
-        }
-
         crazyManager.load(true);
 
-        if (!PluginSupport.LUCKPERMS.isPluginEnabled()) plugin.getLogger().severe("A permissions plugin was not found. You will likely have issues without one.");
+        //boolean metricsEnabled = settingsManager.getConfig().getBoolean("Metrics_Enabled");
 
-        CommandManager.setup();
+        //if (metricsEnabled) {
+        //    MetricsHandler metricsHandler = new MetricsHandler();
 
-        if (PluginSupport.VAULT.isPluginEnabled()) {
+        //    metricsHandler.start();
+        //}
+
+        //if (!PluginSupport.LUCKPERMS.isPluginEnabled()) plugin.getLogger().severe("A permissions plugin was not found. You will likely have issues without one.");
+
+        //if (PluginSupport.VAULT.isPluginEnabled()) {
             //registerCommands();
-            registerEvents();
-            setupAutoBroadcast();
-            setupChatRadius();
-        }
+            //registerEvents();
+            //setupAutoBroadcast();
+            //setupChatRadius();
+        //}
     }
 
     public void onDisable() {
-        getServer().getScheduler().cancelTasks(this);
-
-        for (Player player : getServer().getOnlinePlayers()) {
-            api.getChatCooldowns().removeUser(player.getUniqueId());
-            api.getCooldownTask().removeUser(player.getUniqueId());
-            api.getCmdCooldowns().removeUser(player.getUniqueId());
-
-            BossBarUtil bossBar = new BossBarUtil();
-            bossBar.removeAllBossBars(player);
-        }
-    }
-
-    public void registerCommands() {
-        CommandBroadcast broadCastCommand = new CommandBroadcast();
-
-        registerCommand(getCommand("Announcement"), null, broadCastCommand);
-        registerCommand(getCommand("Warning"), null, broadCastCommand);
-        registerCommand(getCommand("Broadcast"), null, broadCastCommand);
-
-        registerCommand(getCommand("AutoBroadcast"), new TabCompleteAutoBroadcast(), new CommandAutoBroadcast());
-
-        registerCommand(getCommand("ClearChat"), null, new CommandClearChat());
-
-        registerCommand(getCommand("BannedCommands"), new TabCompleteBannedCommands(), new CommandBannedCommands());
-
-        registerCommand(getCommand("AntiSwear"), new TabCompleteAntiSwear(), new CommandAntiSwear());
-
-        CommandMessage commandMessage = new CommandMessage();
-
-        registerCommand(getCommand("Reply"), null, commandMessage);
-        registerCommand(getCommand("TogglePM"), null, commandMessage);
-        registerCommand(getCommand("Message"), new TabCompleteMessage(), commandMessage);
-
-        registerCommand(getCommand("ChatRadius"), null, new CommandRadius());
-
-        CommandSpy commandSpy = new CommandSpy();
-
-        registerCommand(getCommand("CommandSpy"), null, commandSpy);
-        registerCommand(getCommand("SocialSpy"), null, commandSpy);
-
-        registerCommand(getCommand("MuteChat"), null, new CommandMuteChat());
-
-        registerCommand(getCommand("PerWorldChat"), null, new CommandPerWorldChat());
-
-        registerCommand(getCommand("Rules"), null, new CommandRules());
-    }
-
-    private void registerCommand(PluginCommand pluginCommand, TabCompleter tabCompleter, CommandExecutor commandExecutor) {
-        if (pluginCommand != null) {
-            pluginCommand.setExecutor(commandExecutor);
-
-            if (tabCompleter != null) pluginCommand.setTabCompleter(tabCompleter);
-        }
+        crazyManager.stop(true);
     }
 
     public void registerEvents() {
@@ -164,7 +91,7 @@ public class ChatManager extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ListenerToggleChat(), this);
     }
 
-    public void setupChatRadius() {
+    /*public void setupChatRadius() {
         if (settingsManager.getConfig().getBoolean("Chat_Radius.Enable")) {
             for (Player all : getServer().getOnlinePlayers()) {
                 if (settingsManager.getConfig().getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Local")) {
@@ -195,14 +122,10 @@ public class ChatManager extends JavaPlugin {
 
             e.printStackTrace();
         }
-    }
+    }*/
 
     public static ChatManager getPlugin() {
         return plugin;
-    }
-
-    public ApiLoader api() {
-        return this.api;
     }
 
     public SettingsManager getSettingsManager() {

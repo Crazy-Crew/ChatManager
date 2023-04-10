@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.api.Universal;
+import com.ryderbelserion.chatmanager.configs.sections.WordFilterSettings;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,13 +16,13 @@ public class ListenerBannedCommand implements Listener, Universal {
 	public void onCommand(PlayerCommandPreprocessEvent event) {
 		Player player = event.getPlayer();
 
-		List<String> cmd = bannedCommands.getStringList("Banned-Commands");
+		List<String> blackListedCommands = plugin.getCrazyManager().getSettingsHandler().getWordFilterSettings().getProperty(WordFilterSettings.BLACKLISTED_COMMANDS);
 
 		if (config.getBoolean("Banned_Commands.Enable")) return;
 
 		if (!player.hasPermission("chatmanager.bypass.bannedcommands")) {
 			if (!config.getBoolean("Banned_Commands.Increase_Sensitivity")) {
-				for (String command : cmd) {
+				for (String command : blackListedCommands) {
 					if (event.getMessage().toLowerCase().equals("/" + command)) {
 						event.setCancelled(true);
 						Methods.sendMessage(player, messages.getString("Banned_Commands.Message").replace("{command}", command), true);
@@ -31,7 +32,7 @@ public class ListenerBannedCommand implements Listener, Universal {
 					}
 				}
 			} else {
-				for (String command : cmd) {
+				for (String command : blackListedCommands) {
 					if (event.getMessage().toLowerCase().contains("/" + command)) {
 						event.setCancelled(true);
 						Methods.sendMessage(player, messages.getString("Banned_Commands.Message").replace("{command}", command), true);

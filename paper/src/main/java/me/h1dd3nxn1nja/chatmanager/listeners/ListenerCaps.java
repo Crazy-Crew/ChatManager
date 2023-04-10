@@ -15,7 +15,7 @@ public class ListenerCaps implements Listener, Universal {
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 
-		if (!config.getBoolean("Anti_Caps.Enable") || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
+		if (!config.getBoolean("Anti_Caps.Enable") || plugin.getCrazyManager().api().getStaffChatData().containsUser(player.getUniqueId())) return;
 
 		if (player.hasPermission("chatmanager.bypass.caps")) return;
 
@@ -47,7 +47,7 @@ public class ListenerCaps implements Listener, Universal {
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 
-		if (!config.getBoolean("Anti_Caps.Enable") && !config.getBoolean("Anti_Caps.Enable_In_Commands") || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
+		if (!config.getBoolean("Anti_Caps.Enable") && !config.getBoolean("Anti_Caps.Enable_In_Commands") || plugin.getCrazyManager().api().getStaffChatData().containsUser(player.getUniqueId())) return;
 
 		if (player.hasPermission("chatmanager.bypass.caps")) return;
 

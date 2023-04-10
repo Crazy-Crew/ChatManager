@@ -20,16 +20,16 @@ public class ListenerAntiSpam implements Listener, Universal {
 
 		UUID uuid = player.getUniqueId();
 
-		boolean isValid = plugin.api().getStaffChatData().containsUser(uuid);
+		boolean isValid = plugin.getCrazyManager().api().getStaffChatData().containsUser(uuid);
 
 		if (isValid) return;
 
 		if (config.getBoolean("Anti_Spam.Chat.Block_Repetitive_Messages")) {
 			if (player.hasPermission("chatmanager.bypass.dupe.chat")) return;
 
-			if (plugin.api().getPreviousMsgData().containsUser(uuid)) {
+			if (plugin.getCrazyManager().api().getPreviousMsgData().containsUser(uuid)) {
 
-				String msg = plugin.api().getPreviousMsgData().getMessage(player.getUniqueId());
+				String msg = plugin.getCrazyManager().api().getPreviousMsgData().getMessage(player.getUniqueId());
 
 				if (message.equalsIgnoreCase(msg)) {
 					player.sendMessage(Methods.color(player.getUniqueId(), messages.getString("Anti_Spam.Chat.Repetitive_Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
@@ -37,7 +37,7 @@ public class ListenerAntiSpam implements Listener, Universal {
 				}
 			}
 
-			plugin.api().getPreviousMsgData().addUser(uuid, message);
+			plugin.getCrazyManager().api().getPreviousMsgData().addUser(uuid, message);
 		}
 	}
 
@@ -46,7 +46,7 @@ public class ListenerAntiSpam implements Listener, Universal {
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
 
-		boolean isValid = plugin.api().getStaffChatData().containsUser(uuid);
+		boolean isValid = plugin.getCrazyManager().api().getStaffChatData().containsUser(uuid);
 
 		if (isValid) return;
 
@@ -54,32 +54,32 @@ public class ListenerAntiSpam implements Listener, Universal {
 
 		if (delay == 0 || player.hasPermission("chatmanager.bypass.chatdelay")) return;
 
-		if (plugin.api().getChatCooldowns().containsUser(uuid)) {
-			int time = plugin.api().getChatCooldowns().getTime(uuid);
+		if (plugin.getCrazyManager().api().getChatCooldowns().containsUser(uuid)) {
+			int time = plugin.getCrazyManager().api().getChatCooldowns().getTime(uuid);
 
 			Methods.sendMessage(player, messages.getString("Anti_Spam.Chat.Delay_Message").replace("{Time}", String.valueOf(time)), true);
 			event.setCancelled(true);
 			return;
 		}
 
-		plugin.api().getChatCooldowns().addUser(uuid, config.getInt("Anti_Spam.Chat.Chat_Delay"));
+		plugin.getCrazyManager().api().getChatCooldowns().addUser(uuid, config.getInt("Anti_Spam.Chat.Chat_Delay"));
 
-		plugin.api().getCooldownTask().addUser(uuid, new BukkitRunnable() {
+		plugin.getCrazyManager().api().getCooldownTask().addUser(uuid, new BukkitRunnable() {
 			@Override
 			public void run() {
-				int time = plugin.api().getChatCooldowns().getTime(uuid);
+				int time = plugin.getCrazyManager().api().getChatCooldowns().getTime(uuid);
 
-				plugin.api().getChatCooldowns().subtract(uuid);
+				plugin.getCrazyManager().api().getChatCooldowns().subtract(uuid);
 
 				if (time == 0) {
-					plugin.api().getChatCooldowns().removeUser(uuid);
-					plugin.api().getCooldownTask().removeUser(uuid);
+					plugin.getCrazyManager().api().getChatCooldowns().removeUser(uuid);
+					plugin.getCrazyManager().api().getCooldownTask().removeUser(uuid);
 					cancel();
 				}
 			}
 		});
 
-		plugin.api().getCooldownTask().getUsers().get(player.getUniqueId()).runTaskTimer(plugin, 20L, 20L);
+		plugin.getCrazyManager().api().getCooldownTask().getUsers().get(player.getUniqueId()).runTaskTimer(plugin, 20L, 20L);
 	}
 
 	@EventHandler(ignoreCancelled = true)
@@ -95,13 +95,13 @@ public class ListenerAntiSpam implements Listener, Universal {
 			if (!player.hasPermission("chatmanager.bypass.dupe.command")) {
 				for (String commands : whitelistedCommands) {
 					if (event.getMessage().contains(commands)) {
-						plugin.api().getPreviousCmdData().removeUser(uuid);
+						plugin.getCrazyManager().api().getPreviousCmdData().removeUser(uuid);
 						return;
 					}
 				}
 
-				if (plugin.api().getPreviousCmdData().containsUser(uuid)) {
-					String cmd = plugin.api().getPreviousCmdData().getMessage(uuid);
+				if (plugin.getCrazyManager().api().getPreviousCmdData().containsUser(uuid)) {
+					String cmd = plugin.getCrazyManager().api().getPreviousCmdData().getMessage(uuid);
 					if (command.equalsIgnoreCase(cmd)) {
 						Methods.sendMessage(player, messages.getString("Anti_Spam.Command.Repetitive_Message"), true);
 
@@ -109,13 +109,13 @@ public class ListenerAntiSpam implements Listener, Universal {
 					}
 				}
 
-				plugin.api().getPreviousCmdData().addUser(player.getUniqueId(), command);
+				plugin.getCrazyManager().api().getPreviousCmdData().addUser(player.getUniqueId(), command);
 			}
 
 			if (config.getInt("Anti_Spam.Command.Command_Delay") != 0) {
 				if (!player.hasPermission("chatmanager.bypass.commanddelay")) {
-					if (plugin.api().getCmdCooldowns().containsUser(uuid)) {
-						Methods.sendMessage(player, messages.getString("Anti_Spam.Command.Delay_Message").replace("{Time}", String.valueOf(plugin.api().getCmdCooldowns().getTime(uuid))), true);
+					if (plugin.getCrazyManager().api().getCmdCooldowns().containsUser(uuid)) {
+						Methods.sendMessage(player, messages.getString("Anti_Spam.Command.Delay_Message").replace("{Time}", String.valueOf(plugin.getCrazyManager().api().getCmdCooldowns().getTime(uuid))), true);
 						event.setCancelled(true);
 						return;
 					}
@@ -124,24 +124,24 @@ public class ListenerAntiSpam implements Listener, Universal {
 						if (event.getMessage().contains(commands)) return;
 					}
 
-					plugin.api().getCmdCooldowns().addUser(uuid, config.getInt("Anti_Spam.Command.Command_Delay"));
+					plugin.getCrazyManager().api().getCmdCooldowns().addUser(uuid, config.getInt("Anti_Spam.Command.Command_Delay"));
 
-					plugin.api().getCooldownTask().addUser(uuid, new BukkitRunnable() {
+					plugin.getCrazyManager().api().getCooldownTask().addUser(uuid, new BukkitRunnable() {
 						@Override
 						public void run() {
-							int time = plugin.api().getCmdCooldowns().getTime(uuid);
+							int time = plugin.getCrazyManager().api().getCmdCooldowns().getTime(uuid);
 
-							plugin.api().getCmdCooldowns().addUser(uuid, time--);
+							plugin.getCrazyManager().api().getCmdCooldowns().addUser(uuid, time--);
 
 							if (time == 0) {
-								plugin.api().getCmdCooldowns().removeUser(uuid);
-								plugin.api().getCooldownTask().removeUser(uuid);
+								plugin.getCrazyManager().api().getCmdCooldowns().removeUser(uuid);
+								plugin.getCrazyManager().api().getCooldownTask().removeUser(uuid);
 								cancel();
 							}
 						}
 					});
 
-					plugin.api().getCooldownTask().getUsers().get(player.getUniqueId()).runTaskTimer(plugin, 20L, 20L);
+					plugin.getCrazyManager().api().getCooldownTask().getUsers().get(player.getUniqueId()).runTaskTimer(plugin, 20L, 20L);
 				}
 			}
 		}

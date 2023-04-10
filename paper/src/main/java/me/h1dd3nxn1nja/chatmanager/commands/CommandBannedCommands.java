@@ -1,5 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
+import com.ryderbelserion.chatmanager.configs.sections.WordFilterSettings;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
@@ -19,7 +20,7 @@ public class CommandBannedCommands implements CommandExecutor {
 	
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		FileConfiguration messages = settingsManager.getMessages();
-		FileConfiguration bannedCommands = settingsManager.getBannedCommands();
+		List<String> blackListedCommands = plugin.getCrazyManager().getSettingsHandler().getWordFilterSettings().getProperty(WordFilterSettings.BLACKLISTED_COMMANDS);
 		
 		if (!(sender instanceof Player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
@@ -68,12 +69,12 @@ public class CommandBannedCommands implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("add")) {
 				if (player.hasPermission("chatmanager.bannedcommands.add")) {
 					if (args.length == 2) {
-						if (!bannedCommands.getStringList("Banned-Commands").contains(args[1])) {
-							List<String> list = bannedCommands.getStringList("Banned-Commands");
-							list.add(args[1].toLowerCase());
-							bannedCommands.set("Banned-Commands", list);
-							settingsManager.saveBannedCommands();
-							settingsManager.reloadBannedCommands();
+						if (!blackListedCommands.contains(args[1])) {
+							//List<String> list = bannedCommands.getStringList("Banned-Commands");
+							//list.add(args[1].toLowerCase());
+							//bannedCommands.set("Banned-Commands", list);
+							//settingsManager.saveBannedCommands();
+							//settingsManager.reloadBannedCommands();
 							Methods.sendMessage(player, messages.getString("Banned_Commands.Command_Added").replace("{command}", args[1]), true);
 						} else {
 							Methods.sendMessage(player, messages.getString("Banned_Commands.Command_Exists").replace("{command}", args[1]), true);
@@ -88,12 +89,12 @@ public class CommandBannedCommands implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("remove")) {
 				if (player.hasPermission("chatmanager.bannedcommands.remove")) {
 					if (args.length == 2) {
-						if (bannedCommands.getStringList("Banned-Commands").contains(args[1])) {
-							List<String> list = bannedCommands.getStringList("Banned-Commands");
-							list.remove(args[1].toLowerCase());
-							bannedCommands.set("Banned-Commands", list);
-							settingsManager.saveBannedCommands();
-							settingsManager.reloadBannedCommands();
+						if (blackListedCommands.contains(args[1])) {
+							//List<String> list = bannedCommands.getStringList("Banned-Commands");
+							//list.remove(args[1].toLowerCase());
+							//bannedCommands.set("Banned-Commands", list);
+							//settingsManager.saveBannedCommands();
+							//settingsManager.reloadBannedCommands();
 							Methods.sendMessage(player, messages.getString("Banned_Commands.Command_Removed").replace("{command}", args[1]), true);
 						} else {
 							Methods.sendMessage(player, messages.getString("Banned_Commands.Command_Not_Found").replace("{command}", args[1]), true);
@@ -108,7 +109,7 @@ public class CommandBannedCommands implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("list")) {
 				if (player.hasPermission("chatmanager.bannedcommands.list")) {
 					if (args.length == 1) {
-						String list = bannedCommands.getStringList("Banned-Commands").toString().replace("[", "").replace("]", "");
+						String list = blackListedCommands.toString().replace("[", "").replace("]", "");
 						Methods.sendMessage(player, "", true);
 						Methods.sendMessage(player, "&cCommands: &7" + list, true);
 						player.sendMessage(" ");

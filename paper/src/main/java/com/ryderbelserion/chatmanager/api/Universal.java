@@ -1,5 +1,6 @@
 package com.ryderbelserion.chatmanager.api;
 
+import com.ryderbelserion.chatmanager.CrazyManager;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
@@ -12,19 +13,20 @@ public interface Universal {
 
     ChatManager plugin = ChatManager.getPlugin();
 
-    PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
-    VaultSupport vaultSupport = plugin.getPluginManager().getVaultSupport();
-
     PluginManager pluginManager = plugin.getPluginManager();
+    CrazyManager crazyManager = plugin.getCrazyManager();
+
+    PlaceholderManager placeholderManager = crazyManager.getPlaceholderManager();
+
+    VaultSupport vaultSupport = pluginManager.getVaultSupport();
 
     EssentialsSupport essentialsSupport = pluginManager.getEssentialsSupport();
+
 
     SettingsManager settingsManager = plugin.getSettingsManager();
 
     FileConfiguration config = settingsManager.getConfig();
 
     FileConfiguration messages = settingsManager.getMessages();
-    FileConfiguration bannedCommands = settingsManager.getBannedCommands();
-    FileConfiguration bannedWords = settingsManager.getBannedWords();
 
 }

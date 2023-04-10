@@ -79,7 +79,7 @@ public class CommandMessage implements CommandExecutor {
 					return true;
 				}
 
-				if (plugin.api().getToggleMessageData().containsUser(target.getUniqueId()) && !player.hasPermission("chatmanager.bypass.togglepm")) {
+				if (plugin.getCrazyManager().api().getToggleMessageData().containsUser(target.getUniqueId()) && !player.hasPermission("chatmanager.bypass.togglepm")) {
 					Methods.sendMessage(player, messages.getString("Private_Message.Toggled"), true);
 					return true;
 				}
@@ -104,13 +104,13 @@ public class CommandMessage implements CommandExecutor {
 						.replace("{receiver}", target.getName())
 						.replace("{receiver_displayname}", player.getDisplayName()) + message), true);
 
-				plugin.api().getUserRepliedData().addUser(player.getUniqueId(), target.getUniqueId());
-				plugin.api().getUserRepliedData().addUser(target.getUniqueId(), player.getUniqueId());
+				plugin.getCrazyManager().api().getUserRepliedData().addUser(player.getUniqueId(), target.getUniqueId());
+				plugin.getCrazyManager().api().getUserRepliedData().addUser(target.getUniqueId(), player.getUniqueId());
 
 				for (Player staff : plugin.getServer().getOnlinePlayers()) {
 					if ((staff != player) && (staff != target)) {
 						if ((!player.hasPermission("chatmanager.bypass.socialspy")) && (!target.hasPermission("chatmanager.bypass.socialspy"))) {
-							boolean contains = plugin.api().getSocialSpyData().containsUser(staff.getUniqueId());
+							boolean contains = plugin.getCrazyManager().api().getSocialSpyData().containsUser(staff.getUniqueId());
 
 							if (contains) Methods.sendMessage(staff, messages.getString("Social_Spy.Format").replace("{player}", player.getName()).replace("{receiver}", target.getName()).replace("{message}", message), true);
 						}
@@ -130,7 +130,7 @@ public class CommandMessage implements CommandExecutor {
 						message.append(arg).append(" ");
 					}
 
-					UUID other = plugin.api().getUserRepliedData().getUser(player.getUniqueId());
+					UUID other = plugin.getCrazyManager().api().getUserRepliedData().getUser(player.getUniqueId());
 
 					Player target = plugin.getServer().getPlayer(other);
 
@@ -139,7 +139,7 @@ public class CommandMessage implements CommandExecutor {
 						return true;
 					}
 
-					if (plugin.api().getToggleMessageData().containsUser(target.getUniqueId())) {
+					if (plugin.getCrazyManager().api().getToggleMessageData().containsUser(target.getUniqueId())) {
 						Methods.sendMessage(player, messages.getString("Private_Message.Toggled"), true);
 						return true;
 					}
@@ -164,13 +164,13 @@ public class CommandMessage implements CommandExecutor {
 							.replace("{receiver}", target.getName())
 							.replace("{receiver_displayname}", player.getDisplayName()) + message), true);
 
-					plugin.api().getUserRepliedData().addUser(target.getUniqueId(), player.getUniqueId());
-					plugin.api().getUserRepliedData().addUser(player.getUniqueId(), target.getUniqueId());
+					plugin.getCrazyManager().api().getUserRepliedData().addUser(target.getUniqueId(), player.getUniqueId());
+					plugin.getCrazyManager().api().getUserRepliedData().addUser(player.getUniqueId(), target.getUniqueId());
 
 					for (Player staff : plugin.getServer().getOnlinePlayers()) {
 						if ((staff != player) && (staff != target)) {
 							if ((!player.hasPermission("chatmanager.bypass.socialspy")) && (!target.hasPermission("chatmanager.bypass.socialspy"))) {
-								boolean contains = plugin.api().getSocialSpyData().containsUser(staff.getUniqueId());
+								boolean contains = plugin.getCrazyManager().api().getSocialSpyData().containsUser(staff.getUniqueId());
 								if (contains) Methods.sendMessage(staff, messages.getString("Social_Spy.Format").replace("{player}", player.getName()).replace("{receiver}", target.getName()).replace("{message}", message), true);
 							}
 						}

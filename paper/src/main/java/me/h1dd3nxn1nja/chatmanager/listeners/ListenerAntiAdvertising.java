@@ -41,7 +41,7 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 
 		if (!config.getBoolean("Anti_Advertising.Chat.Enable")) return;
 
-		boolean isValid = plugin.api().getStaffChatData().containsUser(player.getUniqueId());
+		boolean isValid = plugin.getCrazyManager().api().getStaffChatData().containsUser(player.getUniqueId());
 
 		if (isValid && player.hasPermission("chatmanager.bypass.antiadvertising")) return;
 
@@ -125,7 +125,7 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 
 		if (!config.getBoolean("Anti_Advertising.Commands.Enable")) return;
 
-		boolean isValid = plugin.api().getStaffChatData().containsUser(player.getUniqueId());
+		boolean isValid = plugin.getCrazyManager().api().getStaffChatData().containsUser(player.getUniqueId());
 
 		if (isValid && player.hasPermission("chatmanager.bypass.antiadvertising")) return;
 
@@ -207,7 +207,7 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 		for (int line = 0; line < 4; line++) {
 			String message = event.getLine(line);
 
-			boolean isValid = plugin.api().getStaffChatData().containsUser(player.getUniqueId());
+			boolean isValid = plugin.getCrazyManager().api().getStaffChatData().containsUser(player.getUniqueId());
 
 			if (!isValid && !player.hasPermission("chatmanager.bypass.antiadvertising")) continue;
 

@@ -15,37 +15,27 @@ public class CommandReload extends CommandManager {
     @SubCommand("reload")
     @Permission(value = "chatmanager.command.reload", def = PermissionDefault.OP)
     public void reload(CommandSender sender) {
-        plugin.getServer().getOnlinePlayers().forEach(player -> {
-            UUID uuid = player.getUniqueId();
+        crazyManager.stop(false);
+        crazyManager.load(false);
 
-            plugin.api().getChatCooldowns().removeUser(uuid);
-            plugin.api().getCooldownTask().removeUser(uuid);
-            plugin.api().getCmdCooldowns().removeUser(uuid);
+        //settingsManager.reloadConfig();
+        //settingsManager.reloadMessages();
+        //settingsManager.reloadAutoBroadcast();
+        //settingsManager.reloadBannedCommands();
+        //settingsManager.reloadBannedWords();
+        //settingsManager.setup();
 
-            BossBarUtil bossBar = new BossBarUtil();
-            bossBar.removeAllBossBars(player);
-        });
+        //try {
+        //    if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) AutoBroadcastManager.actionbarMessages();
+        //    if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Global_Messages.Enable")) AutoBroadcastManager.globalMessages();
+        //    if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Per_World_Messages.Enable")) AutoBroadcastManager.perWorldMessages();
+        //    if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Title_Messages.Enable")) AutoBroadcastManager.titleMessages();
+        //    if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Bossbar_Messages.Enable")) AutoBroadcastManager.bossBarMessages();
+        //} catch (Exception e) {
+        //    Methods.tellConsole("There was an error setting up auto broadcast. Stack-trace:", true);
+        //    e.printStackTrace();
+        //}
 
-        settingsManager.reloadConfig();
-        settingsManager.reloadMessages();
-        settingsManager.reloadAutoBroadcast();
-        settingsManager.reloadBannedCommands();
-        settingsManager.reloadBannedWords();
-        settingsManager.setup();
-
-        plugin.getServer().getScheduler().cancelTasks(plugin);
-
-        try {
-            if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) AutoBroadcastManager.actionbarMessages();
-            if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Global_Messages.Enable")) AutoBroadcastManager.globalMessages();
-            if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Per_World_Messages.Enable")) AutoBroadcastManager.perWorldMessages();
-            if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Title_Messages.Enable")) AutoBroadcastManager.titleMessages();
-            if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Bossbar_Messages.Enable")) AutoBroadcastManager.bossBarMessages();
-        } catch (Exception e) {
-            Methods.tellConsole("There was an error setting up auto broadcast. Stack-trace:", true);
-            e.printStackTrace();
-        }
-
-        Methods.sendMessage(sender, messages.getString("Message.Reload"), true);
+        //Methods.sendMessage(sender, messages.getString("Message.Reload"), true);
     }
 }

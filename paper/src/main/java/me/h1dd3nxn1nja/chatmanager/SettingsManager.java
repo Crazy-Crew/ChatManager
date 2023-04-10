@@ -18,12 +18,6 @@ public class SettingsManager {
 
 	FileConfiguration AutoBroadcast;
 	File abfile;
-
-	FileConfiguration bannedcommands;
-	File cmdfile;
-
-	FileConfiguration bannedwords;
-	File wordfile;
 	
 	File advertisementsLog;
 	
@@ -85,38 +79,6 @@ public class SettingsManager {
 		}
 
 		Messages = YamlConfiguration.loadConfiguration(msgfile);
-		
-		cmdfile = new File(plugin.getDataFolder(), "bannedcommands.yml");
-
-		if (!cmdfile.exists()) {
-			try {
-				plugin.getLogger().info("The bannedcommands.yml file cannot be found, creating one.");
-				File en = new File(plugin.getDataFolder(), "/bannedcommands.yml");
-				InputStream E = getClass().getResourceAsStream("/bannedcommands.yml");
-				copyFile(E, en);
-			} catch (Exception e) {
-				plugin.getLogger().severe("Error: The bannedcommands.yml file could not be created! StackTrace:");
-				e.printStackTrace();
-			}
-		}
-
-		bannedcommands = YamlConfiguration.loadConfiguration(cmdfile);
-		
-		wordfile = new File(plugin.getDataFolder(), "bannedwords.yml");
-
-		if (!wordfile.exists()) {
-			try {
-				plugin.getLogger().info("The bannedwords.yml file cannot be found, creating one.");
-				File en = new File(plugin.getDataFolder(), "/bannedwords.yml");
-				InputStream E = getClass().getResourceAsStream("/bannedwords.yml");
-				copyFile(E, en);
-			} catch (Exception e) {
-				plugin.getLogger().severe("Error: The bannedwords.yml file could not be created! StackTrace:");
-				e.printStackTrace();
-			}
-		}
-
-		bannedwords = YamlConfiguration.loadConfiguration(wordfile);
 		
 		File folder = new File(plugin.getDataFolder(), "logs");
 		folder.mkdir();
@@ -199,14 +161,6 @@ public class SettingsManager {
 	public FileConfiguration getMessages() {
 		return Messages;
 	}
-
-	public FileConfiguration getBannedCommands() {
-		return bannedcommands;
-	}
-
-	public FileConfiguration getBannedWords() {
-		return bannedwords;
-	}
 	
 	public File getAdvertisementLogs() {
 		return advertisementsLog;
@@ -228,22 +182,6 @@ public class SettingsManager {
 		return signLog;
 	}
 	
-	public void saveBannedWords() {
-		try {
-			bannedwords.save(wordfile);
-		} catch (IOException e) {
-			plugin.getLogger().severe("Could not save BannedWords.yml!");
-		}
-	}
-	
-	public void saveBannedCommands() {
-		try {
-			bannedcommands.save(cmdfile);
-		} catch (IOException e) {
-			plugin.getLogger().severe("Could not save BannedCommands.yml!");
-		}
-	}
-	
 	public void saveAutoBroadcast() {
 		try {
 			AutoBroadcast.save(abfile);
@@ -258,14 +196,6 @@ public class SettingsManager {
 	
 	public void reloadAutoBroadcast() {
 		AutoBroadcast = YamlConfiguration.loadConfiguration(abfile);
-	}
-
-	public void reloadBannedCommands() {
-		bannedcommands = YamlConfiguration.loadConfiguration(cmdfile);
-	}
-
-	public void reloadBannedWords() {
-		bannedwords = YamlConfiguration.loadConfiguration(wordfile);
 	}
 	
 	public FileConfiguration getConfig() {

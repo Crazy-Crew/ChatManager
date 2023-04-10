@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.api.Universal;
+import com.ryderbelserion.chatmanager.configs.sections.WordFilterSettings;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -21,40 +22,42 @@ public class ListenerSwear implements Listener, Universal {
 
 	//TODO() Add a way so that chat manager highlights the swear word in the notify feature.
 
+	private final List<String> blackListedWords = plugin.getCrazyManager().getSettingsHandler().getWordFilterSettings().getProperty(WordFilterSettings.BLACKLISTED_WORDS);
+	private final List<String> whiteListedWords = plugin.getCrazyManager().getSettingsHandler().getWordFilterSettings().getProperty(WordFilterSettings.WHITELISTED_WORDS);
+	private final List<String> whiteListedCommands = plugin.getCrazyManager().getSettingsHandler().getWordFilterSettings().getProperty(WordFilterSettings.WHITELISTED_COMMANDS);
+
 	@EventHandler(ignoreCancelled = true)
 	public void onSwear(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 		Date time = Calendar.getInstance().getTime();
 
-		List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
-		List<String> blockedWordsList = bannedWords.getStringList("Banned-Words");
 		String sensitiveMessage = event.getMessage().toLowerCase().replaceAll("[^a-zA-Z0-9 ]", "").replaceAll("\\s+", "");
 		String curseMessage = event.getMessage().toLowerCase();
 
-		if (plugin.api().getStaffChatData().containsUser(player.getUniqueId()) || !config.getBoolean("Anti_Swear.Chat.Enable")) return;
+		if (plugin.getCrazyManager().api().getStaffChatData().containsUser(player.getUniqueId()) || !config.getBoolean("Anti_Swear.Chat.Enable")) return;
 
 		if (player.hasPermission("chatmanager.bypass.antiswear")) return;
 
 		if (config.getBoolean("Anti_Swear.Chat.Increase_Sensitivity")) {
-			for (String blockedWords : blockedWordsList) {
-				for (String allowed : whitelisted) {
+			for (String blockedWords : blackListedWords) {
+				for (String allowed : whiteListedWords) {
 					if (event.getMessage().contains(allowed.toLowerCase())) return;
 				}
 
-				if (curseMessageContains(event, config, messages, player, message, time, sensitiveMessage, blockedWords)) break;
+				if (curseMessageContains(event, player, message, time, sensitiveMessage, blockedWords)) break;
 			}
 		}
 
 		if (!config.getBoolean("Anti_Swear.Chat.Increase_Sensitivity")) {
-			for (String blockedWords : blockedWordsList) {
-				if (curseMessageContains(event, config, messages, player, message, time, curseMessage, blockedWords))
+			for (String blockedWords : blackListedWords) {
+				if (curseMessageContains(event, player, message, time, curseMessage, blockedWords))
 					break;
 			}
 		}
 	}
 
-	private boolean curseMessageContains(AsyncPlayerChatEvent event, FileConfiguration config, FileConfiguration messages, Player player, String message, Date time, String curseMessage, String blockedWords) {
+	private boolean curseMessageContains(AsyncPlayerChatEvent event, Player player, String message, Date time, String curseMessage, String blockedWords) {
 		if (!curseMessage.contains(blockedWords)) return false;
 
 		player.sendMessage(Methods.color(player.getUniqueId(), messages.getString("Anti_Swear.Chat.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
@@ -107,17 +110,14 @@ public class ListenerSwear implements Listener, Universal {
 
 		UUID uuid = player.getUniqueId();
 
-		List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
-		List<String> whitelistedCommands = config.getStringList("Anti_Swear.Commands.Whitelisted_Commands");
-		List<String> blockedWordsList = bannedWords.getStringList("Banned-Words");
 		String sensitiveMessage = event.getMessage().toLowerCase().replaceAll("[^a-zA-Z0-9 ]", "").replaceAll("\\s+", "");
 		String curseMessage = event.getMessage().toLowerCase();
 
 		if (config.getBoolean("Anti_Swear.Commands.Enable")) {
 			if (!player.hasPermission("chatmanager.bypass.antiswear")) {
 				if (config.getBoolean("Anti_Swear.Commands.Increase_Sensitivity")) {
-					for (String blockedWords : blockedWordsList) {
-						for (String allowed : whitelisted) {
+					for (String blockedWords : blackListedWords) {
+						for (String allowed : whiteListedWords) {
 							if (event.getMessage().contains(allowed.toLowerCase())) return;
 						}
 
@@ -137,14 +137,14 @@ public class ListenerSwear implements Listener, Universal {
 								commandSwearCheck(config, player, message, time);
 							}
 
-							for (String command : whitelistedCommands) {
+							for (String command : whiteListedCommands) {
 								if (message.toLowerCase().startsWith(command)) return;
 							}
 						}
 					}
 
 					if (!config.getBoolean("Anti_Swear.Commands.Increase_Sensitivity")) {
-						for (String blockedWords : blockedWordsList) {
+						for (String blockedWords : blackListedWords) {
 							if (curseMessage.contains(blockedWords)) {
 								player.sendMessage(Methods.color(player.getUniqueId(), messages.getString("Anti_Swear.Commands.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 
@@ -157,7 +157,7 @@ public class ListenerSwear implements Listener, Universal {
 									break;
 								}
 
-								for (String command : whitelistedCommands) {
+								for (String command : whiteListedCommands) {
 									if (message.toLowerCase().startsWith(command)) return;
 								}
 							}
@@ -208,9 +208,6 @@ public class ListenerSwear implements Listener, Universal {
 
 		UUID uuid = player.getUniqueId();
 
-		List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
-		List<String> blockedWordsList = bannedWords.getStringList("Banned-Words");
-
 		if (config.getBoolean("Anti_Swear.Signs.Enable")) {
 			if (!player.hasPermission("chatmanager.bypass.antiswear")) {
 				if (config.getBoolean("Anti_Swear.Signs.Increase_Sensitivity")) {
@@ -219,8 +216,8 @@ public class ListenerSwear implements Listener, Universal {
 						assert message != null;
 						String curseMessage = message.toLowerCase().replaceAll("[^a-zA-Z0-9 ]", "").replaceAll("\\s+", "");
 
-						for (String blockedWords : blockedWordsList) {
-							for (String allowed : whitelisted) {
+						for (String blockedWords : blackListedWords) {
+							for (String allowed : whiteListedWords) {
 								if (message.contains(allowed.toLowerCase())) return;
 							}
 
@@ -239,7 +236,7 @@ public class ListenerSwear implements Listener, Universal {
 
 									Methods.tellConsole(messages.getString("Anti_Swear.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 
-									checkSwear(config, player, time, line, message);
+									checkSwear(player, time, line, message);
 								}
 							}
 						}
@@ -251,7 +248,7 @@ public class ListenerSwear implements Listener, Universal {
 							assert message != null;
 							for (String curseMessages : message.toLowerCase().split(" ")) {
 								if (!player.hasPermission("chatmanager.bypass.antiswear")) {
-									if (bannedWords.getStringList("Banned-Words").contains(curseMessages)) {
+									if (blackListedWords.contains(curseMessages)) {
 										player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Signs.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 
 										if (config.getBoolean("Anti_Swear.Signs.Block_Sign")) event.setCancelled(true);
@@ -267,7 +264,7 @@ public class ListenerSwear implements Listener, Universal {
 
 											Methods.tellConsole(messages.getString("Anti_Swear.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 
-											checkSwear(config, player, time, line, message);
+											checkSwear(player, time, line, message);
 											break;
 										}
 									}
@@ -280,7 +277,7 @@ public class ListenerSwear implements Listener, Universal {
 		}
 	}
 
-	private void checkSwear(FileConfiguration config, Player player, Date time, int line, String message) {
+	private void checkSwear(Player player, Date time, int line, String message) {
 		if (config.getBoolean("Anti_Swear.Signs.Log_Swearing")) {
 			try {
 				FileWriter fw = new FileWriter(settingsManager.getSwearLogs(), true);

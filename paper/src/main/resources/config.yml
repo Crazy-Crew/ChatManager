@@ -195,12 +195,6 @@ Anti_Swear:
     
     #Should chat manager block the command from being sent?
     Block_Command: true
-
-    #If a player executes one of these commands with a swear word in it, the command will not be blocked.
-    Whitelisted_Commands:
-      - "/report"
-      - "/login"
-      - "/register"
     
     #Should staff get notified when a player swears in commands?
     Notify_Staff: true

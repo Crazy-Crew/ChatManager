@@ -27,16 +27,16 @@ public class ListenerRadius implements Listener, Universal {
 
 		int radius = settingsManager.getConfig().getInt("Chat_Radius.Block_Distance");
 
-		if (!config.getBoolean("Chat_Radius.Enable") || plugin.api().getStaffChatData().containsUser(uuid)) return;
+		if (!config.getBoolean("Chat_Radius.Enable") || plugin.getCrazyManager().api().getStaffChatData().containsUser(uuid)) return;
 
 		if (player.hasPermission("chatmanager.chatradius.global.override")) {
 			assert globalOverrideChar != null;
 
 			if (!globalOverrideChar.equals("")) {
 				if (ChatColor.stripColor(message).charAt(0) == globalOverrideChar.charAt(0)) {
-					plugin.api().getWorldChatData().removeUser(uuid);
-					plugin.api().getLocalChatData().removeUser(uuid);
-					plugin.api().getGlobalChatData().addUser(uuid);
+					plugin.getCrazyManager().api().getWorldChatData().removeUser(uuid);
+					plugin.getCrazyManager().api().getLocalChatData().removeUser(uuid);
+					plugin.getCrazyManager().api().getGlobalChatData().addUser(uuid);
 					return;
 				}
 			}
@@ -47,9 +47,9 @@ public class ListenerRadius implements Listener, Universal {
 
 			if (!localOverrideChar.equals("")) {
 				if (ChatColor.stripColor(message).charAt(0) == localOverrideChar.charAt(0)) {
-					plugin.api().getWorldChatData().removeUser(uuid);
-					plugin.api().getGlobalChatData().removeUser(uuid);
-					plugin.api().getLocalChatData().addUser(uuid);
+					plugin.getCrazyManager().api().getWorldChatData().removeUser(uuid);
+					plugin.getCrazyManager().api().getGlobalChatData().removeUser(uuid);
+					plugin.getCrazyManager().api().getLocalChatData().addUser(uuid);
 					event.setMessage(message);
 					return;
 				}
@@ -60,16 +60,16 @@ public class ListenerRadius implements Listener, Universal {
 			assert worldOverrideChar != null;
 			if (!worldOverrideChar.equals("")) {
 				if (ChatColor.stripColor(message).charAt(0) == worldOverrideChar.charAt(0)) {
-					plugin.api().getGlobalChatData().removeUser(uuid);
-					plugin.api().getLocalChatData().removeUser(uuid);
-					plugin.api().getWorldChatData().addUser(uuid);
+					plugin.getCrazyManager().api().getGlobalChatData().removeUser(uuid);
+					plugin.getCrazyManager().api().getLocalChatData().removeUser(uuid);
+					plugin.getCrazyManager().api().getWorldChatData().addUser(uuid);
 					event.setMessage(message);
 					return;
 				}
 			}
 		}
 
-		if (plugin.api().getLocalChatData().containsUser(uuid)) {
+		if (plugin.getCrazyManager().api().getLocalChatData().containsUser(uuid)) {
 			for (Player receiver : plugin.getServer().getOnlinePlayers()) {
 				recipients.remove(receiver);
 
@@ -78,11 +78,11 @@ public class ListenerRadius implements Listener, Universal {
 					recipients.add(receiver);
 				}
 
-				if (plugin.api().getSpyChatData().containsUser(receiver.getUniqueId())) recipients.add(receiver);
+				if (plugin.getCrazyManager().api().getSpyChatData().containsUser(receiver.getUniqueId())) recipients.add(receiver);
 			}
 		}
 
-		if (plugin.api().getWorldChatData().containsUser(uuid)) {
+		if (plugin.getCrazyManager().api().getWorldChatData().containsUser(uuid)) {
 			for (Player receiver : plugin.getServer().getOnlinePlayers()) {
 				recipients.remove(receiver);
 
@@ -91,7 +91,7 @@ public class ListenerRadius implements Listener, Universal {
 					recipients.add(receiver);
 				}
 
-				if (plugin.api().getSpyChatData().containsUser(receiver.getUniqueId())) recipients.add(receiver);
+				if (plugin.getCrazyManager().api().getSpyChatData().containsUser(receiver.getUniqueId())) recipients.add(receiver);
 			}
 		}
 	}

@@ -40,11 +40,11 @@ public class CommandPerWorldChat implements CommandExecutor {
 				if (player.hasPermission("chatmanager.perworldchat")) {
 					if (args.length == 1) {
 						if (config.getBoolean("Per_World_Chat.Enable")) {
-							if (!plugin.api().getPerWorldChatData().containsUser(player.getUniqueId())) {
-								plugin.api().getPerWorldChatData().addUser(player.getUniqueId());
+							if (!plugin.getCrazyManager().api().getPerWorldChatData().containsUser(player.getUniqueId())) {
+								plugin.getCrazyManager().api().getPerWorldChatData().addUser(player.getUniqueId());
 								Methods.sendMessage(player, messages.getString("Per_World_Chat.Bypass_Enabled"), true);
 							} else {
-								plugin.api().getPerWorldChatData().removeUser(player.getUniqueId());
+								plugin.getCrazyManager().api().getPerWorldChatData().removeUser(player.getUniqueId());
 								Methods.sendMessage(player, messages.getString("Per_World_Chat.Bypass_Disabled"), true);
 							}
 						} else {

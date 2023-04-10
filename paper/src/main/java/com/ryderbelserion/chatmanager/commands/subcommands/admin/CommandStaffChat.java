@@ -26,7 +26,7 @@ public class CommandStaffChat extends CommandManager implements Listener {
 
         if (sender instanceof Player player) {
             UUID uuid = player.getUniqueId();
-            boolean isValid = plugin.api().getStaffChatData().containsUser(uuid);
+            boolean isValid = plugin.getCrazyManager().api().getStaffChatData().containsUser(uuid);
 
             if (message != null && !isValid) {
                 sendStaffMessage(sender, message);
@@ -35,7 +35,7 @@ public class CommandStaffChat extends CommandManager implements Listener {
             }
 
             if (isValid) {
-                plugin.api().getStaffChatData().removeUser(uuid);
+                plugin.getCrazyManager().api().getStaffChatData().removeUser(uuid);
 
                 BossBarUtil bossBar = new BossBarUtil(Methods.color(config.getString("Staff_Chat.Boss_Bar.Title")));
                 bossBar.removeStaffBossBar(player);
@@ -45,7 +45,7 @@ public class CommandStaffChat extends CommandManager implements Listener {
                 return;
             }
 
-            plugin.api().getStaffChatData().addUser(uuid);
+            plugin.getCrazyManager().api().getStaffChatData().addUser(uuid);
 
             BossBarUtil bossBar = new BossBarUtil(Methods.color(config.getString("Staff_Chat.Boss_Bar.Title")));
             bossBar.setStaffBossBar(player);
@@ -70,7 +70,7 @@ public class CommandStaffChat extends CommandManager implements Listener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
 
-        boolean isValid = plugin.api().getStaffChatData().containsUser(uuid);
+        boolean isValid = plugin.getCrazyManager().api().getStaffChatData().containsUser(uuid);
 
         if (!isValid || player.hasPermission("chatmanager.staffchat")) return;
 

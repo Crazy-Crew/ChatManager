@@ -23,7 +23,7 @@ public class ListenerAntiUnicode implements Listener, Universal {
 		Pattern pattern = Pattern.compile("^[A-Za-z0-9-~!@#$%^&*()<>_+=-{}|';:.,\\[\"\"]|';:.,/?><_.]+$");
 		Matcher matcher = pattern.matcher(event.getMessage().toLowerCase().replaceAll("\\s+", ""));
 
-		if (!config.getBoolean("Anti_Unicode.Enable") || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
+		if (!config.getBoolean("Anti_Unicode.Enable") || plugin.getCrazyManager().api().getStaffChatData().containsUser(player.getUniqueId())) return;
 
 		if (player.hasPermission("chatmanager.bypass.antiunicode")) return;
 

@@ -3,9 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.utils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import org.bukkit.ChatColor;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
@@ -25,8 +23,8 @@ public class BossBarUtil {
 	private boolean isVisible;
 	private BossBar bar;
 	private BossBar staffBar;
-	private static HashMap<UUID, BossBarUtil> playerBars = new HashMap<>();
-	private static HashMap<UUID, BossBarUtil> staffBars = new HashMap<>();
+	private static final HashMap<UUID, BossBarUtil> playerBars = new HashMap<>();
+	private static final HashMap<UUID, BossBarUtil> staffBars = new HashMap<>();
 	HashMap<UUID, BossBar> bossBars = new HashMap<>();
 
 	public BossBarUtil() {

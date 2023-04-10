@@ -25,6 +25,9 @@ kyori-mm = { module = "net.kyori:adventure-text-minimessage", version.ref = "kyo
 # Triumph Team
 triumph_cmds = { module = "dev.triumphteam:triumph-cmd-bukkit", version = "2.0.0-SNAPSHOT" }
 
+# Configurations
+config_me = { module = "ch.jalu:configme", version = "1.3.0" }
+
 # Misc
 nbt_api = { module = "de.tr7zw:item-nbt-api", version = "2.11.2" }
 bstats_bukkit = { module = "org.bstats:bstats-bukkit", version = "3.0.0" }

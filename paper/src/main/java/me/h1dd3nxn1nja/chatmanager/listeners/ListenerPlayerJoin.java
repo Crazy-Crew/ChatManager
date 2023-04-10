@@ -201,23 +201,23 @@ public class ListenerPlayerJoin implements Listener, Universal {
         }
 
         if (config.getBoolean("Social_Spy.Enable_On_Join")) {
-            if (player.hasPermission("chatmanager.socialspy")) plugin.api().getSocialSpyData().addUser(player.getUniqueId());
+            if (player.hasPermission("chatmanager.socialspy")) plugin.getCrazyManager().api().getSocialSpyData().addUser(player.getUniqueId());
         }
 
         if (config.getBoolean("Command_Spy.Enable_On_Join")) {
-            if (player.hasPermission("chatmanager.commandspy")) plugin.api().getCommandSpyData().addUser(player.getUniqueId());
+            if (player.hasPermission("chatmanager.commandspy")) plugin.getCrazyManager().api().getCommandSpyData().addUser(player.getUniqueId());
         }
 
         if (config.getBoolean("Chat_Radius.Enable")) {
-            if (config.getString("Chat_Radius.Default_Channel").equals("Local")) plugin.api().getLocalChatData().addUser(player.getUniqueId());
-            if (config.getString("Chat_Radius.Default_Channel").equals("Global")) plugin.api().getGlobalChatData().addUser(player.getUniqueId());
-            if (config.getString("Chat_Radius.Default_Channel").equals("World")) plugin.api().getWorldChatData().addUser(player.getUniqueId());
+            if (config.getString("Chat_Radius.Default_Channel").equals("Local")) plugin.getCrazyManager().api().getLocalChatData().addUser(player.getUniqueId());
+            if (config.getString("Chat_Radius.Default_Channel").equals("Global")) plugin.getCrazyManager().api().getGlobalChatData().addUser(player.getUniqueId());
+            if (config.getString("Chat_Radius.Default_Channel").equals("World")) plugin.getCrazyManager().api().getWorldChatData().addUser(player.getUniqueId());
         }
 
         if (config.getBoolean("Chat_Radius.Enable")) {
             if (!config.getBoolean("Chat_Radius.Enable_Spy_On_Join")) return;
 
-            if (player.hasPermission("chatmanager.chatradius.spy")) plugin.api().getSpyChatData().addUser(player.getUniqueId());
+            if (player.hasPermission("chatmanager.chatradius.spy")) plugin.getCrazyManager().api().getSpyChatData().addUser(player.getUniqueId());
         }
 
         if (config.getBoolean("MOTD.Enable")) {

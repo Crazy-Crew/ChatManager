@@ -12,6 +12,8 @@ dependencies {
 
     implementation(libs.triumph.cmds)
 
+    implementation(libs.config.me)
+
     compileOnly(libs.placeholder.api)
     compileOnly(libs.vault.api)
 

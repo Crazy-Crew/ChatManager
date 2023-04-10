@@ -14,7 +14,7 @@ public class ListenerGrammar implements Listener, Universal {
 	public void grammarCheck(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 
-		if (event.getMessage().toCharArray().length < config.getInt("Grammar.Min_Message_Length") || !config.getBoolean("Grammar.Enable") || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
+		if (event.getMessage().toCharArray().length < config.getInt("Grammar.Min_Message_Length") || !config.getBoolean("Grammar.Enable") || plugin.getCrazyManager().api().getStaffChatData().containsUser(player.getUniqueId())) return;
 
 		if (player.hasPermission("chatmanager.bypass.grammar")) return;
 

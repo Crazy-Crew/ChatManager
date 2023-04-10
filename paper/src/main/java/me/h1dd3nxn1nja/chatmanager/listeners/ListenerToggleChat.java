@@ -13,10 +13,10 @@ public class ListenerToggleChat implements Listener, Universal {
 	public void onChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 
-		if (plugin.api().getToggleChatData().containsUser(player.getUniqueId())) return;
+		if (plugin.getCrazyManager().api().getToggleChatData().containsUser(player.getUniqueId())) return;
 
 		Set<Player> recipients = event.getRecipients();
 
-		recipients.removeIf(cm -> plugin.api().getToggleChatData().containsUser(cm.getUniqueId()));
+		recipients.removeIf(cm -> plugin.getCrazyManager().api().getToggleChatData().containsUser(cm.getUniqueId()));
 	}
 }

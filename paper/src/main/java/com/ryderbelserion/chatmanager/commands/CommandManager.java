@@ -1,6 +1,7 @@
 package com.ryderbelserion.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.api.Universal;
+import com.ryderbelserion.chatmanager.api.enums.ConvertOptions;
 import com.ryderbelserion.chatmanager.api.enums.DebugOptions;
 import com.ryderbelserion.chatmanager.api.enums.ToggleOptions;
 import com.ryderbelserion.chatmanager.commands.subcommands.admin.CommandConvert;
@@ -23,8 +24,6 @@ import dev.triumphteam.cmd.core.suggestion.SuggestionKey;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionDefault;
-
-import java.io.File;
 import java.util.*;
 
 @Command("chatmanager")
@@ -112,11 +111,9 @@ public class CommandManager extends BaseCommand implements Universal {
                         case "help" -> correctUsage = commandOrder + "<page>";
                         case "debug" -> correctUsage = commandOrder + "<name>";
                         case "toggle" -> correctUsage = commandOrder + "<type>";
-                        case "convert" -> correctUsage = commandOrder + "<file>";
+                        case "convert" -> correctUsage = commandOrder + "<rename_files/convert_old_files> <true/false>";
                     }
                 }
-
-                case "other" -> correctUsage = "t";
             }
 
             if (correctUsage != null) sender.sendMessage(correctUsage);
@@ -136,11 +133,9 @@ public class CommandManager extends BaseCommand implements Universal {
                         case "help" -> correctUsage = commandOrder + "<page>";
                         case "debug" -> correctUsage = commandOrder + "<name>";
                         case "toggle" -> correctUsage = commandOrder + "<type>";
-                        case "convert" -> correctUsage = commandOrder + "<file>";
+                        case "convert" -> correctUsage = commandOrder + "<rename_files/convert_old_files> <true/false>";
                     }
                 }
-
-                case "other" -> correctUsage = "t";
             }
 
             if (correctUsage != null) sender.sendMessage(correctUsage);
@@ -174,27 +169,17 @@ public class CommandManager extends BaseCommand implements Universal {
             return values;
         });
 
-        commandManager.registerSuggestion(SuggestionKey.of("file-convert"), (sender, context) -> {
-            ArrayList<String> files = new ArrayList<>();
+        commandManager.registerSuggestion(SuggestionKey.of("convert-options"), (sender, context) -> {
+            ArrayList<String> values = new ArrayList<>();
 
-            File logsFolder = null;
-
-            for (File file : Objects.requireNonNull(plugin.getDataFolder().listFiles())) {
-                files.add(file.getPath());
-
-                if (file.isDirectory()) logsFolder = new File(file.getPath());
+            for (ConvertOptions value : ConvertOptions.values()) {
+                values.add(value.getName());
             }
 
-            if (logsFolder != null) {
-                if (logsFolder.exists()) {
-                    for (File file : Objects.requireNonNull(logsFolder.listFiles())) {
-                        files.add(file.getPath());
-                    }
-                }
-            }
-
-            return files;
+            return values;
         });
+
+        commandManager.registerSuggestion(SuggestionKey.of("booleans"), ((sender, context) -> List.of("true", "false")));
 
         commandManager.registerCommand(new CommandManager());
 

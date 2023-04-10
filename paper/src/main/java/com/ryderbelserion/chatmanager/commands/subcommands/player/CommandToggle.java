@@ -24,13 +24,13 @@ public class CommandToggle extends CommandManager {
                     return;
                 }
 
-                if (plugin.api().getToggleChatData().containsUser(uuid)) {
-                    plugin.api().getToggleChatData().removeUser(uuid);
+                if (plugin.getCrazyManager().api().getToggleChatData().containsUser(uuid)) {
+                    plugin.getCrazyManager().api().getToggleChatData().removeUser(uuid);
                     Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Chat.Enabled")), true);
                     return;
                 }
 
-                plugin.api().getToggleChatData().addUser(uuid);
+                plugin.getCrazyManager().api().getToggleChatData().addUser(uuid);
                 Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Chat.Disabled")), true);
             }
 
@@ -40,13 +40,13 @@ public class CommandToggle extends CommandManager {
                     return;
                 }
 
-                if (plugin.api().getToggleMentionsData().containsUser(uuid)) {
-                    plugin.api().getToggleMentionsData().removeUser(uuid);
+                if (plugin.getCrazyManager().api().getToggleMentionsData().containsUser(uuid)) {
+                    plugin.getCrazyManager().api().getToggleMentionsData().removeUser(uuid);
                     Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Mentions.Enabled")), true);
                     return;
                 }
 
-                plugin.api().getToggleMentionsData().addUser(uuid);
+                plugin.getCrazyManager().api().getToggleMentionsData().addUser(uuid);
                 Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Mentions.Disabled")), true);
             }
             
@@ -56,15 +56,15 @@ public class CommandToggle extends CommandManager {
                     return;
                 }
                 
-                boolean isValid = plugin.api().getToggleMessageData().containsUser(uuid);
+                boolean isValid = plugin.getCrazyManager().api().getToggleMessageData().containsUser(uuid);
 
                 if (isValid) {
-                    plugin.api().getToggleMessageData().removeUser(uuid);
+                    plugin.getCrazyManager().api().getToggleMessageData().removeUser(uuid);
                     Methods.sendMessage(player, messages.getString("TogglePM.Enabled"), true);
                     return;
                 }
 
-                plugin.api().getToggleMessageData().addUser(uuid);
+                plugin.getCrazyManager().api().getToggleMessageData().addUser(uuid);
                 Methods.sendMessage(player, messages.getString("TogglePM.Disabled"), true);
             }
         }
