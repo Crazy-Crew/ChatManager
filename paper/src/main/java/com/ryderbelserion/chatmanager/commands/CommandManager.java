@@ -101,20 +101,7 @@ public class CommandManager extends BaseCommand implements Universal {
             String command = context.getCommand();
             String subCommand = context.getSubCommand();
 
-            String commandOrder = "/" + command + " " + subCommand + " ";
-
-            String correctUsage = null;
-
-            switch (command) {
-                case "chatmanager" -> {
-                    switch (subCommand) {
-                        case "help" -> correctUsage = commandOrder + "<page>";
-                        case "debug" -> correctUsage = commandOrder + "<name>";
-                        case "toggle" -> correctUsage = commandOrder + "<type>";
-                        case "convert" -> correctUsage = commandOrder + "<rename_files/convert_old_files> <true/false>";
-                    }
-                }
-            }
+            String correctUsage = switchCommands(command, subCommand);
 
             if (correctUsage != null) sender.sendMessage(correctUsage);
         }));
@@ -123,20 +110,7 @@ public class CommandManager extends BaseCommand implements Universal {
             String command = context.getCommand();
             String subCommand = context.getSubCommand();
 
-            String commandOrder = "/" + command + " " + subCommand + " ";
-
-            String correctUsage = null;
-
-            switch (command) {
-                case "chatmanager" -> {
-                    switch (subCommand) {
-                        case "help" -> correctUsage = commandOrder + "<page>";
-                        case "debug" -> correctUsage = commandOrder + "<name>";
-                        case "toggle" -> correctUsage = commandOrder + "<type>";
-                        case "convert" -> correctUsage = commandOrder + "<rename_files/convert_old_files> <true/false>";
-                    }
-                }
-            }
+            String correctUsage = switchCommands(command, subCommand);
 
             if (correctUsage != null) sender.sendMessage(correctUsage);
         }));
@@ -195,5 +169,22 @@ public class CommandManager extends BaseCommand implements Universal {
         commandManager.registerCommand(new CommandList());
 
         commandManager.registerCommand(new CommandMOTD());
+    }
+
+    private static String switchCommands(String command, String subCommand) {
+        String commandOrder = "/" + command + " " + subCommand + " ";
+
+        String correctUsage = null;
+
+        if (command.equals("chatmanager")) {
+            switch (subCommand) {
+                case "help" -> correctUsage = commandOrder + "<page>";
+                case "debug" -> correctUsage = commandOrder + "<name>";
+                case "toggle" -> correctUsage = commandOrder + "<type>";
+                case "convert" -> correctUsage = commandOrder + "<rename_files/convert_old_files> <true/false>";
+            }
+        }
+
+        return correctUsage;
     }
 }
