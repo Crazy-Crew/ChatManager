@@ -67,10 +67,8 @@ tasks {
         //<h3>The first release for ChatManager on Modrinth! 🎉🎉🎉🎉🎉<h3><br> If we want a header.
         changelog.set(
             """
-             <h3>⚠️ Warning: 1.17.1 and below support will be dropped shortly! ⚠️<h3><br>
                 <h2>Changes:</h2>
-                 <p>Added 1.19.4 support</p>
-                 <p>Removed 1.8.8-1.17.1 support</p>
+                 <p>Fixed an issue with message/command cooldowns not working.</p>
                 <h2>Bug Fixes:</h2>
                  <p>N/A/p>
             """.trimIndent()

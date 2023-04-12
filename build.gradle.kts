@@ -1,4 +1,3 @@
-import com.lordcodes.turtle.shellRun
 import task.WebhookExtension
 import java.awt.Color
 
@@ -18,13 +17,11 @@ val extension = settings.versions.extension.get()
 val color = if (beta) betaUpdate else releaseUpdate
 val repo = if (beta) "beta" else "releases"
 
-val url = if (beta) "https://ci.crazycrew.us/job/${rootProject.name}/" else "https://modrinth.com/$extension/${rootProject.name.lowercase()}/versions"
-val download = if (beta) "https://ci.crazycrew.us/job/${rootProject.name}/" else "https://modrinth.com/$extension/${rootProject.name.lowercase()}/version/${rootProject.version}"
+val url = "https://modrinth.com/$extension/${rootProject.name.lowercase()}/versions"
+val download = "https://modrinth.com/$extension/${rootProject.name.lowercase()}/version/${rootProject.version}"
 val msg = if (beta) "New version of ${rootProject.name} is ready!" else "New version of ${rootProject.name} is ready! <@&929463441159254066>"
 
-val hash = shellRun("git", listOf("rev-parse", "--short", "HEAD"))
-
-rootProject.version = if (beta) hash else "3.9.1"
+rootProject.version = "3.9.1.1"
 
 webhook {
     this.avatar("https://en.gravatar.com/avatar/${WebhookExtension.Gravatar().md5Hex("no-reply@ryderbelserion.com")}.jpeg")
@@ -62,7 +59,6 @@ webhook {
             this.title("What changed?")
 
             this.description("""
-                Changes:
                 » Fixed an issue with message/command cooldowns not working.
                 
                 API:
@@ -70,7 +66,9 @@ webhook {
                  
                 Bugs:
                  » Submit any bugs @ https://github.com/Crazy-Crew/ChatManager/issues
-                 » **Don't throw this into production instantly. I changed a LOT and would appreciate if you can test it.**
+                
+                Full Changelog -> $download
+                
             """.trimIndent())
         }
     }
