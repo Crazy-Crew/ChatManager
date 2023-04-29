@@ -14,20 +14,18 @@ import com.ryderbelserion.chatmanager.commands.subcommands.player.CommandToggle;
 import dev.triumphteam.cmd.bukkit.BukkitCommandManager;
 import dev.triumphteam.cmd.bukkit.annotation.Permission;
 import dev.triumphteam.cmd.bukkit.message.BukkitMessageKey;
-import dev.triumphteam.cmd.core.BaseCommand;
-import dev.triumphteam.cmd.core.annotation.Command;
-import dev.triumphteam.cmd.core.annotation.Default;
-import dev.triumphteam.cmd.core.annotation.SubCommand;
-import dev.triumphteam.cmd.core.annotation.Suggestion;
+import dev.triumphteam.cmd.core.annotations.Command;
+import dev.triumphteam.cmd.core.annotations.Suggestion;
 import dev.triumphteam.cmd.core.message.MessageKey;
 import dev.triumphteam.cmd.core.suggestion.SuggestionKey;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionDefault;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Command("chatmanager")
-public class CommandManager extends BaseCommand implements Universal {
+public class CommandManager implements Universal {
 
     private final String pageOne = """
                 &6<> &f= Required Arguments
@@ -45,13 +43,13 @@ public class CommandManager extends BaseCommand implements Universal {
                 &7Page 1/3. Type &c/chatmanager help 2 &7to go to the next page.
                 """;
 
-    @Default
+    @Command
     @Permission(value = "chatmanager.command.help", def = PermissionDefault.TRUE)
     public void help(CommandSender sender) {
         Methods.sendMessage(sender, pageOne, true);
     }
 
-    @SubCommand("help")
+    @Command("help")
     @Permission(value = "chatmanager.command.help", def = PermissionDefault.TRUE)
     public void help(CommandSender sender, @Suggestion("pages") String page) {
         String pageTwo = """
@@ -95,25 +93,29 @@ public class CommandManager extends BaseCommand implements Universal {
     public static void setup() {
         commandManager.registerMessage(MessageKey.UNKNOWN_COMMAND, ((sender, context) -> Methods.sendMessage(sender, "&cUnknown Command", true)));
 
-        commandManager.registerMessage(MessageKey.INVALID_ARGUMENT, (((sender, context) -> Methods.sendMessage(sender, "&c " + context.getTypedArgument() + "&e is invalid.", true))));
+        commandManager.registerMessage(MessageKey.INVALID_ARGUMENT, (((sender, context) -> Methods.sendMessage(sender, "&c " + context.getArgumentName() + "&e is invalid.", true))));
 
-        commandManager.registerMessage(MessageKey.NOT_ENOUGH_ARGUMENTS, ((sender, context) -> {
-            String command = context.getCommand();
-            String subCommand = context.getSubCommand();
+        commandManager.registerMessage(MessageKey.NOT_ENOUGH_ARGUMENTS, (((sender, context) -> {
 
-            String correctUsage = switchCommands(command, subCommand);
+        })));
 
-            if (correctUsage != null) sender.sendMessage(correctUsage);
-        }));
+        //commandManager.registerMessage(MessageKey.NOT_ENOUGH_ARGUMENTS, ((sender, context) -> {
+            //String command = context.getCommand();
+            //String subCommand = context.getSubCommand();
 
-        commandManager.registerMessage(MessageKey.TOO_MANY_ARGUMENTS, ((sender, context) -> {
-            String command = context.getCommand();
-            String subCommand = context.getSubCommand();
+            //String correctUsage = switchCommands(command, subCommand);
 
-            String correctUsage = switchCommands(command, subCommand);
+            //if (correctUsage != null) sender.sendMessage(correctUsage);
+        //}));
 
-            if (correctUsage != null) sender.sendMessage(correctUsage);
-        }));
+        //commandManager.registerMessage(MessageKey.TOO_MANY_ARGUMENTS, ((sender, context) -> {
+            //String command = context.getCommand();
+            //String subCommand = context.getSubCommand();
+
+            //String correctUsage = switchCommands(command, subCommand);
+
+            //if (correctUsage != null) sender.sendMessage(correctUsage);
+        //}));
 
         commandManager.registerMessage(BukkitMessageKey.NO_PERMISSION, ((sender, context) -> Methods.sendMessage(sender, Methods.noPermission(), true)));
 

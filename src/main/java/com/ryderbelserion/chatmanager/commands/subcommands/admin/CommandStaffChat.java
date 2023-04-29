@@ -2,8 +2,8 @@ package com.ryderbelserion.chatmanager.commands.subcommands.admin;
 
 import com.ryderbelserion.chatmanager.commands.CommandManager;
 import dev.triumphteam.cmd.bukkit.annotation.Permission;
-import dev.triumphteam.cmd.core.annotation.Optional;
-import dev.triumphteam.cmd.core.annotation.SubCommand;
+import dev.triumphteam.cmd.core.annotations.Command;
+import dev.triumphteam.cmd.core.annotations.Optional;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
 import org.bukkit.command.CommandSender;
@@ -14,11 +14,12 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.permissions.PermissionDefault;
 import java.util.UUID;
 
+@Command("staffchat")
+@Permission(value = "chatmanager.command.staffchat", def = PermissionDefault.OP)
 public class CommandStaffChat extends CommandManager implements Listener {
 
-    @SubCommand("staffchat")
-    @Permission(value = "chatmanager.command.staffchat", def = PermissionDefault.OP)
-    public void staff(CommandSender sender, @Optional String message) {
+    @Command()
+    public void execute(CommandSender sender, @Optional String message) {
         if (!config.getBoolean("Staff_Chat.Enable")) {
             Methods.sendMessage(sender, "&4Error: &cStaff Chat is currently disabled & cannot be used at this time.", true);
             return;

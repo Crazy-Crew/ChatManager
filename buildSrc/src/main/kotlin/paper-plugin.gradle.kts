@@ -1,5 +1,7 @@
 plugins {
-    id("chatmanager.root-plugin")
+    id("root-plugin")
+
+    id("com.github.johnrengelman.shadow")
 
     id("io.papermc.paperweight.userdev")
 }
@@ -19,13 +21,5 @@ dependencies {
 tasks {
     assemble {
         dependsOn(reobfJar)
-    }
-
-    reobfJar {
-        val file = File("$rootDir/jars")
-
-        if (!file.exists()) file.mkdirs()
-
-        outputJar.set(layout.buildDirectory.file("$file/${rootProject.name}-Paper-${rootProject.version}.jar"))
     }
 }

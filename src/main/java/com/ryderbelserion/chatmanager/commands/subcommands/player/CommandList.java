@@ -2,18 +2,19 @@ package com.ryderbelserion.chatmanager.commands.subcommands.player;
 
 import com.ryderbelserion.chatmanager.commands.CommandManager;
 import dev.triumphteam.cmd.bukkit.annotation.Permission;
-import dev.triumphteam.cmd.core.annotation.SubCommand;
+import dev.triumphteam.cmd.core.annotations.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionDefault;
 import java.text.DecimalFormat;
 
+@Command("list")
+@Permission(value = "chatmanager.command.list", def = PermissionDefault.TRUE)
 public class CommandList extends CommandManager {
 
     private final DecimalFormat decimalFormat = new DecimalFormat("#,###");
 
-    @SubCommand("list")
-    @Permission(value = "chatmanager.command.list", def = PermissionDefault.TRUE)
-    public void list(CommandSender sender) {
+    @Command
+    public void execute(CommandSender sender) {
         //String online = decimalFormat.format(plugin.getServer().getOnlinePlayers().size());
         //String max = decimalFormat.format(plugin.getServer().getMaxPlayers());
 

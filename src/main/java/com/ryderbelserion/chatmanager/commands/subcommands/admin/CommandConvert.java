@@ -1,30 +1,26 @@
 package com.ryderbelserion.chatmanager.commands.subcommands.admin;
 
 import com.ryderbelserion.chatmanager.api.enums.ConvertOptions;
+import com.ryderbelserion.chatmanager.commands.CommandManager;
 import com.ryderbelserion.chatmanager.configs.migrate.manuel.DefaultMigration;
 import dev.triumphteam.cmd.bukkit.annotation.Permission;
-import dev.triumphteam.cmd.core.BaseCommand;
-import dev.triumphteam.cmd.core.annotation.Command;
-import dev.triumphteam.cmd.core.annotation.Optional;
-import dev.triumphteam.cmd.core.annotation.SubCommand;
-import dev.triumphteam.cmd.core.annotation.Suggestion;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import dev.triumphteam.cmd.core.annotations.Command;
+import dev.triumphteam.cmd.core.annotations.Optional;
+import dev.triumphteam.cmd.core.annotations.Suggestion;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionDefault;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 
-@Command(value = "chatmanager")
-public class CommandConvert extends BaseCommand {
-
-    private final ChatManager plugin = ChatManager.getPlugin();
+@Command("convert")
+@Permission(value = "chatmanager.command.convert", def = PermissionDefault.OP)
+public class CommandConvert extends CommandManager {
 
     private final DefaultMigration defaultMigration = new DefaultMigration();
 
-    @SubCommand("convert")
-    @Permission(value = "chatmanager.command.convert", def = PermissionDefault.OP)
-    public void convert(CommandSender sender, @Suggestion("convert-options") ConvertOptions convertOptions, @Optional @Suggestion("booleans") boolean deleteFile) {
+    @Command
+    public void execute(CommandSender sender, @Suggestion("convert-options") ConvertOptions convertOptions, @Optional @Suggestion("booleans") boolean deleteFile) {
         if (!plugin.getDataFolder().exists()) return;
 
         switch (convertOptions.getName()) {

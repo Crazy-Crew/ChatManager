@@ -1,78 +1,33 @@
-import task.WebhookExtension
-import java.awt.Color
-
 plugins {
-    id("chatmanager.root-plugin")
+    id("paper-plugin")
+    id("library-plugin")
 
-    id("featherpatcher") version "0.0.0.1"
+    id("xyz.jpenilla.run-paper") version "2.0.1"
 }
 
-val releaseUpdate = Color(27, 217, 106)
-val betaUpdate = Color(255, 163, 71)
-val changeLogs = Color(37, 137, 204)
+dependencies {
+    implementation(libs.bstats.bukkit)
 
-val beta = settings.versions.beta.get().toBoolean()
-val extension = settings.versions.extension.get()
+    implementation(libs.triumph.cmds)
 
-val color = if (beta) betaUpdate else releaseUpdate
-val repo = if (beta) "beta" else "releases"
+    implementation(libs.config.me)
 
-val url = "https://modrinth.com/$extension/${rootProject.name.lowercase()}/versions"
-val msg = if (beta) "New version of ${rootProject.name} is ready!" else "New version of ${rootProject.name} is ready! <@&929463441159254066>"
+    compileOnly(libs.placeholder.api)
+    compileOnly(libs.vault.api)
 
-rootProject.version = "3.9.1.1"
+    compileOnly(libs.essentialsx)
+}
 
-val download = "https://modrinth.com/$extension/${rootProject.name.lowercase()}/version/${rootProject.version}"
+tasks {
+    reobfJar {
+        val file = File("$rootDir/jars")
 
-webhook {
-    this.avatar("https://en.gravatar.com/avatar/${WebhookExtension.Gravatar().md5Hex("no-reply@ryderbelserion.com")}.jpeg")
+        if (!file.exists()) file.mkdirs()
 
-    this.username("Ryder Belserion")
-
-    this.content(msg)
-
-    this.embeds {
-        this.embed {
-            this.color(color)
-
-            this.fields {
-                this.field(
-                    "Download: ",
-                    url
-                )
-
-                this.field(
-                    "API: ",
-                    "https://repo.crazycrew.us/#/$repo/${rootProject.group.toString().replace(".", "/")}/${rootProject.name.lowercase()}-api/${rootProject.version}"
-                )
-            }
-
-            this.author(
-                "${rootProject.name} | Version ${rootProject.version}",
-                url,
-                "https://raw.githubusercontent.com/RyderBelserion/assets/main/crazycrew/png/${rootProject.name}Website.png"
-            )
-        }
-
-        this.embed {
-            this.color(changeLogs)
-
-            this.title("What changed?")
-
-            this.description("""
-                » Fixed an issue with message/command cooldowns not working.
-                
-                API:
-                 » N/A
-                 
-                Bugs:
-                 » Submit any bugs @ https://github.com/Crazy-Crew/ChatManager/issues
-                
-                Full Changelog -> $download
-                
-            """.trimIndent())
-        }
+        outputJar.set(layout.buildDirectory.file("$file/${rootProject.name}-${rootProject.version}.jar"))
     }
 
-    this.url("SECOND_WEBHOOK")
+    runServer {
+        minecraftVersion("1.19.4")
+    }
 }

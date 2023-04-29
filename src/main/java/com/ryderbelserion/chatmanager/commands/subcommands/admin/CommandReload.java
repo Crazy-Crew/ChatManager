@@ -2,19 +2,16 @@ package com.ryderbelserion.chatmanager.commands.subcommands.admin;
 
 import com.ryderbelserion.chatmanager.commands.CommandManager;
 import dev.triumphteam.cmd.bukkit.annotation.Permission;
-import dev.triumphteam.cmd.core.annotation.SubCommand;
-import me.h1dd3nxn1nja.chatmanager.Methods;
-import me.h1dd3nxn1nja.chatmanager.managers.AutoBroadcastManager;
-import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
+import dev.triumphteam.cmd.core.annotations.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionDefault;
-import java.util.UUID;
 
+@Command("reload")
+@Permission(value = "chatmanager.command.reload", def = PermissionDefault.OP)
 public class CommandReload extends CommandManager {
 
-    @SubCommand("reload")
-    @Permission(value = "chatmanager.command.reload", def = PermissionDefault.OP)
-    public void reload(CommandSender sender) {
+    @Command
+    public void execute(CommandSender sender) {
         crazyManager.stop(false);
         crazyManager.load(false);
 

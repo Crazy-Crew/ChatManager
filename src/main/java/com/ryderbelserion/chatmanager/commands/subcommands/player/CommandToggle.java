@@ -3,18 +3,19 @@ package com.ryderbelserion.chatmanager.commands.subcommands.player;
 import com.ryderbelserion.chatmanager.api.enums.ToggleOptions;
 import com.ryderbelserion.chatmanager.commands.CommandManager;
 import dev.triumphteam.cmd.bukkit.annotation.Permission;
-import dev.triumphteam.cmd.core.annotation.SubCommand;
-import dev.triumphteam.cmd.core.annotation.Suggestion;
+import dev.triumphteam.cmd.core.annotations.Command;
+import dev.triumphteam.cmd.core.annotations.Suggestion;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
 import java.util.UUID;
 
+@Command("toggle")
+@Permission(value = "chatmanager.command.toggle", def = PermissionDefault.OP)
 public class CommandToggle extends CommandManager {
 
-    @SubCommand("toggle")
-    @Permission(value = "chatmanager.command.toggle", def = PermissionDefault.OP)
-    public void toggle(Player player, @Suggestion("toggles") ToggleOptions toggleOptions) {
+    @Command
+    public void execute(Player player, @Suggestion("toggles") ToggleOptions toggleOptions) {
         UUID uuid = player.getUniqueId();
         
         switch (toggleOptions.getName()) {

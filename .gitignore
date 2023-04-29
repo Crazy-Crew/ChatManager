@@ -1,20 +1,8 @@
 .gradle
 .idea
 
-buildSrc/build
 buildSrc/.gradle
-
-api/build
-api/.gradle
-paper/.gradle
-paper/build
-
-!paper/run/plugins/Vault.jar
-!paper/run/plugins/LuckPerms.jar
-!paper/run/eula.txt
-
-paper/run
+buildSrc/build
 
 build
-
 jars
