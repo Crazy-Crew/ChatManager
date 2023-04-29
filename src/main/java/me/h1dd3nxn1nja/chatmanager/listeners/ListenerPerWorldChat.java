@@ -3,7 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import com.ryderbelserion.chatmanager.api.Universal;
+import com.ryderbelserion.chatmanager.v1.api.Universal;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

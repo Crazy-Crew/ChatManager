@@ -1,6 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
-import com.ryderbelserion.chatmanager.configs.sections.WordFilterSettings;
+import com.ryderbelserion.chatmanager.api.configs.types.FilterSettings;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
@@ -20,7 +20,7 @@ public class CommandBannedCommands implements CommandExecutor {
 	
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		FileConfiguration messages = settingsManager.getMessages();
-		List<String> blackListedCommands = plugin.getCrazyManager().getSettingsHandler().getWordFilterSettings().getProperty(WordFilterSettings.BLACKLISTED_COMMANDS);
+		List<String> blackListedCommands = plugin.getCrazyManager().getSettingsHandler().getWordFilterSettings().getProperty(FilterSettings.BLACKLISTED_COMMANDS);
 		
 		if (!(sender instanceof Player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);

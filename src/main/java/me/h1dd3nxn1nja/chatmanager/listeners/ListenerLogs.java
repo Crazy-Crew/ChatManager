@@ -1,9 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import com.ryderbelserion.chatmanager.api.Universal;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import me.h1dd3nxn1nja.chatmanager.SettingsManager;
-import org.bukkit.configuration.file.FileConfiguration;
+import com.ryderbelserion.chatmanager.v1.api.Universal;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;

@@ -1,9 +1,8 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import com.ryderbelserion.chatmanager.api.Universal;
+import com.ryderbelserion.chatmanager.v1.api.Universal;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

@@ -2,7 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.support.vanish;
 
 import com.earth2me.essentials.User;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import com.ryderbelserion.chatmanager.api.interfaces.VanishController;
+import com.ryderbelserion.chatmanager.v1.api.interfaces.VanishController;
 import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
 import org.bukkit.entity.Player;
 

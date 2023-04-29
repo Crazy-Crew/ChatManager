@@ -1,6 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.support.vanish;
 
-import com.ryderbelserion.chatmanager.api.interfaces.VanishController;
+import com.ryderbelserion.chatmanager.v1.api.interfaces.VanishController;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
 

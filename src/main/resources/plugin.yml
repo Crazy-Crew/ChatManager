@@ -8,12 +8,6 @@ api-version: "1.18"
 description: ${description}
 website: ${website}
 
-softdepend:
- - PlaceholderAPI
- - Vault
- - Essentials
- - SuperVanish
-        
 permissions:
     chatmanager.antiswear:
         description: Permission to view all the commands for the anti swear.

@@ -1,7 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager;
 
-import com.ryderbelserion.chatmanager.CrazyManager;
-import com.ryderbelserion.chatmanager.commands.subcommands.admin.CommandStaffChat;
+import com.ryderbelserion.chatmanager.v1.api.CrazyManager;
+import com.ryderbelserion.chatmanager.commands.v1.subcommands.admin.CommandStaffChat;
 import me.h1dd3nxn1nja.chatmanager.listeners.*;
 import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -69,7 +69,7 @@ public class ChatManager extends JavaPlugin {
     }
 
     public void registerEvents() {
-        getServer().getPluginManager().registerEvents(new CommandStaffChat(), this);
+        //getServer().getPluginManager().registerEvents(new CommandStaffChat(), this);
 
         getServer().getPluginManager().registerEvents(new ListenerAntiAdvertising(), this);
         getServer().getPluginManager().registerEvents(new ListenerAntiBot(), this);

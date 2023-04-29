@@ -6,11 +6,13 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.bstats.bukkit)
+    api(libs.crazycore)
 
-    implementation(libs.triumph.cmds)
+    compileOnly(libs.bstats.bukkit)
 
-    implementation(libs.config.me)
+    compileOnly(libs.config.me)
+
+    compileOnly(libs.aikars)
 
     compileOnly(libs.placeholder.api)
     compileOnly(libs.vault.api)

@@ -1,6 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import com.ryderbelserion.chatmanager.api.Universal;
+import com.ryderbelserion.chatmanager.v1.api.Universal;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
