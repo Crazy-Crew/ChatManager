@@ -34,33 +34,38 @@ public class AdvertSettings implements SettingsHolder {
     public static final Property<Boolean> NOTIFY_STAFF_CHAT = newProperty(path + "chat.notify-staff", true);
 
     @Comment("Should a command be executed when a player advertises?")
-    public static final Property<Boolean> COMMAND_EXECUTE_TOGGLE_CHAT = newProperty(path + "chat.commands.toggle", false);
+    public static final Property<Boolean> EXECUTE_CHAT_ADVERTS = newProperty(path + "chat.commands.toggle", false);
 
     @Comment("The command that is executed when a player advertises.")
-    public static final Property<String> VALUE_CHAT = newProperty(path + "chat.commands.value", "kick {player} Please do not advertise in chat.");
-    
+    public static final Property<List<String>> EXECUTED_CHAT_ADVERTS = newListProperty(path + "chat.commands.value", List.of(
+            "kick {player} Do not swear in chat",
+            "warn {player} Do not swear in chat"
+    ));
+
     @Comment("Whenever a player advertises in chat, The message will get logged in advertisements.txt")
     public static final Property<Boolean> LOG_ADVERTISEMENTS_CHAT = newProperty(path + "chat.commands.log", false);
-    
-    
+
     // Commands.
     @Comment("Whether to block advertising in commands or not.")
-    public static final Property<Boolean> BLOCK_ADVERTISING_COMMAND = newProperty(path + "commands.enable", false);
+    public static final Property<Boolean> BLOCK_ADVERTISING_COMMANDS = newProperty(path + "commands.enable", false);
 
     @Comment("Should the anti advertising checks be more sensitives? Warning: It will cause false positives.")
-    public static final Property<Boolean> INCREASE_SENSITIVITY_COMMAND = newProperty(path + "commands.increase-sensitivity", false);
+    public static final Property<Boolean> INCREASE_SENSITIVITY_COMMANDS = newProperty(path + "commands.increase-sensitivity", false);
 
     @Comment("Should staff be notified when a player advertises?")
-    public static final Property<Boolean> NOTIFY_STAFF_COMMAND = newProperty(path + "commands.notify-staff", true);
+    public static final Property<Boolean> NOTIFY_STAFF_COMMANDS = newProperty(path + "commands.notify-staff", true);
 
     @Comment("Should a command be executed when a player advertises?")
-    public static final Property<Boolean> COMMAND_EXECUTE_TOGGLE_COMMAND = newProperty(path + "commands.toggle", false);
+    public static final Property<Boolean> EXECUTE_COMMANDS_ADVERTS = newProperty(path + "commands.toggle", false);
 
     @Comment("The command that is executed when a player advertises.")
-    public static final Property<String> VALUE_COMMAND = newProperty(path + "commands.value", "kick {player} Please do not advertise in commands.");
+    public static final Property<List<String>> EXECUTED_COMMANDS_ADVERTS = newListProperty(path + "commands.value", List.of(
+            "kick {player} Do not swear in chat",
+            "warn {player} Do not swear in chat"
+    ));
 
     @Comment("Whenever a player advertises in while using commands, The message will get logged in advertisements.txt")
-    public static final Property<Boolean> LOG_ADVERTISEMENTS_COMMAND = newProperty(path + "commands.log", false);
+    public static final Property<Boolean> LOG_ADVERTISEMENTS_COMMANDS = newProperty(path + "commands.log", false);
 
     // Signs.
     @Comment("Whether to block advertising in signs or not.")
@@ -73,10 +78,13 @@ public class AdvertSettings implements SettingsHolder {
     public static final Property<Boolean> NOTIFY_STAFF_SIGNS = newProperty(path + "signs.notify-staff", true);
 
     @Comment("Should a command be executed when a player advertises?")
-    public static final Property<Boolean> COMMAND_EXECUTE_TOGGLE_SIGNS = newProperty(path + "signs.toggle", false);
+    public static final Property<Boolean> EXECUTE_SIGNS_ADVERTS = newProperty(path + "signs.toggle", false);
 
     @Comment("The command that is executed when a player advertises.")
-    public static final Property<String> VALUE_SIGNS = newProperty(path + "signs.value", "kick {player} Please do not advertise in signs.");
+    public static final Property<List<String>> EXECUTED_SIGNS_ADVERTS = newListProperty(path + "signs.value", List.of(
+            "kick {player} Do not swear in chat",
+            "warn {player} Do not swear in chat"
+    ));
 
     @Comment("Whenever a player advertises in a sign, The message will get logged in advertisements.txt")
     public static final Property<Boolean> LOG_ADVERTISEMENTS_SIGNS = newProperty(path + "signs.log", false);

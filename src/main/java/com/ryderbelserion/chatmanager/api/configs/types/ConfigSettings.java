@@ -4,7 +4,8 @@ import ch.jalu.configme.Comment;
 import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.configurationdata.CommentsConfiguration;
 import ch.jalu.configme.properties.Property;
-
+import java.util.List;
+import static ch.jalu.configme.properties.PropertyInitializer.newListProperty;
 import static ch.jalu.configme.properties.PropertyInitializer.newProperty;
 
 public class ConfigSettings implements SettingsHolder {
@@ -44,4 +45,42 @@ public class ConfigSettings implements SettingsHolder {
     @Comment("The percentage the message has to be in caps to get blocked.")
     public static final Property<Integer> ANTI_CAPS_PERCENTAGE = newProperty("anti-caps.required-percentage", 70);
 
+    // Anti Unicode.
+    @Comment("Block special characters in chat.")
+    public static final Property<Boolean> ANTI_UNICODE_ENABLED = newProperty("anti-unicode.enable", true);
+
+    @Comment("Should staff get notified when a player uses special characters?")
+    public static final Property<Boolean> ANTI_UNICODE_NOTIFY_STAFF = newProperty("anti-unicode.notify-staff", true);
+
+    @Comment("Should a command be executed when a player uses special characters?")
+    public static final Property<Boolean> ANTI_UNICODE_EXECUTE_COMMANDS = newProperty("anti-unicode.toggle", true);
+
+    @Comment("The command that is executed when a player uses special characters in chat.")
+    public static final Property<List<String>> ANTI_UNICODE_EXECUTED_COMMANDS = newListProperty("anti-unicode.values", List.of(
+            "kick {player} Please do not use special characters in chat."
+    ));
+
+    @Comment("Anything that's in this list won’t be blocked by the anti unicode checker.")
+    public static final Property<List<String>> ANTI_UNICODE_WHITELIST = newListProperty("anti-unicode.whitelist", List.of(
+            "«",
+            "»"
+    ));
+
+    // Banned Commands
+    @Comment("Block special characters in chat.")
+    public static final Property<Boolean> BANNED_COMMANDS_ENABLED = newProperty("banned-commands.enable", true);
+
+    @Comment("Should the banned commands checks be more sensitives? Warning: It will cause false positives.")
+    public static final Property<Boolean> INCREASE_SENSITIVITY_BANNED_COMMANDS = newProperty("banned-commands.increase-sensitivity", false);
+
+    @Comment("Should staff get notified when a player uses special characters?")
+    public static final Property<Boolean> BANNED_COMMANDS_NOTIFY_STAFF = newProperty("banned-commands.notify-staff", true);
+
+    @Comment("Should a command be executed when a player uses special characters?")
+    public static final Property<Boolean> BANNED_COMMANDS_EXECUTE_COMMANDS = newProperty("banned-commands.toggle", true);
+
+    @Comment("The command that is executed when a player uses special characters in chat.")
+    public static final Property<List<String>> BANNED_COMMANDS_EXECUTED_COMMANDS = newListProperty("banned-commands.values", List.of(
+            "kick {player} You are not allowed to use that command!"
+    ));
 }
