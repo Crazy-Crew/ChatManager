@@ -8,6 +8,7 @@ import com.ryderbelserion.chatmanager.api.configs.types.LocaleSettings;
 import com.ryderbelserion.chatmanager.api.configs.types.PluginSettings;
 import com.ryderbelserion.chatmanager.api.configs.types.FilterSettings;
 import com.ryderbelserion.chatmanager.api.configs.types.sections.AdvertSettings;
+import com.ryderbelserion.chatmanager.api.configs.types.sections.SwearSettings;
 import us.crazycrew.crazycore.paper.utils.FileUtils;
 import java.io.File;
 import java.nio.file.Path;
@@ -41,7 +42,8 @@ public class ConfigBuilder {
                 .useDefaultMigrationService()
                 .configurationData(ConfigurationDataBuilder.createConfiguration(
                         ConfigSettings.class,
-                        AdvertSettings.class
+                        AdvertSettings.class,
+                        SwearSettings.class
                 ))
                 .create();
 
