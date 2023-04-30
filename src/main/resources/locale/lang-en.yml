@@ -1,46 +1,37 @@
-# Support: https://discord.gg/crazycrew
+# Support: https://discord.gg/n9A9xtA
 # Github: https://github.com/Crazy-Crew
 #
-# Issues: https://github.com/Crazy-Crew/CrazyCrates/issues
-# Features: https://github.com/Crazy-Crew/CrazyCrates/discussions
-# Translations: https://github.com/Crazy-Crew/CrazyCrates/discussions/categories/translations
+# Issues: https://github.com/Crazy-Crew/ChatManager/issues
+# Features: https://github.com/Crazy-Crew/ChatManager/issues
+# Translations: https://github.com/Crazy-Crew/ChatManager/issues
 
 misc:
   unknown-command: '<red>This command is not known.</red>'
   out-of-order: '<red>This is currently out of order until further notice.</red>'
   file-conversion:
-    success: '<green>Successfully converted any possible files while doing %action%.</green>'
-    failed: '<red>Failed to convert the files because: <gold>%reason%</gold></red>'
-  no-teleporting: '<red>You may not teleport away while opening</red> <gold>%crate%.</gold>'
-  no-commands: '<red>You are not allowed to use commands while opening</red> <gold>%crate%.</gold>'
-  no-keys: '<red>You need a %key% <red>in your hand to use</red> <gold>%crate%.</gold>'
-  no-virtual-keys: '<red>You need</red> %key% <red>to open</red> <gold>%crate%.</gold>'
+    success: '<blue>Successfully converted any possible files while doing <aqua>%action%.</aqua></blue>'
+    failed: '<red>Failed to convert the files because: <aqua>%reason%</aqua></red>'
   feature-disabled: '<red>This feature is disabled.</red>'
-  correct-usage: '<red>The correct usage for this command is</red> <yellow>%usage%</yellow>'
+  correct-usage: '<red>The correct usage for this command is</red> <aqua>%usage%</aqua>'
 
 help:
-  invalid-page: '<red>The page</red> <yellow>%page%</yellow> <red>does not exist.</red>'
-  page-format: '<gold>%command% %args%</gold> <gray>»</gray> <reset>%description%'
-  header: '<gray>────────</gray> <gold>CrazyCrates Help %page%</gold> <gray>────────</gray>'
-  footer: '<gray>────────</gray> <gold>CrazyCrates Help %page%</gold>'
+  invalid-page: '<red>The page</red> <aqua>%page%</aqua> <red>does not exist.</red>'
+  page-format: '<aqua>%command% %args%</aqua> <gray>»</gray> <reset>%description%'
+  header: '<gray>────────</gray> <blue>ChatManager Help <aqua>%page%</aqua></blue> <gray>────────</gray>'
+  footer: '<gray>────────</gray> <blue>ChatManager Help <aqua>%page%</aqua></blue>'
   hover:
     # The only options that work here are run_command, suggest_command, copy_to_clipboard
     #
     # Warning: They are case-sensitive names so type them exactly as given above!
     #
-    # This is what happens if you click the command in the /crazycrates help menu.
+    # This is what happens if you click the command in the /chatmanager help menu.
     action: 'copy_to_clipboard'
-    format: '<gray>Click me to run the command.</gray> <gold>%command%</gold>'
+    format: '<blue>Click me to run the command.</blue> <aqua>%command%</aqua>'
   page-next: ' <green>»»»</green>'
   page-back: ' <red>«««</red>'
-  go-to-page: '<gray>Go to page</gray> <gold>%page%</gold>'
+  go-to-page: '<blue>Go to page</blue> <aqua>%page%</aqua>'
 
 errors:
-  no-prizes-found: '<red>This crate contains no prizes that you can win.</red>'
-  no-schematics-found: '<red>No schematic were found, Please re-generate them by deleting the folder or checking for errors!</red>'
-  prize-error:
-    - '<red>An error has occurred while trying to give you the prize</red> <gold>%prize%.</gold>'
-    - '<yellow>This has occurred in</yellow> <gold>%crate%.</gold> <yellow>Please notify your owner.</yellow>'
   internal-error: '<red>An internal error has occurred. Please check the console for the full error.</red>'
 
 player:
@@ -49,64 +40,47 @@ player:
     not-enough-args: '<red>You did not supply enough arguments.</red>'
     must-be-player: '<red>You must be a player to use this command.</red>'
     must-be-console-sender: '<red>You must be using console to use this command.</red>'
-    must-be-looking-at-block: '<red>You must be looking at a block.</red>'
-  target-not-online: '<red>The player</red> <gold>%player%</gold> <red>is not online.</red>'
-  target-same-player: '<red>You cannot use this command on yourself.</red>'
-  no-permission: '<red>You do not have permission to use that command!</red>'
-  inventory-not-empty: '<red>Inventory is not empty, Please make room before opening</red> <gold>%crate%.</gold>'
-  obtaining-keys: '<gray>You have been given <gold>%amount% %key%</gold> <gray>Keys.'
-  too-close-to-another-player: '<red>You are too close to a player that is opening their Crate.</red>'
-
-crates:
-  requirements:
-    not-a-crate: '<red>There is no crate called</red> <gold>%crate%.</gold>'
-    not-a-number: '<gold>%number%</gold> <red>is not a number.</red>'
-  not-on-block: '<red>You must be standing on a block to use</red> <gold>%crate%.</gold>'
-  out-of-time: '<red>You took</red> <green>5 Minutes</green> <red>to open the</red> <gold>%crate%</gold> <red>so it closed.</red>'
-  crate-preview-disabled: '<red>The preview for</red> <gold>%crate%</gold> <gray>is currently disabled.</gray>'
-  crate-already-open: '<red>You are already opening</red> <gold>%crate%.</gold>'
-  crate-in-use: ' <gold>%crate%</gold> <red>is already in use. Please wait until it finishes!</red>'
-  cannot-be-a-virtual-crate: '<gold>%crate%</gold> <red>cannot be used as a Virtual Crate. You have it set to <gold>%cratetype%.</gold>'
-  need-more-room: '<red>There is not enough space to open that here.</red>'
-  world-disabled: '<red>Crates are disabled in</red> <gold>%world%.</gold>'
-  physical-crate:
-    created:
-      - '<gray>You have set that block to</gray> <gold>%crate%.</gold>'
-      - '<gray>To remove</gray> <gold>%crate%</gold>, <gray>Shift Click Break in Creative to remove.</gray>'
-    removed: '<gray>You have removed</gray> <gold>%id%.</gold>'
 
 command:
-  open:
-    opened-a-crate: '<gray>You have opened the</gray> <gold>%crate%</gold> <gray>crate for</gray> <gold>%player%.</gold>'
-  give:
-    given-player-keys: '<gray>You have given</gray> <gold>%player% %amount% Keys.</gold>'
-    cannot-give-player-keys-because-inventory-not-empty: '<gray>You have been given</gray> <gold>%amount% %key%</gold> <gray>virtual keys because your inventory was full.</gray>'
-    given-everyone-keys: '<gray>You have given everyone</gray> <gold>%amount% Keys.</gold>'
-    given-offline-player-keys: '<gray>You have given</gray> <gold>%amount% key(s)</gold> <gray>to the offline player</gray> <gold>%player%.</gold>'
-  take:
-    take-player-keys: '<gray>You have taken</gray> <gold>%amount% key(s)</gold> <gray>from</gray> <gold>%player%.</gold>'
-    take-offline-player-keys: '<gray>You have taken</gray> <gold>%amount% key(s)</gold> <gray>from the offline player</gray> <gold>%player%.</gold>'
-  additem:
-    no-item-in-hand: '<red>You need to have an item in your hand to add it to</red> <gold>%crate%.</gold>'
-    add-item-from-hand: '<gray>The item has been added to</gray> <gold>%crate%</gold> <gray>as</gray> <gold>Prize #<prize>.</gold>'
+  broadcast:
+    prefix: '<red>[</red><dark_red>Broadcast</dark_red><red>]</red><reset> '
+    # Play a sound when /broadcast is used.
+    sound:
+      # If the sound is enabled.
+      enabled: false
+      # The type of sound.
+      # https://jd.papermc.io/paper/1.19/org/bukkit/Sound.html
+      type: 'AMBIENT_CAVE'
+  announcement:
+    message:
+      - "<black>--------------------------</black>"
+      - "<yellow><bold>ANNOUNCEMENT</bold></yellow>"
+      - "{message}"
+      - "<black>--------------------------</black>"
+    # Play a sound when /announcement is used.
+    sound:
+      # If the sound is enabled.
+      enabled: false
+      # The type of sound.
+      # https://jd.papermc.io/paper/1.19/org/bukkit/Sound.html
+      type: 'AMBIENT_CAVE'
+  warning:
+    message:
+      - "<black>--------------------------"
+      - "<red><bold>WARNING</bold></red>"
+      - "{message}"
+      - "<black>--------------------------</black>"
+    # Play a sound when /warning is used.
+    sound:
+      # If the sound is enabled.
+      enabled: false
+      # The type of sound.
+      # https://jd.papermc.io/paper/1.19/org/bukkit/Sound.html
+      type: 'AMBIENT_CAVE'
   convert:
     no-files-to-convert: '<red>No available plugins to convert files.</red>'
     error-converting-files: '<red>An error has occurred while trying to convert files. We could not convert</red> <gold>%file%</gold> <red>so please check the console.</red>'
-    successfully-converted-files: '<green>Plugin Conversion has succeeded!</green>'
+    successfully-converted-files: '<blue>Plugin Conversion has succeeded!</blue>'
   reload:
-    confirm-reload: '<yellow>Are you sure you want to reload the plugin?</yellow>'
-    reload-completed: '<green>Plugin reload has been completed.</green>'
-  transfer:
-    not-enough-keys: '<red>You do not have enough keys to transfer.</red>'
-    transferred-keys: '<gray>You have transferred</gray> <red>%amount% %crate%</red> <gray>keys to</gray> <red>%player%.</red>'
-    transferred-keys-received: '<gray>You have received</gray> <red>%amount% %crate%</red> <gray>keys from</gray> <red>%player%.</red>'
-  keys:
-    personal:
-      no-virtual-keys: '<dark_gray>(/dark_gray><gold>!</gold><dark_gray>)/dark_gray> <gray>You currently do not have any virtual keys.</gray>'
-      virtual-keys-header:
-        - '<dark_gray>(/dark_gray><gold>!</gold><dark_gray>)/dark_gray> <gray>A list of your current amount of keys.</gray>'
-    other-player:
-      no-virtual-keys: '<dark_gray>(/dark_gray><gold>!</gold><dark_gray>)/dark_gray> <gray>The player</gray> <red>%player% <gray>does not have any keys.</gray>'
-      virtual-keys-header:
-        - '<dark_gray>(</dark_gray><gold>!</gold><dark_gray>)</dark_gray> <gray>A list of</gray> <red>%player%''s</red> <gray>current amount of keys.</gray>'
-    crate-format: '%crate% <dark_gray>»</dark_gray> <gold>%keys% keys.</gold>'
+    confirm-reload: '<cyan>Are you sure you want to reload the plugin?</cyan>'
+    reload-completed: '<blue>Plugin reload has been completed.</blue>'

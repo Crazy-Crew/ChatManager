@@ -4,6 +4,10 @@ import ch.jalu.configme.Comment;
 import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.configurationdata.CommentsConfiguration;
 import ch.jalu.configme.properties.Property;
+
+import java.util.List;
+
+import static ch.jalu.configme.properties.PropertyInitializer.newListProperty;
 import static ch.jalu.configme.properties.PropertyInitializer.newProperty;
 
 /**
@@ -16,6 +20,8 @@ public class LocaleSettings implements SettingsHolder {
     // Empty constructor required by SettingsHolder
     public LocaleSettings() {}
 
+    private static final String prefix = "command.";
+
     @Override
     public void registerComments(CommentsConfiguration conf) {
         String[] header = {
@@ -27,6 +33,10 @@ public class LocaleSettings implements SettingsHolder {
         };
 
         conf.setComment("misc", header);
+
+        conf.setComment(prefix + "broadcast.sound", "Play a sound when /broadcast is used.");
+        conf.setComment(prefix + "announcement.sound", "Play a sound when /announcement is used.");
+        conf.setComment(prefix + "warning.sound", "Play a sound when /warning is used.");
     }
 
     public static final Property<String> UNKNOWN_COMMAND = newProperty("misc.unknown-command", "<red>This command is not known.</red>");
@@ -76,8 +86,55 @@ public class LocaleSettings implements SettingsHolder {
 
     public static final Property<String> MUST_BE_CONSOLE_SENDER = newProperty("player.requirements.must-be-console-sender", "<red>You must be using console to use this command.</red>");
 
-    public static final Property<String> MUST_BE_LOOKING_AT_BLOCK = newProperty("player.requirements.must-be-looking-at-block", "<red>You must be looking at a block.</red>");
+    // Commands
 
+    // Broadcast.
+    public static final Property<String> COMMAND_BROADCAST_PREFIX = newProperty(prefix + "broadcast.prefix", "<red>[</red><dark_red>Broadcast</dark_red><red>]</red><reset> ");
+
+    @Comment("If the sound is enabled.")
+    public static final Property<Boolean> COMMAND_BROADCAST_SOUND_ENABLED = newProperty(prefix + "broadcast.sound.enabled", false);
+
+    @Comment({
+            "The type of sound.",
+            "https://jd.papermc.io/paper/1.19/org/bukkit/Sound.html"
+    })
+    public static final Property<String> COMMAND_BROADCAST_SOUND_TYPE = newProperty(prefix + "announcement.sound.type", "AMBIENT_CAVE");
+
+    // Announcement.
+    public static final Property<List<String>> COMMAND_ANNOUNCEMENT_MESSAGE = newListProperty(prefix + "announcement.message", List.of(
+            "<black>--------------------------</black>",
+            "<yellow><bold>ANNOUNCEMENT</bold></yellow>",
+            "{message}",
+            "<black>--------------------------</black>"
+    ));
+
+    @Comment("If the sound is enabled.")
+    public static final Property<Boolean> COMMAND_ANNOUNCEMENT_SOUND_ENABLED = newProperty(prefix + "announcement.sound.enabled", false);
+
+    @Comment({
+            "The type of sound.",
+            "https://jd.papermc.io/paper/1.19/org/bukkit/Sound.html"
+    })
+    public static final Property<String> COMMAND_ANNOUNCEMENT_SOUND_TYPE = newProperty(prefix + "announcement.sound.type", "AMBIENT_CAVE");
+
+    // Warning.
+    public static final Property<List<String>> COMMAND_WARNING_MESSAGE = newListProperty(prefix + "warning.message", List.of(
+            "<black>--------------------------</black>",
+            "<red><bold>WARNING</bold></red>",
+            "{message}",
+            "<black>--------------------------</black>"
+    ));
+
+    @Comment("If the sound is enabled.")
+    public static final Property<Boolean> COMMAND_WARNING_SOUND_ENABLED = newProperty(prefix + "warning.sound.enabled", false);
+
+    @Comment({
+            "The type of sound.",
+            "https://jd.papermc.io/paper/1.19/org/bukkit/Sound.html"
+    })
+    public static final Property<String> COMMAND_WARNING_SOUND_TYPE = newProperty(prefix + "warning.sound.type", "AMBIENT_CAVE");
+
+    // Reload.
     public static final Property<String> COMMAND_CONFIRM_RELOAD = newProperty("command.reload.confirm-reload", "<yellow>Are you sure you want to reload the plugin?</yellow>");
 
     public static final Property<String> COMMAND_RELOAD = newProperty("command.reload.reload-completed", "<red>You have reloaded the plugin.</red>");
