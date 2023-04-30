@@ -8,11 +8,12 @@ import co.aikar.commands.annotation.*;
 import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.api.configs.types.LocaleSettings;
 import com.ryderbelserion.chatmanager.api.configs.types.PluginSettings;
-import com.ryderbelserion.chatmanager.utils.MessageUtils;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import java.util.List;
+import static com.ryderbelserion.chatmanager.utils.MessageUtils.*;
 
 @CommandAlias("chatmanager")
 @Description("Manage or use the ChatManager plugin.")
@@ -45,7 +46,7 @@ public class ChatBaseCommand extends BaseCommand {
         String invalidPage = plugin.getConfigBuilder().getLocaleSettings().getProperty(LocaleSettings.INVALID_PAGE).replaceAll("%page%", String.valueOf(page));
 
         if (page <= 0 || pageStartEntry >= entries.size()) {
-            //MessageUtils.send(sender, invalidPage);
+            send((Audience) sender, invalidPage);
             return;
         }
 
@@ -54,7 +55,7 @@ public class ChatBaseCommand extends BaseCommand {
 
         String header = plugin.getConfigBuilder().getLocaleSettings().getProperty(LocaleSettings.HELP_HEADER).replaceAll("%page%", String.valueOf(page));
 
-        //MessageUtils.send(sender, header, false);
+        send((Audience) sender, header, false);
 
         for (int i = pageStartEntry; i < (pageStartEntry + maxPage); i++) {
             if (entries.size()-1 < i) continue;
@@ -73,14 +74,14 @@ public class ChatBaseCommand extends BaseCommand {
             String builtCommand = command.getParameters().length > 0 ? format.replaceAll("%args%", command.getParameterSyntax()) : format;
 
             if (sender instanceof Player player) {
-                //MessageUtils.hover(
-                //        player,
-                //        builtCommand,
-                //        hoverFormat.replaceAll("%command%", name).replaceAll("%args%", command.getParameterSyntax()),
-                //        name,
-                //        ClickEvent.Action.valueOf(hoverAction.toUpperCase()));
+                hover(
+                        (Audience) player,
+                        builtCommand,
+                        hoverFormat.replaceAll("%command%", name).replaceAll("%args%", command.getParameterSyntax()),
+                        name,
+                        ClickEvent.Action.valueOf(hoverAction.toUpperCase()));
             } else {
-                //MessageUtils.send(sender, format, false);
+                send((Audience) sender, format, false);
             }
         }
 
@@ -96,14 +97,14 @@ public class ChatBaseCommand extends BaseCommand {
             if (page > 1) {
                 int number = page-1;
 
-                //MessageUtils.hover(player, footer.replaceAll("%page%", String.valueOf(page)),  pageTag.replaceAll("%page%", String.valueOf(number)), back,"/chatmanager help " + number, ClickEvent.Action.RUN_COMMAND);
+                hover((Audience) player, footer.replaceAll("%page%", String.valueOf(page)),  pageTag.replaceAll("%page%", String.valueOf(number)), back,"/chatmanager help " + number, ClickEvent.Action.RUN_COMMAND);
             } else if (page < entries.size()) {
                 int number = page+1;
 
-                //MessageUtils.hover(player, footer.replaceAll("%page%", String.valueOf(page)),  pageTag.replaceAll("%page%", String.valueOf(number)), next,"/chatmanager help " + number, ClickEvent.Action.RUN_COMMAND);
+                hover((Audience) player, footer.replaceAll("%page%", String.valueOf(page)),  pageTag.replaceAll("%page%", String.valueOf(number)), next,"/chatmanager help " + number, ClickEvent.Action.RUN_COMMAND);
             }
         } else {
-            //MessageUtils.send(sender, footer.replaceAll("%page%", String.valueOf(page)), false);
+            send((Audience) sender, footer.replaceAll("%page%", String.valueOf(page)), false);
         }
     }
 }

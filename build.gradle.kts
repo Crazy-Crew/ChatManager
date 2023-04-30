@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-    api(libs.crazycore)
+    implementation(libs.crazycore)
 
     compileOnly(libs.bstats.bukkit)
 

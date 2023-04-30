@@ -1,6 +1,5 @@
 package com.ryderbelserion.chatmanager.v1.api;
 
-import com.ryderbelserion.chatmanager.commands.v1.CommandManager;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
 import org.bukkit.Bukkit;
@@ -10,7 +9,7 @@ public class CrazyManager implements Universal {
 
     private PlaceholderManager placeholderManager;
 
-    private SettingsHandler settingsHandler;
+    //private SettingsHandler settingsHandler;
 
     private ApiLoader api;
 
@@ -29,7 +28,7 @@ public class CrazyManager implements Universal {
             api.load();
 
             // Load the commands.
-            CommandManager.setup();
+            //CommandManager.setup();
 
             // Create the placeholder manager.
             placeholderManager = new PlaceholderManager();
@@ -55,9 +54,9 @@ public class CrazyManager implements Universal {
         }
     }
 
-    public SettingsHandler getSettingsHandler() {
-        return this.settingsHandler;
-    }
+    //public SettingsHandler getSettingsHandler() {
+        //return this.settingsHandler;
+    //}
 
     public PlaceholderManager getPlaceholderManager() {
         return this.placeholderManager;
