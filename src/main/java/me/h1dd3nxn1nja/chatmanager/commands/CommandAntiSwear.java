@@ -1,6 +1,5 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
-import com.ryderbelserion.chatmanager.api.configs.types.FilterSettings;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
@@ -10,6 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,8 +21,8 @@ public class CommandAntiSwear implements CommandExecutor {
 	private final SettingsManager settingsManager = plugin.getSettingsManager();
 	
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-		List<String> blackListedWords = plugin.getCrazyManager().getSettingsHandler().getWordFilterSettings().getProperty(FilterSettings.BLACKLISTED_WORDS);
-		List<String> whiteListedWords = plugin.getCrazyManager().getSettingsHandler().getWordFilterSettings().getProperty(FilterSettings.WHITELISTED_WORDS);
+		List<String> blackListedWords = Collections.emptyList();
+		List<String> whiteListedWords = Collections.emptyList();
 
 		FileConfiguration messages = settingsManager.getMessages();
 		

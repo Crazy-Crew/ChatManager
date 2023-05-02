@@ -1,13 +1,14 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.v1.api.Universal;
-import com.ryderbelserion.chatmanager.api.configs.types.FilterSettings;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Collections;
 import java.util.List;
 
 public class ListenerBannedCommand implements Listener, Universal {
@@ -16,7 +17,7 @@ public class ListenerBannedCommand implements Listener, Universal {
 	public void onCommand(PlayerCommandPreprocessEvent event) {
 		Player player = event.getPlayer();
 
-		List<String> blackListedCommands = plugin.getCrazyManager().getSettingsHandler().getWordFilterSettings().getProperty(FilterSettings.BLACKLISTED_COMMANDS);
+		List<String> blackListedCommands = Collections.emptyList();
 
 		if (config.getBoolean("Banned_Commands.Enable")) return;
 

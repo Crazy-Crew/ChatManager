@@ -1,8 +1,7 @@
 package com.ryderbelserion.chatmanager.loader;
 
 import com.ryderbelserion.chatmanager.ChatManager;
-import com.ryderbelserion.chatmanager.api.ConfigBuilder;
-import com.ryderbelserion.chatmanager.api.configs.migrate.manuel.FilterMigration;
+import com.ryderbelserion.chatmanager.api.configs.ConfigBuilder;
 import com.ryderbelserion.chatmanager.api.configs.types.PluginSettings;
 import io.papermc.paper.plugin.bootstrap.PluginBootstrap;
 import io.papermc.paper.plugin.bootstrap.PluginProviderContext;
@@ -21,7 +20,7 @@ public class ChatStarter implements PluginBootstrap {
     public void bootstrap(@NotNull PluginProviderContext context) {
         this.crazyCore = new CrazyCore(context.getDataDirectory(), context.getConfiguration().getName());
 
-        FilterMigration.copyFilterSettings(false);
+        //FilterMigration.copyFilterSettings(false, context.getDataDirectory());
 
         this.configBuilder = new ConfigBuilder(context.getDataDirectory());
         this.configBuilder.load();

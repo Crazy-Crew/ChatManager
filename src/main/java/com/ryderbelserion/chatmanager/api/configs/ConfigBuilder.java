@@ -1,12 +1,12 @@
-package com.ryderbelserion.chatmanager.api;
+package com.ryderbelserion.chatmanager.api.configs;
 
 import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.SettingsManagerBuilder;
 import ch.jalu.configme.configurationdata.ConfigurationDataBuilder;
 import com.ryderbelserion.chatmanager.api.configs.types.ConfigSettings;
+import com.ryderbelserion.chatmanager.api.configs.types.FilterSettings;
 import com.ryderbelserion.chatmanager.api.configs.types.LocaleSettings;
 import com.ryderbelserion.chatmanager.api.configs.types.PluginSettings;
-import com.ryderbelserion.chatmanager.api.configs.types.FilterSettings;
 import com.ryderbelserion.chatmanager.api.configs.types.sections.AdvertSettings;
 import com.ryderbelserion.chatmanager.api.configs.types.sections.SwearSettings;
 import us.crazycrew.crazycore.paper.utils.FileUtils;
@@ -60,7 +60,7 @@ public class ConfigBuilder {
                 .create();
 
         this.wordFilterSettings = SettingsManagerBuilder
-                .withYamlFile(new File(path + "word-filter.yml"))
+                .withYamlFile(new File(path.toFile(), "word-filter.yml"))
                 .useDefaultMigrationService()
                 .configurationData(FilterSettings.class)
                 .create();

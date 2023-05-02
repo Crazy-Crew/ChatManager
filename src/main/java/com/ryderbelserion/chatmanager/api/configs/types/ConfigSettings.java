@@ -4,10 +4,7 @@ import ch.jalu.configme.Comment;
 import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.configurationdata.CommentsConfiguration;
 import ch.jalu.configme.properties.Property;
-import com.ryderbelserion.chatmanager.api.configs.types.beans.GroupFormat;
-
 import java.util.List;
-
 import static ch.jalu.configme.properties.PropertyInitializer.*;
 
 public class ConfigSettings implements SettingsHolder {
@@ -102,18 +99,4 @@ public class ConfigSettings implements SettingsHolder {
 
     @Comment("This will only be used if the players permission group isn't on the bottom of this section.")
     public static final Property<String> CHAT_DEFAULT_FORMAT = newProperty("chat-format.default-format", "");
-
-    @Comment({
-            "Chat Formats are set depending on what group the player is in.",
-            "If the player is in a group named Default, they will have the default chat format."
-    })
-    public static final Property<GroupFormat> CHAT_GROUP_FORMATS = newBeanProperty(GroupFormat.class, "formats", initDefaultFormats());
-
-    private static GroupFormat initDefaultFormats() {
-        GroupFormat groupFormat = new GroupFormat();
-
-        groupFormat.setFormat("&8[&7Default&8] &7{player} &9> &7{message}");
-
-        return groupFormat;
-    }
 }

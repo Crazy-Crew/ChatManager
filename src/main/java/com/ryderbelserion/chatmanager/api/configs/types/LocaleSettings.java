@@ -98,7 +98,7 @@ public class LocaleSettings implements SettingsHolder {
             "The type of sound.",
             "https://jd.papermc.io/paper/1.19/org/bukkit/Sound.html"
     })
-    public static final Property<String> COMMAND_BROADCAST_SOUND_TYPE = newProperty(prefix + "announcement.sound.type", "AMBIENT_CAVE");
+    public static final Property<String> COMMAND_BROADCAST_SOUND_TYPE = newProperty(prefix + "broadcast.sound.type", "AMBIENT_CAVE");
 
     // Announcement.
     public static final Property<List<String>> COMMAND_ANNOUNCEMENT_MESSAGE = newListProperty(prefix + "announcement.message", List.of(
@@ -135,7 +135,7 @@ public class LocaleSettings implements SettingsHolder {
     public static final Property<String> COMMAND_WARNING_SOUND_TYPE = newProperty(prefix + "warning.sound.type", "AMBIENT_CAVE");
 
     // Reload.
-    public static final Property<String> COMMAND_CONFIRM_RELOAD = newProperty("command.reload.confirm-reload", "<yellow>Are you sure you want to reload the plugin?</yellow>");
+    public static final Property<String> COMMAND_CONFIRM_RELOAD = newProperty(prefix + "reload.confirm-reload", "<yellow>Are you sure you want to reload the plugin?</yellow>");
 
-    public static final Property<String> COMMAND_RELOAD = newProperty("command.reload.reload-completed", "<red>You have reloaded the plugin.</red>");
+    public static final Property<String> COMMAND_RELOAD = newProperty(prefix + "reload.reload-completed", "<red>You have reloaded the plugin.</red>");
 }

@@ -41,3 +41,6 @@ placeholder_api = { module = "me.clip:placeholderapi", version = "2.11.3" }
 
 # Plugins
 essentialsx = { module = "net.essentialsx:EssentialsX", version = "2.19.0" }
+
+# Kotlin
+kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version = "1.8.21" }

@@ -1,6 +1,5 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
-import com.ryderbelserion.chatmanager.api.configs.types.FilterSettings;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
@@ -10,6 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
 import java.util.List;
 
 public class CommandBannedCommands implements CommandExecutor {
@@ -20,7 +21,7 @@ public class CommandBannedCommands implements CommandExecutor {
 	
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		FileConfiguration messages = settingsManager.getMessages();
-		List<String> blackListedCommands = plugin.getCrazyManager().getSettingsHandler().getWordFilterSettings().getProperty(FilterSettings.BLACKLISTED_COMMANDS);
+		List<String> blackListedCommands = Collections.emptyList();
 		
 		if (!(sender instanceof Player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);

@@ -1,6 +1,6 @@
 package com.ryderbelserion.chatmanager;
 
-import com.ryderbelserion.chatmanager.api.ConfigBuilder;
+import com.ryderbelserion.chatmanager.api.configs.ConfigBuilder;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import us.crazycrew.crazycore.paper.CrazyCore;

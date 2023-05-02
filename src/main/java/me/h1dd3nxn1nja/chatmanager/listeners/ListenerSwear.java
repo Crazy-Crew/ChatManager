@@ -1,7 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.v1.api.Universal;
-import com.ryderbelserion.chatmanager.api.configs.types.FilterSettings;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -13,18 +12,15 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class ListenerSwear implements Listener, Universal {
 
 	//TODO() Add a way so that chat manager highlights the swear word in the notify feature.
 
-	private final List<String> blackListedWords = plugin.getCrazyManager().getSettingsHandler().getWordFilterSettings().getProperty(FilterSettings.BLACKLISTED_WORDS);
-	private final List<String> whiteListedWords = plugin.getCrazyManager().getSettingsHandler().getWordFilterSettings().getProperty(FilterSettings.WHITELISTED_WORDS);
-	private final List<String> whiteListedCommands = plugin.getCrazyManager().getSettingsHandler().getWordFilterSettings().getProperty(FilterSettings.WHITELISTED_COMMANDS);
+	private final List<String> blackListedWords = Collections.emptyList();
+	private final List<String> whiteListedWords = Collections.emptyList();
+	private final List<String> whiteListedCommands = Collections.emptyList();
 
 	@EventHandler(ignoreCancelled = true)
 	public void onSwear(AsyncPlayerChatEvent event) {

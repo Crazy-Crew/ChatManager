@@ -1,5 +1,6 @@
 plugins {
     id("paper-plugin")
+    //id("kotlin-plugin")
     id("library-plugin")
 
     id("xyz.jpenilla.run-paper") version "2.0.1"
@@ -27,6 +28,10 @@ tasks {
         if (!file.exists()) file.mkdirs()
 
         outputJar.set(layout.buildDirectory.file("$file/${rootProject.name}-${rootProject.version}.jar"))
+    }
+
+    shadowJar {
+        exclude("**/META-INF/**")
     }
 
     runServer {
