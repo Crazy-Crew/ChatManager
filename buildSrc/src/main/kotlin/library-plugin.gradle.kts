@@ -1,6 +1,4 @@
-import java.awt.Color
 import java.io.File
-import task.WebhookExtension
 import java.io.ByteArrayOutputStream
 
 plugins {
@@ -10,12 +8,7 @@ plugins {
     id("com.modrinth.minotaur")
 }
 
-val releaseColor = Color(27, 217, 106)
-val betaColor = Color(255, 163, 71)
-val logColor = Color(37, 137, 204)
-
 val isBeta = false
-val color = if (isBeta) logColor else releaseColor
 val repo = if (isBeta) "beta" else "releases"
 
 val type = if (isBeta) "beta" else "release"
@@ -27,13 +20,13 @@ val downloads = """
     https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${rootProject.version}
 """.trimIndent()
 
-// The commit id for the "main" branch prior to merging a pull request.
+/*// The commit id for the "main" branch prior to merging a pull request.
 val start = "cbea2cc"
 
 // The commit id AFTER merging the pull request so the last commit before you release.
 val end = "59ca621"
 
-val commitLog = getGitHistory().joinToString(separator = "") { formatGitLog(it) }
+val commitLog = getGitHistory().joinToString(separator = "") { formatGitLog(it) }*/
 
 val desc = """
   # Release ${rootProject.version}
@@ -45,8 +38,6 @@ val desc = """
   <details>
           
   <summary>Other</summary>
-           
-  $commitLog
             
   </details>
                 
@@ -54,14 +45,11 @@ val desc = """
 """.trimIndent()
 
 val versions = listOf(
-    "1.19",
-    "1.19.1",
-    "1.19.2",
-    "1.19.3",
-    "1.19.4"
+    "1.19.4",
+    "1.20"
 )
 
-fun getGitHistory(): List<String> {
+/*fun getGitHistory(): List<String> {
     val output: String = ByteArrayOutputStream().use { outputStream ->
         project.exec {
             executable("git")
@@ -79,7 +67,7 @@ fun formatGitLog(commitLog: String): String {
     val hash = commitLog.take(7)
     val message = commitLog.substring(8) // Get message after commit hash + space between
     return "[$hash](https://github.com/Crazy-Crew/${rootProject.name}/commit/$hash) $message<br>"
-}
+}*/
 
 tasks {
     modrinth {
@@ -104,50 +92,6 @@ tasks {
 
         changelog.set(desc)
     }
-}
-
-webhook {
-    this.avatar("https://en.gravatar.com/avatar/${WebhookExtension.Gravatar().md5Hex("no-reply@ryderbelserion.com")}.jpeg")
-
-    this.username("Ryder Belserion")
-
-    this.content(msg)
-
-    this.embeds {
-        this.embed {
-            this.color(logColor)
-
-            this.title("READ ME")
-
-            this.description("""
-                * N/A
-            """.trimIndent())
-        }
-
-        this.embed {
-            this.color(color)
-
-            this.fields {
-                this.field(
-                    "Download: ",
-                    downloads
-                )
-
-                this.field(
-                    "API: ",
-                    "https://repo.crazycrew.us/#/$repo/${rootProject.group.toString().replace(".", "/")}/${rootProject.name.lowercase()}-api/${rootProject.version}"
-                )
-            }
-
-            this.author(
-                "${rootProject.name} | Version ${rootProject.version}",
-                downloads,
-                "https://raw.githubusercontent.com/RyderBelserion/assets/main/crazycrew/png/${rootProject.name}Website.png"
-            )
-        }
-    }
-
-    this.url("DISCORD_WEBHOOK")
 }
 
 publishing {
