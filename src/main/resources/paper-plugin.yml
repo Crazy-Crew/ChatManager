@@ -1,0 +1,23 @@
+name: ChatManager
+main: me.h1dd3nxn1nja.chatmanager.ChatManager
+
+version: '3.9.1.1'
+api-version: '1.19'
+description: 'The kitchen sink of Chat Management.'
+
+bootstrapper: com.ryderbelserion.chatmanager.loader.ChatStarter
+loader: com.ryderbelserion.chatmanager.loader.ChatLoader
+
+dependencies:
+  - name: Essentials
+    required: false
+    bootstrap: false
+  - name: Vault
+    required: true
+    bootstrap: false
+  - name: SuperVanish
+    required: false
+    bootstrap: false
+  - name: PlaceholderAPI
+    required: false
+    bootstrap: false

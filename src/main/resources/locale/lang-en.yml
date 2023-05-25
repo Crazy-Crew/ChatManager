@@ -1,0 +1,86 @@
+# Support: https://discord.gg/n9A9xtA
+# Github: https://github.com/Crazy-Crew
+#
+# Issues: https://github.com/Crazy-Crew/ChatManager/issues
+# Features: https://github.com/Crazy-Crew/ChatManager/issues
+# Translations: https://github.com/Crazy-Crew/ChatManager/issues
+
+misc:
+  unknown-command: '<red>This command is not known.</red>'
+  out-of-order: '<red>This is currently out of order until further notice.</red>'
+  file-conversion:
+    success: '<blue>Successfully converted any possible files while doing <aqua>%action%.</aqua></blue>'
+    failed: '<red>Failed to convert the files because: <aqua>%reason%</aqua></red>'
+  feature-disabled: '<red>This feature is disabled.</red>'
+  correct-usage: '<red>The correct usage for this command is</red> <aqua>%usage%</aqua>'
+
+help:
+  invalid-page: '<red>The page</red> <aqua>%page%</aqua> <red>does not exist.</red>'
+  page-format: '<aqua>%command% %args%</aqua> <gray>»</gray> <reset>%description%'
+  header: '<gray>────────</gray> <blue>ChatManager Help <aqua>%page%</aqua></blue> <gray>────────</gray>'
+  footer: '<gray>────────</gray> <blue>ChatManager Help <aqua>%page%</aqua></blue>'
+  hover:
+    # The only options that work here are run_command, suggest_command, copy_to_clipboard
+    #
+    # Warning: They are case-sensitive names so type them exactly as given above!
+    #
+    # This is what happens if you click the command in the /chatmanager help menu.
+    action: 'copy_to_clipboard'
+    format: '<blue>Click me to run the command.</blue> <aqua>%command%</aqua>'
+  page-next: ' <green>»»»</green>'
+  page-back: ' <red>«««</red>'
+  go-to-page: '<blue>Go to page</blue> <aqua>%page%</aqua>'
+
+errors:
+  internal-error: '<red>An internal error has occurred. Please check the console for the full error.</red>'
+
+player:
+  requirements:
+    too-many-args: '<red>You put more arguments then I can handle.</red>'
+    not-enough-args: '<red>You did not supply enough arguments.</red>'
+    must-be-player: '<red>You must be a player to use this command.</red>'
+    must-be-console-sender: '<red>You must be using console to use this command.</red>'
+
+command:
+  broadcast:
+    prefix: '<red>[</red><dark_red>Broadcast</dark_red><red>]</red><reset> '
+    # Play a sound when /broadcast is used.
+    sound:
+      # If the sound is enabled.
+      enabled: false
+      # The type of sound.
+      # https://jd.papermc.io/paper/1.19/org/bukkit/Sound.html
+      type: 'AMBIENT_CAVE'
+  announcement:
+    message:
+      - "<black>--------------------------</black>"
+      - "<yellow><bold>ANNOUNCEMENT</bold></yellow>"
+      - "{message}"
+      - "<black>--------------------------</black>"
+    # Play a sound when /announcement is used.
+    sound:
+      # If the sound is enabled.
+      enabled: false
+      # The type of sound.
+      # https://jd.papermc.io/paper/1.19/org/bukkit/Sound.html
+      type: 'AMBIENT_CAVE'
+  warning:
+    message:
+      - "<black>--------------------------"
+      - "<red><bold>WARNING</bold></red>"
+      - "{message}"
+      - "<black>--------------------------</black>"
+    # Play a sound when /warning is used.
+    sound:
+      # If the sound is enabled.
+      enabled: false
+      # The type of sound.
+      # https://jd.papermc.io/paper/1.19/org/bukkit/Sound.html
+      type: 'AMBIENT_CAVE'
+  convert:
+    no-files-to-convert: '<red>No available plugins to convert files.</red>'
+    error-converting-files: '<red>An error has occurred while trying to convert files. We could not convert</red> <gold>%file%</gold> <red>so please check the console.</red>'
+    successfully-converted-files: '<blue>Plugin Conversion has succeeded!</blue>'
+  reload:
+    confirm-reload: '<cyan>Are you sure you want to reload the plugin?</cyan>'
+    reload-completed: '<blue>Plugin reload has been completed.</blue>'

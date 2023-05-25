@@ -1,10 +1,4 @@
 dependencyResolutionManagement {
-    versionCatalogs {
-        create("settings") {
-            from(files("gradle/settings.versions.toml"))
-        }
-    }
-
     repositories.gradlePluginPortal()
 }
 
@@ -22,25 +16,11 @@ rootProject.name = "ChatManager"
 
 val lowerCase = rootProject.name.lowercase()
 
-listOf("paper").forEach(::includeProject)
+listOf("api").forEach(::includeProject)
 
 fun includeProject(name: String) {
     include(name) {
         this.name = "$lowerCase-$name"
-    }
-}
-
-fun includeModule(name: String) {
-    include(name) {
-        this.name = "$lowerCase-module-$name"
-        this.projectDir = file("modules/$name")
-    }
-}
-
-fun includeType(name: String) {
-    include(name) {
-        this.name = "$lowerCase-$name"
-        this.projectDir = file("minecraft/$name")
     }
 }
 
