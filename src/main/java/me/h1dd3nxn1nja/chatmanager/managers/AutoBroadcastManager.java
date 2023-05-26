@@ -2,8 +2,6 @@ package me.h1dd3nxn1nja.chatmanager.managers;
 
 import java.util.ArrayList;
 import java.util.List;
-import me.h1dd3nxn1nja.chatmanager.SettingsManager;
-import com.ryderbelserion.chatmanager.api.v1.api.CrazyManager;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;

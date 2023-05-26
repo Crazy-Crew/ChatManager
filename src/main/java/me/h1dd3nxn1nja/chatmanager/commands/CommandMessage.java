@@ -1,6 +1,5 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
-import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
 import me.h1dd3nxn1nja.chatmanager.support.vanish.EssentialsVanishSupport;

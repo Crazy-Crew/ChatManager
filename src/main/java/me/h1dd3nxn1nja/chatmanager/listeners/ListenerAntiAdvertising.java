@@ -3,8 +3,11 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.api.configs.builder.enums.Files;
 import com.ryderbelserion.chatmanager.api.configs.types.FilterSettings;
+import com.ryderbelserion.chatmanager.api.configs.types.LocaleSettings;
 import com.ryderbelserion.chatmanager.api.configs.types.sections.AdvertisementSection;
 import com.ryderbelserion.chatmanager.api.interfaces.Universal;
+import com.ryderbelserion.chatmanager.utils.MessageSender;
+import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -66,6 +69,8 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 
 		event.setCancelled(true);
 		//Methods.sendMessage(player, messages.getString("Anti_Advertising.Chat.Message"), true);
+
+		//MessageSender.send(player, localeSettings.getProperty(LocaleSettings.));
 
 		if (configSettings.getProperty(AdvertisementSection.NOTIFY_STAFF_CHAT)) {
 			for (Player staff : plugin.getServer().getOnlinePlayers()) {
