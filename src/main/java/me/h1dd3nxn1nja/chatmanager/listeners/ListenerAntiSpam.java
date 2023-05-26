@@ -2,7 +2,8 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import java.util.List;
 import java.util.UUID;
-import com.ryderbelserion.chatmanager.v1.api.Universal;
+
+import com.ryderbelserion.chatmanager.api.interfaces.Universal;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,24 +21,26 @@ public class ListenerAntiSpam implements Listener, Universal {
 
 		UUID uuid = player.getUniqueId();
 
-		boolean isValid = plugin.getCrazyManager().api().getStaffChatData().containsUser(uuid);
+		boolean isValid = cacheManager.getStaffChatDataSet().containsUser(uuid);
 
 		if (isValid) return;
+
+		configSettings.getProperty(ConfigSettings)
 
 		if (config.getBoolean("Anti_Spam.Chat.Block_Repetitive_Messages")) {
 			if (player.hasPermission("chatmanager.bypass.dupe.chat")) return;
 
-			if (plugin.getCrazyManager().api().getPreviousMsgData().containsUser(uuid)) {
+			if (cacheManager.getPreviousMsgDataMap().containsUser(uuid)) {
 
-				String msg = plugin.getCrazyManager().api().getPreviousMsgData().getMessage(player.getUniqueId());
+				String msg = cacheManager.getPreviousMsgDataMap().getMessage(player.getUniqueId());
 
 				if (message.equalsIgnoreCase(msg)) {
-					player.sendMessage(Methods.color(player.getUniqueId(), messages.getString("Anti_Spam.Chat.Repetitive_Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+					//player.sendMessage(Methods.color(player.getUniqueId(), messages.getString("Anti_Spam.Chat.Repetitive_Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 					event.setCancelled(true);
 				}
 			}
 
-			plugin.getCrazyManager().api().getPreviousMsgData().addUser(uuid, message);
+			cacheManager.getPreviousMsgDataMap().addUser(uuid, message);
 		}
 	}
 

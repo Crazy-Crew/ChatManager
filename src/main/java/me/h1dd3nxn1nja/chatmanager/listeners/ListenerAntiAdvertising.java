@@ -1,8 +1,10 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import com.ryderbelserion.chatmanager.v1.api.Universal;
-import me.h1dd3nxn1nja.chatmanager.Methods;
-import org.bukkit.configuration.file.FileConfiguration;
+import com.ryderbelserion.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.api.configs.builder.enums.Files;
+import com.ryderbelserion.chatmanager.api.configs.types.FilterSettings;
+import com.ryderbelserion.chatmanager.api.configs.types.sections.AdvertisementSection;
+import com.ryderbelserion.chatmanager.api.interfaces.Universal;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -21,6 +23,8 @@ import java.util.regex.Pattern;
 
 public class ListenerAntiAdvertising implements Listener, Universal {
 
+	private final ChatManager plugin = ChatManager.getPlugin();
+
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
@@ -28,7 +32,7 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 		String message = event.getMessage();
 		Date time = Calendar.getInstance().getTime();
 
-		List<String> whitelisted = config.getStringList("Anti_Advertising.Whitelist");
+		List<String> whitelisted = configSettings.getProperty(AdvertisementSection.WEBSITE_WHITELIST);
 
 		Pattern firstPattern = Pattern.compile("[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[0o]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}");
 		Pattern secondPattern = Pattern.compile("[a-zA-Z0-9\\-.]+(\\.|d[o0]t|\\(d[o0]t\\)|-|,)+(com|org|net|co|uk|sk|biz|mobi|xxx|io|ts|adv|de|eu|noip|gs|au|pl|cz|ru)");
@@ -39,9 +43,9 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 		Matcher firstMatch = firstPattern.matcher(event.getMessage().toLowerCase());
 		Matcher secondMatch = secondPattern.matcher(event.getMessage().toLowerCase());
 
-		if (!config.getBoolean("Anti_Advertising.Chat.Enable")) return;
+		if (!configSettings.getProperty(AdvertisementSection.BLOCK_ADVERTISING_CHAT)) return;
 
-		boolean isValid = plugin.getCrazyManager().api().getStaffChatData().containsUser(player.getUniqueId());
+		boolean isValid = cacheManager.getStaffChatDataSet().containsUser(player.getUniqueId());
 
 		if (isValid && player.hasPermission("chatmanager.bypass.antiadvertising")) return;
 
@@ -49,7 +53,7 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 			if (event.getMessage().contains(allowed.toLowerCase())) return;
 		}
 
-		if (config.getBoolean("Anti_Advertising.Chat.Increase_Sensitivity")) {
+		if (configSettings.getProperty(AdvertisementSection.INCREASE_SENSITIVITY_CHAT)) {
 			chatMatch(event, player, playerName, message, time, firstMatchIncrease, secondMatchIncrease);
 			return;
 		}
@@ -61,39 +65,34 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 		if (!firstMatch.find() || !secondMatch.find()) return;
 
 		event.setCancelled(true);
-		Methods.sendMessage(player, messages.getString("Anti_Advertising.Chat.Message"), true);
+		//Methods.sendMessage(player, messages.getString("Anti_Advertising.Chat.Message"), true);
 
-		if (config.getBoolean("Anti_Advertising.Chat.Notify_Staff")) {
+		if (configSettings.getProperty(AdvertisementSection.NOTIFY_STAFF_CHAT)) {
 			for (Player staff : plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission("chatmanager.notify.antiadvertising")) {
-					Methods.sendMessage(staff, messages.getString("Anti_Advertising.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+					//Methods.sendMessage(staff, messages.getString("Anti_Advertising.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 				}
 			}
 
-			Methods.tellConsole(messages.getString("Anti_Advertising.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+			//Methods.tellConsole(messages.getString("Anti_Advertising.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 		}
 
-		if (config.getBoolean("Anti_Advertising.Chat.Execute_Command")) {
-			if (config.contains("Anti_Advertising.Chat.Executed_Command")) {
-				String command = config.getString("Anti_Advertising.Chat.Executed_Command").replace("{player}", player.getName());
-				List<String> commands = config.getStringList("Anti_Advertising.Chat.Executed_Command");
+		if (configSettings.getProperty(AdvertisementSection.EXECUTE_CHAT_ADVERTS)) {
+			List<String> commands = configSettings.getProperty(AdvertisementSection.EXECUTED_CHAT_ADVERTS);
 
-				new BukkitRunnable() {
-					public void run() {
-						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
-
-						for (String cmd : commands) {
-							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
-						}
+			new BukkitRunnable() {
+				public void run() {
+					for (String cmd : commands) {
+						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 					}
-				}.runTask(plugin);
-			}
+				}
+			}.runTask(plugin);
 		}
 
-		if (!config.getBoolean("Anti_Advertising.Chat.Log_Advertisers")) return;
+		if (!configSettings.getProperty(AdvertisementSection.LOG_ADVERTISEMENTS_CHAT)) return;
 
 		try {
-			FileWriter fw = new FileWriter(settingsManager.getAdvertisementLogs(), true);
+			FileWriter fw = new FileWriter(Files.advertisement_logs.getFile(), true);
 			BufferedWriter bw2 = new BufferedWriter(fw);
 			bw2.write("[" + time + "] [Chat] " + playerName + ": " + message.replaceAll("§", "&"));
 			bw2.newLine();
@@ -111,8 +110,8 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 		String message = event.getMessage();
 		Date time = Calendar.getInstance().getTime();
 
-		List<String> whitelisted = config.getStringList("Anti_Advertising.Whitelist");
-		List<String> whitelist = config.getStringList("Anti_Advertising.Commands.Whitelist");
+		List<String> allowedWebsites = configSettings.getProperty(AdvertisementSection.WEBSITE_WHITELIST);
+		List<String> allowedCommands = wordFilterSettings.getProperty(FilterSettings.WHITELISTED_COMMANDS);
 
 		Pattern firstPattern = Pattern.compile("[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[0o]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}");
 		Pattern secondPattern = Pattern.compile("[a-zA-Z0-9\\-.]+(\\.|d[o0]t|\\(d[o0]t\\)|-|,)+(com|org|net|co|uk|sk|biz|mobi|xxx|io|ts|adv|de|eu|noip|gs|au|pl|cz|ru)");
@@ -123,66 +122,61 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 		Matcher firstMatch = firstPattern.matcher(event.getMessage().toLowerCase());
 		Matcher secondMatch = secondPattern.matcher(event.getMessage().toLowerCase());
 
-		if (!config.getBoolean("Anti_Advertising.Commands.Enable")) return;
+		if (!configSettings.getProperty(AdvertisementSection.BLOCK_ADVERTISING_COMMANDS)) return;
 
-		boolean isValid = plugin.getCrazyManager().api().getStaffChatData().containsUser(player.getUniqueId());
+		boolean isValid = cacheManager.getStaffChatDataSet().containsUser(player.getUniqueId());
 
 		if (isValid && player.hasPermission("chatmanager.bypass.antiadvertising")) return;
 
-		for (String allowed : whitelisted) {
-			if (event.getMessage().contains(allowed.toLowerCase())) return;
+		for (String link : allowedWebsites) {
+			if (event.getMessage().contains(link.toLowerCase())) return;
 		}
 
-		for (String allowed : whitelist) {
-			if (event.getMessage().toLowerCase().contains(allowed)) return;
+		for (String cmd : allowedCommands) {
+			if (event.getMessage().toLowerCase().contains(cmd)) return;
 		}
 
-		if (config.getBoolean("Anti_Advertising.Commands.Increase_Sensitivity")) {
-			increasedSensitivity(event, config, messages, player, playerName, message, time, firstMatchIncrease, secondMatchIncrease);
+		if (configSettings.getProperty(AdvertisementSection.INCREASE_SENSITIVITY_COMMANDS)) {
+			checkAntiAdvertising(event, player, playerName, message, time, firstMatchIncrease, secondMatchIncrease);
 			return;
 		}
 
-		increasedSensitivity(event, config, messages, player, playerName, message, time, firstMatch, secondMatch);
+		checkAntiAdvertising(event, player, playerName, message, time, firstMatch, secondMatch);
 	}
 
-	private void increasedSensitivity(PlayerCommandPreprocessEvent event, FileConfiguration config, FileConfiguration messages, Player player, String playername, String message, Date time, Matcher firstMatch, Matcher secondMatch) {
+	private void checkAntiAdvertising(PlayerCommandPreprocessEvent event, Player player, String playerName, String message, Date time, Matcher firstMatch, Matcher secondMatch) {
 		if (!firstMatch.find() || !secondMatch.find()) return;
 
 		event.setCancelled(true);
-		Methods.sendMessage(player, messages.getString("Anti_Advertising.Commands.Message"), true);
+		//Methods.sendMessage(player, messages.getString("Anti_Advertising.Commands.Message"), true);
 
-		if (config.getBoolean("Anti_Advertising.Commands.Notify_Staff")) {
+		if (configSettings.getProperty(AdvertisementSection.NOTIFY_STAFF_COMMANDS)) {
 			for (Player staff : plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission("chatmanager.notify.antiadvertising")) {
-					Methods.sendMessage(staff, messages.getString("Anti_Advertising.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+					//Methods.sendMessage(staff, messages.getString("Anti_Advertising.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 				}
 			}
 
-			Methods.tellConsole(messages.getString("Anti_Advertising.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+			//Methods.tellConsole(messages.getString("Anti_Advertising.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 		}
 
-		if (config.getBoolean("Anti_Advertising.Commands.Execute_Command")) {
-			if (config.contains("Anti_Advertising.Commands.Executed_Command")) {
-				String command = config.getString("Anti_Advertising.Commands.Executed_Command").replace("{player}", player.getName());
-				List<String> commands = config.getStringList("Anti_Advertising.Commands.Executed_Command");
-				new BukkitRunnable() {
-					public void run() {
-						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
-
-						for (String cmd : commands) {
-							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
-						}
+		if (configSettings.getProperty(AdvertisementSection.EXECUTE_COMMANDS_ADVERTS)) {
+			List<String> commands = configSettings.getProperty(AdvertisementSection.EXECUTED_COMMANDS_ADVERTS);
+			new BukkitRunnable() {
+				public void run() {
+					for (String cmd : commands) {
+						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 					}
-				}.runTask(plugin);
-			}
+				}
+			}.runTask(plugin);
 		}
 
-		if (!config.getBoolean("Anti_Advertising.Commands.Log_Advertisers")) return;
+		if (!configSettings.getProperty(AdvertisementSection.LOG_ADVERTISEMENTS_COMMANDS)) return;
 
 		try {
-			FileWriter fw = new FileWriter(settingsManager.getAdvertisementLogs(), true);
+			FileWriter fw = new FileWriter(Files.advertisement_logs.getFile(), true);
 			BufferedWriter bw2 = new BufferedWriter(fw);
-			bw2.write("[" + time + "] [Command] " + playername + ": " + message.replaceAll("§", "&"));
+			bw2.write("[" + time + "] [Command] " + playerName + ": " + message.replaceAll("§", "&"));
 			bw2.newLine();
 			fw.flush();
 			bw2.close();
@@ -197,17 +191,17 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 		String playerName = event.getPlayer().getName();
 		Date time = Calendar.getInstance().getTime();
 
-		List<String> whitelisted = config.getStringList("Anti_Advertising.Whitelist");
+		List<String> whitelisted = configSettings.getProperty(AdvertisementSection.WEBSITE_WHITELIST);
 
 		Pattern firstPattern = Pattern.compile("[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[0o]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}");
 		Pattern secondPattern = Pattern.compile("[a-zA-Z0-9\\-.]+(\\.|d[o0]t|\\(d[o0]t\\)|-|,)+(com|org|net|co|uk|sk|biz|mobi|xxx|io|ts|adv|de|eu|noip|gs|au|pl|cz|ru)");
 
-		if (!config.getBoolean("Anti_Advertising.Signs.Enable")) return;
+		if (!configSettings.getProperty(AdvertisementSection.BLOCK_ADVERTISING_SIGNS)) return;
 
 		for (int line = 0; line < 4; line++) {
 			String message = event.getLine(line);
 
-			boolean isValid = plugin.getCrazyManager().api().getStaffChatData().containsUser(player.getUniqueId());
+			boolean isValid = cacheManager.getStaffChatDataSet().containsUser(player.getUniqueId());
 
 			if (!isValid && !player.hasPermission("chatmanager.bypass.antiadvertising")) continue;
 
@@ -218,7 +212,7 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 
 			String str = "[" + time + "] [Sign] " + playerName + ": Line: " + line + " Text: " + message.replaceAll("§", "&");
 
-			if (config.getBoolean("Anti_Advertising.Signs.Increase_Sensitivity")) {
+			if (configSettings.getProperty(AdvertisementSection.INCREASE_SENSITIVITY_SIGNS)) {
 				Matcher firstMatchIncrease = firstPattern.matcher(message.toLowerCase().replaceAll("\\s+", ""));
 				Matcher secondMatchIncrease = secondPattern.matcher(message.toLowerCase().replaceAll("\\s+", ""));
 
@@ -238,38 +232,33 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 		if (!firstMatch.find() || !secondMatch.find()) return false;
 
 		event.setCancelled(true);
-		Methods.sendMessage(player, messages.getString("Anti_Advertising.Signs.Message"), true);
+		//Methods.sendMessage(player, messages.getString("Anti_Advertising.Signs.Message"), true);
 
-		if (config.getBoolean("Anti_Advertising.Signs.Notify_Staff")) {
+		if (configSettings.getProperty(AdvertisementSection.NOTIFY_STAFF_SIGNS)) {
 			for (Player staff : plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission("chatmanager.notify.antiadvertising")) {
-					Methods.sendMessage(staff, messages.getString("Anti_Advertising.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+					//Methods.sendMessage(staff, messages.getString("Anti_Advertising.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 				}
 			}
 
-			Methods.tellConsole(messages.getString("Anti_Advertising.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+			//Methods.tellConsole(messages.getString("Anti_Advertising.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 		}
 
-		if (config.getBoolean("Anti_Advertising.Signs.Execute_Command")) {
-			if (config.contains("Anti_Advertising.Signs.Executed_Command")) {
-				String command = config.getString("Anti_Advertising.Signs.Executed_Command").replace("{player}", player.getName());
-				List<String> commands = config.getStringList("Anti_Advertising.Signs.Executed_Command");
+		if (configSettings.getProperty(AdvertisementSection.EXECUTE_SIGNS_ADVERTS)) {
+			List<String> commands = configSettings.getProperty(AdvertisementSection.EXECUTED_SIGNS_ADVERTS);
 
-				new BukkitRunnable() {
-					public void run() {
-						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
-
-						for (String cmd : commands) {
-							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
-						}
+			new BukkitRunnable() {
+				public void run() {
+					for (String cmd : commands) {
+						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 					}
-				}.runTask(plugin);
-			}
+				}
+			}.runTask(plugin);
 		}
 
-		if (config.getBoolean("Anti_Advertising.Signs.Log_Advertisers")) {
+		if (configSettings.getProperty(AdvertisementSection.LOG_ADVERTISEMENTS_COMMANDS)) {
 			try {
-				FileWriter fw = new FileWriter(settingsManager.getAdvertisementLogs(), true);
+				FileWriter fw = new FileWriter(Files.advertisement_logs.getFile(), true);
 				BufferedWriter bw2 = new BufferedWriter(fw);
 				bw2.write(str);
 				bw2.newLine();

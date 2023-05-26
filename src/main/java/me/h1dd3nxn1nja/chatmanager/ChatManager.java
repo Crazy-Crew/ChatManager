@@ -1,6 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager;
 
-import com.ryderbelserion.chatmanager.v1.api.CrazyManager;
+import com.ryderbelserion.chatmanager.api.v1.api.CrazyManager;
 import me.h1dd3nxn1nja.chatmanager.listeners.*;
 import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;

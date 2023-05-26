@@ -18,6 +18,4 @@ dependencies {
     implementation(libs.shadow)
 
     implementation(libs.turtle)
-
-    implementation(libs.kotlin)
 }

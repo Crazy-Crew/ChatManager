@@ -1,24 +1,20 @@
 plugins {
     id("paper-plugin")
-    //id("kotlin-plugin")
     id("library-plugin")
 
     id("xyz.jpenilla.run-paper") version "2.0.1"
 }
 
 dependencies {
-    implementation(libs.crazycore)
+    api(project(":chatmanager-api"))
 
-    compileOnly(libs.bstats.bukkit)
+    implementation(libs.bstats.bukkit)
 
-    compileOnly(libs.config.me)
+    implementation(libs.config.me)
 
-    compileOnly(libs.aikars)
+    implementation(libs.aikars)
 
-    compileOnly(libs.placeholder.api)
-    compileOnly(libs.vault.api)
-
-    compileOnly(libs.essentialsx)
+    implementation(libs.stick)
 }
 
 tasks {
@@ -32,6 +28,13 @@ tasks {
 
     shadowJar {
         exclude("**/META-INF/**")
+
+        listOf(
+            "org.bstats",
+            "com.ryderbelserion.stick",
+            "co.aikar",
+            "ch.jalu"
+        ).forEach { pack -> relocate(pack, "${rootProject.group}.$pack") }
     }
 
     runServer {

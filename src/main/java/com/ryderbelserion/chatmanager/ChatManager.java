@@ -1,39 +1,53 @@
 package com.ryderbelserion.chatmanager;
 
-import com.ryderbelserion.chatmanager.api.configs.ConfigBuilder;
+import ch.jalu.configme.SettingsManager;
+import com.ryderbelserion.chatmanager.api.ApiManager;
+import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
-import us.crazycrew.crazycore.paper.CrazyCore;
-import us.crazycrew.crazycore.paper.CrazyLogger;
-import java.util.logging.Logger;
 
 public class ChatManager extends JavaPlugin {
 
     private static ChatManager plugin;
 
-    private final CrazyCore crazyCore;
-    private final ConfigBuilder configBuilder;
+    private final ApiManager apiManager;
 
-    public ChatManager(CrazyCore crazyCore, ConfigBuilder configBuilder) {
-        this.crazyCore = crazyCore;
+    private final PlaceholderManager placeholderManager;
 
-        this.configBuilder = configBuilder;
+    public ChatManager(ApiManager apiManager) {
+        this.apiManager = apiManager;
+
+        this.placeholderManager = new PlaceholderManager();
     }
 
     @Override
-    public @NotNull Logger getLogger() {
-        return CrazyLogger.getLogger();
+    public void onEnable() {
+        plugin = this;
     }
 
-    public CrazyCore getCrazyCore() {
-        return this.crazyCore;
-    }
+    @Override
+    public void onDisable() {
 
-    public ConfigBuilder getConfigBuilder() {
-        return this.configBuilder;
     }
 
     public static ChatManager getPlugin() {
         return plugin;
+    }
+
+    public ApiManager getApiManager() {
+        return this.apiManager;
+    }
+
+    // Placeholders
+    public PlaceholderManager getPlaceholderManager() {
+        return this.placeholderManager;
+    }
+
+    // Config Settings
+    public SettingsManager getConfigSettings() {
+        return getApiManager().getConfigSettings();
+    }
+
+    public SettingsManager getPluginSettings() {
+        return getApiManager().getPluginSettings();
     }
 }

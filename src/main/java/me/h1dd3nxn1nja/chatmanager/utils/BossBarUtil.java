@@ -28,24 +28,24 @@ public class BossBarUtil {
 	HashMap<UUID, BossBar> bossBars = new HashMap<>();
 
 	public BossBarUtil() {
-			this.title = Methods.color("&bStaff Chat");
-			this.color = BarColor.PINK;
-			this.style = BarStyle.SOLID;
-			this.bar = org.bukkit.Bukkit.getServer().createBossBar(title, color, style);
+		this.title = Methods.color("&bStaff Chat");
+		this.color = BarColor.PINK;
+		this.style = BarStyle.SOLID;
+		this.bar = org.bukkit.Bukkit.getServer().createBossBar(title, color, style);
 	}
 
 	public BossBarUtil(String title, BarColor color, BarStyle style) {
-			this.title = Methods.color(title);
-			this.color = color;
-			this.style = style;
-			this.bar = plugin.getServer().createBossBar(this.title, color, style);
+		this.title = Methods.color(title);
+		this.color = color;
+		this.style = style;
+		this.bar = plugin.getServer().createBossBar(this.title, color, style);
 	}
-	
+
 	public BossBarUtil(String title) {
-			this.title = Methods.color(title);
-			this.color = BarColor.PINK;
-			this.style = BarStyle.SOLID;
-			this.staffBar = plugin.getServer().createBossBar(this.title, color, style);
+		this.title = Methods.color(title);
+		this.color = BarColor.PINK;
+		this.style = BarStyle.SOLID;
+		this.staffBar = plugin.getServer().createBossBar(this.title, color, style);
 	}
 
 	public String getTitle() {
@@ -130,7 +130,7 @@ public class BossBarUtil {
 
 		return this;
 	}
-	
+
 	public BossBarUtil setStaffBossBar(Player player) {
 		staffBar.addPlayer(player);
 
@@ -138,7 +138,7 @@ public class BossBarUtil {
 
 		return this;
 	}
-	
+
 	public BossBarUtil setBossBarTime(Player player, int time, ChatManager chatManager) {
 		bar.addPlayer(player);
 
@@ -158,13 +158,13 @@ public class BossBarUtil {
 
 		return this;
 	}
-	
+
 	public BossBarUtil removeStaffBossBar(Player player) {
 		if (staffBars.containsKey(player.getUniqueId())) staffBars.get(player.getUniqueId()).staffBar.removePlayer(player);
 
 		return this;
 	}
-	
+
 	public BossBarUtil removeAllBossBars(Player player) {
 		if (playerBars.containsKey(player.getUniqueId())) playerBars.get(player.getUniqueId()).bar.removePlayer(player);
 
@@ -172,7 +172,7 @@ public class BossBarUtil {
 
 		return this;
 	}
-	
+
 	public BossBarUtil setBossBarAnimation(Player player, List<String> titles, int time, ChatManager chatManager) {
 		BossBar bossBar = plugin.getServer().createBossBar(titles.get(0), color, BarStyle.SOLID, BarFlag.CREATE_FOG);
 		bossBar.addPlayer(player);
@@ -192,8 +192,8 @@ public class BossBarUtil {
 
 				if (ticksRan >= time) {
 					bossBar.removePlayer(player);
-                    bossBar.setVisible(false);
-                    bossBars.remove(player.getUniqueId());
+					bossBar.setVisible(false);
+					bossBars.remove(player.getUniqueId());
 				}
 			}
 		}, 1, 1);

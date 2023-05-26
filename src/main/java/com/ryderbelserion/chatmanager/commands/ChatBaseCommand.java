@@ -6,7 +6,6 @@ import co.aikar.commands.HelpEntry;
 import co.aikar.commands.PaperCommandManager;
 import co.aikar.commands.annotation.*;
 import com.ryderbelserion.chatmanager.ChatManager;
-import com.ryderbelserion.chatmanager.api.configs.types.LocaleSettings;
 import com.ryderbelserion.chatmanager.api.configs.types.PluginSettings;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.event.ClickEvent;
