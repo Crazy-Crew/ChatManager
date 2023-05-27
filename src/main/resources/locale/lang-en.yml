@@ -41,7 +41,7 @@ player:
     must-be-player: '<red>You must be a player to use this command.</red>'
     must-be-console-sender: '<red>You must be using console to use this command.</red>'
 
-module:
+modules:
   anti-advertising:
     chat:
       message: '<red>Advertising is not allowed in chat. Staff has been notified.</red>'
