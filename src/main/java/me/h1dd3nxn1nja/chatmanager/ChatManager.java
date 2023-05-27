@@ -1,19 +1,11 @@
 package me.h1dd3nxn1nja.chatmanager;
 
-import com.ryderbelserion.chatmanager.api.v1.api.CrazyManager;
 import me.h1dd3nxn1nja.chatmanager.listeners.*;
-import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ChatManager extends JavaPlugin {
 
     private static ChatManager plugin;
-
-    private SettingsManager settingsManager;
-
-    private CrazyManager crazyManager;
-
-    private PluginManager pluginManager;
 
     public void onEnable() {
         plugin = this;
@@ -36,14 +28,14 @@ public class ChatManager extends JavaPlugin {
                 ==========================================================
                 """);
 
-        settingsManager = new SettingsManager();
-        settingsManager.setup();
+        //settingsManager = new SettingsManager();
+        //settingsManager.setup();
 
-        pluginManager = new PluginManager();
+       // pluginManager = new PluginManager();
 
-        crazyManager = new CrazyManager();
+        //crazyManager = new CrazyManager();
 
-        crazyManager.load(true);
+        //crazyManager.load(true);
 
         //boolean metricsEnabled = settingsManager.getConfig().getBoolean("Metrics_Enabled");
 
@@ -64,7 +56,7 @@ public class ChatManager extends JavaPlugin {
     }
 
     public void onDisable() {
-        crazyManager.stop(true);
+        //crazyManager.stop(true);
     }
 
     public void registerEvents() {
@@ -125,17 +117,5 @@ public class ChatManager extends JavaPlugin {
 
     public static ChatManager getPlugin() {
         return plugin;
-    }
-
-    public SettingsManager getSettingsManager() {
-        return settingsManager;
-    }
-
-    public CrazyManager getCrazyManager() {
-        return crazyManager;
-    }
-
-    public PluginManager getPluginManager() {
-        return pluginManager;
     }
 }

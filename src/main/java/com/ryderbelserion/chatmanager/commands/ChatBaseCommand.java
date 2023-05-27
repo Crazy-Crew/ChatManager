@@ -6,8 +6,9 @@ import co.aikar.commands.HelpEntry;
 import co.aikar.commands.PaperCommandManager;
 import co.aikar.commands.annotation.*;
 import com.ryderbelserion.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.api.configs.types.LocaleSettings;
 import com.ryderbelserion.chatmanager.api.configs.types.PluginSettings;
-import net.kyori.adventure.audience.Audience;
+import com.ryderbelserion.chatmanager.api.interfaces.Universal;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -16,7 +17,7 @@ import static com.ryderbelserion.chatmanager.utils.MessageUtils.*;
 
 @CommandAlias("chatmanager")
 @Description("Manage or use the ChatManager plugin.")
-public class ChatBaseCommand extends BaseCommand {
+public class ChatBaseCommand extends BaseCommand implements Universal {
 
     private final ChatManager plugin = ChatManager.getPlugin();
 
@@ -24,7 +25,7 @@ public class ChatBaseCommand extends BaseCommand {
     @Description("The base help command for the plugin.")
     @CommandPermission("chatmanager.help")
     public void help(CommandSender sender, @Syntax("[page]") CommandHelp help) {
-        help.setPerPage(plugin.getConfigBuilder().getPluginSettings().getProperty(PluginSettings.MAX_HELP_PAGE_ENTRIES));
+        help.setPerPage(pluginSettings.getProperty(PluginSettings.MAX_HELP_PAGE_ENTRIES));
 
         generateHelp(help.getPerPage(), help.getPage(), help.getHelpEntries(), sender);
     }
@@ -42,19 +43,19 @@ public class ChatBaseCommand extends BaseCommand {
     private void generateHelp(int maxPage, int page, List<HelpEntry> entries, CommandSender sender) {
         int pageStartEntry = maxPage * (page - 1);
 
-        String invalidPage = plugin.getConfigBuilder().getLocaleSettings().getProperty(LocaleSettings.INVALID_PAGE).replaceAll("%page%", String.valueOf(page));
+        String invalidPage = localeSettings.getProperty(LocaleSettings.INVALID_PAGE).replaceAll("%page%", String.valueOf(page));
 
         if (page <= 0 || pageStartEntry >= entries.size()) {
-            send((Audience) sender, invalidPage);
+            send(sender, invalidPage);
             return;
         }
 
-        String hoverFormat = plugin.getConfigBuilder().getLocaleSettings().getProperty(LocaleSettings.HOVER_FORMAT);
-        String hoverAction = plugin.getConfigBuilder().getLocaleSettings().getProperty(LocaleSettings.HOVER_ACTION);
+        String hoverFormat = localeSettings.getProperty(LocaleSettings.HOVER_FORMAT);
+        String hoverAction = localeSettings.getProperty(LocaleSettings.HOVER_ACTION);
 
-        String header = plugin.getConfigBuilder().getLocaleSettings().getProperty(LocaleSettings.HELP_HEADER).replaceAll("%page%", String.valueOf(page));
+        String header = localeSettings.getProperty(LocaleSettings.HELP_HEADER).replaceAll("%page%", String.valueOf(page));
 
-        send((Audience) sender, header, false);
+        send(sender, header, false);
 
         for (int i = pageStartEntry; i < (pageStartEntry + maxPage); i++) {
             if (entries.size()-1 < i) continue;
@@ -66,7 +67,7 @@ public class ChatBaseCommand extends BaseCommand {
             String name = command.getCommandPrefix() + command.getCommand();
             String desc = command.getDescription();
 
-            String format = plugin.getConfigBuilder().getLocaleSettings().getProperty(LocaleSettings.PAGE_FORMAT)
+            String format = localeSettings.getProperty(LocaleSettings.PAGE_FORMAT)
                     .replaceAll("%command%", name)
                     .replaceAll("%description%", desc);
 
@@ -74,36 +75,36 @@ public class ChatBaseCommand extends BaseCommand {
 
             if (sender instanceof Player player) {
                 hover(
-                        (Audience) player,
+                        player,
                         builtCommand,
                         hoverFormat.replaceAll("%command%", name).replaceAll("%args%", command.getParameterSyntax()),
                         name,
                         ClickEvent.Action.valueOf(hoverAction.toUpperCase()));
             } else {
-                send((Audience) sender, format, false);
+                send(sender, format, false);
             }
         }
 
-        String pageTag = plugin.getConfigBuilder().getLocaleSettings().getProperty(LocaleSettings.GO_TO_PAGE);
+        String pageTag = localeSettings.getProperty(LocaleSettings.GO_TO_PAGE);
 
-        String footer = plugin.getConfigBuilder().getLocaleSettings().getProperty(LocaleSettings.HELP_FOOTER);
+        String footer = localeSettings.getProperty(LocaleSettings.HELP_FOOTER);
 
-        String back = plugin.getConfigBuilder().getLocaleSettings().getProperty(LocaleSettings.PAGE_BACK);
+        String back = localeSettings.getProperty(LocaleSettings.PAGE_BACK);
 
-        String next = plugin.getConfigBuilder().getLocaleSettings().getProperty(LocaleSettings.PAGE_NEXT);
+        String next = localeSettings.getProperty(LocaleSettings.PAGE_NEXT);
 
         if (sender instanceof Player player) {
             if (page > 1) {
                 int number = page-1;
 
-                hover((Audience) player, footer.replaceAll("%page%", String.valueOf(page)),  pageTag.replaceAll("%page%", String.valueOf(number)), back,"/chatmanager help " + number, ClickEvent.Action.RUN_COMMAND);
+                hover(player, footer.replaceAll("%page%", String.valueOf(page)),  pageTag.replaceAll("%page%", String.valueOf(number)), back,"/chatmanager help " + number, ClickEvent.Action.RUN_COMMAND);
             } else if (page < entries.size()) {
                 int number = page+1;
 
-                hover((Audience) player, footer.replaceAll("%page%", String.valueOf(page)),  pageTag.replaceAll("%page%", String.valueOf(number)), next,"/chatmanager help " + number, ClickEvent.Action.RUN_COMMAND);
+                hover(player, footer.replaceAll("%page%", String.valueOf(page)),  pageTag.replaceAll("%page%", String.valueOf(number)), next,"/chatmanager help " + number, ClickEvent.Action.RUN_COMMAND);
             }
         } else {
-            send((Audience) sender, footer.replaceAll("%page%", String.valueOf(page)), false);
+            send(sender, footer.replaceAll("%page%", String.valueOf(page)), false);
         }
     }
 }
