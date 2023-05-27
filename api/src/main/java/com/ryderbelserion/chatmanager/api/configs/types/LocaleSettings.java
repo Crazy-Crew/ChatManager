@@ -134,6 +134,13 @@ public class LocaleSettings implements SettingsHolder {
     })
     public static final Property<String> COMMAND_WARNING_SOUND_TYPE = newProperty(prefix + "warning.sound.type", "AMBIENT_CAVE");
 
+    // Convert.
+    public static final Property<String> NO_FILES_TO_CONVERT = newProperty(prefix + "convert.no-files-to-convert", "<red>No available plugins to convert files.</red>");
+
+    public static final Property<String> ERROR_CONVERTING_FILES = newProperty(prefix + "convert.error-converting-files", "<red>An error has occurred while trying to convert files. We could not convert</red> <gold>%file%</gold> <red>so please check the console.</red>");
+
+    public static final Property<String> SUCCESSFULLY_CONVERTED_FILES = newProperty(prefix + "convert.successfully-converted-files", "<blue>Plugin Conversion has succeeded!</blue>");
+
     // Reload.
     public static final Property<String> COMMAND_CONFIRM_RELOAD = newProperty(prefix + "reload.confirm-reload", "<yellow>Are you sure you want to reload the plugin?</yellow>");
 

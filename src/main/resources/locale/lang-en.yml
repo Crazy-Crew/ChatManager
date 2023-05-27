@@ -41,6 +41,82 @@ player:
     must-be-player: '<red>You must be a player to use this command.</red>'
     must-be-console-sender: '<red>You must be using console to use this command.</red>'
 
+module:
+  anti-advertising:
+    chat:
+      message: '<red>Advertising is not allowed in chat. Staff has been notified.</red>'
+      notify-staff-format: '<gray>[Anti-Advertise Chat]</gray> <white>%player%:</white> <gray>{message}</gray>'
+    command:
+      message: '<red>Advertising is not allowed in commands. Staff has been notified.</red>'
+      notify-staff-format: '<gray>[Anti-Advertise Commands]</gray> <white>%player%:</white> <gray>{message}</gray>'
+    sign:
+      message: '<red>Advertising is not allowed in signs. Staff has been notified.</red>'
+      notify-staff-format: '<gray>[Anti-Advertise Signs]</gray> <white>%player%:</white> <gray>{message}</gray>'
+  anti-bot:
+    deny-chat-message: '<red>You must move one block before talking in chat.</red>'
+    deny-command-message: '<red>You must move one block before executing commands.</red>'
+  anti-caps:
+    deny-message-chat: '<red>Please do not use caps in chat.</red>'
+    deny-message-command: '<red>Please do not use caps in commands.</red>'
+  anti-spam:
+    chat:
+      repetitive-message: '<red>Please do not repeat the same message.</red>'
+      delay-message: '<gray>Please wait</gray> <red>{time}</red> seconds <gray>before sending another message.</gray>'
+    command:
+      repetitive-message: '<red>Please do not repeat the same command.</red>'
+      delay-message: '<gray>Please wait</gray> <red>{time}</red> seconds <gray>before sending another command.</gray>'
+  anti-swear:
+    chat:
+      message: '<red>Please do not curse in chat.</red>'
+      notify-staff-format: '<gray>[Anti-Swear Chat]</gray> <white>%player%:</white> <gray>{message}</gray>'
+    command:
+      message: '<red>Please do not curse in commands.</red>'
+      notify-staff-format: '<gray>[Anti-Swear Commands]</gray> <white>%player%:</white> <gray>{message}</gray>'
+    sign:
+      message: '<red>Please do not curse in signs.</red>'
+      notify-staff-format: '<gray>[Anti-Swear Signs]</gray> <white>%player%:</white> <gray>{message}</gray>'
+    blacklisted-word:
+      added: '<gray>You added the word</gray> <red>{word}</red> <gray>to the anti-swears blacklist</gray>'
+      exists: '<gray>The word</gray> <red>{word}</red> <gray>is already added to the anti-swears blacklist</gray>'
+      removed: '<gray>You removed the word</gray> <red>{word}</red> <gray>from the anti-swears blacklist</gray>'
+      not-found: '<gray>The word</gray> <red>{word}</red> <gray>is not in the anti-swears blacklist</gray>'
+    whitelisted-word:
+      added: '<gray>You added the word</gray> <red>{word}</red> <gray>to the anti-swears whitelist</gray>'
+      exists: '<gray>The word</gray> <red>{word}</red> <gray>is already added to the anti-swears whitelist</gray>'
+      removed: '<gray>You removed the word</gray> <red>{word}</red> <gray>from the anti-swears whitelist</gray>'
+      not-found: '<gray>The word</gray> <red>{word}</red> <gray>is not in the anti-swears whitelist</gray>'
+    anti-unicode:
+      message: '<red>Please do not use special characters in chat</red>'
+      notify-staff-format: '<gray>[Anti-Unicode]</gray> <white>%player%:</white> <gray>{message}</gray>'
+    other:
+      auto-broadcast:
+        list: '<red>{section}''s</red> <gray>auto-broadcast messages</gray>'
+        added: '<reset>{message}</reset> <gray>has been added to the <red>{section}</red> <gray>messages!</gray>'
+        created: '<gray>Created the world</gray> <red>{world}</red> <gray>with the message</gray> <reset>{message}.</reset>'
+      banned-commands:
+        message: '<red>You do not have permission to use the command</red> <gray>/{command}.</gray>'
+        added: '<gray>You added the command</gray> <red>{command}</red> <gray>to the list of banned commands</gray>'
+        exists: '<gray>The command</gray> <red>{command}</red> <gray>is already added to the list of banned commands.</gray>'
+        removed: '<gray>You removed the command</gray> <red>{command}</red> <gray>from the list of banned commands.</gray>'
+        not-found: '<gray>The command</gray> <red>{command}</red> <gray>is not in the list of banned commands.</gray>'
+        notify-staff-format: '<gray>[Blocked-Command]</gray> <white>%player%:</white> <gray>{command}</gray>'
+      chat-radius:
+        local-chat:
+          enabled: '<gray>You have entered</gray> <red>Local Chat</red> <gray>Do</gray> <red>/chatmanager chat-radius global</red> <gray>or</gray> <red>/chatmanager chat-radius world </red> <gray>to leave Local Chat</gray>'
+          already-enabled: '<gray>You are already in Local Chat.</gray>'
+        global-chat:
+          enabled: '<gray>You have entered</gray> <red>Global Chat</red> <gray>Do</gray> <red>/chatmanager chat-radius global</red> <gray>or</gray> <red>/chatmanager chat-radius world </red> <gray>to leave Global Chat</gray>'
+          already-enabled: '<gray>You are already in Global Chat.</gray>'
+        world-chat:
+          enabled: '<gray>You have entered</gray> <red>World Chat</red> <gray>Do</gray> <red>/chatmanager chat-radius global</red> <gray>or</gray> <red>/chatmanager chat-radius world </red> <gray>to leave World Chat</gray>'
+          already-enabled: '<gray>You are already in World Chat.</gray>'
+        per-world-chat:
+          bypass-enabled: '<green>Per-world chat bypass has been enabled.</green>'
+          bypass-disabled: '<red>Per-world chat bypass has been disabled.</red>'
+        radius-spy:
+          enabled: '<gray>Chat Radius Spy has been</gray> <green>enabled.</green>'
+          disabled: '<gray>Chat Radius Spy has been</gray> <red>disabled.</red>'
+
 command:
   broadcast:
     prefix: '<red>[</red><dark_red>Broadcast</dark_red><red>]</red><reset> '
@@ -84,3 +160,44 @@ command:
   reload:
     confirm-reload: '<cyan>Are you sure you want to reload the plugin?</cyan>'
     reload-completed: '<blue>Plugin reload has been completed.</blue>'
+  clear-chat:
+    staff-message: '<yellow>Chat has been cleared by %player%.</yellow>'
+    broadcast-message:
+      - '<white>*</white><red><underline>--------------------------------------------</underline></red><white>*</white>'
+      - '<yellow>The chat has been cleared by %player%</yellow>'
+      - '<white>*</white><red><underline>--------------------------------------------</underline></red><white>*</white>'
+  command-spy:
+    format: '<gray>[Command-Spy] %player%:</gray> <aqua>{command}</aqua>'
+    enabled: '<green>Command Spy has been enabled.</green>'
+    disabled: '<red>Command Spy has been disabled.</red>'
+  social-spy:
+    format: '<blue><bold>(*)</bold></blue> <white><bold>[<yellow>%player%</yellow> <purple>!!</purple> <yellow>{receiver}</yellow>]</bold></white> <blue>{message}</blue>'
+    enabled: '<green>Social Spy has been enabled.</green>'
+    disabled: '<red>Social Spy has been disabled.</red>'
+  mute-chat:
+    denied-message: '<red>You are not able to talk in chat right now.</red>'
+    broadcast:
+      enabled: '<green>Chat has been enabled by %player%</green>'
+      disabled: '<red>Chat has been disabled by %player%</red>'
+    blocked-command: '<red>You are not able to use commands in chat right now.</red>'
+  staff-chat:
+    enabled: '<green>Staff Chat has been enabled.</green>'
+    disabled: '<red>Staff Chat has been disabled.</red>'
+  toggle-chat:
+    enabled: '<gray>You will no longer receive any messages.</gray>'
+    disabled: '<gray>You will start receiving messages again</gray>'
+  toggle-mentions:
+    enabled: '<gray>You will no longer receive any mentions</gray>'
+    disabled: '<gray>You will start receiving mentions again</gray>'
+  toggle-private-messages:
+    enabled: '<green>Private Messages have been enabled.</green>'
+    disabled: '<red>Private Messages have been disabled.</red>'
+  ping:
+    your-ping: '<yellow>Your current ping is </yellow> <red>%player_ping%.</red>'
+    others-ping: '<red>%player%''s</red> <yellow>current ping is</yellow> <red>%player_ping%.</red>'
+  private-message:
+    recipient-not-found: '<red>You have nobody to reply to.</red>'
+    toggled: '<red>That player is not accepting messages right now.</red>'
+    ignored: '<red>%player%</red> <gray>is currently ignoring you and will not receive your private messages.</gray>'
+    cannot-msg-self: '<red>You cannot message yourself.</red>'
+    afk: '<red>%player%</red> <gray>is currently afk.</gray>'
