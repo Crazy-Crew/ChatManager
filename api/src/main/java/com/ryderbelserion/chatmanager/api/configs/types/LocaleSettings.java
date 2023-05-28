@@ -274,4 +274,49 @@ public class LocaleSettings implements SettingsHolder {
     public static final Property<String> COMMAND_SOCIAL_SPY_ENABLED = newProperty(prefix + "social-spy.enabled", "<green>Social Spy has been enabled.</green>");
 
     public static final Property<String> COMMAND_SOCIAL_SPY_DISABLED = newProperty(prefix + "social-spy.disabled", "<red>Social Spy has been disabled.</red>");
+
+    // /chc mute-chat
+    public static final Property<String> COMMAND_MUTE_CHAT_DENIED_MESSAGE = newProperty(prefix + "mute-chat.denied-message", "<red>You are not able to talk in chat right now.</red>");
+
+    public static final Property<String> COMMAND_MUTE_CHAT_BROADCAST_ENABLED = newProperty(prefix + "mute-chat.broadcast.enabled", "<green>Chat has been enabled by %player%</green>");
+
+    public static final Property<String> COMMAND_MUTE_CHAT_BROADCAST_DISABLED = newProperty(prefix + "mute-chat.broadcast.disabled", "<red>Chat has been disabled by %player%</red>");
+
+    public static final Property<String> COMMAND_MUTE_CHAT_BLOCKED_COMMAND = newProperty(prefix + "mute-chat.blocked-command", "<red>You are not able to use commands in chat right now.</red>");
+
+    // /chc staff-chat
+    public static final Property<String> COMMAND_STAFF_CHAT_ENABLED = newProperty(prefix + "staff-chat.enabled", "<green>Staff Chat has been enabled.</green>");
+
+    public static final Property<String> COMMAND_STAFF_CHAT_DISABLED = newProperty(prefix + "staff-chat.disabled", "<red>Staff Chat has been disabled.</red>");
+
+    // /chc toggle-chat
+    public static final Property<String> COMMAND_TOGGLE_CHAT_ENABLED = newProperty(prefix + "toggle-chat.enabled", "<gray>You will no longer receive any messages.</gray>");
+
+    public static final Property<String> COMMAND_TOGGLE_CHAT_DISABLED = newProperty(prefix + "toggle-chat.disabled", "<gray>You will start receiving messages again</gray>");
+
+    // /chc toggle-mentions
+    public static final Property<String> COMMAND_TOGGLE_MENTIONS_ENABLED = newProperty(prefix + "toggle-mentions.enabled", "<gray>You will no longer receive any mentions</gray>");
+
+    public static final Property<String> COMMAND_TOGGLE_MENTIONS_DISABLED = newProperty(prefix + "toggle-mentions.disabled", "<gray>You will start receiving mentions again</gray>");
+
+    // /chc toggle-private-messages
+    public static final Property<String> COMMAND_TOGGLE_PRIVATE_MESSAGES_ENABLED = newProperty(prefix + "toggle-private-messages.enabled", "<green>Private Messages have been enabled.</green>");
+
+    public static final Property<String> COMMAND_TOGGLE_PRIVATE_MESSAGES_DISABLED = newProperty(prefix + "toggle-private-messages.disabled", "<red>Private Messages have been disabled.</red>");
+
+    // /chc ping
+    public static final Property<String> COMMAND_PING_YOUR_PING = newProperty(prefix + "ping.your-ping", "<yellow>Your current ping is </yellow> <red>%player_ping%.</red>");
+
+    public static final Property<String> COMMAND_PING_OTHERS_PING = newProperty(prefix + "ping.others-ping", "<red>%player%''s</red> <yellow>current ping is</yellow> <red>%player_ping%.</red>");
+
+    // /chc msg
+    public static final Property<String> COMMAND_PRIVATE_MESSAGE = newProperty(prefix + "private-message.recipient-not-found", "<red>You have nobody to reply to.</red>");
+
+    public static final Property<String> COMMAND_PRIVATE_MESSAGE_TOGGLED = newProperty(prefix + "private-message.toggled", "<red>That player is not accepting messages right now.</red>");
+
+    public static final Property<String> COMMAND_PRIVATE_MESSAGE_IGNORED = newProperty(prefix + "private-message.ignored", "<red>%player%</red> <gray>is currently ignoring you and will not receive your private messages.</gray>");
+
+    public static final Property<String> COMMAND_PRIVATE_MESSAGE_CANNOT_MSG_SELF = newProperty(prefix + "private-message.cannot-msg-self", "<red>You cannot message yourself.</red>");
+
+    public static final Property<String> COMMAND_PRIVATE_MESSAGE_AFK = newProperty(prefix + "private-message.afk", "<red>%player%</red> <gray>is currently afk.</gray>");
 }
