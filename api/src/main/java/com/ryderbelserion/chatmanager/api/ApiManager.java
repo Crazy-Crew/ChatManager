@@ -8,7 +8,6 @@ import com.ryderbelserion.chatmanager.api.configs.types.LocaleSettings;
 import com.ryderbelserion.chatmanager.api.configs.types.PluginSettings;
 import com.ryderbelserion.chatmanager.api.configs.types.sections.PluginSupportSection;
 import com.ryderbelserion.chatmanager.api.storage.types.cache.CacheManager;
-import com.ryderbelserion.chatmanager.api.support.types.other.EssentialsSupport;
 import com.ryderbelserion.chatmanager.api.support.types.other.VaultSupport;
 import com.ryderbelserion.chatmanager.api.support.types.placeholders.PlaceholderAPISupport;
 import com.ryderbelserion.chatmanager.api.support.types.vanish.EssentialsVanishSupport;

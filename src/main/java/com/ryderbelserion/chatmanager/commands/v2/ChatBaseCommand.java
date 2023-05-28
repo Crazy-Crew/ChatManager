@@ -1,4 +1,4 @@
-package com.ryderbelserion.chatmanager.commands;
+package com.ryderbelserion.chatmanager.commands.v2;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;

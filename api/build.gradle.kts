@@ -13,7 +13,5 @@ dependencies {
 
     compileOnly(libs.config.me)
 
-    compileOnly(libs.aikars)
-
     compileOnly(libs.stick)
 }

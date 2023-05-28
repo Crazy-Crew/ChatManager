@@ -14,6 +14,8 @@ dependencies {
 
     implementation(libs.aikars)
 
+    implementation(libs.jorel)
+
     implementation(libs.stick)
 }
 
@@ -30,8 +32,9 @@ tasks {
         exclude("**/META-INF/**")
 
         listOf(
-            "org.bstats",
             "com.ryderbelserion.stick",
+            "dev.jorel.commandapi",
+            "org.bstats",
             "co.aikar",
             "ch.jalu"
         ).forEach { pack -> relocate(pack, "${rootProject.group}.$pack") }

@@ -2,6 +2,8 @@ package com.ryderbelserion.chatmanager;
 
 import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.api.ApiManager;
+import dev.jorel.commandapi.CommandAPI;
+import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,8 +22,19 @@ public class ChatManager extends JavaPlugin {
     }
 
     @Override
+    public void onLoad() {
+        CommandAPI.onLoad(
+                new CommandAPIBukkitConfig(
+                        this
+                ).shouldHookPaperReload(true)
+        );
+    }
+
+    @Override
     public void onEnable() {
         plugin = this;
+
+        CommandAPI.onEnable();
     }
 
     @Override
