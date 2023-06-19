@@ -6,7 +6,7 @@ import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import com.ryderbelserion.chatmanager.api.CrazyManager;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;

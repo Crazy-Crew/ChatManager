@@ -31,6 +31,12 @@ public class ChatManager extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
+        if (!PluginSupport.VAULT.isPluginEnabled()) {
+            getLogger().warning("Vault is required to use ChatManager, Disabling plugin!");
+            getServer().getPluginManager().disablePlugin(plugin);
+            return;
+        }
+
         settingsManager = new SettingsManager();
 
         settingsManager.setup();
@@ -64,6 +70,8 @@ public class ChatManager extends JavaPlugin {
     }
 
     public void onDisable() {
+        if (!PluginSupport.VAULT.isPluginEnabled()) return;
+
         getServer().getScheduler().cancelTasks(this);
 
         for (Player player : getServer().getOnlinePlayers()) {

@@ -1,12 +1,11 @@
-#file: noinspection YAMLSchemaValidation
-name: ChatManager
-main: ${group}.ChatManager
+name: 'ChatManager'
+main: '${group}.ChatManager'
 authors: [H1DD3NxN1NJA, Ryder Belserion]
 
-version: ${version}
-api-version: "1.18"
-description: ${description}
-website: ${website}
+version: '${version}'
+api-version: '1.20'
+description: '${description}'
+website: '${website}'
 
 softdepend:
  - PlaceholderAPI

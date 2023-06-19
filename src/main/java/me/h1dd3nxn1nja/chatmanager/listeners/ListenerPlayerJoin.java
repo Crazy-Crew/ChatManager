@@ -3,8 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import com.ryderbelserion.chatmanager.api.Universal;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -56,8 +55,7 @@ public class ListenerPlayerJoin implements Listener, Universal {
         Player player = event.getPlayer();
 
         if (player.hasPlayedBefore()) {
-            if ((config.getBoolean("Messages.Join_Quit_Messages.Join_Message.Enable"))
-                    && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
+            if ((config.getBoolean("Messages.Join_Quit_Messages.Join_Message.Enable")) && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
                 String message = config.getString("Messages.Join_Quit_Messages.Join_Message.Message");
                 boolean isAsync = config.getBoolean("Messages.Async", false);
 

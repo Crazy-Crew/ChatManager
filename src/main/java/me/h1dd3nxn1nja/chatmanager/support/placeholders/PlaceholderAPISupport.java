@@ -3,7 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.support.placeholders;
 import java.text.DecimalFormat;
 import me.h1dd3nxn1nja.chatmanager.SettingsManager;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;

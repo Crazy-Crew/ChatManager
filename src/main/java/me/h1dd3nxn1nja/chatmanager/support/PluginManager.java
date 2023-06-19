@@ -21,13 +21,8 @@ public class PluginManager {
     private VaultSupport vaultSupport;
 
     public void load() {
-        if (!PluginSupport.VAULT.isPluginEnabled()) {
-            plugin.getLogger().warning("Vault is required to use ChatManager, Disabling plugin!");
-            plugin.getServer().getPluginManager().disablePlugin(plugin);
-        } else {
-            vaultSupport = new VaultSupport();
-            vaultSupport.configure();
-        }
+        vaultSupport = new VaultSupport();
+        vaultSupport.configure();
 
         // Load EssentialsX support if plugin is enabled.
         if (PluginSupport.ESSENTIALS.isPluginEnabled()) essentialsSupport = new EssentialsSupport();
@@ -40,7 +35,7 @@ public class PluginManager {
         if (PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) new PlaceholderAPISupport().register();
 
         // Print hooks on load.
-        printHooks();
+        //printHooks();
     }
 
     public EssentialsSupport getEssentialsSupport() {

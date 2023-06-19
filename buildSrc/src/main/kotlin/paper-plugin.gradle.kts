@@ -1,5 +1,7 @@
 plugins {
-    id("chatmanager.root-plugin")
+    id("root-plugin")
+
+    id("com.github.johnrengelman.shadow")
 
     id("io.papermc.paperweight.userdev")
 }
@@ -9,23 +11,17 @@ repositories {
 
     maven("https://repo.papermc.io/repository/maven-public/")
 
+    maven("https://repo.triumphteam.dev/snapshots/")
+
     maven("https://repo.essentialsx.net/releases/")
 }
 
 dependencies {
-    paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.20-R0.1-SNAPSHOT")
 }
 
 tasks {
     assemble {
         dependsOn(reobfJar)
-    }
-
-    reobfJar {
-        val file = File("$rootDir/jars")
-
-        if (!file.exists()) file.mkdirs()
-
-        outputJar.set(layout.buildDirectory.file("$file/${rootProject.name}-Paper-${rootProject.version}.jar"))
     }
 }
