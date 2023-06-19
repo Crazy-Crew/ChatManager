@@ -11,11 +11,11 @@ plugins {
 val isSnapshot = rootProject.version.toString().contains("snapshot")
 val type = if (isSnapshot) "beta" else "release"
 
-// The commit id for the "main" branch prior to merging a pull request.
-val start = "cbea2cc"
+// The commit id for the "main" branch i.e the version bump for a previous minecraft version
+val start = "429814c"
 
 // The commit id BEFORE merging the pull request so before "Merge pull request #30"
-val end = "5ffdca7"
+val end = "1b5d1c6"
 
 val commitLog = getGitHistory().joinToString(separator = "") { formatGitLog(it) }
 
@@ -35,7 +35,7 @@ val desc = """
           
 <summary>Other</summary>
 
-commitLog
+$commitLog
             
 </details>
 
