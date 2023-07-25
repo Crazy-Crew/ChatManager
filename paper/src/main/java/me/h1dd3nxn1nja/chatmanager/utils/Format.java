@@ -5,12 +5,12 @@ import java.util.regex.Pattern;
 public class Format {
 	
 	protected static Pattern COLOR_PATTERN = Pattern.compile("(?i)&([0-9A-F])");
-	protected static Pattern MAGIC_PATTERN = Pattern.compile("(?i)&([K])");
-	protected static Pattern BOLD_PATTERN = Pattern.compile("(?i)&([L])");
-	protected static Pattern STRIKETHROUGH_PATTERN = Pattern.compile("(?i)&([M])");
-	protected static Pattern UNDERLINE_PATTERN = Pattern.compile("(?i)&([N])");
-	protected static Pattern ITALIC_PATTERN = Pattern.compile("(?i)&([O])");
-	protected static Pattern RESET_PATTERN = Pattern.compile("(?i)&([R])");
+	protected static Pattern MAGIC_PATTERN = Pattern.compile("(?i)&(K)");
+	protected static Pattern BOLD_PATTERN = Pattern.compile("(?i)&(L)");
+	protected static Pattern STRIKETHROUGH_PATTERN = Pattern.compile("(?i)&(M)");
+	protected static Pattern UNDERLINE_PATTERN = Pattern.compile("(?i)&(N)");
+	protected static Pattern ITALIC_PATTERN = Pattern.compile("(?i)&(O)");
+	protected static Pattern RESET_PATTERN = Pattern.compile("(?i)&(R)");
 	
 	public static String formatStringColor(String string) {
 		string = COLOR_PATTERN.matcher(string).replaceAll("\u00A7$1");

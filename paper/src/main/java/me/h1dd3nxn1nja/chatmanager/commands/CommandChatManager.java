@@ -52,17 +52,8 @@ public class CommandChatManager implements CommandExecutor {
 						plugin.getServer().getScheduler().cancelTasks(plugin);
 
 						try {
-							if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Actionbar_Messages.Enable"))
-								AutoBroadcastManager.actionbarMessages();
-							if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Global_Messages.Enable"))
-								AutoBroadcastManager.globalMessages();
-							if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Per_World_Messages.Enable"))
-								AutoBroadcastManager.perWorldMessages();
-							if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Title_Messages.Enable"))
-								AutoBroadcastManager.titleMessages();
-							if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Bossbar_Messages.Enable"))
-								AutoBroadcastManager.bossBarMessages();
-						} catch (Exception e) {
+                            ChatManager.check(settingsManager);
+                        } catch (Exception e) {
 							Methods.tellConsole("There was an error setting up auto broadcast. Stack-trace:", true);
 							e.printStackTrace();
 						}

@@ -1,70 +1,35 @@
-import java.io.ByteArrayOutputStream
 import java.io.File
+import io.papermc.hangarpublishplugin.model.Platforms
 
 plugins {
     id("root-plugin")
 
-    id("featherpatcher")
+    id("io.papermc.hangar-publish-plugin")
     id("com.modrinth.minotaur")
 }
 
-val isSnapshot = rootProject.version.toString().contains("snapshot")
+val isSnapshot = rootProject.version.toString().contains("rc")
 val type = if (isSnapshot) "beta" else "release"
+val paperType = if (isSnapshot) "Beta" else "Release"
 
-// The commit id for the "main" branch i.e the version bump for a previous minecraft version
-val start = "429814c"
-
-// The commit id BEFORE merging the pull request so before "Merge pull request #30"
-val end = "1b5d1c6"
-
-val commitLog = getGitHistory().joinToString(separator = "") { formatGitLog(it) }
-
-val desc = """
+val desc = """    
 ## Changes:
- * Added 1.20-1.20.1 support.
+* N/A
 
 ## API:
- * N/A
+* N/A
 
-## Bugs:
- * Submit any bugs @ https://github.com/Crazy-Crew/${rootProject.name}/issues 
+## Bugs Fixed:
+* N/A
 
-## Commits
-            
-<details>
-          
-<summary>Other</summary>
-
-$commitLog
-            
-</details>
+**Submit any bugs via <https://github.com/Crazy-Crew/${rootProject.name}/issues>** (WOW IT'S EMPTY)
 
 """.trimIndent()
 
 val versions = listOf(
-    "1.20.1",
-    "1.20"
+    "1.20",
+    "1.20.1"
 )
-
-fun getGitHistory(): List<String> {
-    val output: String = ByteArrayOutputStream().use { outputStream ->
-        project.exec {
-            executable("git")
-            args("log",  "$start..$end", "--format=format:%h %s")
-            standardOutput = outputStream
-        }
-
-        outputStream.toString()
-    }
-
-    return output.split("\n")
-}
-
-fun formatGitLog(commitLog: String): String {
-    val hash = commitLog.take(7)
-    val message = commitLog.substring(8) // Get message after commit hash + space between
-    return "[$hash](https://github.com/Crazy-Crew/${rootProject.name}/commit/$hash) $message<br>"
-}
 
 val javaComponent: SoftwareComponent = components["java"]
 
@@ -116,6 +81,29 @@ tasks {
                 }
 
                 url = uri("https://repo.crazycrew.us/releases/")
+            }
+        }
+    }
+}
+
+hangarPublish {
+    publications.register("plugin") {
+        version.set(rootProject.version.toString())
+
+        namespace("CrazyCrew", rootProject.name)
+        channel.set(paperType)
+
+        apiKey.set(System.getenv("hangar_key"))
+
+        changelog.set(desc)
+
+        platforms {
+            register(Platforms.PAPER) {
+                val file = File("$rootDir/jars")
+                if (!file.exists()) file.mkdirs()
+
+                jar.set(layout.buildDirectory.file("$file/${rootProject.name}-${rootProject.version}.jar"))
+                platformVersions.set(versions)
             }
         }
     }

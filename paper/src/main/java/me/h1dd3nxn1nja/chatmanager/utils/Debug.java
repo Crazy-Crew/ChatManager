@@ -11,7 +11,6 @@ public class Debug {
 	private static final SettingsManager settingsManager = plugin.getSettingsManager();
 
 	public static void debugAutoBroadcast() {
-
 		FileConfiguration autobroadcast = settingsManager.getAutoBroadcast();
 
 		plugin.getLogger().info("Auto-Broadcast Debug in progress...");
