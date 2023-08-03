@@ -26,12 +26,10 @@ public class CommandAutoBroadcast implements CommandExecutor {
 		FileConfiguration autobroadcast = settingsManager.getAutoBroadcast();
 		FileConfiguration messages = settingsManager.getMessages();
 
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
-
-		Player player = (Player) sender;
 
 		if (cmd.getName().equalsIgnoreCase("autobroadcast")) {
 			if (player.hasPermission("chatmanager.autobroadcast")) {

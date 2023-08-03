@@ -39,7 +39,7 @@ public class CommandPing implements CommandExecutor {
 
 			if (player.hasPermission("chatmanager.ping")) {
 				if (args.length == 0) {
-					//Methods.sendMessage(player, messages.getString("Ping.Players_Ping").replace("{ping}", df.format(Ping.getPing((Player) sender))), true);
+					Methods.sendMessage(player, messages.getString("Ping.Players_Ping").replace("{ping}", df.format(player.getPing())), true);
 					return true;
 				}
 			} else {
@@ -54,7 +54,7 @@ public class CommandPing implements CommandExecutor {
 					return true;
 				}
 
-				//Methods.sendMessage(player, messages.getString("Ping.Targets_Ping").replace("{target}", target.getName()).replace("{ping}", df.format(Ping.getPing(target))), true);
+				Methods.sendMessage(player, messages.getString("Ping.Targets_Ping").replace("{target}", target.getName()).replace("{ping}", df.format(target.getPing())), true);
 				return true;
 			} else {
 				Methods.sendMessage(player, Methods.noPermission(), true);

@@ -31,7 +31,7 @@ public class CommandLists implements CommandExecutor {
 					StringBuilder str = new StringBuilder();
 
 					for (Player players : plugin.getServer().getOnlinePlayers()) {
-						if (str.length() > 0) str.append(", ");
+						if (!str.isEmpty()) str.append(", ");
 
 						str.append("&a").append(players.getName()).append("&8");
 					}
@@ -65,7 +65,7 @@ public class CommandLists implements CommandExecutor {
 
 					for (Player staff : plugin.getServer().getOnlinePlayers()) {
 						if ((staff.hasPermission("chatmanager.staff")) || (staff.isOp())) {
-							if (str.length() > 0) str.append(", ");
+							if (!str.isEmpty()) str.append(", ");
 
 							str.append("&a").append(staff.getName()).append("&8");
 						}

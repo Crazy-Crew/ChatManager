@@ -20,12 +20,9 @@ public class TabCompleteBannedCommands implements TabCompleter {
 			if (hasPermission(sender, "remove")) completions.add("remove");
 			if (hasPermission(sender, "list")) completions.add("list");return StringUtil.copyPartialMatches(args[0], completions, new ArrayList<>());
 		} else if (args.length == 2) {
-			switch (args[0].toLowerCase()) {
-				case "help":
-				case "add":
-				case "remove":
-				case "list":
-			}
+            switch (args[0].toLowerCase()) {
+                case "help", "add", "remove", "list" -> {}
+            }
 
 			return StringUtil.copyPartialMatches(args[1], completions, new ArrayList<>());
 		}

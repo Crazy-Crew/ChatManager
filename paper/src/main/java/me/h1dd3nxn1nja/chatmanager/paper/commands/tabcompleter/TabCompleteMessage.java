@@ -35,16 +35,19 @@ public class TabCompleteMessage implements TabCompleter {
 		boolean hasPermission2 = player2.hasPermission("chatmanager.bypass.vanish");
 		boolean hasPermission3 = player2.hasPermission("chatmanager.bypass.togglepm");
 
-		for (Player player3 : matchPlayer) {
-			if (!hasPermission && PluginSupport.ESSENTIALS.isPluginEnabled() && essentialsSupport.isIgnored(player3, player2)) continue;
-			if (!hasPermission2) {
-				if (PluginSupport.ESSENTIALS.isPluginEnabled() && pluginManager.getEssentialsVanishSupport().isVanished(player3)) continue;
-				if (PluginSupport.SUPER_VANISH.isPluginEnabled() || PluginSupport.PREMIUM_VANISH.isPluginEnabled() && pluginManager.getGenericVanishSupport().isVanished(player3)) continue;
-			}
+        for (Player player3 : matchPlayer) {
+            if (!hasPermission && PluginSupport.ESSENTIALS.isPluginEnabled() && essentialsSupport.isIgnored(player3, player2))
+                continue;
+            if (!hasPermission2) {
+                if (PluginSupport.ESSENTIALS.isPluginEnabled() && pluginManager.getEssentialsVanishSupport().isVanished(player3))
+                    continue;
+                if (PluginSupport.SUPER_VANISH.isPluginEnabled() || PluginSupport.PREMIUM_VANISH.isPluginEnabled() && pluginManager.getGenericVanishSupport().isVanished(player3))
+                    continue;
+            }
 
-			if (!hasPermission3 && plugin.api().getToggleMessageData().containsUser(player3.getUniqueId())) continue;
-			list.add(player3.getName());
-		}
+            if (!hasPermission3 && plugin.api().getToggleMessageData().containsUser(player3.getUniqueId())) continue;
+            list.add(player3.getName());
+        }
 
 		return list;
 	}

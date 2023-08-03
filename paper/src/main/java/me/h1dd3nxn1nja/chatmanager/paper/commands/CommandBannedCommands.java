@@ -21,12 +21,11 @@ public class CommandBannedCommands implements CommandExecutor {
 		FileConfiguration messages = settingsManager.getMessages();
 		FileConfiguration bannedCommands = settingsManager.getBannedCommands();
 		
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
 
-		Player player = (Player) sender;
 		if (cmd.getName().equalsIgnoreCase("BannedCommands")) {
 			if (player.hasPermission("chatmanager.bannedcommands")) {
 				if (args.length == 0) {
