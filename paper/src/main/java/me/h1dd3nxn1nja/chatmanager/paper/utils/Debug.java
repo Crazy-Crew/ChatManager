@@ -636,29 +636,11 @@ public class Debug {
 		if (!config.contains("Private_Messages.Sender.Format"))
 			plugin.getLogger().warning("Missing the section Private_Messages.Sender.Format in the config.yml file.");
 
-		if (!config.contains("Private_Messages.Sender.Tooltip"))
-			plugin.getLogger().warning("Missing the section Private_Messages.Sender.Tooltip in the config.yml file.");
-
-		if (!config.contains("Private_Messages.Sender.Click_Command"))
-			plugin.getLogger().warning("Missing the section Private_Messages.Sender.Click_Command in the config.yml file.");
-
 		if (!config.contains("Private_Messages.Receiver.Format"))
 			plugin.getLogger().warning("Missing the section Private_Messages.Receiver.Format in the config.yml file.");
 
-		if (!config.contains("Private_Messages.Receiver.Tooltip"))
-			plugin.getLogger().warning("Missing the section Private_Messages.Receiver.Tooltip in the config.yml file.");
-
-		if (!config.contains("Private_Messages.Receiver.Click_Command"))
-			plugin.getLogger().warning("Missing the section Private_Messages.Receiver.Click_Command in the config.yml file.");
-
 		if (!config.contains("Private_Messages.Sound"))
 			plugin.getLogger().warning("Missing the section Private_Messages.Sound in the config.yml file.");
-
-		if (!config.contains("Private_Messages.Enable_JSON"))
-			plugin.getLogger().warning("Missing the section Private_Messages.Enable_JSON in the config.yml file.");
-
-		if (!config.contains("Private_Messages.Enable_JSON"))
-			plugin.getLogger().warning("Missing the section Private_Messages.Enable_JSON in the config.yml file.");
 
 		//Server Name
 
