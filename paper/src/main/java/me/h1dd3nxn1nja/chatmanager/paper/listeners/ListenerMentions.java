@@ -1,6 +1,5 @@
 package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
-import com.ryderbelserion.chatmanager.paper.api.Universal;
 import me.h1dd3nxn1nja.chatmanager.paper.support.PluginSupport;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -10,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 
-public class ListenerMentions implements Listener, Universal {
+public class ListenerMentions implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {

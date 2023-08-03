@@ -2,7 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
 import java.util.List;
 import java.util.UUID;
-import com.ryderbelserion.chatmanager.paper.api.Universal;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 
-public class ListenerAntiSpam implements Listener, Universal {
+public class ListenerAntiSpam implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void antiSpamChat(AsyncPlayerChatEvent event) {

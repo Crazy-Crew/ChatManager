@@ -1,8 +1,10 @@
 package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
-import me.h1dd3nxn1nja.chatmanager.paper.SettingsManager;
-import me.h1dd3nxn1nja.chatmanager.paper.support.PluginManager;
+import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
+import me.h1dd3nxn1nja.chatmanager.paper.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.paper.support.PluginSupport;
+import com.ryderbelserion.chatmanager.paper.FileManager.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.support.vanish.EssentialsVanishSupport;
 import me.h1dd3nxn1nja.chatmanager.paper.support.vanish.GenericVanishSupport;
 import org.bukkit.GameMode;
@@ -12,33 +14,19 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
-import me.h1dd3nxn1nja.chatmanager.paper.support.EssentialsSupport;
-import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.UUID;
 
 public class CommandMessage implements CommandExecutor {
 
 	private final ChatManager plugin = ChatManager.getPlugin();
-
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
-
-	private final PluginManager pluginManager = plugin.getPluginManager();
-
-	private final EssentialsVanishSupport essentialsVanishSupport = plugin.getPluginManager().getEssentialsVanishSupport();
-
 	private final GenericVanishSupport genericVanishSupport = plugin.getPluginManager().getGenericVanishSupport();
-
 	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
 
-	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration config = settingsManager.getConfig();
-		FileConfiguration messages = settingsManager.getMessages();
-
-		EssentialsSupport essentialsSupport = pluginManager.getEssentialsSupport();
+	@Override
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
+		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		String playerNotFound = messages.getString("Message.Player_Not_Found");
 
@@ -89,33 +77,8 @@ public class CommandMessage implements CommandExecutor {
 					return true;
 				}
 
-				if (essentialsCheck(args, messages, essentialsSupport, playerNotFound, player, target)) return true;
-
-				if (PluginSupport.PREMIUM_VANISH.isPluginEnabled() || PluginSupport.SUPER_VANISH.isPluginEnabled() && genericVanishSupport.isVanished(target) && !player.hasPermission("chatmanager.bypass.vanish")) {
-					if (playerNotFound != null) Methods.sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
+				if (duplicate(args, playerNotFound, player, message, target, player.getUniqueId(), target.getUniqueId()))
 					return true;
-				}
-
-				Methods.sendMessage(player, placeholderManager.setPlaceholders(target, config.getString("Private_Messages.Sender.Format")
-						.replace("{receiver}", target.getName())
-						.replace("{receiver_displayname}", target.getDisplayName()) + message), true);
-
-				Methods.sendMessage(target, placeholderManager.setPlaceholders(player, config.getString("Private_Messages.Receiver.Format")
-						.replace("{receiver}", target.getName())
-						.replace("{receiver_displayname}", player.getDisplayName()) + message), true);
-
-				plugin.api().getUserRepliedData().addUser(player.getUniqueId(), target.getUniqueId());
-				plugin.api().getUserRepliedData().addUser(target.getUniqueId(), player.getUniqueId());
-
-				for (Player staff : plugin.getServer().getOnlinePlayers()) {
-					if ((staff != player) && (staff != target)) {
-						if ((!player.hasPermission("chatmanager.bypass.socialspy")) && (!target.hasPermission("chatmanager.bypass.socialspy"))) {
-							boolean contains = plugin.api().getSocialSpyData().containsUser(staff.getUniqueId());
-
-							if (contains) Methods.sendMessage(staff, messages.getString("Social_Spy.Format").replace("{player}", player.getName()).replace("{receiver}", target.getName()).replace("{message}", message), true);
-						}
-					}
-				}
 			} else {
 				player.sendMessage(Methods.noPermission());
 			}
@@ -149,32 +112,8 @@ public class CommandMessage implements CommandExecutor {
 						return true;
 					}
 
-					if (essentialsCheck(args, messages, essentialsSupport, playerNotFound, player, target)) return true;
-
-					if (PluginSupport.PREMIUM_VANISH.isPluginEnabled() || PluginSupport.SUPER_VANISH.isPluginEnabled() && genericVanishSupport.isVanished(target) && !player.hasPermission("chatmanager.bypass.vanish")) {
-						if (playerNotFound != null) Methods.sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
+					if (duplicate(args, playerNotFound, player, message, target, target.getUniqueId(), player.getUniqueId()))
 						return true;
-					}
-
-					Methods.sendMessage(player, placeholderManager.setPlaceholders(target, config.getString("Private_Messages.Sender.Format")
-							.replace("{receiver}", target.getName())
-							.replace("{receiver_displayname}", target.getDisplayName()) + message), true);
-
-					Methods.sendMessage(target, placeholderManager.setPlaceholders(player, config.getString("Private_Messages.Receiver.Format")
-							.replace("{receiver}", target.getName())
-							.replace("{receiver_displayname}", player.getDisplayName()) + message), true);
-
-					plugin.api().getUserRepliedData().addUser(target.getUniqueId(), player.getUniqueId());
-					plugin.api().getUserRepliedData().addUser(player.getUniqueId(), target.getUniqueId());
-
-					for (Player staff : plugin.getServer().getOnlinePlayers()) {
-						if ((staff != player) && (staff != target)) {
-							if ((!player.hasPermission("chatmanager.bypass.socialspy")) && (!target.hasPermission("chatmanager.bypass.socialspy"))) {
-								boolean contains = plugin.api().getSocialSpyData().containsUser(staff.getUniqueId());
-								if (contains) Methods.sendMessage(staff, messages.getString("Social_Spy.Format").replace("{player}", player.getName()).replace("{receiver}", target.getName()).replace("{message}", message), true);
-							}
-						}
-					}
 				} else {
 					player.sendMessage(Methods.color("&cCommand Usage: &7/Reply <message>"));
 				}
@@ -210,7 +149,45 @@ public class CommandMessage implements CommandExecutor {
 		return true;
 	}
 
-	private boolean essentialsCheck(String[] args, FileConfiguration messages, EssentialsSupport essentialsSupport, String playerNotFound, Player player, Player target) {
+	private boolean duplicate(String[] args, String playerNotFound, Player player, StringBuilder message, Player target, UUID uniqueId, UUID uniqueId2) {
+		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration messages = Files.MESSAGES.getFile();
+
+		if (essentialsCheck(args, playerNotFound, player, target)) return true;
+
+		if (PluginSupport.PREMIUM_VANISH.isPluginEnabled() || PluginSupport.SUPER_VANISH.isPluginEnabled() && genericVanishSupport.isVanished(target) && !player.hasPermission("chatmanager.bypass.vanish")) {
+			if (playerNotFound != null) Methods.sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
+			return true;
+		}
+
+		Methods.sendMessage(player, placeholderManager.setPlaceholders(target, config.getString("Private_Messages.Sender.Format")
+				.replace("{receiver}", target.getName())
+				.replace("{receiver_displayname}", target.getDisplayName()) + message), true);
+
+		Methods.sendMessage(target, placeholderManager.setPlaceholders(player, config.getString("Private_Messages.Receiver.Format")
+				.replace("{receiver}", target.getName())
+				.replace("{receiver_displayname}", player.getDisplayName()) + message), true);
+
+		plugin.api().getUserRepliedData().addUser(uniqueId, uniqueId2);
+		plugin.api().getUserRepliedData().addUser(uniqueId2, uniqueId);
+
+		for (Player staff : plugin.getServer().getOnlinePlayers()) {
+			if ((staff != player) && (staff != target)) {
+				if ((!player.hasPermission("chatmanager.bypass.socialspy")) && (!target.hasPermission("chatmanager.bypass.socialspy"))) {
+					boolean contains = plugin.api().getSocialSpyData().containsUser(staff.getUniqueId());
+
+					if (contains) Methods.sendMessage(staff, messages.getString("Social_Spy.Format").replace("{player}", player.getName()).replace("{receiver}", target.getName()).replace("{message}", message), true);
+				}
+			}
+		}
+		return false;
+	}
+
+	private final EssentialsSupport essentialsSupport = plugin.getPluginManager().getEssentialsSupport();
+	private final EssentialsVanishSupport essentialsVanishSupport = plugin.getPluginManager().getEssentialsVanishSupport();
+
+	private boolean essentialsCheck(String[] args, String playerNotFound, Player player, Player target) {
+		FileConfiguration messages = Files.MESSAGES.getFile();
 		if (PluginSupport.ESSENTIALS.isPluginEnabled()) {
 			if (essentialsSupport.getUser(target).isAfk() && (!player.hasPermission("chatmanager.bypass.afk"))) {
 				Methods.sendMessage(player, messages.getString("Private_Message.AFK").replace("{target}", target.getName()), true);

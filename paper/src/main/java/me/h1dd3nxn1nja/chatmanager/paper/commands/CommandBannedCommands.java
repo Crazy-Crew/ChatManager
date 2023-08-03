@@ -1,8 +1,9 @@
 package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
+import com.ryderbelserion.chatmanager.paper.FileManager.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
-import me.h1dd3nxn1nja.chatmanager.paper.SettingsManager;
+import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,12 +16,8 @@ public class CommandBannedCommands implements CommandExecutor {
 
 	private final ChatManager plugin = ChatManager.getPlugin();
 
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
-	
+	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration messages = settingsManager.getMessages();
-		FileConfiguration bannedCommands = settingsManager.getBannedCommands();
-		
 		if (!(sender instanceof Player player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
@@ -64,6 +61,10 @@ public class CommandBannedCommands implements CommandExecutor {
 					return true;
 				}
 			}
+
+			FileConfiguration bannedCommands = Files.BANNED_COMMANDS.getFile();
+			FileConfiguration messages = Files.MESSAGES.getFile();
+
 			if (args[0].equalsIgnoreCase("add")) {
 				if (player.hasPermission("chatmanager.bannedcommands.add")) {
 					if (args.length == 2) {
@@ -71,8 +72,8 @@ public class CommandBannedCommands implements CommandExecutor {
 							List<String> list = bannedCommands.getStringList("Banned-Commands");
 							list.add(args[1].toLowerCase());
 							bannedCommands.set("Banned-Commands", list);
-							settingsManager.saveBannedCommands();
-							settingsManager.reloadBannedCommands();
+							Files.BANNED_COMMANDS.saveFile();
+							Files.BANNED_COMMANDS.reloadFile();
 							Methods.sendMessage(player, messages.getString("Banned_Commands.Command_Added").replace("{command}", args[1]), true);
 						} else {
 							Methods.sendMessage(player, messages.getString("Banned_Commands.Command_Exists").replace("{command}", args[1]), true);
@@ -91,8 +92,8 @@ public class CommandBannedCommands implements CommandExecutor {
 							List<String> list = bannedCommands.getStringList("Banned-Commands");
 							list.remove(args[1].toLowerCase());
 							bannedCommands.set("Banned-Commands", list);
-							settingsManager.saveBannedCommands();
-							settingsManager.reloadBannedCommands();
+							Files.BANNED_COMMANDS.saveFile();
+							Files.BANNED_COMMANDS.reloadFile();
 							Methods.sendMessage(player, messages.getString("Banned_Commands.Command_Removed").replace("{command}", args[1]), true);
 						} else {
 							Methods.sendMessage(player, messages.getString("Banned_Commands.Command_Not_Found").replace("{command}", args[1]), true);

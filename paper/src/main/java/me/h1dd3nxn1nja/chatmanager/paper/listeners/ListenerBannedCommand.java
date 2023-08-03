@@ -1,6 +1,5 @@
 package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
-import com.ryderbelserion.chatmanager.paper.api.Universal;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,7 +8,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import java.util.List;
 
-public class ListenerBannedCommand implements Listener, Universal {
+public class ListenerBannedCommand implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {

@@ -1,6 +1,5 @@
 package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
-import com.ryderbelserion.chatmanager.paper.api.Universal;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
@@ -12,7 +11,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class ListenerPlayerJoin implements Listener, Universal {
+public class ListenerPlayerJoin implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void firstJoinMessage(PlayerJoinEvent event) {

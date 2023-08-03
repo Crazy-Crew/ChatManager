@@ -1,21 +1,19 @@
 package me.h1dd3nxn1nja.chatmanager.paper.utils;
 
+import com.ryderbelserion.chatmanager.paper.FileManager.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
-import me.h1dd3nxn1nja.chatmanager.paper.SettingsManager;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class Debug {
 
 	private static final ChatManager plugin = ChatManager.getPlugin();
 
-	private static final SettingsManager settingsManager = plugin.getSettingsManager();
-
 	public static void debugAutoBroadcast() {
-		FileConfiguration autobroadcast = settingsManager.getAutoBroadcast();
+		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
 
 		plugin.getLogger().info("Auto-Broadcast Debug in progress...");
 
-		//Global Messages
+		// Global Messages
 
 		if (!autobroadcast.contains("Auto_Broadcast.Global_Messages.Enable"))
 			plugin.getLogger().warning("Missing the section Auto_Broadcast.Global_Messages.Enable in the autobroadcast.yml file.");
@@ -132,7 +130,7 @@ public class Debug {
 	}
 
 	public static void debugConfig() {
-		FileConfiguration config = settingsManager.getConfig();
+		FileConfiguration config = Files.CONFIG.getFile();
 
 		plugin.getLogger().warning("Config Debug in progress...");
 
@@ -706,8 +704,7 @@ public class Debug {
 	}
 
 	public static void debugMessages() {
-
-		FileConfiguration messages = settingsManager.getMessages();
+		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		plugin.getLogger().warning("Messages Debug in progress...");
 

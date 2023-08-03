@@ -1,6 +1,5 @@
 package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
-import com.ryderbelserion.chatmanager.paper.api.Universal;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-public class ListenerMuteChat implements Listener, Universal {
+public class ListenerMuteChat implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void muteChat(AsyncPlayerChatEvent event) {

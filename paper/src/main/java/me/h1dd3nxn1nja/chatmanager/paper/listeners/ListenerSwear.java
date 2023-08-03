@@ -1,7 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
-import com.ryderbelserion.chatmanager.paper.api.Universal;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class ListenerSwear implements Listener, Universal {
+public class ListenerSwear implements Listener {
 
 	//TODO() Add a way so that chat manager highlights the swear word in the notify feature.
 
@@ -37,35 +37,48 @@ public class ListenerSwear implements Listener, Universal {
 		if (player.hasPermission("chatmanager.bypass.antiswear")) return;
 
 		if (config.getBoolean("Anti_Swear.Chat.Increase_Sensitivity")) {
-			for (String blockedWords : blockedWordsList) {
+			for (String blockedWord : blockedWordsList) {
 				for (String allowed : whitelisted) {
 					if (event.getMessage().contains(allowed.toLowerCase())) return;
 				}
 
-				if (curseMessageContains(event, config, messages, player, message, time, sensitiveMessage, blockedWords)) break;
+				if (curseMessageContains(player, message, time, sensitiveMessage, blockedWord)) {
+					player.sendMessage(Methods.color(player.getUniqueId(), messages.getString("Anti_Swear.Chat.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+
+					if (config.getBoolean("Anti_Swear.Chat.Block_Message")) event.setCancelled(true);
+
+					if (config.getBoolean("Anti_Swear.Chat.Notify_Staff")) checkOnlineStaff(messages, player, message);
+
+					return;
+				}
 			}
 		}
 
 		if (!config.getBoolean("Anti_Swear.Chat.Increase_Sensitivity")) {
-			for (String blockedWords : blockedWordsList) {
-				if (curseMessageContains(event, config, messages, player, message, time, curseMessage, blockedWords))
-					break;
+			for (String blockedWord : blockedWordsList) {
+				for (String allowed : whitelisted) {
+					if (event.getMessage().contains(allowed.toLowerCase())) return;
+				}
+				
+				if (curseMessageContains(player, message, time, curseMessage, blockedWord)) {
+					player.sendMessage(Methods.color(player.getUniqueId(), messages.getString("Anti_Swear.Chat.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+
+					if (config.getBoolean("Anti_Swear.Chat.Block_Message")) event.setCancelled(true);
+
+					if (config.getBoolean("Anti_Swear.Chat.Notify_Staff")) checkOnlineStaff(messages, player, message);
+
+					return;
+				}
 			}
 		}
 	}
 
-	private boolean curseMessageContains(AsyncPlayerChatEvent event, FileConfiguration config, FileConfiguration messages, Player player, String message, Date time, String curseMessage, String blockedWords) {
+	private boolean curseMessageContains(Player player, String message, Date time, String curseMessage, String blockedWords) {
 		if (!curseMessage.contains(blockedWords)) return false;
-
-		player.sendMessage(Methods.color(player.getUniqueId(), messages.getString("Anti_Swear.Chat.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
-
-		if (config.getBoolean("Anti_Swear.Chat.Block_Message")) event.setCancelled(true);
-
-		if (config.getBoolean("Anti_Swear.Chat.Notify_Staff")) checkOnlineStaff(messages, player, message);
 
 		if (config.getBoolean("Anti_Swear.Chat.Log_Swearing")) {
 			try {
-				FileWriter fw = new FileWriter(settingsManager.getSwearLogs(), true);
+				FileWriter fw = new FileWriter(swearLogs.getFileObject(), true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write("[" + time + "] [Chat] " + player.getName() + ": " + message.replaceAll("§", "&"));
 				bw.newLine();
@@ -75,6 +88,8 @@ public class ListenerSwear implements Listener, Universal {
 				ex.printStackTrace();
 			}
 		}
+
+		Bukkit.getLogger().warning(String.valueOf(config.getBoolean("Anti_Swear.Chat.Execute_Command")));
 
 		if (config.getBoolean("Anti_Swear.Chat.Execute_Command")) {
 			if (config.contains("Anti_Swear.Chat.Executed_Command")) {
@@ -90,12 +105,10 @@ public class ListenerSwear implements Listener, Universal {
 						}
 					}
 				}.runTask(plugin);
-
-				return true;
 			}
 		}
 
-		return false;
+		return true;
 	}
 
 	@EventHandler(ignoreCancelled = true)
@@ -180,7 +193,7 @@ public class ListenerSwear implements Listener, Universal {
 	private void commandSwearCheck(FileConfiguration config, Player player, String message, Date time) {
 		if (config.getBoolean("Anti_Swear.Commands.Log_Swearing")) {
 			try {
-				FileWriter fw = new FileWriter(settingsManager.getSwearLogs(), true);
+				FileWriter fw = new FileWriter(swearLogs.getFileObject(), true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write("[" + time + "] [Command] " + player.getName() + ": " + message.replaceAll("§", "&"));
 				bw.newLine();
@@ -282,7 +295,7 @@ public class ListenerSwear implements Listener, Universal {
 	private void checkSwear(FileConfiguration config, Player player, Date time, int line, String message) {
 		if (config.getBoolean("Anti_Swear.Signs.Log_Swearing")) {
 			try {
-				FileWriter fw = new FileWriter(settingsManager.getSwearLogs(), true);
+				FileWriter fw = new FileWriter(swearLogs.getFileObject(), true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write("[" + time + "] [Sign] " + player.getName() + ": Line: " + line + " Text: " + message.replaceAll("§", "&"));
 				bw.newLine();

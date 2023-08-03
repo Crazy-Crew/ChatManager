@@ -10,8 +10,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class CommandColor implements CommandExecutor {
 
+	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-
 		if (!(sender instanceof Player player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;

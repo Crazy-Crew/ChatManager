@@ -2,7 +2,6 @@ package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
-import me.h1dd3nxn1nja.chatmanager.paper.SettingsManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,16 +9,17 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import java.text.DecimalFormat;
+import com.ryderbelserion.chatmanager.paper.FileManager.Files;
 
 public class CommandPing implements CommandExecutor {
 
 	private final ChatManager plugin = ChatManager.getPlugin();
 
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
-
+	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration messages = settingsManager.getMessages();
 		DecimalFormat df = new DecimalFormat("#,###");
+
+		FileConfiguration messages = Files.MESSAGES.getFile();
 		
 		if (!(sender instanceof Player player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
@@ -43,7 +43,6 @@ public class CommandPing implements CommandExecutor {
 			}
 
 			if (args.length >= 2) {
-
 				Methods.sendMessage(player, "&cCommand Usage: &7/Ping {player}", true);
 
 				return true;

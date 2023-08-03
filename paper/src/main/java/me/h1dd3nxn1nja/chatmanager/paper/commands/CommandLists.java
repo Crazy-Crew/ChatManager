@@ -1,30 +1,28 @@
 package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
 import java.text.DecimalFormat;
-import me.h1dd3nxn1nja.chatmanager.paper.SettingsManager;
+import com.ryderbelserion.chatmanager.paper.FileManager.Files;
+import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
-import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandLists implements CommandExecutor {
-
-	private final ChatManager plugin = ChatManager.getPlugin();
-
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
-
-	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
 	
 	DecimalFormat df = new DecimalFormat("#,###");
 
+	private final ChatManager plugin = ChatManager.getPlugin();
+	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
+
+	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration config = settingsManager.getConfig();
-		
+		FileConfiguration config = Files.CONFIG.getFile();
+
 		if (cmd.getName().equalsIgnoreCase("List")) {
 			if (sender.hasPermission("chatmanager.lists.players")) {
 				if (args.length == 0) {

@@ -1,8 +1,8 @@
 package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
+import com.ryderbelserion.chatmanager.paper.FileManager;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
-import me.h1dd3nxn1nja.chatmanager.paper.SettingsManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,15 +14,14 @@ public class CommandRadius implements CommandExecutor {
 
 	private final ChatManager plugin = ChatManager.getPlugin();
 
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
-	
+	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration messages = settingsManager.getMessages();
-		
 		if (!(sender instanceof Player player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
+
+		FileConfiguration messages = FileManager.Files.MESSAGES.getFile();
 
 		if (cmd.getName().equalsIgnoreCase("chatradius")) {
 			if (player.hasPermission("chatmanager.chatradius")) {

@@ -1,21 +1,16 @@
 package me.h1dd3nxn1nja.chatmanager.paper.support.placeholders;
 
 import java.text.DecimalFormat;
-import me.h1dd3nxn1nja.chatmanager.paper.SettingsManager;
+
 import org.bukkit.OfflinePlayer;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 
-public class PlaceholderAPISupport extends PlaceholderExpansion {
-
-	private final ChatManager plugin = ChatManager.getPlugin();
-
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
+public class PlaceholderAPISupport extends PlaceholderExpansion implements Universal {
 
 	@Override
 	public @Nullable String onRequest(OfflinePlayer player, @NotNull String identifier) {
@@ -28,11 +23,11 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
 			switch (lower) {
 				case "radius": //Returns which chat radius channel the player is in.
 					if (plugin.api().getLocalChatData().containsUser(player.getUniqueId())) {
-						return settingsManager.getConfig().getString("Chat_Radius.Local_Chat.Prefix");
+						return config.getString("Chat_Radius.Local_Chat.Prefix");
 					} else if (plugin.api().getGlobalChatData().containsUser(player.getUniqueId())) {
-						return settingsManager.getConfig().getString("Chat_Radius.Global_Chat.Prefix");
+						return config.getString("Chat_Radius.Global_Chat.Prefix");
 					} else if (plugin.api().getWorldChatData().containsUser(player.getUniqueId())) {
-						return settingsManager.getConfig().getString("Chat_Radius.World_Chat.Prefix");
+						return config.getString("Chat_Radius.World_Chat.Prefix");
 					}
 				case "toggle_pm": // Returns if the toggle pm is enabled/disabled for a player.
 					return plugin.api().getToggleMessageData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";

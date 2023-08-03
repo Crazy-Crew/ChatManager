@@ -3,6 +3,8 @@ package me.h1dd3nxn1nja.chatmanager.paper;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.ryderbelserion.chatmanager.paper.FileManager.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.support.PluginSupport;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -13,9 +15,7 @@ public class Methods {
 
 	private static final ChatManager plugin = ChatManager.getPlugin();
 
-	private static final SettingsManager settingsManager = plugin.getSettingsManager();
-
-	private static final String format = settingsManager.getConfig().getString("Hex_Color_Format");
+	private static final String format = Files.CONFIG.getFile().getString("Hex_Color_Format");
 	private static final Pattern HEX_PATTERN = Pattern.compile(format + "([A-Fa-f0-9]{6})");
 
 	public static String color(String message) {
@@ -43,11 +43,11 @@ public class Methods {
 	}
 	
 	public static String getPrefix() {
-		return color(settingsManager.getMessages().getString("Message.Prefix"));
+		return color(Files.MESSAGES.getFile().getString("Message.Prefix"));
 	}
 	
 	public static String noPermission() {
-		return color(settingsManager.getMessages().getString("Message.No_Permission").replace("{Prefix}", getPrefix()));
+		return color(Files.MESSAGES.getFile().getString("Message.No_Permission").replace("{Prefix}", getPrefix()));
 	}
 
 	private static boolean isMuted;

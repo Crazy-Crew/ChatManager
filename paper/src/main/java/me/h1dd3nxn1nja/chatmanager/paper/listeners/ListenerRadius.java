@@ -2,7 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
 import java.util.Set;
 import java.util.UUID;
-import com.ryderbelserion.chatmanager.paper.api.Universal;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 
-public class ListenerRadius implements Listener, Universal {
+public class ListenerRadius implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
@@ -25,7 +25,7 @@ public class ListenerRadius implements Listener, Universal {
 		String globalOverrideChar = config.getString("Chat_Radius.Global_Chat.Override_Symbol");
 		String worldOverrideChar = config.getString("Chat_Radius.World_Chat.Override_Symbol");
 
-		int radius = settingsManager.getConfig().getInt("Chat_Radius.Block_Distance");
+		int radius = config.getInt("Chat_Radius.Block_Distance");
 
 		if (!config.getBoolean("Chat_Radius.Enable") || plugin.api().getStaffChatData().containsUser(uuid)) return;
 

@@ -1,6 +1,8 @@
 package me.h1dd3nxn1nja.chatmanager.paper;
 
 import com.ryderbelserion.chatmanager.paper.ApiLoader;
+import com.ryderbelserion.chatmanager.paper.FileManager;
+import com.ryderbelserion.chatmanager.paper.FileManager.Files;
 import com.ryderbelserion.chatmanager.paper.api.CrazyManager;
 import me.h1dd3nxn1nja.chatmanager.paper.commands.*;
 import me.h1dd3nxn1nja.chatmanager.paper.commands.tabcompleter.*;
@@ -13,6 +15,7 @@ import me.h1dd3nxn1nja.chatmanager.paper.utils.MetricsHandler;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,13 +23,13 @@ public class ChatManager extends JavaPlugin {
 
     private static ChatManager plugin;
 
-    private SettingsManager settingsManager;
+    private ApiLoader api;
+    
+    private FileManager fileManager;
 
     private CrazyManager crazyManager;
 
     private PluginManager pluginManager;
-
-    private ApiLoader api;
 
     public void onEnable() {
         plugin = this;
@@ -37,15 +40,24 @@ public class ChatManager extends JavaPlugin {
             return;
         }
 
-        settingsManager = new SettingsManager();
-
-        settingsManager.setup();
-
+        this.fileManager = new FileManager();
+        
+        this.fileManager.setLog(true)
+                .registerCustomFilesFolder("Logs")
+                .registerDefaultGenerateFiles("Advertisements.txt", "/Logs", "/Logs")
+                .registerDefaultGenerateFiles("Chat.txt", "/Logs", "/Logs")
+                .registerDefaultGenerateFiles("Commands.txt", "/Logs", "/Logs")
+                .registerDefaultGenerateFiles("Signs.txt", "/Logs", "/Logs")
+                .registerDefaultGenerateFiles("Swears.txt", "/Logs", "/Logs")
+                .setup();
+        
         api = new ApiLoader();
 
         api.load();
 
-        boolean metricsEnabled = settingsManager.getConfig().getBoolean("Metrics_Enabled");
+        FileConfiguration config = Files.CONFIG.getFile();
+        
+        boolean metricsEnabled = config.getBoolean("Metrics_Enabled");
 
         pluginManager = new PluginManager();
 
@@ -64,7 +76,7 @@ public class ChatManager extends JavaPlugin {
         if (PluginSupport.VAULT.isPluginEnabled()) {
             registerCommands();
             registerEvents();
-            setupAutoBroadcast();
+            check();
             setupChatRadius();
         }
     }
@@ -171,40 +183,27 @@ public class ChatManager extends JavaPlugin {
     }
 
     public void setupChatRadius() {
-        if (settingsManager.getConfig().getBoolean("Chat_Radius.Enable")) {
+        FileConfiguration config = Files.CONFIG.getFile();
+        if (config.getBoolean("Chat_Radius.Enable")) {
             for (Player all : getServer().getOnlinePlayers()) {
-                if (settingsManager.getConfig().getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Local")) {
+                if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Local")) {
                     plugin.api().getLocalChatData().addUser(all.getUniqueId());
-                } else if (settingsManager.getConfig().getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Global")) {
+                } else if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Global")) {
                     plugin.api.getGlobalChatData().addUser(all.getUniqueId());
-                } else if (settingsManager.getConfig().getString("Chat_Radius.Default_Channel").equalsIgnoreCase("World")) {
+                } else if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("World")) {
                     plugin.api.getWorldChatData().addUser(all.getUniqueId());
                 }
             }
         }
     }
 
-    public void setupAutoBroadcast() {
-        try {
-            check(settingsManager);
-        } catch (Exception e) {
-            getLogger().severe("There has been an error setting up auto broadcast. Stacktrace...");
-
-            e.printStackTrace();
-        }
-    }
-
-    public static void check(SettingsManager settingsManager) {
-        if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Actionbar_Messages.Enable"))
-            AutoBroadcastManager.actionbarMessages();
-        if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Global_Messages.Enable"))
-            AutoBroadcastManager.globalMessages();
-        if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Per_World_Messages.Enable"))
-            AutoBroadcastManager.perWorldMessages();
-        if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Title_Messages.Enable"))
-            AutoBroadcastManager.titleMessages();
-        if (settingsManager.getAutoBroadcast().getBoolean("Auto_Broadcast.Bossbar_Messages.Enable"))
-            AutoBroadcastManager.bossBarMessages();
+    public void check() {
+        FileConfiguration autoBroadcast = Files.AUTO_BROADCAST.getFile();
+        if (autoBroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) AutoBroadcastManager.actionbarMessages();
+        if (autoBroadcast.getBoolean("Auto_Broadcast.Global_Messages.Enable")) AutoBroadcastManager.globalMessages();
+        if (autoBroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Enable")) AutoBroadcastManager.perWorldMessages();
+        if (autoBroadcast.getBoolean("Auto_Broadcast.Title_Messages.Enable")) AutoBroadcastManager.titleMessages();
+        if (autoBroadcast.getBoolean("Auto_Broadcast.Bossbar_Messages.Enable")) AutoBroadcastManager.bossBarMessages();
     }
 
     public static ChatManager getPlugin() {
@@ -215,15 +214,15 @@ public class ChatManager extends JavaPlugin {
         return this.api;
     }
 
-    public SettingsManager getSettingsManager() {
-        return settingsManager;
-    }
-
     public CrazyManager getCrazyManager() {
         return crazyManager;
     }
 
     public PluginManager getPluginManager() {
         return pluginManager;
+    }
+
+    public FileManager getFileManager() {
+        return this.fileManager;
     }
 }

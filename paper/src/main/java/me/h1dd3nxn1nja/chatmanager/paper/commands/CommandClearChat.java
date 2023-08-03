@@ -1,13 +1,13 @@
 package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
-import me.h1dd3nxn1nja.chatmanager.paper.SettingsManager;
+import com.ryderbelserion.chatmanager.paper.FileManager.Files;
+import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,11 +15,10 @@ public class CommandClearChat implements CommandExecutor {
 
 	private final ChatManager plugin = ChatManager.getPlugin();
 
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
-	
+	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration messages = settingsManager.getMessages();
-		
+		FileConfiguration messages = Files.MESSAGES.getFile();
+
 		if (cmd.getName().equalsIgnoreCase("ClearChat")) {
 			if (sender.hasPermission("chatmanager.clearchat")) {
 				if (args.length == 0) {
@@ -55,7 +54,7 @@ public class CommandClearChat implements CommandExecutor {
 	}
 
 	public void sendClearMessage(CommandSender sender) {
-		FileConfiguration config = settingsManager.getConfig();
+		FileConfiguration config = Files.CONFIG.getFile();
 		int lines = config.getInt("Clear_Chat.Broadcasted_Lines");
 		
 		for (int i = 0; i < lines; i++) {

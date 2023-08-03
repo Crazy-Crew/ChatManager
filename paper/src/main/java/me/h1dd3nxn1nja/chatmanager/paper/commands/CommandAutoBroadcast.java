@@ -2,15 +2,22 @@ package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
 import java.util.ArrayList;
 import java.util.List;
-import me.h1dd3nxn1nja.chatmanager.paper.SettingsManager;
+
+import com.ryderbelserion.chatmanager.paper.FileManager.Files;
+import com.ryderbelserion.chatmanager.paper.api.CrazyManager;
+import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
+import me.h1dd3nxn1nja.chatmanager.paper.support.EssentialsSupport;
+import me.h1dd3nxn1nja.chatmanager.paper.support.PluginManager;
+import me.h1dd3nxn1nja.chatmanager.paper.support.misc.VaultSupport;
+import me.h1dd3nxn1nja.chatmanager.paper.support.vanish.EssentialsVanishSupport;
+import me.h1dd3nxn1nja.chatmanager.paper.support.vanish.GenericVanishSupport;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
-import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.World;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,18 +25,17 @@ public class CommandAutoBroadcast implements CommandExecutor {
 
 	private final ChatManager plugin = ChatManager.getPlugin();
 
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
-
 	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
 
+	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration autobroadcast = settingsManager.getAutoBroadcast();
-		FileConfiguration messages = settingsManager.getMessages();
-
 		if (!(sender instanceof Player player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
+
+		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
 
 		if (cmd.getName().equalsIgnoreCase("autobroadcast")) {
 			if (player.hasPermission("chatmanager.autobroadcast")) {
@@ -197,8 +203,8 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Global_Messages.Messages");
 							msgs.add(msg);
 							autobroadcast.set("Auto_Broadcast.Global_Messages.Messages", msgs);
-							settingsManager.saveAutoBroadcast();
-							settingsManager.reloadAutoBroadcast();
+							Files.AUTO_BROADCAST.saveFile();
+							Files.AUTO_BROADCAST.reloadFile();
 							Methods.sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Global"), true);
 							return true;
 						} else {
@@ -223,8 +229,8 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Actionbar_Messages.Messages");
 						msgs.add(msg);
 						autobroadcast.set("Auto_Broadcast.Actionbar_Messages.Messages", msgs);
-						settingsManager.saveAutoBroadcast();
-						settingsManager.reloadAutoBroadcast();
+						Files.AUTO_BROADCAST.saveFile();
+						Files.AUTO_BROADCAST.reloadFile();
 						Methods.sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Actionbar"), true);
 						return true;
 					} else {
@@ -248,8 +254,8 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Title_Messages.Messages");
 						msgs.add(msg);
 						autobroadcast.set("Auto_Broadcast.Title_Messages.Messages", msgs);
-						settingsManager.saveAutoBroadcast();
-						settingsManager.reloadAutoBroadcast();
+						Files.AUTO_BROADCAST.saveFile();
+						Files.AUTO_BROADCAST.reloadFile();
 						Methods.sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Title"), true);
 						return true;
 					} else {
@@ -273,8 +279,8 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Bossbar_Messages.Messages");
 						msgs.add(msg);
 						autobroadcast.set("Auto_Broadcast.Bossbar_Messages.Messages", msgs);
-						settingsManager.saveAutoBroadcast();
-						settingsManager.reloadAutoBroadcast();
+						Files.AUTO_BROADCAST.saveFile();
+						Files.AUTO_BROADCAST.reloadFile();
 						Methods.sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Bossbar"), true);
 						return true;
 					} else {
@@ -310,8 +316,8 @@ public class CommandAutoBroadcast implements CommandExecutor {
 								List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Per_World_Messages.Messages." + key);
 								msgs.add(msg);
 								autobroadcast.set("Auto_Broadcast.Per_World_Messages.Messages." + key, msgs);
-								settingsManager.saveAutoBroadcast();
-								settingsManager.reloadAutoBroadcast();
+								Files.AUTO_BROADCAST.saveFile();
+								Files.AUTO_BROADCAST.reloadFile();
 								Methods.sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", key), true);
 								return true;
 							}
@@ -338,8 +344,8 @@ public class CommandAutoBroadcast implements CommandExecutor {
 					List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Per_World_Messages.Messages");
 					msgs.add(msg);
 					autobroadcast.set("Auto_Broadcast.Per_World_Messages.Messages." + args[1], msgs);
-					settingsManager.saveAutoBroadcast();
-					settingsManager.reloadAutoBroadcast();
+					Files.AUTO_BROADCAST.saveFile();
+					Files.AUTO_BROADCAST.reloadFile();
 					Methods.sendMessage(player, messages.getString("Auto_Broadcast.Created").replace("{world}", args[1]).replace("{message}", msg), true);
 					return true;
 				} else {

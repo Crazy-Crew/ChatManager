@@ -1,10 +1,10 @@
 package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
+import com.ryderbelserion.chatmanager.paper.FileManager.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
-import me.h1dd3nxn1nja.chatmanager.paper.SettingsManager;
-import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import java.util.List;
+import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,13 +18,12 @@ public class CommandBroadcast implements CommandExecutor {
 
 	private final ChatManager plugin = ChatManager.getPlugin();
 
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
-
 	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
 
+	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration config = settingsManager.getConfig();
-		
+		FileConfiguration config = Files.CONFIG.getFile();
+
 		String broadcastSound = config.getString("Broadcast_Commands.Command.Broadcast.Sound");
 		String announcementSound = config.getString("Broadcast_Commands.Command.Announcement.Sound");
 		String warningSound = config.getString("Broadcast_Commands.Command.Warning.Sound");

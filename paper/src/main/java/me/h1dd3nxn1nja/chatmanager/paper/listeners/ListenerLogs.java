@@ -1,6 +1,5 @@
 package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
-import com.ryderbelserion.chatmanager.paper.api.Universal;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
@@ -12,7 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class ListenerLogs implements Listener, Universal {
+public class ListenerLogs implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
@@ -23,7 +22,7 @@ public class ListenerLogs implements Listener, Universal {
 		if (!config.getBoolean("Logs.Log_Chat")) return;
 
 		try {
-			FileWriter fw = new FileWriter(settingsManager.getChatLogs(), true);
+			FileWriter fw = new FileWriter(chatLogs.getFileObject(), true);
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write("[" + time + "] " + playerName + ": " + message.replaceAll("§", "&"));
 			bw.newLine();
@@ -51,7 +50,7 @@ public class ListenerLogs implements Listener, Universal {
 		if ((message.equals("/")) || (message.equals("//"))) return;
 
 		try {
-			FileWriter fw = new FileWriter(settingsManager.getCommandLogs(), true);
+			FileWriter fw = new FileWriter(commandLogs.getFileObject(), true);
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write("[" + time + "] " + playerName + ": " + message.replaceAll("§", "&"));
 			bw.newLine();
@@ -77,7 +76,7 @@ public class ListenerLogs implements Listener, Universal {
 			if (!config.getBoolean("Logs.Log_Signs")) return;
 
 			try {
-				FileWriter fw = new FileWriter(settingsManager.getSignLogs(), true);
+				FileWriter fw = new FileWriter(signLogs.getFileObject(), true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write("[" + time + "] " + playerName + " | Location: X: " + X + " Y: " + Y + " Z: " + Z + " | Line: " + line + " | " + message.replaceAll("§", "&"));
 				bw.newLine();

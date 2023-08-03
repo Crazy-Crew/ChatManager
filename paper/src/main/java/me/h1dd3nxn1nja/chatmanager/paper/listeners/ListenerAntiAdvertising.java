@@ -1,6 +1,5 @@
 package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
-import com.ryderbelserion.chatmanager.paper.api.Universal;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -19,7 +18,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ListenerAntiAdvertising implements Listener, Universal {
+public class ListenerAntiAdvertising implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
@@ -93,7 +92,7 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 		if (!config.getBoolean("Anti_Advertising.Chat.Log_Advertisers")) return;
 
 		try {
-			FileWriter fw = new FileWriter(settingsManager.getAdvertisementLogs(), true);
+			FileWriter fw = new FileWriter(advertisementLogs.getFileObject(), true);
 			BufferedWriter bw2 = new BufferedWriter(fw);
 			bw2.write("[" + time + "] [Chat] " + playername + ": " + message.replaceAll("§", "&"));
 			bw2.newLine();
@@ -180,7 +179,7 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 		if (!config.getBoolean("Anti_Advertising.Commands.Log_Advertisers")) return;
 
 		try {
-			FileWriter fw = new FileWriter(settingsManager.getAdvertisementLogs(), true);
+			FileWriter fw = new FileWriter(advertisementLogs.getFileObject(), true);
 			BufferedWriter bw2 = new BufferedWriter(fw);
 			bw2.write("[" + time + "] [Command] " + playername + ": " + message.replaceAll("§", "&"));
 			bw2.newLine();
@@ -269,7 +268,7 @@ public class ListenerAntiAdvertising implements Listener, Universal {
 
 		if (config.getBoolean("Anti_Advertising.Signs.Log_Advertisers")) {
 			try {
-				FileWriter fw = new FileWriter(settingsManager.getAdvertisementLogs(), true);
+				FileWriter fw = new FileWriter(advertisementLogs.getFileObject(), true);
 				BufferedWriter bw2 = new BufferedWriter(fw);
 				bw2.write(str);
 				bw2.newLine();

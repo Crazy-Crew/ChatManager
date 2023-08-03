@@ -3,13 +3,13 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import com.ryderbelserion.chatmanager.paper.api.Universal;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public class ListenerPerWorldChat implements Listener, Universal {
+public class ListenerPerWorldChat implements Listener {
 
 	@EventHandler
 	public void onWorldChat(AsyncPlayerChatEvent event) {

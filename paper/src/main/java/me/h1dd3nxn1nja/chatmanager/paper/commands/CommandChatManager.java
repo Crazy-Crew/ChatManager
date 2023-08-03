@@ -1,12 +1,11 @@
 package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
-import me.h1dd3nxn1nja.chatmanager.paper.SettingsManager;
+import com.ryderbelserion.chatmanager.paper.FileManager.Files;
+import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.BossBarUtil;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.Debug;
@@ -16,11 +15,8 @@ public class CommandChatManager implements CommandExecutor {
 
 	private final ChatManager plugin = ChatManager.getPlugin();
 
-	private final SettingsManager settingsManager = plugin.getSettingsManager();
-
+	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration messages = settingsManager.getMessages();
-
 		if (cmd.getName().equalsIgnoreCase("ChatManager")) {
 			if (args.length == 0) {
 				Methods.sendMessage(sender, "&7This server is using the plugin &cChatManager &7version " + plugin.getDescription().getVersion() + " by &cH1DD3NxN1NJA.", true);
@@ -41,24 +37,21 @@ public class CommandChatManager implements CommandExecutor {
 							bossBar.removeAllBossBars(player);
 						}
 
-						settingsManager.saveConfig();
-						settingsManager.reloadConfig();
-						settingsManager.reloadMessages();
-						settingsManager.reloadAutoBroadcast();
-						settingsManager.reloadBannedCommands();
-						settingsManager.reloadBannedWords();
-						settingsManager.setup();
+						this.plugin.getFileManager().reloadAllFiles();
 
-						plugin.getServer().getScheduler().cancelTasks(plugin);
+						this.plugin.getFileManager().setLog(true)
+								.registerCustomFilesFolder("Logs")
+								.registerDefaultGenerateFiles("Advertisements.txt", "/Logs", "/Logs")
+								.registerDefaultGenerateFiles("Chat.txt", "/Logs", "/Logs")
+								.registerDefaultGenerateFiles("Commands.txt", "/Logs", "/Logs")
+								.registerDefaultGenerateFiles("Signs.txt", "/Logs", "/Logs")
+								.registerDefaultGenerateFiles("Swears.txt", "/Logs", "/Logs")
+								.setup();
 
-						try {
-                            ChatManager.check(settingsManager);
-                        } catch (Exception e) {
-							Methods.tellConsole("There was an error setting up auto broadcast. Stack-trace:", true);
-							e.printStackTrace();
-						}
+						this.plugin.getServer().getScheduler().cancelTasks(this.plugin);
+						this.plugin.check();
 
-						Methods.sendMessage(sender, messages.getString("Message.Reload"), true);
+						Methods.sendMessage(sender, Files.MESSAGES.getFile().getString("Message.Reload"), true);
 
 					} else {
 						Methods.sendMessage(sender, "&cCommand Usage: &7/Chatmanager reload", true);
