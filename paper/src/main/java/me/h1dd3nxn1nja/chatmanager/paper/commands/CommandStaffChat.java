@@ -32,6 +32,7 @@ public class CommandStaffChat implements CommandExecutor {
 							if (isValid) {
 								plugin.api().getStaffChatData().removeUser(player.getUniqueId());
 
+								// We want to remove anyway just in case they turned it off.
 								BossBarUtil bossBar = new BossBarUtil(Methods.color(config.getString("Staff_Chat.Boss_Bar.Title")));
 								bossBar.removeStaffBossBar(player);
 
@@ -42,8 +43,12 @@ public class CommandStaffChat implements CommandExecutor {
 
 							plugin.api().getStaffChatData().addUser(player.getUniqueId());
 
-							BossBarUtil bossBar = new BossBarUtil(Methods.color(config.getString("Staff_Chat.Boss_Bar.Title")));
-							bossBar.setStaffBossBar(player);
+							boolean isBossBarEnabled = config.contains("Staff_Chat.Boss_Bar.Enable") && config.getBoolean("Staff_Chat.Boss_Bar.Enable");
+
+							if (isBossBarEnabled) {
+								BossBarUtil bossBar = new BossBarUtil(Methods.color(config.getString("Staff_Chat.Boss_Bar.Title")));
+								bossBar.setStaffBossBar(player);
+							}
 
 							Methods.sendMessage(player, messages.getString("Staff_Chat.Enabled"), true);
 
