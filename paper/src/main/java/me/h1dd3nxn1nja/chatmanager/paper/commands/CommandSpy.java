@@ -1,6 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
-import com.ryderbelserion.chatmanager.paper.FileManager;
+import com.ryderbelserion.chatmanager.paper.files.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import org.bukkit.command.Command;
@@ -21,7 +21,7 @@ public class CommandSpy implements CommandExecutor {
 			return true;
 		}
 
-		FileConfiguration messages = FileManager.Files.MESSAGES.getFile();
+		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		if (cmd.getName().equalsIgnoreCase("CommandSpy")) {
 			if (player.hasPermission("chatmanager.commandspy")) {

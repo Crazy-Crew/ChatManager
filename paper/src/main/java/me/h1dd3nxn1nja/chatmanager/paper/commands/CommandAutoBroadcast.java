@@ -3,15 +3,9 @@ package me.h1dd3nxn1nja.chatmanager.paper.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ryderbelserion.chatmanager.paper.FileManager.Files;
-import com.ryderbelserion.chatmanager.paper.api.CrazyManager;
+import com.ryderbelserion.chatmanager.paper.files.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
-import me.h1dd3nxn1nja.chatmanager.paper.support.EssentialsSupport;
-import me.h1dd3nxn1nja.chatmanager.paper.support.PluginManager;
-import me.h1dd3nxn1nja.chatmanager.paper.support.misc.VaultSupport;
-import me.h1dd3nxn1nja.chatmanager.paper.support.vanish.EssentialsVanishSupport;
-import me.h1dd3nxn1nja.chatmanager.paper.support.vanish.GenericVanishSupport;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

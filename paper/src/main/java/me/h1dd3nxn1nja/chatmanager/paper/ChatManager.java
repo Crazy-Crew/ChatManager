@@ -1,8 +1,8 @@
 package me.h1dd3nxn1nja.chatmanager.paper;
 
 import com.ryderbelserion.chatmanager.paper.ApiLoader;
-import com.ryderbelserion.chatmanager.paper.FileManager;
-import com.ryderbelserion.chatmanager.paper.FileManager.Files;
+import com.ryderbelserion.chatmanager.paper.files.FileManager;
+import com.ryderbelserion.chatmanager.paper.files.Files;
 import com.ryderbelserion.chatmanager.paper.api.CrazyManager;
 import me.h1dd3nxn1nja.chatmanager.paper.commands.*;
 import me.h1dd3nxn1nja.chatmanager.paper.commands.tabcompleter.*;

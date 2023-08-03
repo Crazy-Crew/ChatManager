@@ -1,6 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
-import com.ryderbelserion.chatmanager.paper.FileManager;
+import com.ryderbelserion.chatmanager.paper.files.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import org.bukkit.command.Command;
@@ -20,8 +20,8 @@ public class CommandStaffChat implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration config = FileManager.Files.CONFIG.getFile();
-		FileConfiguration messages = FileManager.Files.MESSAGES.getFile();
+		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration messages = Files.MESSAGES.getFile();
 		if (sender instanceof Player player) {
 			if (cmd.getName().equalsIgnoreCase("StaffChat")) {
 				if (player.hasPermission("chatmanager.staffchat")) {

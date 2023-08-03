@@ -1,6 +1,9 @@
 package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
+import com.ryderbelserion.chatmanager.paper.files.Files;
+import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,11 +13,16 @@ import java.util.List;
 
 public class ListenerBannedCommand implements Listener {
 
+	private final ChatManager plugin = ChatManager.getPlugin();
+
 	@EventHandler(ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
+		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration messages = Files.MESSAGES.getFile();
+
 		Player player = event.getPlayer();
 
-		List<String> cmd = bannedCommands.getStringList("Banned-Commands");
+		List<String> cmd = Files.BANNED_COMMANDS.getFile().getStringList("Banned-Commands");
 
 		if (config.getBoolean("Banned_Commands.Enable")) return;
 
@@ -54,6 +62,9 @@ public class ListenerBannedCommand implements Listener {
 	}
 
 	public void notifyStaff(Player player, String message) {
+		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration messages = Files.MESSAGES.getFile();
+
 		if (!config.getBoolean("Banned_Commands.Notify_Staff")) return;
 
 		for (Player staff : plugin.getServer().getOnlinePlayers()) {
@@ -64,12 +75,18 @@ public class ListenerBannedCommand implements Listener {
 	}
 
 	public void tellConsole(Player player, String message) {
+		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration messages = Files.MESSAGES.getFile();
+
 		if (!config.getBoolean("Banned_Commands.Notify_Staff")) return;
 
 		Methods.tellConsole(messages.getString("Banned_Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{command}", message), true);
 	}
 
 	public void executeCommand(Player player) {
+		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration messages = Files.MESSAGES.getFile();
+
 		if (!config.getBoolean("Banned_Commands.Execute_Command")) return;
 
 		if (!config.contains("Banned_Commands.Executed_Command")) return;

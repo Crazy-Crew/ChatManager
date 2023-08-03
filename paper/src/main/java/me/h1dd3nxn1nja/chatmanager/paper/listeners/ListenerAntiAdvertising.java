@@ -1,5 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
+import com.ryderbelserion.chatmanager.paper.files.Files;
+import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -11,6 +13,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,8 +23,12 @@ import java.util.regex.Pattern;
 
 public class ListenerAntiAdvertising implements Listener {
 
+	private final ChatManager plugin = ChatManager.getPlugin();
+
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
+		FileConfiguration config = Files.CONFIG.getFile();
+
 		Player player = event.getPlayer();
 		String playerName = event.getPlayer().getName();
 		String message = event.getMessage();
@@ -49,15 +56,18 @@ public class ListenerAntiAdvertising implements Listener {
 		}
 
 		if (config.getBoolean("Anti_Advertising.Chat.Increase_Sensitivity")) {
-			chatMatch(event, config, messages, player, playerName, message, time, firstMatchIncrease, secondMatchIncrease);
+			chatMatch(event, player, playerName, message, time, firstMatchIncrease, secondMatchIncrease);
 			return;
 		}
 
-		chatMatch(event, config, messages, player, playerName, message, time, firstMatch, secondMatch);
+		chatMatch(event, player, playerName, message, time, firstMatch, secondMatch);
 	}
 
-	private void chatMatch(AsyncPlayerChatEvent event, FileConfiguration config, FileConfiguration messages, Player player, String playername, String message, Date time, Matcher firstMatch, Matcher secondMatch) {
+	private void chatMatch(AsyncPlayerChatEvent event, Player player, String playerName, String message, Date time, Matcher firstMatch, Matcher secondMatch) {
 		if (!firstMatch.find() || !secondMatch.find()) return;
+
+		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		event.setCancelled(true);
 		Methods.sendMessage(player, messages.getString("Anti_Advertising.Chat.Message"), true);
@@ -92,9 +102,9 @@ public class ListenerAntiAdvertising implements Listener {
 		if (!config.getBoolean("Anti_Advertising.Chat.Log_Advertisers")) return;
 
 		try {
-			FileWriter fw = new FileWriter(advertisementLogs.getFileObject(), true);
+			FileWriter fw = new FileWriter(this.plugin.getFileManager().getFile("Advertisements").getFileObject(), true);
 			BufferedWriter bw2 = new BufferedWriter(fw);
-			bw2.write("[" + time + "] [Chat] " + playername + ": " + message.replaceAll("§", "&"));
+			bw2.write("[" + time + "] [Chat] " + playerName + ": " + message.replaceAll("§", "&"));
 			bw2.newLine();
 			fw.flush();
 			bw2.close();
@@ -105,6 +115,8 @@ public class ListenerAntiAdvertising implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
+		FileConfiguration config = Files.CONFIG.getFile();
+
 		Player player = event.getPlayer();
 		String playerName = event.getPlayer().getName();
 		String message = event.getMessage();
@@ -137,15 +149,18 @@ public class ListenerAntiAdvertising implements Listener {
 		}
 
 		if (config.getBoolean("Anti_Advertising.Commands.Increase_Sensitivity")) {
-			increasedSensitivity(event, config, messages, player, playerName, message, time, firstMatchIncrease, secondMatchIncrease);
+			increasedSensitivity(event, player, playerName, message, time, firstMatchIncrease, secondMatchIncrease);
 			return;
 		}
 
-		increasedSensitivity(event, config, messages, player, playerName, message, time, firstMatch, secondMatch);
+		increasedSensitivity(event, player, playerName, message, time, firstMatch, secondMatch);
 	}
 
-	private void increasedSensitivity(PlayerCommandPreprocessEvent event, FileConfiguration config, FileConfiguration messages, Player player, String playername, String message, Date time, Matcher firstMatch, Matcher secondMatch) {
+	private void increasedSensitivity(PlayerCommandPreprocessEvent event, Player player, String playerName, String message, Date time, Matcher firstMatch, Matcher secondMatch) {
 		if (!firstMatch.find() || !secondMatch.find()) return;
+
+		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		event.setCancelled(true);
 		Methods.sendMessage(player, messages.getString("Anti_Advertising.Commands.Message"), true);
@@ -179,9 +194,9 @@ public class ListenerAntiAdvertising implements Listener {
 		if (!config.getBoolean("Anti_Advertising.Commands.Log_Advertisers")) return;
 
 		try {
-			FileWriter fw = new FileWriter(advertisementLogs.getFileObject(), true);
+			FileWriter fw = new FileWriter(this.plugin.getFileManager().getFile("Advertisements.txt").getFileObject(), true);
 			BufferedWriter bw2 = new BufferedWriter(fw);
-			bw2.write("[" + time + "] [Command] " + playername + ": " + message.replaceAll("§", "&"));
+			bw2.write("[" + time + "] [Command] " + playerName + ": " + message.replaceAll("§", "&"));
 			bw2.newLine();
 			fw.flush();
 			bw2.close();
@@ -192,6 +207,8 @@ public class ListenerAntiAdvertising implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onSign(SignChangeEvent event) {
+		FileConfiguration config = Files.CONFIG.getFile();
+
 		Player player = event.getPlayer();
 		String playerName = event.getPlayer().getName();
 		Date time = Calendar.getInstance().getTime();
@@ -221,7 +238,7 @@ public class ListenerAntiAdvertising implements Listener {
 				Matcher firstMatchIncrease = firstPattern.matcher(message.toLowerCase().replaceAll("\\s+", ""));
 				Matcher secondMatchIncrease = secondPattern.matcher(message.toLowerCase().replaceAll("\\s+", ""));
 
-				if (findMatches(event, config, messages, player, message, str, firstMatchIncrease, secondMatchIncrease)) return;
+				if (findMatches(event, player, message, str, firstMatchIncrease, secondMatchIncrease)) return;
 
 				return;
 			}
@@ -229,12 +246,14 @@ public class ListenerAntiAdvertising implements Listener {
 			Matcher firstMatch = firstPattern.matcher(message.toLowerCase());
 			Matcher secondMatch = secondPattern.matcher(message.toLowerCase());
 
-			if (findMatches(event, config, messages, player, message, str, firstMatch, secondMatch)) return;
+			if (findMatches(event, player, message, str, firstMatch, secondMatch)) return;
 		}
 	}
 
-	private boolean findMatches(SignChangeEvent event, FileConfiguration config, FileConfiguration messages, Player player, String message, String str, Matcher firstMatch, Matcher secondMatch) {
+	private boolean findMatches(SignChangeEvent event, Player player, String message, String str, Matcher firstMatch, Matcher secondMatch) {
 		if (!firstMatch.find() || !secondMatch.find()) return false;
+		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		event.setCancelled(true);
 		Methods.sendMessage(player, messages.getString("Anti_Advertising.Signs.Message"), true);
@@ -268,7 +287,7 @@ public class ListenerAntiAdvertising implements Listener {
 
 		if (config.getBoolean("Anti_Advertising.Signs.Log_Advertisers")) {
 			try {
-				FileWriter fw = new FileWriter(advertisementLogs.getFileObject(), true);
+				FileWriter fw = new FileWriter(this.plugin.getFileManager().getFile("Advertisements.txt").getFileObject(), true);
 				BufferedWriter bw2 = new BufferedWriter(fw);
 				bw2.write(str);
 				bw2.newLine();

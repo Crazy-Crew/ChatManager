@@ -1,6 +1,11 @@
 package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
+import com.ryderbelserion.chatmanager.paper.files.Files;
+import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import me.h1dd3nxn1nja.chatmanager.paper.support.PluginSupport;
+import me.h1dd3nxn1nja.chatmanager.paper.support.misc.VaultSupport;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -8,11 +13,19 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
+
 public class ListenerChatFormat implements Listener {
+
+	private final ChatManager plugin = ChatManager.getPlugin();
+
+	private final VaultSupport vaultSupport = plugin.getPluginManager().getVaultSupport();
+	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
 
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onChatFormat(AsyncPlayerChatEvent event) {
+		FileConfiguration config = Files.CONFIG.getFile();
+
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 		String key = vaultSupport.getPermission().getPrimaryGroup(player);
@@ -34,6 +47,8 @@ public class ListenerChatFormat implements Listener {
 	}
 
 	public String setupChatRadius(Player player, String message) {
+		FileConfiguration config = Files.CONFIG.getFile();
+
 		String placeholders = message;
 
 		if (config.getBoolean("Chat_Radius.Enable")) {

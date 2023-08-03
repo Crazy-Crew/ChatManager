@@ -1,6 +1,9 @@
 package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
+import com.ryderbelserion.chatmanager.paper.files.Files;
+import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,8 +12,13 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class ListenerCaps implements Listener {
 
+	private final ChatManager plugin = ChatManager.getPlugin();
+
 	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
+		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration messages = Files.MESSAGES.getFile();
+
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 
@@ -43,6 +51,9 @@ public class ListenerCaps implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onCapsCommands(PlayerCommandPreprocessEvent event) {
+		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration messages = Files.MESSAGES.getFile();
+
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 

@@ -3,6 +3,9 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 import java.util.List;
 import java.util.UUID;
 
+import com.ryderbelserion.chatmanager.paper.files.Files;
+import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,8 +16,13 @@ import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 
 public class ListenerAntiSpam implements Listener {
 
+	private final ChatManager plugin = ChatManager.getPlugin();
+
 	@EventHandler(ignoreCancelled = true)
 	public void antiSpamChat(AsyncPlayerChatEvent event) {
+		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration messages = Files.MESSAGES.getFile();
+
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 
@@ -42,7 +50,10 @@ public class ListenerAntiSpam implements Listener {
 	}
 
 	@EventHandler(ignoreCancelled = true)
-	public void onChatCooldown(AsyncPlayerChatEvent event) {
+	public void onChatCoolDown(AsyncPlayerChatEvent event) {
+		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration messages = Files.MESSAGES.getFile();
+
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
 
@@ -84,6 +95,9 @@ public class ListenerAntiSpam implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onSpamCommand(PlayerCommandPreprocessEvent event) {
+		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration messages = Files.MESSAGES.getFile();
+
 		Player player = event.getPlayer();
 		String command = event.getMessage();
 

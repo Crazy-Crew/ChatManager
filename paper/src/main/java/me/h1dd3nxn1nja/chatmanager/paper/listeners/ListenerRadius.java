@@ -3,7 +3,10 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 import java.util.Set;
 import java.util.UUID;
 
+import com.ryderbelserion.chatmanager.paper.files.Files;
+import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -13,6 +16,8 @@ import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 
 public class ListenerRadius implements Listener {
 
+	private final ChatManager plugin = ChatManager.getPlugin();
+
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
@@ -20,6 +25,8 @@ public class ListenerRadius implements Listener {
 		Set<Player> recipients = event.getRecipients();
 
 		UUID uuid = player.getUniqueId();
+
+		FileConfiguration config = Files.CONFIG.getFile();
 
 		String localOverrideChar = config.getString("Chat_Radius.Local_Chat.Override_Symbol");
 		String globalOverrideChar = config.getString("Chat_Radius.Global_Chat.Override_Symbol");

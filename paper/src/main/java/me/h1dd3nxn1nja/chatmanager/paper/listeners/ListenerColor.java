@@ -1,5 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
+import com.ryderbelserion.chatmanager.paper.files.Files;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,6 +16,8 @@ public class ListenerColor implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onColorChat(AsyncPlayerChatEvent event) {
+		FileConfiguration config = Files.CONFIG.getFile();
+
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 

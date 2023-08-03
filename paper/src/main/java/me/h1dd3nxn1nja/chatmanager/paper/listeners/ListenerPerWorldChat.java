@@ -4,12 +4,17 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import com.ryderbelserion.chatmanager.paper.files.Files;
+import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ListenerPerWorldChat implements Listener {
+
+	private final ChatManager plugin = ChatManager.getPlugin();
 
 	@EventHandler
 	public void onWorldChat(AsyncPlayerChatEvent event) {
@@ -19,6 +24,8 @@ public class ListenerPerWorldChat implements Listener {
 		Set<Player> recipients = event.getRecipients();
 
 		List<String> playerGroup = null;
+
+		FileConfiguration config = Files.CONFIG.getFile();
 
 		if (!config.getBoolean("Per_World_Chat.Enable") || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
 

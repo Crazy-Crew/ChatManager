@@ -3,7 +3,11 @@ package me.h1dd3nxn1nja.chatmanager.paper.managers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ryderbelserion.chatmanager.paper.api.CrazyManager;
+import com.ryderbelserion.chatmanager.paper.files.Files;
+import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import org.bukkit.Sound;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -11,11 +15,16 @@ import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.BossBarUtil;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.World;
 
-public class AutoBroadcastManager implements Universal {
-	
-	public static List<World> worlds = new ArrayList<>();
+public class AutoBroadcastManager {
+
+	private static final ChatManager plugin = ChatManager.getPlugin();
+	private static final CrazyManager crazyManager = plugin.getCrazyManager();
+
+	private static final List<World> worlds = new ArrayList<>();
 	
 	public static void globalMessages() {
+		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
+
 		String sound = autobroadcast.getString("Auto_Broadcast.Global_Messages.Sound");
 		String prefix = autobroadcast.getString("Auto_Broadcast.Global_Messages.Prefix");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Global_Messages.Interval");
@@ -47,6 +56,8 @@ public class AutoBroadcastManager implements Universal {
 	}
 	
 	public static void perWorldMessages() {
+		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
+
 		String sound = autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Sound");
 		String prefix = autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Prefix");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Per_World_Messages.Interval");
@@ -89,6 +100,8 @@ public class AutoBroadcastManager implements Universal {
 	}
 	
 	public static void actionbarMessages() {
+		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
+
 		String sound = autobroadcast.getString("Auto_Broadcast.Actionbar_Messages.Sound");
 		String prefix = autobroadcast.getString("Auto_Broadcast.Actionbar_Messages.Prefix");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Actionbar_Messages.Interval");
@@ -118,6 +131,8 @@ public class AutoBroadcastManager implements Universal {
 	}
 	
 	public static void titleMessages() {
+		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
+
 		String sound = autobroadcast.getString("Auto_Broadcast.Title_Messages.Sound");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Title_Messages.Interval");
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Title_Messages.Messages");
@@ -144,6 +159,8 @@ public class AutoBroadcastManager implements Universal {
 	}
 	
 	public static void bossBarMessages() {
+		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
+
 		String sound = autobroadcast.getString("Auto_Broadcast.Bossbar_Messages.Sound");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Interval");
 		int time = autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Bar_Time");

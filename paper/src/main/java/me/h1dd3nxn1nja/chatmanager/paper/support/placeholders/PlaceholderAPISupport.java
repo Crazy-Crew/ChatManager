@@ -2,7 +2,10 @@ package me.h1dd3nxn1nja.chatmanager.paper.support.placeholders;
 
 import java.text.DecimalFormat;
 
+import com.ryderbelserion.chatmanager.paper.files.Files;
+import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -10,12 +13,16 @@ import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 
-public class PlaceholderAPISupport extends PlaceholderExpansion implements Universal {
+public class PlaceholderAPISupport extends PlaceholderExpansion {
+
+	private final ChatManager plugin = ChatManager.getPlugin();
 
 	@Override
 	public @Nullable String onRequest(OfflinePlayer player, @NotNull String identifier) {
 		if (player.isOnline()) {
 			Player playerOnline = (Player) player;
+
+			FileConfiguration config = Files.CONFIG.getFile();
 
 			String lower = identifier.toLowerCase();
 			DecimalFormat df = new DecimalFormat("#,###");

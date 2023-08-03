@@ -1,6 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
-import com.ryderbelserion.chatmanager.paper.FileManager.Files;
+import com.ryderbelserion.chatmanager.paper.files.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import org.bukkit.command.Command;

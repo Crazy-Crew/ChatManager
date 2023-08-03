@@ -1,8 +1,13 @@
 package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
+import com.ryderbelserion.chatmanager.paper.files.Files;
+import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
+import me.h1dd3nxn1nja.chatmanager.paper.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.paper.support.PluginSupport;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,9 +16,15 @@ import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 
 public class ListenerMentions implements Listener {
 
+	private final ChatManager plugin = ChatManager.getPlugin();
+	private final EssentialsSupport essentialsSupport = this.plugin.getPluginManager().getEssentialsSupport();
+	private final PlaceholderManager placeholderManager = this.plugin.getCrazyManager().getPlaceholderManager();
+
 	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
+
+		FileConfiguration config = Files.CONFIG.getFile();
 
 		String tagSymbol = config.getString("Mentions.Tag_Symbol");
 		String mentionColor = config.getString("Mentions.Mention_Color");

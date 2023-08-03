@@ -1,5 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
+import com.ryderbelserion.chatmanager.paper.files.Files;
+import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -21,11 +23,17 @@ public class ListenerSwear implements Listener {
 
 	//TODO() Add a way so that chat manager highlights the swear word in the notify feature.
 
+	private final ChatManager plugin = ChatManager.getPlugin();
+
 	@EventHandler(ignoreCancelled = true)
 	public void onSwear(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 		Date time = Calendar.getInstance().getTime();
+
+		FileConfiguration bannedWords = Files.BANNED_WORDS.getFile();
+		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
 		List<String> blockedWordsList = bannedWords.getStringList("Banned-Words");
@@ -76,9 +84,11 @@ public class ListenerSwear implements Listener {
 	private boolean curseMessageContains(Player player, String message, Date time, String curseMessage, String blockedWords) {
 		if (!curseMessage.contains(blockedWords)) return false;
 
+		FileConfiguration config = Files.CONFIG.getFile();
+
 		if (config.getBoolean("Anti_Swear.Chat.Log_Swearing")) {
 			try {
-				FileWriter fw = new FileWriter(swearLogs.getFileObject(), true);
+				FileWriter fw = new FileWriter(this.plugin.getFileManager().getFile("Swears.txt").getFileObject(), true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write("[" + time + "] [Chat] " + player.getName() + ": " + message.replaceAll("§", "&"));
 				bw.newLine();
@@ -118,6 +128,10 @@ public class ListenerSwear implements Listener {
 		Date time = Calendar.getInstance().getTime();
 
 		UUID uuid = player.getUniqueId();
+
+		FileConfiguration bannedWords = Files.BANNED_WORDS.getFile();
+		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
 		List<String> whitelistedCommands = config.getStringList("Anti_Swear.Commands.Whitelisted_Commands");
@@ -193,7 +207,7 @@ public class ListenerSwear implements Listener {
 	private void commandSwearCheck(FileConfiguration config, Player player, String message, Date time) {
 		if (config.getBoolean("Anti_Swear.Commands.Log_Swearing")) {
 			try {
-				FileWriter fw = new FileWriter(swearLogs.getFileObject(), true);
+				FileWriter fw = new FileWriter(this.plugin.getFileManager().getFile("Swears").getFileObject(), true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write("[" + time + "] [Command] " + player.getName() + ": " + message.replaceAll("§", "&"));
 				bw.newLine();
@@ -219,6 +233,10 @@ public class ListenerSwear implements Listener {
 		Date time = Calendar.getInstance().getTime();
 
 		UUID uuid = player.getUniqueId();
+
+		FileConfiguration bannedWords = Files.BANNED_WORDS.getFile();
+		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
 		List<String> blockedWordsList = bannedWords.getStringList("Banned-Words");
@@ -295,7 +313,7 @@ public class ListenerSwear implements Listener {
 	private void checkSwear(FileConfiguration config, Player player, Date time, int line, String message) {
 		if (config.getBoolean("Anti_Swear.Signs.Log_Swearing")) {
 			try {
-				FileWriter fw = new FileWriter(swearLogs.getFileObject(), true);
+				FileWriter fw = new FileWriter(this.plugin.getFileManager().getFile("Swears").getFileObject(), true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write("[" + time + "] [Sign] " + player.getName() + ": Line: " + line + " Text: " + message.replaceAll("§", "&"));
 				bw.newLine();

@@ -9,7 +9,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import java.text.DecimalFormat;
-import com.ryderbelserion.chatmanager.paper.FileManager.Files;
+import com.ryderbelserion.chatmanager.paper.files.Files;
 
 public class CommandPing implements CommandExecutor {
 

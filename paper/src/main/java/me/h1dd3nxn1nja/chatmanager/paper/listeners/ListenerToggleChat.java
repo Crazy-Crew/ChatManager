@@ -1,5 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
+import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -7,6 +8,8 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import java.util.Set;
 
 public class ListenerToggleChat implements Listener {
+
+	private final ChatManager plugin = ChatManager.getPlugin();
 
 	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {

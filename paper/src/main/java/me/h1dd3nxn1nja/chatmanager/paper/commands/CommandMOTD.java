@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import com.ryderbelserion.chatmanager.paper.FileManager.Files;
+import com.ryderbelserion.chatmanager.paper.files.Files;
 
 public class CommandMOTD implements Listener {
 

@@ -1,6 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
-import com.ryderbelserion.chatmanager.paper.FileManager;
+import com.ryderbelserion.chatmanager.paper.files.Files;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,7 +12,7 @@ public class CommandRules implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration config = FileManager.Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getFile();
 
 		if (cmd.getName().equalsIgnoreCase("rules")) {
 			if (sender.hasPermission("chatmanager.rules")) {

@@ -4,6 +4,9 @@ import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import me.h1dd3nxn1nja.chatmanager.paper.support.PluginManager;
 
+import java.io.File;
+import java.util.ArrayList;
+
 public class CrazyManager {
 
     private final ChatManager plugin = ChatManager.getPlugin();
@@ -24,6 +27,22 @@ public class CrazyManager {
 
         // Rest of your code goes here.
         placeholderManager = new PlaceholderManager();
+    }
+
+    public ArrayList<String> getAllLogFiles() {
+        ArrayList<String> files = new ArrayList<>();
+
+        String[] file = new File(plugin.getDataFolder(), "/Logs").list();
+
+        if (file != null) {
+            for (String name: file) {
+                if (!name.endsWith(".txt")) continue;
+
+                files.add(name.replaceAll(".txt", ""));
+            }
+        }
+
+        return files;
     }
 
     public PlaceholderManager getPlaceholderManager() {
