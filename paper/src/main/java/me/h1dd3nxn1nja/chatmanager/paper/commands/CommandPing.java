@@ -27,38 +27,37 @@ public class CommandPing implements CommandExecutor {
 		}
 
 		if (cmd.getName().equalsIgnoreCase("ping")) {
+			if (!player.hasPermission("chatmanager.ping")) {
+				Methods.sendMessage(player, Methods.noPermission(), true);
+				return true;
+			}
+
+			if (args.length == 0) {
+				Methods.sendMessage(player, messages.getString("Ping.Players_Ping").replace("{ping}", df.format(player.getPing())), true);
+				return true;
+			}
+
+			if (!player.hasPermission("chatmanager.ping.others")) {
+				Methods.sendMessage(player, Methods.noPermission(), true);
+				return true;
+			}
+
 			if (args.length >= 2) {
-				if ((player.hasPermission("chatmanager.ping")) || (player.hasPermission("chatmanager.ping.others"))) {
-					Methods.sendMessage(player, "&cCommand Usage: &7/Ping {player}", true);
-				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
-				}
+
+				Methods.sendMessage(player, "&cCommand Usage: &7/Ping {player}", true);
 
 				return true;
 			}
 
-			if (player.hasPermission("chatmanager.ping")) {
-				if (args.length == 0) {
-					Methods.sendMessage(player, messages.getString("Ping.Players_Ping").replace("{ping}", df.format(player.getPing())), true);
-					return true;
-				}
-			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
-			}
+			Player target = plugin.getServer().getPlayer(args[0]);
 
-			if (player.hasPermission("chatmanager.ping.others")) {
-				Player target = plugin.getServer().getPlayer(args[0]);
-
-				if (target == null || !target.isOnline()) {
-					Methods.sendMessage(player, messages.getString("Message.Player_Not_Found").replace("{target}", args[0]), true);
-					return true;
-				}
-
-				Methods.sendMessage(player, messages.getString("Ping.Targets_Ping").replace("{target}", target.getName()).replace("{ping}", df.format(target.getPing())), true);
+			if (target == null || !target.isOnline()) {
+				Methods.sendMessage(player, messages.getString("Message.Player_Not_Found").replace("{target}", args[0]), true);
 				return true;
-			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
 			}
+
+			Methods.sendMessage(player, messages.getString("Ping.Targets_Ping").replace("{target}", target.getName()).replace("{ping}", df.format(target.getPing())), true);
+			return true;
 		}
 
 		return true;

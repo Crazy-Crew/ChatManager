@@ -41,6 +41,7 @@ public class CommandChatManager implements CommandExecutor {
 							bossBar.removeAllBossBars(player);
 						}
 
+						settingsManager.saveConfig();
 						settingsManager.reloadConfig();
 						settingsManager.reloadMessages();
 						settingsManager.reloadAutoBroadcast();

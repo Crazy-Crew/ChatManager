@@ -13,11 +13,6 @@ public class VaultSupport {
 	private Permission permission;
 	private Chat chat;
 
-	public VaultSupport() {
-		this.permission = null;
-		this.chat = null;
-	}
-
 	public void configure() {
 		setupChat();
 		setupPermissions();
