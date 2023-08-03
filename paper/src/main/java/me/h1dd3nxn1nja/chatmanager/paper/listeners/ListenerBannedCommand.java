@@ -24,7 +24,7 @@ public class ListenerBannedCommand implements Listener {
 
 		List<String> cmd = Files.BANNED_COMMANDS.getFile().getStringList("Banned-Commands");
 
-		if (config.getBoolean("Banned_Commands.Enable")) return;
+		if (!config.getBoolean("Banned_Commands.Enable")) return;
 
 		if (!player.hasPermission("chatmanager.bypass.bannedcommands")) {
 			if (!config.getBoolean("Banned_Commands.Increase_Sensitivity")) {
@@ -85,7 +85,6 @@ public class ListenerBannedCommand implements Listener {
 
 	public void executeCommand(Player player) {
 		FileConfiguration config = Files.CONFIG.getFile();
-		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		if (!config.getBoolean("Banned_Commands.Execute_Command")) return;
 
