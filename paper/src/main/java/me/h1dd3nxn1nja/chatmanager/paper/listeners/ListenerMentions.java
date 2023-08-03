@@ -31,7 +31,7 @@ public class ListenerMentions implements Listener {
 
 		if (!config.getBoolean("Mentions.Enable")) return;
 
-		event.setMessage(Methods.color(event.getMessage()));
+		event.setMessage(this.plugin.getMethods().color(event.getMessage()));
 
 		plugin.getServer().getOnlinePlayers().forEach(target -> {
 			if (!player.hasPermission("chatmanager.mention") || !target.hasPermission("chatmanager.mention.receive")) return;
@@ -47,12 +47,14 @@ public class ListenerMentions implements Listener {
 			if (plugin.api().getToggleChatData().containsUser(target.getUniqueId())) return;
 
 			if (config.getBoolean("Chat_Radius.Enable")) {
-				if ((!Methods.inRange(target.getUniqueId(), player.getUniqueId(), config.getInt("Chat_Radius.Block_Distance"))) || (!Methods.inWorld(target.getUniqueId(), player.getUniqueId()))) return;
+				if ((!this.plugin.getMethods().inRange(target.getUniqueId(), player.getUniqueId(), config.getInt("Chat_Radius.Block_Distance"))) || (!this.plugin.getMethods().inWorld(target.getUniqueId(), player.getUniqueId()))) return;
 			}
 
-			if (plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) {
+			if (!plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) {
 				try {
-					target.playSound(target.getLocation(), Sound.valueOf(config.getString("Mentions.Sound")), 10, 1);
+					if (config.getBoolean("Mentions.sound.toggle", false)) {
+						target.playSound(target.getLocation(), Sound.valueOf(config.getString("Mentions.sound.value", Sound.ENTITY_PLAYER_LEVELUP.toString())), 1, 1);
+					}
 				} catch (IllegalArgumentException ignored) {}
 			}
 
@@ -66,16 +68,18 @@ public class ListenerMentions implements Listener {
 			if (!config.getString("Mentions.Mention_Color").equals("")) {
 				String before = event.getMessage();
 				String lastColor = ChatColor.getLastColors(before).equals("") ? ChatColor.WHITE.toString() : ChatColor.getLastColors(before);
-				event.setMessage(event.getMessage().replace(tagSymbol + ChatColor.stripColor(target.getName()), Methods.color(mentionColor + tagSymbol + ChatColor.stripColor(target.getName())) + lastColor));
+				event.setMessage(event.getMessage().replace(tagSymbol + ChatColor.stripColor(target.getName()), this.plugin.getMethods().color(mentionColor + tagSymbol + ChatColor.stripColor(target.getName())) + lastColor));
 			}
 		});
 
 		if (event.getMessage().toLowerCase().contains(tagSymbol + "everyone")) {
 			plugin.getServer().getOnlinePlayers().forEach(target -> {
 				if (player.hasPermission("chatmanager.mention.everyone") && target.hasPermission("chatmanager.mentions.receive")) {
-					if (plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) {
+					if (!plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) {
 						try {
-							target.playSound(target.getLocation(), Sound.valueOf(config.getString("Mentions.Sound")), 10, 1);
+							if (config.getBoolean("Mentions.sound.toggle", false)) {
+								target.playSound(target.getLocation(), Sound.valueOf(config.getString("Mentions.sound.value", Sound.ENTITY_PLAYER_LEVELUP.toString())), 1, 1);
+							}
 						} catch (IllegalArgumentException ignored) {}
 					}
 
@@ -89,7 +93,7 @@ public class ListenerMentions implements Listener {
 					if (!config.getString("Mentions.Mention_Color").equals("")) {
 						String before = event.getMessage();
 						String lastColor = ChatColor.getLastColors(before).equals("") ? ChatColor.WHITE.toString() : ChatColor.getLastColors(before);
-						event.setMessage(event.getMessage().replace(tagSymbol + ChatColor.stripColor("everyone"), Methods.color(mentionColor + tagSymbol + ChatColor.stripColor("everyone")) + lastColor));
+						event.setMessage(event.getMessage().replace(tagSymbol + ChatColor.stripColor("everyone"), this.plugin.getMethods().color(mentionColor + tagSymbol + ChatColor.stripColor("everyone")) + lastColor));
 					}
 				}
 			});

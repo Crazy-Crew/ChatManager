@@ -18,45 +18,45 @@ public class CommandBannedCommands implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		if (!(sender instanceof Player player)) {
-			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
+			this.plugin.getMethods().sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
 
 		if (cmd.getName().equalsIgnoreCase("BannedCommands")) {
 			if (player.hasPermission("chatmanager.bannedcommands")) {
 				if (args.length == 0) {
-					Methods.sendMessage(player, "", true);
-					Methods.sendMessage(player, " &3Banned Commands Help Menu &f(v" + plugin.getDescription().getVersion() + ")", true);
-					Methods.sendMessage(player, "", true);
-					Methods.sendMessage(player, " &6<> &f= Required Arguments", true);
-					Methods.sendMessage(player, "", true);
-					Methods.sendMessage(player, " &f/BannedCommands Help &e- Shows the banned commands help menu.", true);
-					Methods.sendMessage(player, " &f/BannedCommands Add &6<command> &e- Add a command to the banned command list.", true);
-					Methods.sendMessage(player, " &f/BannedCommands Remove &6<command> &e- Remove a command from the banned command list.", true);
-					Methods.sendMessage(player, " &f/BannedCommands List &e- Shows a list of the servers banned commands.", true);
-					Methods.sendMessage(player, "", true);
+					this.plugin.getMethods().sendMessage(player, "", true);
+					this.plugin.getMethods().sendMessage(player, " &3Banned Commands Help Menu &f(v" + plugin.getDescription().getVersion() + ")", true);
+					this.plugin.getMethods().sendMessage(player, "", true);
+					this.plugin.getMethods().sendMessage(player, " &6<> &f= Required Arguments", true);
+					this.plugin.getMethods().sendMessage(player, "", true);
+					this.plugin.getMethods().sendMessage(player, " &f/BannedCommands Help &e- Shows the banned commands help menu.", true);
+					this.plugin.getMethods().sendMessage(player, " &f/BannedCommands Add &6<command> &e- Add a command to the banned command list.", true);
+					this.plugin.getMethods().sendMessage(player, " &f/BannedCommands Remove &6<command> &e- Remove a command from the banned command list.", true);
+					this.plugin.getMethods().sendMessage(player, " &f/BannedCommands List &e- Shows a list of the servers banned commands.", true);
+					this.plugin.getMethods().sendMessage(player, "", true);
 				}
 			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
+				this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				return true;
 			}
 
 			if (args[0].equalsIgnoreCase("help")) {
 				if (player.hasPermission("chatmanager.bannedcommands.help")) {
 					if (args.length == 1) {
-						Methods.sendMessage(player, "", true);
-						Methods.sendMessage(player, " &3Banned Commands Help Menu &f(v" + plugin.getDescription().getVersion() + ")", true);
-						Methods.sendMessage(player, "", true);
-						Methods.sendMessage(player, " &6<> &f= Required Arguments", true);
-						Methods.sendMessage(player, "", true);
-						Methods.sendMessage(player, " &f/BannedCommands Help &e- Shows the banned commands help menu.", true);
-						Methods.sendMessage(player, " &f/BannedCommands Add &6<command> &e- Add a command to the banned command list.", true);
-						Methods.sendMessage(player, " &f/BannedCommands Remove &6<command> &e- Remove a command from the banned command list.", true);
-						Methods.sendMessage(player, " &f/BannedCommands List &e- Shows a list of the servers banned commands.", true);
-						Methods.sendMessage(player, "", true);
+						this.plugin.getMethods().sendMessage(player, "", true);
+						this.plugin.getMethods().sendMessage(player, " &3Banned Commands Help Menu &f(v" + plugin.getDescription().getVersion() + ")", true);
+						this.plugin.getMethods().sendMessage(player, "", true);
+						this.plugin.getMethods().sendMessage(player, " &6<> &f= Required Arguments", true);
+						this.plugin.getMethods().sendMessage(player, "", true);
+						this.plugin.getMethods().sendMessage(player, " &f/BannedCommands Help &e- Shows the banned commands help menu.", true);
+						this.plugin.getMethods().sendMessage(player, " &f/BannedCommands Add &6<command> &e- Add a command to the banned command list.", true);
+						this.plugin.getMethods().sendMessage(player, " &f/BannedCommands Remove &6<command> &e- Remove a command from the banned command list.", true);
+						this.plugin.getMethods().sendMessage(player, " &f/BannedCommands List &e- Shows a list of the servers banned commands.", true);
+						this.plugin.getMethods().sendMessage(player, "", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 					return true;
 				}
 			}
@@ -73,15 +73,15 @@ public class CommandBannedCommands implements CommandExecutor {
 							bannedCommands.set("Banned-Commands", list);
 							Files.BANNED_COMMANDS.saveFile();
 							Files.BANNED_COMMANDS.reloadFile();
-							Methods.sendMessage(player, messages.getString("Banned_Commands.Command_Added").replace("{command}", args[1]), true);
+							this.plugin.getMethods().sendMessage(player, messages.getString("Banned_Commands.Command_Added").replace("{command}", args[1]), true);
 						} else {
-							Methods.sendMessage(player, messages.getString("Banned_Commands.Command_Exists").replace("{command}", args[1]), true);
+							this.plugin.getMethods().sendMessage(player, messages.getString("Banned_Commands.Command_Exists").replace("{command}", args[1]), true);
 						}
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/Bannedcommands add <command>", true);
+						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Bannedcommands add <command>", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				}
 			}
 			if (args[0].equalsIgnoreCase("remove")) {
@@ -93,29 +93,29 @@ public class CommandBannedCommands implements CommandExecutor {
 							bannedCommands.set("Banned-Commands", list);
 							Files.BANNED_COMMANDS.saveFile();
 							Files.BANNED_COMMANDS.reloadFile();
-							Methods.sendMessage(player, messages.getString("Banned_Commands.Command_Removed").replace("{command}", args[1]), true);
+							this.plugin.getMethods().sendMessage(player, messages.getString("Banned_Commands.Command_Removed").replace("{command}", args[1]), true);
 						} else {
-							Methods.sendMessage(player, messages.getString("Banned_Commands.Command_Not_Found").replace("{command}", args[1]), true);
+							this.plugin.getMethods().sendMessage(player, messages.getString("Banned_Commands.Command_Not_Found").replace("{command}", args[1]), true);
 						}
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/Bannedcommands remove <command>", true);
+						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Bannedcommands remove <command>", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				}
 			}
 			if (args[0].equalsIgnoreCase("list")) {
 				if (player.hasPermission("chatmanager.bannedcommands.list")) {
 					if (args.length == 1) {
 						String list = bannedCommands.getStringList("Banned-Commands").toString().replace("[", "").replace("]", "");
-						Methods.sendMessage(player, "", true);
-						Methods.sendMessage(player, "&cCommands: &7" + list, true);
+						this.plugin.getMethods().sendMessage(player, "", true);
+						this.plugin.getMethods().sendMessage(player, "&cCommands: &7" + list, true);
 						player.sendMessage(" ");
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/Bannedcommands list", true);
+						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Bannedcommands list", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				}
 			}
 		}

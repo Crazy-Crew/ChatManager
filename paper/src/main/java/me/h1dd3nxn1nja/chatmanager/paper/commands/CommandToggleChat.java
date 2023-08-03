@@ -19,7 +19,7 @@ public class CommandToggleChat implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		if (!(sender instanceof Player player)) {
-			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
+			this.plugin.getMethods().sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
 
@@ -28,24 +28,24 @@ public class CommandToggleChat implements CommandExecutor {
 		if (!cmd.getName().equalsIgnoreCase("toggleChat")) return true;
 
 		if (!player.hasPermission("chatmanager.toggle.chat")) {
-			Methods.sendMessage(player, Methods.noPermission(), true);
+			this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 			return true;
 		}
 
 		if (args.length == 0) {
 			if (plugin.api().getToggleChatData().containsUser(player.getUniqueId())) {
 				plugin.api().getToggleChatData().removeUser(player.getUniqueId());
-				Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Chat.Disabled")), true);
+				this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Chat.Disabled")), true);
 				return true;
 			}
 
 			plugin.api().getToggleChatData().addUser(player.getUniqueId());
-			Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Chat.Enabled")), true);
+			this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Chat.Enabled")), true);
 
 			return true;
 		}
 
-		Methods.sendMessage(player, "&cCommand Usage: &7/Togglechat", true);
+		this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Togglechat", true);
 
 		return true;
 	}

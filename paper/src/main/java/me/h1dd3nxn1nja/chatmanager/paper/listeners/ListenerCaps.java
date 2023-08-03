@@ -42,7 +42,7 @@ public class ListenerCaps implements Listener {
 
 			if (upperChar + lowerChar != 0) {
 				if (1.0D * upperChar / (upperChar + lowerChar) * 100.0D >= config.getInt("Anti_Caps.Required_Percentage")) {
-					Methods.sendMessage(player, messages.getString("Anti_Caps.Message_Chat"), true);
+					this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Caps.Message_Chat"), true);
 					event.setMessage(message.toLowerCase());
 				}
 			}
@@ -77,7 +77,7 @@ public class ListenerCaps implements Listener {
 
 			if (upperChar + lowerChar != 0) {
 				if (1.0D * upperChar / (upperChar + lowerChar) * 100.0D >= config.getInt("Anti_Caps.Required_Percentage")) {
-					Methods.sendMessage(player, messages.getString("Anti_Caps.Message_Commands"), true);
+					this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Caps.Message_Commands"), true);
 					event.setMessage(message.toLowerCase());
 				}
 			}

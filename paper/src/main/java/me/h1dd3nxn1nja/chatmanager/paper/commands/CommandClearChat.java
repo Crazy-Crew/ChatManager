@@ -29,24 +29,24 @@ public class CommandClearChat implements CommandExecutor {
 							if (sender instanceof Player player) {
 
 								for (String broadcastMessage : messages.getStringList("Clear_Chat.Broadcast_Message")) {
-									Methods.sendMessage(members, broadcastMessage.replace("{player}", player.getName()), true);
+									this.plugin.getMethods().sendMessage(members, broadcastMessage.replace("{player}", player.getName()), true);
 								}
 							} else if (sender instanceof ConsoleCommandSender) {
 								for (String broadcastMessage : messages.getStringList("Clear_Chat.Broadcast_Message")) {
-									Methods.sendMessage(members, broadcastMessage.replace("{player}", sender.getName()), true);
+									this.plugin.getMethods().sendMessage(members, broadcastMessage.replace("{player}", sender.getName()), true);
 								}
 
-								Methods.sendMessage(sender, messages.getString("Clear_Chat.Staff_Message").replace("{player}", sender.getName()), true);
+								this.plugin.getMethods().sendMessage(sender, messages.getString("Clear_Chat.Staff_Message").replace("{player}", sender.getName()), true);
 							}
 						} else {
-							Methods.sendMessage(sender, messages.getString("Clear_Chat.Staff_Message").replace("{player}", sender.getName()), true);
+							this.plugin.getMethods().sendMessage(sender, messages.getString("Clear_Chat.Staff_Message").replace("{player}", sender.getName()), true);
 						}
 					}
 				} else {
-					Methods.sendMessage(sender, "&cCommand Usage: &7/Clearchat", true);
+					this.plugin.getMethods().sendMessage(sender, "&cCommand Usage: &7/Clearchat", true);
 				}
 			} else {
-				Methods.sendMessage(sender, Methods.noPermission(), true);
+				this.plugin.getMethods().sendMessage(sender, this.plugin.getMethods().noPermission(), true);
 			}
 		}
 

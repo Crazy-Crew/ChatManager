@@ -19,7 +19,7 @@ public class CommandMuteChat implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		if (!(sender instanceof Player player)) {
-			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
+			this.plugin.getMethods().sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
 
@@ -28,47 +28,47 @@ public class CommandMuteChat implements CommandExecutor {
 		if (cmd.getName().equalsIgnoreCase("MuteChat")) {
 			if (player.hasPermission("chatmanager.mutechat")) {
 				if (args.length == 0) {
-					if (Methods.isMuted()) {
-						Methods.setMuted();
-						Methods.broadcast(placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Enabled").replace("{player}", player.getName())));
+					if (this.plugin.getMethods().isMuted()) {
+						this.plugin.getMethods().setMuted();
+						this.plugin.getMethods().broadcast(placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Enabled").replace("{player}", player.getName())));
 					} else {
-						Methods.setMuted();
-						Methods.broadcast(placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Disabled").replace("{player}", player.getName())));
+						this.plugin.getMethods().setMuted();
+						this.plugin.getMethods().broadcast(placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Disabled").replace("{player}", player.getName())));
 					}
 
 					return true;
 				}
 			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
+				this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				return true;
 			}
 
 			if (args[0].equalsIgnoreCase("-s")) {
 				if (player.hasPermission("chatmanager.mutechat.silent")) {
 					if (args.length == 1) {
-						if (Methods.isMuted()) {
-							Methods.setMuted();
+						if (this.plugin.getMethods().isMuted()) {
+							this.plugin.getMethods().setMuted();
 							for (Player staff : plugin.getServer().getOnlinePlayers()) {
 								if (staff.hasPermission("chatmanager.bypass.mutechat")) {
-									Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Enabled").replace("{player}", player.getName())), true);
+									this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Enabled").replace("{player}", player.getName())), true);
 									return true;
 								}
 							}
 
 						} else {
-							Methods.setMuted();
+							this.plugin.getMethods().setMuted();
 							for (Player staff : plugin.getServer().getOnlinePlayers()) {
 								if (staff.hasPermission("chatmanager.bypass.mutechat")) {
-									Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Disabled").replace("{player}", player.getName())), true);
+									this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Disabled").replace("{player}", player.getName())), true);
 									return true;
 								}
 							}
 						}
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/Mutechat [-s]", true);
+						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Mutechat [-s]", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 					return true;
 				}
 			}

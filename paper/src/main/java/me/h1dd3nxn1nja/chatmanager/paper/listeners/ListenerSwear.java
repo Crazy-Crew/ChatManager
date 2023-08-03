@@ -51,7 +51,7 @@ public class ListenerSwear implements Listener {
 				}
 
 				if (curseMessageContains(player, message, time, sensitiveMessage, blockedWord)) {
-					player.sendMessage(Methods.color(player.getUniqueId(), messages.getString("Anti_Swear.Chat.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+					player.sendMessage(this.plugin.getMethods().color(player.getUniqueId(), messages.getString("Anti_Swear.Chat.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 
 					if (config.getBoolean("Anti_Swear.Chat.Block_Message")) event.setCancelled(true);
 
@@ -69,7 +69,7 @@ public class ListenerSwear implements Listener {
 				}
 				
 				if (curseMessageContains(player, message, time, curseMessage, blockedWord)) {
-					player.sendMessage(Methods.color(player.getUniqueId(), messages.getString("Anti_Swear.Chat.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+					player.sendMessage(this.plugin.getMethods().color(player.getUniqueId(), messages.getString("Anti_Swear.Chat.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 
 					if (config.getBoolean("Anti_Swear.Chat.Block_Message")) event.setCancelled(true);
 
@@ -148,17 +148,17 @@ public class ListenerSwear implements Listener {
 						}
 
 						if (sensitiveMessage.contains(blockedWords)) {
-							player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Commands.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+							player.sendMessage(this.plugin.getMethods().color(uuid, messages.getString("Anti_Swear.Commands.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 							if (config.getBoolean("Anti_Swear.Commands.Block_Command")) event.setCancelled(true);
 
 							if (config.getBoolean("Anti_Swear.Commands.Notify_Staff")) {
 								for (Player staff : plugin.getServer().getOnlinePlayers()) {
 									if (staff.hasPermission("chatmanager.notify.antiswear")) {
-										Methods.sendMessage(staff, messages.getString("Anti_Swear.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+										this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Swear.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 									}
 								}
 
-								Methods.tellConsole(messages.getString("Anti_Swear.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+								this.plugin.getMethods().tellConsole(messages.getString("Anti_Swear.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 
 								commandSwearCheck(config, player, message, time);
 							}
@@ -172,7 +172,7 @@ public class ListenerSwear implements Listener {
 					if (!config.getBoolean("Anti_Swear.Commands.Increase_Sensitivity")) {
 						for (String blockedWords : blockedWordsList) {
 							if (curseMessage.contains(blockedWords)) {
-								player.sendMessage(Methods.color(player.getUniqueId(), messages.getString("Anti_Swear.Commands.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(this.plugin.getMethods().color(player.getUniqueId(), messages.getString("Anti_Swear.Commands.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 
 								if (config.getBoolean("Anti_Swear.Commands.Block_Command")) event.setCancelled(true);
 
@@ -197,11 +197,11 @@ public class ListenerSwear implements Listener {
 	private void checkOnlineStaff(FileConfiguration messages, Player player, String message) {
 		for (Player staff : plugin.getServer().getOnlinePlayers()) {
 			if (staff.hasPermission("chatmanager.notify.antiswear")) {
-				Methods.sendMessage(staff, messages.getString("Anti_Swear.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+				this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Swear.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 			}
 		}
 
-		Methods.tellConsole(messages.getString("Anti_Swear.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+		this.plugin.getMethods().tellConsole(messages.getString("Anti_Swear.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 	}
 
 	private void commandSwearCheck(FileConfiguration config, Player player, String message, Date time) {
@@ -255,19 +255,19 @@ public class ListenerSwear implements Listener {
 							}
 
 							if (curseMessage.contains(blockedWords)) {
-								player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Signs.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(this.plugin.getMethods().color(uuid, messages.getString("Anti_Swear.Signs.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 								if (config.getBoolean("Anti_Swear.Signs.Block_Sign")) event.setCancelled(true);
 
 								if (config.getBoolean("Anti_Swear.Signs.Notify_Staff")) {
 									if (config.getBoolean("Anti_Swear.Signs.Notify_Staff")) {
 										for (Player staff : plugin.getServer().getOnlinePlayers()) {
 											if (staff.hasPermission("chatmanager.notify.antiswear")) {
-												Methods.sendMessage(staff, messages.getString("Anti_Swear.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+												this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Swear.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 											}
 										}
 									}
 
-									Methods.tellConsole(messages.getString("Anti_Swear.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+									this.plugin.getMethods().tellConsole(messages.getString("Anti_Swear.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 
 									checkSwear(config, player, time, line, message);
 								}
@@ -282,7 +282,7 @@ public class ListenerSwear implements Listener {
 							for (String curseMessages : message.toLowerCase().split(" ")) {
 								if (!player.hasPermission("chatmanager.bypass.antiswear")) {
 									if (bannedWords.getStringList("Banned-Words").contains(curseMessages)) {
-										player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Signs.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+										player.sendMessage(this.plugin.getMethods().color(uuid, messages.getString("Anti_Swear.Signs.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 
 										if (config.getBoolean("Anti_Swear.Signs.Block_Sign")) event.setCancelled(true);
 
@@ -290,12 +290,12 @@ public class ListenerSwear implements Listener {
 											if (config.getBoolean("Anti_Swear.Signs.Notify_Staff")) {
 												for (Player staff : plugin.getServer().getOnlinePlayers()) {
 													if (staff.hasPermission("chatmanager.notify.antiswear")) {
-														Methods.sendMessage(staff, messages.getString("Anti_Swear.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+														this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Swear.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 													}
 												}
 											}
 
-											Methods.tellConsole(messages.getString("Anti_Swear.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+											this.plugin.getMethods().tellConsole(messages.getString("Anti_Swear.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 
 											checkSwear(config, player, time, line, message);
 											break;

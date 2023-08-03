@@ -60,7 +60,7 @@ public class ListenerAntiBot implements Listener {
 
 		event.setCancelled(true);
 
-		Methods.sendMessage(player, messages.getString("Anti_Bot.Deny_Chat_Message"), true);
+		this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Bot.Deny_Chat_Message"), true);
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -75,6 +75,6 @@ public class ListenerAntiBot implements Listener {
 		if (!plugin.api().getAntiBotData().containsUser(player.getUniqueId())) return;
 
 		event.setCancelled(true);
-		Methods.sendMessage(player, messages.getString("Anti_Bot.Deny_Command_Message"), true);
+		this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Bot.Deny_Command_Message"), true);
 	}
 }

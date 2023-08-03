@@ -70,16 +70,16 @@ public class ListenerAntiAdvertising implements Listener {
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		event.setCancelled(true);
-		Methods.sendMessage(player, messages.getString("Anti_Advertising.Chat.Message"), true);
+		this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Advertising.Chat.Message"), true);
 
 		if (config.getBoolean("Anti_Advertising.Chat.Notify_Staff")) {
 			for (Player staff : plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission("chatmanager.notify.antiadvertising")) {
-					Methods.sendMessage(staff, messages.getString("Anti_Advertising.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+					this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Advertising.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 				}
 			}
 
-			Methods.tellConsole(messages.getString("Anti_Advertising.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+			this.plugin.getMethods().tellConsole(messages.getString("Anti_Advertising.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 		}
 
 		if (config.getBoolean("Anti_Advertising.Chat.Execute_Command")) {
@@ -163,16 +163,16 @@ public class ListenerAntiAdvertising implements Listener {
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		event.setCancelled(true);
-		Methods.sendMessage(player, messages.getString("Anti_Advertising.Commands.Message"), true);
+		this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Advertising.Commands.Message"), true);
 
 		if (config.getBoolean("Anti_Advertising.Commands.Notify_Staff")) {
 			for (Player staff : plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission("chatmanager.notify.antiadvertising")) {
-					Methods.sendMessage(staff, messages.getString("Anti_Advertising.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+					this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Advertising.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 				}
 			}
 
-			Methods.tellConsole(messages.getString("Anti_Advertising.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+			this.plugin.getMethods().tellConsole(messages.getString("Anti_Advertising.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 		}
 
 		if (config.getBoolean("Anti_Advertising.Commands.Execute_Command")) {
@@ -256,16 +256,16 @@ public class ListenerAntiAdvertising implements Listener {
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		event.setCancelled(true);
-		Methods.sendMessage(player, messages.getString("Anti_Advertising.Signs.Message"), true);
+		this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Advertising.Signs.Message"), true);
 
 		if (config.getBoolean("Anti_Advertising.Signs.Notify_Staff")) {
 			for (Player staff : plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission("chatmanager.notify.antiadvertising")) {
-					Methods.sendMessage(staff, messages.getString("Anti_Advertising.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+					this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Advertising.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 				}
 			}
 
-			Methods.tellConsole(messages.getString("Anti_Advertising.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+			this.plugin.getMethods().tellConsole(messages.getString("Anti_Advertising.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 		}
 
 		if (config.getBoolean("Anti_Advertising.Signs.Execute_Command")) {

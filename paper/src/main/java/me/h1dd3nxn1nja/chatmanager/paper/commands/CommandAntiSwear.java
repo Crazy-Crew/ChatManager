@@ -19,7 +19,7 @@ public class CommandAntiSwear implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		if (!(sender instanceof Player player)) {
-			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
+			this.plugin.getMethods().sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
 
@@ -29,18 +29,18 @@ public class CommandAntiSwear implements CommandExecutor {
 			if (player.hasPermission("chatmanager.antiswear")) {
 				if (args.length == 0) {
 					player.sendMessage("");
-					player.sendMessage(Methods.color(" &3Anti Swear Help Menu &f(v" + plugin.getDescription().getVersion() + ")"));
+					player.sendMessage(this.plugin.getMethods().color(" &3Anti Swear Help Menu &f(v" + plugin.getDescription().getVersion() + ")"));
 					player.sendMessage("");
-					player.sendMessage(Methods.color(" &6<> &f= Required Arguments"));
+					player.sendMessage(this.plugin.getMethods().color(" &6<> &f= Required Arguments"));
 					player.sendMessage("");
-					player.sendMessage(Methods.color(" &f/AntiSwear Help &e- Shows a list of commands for Anti Swear."));
-					player.sendMessage(Methods.color(" &f/AntiSwear add &6<blacklist|whitelist> <word> &e- Add a blacklisted or whitelisted swear word."));
-					player.sendMessage(Methods.color(" &f/AntiSwear remove &6<blacklist|whitelist> <word> &e- Remove a blacklisted or whitelisted swear word."));
-					player.sendMessage(Methods.color(" &f/AntiSwear List &e- Shows your list of blacklisted swear words."));
+					player.sendMessage(this.plugin.getMethods().color(" &f/AntiSwear Help &e- Shows a list of commands for Anti Swear."));
+					player.sendMessage(this.plugin.getMethods().color(" &f/AntiSwear add &6<blacklist|whitelist> <word> &e- Add a blacklisted or whitelisted swear word."));
+					player.sendMessage(this.plugin.getMethods().color(" &f/AntiSwear remove &6<blacklist|whitelist> <word> &e- Remove a blacklisted or whitelisted swear word."));
+					player.sendMessage(this.plugin.getMethods().color(" &f/AntiSwear List &e- Shows your list of blacklisted swear words."));
 					player.sendMessage("");
 				}
 			} else {
-				player.sendMessage(Methods.noPermission());
+				player.sendMessage(this.plugin.getMethods().noPermission());
 				return true;
 			}
 
@@ -50,30 +50,30 @@ public class CommandAntiSwear implements CommandExecutor {
 				if (player.hasPermission("chatmanager.antiswear.help")) {
 					if (args.length == 1) {
 						player.sendMessage("");
-						player.sendMessage(Methods.color(" &3Anti Swear Help Menu &f(v" + plugin.getDescription().getVersion() + ")"));
+						player.sendMessage(this.plugin.getMethods().color(" &3Anti Swear Help Menu &f(v" + plugin.getDescription().getVersion() + ")"));
 						player.sendMessage("");
-						player.sendMessage(Methods.color(" &6<> &f= Required Arguments"));
+						player.sendMessage(this.plugin.getMethods().color(" &6<> &f= Required Arguments"));
 						player.sendMessage("");
-						player.sendMessage(Methods.color(" &f/AntiSwear Help &e- Shows a list of commands for Anti Swear."));
-						player.sendMessage(Methods.color(" &f/AntiSwear add &6<blacklist|whitelist> <word> &e- Add a blacklisted or whitelisted swear word."));
-						player.sendMessage(Methods.color(" &f/AntiSwear remove &6<blacklist|whitelist> <word> &e- Remove a blacklisted or whitelisted swear word."));
-						player.sendMessage(Methods.color(" &f/AntiSwear List &e- Shows your list of blacklisted swear words."));
+						player.sendMessage(this.plugin.getMethods().color(" &f/AntiSwear Help &e- Shows a list of commands for Anti Swear."));
+						player.sendMessage(this.plugin.getMethods().color(" &f/AntiSwear add &6<blacklist|whitelist> <word> &e- Add a blacklisted or whitelisted swear word."));
+						player.sendMessage(this.plugin.getMethods().color(" &f/AntiSwear remove &6<blacklist|whitelist> <word> &e- Remove a blacklisted or whitelisted swear word."));
+						player.sendMessage(this.plugin.getMethods().color(" &f/AntiSwear List &e- Shows your list of blacklisted swear words."));
 						player.sendMessage("");
 					}
 				} else {
-					player.sendMessage(Methods.noPermission());
+					player.sendMessage(this.plugin.getMethods().noPermission());
 					return true;
 				}
 			}
 
 			if (args[0].equalsIgnoreCase("add")) {
 				if (!player.hasPermission("chatmanager.antiswear.add")) {
-					player.sendMessage(Methods.noPermission());
+					player.sendMessage(this.plugin.getMethods().noPermission());
 					return true;
 				}
 
 				if (args.length == 1) {
-					player.sendMessage(Methods.color("&cCommand Usage: &7/Antiswear add <blacklist|whitelist> <word>"));
+					player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/Antiswear add <blacklist|whitelist> <word>"));
 					return true;
 				}
 
@@ -88,15 +88,15 @@ public class CommandAntiSwear implements CommandExecutor {
 								bannedWords.set("Banned-Words", swearWords);
 								Files.BANNED_WORDS.saveFile();
 								Files.BANNED_WORDS.reloadFile();
-								player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Blacklisted_Word.Added").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(this.plugin.getMethods().color(uuid, messages.getString("Anti_Swear.Blacklisted_Word.Added").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							} else {
-								player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Blacklisted_Word.Exists").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(this.plugin.getMethods().color(uuid, messages.getString("Anti_Swear.Blacklisted_Word.Exists").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							}
 						} else {
-							player.sendMessage(Methods.color("&cCommand Usage: &7/Antiswear add blacklist <word>"));
+							player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/Antiswear add blacklist <word>"));
 						}
 					} else {
-						player.sendMessage(Methods.noPermission());
+						player.sendMessage(this.plugin.getMethods().noPermission());
 					}
 				}
 
@@ -109,27 +109,27 @@ public class CommandAntiSwear implements CommandExecutor {
 								bannedWords.set("Whitelisted_Words", swearWords);
 								Files.BANNED_WORDS.saveFile();
 								Files.BANNED_WORDS.reloadFile();
-								player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Whitelisted_Word.Added").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(this.plugin.getMethods().color(uuid, messages.getString("Anti_Swear.Whitelisted_Word.Added").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							} else {
-								player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Whitelisted_Word.Exists").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(this.plugin.getMethods().color(uuid, messages.getString("Anti_Swear.Whitelisted_Word.Exists").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							}
 						} else {
-							player.sendMessage(Methods.color("&cCommand Usage: &7/Antiswear add whitelist <word>"));
+							player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/Antiswear add whitelist <word>"));
 						}
 					} else {
-						player.sendMessage(Methods.noPermission());
+						player.sendMessage(this.plugin.getMethods().noPermission());
 					}
 				}
 			}
 
 			if (args[0].equalsIgnoreCase("remove")) {
 				if (!player.hasPermission("chatmanager.antiswear.remove")) {
-					player.sendMessage(Methods.noPermission());
+					player.sendMessage(this.plugin.getMethods().noPermission());
 					return true;
 				}
 
 				if (args.length == 1) {
-					player.sendMessage(Methods.color("&cCommand Usage: &7/Antiswear remove <blacklist|whitelist> <word>"));
+					player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/Antiswear remove <blacklist|whitelist> <word>"));
 					return true;
 				}
 
@@ -144,15 +144,15 @@ public class CommandAntiSwear implements CommandExecutor {
 								bannedWords.set("Banned-Words", list);
 								Files.BANNED_WORDS.saveFile();
 								Files.BANNED_WORDS.reloadFile();
-								player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Blacklisted_Word.Removed").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(this.plugin.getMethods().color(uuid, messages.getString("Anti_Swear.Blacklisted_Word.Removed").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							} else {
-								player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Blacklisted_Word.Not_Found").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(this.plugin.getMethods().color(uuid, messages.getString("Anti_Swear.Blacklisted_Word.Not_Found").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							}
 						} else {
-							player.sendMessage(Methods.color("&cCommand Usage: &7/Antiswear remove blacklist <word>"));
+							player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/Antiswear remove blacklist <word>"));
 						}
 					} else {
-						player.sendMessage(Methods.noPermission());
+						player.sendMessage(this.plugin.getMethods().noPermission());
 					}
 				}
 
@@ -165,15 +165,15 @@ public class CommandAntiSwear implements CommandExecutor {
 								bannedWords.set("Whitelisted_Words", list);
 								Files.BANNED_WORDS.saveFile();
 								Files.BANNED_WORDS.reloadFile();
-								player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Whitelisted_Word.Removed").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(this.plugin.getMethods().color(uuid, messages.getString("Anti_Swear.Whitelisted_Word.Removed").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							} else {
-								player.sendMessage(Methods.color(uuid, messages.getString("Anti_Swear.Whitelisted_Word.Not_Found").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
+								player.sendMessage(this.plugin.getMethods().color(uuid, messages.getString("Anti_Swear.Whitelisted_Word.Not_Found").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							}
 						} else {
-							player.sendMessage(Methods.color("&cCommand Usage: &7/Antiswear remove whitelist <word>"));
+							player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/Antiswear remove whitelist <word>"));
 						}
 					} else {
-						player.sendMessage(Methods.noPermission());
+						player.sendMessage(this.plugin.getMethods().noPermission());
 					}
 				}
 			}
@@ -186,15 +186,15 @@ public class CommandAntiSwear implements CommandExecutor {
 						String list = bannedWords.getStringList("Banned-Words").toString().replace("[", "").replace("]", "");
 						String list2 = bannedWords.getStringList("Whitelisted_Words").toString().replace("[", "").replace("]", "");
 						player.sendMessage("");
-						player.sendMessage(Methods.color("&cSwear Words: &7" + list));
+						player.sendMessage(this.plugin.getMethods().color("&cSwear Words: &7" + list));
 						player.sendMessage(" ");
-						player.sendMessage(Methods.color("&cWhitelisted Words: &7" + list2));
+						player.sendMessage(this.plugin.getMethods().color("&cWhitelisted Words: &7" + list2));
 						return true;
 					} else {
-						player.sendMessage(Methods.color("&cCommand Usage: &7/Antiswear list"));
+						player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/Antiswear list"));
 					}
 				} else {
-					player.sendMessage(Methods.noPermission());
+					player.sendMessage(this.plugin.getMethods().noPermission());
 				}
 			}
 		}

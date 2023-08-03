@@ -26,25 +26,25 @@ public class PlaceholderManager {
 		
 		UUID uuid = player.getUniqueId();
 
-		placeholders = Methods.color(uuid, placeholders.replace("{player}", player.getName()));
-		placeholders = Methods.color(uuid, placeholders.replace("{Prefix}", messages.getString("Message.Prefix")));
-		placeholders = Methods.color(uuid, placeholders.replace("{prefix}", messages.getString("Message.Prefix")));
-		placeholders = Methods.color(uuid, placeholders.replace("{display_name}", player.getDisplayName()));
-		placeholders = Methods.color(uuid, placeholders.replace("{displayname}", player.getDisplayName()));
-		placeholders = Methods.color(uuid, placeholders.replace("{world}", player.getLocation().getWorld().getName()));
-		placeholders = Methods.color(uuid, placeholders.replace("{online}", df.format(plugin.getServer().getOnlinePlayers().size())));
-		placeholders = Methods.color(uuid, placeholders.replace("{server_online}", df.format(plugin.getServer().getOnlinePlayers().size())));
-		placeholders = Methods.color(uuid, placeholders.replace("{server_max_players}", df.format(plugin.getServer().getMaxPlayers())));
-		placeholders = Methods.color(uuid, placeholders.replace("{server_name}", config.getString("Server_Name")));
+		placeholders = this.plugin.getMethods().color(uuid, placeholders.replace("{player}", player.getName()));
+		placeholders = this.plugin.getMethods().color(uuid, placeholders.replace("{Prefix}", messages.getString("Message.Prefix")));
+		placeholders = this.plugin.getMethods().color(uuid, placeholders.replace("{prefix}", messages.getString("Message.Prefix")));
+		placeholders = this.plugin.getMethods().color(uuid, placeholders.replace("{display_name}", player.getDisplayName()));
+		placeholders = this.plugin.getMethods().color(uuid, placeholders.replace("{displayname}", player.getDisplayName()));
+		placeholders = this.plugin.getMethods().color(uuid, placeholders.replace("{world}", player.getLocation().getWorld().getName()));
+		placeholders = this.plugin.getMethods().color(uuid, placeholders.replace("{online}", df.format(plugin.getServer().getOnlinePlayers().size())));
+		placeholders = this.plugin.getMethods().color(uuid, placeholders.replace("{server_online}", df.format(plugin.getServer().getOnlinePlayers().size())));
+		placeholders = this.plugin.getMethods().color(uuid, placeholders.replace("{server_max_players}", df.format(plugin.getServer().getMaxPlayers())));
+		placeholders = this.plugin.getMethods().color(uuid, placeholders.replace("{server_name}", config.getString("Server_Name")));
 
 		if (PluginSupport.VAULT.isPluginEnabled()) {
-			placeholders = Methods.color(uuid, placeholders.replace("{vault_prefix}", vaultSupport.getPlayerPrefix(player)));
-			placeholders = Methods.color(uuid, placeholders.replace("{vault_suffix}", vaultSupport.getPlayerSuffix(player)));
+			placeholders = this.plugin.getMethods().color(uuid, placeholders.replace("{vault_prefix}", vaultSupport.getPlayerPrefix(player)));
+			placeholders = this.plugin.getMethods().color(uuid, placeholders.replace("{vault_suffix}", vaultSupport.getPlayerSuffix(player)));
 		}
 
 		if (PluginSupport.ESSENTIALS.isPluginEnabled()) {
-			placeholders = Methods.color(uuid, placeholders.replace("{ess_player_balance}", essentialsSupport.getPlayerBalance(player)));
-			placeholders = Methods.color(uuid, placeholders.replace("{ess_player_nickname}", essentialsSupport.getPlayerNickname(player)));
+			placeholders = this.plugin.getMethods().color(uuid, placeholders.replace("{ess_player_balance}", essentialsSupport.getPlayerBalance(player)));
+			placeholders = this.plugin.getMethods().color(uuid, placeholders.replace("{ess_player_nickname}", essentialsSupport.getPlayerNickname(player)));
 		}
 
 		if (PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) placeholders = PlaceholderAPI.setPlaceholders(player, placeholders);

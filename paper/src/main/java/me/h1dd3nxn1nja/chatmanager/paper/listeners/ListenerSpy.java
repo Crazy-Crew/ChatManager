@@ -35,7 +35,7 @@ public class ListenerSpy implements Listener {
 
 				if (!isValid || !staff.hasPermission("chatmanager.commandspy")) return;
 
-				Methods.sendMessage(staff, messages.getString("Command_Spy.Format").replace("{player}", player.getName()).replace("{command}", message), true);
+				this.plugin.getMethods().sendMessage(staff, messages.getString("Command_Spy.Format").replace("{player}", player.getName()).replace("{command}", message), true);
 			}
 		}
 	}

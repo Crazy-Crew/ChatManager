@@ -8,6 +8,7 @@ import com.ryderbelserion.chatmanager.paper.files.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.support.vanish.EssentialsVanishSupport;
 import me.h1dd3nxn1nja.chatmanager.paper.support.vanish.GenericVanishSupport;
 import org.bukkit.GameMode;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -46,41 +47,40 @@ public class CommandMessage implements CommandExecutor {
 				}
 
 				if (args.length < 1) {
-					Methods.sendMessage(player, "&cCommand Usage: &7/Message <player> <message>", true);
+					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Message <player> <message>", true);
 					return true;
 				}
 
 				Player target = plugin.getServer().getPlayer(args[0]);
 
 				if (target == null || !target.isOnline()) {
-					if (playerNotFound != null) Methods.sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
+					if (playerNotFound != null) this.plugin.getMethods().sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
 					return true;
 				}
 
 				if ((target == player) && (!player.hasPermission("chatmanager.message.self"))) {
-					Methods.sendMessage(player, messages.getString("Private_Message.Self"), true);
+					this.plugin.getMethods().sendMessage(player, messages.getString("Private_Message.Self"), true);
 					return true;
 				}
 
 				if ((target.getGameMode().equals(GameMode.SPECTATOR) && (!player.hasPermission("chatmanager.bypass.spectator")))) {
-					if (playerNotFound != null) Methods.sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
+					if (playerNotFound != null) this.plugin.getMethods().sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
 					return true;
 				}
 
 				if (plugin.api().getToggleMessageData().containsUser(target.getUniqueId()) && !player.hasPermission("chatmanager.bypass.togglepm")) {
-					Methods.sendMessage(player, messages.getString("Private_Message.Toggled"), true);
+					this.plugin.getMethods().sendMessage(player, messages.getString("Private_Message.Toggled"), true);
 					return true;
 				}
 
 				if ((!player.canSee(target)) && (!player.hasPermission("chatmanager.bypass.vanish"))) {
-					if (playerNotFound != null) Methods.sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
+					if (playerNotFound != null) this.plugin.getMethods().sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
 					return true;
 				}
 
-				if (duplicate(args, playerNotFound, player, message, target, player.getUniqueId(), target.getUniqueId()))
-					return true;
+				if (duplicate(args, playerNotFound, player, message, target, player.getUniqueId(), target.getUniqueId())) return true;
 			} else {
-				player.sendMessage(Methods.noPermission());
+				player.sendMessage(this.plugin.getMethods().noPermission());
 			}
 		}
 
@@ -98,27 +98,26 @@ public class CommandMessage implements CommandExecutor {
 					Player target = plugin.getServer().getPlayer(other);
 
 					if (target == null || !target.isOnline()) {
-						Methods.sendMessage(player, messages.getString("Private_Message.Recipient_Not_Found"), true);
+						this.plugin.getMethods().sendMessage(player, messages.getString("Private_Message.Recipient_Not_Found"), true);
 						return true;
 					}
 
 					if (plugin.api().getToggleMessageData().containsUser(target.getUniqueId())) {
-						Methods.sendMessage(player, messages.getString("Private_Message.Toggled"), true);
+						this.plugin.getMethods().sendMessage(player, messages.getString("Private_Message.Toggled"), true);
 						return true;
 					}
 
 					if (!player.canSee(target)) {
-						if (playerNotFound != null) Methods.sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
+						if (playerNotFound != null) this.plugin.getMethods().sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
 						return true;
 					}
 
-					if (duplicate(args, playerNotFound, player, message, target, target.getUniqueId(), player.getUniqueId()))
-						return true;
+					if (duplicate(args, playerNotFound, player, message, target, target.getUniqueId(), player.getUniqueId())) return true;
 				} else {
-					player.sendMessage(Methods.color("&cCommand Usage: &7/Reply <message>"));
+					player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/Reply <message>"));
 				}
 			} else {
-				player.sendMessage(Methods.noPermission());
+				player.sendMessage(this.plugin.getMethods().noPermission());
 			}
 		}
 
@@ -130,19 +129,19 @@ public class CommandMessage implements CommandExecutor {
 
 					if (isValid) {
 						plugin.api().getToggleMessageData().removeUser(player.getUniqueId());
-						Methods.sendMessage(player, messages.getString("TogglePM.Disabled"), true);
+						this.plugin.getMethods().sendMessage(player, messages.getString("TogglePM.Disabled"), true);
 						return true;
 					}
 
 					plugin.api().getToggleMessageData().addUser(player.getUniqueId());
-					Methods.sendMessage(player, messages.getString("TogglePM.Enabled"), true);
+					this.plugin.getMethods().sendMessage(player, messages.getString("TogglePM.Enabled"), true);
 
 					return true;
 				} else {
-					Methods.sendMessage(player, "&cCommand Usage: &7/Togglepm", true);
+					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Togglepm", true);
 				}
 			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
+				this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 			}
 		}
 
@@ -156,17 +155,21 @@ public class CommandMessage implements CommandExecutor {
 		if (essentialsCheck(args, playerNotFound, player, target)) return true;
 
 		if (PluginSupport.PREMIUM_VANISH.isPluginEnabled() || PluginSupport.SUPER_VANISH.isPluginEnabled() && genericVanishSupport.isVanished(target) && !player.hasPermission("chatmanager.bypass.vanish")) {
-			if (playerNotFound != null) Methods.sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
+			if (playerNotFound != null) this.plugin.getMethods().sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
 			return true;
 		}
 
-		Methods.sendMessage(player, placeholderManager.setPlaceholders(target, config.getString("Private_Messages.Sender.Format")
+		this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(target, config.getString("Private_Messages.Sender.Format")
 				.replace("{receiver}", target.getName())
 				.replace("{receiver_displayname}", target.getDisplayName()) + message), true);
 
-		Methods.sendMessage(target, placeholderManager.setPlaceholders(player, config.getString("Private_Messages.Receiver.Format")
+		this.plugin.getMethods().sendMessage(target, placeholderManager.setPlaceholders(player, config.getString("Private_Messages.Receiver.Format")
 				.replace("{receiver}", target.getName())
 				.replace("{receiver_displayname}", player.getDisplayName()) + message), true);
+
+		if (config.getBoolean("Private_Messages.sound.toggle", false)) {
+			target.playSound(target.getLocation(), Sound.valueOf(config.getString("Private_Messages.sound.value", Sound.ENTITY_PLAYER_LEVELUP.toString())), 1, 1);
+		}
 
 		plugin.api().getUserRepliedData().addUser(uniqueId, uniqueId2);
 		plugin.api().getUserRepliedData().addUser(uniqueId2, uniqueId);
@@ -176,7 +179,7 @@ public class CommandMessage implements CommandExecutor {
 				if ((!player.hasPermission("chatmanager.bypass.socialspy")) && (!target.hasPermission("chatmanager.bypass.socialspy"))) {
 					boolean contains = plugin.api().getSocialSpyData().containsUser(staff.getUniqueId());
 
-					if (contains) Methods.sendMessage(staff, messages.getString("Social_Spy.Format").replace("{player}", player.getName()).replace("{receiver}", target.getName()).replace("{message}", message), true);
+					if (contains) this.plugin.getMethods().sendMessage(staff, messages.getString("Social_Spy.Format").replace("{player}", player.getName()).replace("{receiver}", target.getName()).replace("{message}", message), true);
 				}
 			}
 		}
@@ -190,17 +193,17 @@ public class CommandMessage implements CommandExecutor {
 		FileConfiguration messages = Files.MESSAGES.getFile();
 		if (PluginSupport.ESSENTIALS.isPluginEnabled()) {
 			if (essentialsSupport.getUser(target).isAfk() && (!player.hasPermission("chatmanager.bypass.afk"))) {
-				Methods.sendMessage(player, messages.getString("Private_Message.AFK").replace("{target}", target.getName()), true);
+				this.plugin.getMethods().sendMessage(player, messages.getString("Private_Message.AFK").replace("{target}", target.getName()), true);
 				return true;
 			}
 
 			if (essentialsSupport.isIgnored(target, player) && (!player.hasPermission("chatmanager.bypass.ignored"))) {
-				Methods.sendMessage(player, messages.getString("Private_Message.Ignored").replace("{target}", target.getName()), true);
+				this.plugin.getMethods().sendMessage(player, messages.getString("Private_Message.Ignored").replace("{target}", target.getName()), true);
 				return true;
 			}
 
 			if (essentialsVanishSupport.isVanished(target) && (!player.hasPermission("chatmanager.bypass.vanish"))) {
-				if (playerNotFound != null) Methods.sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
+				if (playerNotFound != null) this.plugin.getMethods().sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
 				return true;
 			}
 

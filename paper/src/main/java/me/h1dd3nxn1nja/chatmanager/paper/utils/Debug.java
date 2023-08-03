@@ -573,8 +573,15 @@ public class Debug {
 		if (!config.contains("Mentions.Enable"))
 			plugin.getLogger().warning("Missing the section Mentions.Enable in the config.yml file.");
 
-		if (!config.contains("Mentions.Sound"))
-			plugin.getLogger().warning("Missing the section Mentions.Sound in the config.yml file.");
+		if (!config.contains("Mentions.sound.toggle")) {
+			plugin.getLogger().warning("Missing the section Mentions.sound.toggle in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to false");
+		}
+
+		if (!config.contains("Mentions.sound.value")) {
+			plugin.getLogger().warning("Missing the section Mentions.sound.value in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined sound.");
+		}
 
 		if (!config.contains("Mentions.Tag_Symbol"))
 			plugin.getLogger().warning("Missing the section Mentions.Tag_Symbol in the config.yml file.");
@@ -639,8 +646,15 @@ public class Debug {
 		if (!config.contains("Private_Messages.Receiver.Format"))
 			plugin.getLogger().warning("Missing the section Private_Messages.Receiver.Format in the config.yml file.");
 
-		if (!config.contains("Private_Messages.Sound"))
-			plugin.getLogger().warning("Missing the section Private_Messages.Sound in the config.yml file.");
+		if (!config.contains("Private_Messages.sound.toggle")) {
+			plugin.getLogger().warning("Missing the section Private_Messages.sound.toggle in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to false");
+		}
+
+		if (!config.contains("Private_Messages.sound.value")) {
+			plugin.getLogger().warning("Missing the section Private_Messages.sound.value in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined sound.");
+		}
 
 		//Server Name
 

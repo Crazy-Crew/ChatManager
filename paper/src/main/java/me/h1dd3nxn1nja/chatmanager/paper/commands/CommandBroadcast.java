@@ -42,16 +42,16 @@ public class CommandBroadcast implements CommandExecutor {
 					}
 
 					for (Player online : plugin.getServer().getOnlinePlayers()) {
-						online.sendMessage(Methods.color(prefix + color + message));
+						online.sendMessage(this.plugin.getMethods().color(prefix + color + message));
 						try {
 							online.playSound(online.getLocation(), Sound.valueOf(broadcastSound), 10, 1);
 						} catch (IllegalArgumentException ignored) {}
 					}
 				} else {
-					Methods.sendMessage(sender, "&cCommand Usage: &7/Broadcast <message>", true);
+					this.plugin.getMethods().sendMessage(sender, "&cCommand Usage: &7/Broadcast <message>", true);
 				}
 			} else {
-				Methods.sendMessage(sender, Methods.noPermission(), true);
+				this.plugin.getMethods().sendMessage(sender, this.plugin.getMethods().noPermission(), true);
 			}
 		}
 		
@@ -60,10 +60,10 @@ public class CommandBroadcast implements CommandExecutor {
 				if (args.length != 0) {
 					sendBroadcast(sender, args, announcementSound, announcement);
 				} else {
-					Methods.sendMessage(sender, "&cCommand Usage: &7/Announcement <message>", true);
+					this.plugin.getMethods().sendMessage(sender, "&cCommand Usage: &7/Announcement <message>", true);
 				}
 			} else {
-				Methods.sendMessage(sender, Methods.noPermission(), true);
+				this.plugin.getMethods().sendMessage(sender, this.plugin.getMethods().noPermission(), true);
 			}	
 		}
 		
@@ -72,10 +72,10 @@ public class CommandBroadcast implements CommandExecutor {
 				if (args.length != 0) {
 					sendBroadcast(sender, args, warningSound, warning);
 				} else {
-					Methods.sendMessage(sender, "&cCommand Usage: &7/Warning <message>", true);
+					this.plugin.getMethods().sendMessage(sender, "&cCommand Usage: &7/Warning <message>", true);
 				}
 			} else {
-				Methods.sendMessage(sender, Methods.noPermission(), true);
+				this.plugin.getMethods().sendMessage(sender, this.plugin.getMethods().noPermission(), true);
 			}
 		}
 
@@ -100,7 +100,7 @@ public class CommandBroadcast implements CommandExecutor {
 				} catch (IllegalArgumentException ignored) {}
 			}
 
-			if (sender instanceof ConsoleCommandSender) Methods.broadcast(announce.replace("{player}", sender.getName()).replace("{message}", message).replace("\\n", "\n"));
+			if (sender instanceof ConsoleCommandSender) this.plugin.getMethods().broadcast(announce.replace("{player}", sender.getName()).replace("{message}", message).replace("\\n", "\n"));
 		}
 	}
 }

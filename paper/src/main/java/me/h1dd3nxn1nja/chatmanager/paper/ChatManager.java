@@ -12,6 +12,7 @@ import me.h1dd3nxn1nja.chatmanager.paper.support.PluginManager;
 import me.h1dd3nxn1nja.chatmanager.paper.support.PluginSupport;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.BossBarUtil;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.MetricsHandler;
+import org.bukkit.Sound;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
@@ -30,6 +31,7 @@ public class ChatManager extends JavaPlugin {
     private CrazyManager crazyManager;
 
     private PluginManager pluginManager;
+    private Methods methods;
 
     public void onEnable() {
         plugin = this;
@@ -50,14 +52,40 @@ public class ChatManager extends JavaPlugin {
                 .registerDefaultGenerateFiles("Signs.txt", "/Logs", "/Logs")
                 .registerDefaultGenerateFiles("Swears.txt", "/Logs", "/Logs")
                 .setup();
+
+        this.methods = new Methods();
         
         api = new ApiLoader();
 
         api.load();
 
         FileConfiguration config = Files.CONFIG.getFile();
-        
-        boolean metricsEnabled = config.getBoolean("Metrics_Enabled");
+
+        if (config.contains("Private_Messages.Sound")) {
+            String oldSound = config.getString("Private_Messages.Sound");
+
+            assert oldSound != null;
+            if (oldSound.isEmpty()) config.set("Private_Messages.sound.toggle", false); else config.set("Mentions.sound.toggle", true);
+            config.set("Private_Messages.sound.value", oldSound);
+
+            config.set("Private_Messages.Sound", null);
+
+            Files.CONFIG.saveFile();
+        }
+
+        if (config.contains("Mentions.Sound")) {
+            String oldSound = config.getString("Mentions.Sound");
+
+            assert oldSound != null;
+            if (oldSound.isEmpty()) config.set("Mentions.sound.toggle", false); else config.set("Mentions.sound.toggle", true);
+            config.set("Mentions.sound.value", oldSound);
+
+            config.set("Mentions.Sound", null);
+
+            Files.CONFIG.saveFile();
+        }
+
+        boolean metricsEnabled = config.getBoolean("Metrics_Enabled", false);
 
         pluginManager = new PluginManager();
 
@@ -208,6 +236,10 @@ public class ChatManager extends JavaPlugin {
 
     public static ChatManager getPlugin() {
         return plugin;
+    }
+
+    public Methods getMethods() {
+        return this.methods;
     }
 
     public ApiLoader api() {

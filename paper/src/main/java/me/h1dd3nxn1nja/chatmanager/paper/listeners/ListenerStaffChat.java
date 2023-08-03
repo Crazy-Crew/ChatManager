@@ -30,6 +30,6 @@ public class ListenerStaffChat implements Listener {
 			if (staff.hasPermission("chatmanager.staffchat")) staff.sendMessage(placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)));
 		}
 
-		Methods.tellConsole(placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)), false);
+		this.plugin.getMethods().tellConsole(placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)), false);
 	}
 }

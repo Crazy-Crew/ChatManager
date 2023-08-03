@@ -17,7 +17,7 @@ public class CommandSpy implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		if (!(sender instanceof Player player)) {
-			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
+			this.plugin.getMethods().sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
 
@@ -31,19 +31,19 @@ public class CommandSpy implements CommandExecutor {
 
 					if (isValid) {
 						plugin.api().getCommandSpyData().removeUser(player.getUniqueId());
-						Methods.sendMessage(player, messages.getString("Command_Spy.Disabled"), true);
+						this.plugin.getMethods().sendMessage(player, messages.getString("Command_Spy.Disabled"), true);
 						return true;
 					}
 
 					plugin.api().getCommandSpyData().addUser(player.getUniqueId());
-					Methods.sendMessage(player, messages.getString("Command_Spy.Enabled"), true);
+					this.plugin.getMethods().sendMessage(player, messages.getString("Command_Spy.Enabled"), true);
 
 					return true;
 				} else {
-					Methods.sendMessage(player, "&cCommand Usage: &7/Commandspy", true);
+					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Commandspy", true);
 				}
 			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
+				this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 			}
 		}
 
@@ -54,19 +54,19 @@ public class CommandSpy implements CommandExecutor {
 
 					if (isValid) {
 						plugin.api().getSocialSpyData().removeUser(player.getUniqueId());
-						Methods.sendMessage(player, messages.getString("Social_Spy.Disabled"), true);
+						this.plugin.getMethods().sendMessage(player, messages.getString("Social_Spy.Disabled"), true);
 						return true;
 					}
 
 					plugin.api().getSocialSpyData().addUser(player.getUniqueId());
-					Methods.sendMessage(player, messages.getString("Social_Spy.Enabled"), true);
+					this.plugin.getMethods().sendMessage(player, messages.getString("Social_Spy.Enabled"), true);
 
 					return true;
 				} else {
-					Methods.sendMessage(player, "&cCommand Usage: &7/Socialspy", true);
+					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Socialspy", true);
 				}
 			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
+				this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 			}
 		}
 

@@ -41,18 +41,18 @@ public class CommandLists implements CommandExecutor {
 						for (String list : config.getStringList("Lists.Player_List")) {
 							Player player = (Player) sender;
 
-							Methods.sendMessage(player, placeholderManager.setPlaceholders(player, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max)), true);
+							this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max)), true);
 						}
 					} else {
 						for (String list : config.getStringList("Lists.Player_List")) {
-							Methods.sendMessage(sender, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max), true);
+							this.plugin.getMethods().sendMessage(sender, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max), true);
 						}
 					}
 				} else {
-					Methods.sendMessage(sender, "&cCommand Usage: &7/list", true);
+					this.plugin.getMethods().sendMessage(sender, "&cCommand Usage: &7/list", true);
 				}
 			} else {
-				Methods.sendMessage(sender, Methods.noPermission(), true);
+				this.plugin.getMethods().sendMessage(sender, this.plugin.getMethods().noPermission(), true);
 			}
 		}
 
@@ -75,18 +75,18 @@ public class CommandLists implements CommandExecutor {
 					if (sender instanceof Player) {
 						for (String list : config.getStringList("Lists.Staff_List")) {
 							Player player = (Player) sender;
-							Methods.sendMessage(player, placeholderManager.setPlaceholders(player, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max)), true);
+							this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max)), true);
 						}
 					} else {
 						for (String list : config.getStringList("Lists.Staff_List")) {
-							Methods.sendMessage(sender, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max), true);
+							this.plugin.getMethods().sendMessage(sender, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max), true);
 						}
 					}
 				} else {
-					Methods.sendMessage(sender, "&cCommand Usage: &7/Staff", true);
+					this.plugin.getMethods().sendMessage(sender, "&cCommand Usage: &7/Staff", true);
 				}
 			} else {
-				Methods.sendMessage(sender, Methods.noPermission(), true);
+				this.plugin.getMethods().sendMessage(sender, this.plugin.getMethods().noPermission(), true);
 			}
 		}
 

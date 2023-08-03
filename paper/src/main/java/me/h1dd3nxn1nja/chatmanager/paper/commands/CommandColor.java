@@ -1,6 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
-import me.h1dd3nxn1nja.chatmanager.paper.Methods;
+import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,10 +10,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class CommandColor implements CommandExecutor {
 
+	private final ChatManager plugin = ChatManager.getPlugin();
+
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		if (!(sender instanceof Player player)) {
-			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
+			this.plugin.getMethods().sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
 
@@ -21,7 +23,7 @@ public class CommandColor implements CommandExecutor {
 			if (player.hasPermission("chatmanager.colors")) {
 				if (args.length == 0) {
 					player.sendMessage(ChatColor.RED + "=========================");
-					player.sendMessage(Methods.color("&7Color Codes"));
+					player.sendMessage(this.plugin.getMethods().color("&7Color Codes"));
 					player.sendMessage(ChatColor.RED + "=========================");
 					player.sendMessage(ChatColor.WHITE + "  &0 = " + ChatColor.BLACK + "Black");
 					player.sendMessage(ChatColor.WHITE + "  &1 = " + ChatColor.DARK_BLUE + "Dark Blue");
@@ -44,10 +46,10 @@ public class CommandColor implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "=========================");
 					return true;
 				} else {
-					Methods.sendMessage(player, "&cCommand Usage: &7/Colors", true);
+					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Colors", true);
 				}
 			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
+				this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 			}
 		}
 
@@ -55,7 +57,7 @@ public class CommandColor implements CommandExecutor {
 			if (player.hasPermission("chatmanager.formats")) {
 				if (args.length == 0) {
 					player.sendMessage(ChatColor.RED + "=========================");
-					player.sendMessage(Methods.color("&7Format Codes"));
+					player.sendMessage(this.plugin.getMethods().color("&7Format Codes"));
 					player.sendMessage(ChatColor.RED + "=========================");
 					player.sendMessage(ChatColor.WHITE + "  &k = " + ChatColor.MAGIC + "Magic");
 					player.sendMessage(ChatColor.WHITE + "  &l = " + ChatColor.BOLD + "Bold");
@@ -68,10 +70,10 @@ public class CommandColor implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "=========================");
 					return true;
 				} else {
-					Methods.sendMessage(player, "&cCommand Usage: &7/Formats", true);
+					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Formats", true);
 				}
 			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
+				this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 			}
 		}
 

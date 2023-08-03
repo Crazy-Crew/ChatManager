@@ -47,7 +47,7 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
 				case "staff_chat": // Returns if the staff chat is enabled/disabled for a player.
 					return plugin.api().getStaffChatData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
 				case "mute_chat": // Returns if mute chat is enabled/disabled.
-					return Methods.isMuted() ? "Enabled" : "Disabled";
+					return this.plugin.getMethods().isMuted() ? "Enabled" : "Disabled";
 				case "ping":
 					CraftPlayer craftPlayer = (CraftPlayer) playerOnline;
 					return df.format(craftPlayer.getPing());

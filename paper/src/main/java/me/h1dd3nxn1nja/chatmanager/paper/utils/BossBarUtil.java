@@ -29,21 +29,21 @@ public class BossBarUtil {
 	HashMap<UUID, BossBar> bossBars = new HashMap<>();
 
 	public BossBarUtil() {
-			this.title = Methods.color("&bStaff Chat");
+			this.title = this.plugin.getMethods().color("&bStaff Chat");
 			this.color = BarColor.PINK;
 			this.style = BarStyle.SOLID;
 			this.bar = org.bukkit.Bukkit.getServer().createBossBar(title, color, style);
 	}
 
 	public BossBarUtil(String title, BarColor color, BarStyle style) {
-			this.title = Methods.color(title);
+			this.title = this.plugin.getMethods().color(title);
 			this.color = color;
 			this.style = style;
 			this.bar = plugin.getServer().createBossBar(this.title, color, style);
 	}
 	
 	public BossBarUtil(String title) {
-			this.title = Methods.color(title);
+			this.title = this.plugin.getMethods().color(title);
 			this.color = BarColor.PINK;
 			this.style = BarStyle.SOLID;
 			this.staffBar = plugin.getServer().createBossBar(this.title, color, style);
@@ -54,7 +54,7 @@ public class BossBarUtil {
 	}
 
 	public BossBarUtil setTitle(String title) {
-		this.title = Methods.color(title);
+		this.title = this.plugin.getMethods().color(title);
 
 		bar.setTitle(this.title);
 

@@ -17,7 +17,7 @@ public class CommandRadius implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		if (!(sender instanceof Player player)) {
-			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
+			this.plugin.getMethods().sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
 
@@ -26,35 +26,35 @@ public class CommandRadius implements CommandExecutor {
 		if (cmd.getName().equalsIgnoreCase("chatradius")) {
 			if (player.hasPermission("chatmanager.chatradius")) {
 				if (args.length == 0) {
-					Methods.sendMessage(player, "", true);
-					Methods.sendMessage(player, (" &3Chat Radius Help Menu &f(v" + plugin.getDescription().getVersion() + ")"), true);
-					Methods.sendMessage(player, "", true);
-					Methods.sendMessage(player, (" &f/ChatRadius Help &e- Shows a list of commands for chat radius."), true);
-					Methods.sendMessage(player, (" &f/ChatRadius Local &e- Enables local chat."), true);
-					Methods.sendMessage(player, (" &f/ChatRadius Global &e- Enables global chat."), true);
-					Methods.sendMessage(player, (" &f/ChatRadius World &e- Enables world chat."), true);
-					Methods.sendMessage(player, "", true);
+					this.plugin.getMethods().sendMessage(player, "", true);
+					this.plugin.getMethods().sendMessage(player, (" &3Chat Radius Help Menu &f(v" + plugin.getDescription().getVersion() + ")"), true);
+					this.plugin.getMethods().sendMessage(player, "", true);
+					this.plugin.getMethods().sendMessage(player, (" &f/ChatRadius Help &e- Shows a list of commands for chat radius."), true);
+					this.plugin.getMethods().sendMessage(player, (" &f/ChatRadius Local &e- Enables local chat."), true);
+					this.plugin.getMethods().sendMessage(player, (" &f/ChatRadius Global &e- Enables global chat."), true);
+					this.plugin.getMethods().sendMessage(player, (" &f/ChatRadius World &e- Enables world chat."), true);
+					this.plugin.getMethods().sendMessage(player, "", true);
 				}
 			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
+				this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				return true;
 			}
 
 			if (args[0].equalsIgnoreCase("help")) {
 				if (player.hasPermission("chatmanager.chatradius")) {
 					if (args.length == 1) {
-						Methods.sendMessage(player, "", true);
-						Methods.sendMessage(player, (" &3Chat Radius Help Menu &f(v" + plugin.getDescription().getVersion() + ")"), true);
-						Methods.sendMessage(player, "", true);
-						Methods.sendMessage(player, (" &f/ChatRadius Help &e- Shows a list of commands for chat radius."), true);
-						Methods.sendMessage(player, (" &f/ChatRadius Local &e- Enables local chat."), true);
-						Methods.sendMessage(player, (" &f/ChatRadius Global &e- Enables global chat."), true);
-						Methods.sendMessage(player, (" &f/ChatRadius World &e- Enables world chat."), true);
-						Methods.sendMessage(player, (" &f/ChatRadius Spy &e- Enables chat radius spy. Players will be able to see all messages sent."), true);
-						Methods.sendMessage(player, "", true);
+						this.plugin.getMethods().sendMessage(player, "", true);
+						this.plugin.getMethods().sendMessage(player, (" &3Chat Radius Help Menu &f(v" + plugin.getDescription().getVersion() + ")"), true);
+						this.plugin.getMethods().sendMessage(player, "", true);
+						this.plugin.getMethods().sendMessage(player, (" &f/ChatRadius Help &e- Shows a list of commands for chat radius."), true);
+						this.plugin.getMethods().sendMessage(player, (" &f/ChatRadius Local &e- Enables local chat."), true);
+						this.plugin.getMethods().sendMessage(player, (" &f/ChatRadius Global &e- Enables global chat."), true);
+						this.plugin.getMethods().sendMessage(player, (" &f/ChatRadius World &e- Enables world chat."), true);
+						this.plugin.getMethods().sendMessage(player, (" &f/ChatRadius Spy &e- Enables chat radius spy. Players will be able to see all messages sent."), true);
+						this.plugin.getMethods().sendMessage(player, "", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 					return true;
 				}
 			}
@@ -70,17 +70,17 @@ public class CommandRadius implements CommandExecutor {
 							plugin.api().getWorldChatData().removeUser(player.getUniqueId());
 							plugin.api().getLocalChatData().addUser(player.getUniqueId());
 
-							Methods.sendMessage(player, messages.getString("Chat_Radius.Local_Chat.Enabled"), true);
+							this.plugin.getMethods().sendMessage(player, messages.getString("Chat_Radius.Local_Chat.Enabled"), true);
 
 							return true;
 						}
 
-						Methods.sendMessage(player, messages.getString("Chat_Radius.Local_Chat.Already_Enabled"), true);
+						this.plugin.getMethods().sendMessage(player, messages.getString("Chat_Radius.Local_Chat.Already_Enabled"), true);
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/ChatRadius Local", true);
+						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/ChatRadius Local", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				}
 			}
 
@@ -94,16 +94,16 @@ public class CommandRadius implements CommandExecutor {
 							plugin.api().getWorldChatData().removeUser(player.getUniqueId());
 							plugin.api().getGlobalChatData().addUser(player.getUniqueId());
 
-							Methods.sendMessage(player, messages.getString("Chat_Radius.Global_Chat.Enabled"), true);
+							this.plugin.getMethods().sendMessage(player, messages.getString("Chat_Radius.Global_Chat.Enabled"), true);
 							return true;
 						}
 
-						Methods.sendMessage(player, messages.getString("Chat_Radius.Global_Chat.Already_Enabled"), true);
+						this.plugin.getMethods().sendMessage(player, messages.getString("Chat_Radius.Global_Chat.Already_Enabled"), true);
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/ChatRadius Global", true);
+						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/ChatRadius Global", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				}
 			}
 
@@ -117,16 +117,16 @@ public class CommandRadius implements CommandExecutor {
 							plugin.api().getGlobalChatData().removeUser(player.getUniqueId());
 							plugin.api().getWorldChatData().addUser(player.getUniqueId());
 
-							Methods.sendMessage(player, messages.getString("Chat_Radius.World_Chat.Enabled"), true);
+							this.plugin.getMethods().sendMessage(player, messages.getString("Chat_Radius.World_Chat.Enabled"), true);
 							return true;
 						}
 
-						Methods.sendMessage(player, messages.getString("Chat_Radius.World_Chat.Already_Enabled"), true);
+						this.plugin.getMethods().sendMessage(player, messages.getString("Chat_Radius.World_Chat.Already_Enabled"), true);
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/ChatRadius World", true);
+						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/ChatRadius World", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				}
 			}
 
@@ -137,18 +137,18 @@ public class CommandRadius implements CommandExecutor {
 
 						if (isValid) {
 							plugin.api().getSpyChatData().removeUser(player.getUniqueId());
-							Methods.sendMessage(player, messages.getString("Chat_Radius.Spy.Disabled"), true);
+							this.plugin.getMethods().sendMessage(player, messages.getString("Chat_Radius.Spy.Disabled"), true);
 
 							return true;
 						}
 
 						plugin.api().getSpyChatData().addUser(player.getUniqueId());
-						Methods.sendMessage(player, messages.getString("Chat_Radius.Spy.Enabled"), true);
+						this.plugin.getMethods().sendMessage(player, messages.getString("Chat_Radius.Spy.Enabled"), true);
 					} else {
-						Methods.sendMessage(player, ("&cCommand Usage: &7/ChatRadius Spy"), true);
+						this.plugin.getMethods().sendMessage(player, ("&cCommand Usage: &7/ChatRadius Spy"), true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				}
 			}
 		}

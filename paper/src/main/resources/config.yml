@@ -17,8 +17,7 @@
 #   2. HEX Codes are supported with the #000000 format.
 #   
 #   3. Sound List
-#      - 1.9 and newer: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
-#      - 1.8 and older: http://docs.codelanx.com/Bukkit/1.8/org/bukkit/Sound.html
+#      - 1.20 and newer: https://jd.papermc.io/paper/1.20/org/bukkit/Sound.html
 #   
 #   4. All messages can be changed in the Messages.yml file.
 #
@@ -717,17 +716,20 @@ Mentions:
 
   Enable: true
   
-  #The sound thats played to the player thats mentioned. Do Sound: '' to disable.
-  Sound: ''
+  # The sound that's played to the receiver
+  # https://jd.papermc.io/paper/1.20/org/bukkit/Sound.html
+  sound:
+    toggle: false
+    value: 'ENTITY_PLAYER_LEVELUP'
   
-  #The symbol players have to use to tag other players, Leave it blank for nothing.
+  # The symbol players have to use to tag other players, Leave it blank for nothing.
   Tag_Symbol: "@"
   
-  #The color the players name will be highlighted as when mentioned in chat.
-  #To disable make it Mention_Color: ""
+  # The color the players name will be highlighted as when mentioned in chat.
+  # To disable make it Mention_Color: ""
   Mention_Color: ""
 
-  #The title message thats sent to the player thats mentioned.
+  # The title message that's sent to the player mentioned.
   Title:
     Enable: true
     Header: "&cMentioned"
@@ -812,9 +814,11 @@ Private_Messages:
 
     Format: "&c&l(!) &f&l[&e{player} &d-> &e&lYou&f&l] &b"
 
-  #The sound thats played to the receiver
-  #Do Sound: '' to disable
-  Sound: ''
+  # The sound that's played to the receiver
+  # https://jd.papermc.io/paper/1.20/org/bukkit/Sound.html
+  sound:
+    toggle: false
+    value: 'ENTITY_PLAYER_LEVELUP'
 
 #=================================================================================================#
 # The server name used in {server_name} variable.

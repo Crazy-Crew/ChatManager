@@ -25,7 +25,7 @@ public class CommandMOTD implements Listener {
 		if (config.getBoolean("MOTD.Enable")) {
 			if (message.equalsIgnoreCase("/motd")) {
 				for (String motd : config.getStringList("MOTD.Message")) {
-					Methods.sendMessage(player, placeholderManager.setPlaceholders(player, motd), true);
+					this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, motd), true);
 				}
 
 				e.setCancelled(true);

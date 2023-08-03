@@ -79,7 +79,7 @@ public class ListenerRadius implements Listener {
 			for (Player receiver : plugin.getServer().getOnlinePlayers()) {
 				recipients.remove(receiver);
 
-				if (Methods.inRange(uuid, receiver.getUniqueId(), radius)) {
+				if (this.plugin.getMethods().inRange(uuid, receiver.getUniqueId(), radius)) {
 					recipients.add(player);
 					recipients.add(receiver);
 				}
@@ -92,7 +92,7 @@ public class ListenerRadius implements Listener {
 			for (Player receiver : plugin.getServer().getOnlinePlayers()) {
 				recipients.remove(receiver);
 
-				if (Methods.inWorld(uuid, receiver.getUniqueId())) {
+				if (this.plugin.getMethods().inWorld(uuid, receiver.getUniqueId())) {
 					recipients.add(player);
 					recipients.add(receiver);
 				}

@@ -21,31 +21,31 @@ public class CommandToggleMentions implements CommandExecutor {
 		FileConfiguration messages = Files.MESSAGES.getFile();
 		
 		if (!(sender instanceof Player player)) {
-			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
+			this.plugin.getMethods().sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
 
 		if (!cmd.getName().equalsIgnoreCase("togglementions")) return true;
 
 		if (!player.hasPermission("chatmanager.toggle.mentions")) {
-			Methods.sendMessage(player, Methods.noPermission(), true);
+			this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 			return true;
 		}
 
 		if (args.length == 0) {
 			if (plugin.api().getToggleMentionsData().containsUser(player.getUniqueId())) {
 				plugin.api().getToggleMentionsData().removeUser(player.getUniqueId());
-				Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Mentions.Disabled")), true);
+				this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Mentions.Disabled")), true);
 				return true;
 			}
 
 			plugin.api().getToggleMentionsData().addUser(player.getUniqueId());
-			Methods.sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Mentions.Enabled")), true);
+			this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Mentions.Enabled")), true);
 
 			return true;
 		}
 
-		Methods.sendMessage(player, "&cCommand Usage: &7/ToggleMentions", true);
+		this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/ToggleMentions", true);
 
 		return true;
 	}

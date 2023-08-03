@@ -20,18 +20,18 @@ public class CommandPerWorldChat implements CommandExecutor {
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		if (!(sender instanceof Player player)) {
-			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
+			this.plugin.getMethods().sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
 
 		if (cmd.getName().equalsIgnoreCase("perworldchat")) {
 			if (player.hasPermission("chatmanager.perworldchat")) {
 				if (args.length == 0) {
-					Methods.sendMessage(player, "&cCommand Usage: &7/Perworldchat bypass", true);
+					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Perworldchat bypass", true);
 					return true;
 				}
 			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
+				this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				return true;
 			}
 
@@ -41,19 +41,19 @@ public class CommandPerWorldChat implements CommandExecutor {
 						if (config.getBoolean("Per_World_Chat.Enable")) {
 							if (!plugin.api().getPerWorldChatData().containsUser(player.getUniqueId())) {
 								plugin.api().getPerWorldChatData().addUser(player.getUniqueId());
-								Methods.sendMessage(player, messages.getString("Per_World_Chat.Bypass_Enabled"), true);
+								this.plugin.getMethods().sendMessage(player, messages.getString("Per_World_Chat.Bypass_Enabled"), true);
 							} else {
 								plugin.api().getPerWorldChatData().removeUser(player.getUniqueId());
-								Methods.sendMessage(player, messages.getString("Per_World_Chat.Bypass_Disabled"), true);
+								this.plugin.getMethods().sendMessage(player, messages.getString("Per_World_Chat.Bypass_Disabled"), true);
 							}
 						} else {
-							Methods.sendMessage(player, "&4Error: &cPer-world chat is currently disabled and you cannot execute that command at this time.", true);
+							this.plugin.getMethods().sendMessage(player, "&4Error: &cPer-world chat is currently disabled and you cannot execute that command at this time.", true);
 						}
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/Perworldchat bypass", true);
+						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Perworldchat bypass", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				}
 			}
 		}

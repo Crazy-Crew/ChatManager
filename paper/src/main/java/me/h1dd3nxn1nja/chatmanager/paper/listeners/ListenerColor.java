@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
 import com.ryderbelserion.chatmanager.paper.files.Files;
+import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,11 +9,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.Format;
 import net.md_5.bungee.api.ChatColor;
 
 public class ListenerColor implements Listener {
+
+	private final ChatManager plugin = ChatManager.getPlugin();
 	
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onColorChat(AsyncPlayerChatEvent event) {
@@ -58,7 +60,7 @@ public class ListenerColor implements Listener {
 	
 	public String formatChat(Player player, String string) {
 		char colorChar = getColorCharacter();
-		if (hasAllPermissions(player)) return Methods.color(string);
+		if (hasAllPermissions(player)) return this.plugin.getMethods().color(string);
 		boolean ignoreColorCheck = false, ignoreFormatCheck = false;
 		
 		if (player.hasPermission("chatmanager.color.all")) {

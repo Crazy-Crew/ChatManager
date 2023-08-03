@@ -56,9 +56,9 @@ public class PluginManager {
     private void printHooks() {
         for (PluginSupport value : PluginSupport.values()) {
             if (value.isPluginEnabled()) {
-                plugin.getLogger().info(Methods.color("&6&l" + value.name() + " &a&lFOUND"));
+                plugin.getLogger().info(this.plugin.getMethods().color("&6&l" + value.name() + " &a&lFOUND"));
             } else {
-                plugin.getLogger().info(Methods.color("&6&l" + value.name() + " &c&lNOT FOUND"));
+                plugin.getLogger().info(this.plugin.getMethods().color("&6&l" + value.name() + " &c&lNOT FOUND"));
             }
         }
     }

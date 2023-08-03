@@ -13,12 +13,12 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Methods {
 
-	private static final ChatManager plugin = ChatManager.getPlugin();
+	private final ChatManager plugin = ChatManager.getPlugin();
 
-	private static final String format = Files.CONFIG.getFile().getString("Hex_Color_Format");
-	private static final Pattern HEX_PATTERN = Pattern.compile(format + "([A-Fa-f0-9]{6})");
+	private final String format = Files.CONFIG.getFile().getString("Hex_Color_Format");
+	private final Pattern HEX_PATTERN = Pattern.compile(format + "([A-Fa-f0-9]{6})");
 
-	public static String color(String message) {
+	public String color(String message) {
 		Matcher matcher = HEX_PATTERN.matcher(message);
 		StringBuilder buffer = new StringBuilder();
 
@@ -29,7 +29,7 @@ public class Methods {
 		return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
 	}
 
-	public static String color(UUID uuid, String message) {
+	public String color(UUID uuid, String message) {
 		Matcher matcher = HEX_PATTERN.matcher(message);
 		StringBuilder buffer = new StringBuilder();
 
@@ -42,25 +42,25 @@ public class Methods {
 		return PluginSupport.PLACEHOLDERAPI.isPluginEnabled() ? ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(player, matcher.appendTail(buffer).toString())) : ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
 	}
 	
-	public static String getPrefix() {
+	public String getPrefix() {
 		return color(Files.MESSAGES.getFile().getString("Message.Prefix"));
 	}
 	
-	public static String noPermission() {
+	public String noPermission() {
 		return color(Files.MESSAGES.getFile().getString("Message.No_Permission").replace("{Prefix}", getPrefix()));
 	}
 
 	private static boolean isMuted;
 
-	public static boolean isMuted() {
+	public boolean isMuted() {
 	    return isMuted;
 	}
 
-	public static void setMuted() {
+	public void setMuted() {
 		isMuted = !isMuted;
 	}
 	
-	public static void tellConsole(String message, boolean prefix) {
+	public void tellConsole(String message, boolean prefix) {
 		if (prefix) {
 			sendMessage(plugin.getServer().getConsoleSender(), message, true);
 			return;
@@ -69,7 +69,7 @@ public class Methods {
 		sendMessage(plugin.getServer().getConsoleSender(), message, false);
 	}
 	
-	public static boolean inRange(UUID uuid, UUID receiver, int radius) {
+	public boolean inRange(UUID uuid, UUID receiver, int radius) {
 		Player player = plugin.getServer().getPlayer(uuid);
 		Player other = plugin.getServer().getPlayer(receiver);
 
@@ -80,14 +80,14 @@ public class Methods {
 		return false;
 	}
 	
-	public static boolean inWorld(UUID uuid, UUID receiver) {
+	public boolean inWorld(UUID uuid, UUID receiver) {
 		Player player = plugin.getServer().getPlayer(uuid);
 		Player other = plugin.getServer().getPlayer(receiver);
 
 		return other.getLocation().getWorld().equals(player.getLocation().getWorld());
 	}
 
-	public static void sendMessage(CommandSender commandSender, String message, boolean prefixToggle) {
+	public void sendMessage(CommandSender commandSender, String message, boolean prefixToggle) {
 		if (message == null || message.isEmpty()) return;
 
 		String prefix = getPrefix();
@@ -101,7 +101,7 @@ public class Methods {
 		if (!prefix.isEmpty() && prefixToggle) commandSender.sendMessage(color(message.replace("{Prefix}", prefix))); else commandSender.sendMessage(color(message));
 	}
 
-	public static void broadcast(String message) {
+	public void broadcast(String message) {
 		if (message == null || message.isEmpty()) return;
 
 		String prefix = getPrefix();

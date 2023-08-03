@@ -24,7 +24,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		if (!(sender instanceof Player player)) {
-			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
+			this.plugin.getMethods().sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
 
@@ -35,7 +35,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 			if (player.hasPermission("chatmanager.autobroadcast")) {
 				if (args.length == 0) return checkProtocol(player);
 			} else {
-				player.sendMessage(Methods.noPermission());
+				player.sendMessage(this.plugin.getMethods().noPermission());
 				return true;
 			}
 
@@ -43,7 +43,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 				if (player.hasPermission("chatmanager.autobroadcast.help")) {
 					if (args.length == 1) return checkProtocol(player);
 				} else {
-					player.sendMessage(Methods.noPermission());
+					player.sendMessage(this.plugin.getMethods().noPermission());
 					return true;
 				}
 			}
@@ -51,20 +51,20 @@ public class CommandAutoBroadcast implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("list")) {
 				if (player.hasPermission("chatmanager.autobroadcast.list")) {
 					if (args.length == 1) {
-						Methods.sendMessage(player, "&cCommand Usage: &7/AutoBroadcast list [Global|World|Actionbar|Title|Bossbar] [World]", true);
+						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/AutoBroadcast list [Global|World|Actionbar|Title|Bossbar] [World]", true);
 						return true;
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 					return true;
 				}
 
 				if (args[1].equalsIgnoreCase("global")) {
 					if (player.hasPermission("chatmanager.autobroadcast.list")) {
 						if (args.length == 2) {
-							Methods.sendMessage(player, "", true);
-							Methods.sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", "Global"), true);
-							Methods.sendMessage(player, "", true);
+							this.plugin.getMethods().sendMessage(player, "", true);
+							this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", "Global"), true);
+							this.plugin.getMethods().sendMessage(player, "", true);
 
 							String string = autobroadcast.getString("Auto_Broadcast.Global_Messages.Prefix");
 
@@ -73,20 +73,20 @@ public class CommandAutoBroadcast implements CommandExecutor {
 									player.sendMessage(placeholderManager.setPlaceholders(player, "&7 - " + global.replace("{Prefix}", string)));
 							}
 
-							Methods.sendMessage(player, "", true);
+							this.plugin.getMethods().sendMessage(player, "", true);
 						} else {
-							Methods.sendMessage(player, "&cCommand Usage: &7/AutoBroadcast list global", true);
+							this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/AutoBroadcast list global", true);
 						}
 					} else {
-						Methods.sendMessage(player, Methods.noPermission(), true);
+						this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 					}
 				}
 
 				if (args[1].equalsIgnoreCase("actionbar")) {
 					if (player.hasPermission("chatmanager.autobroadcast.list")) {
 						if (args.length == 2) {
-							Methods.sendMessage(player, "", true);
-							Methods.sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", "Actionbar"), true);
+							this.plugin.getMethods().sendMessage(player, "", true);
+							this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", "Actionbar"), true);
 
 							String string = autobroadcast.getString("Auto_Broadcast.Actionbar_Messages.Prefix");
 
@@ -95,50 +95,50 @@ public class CommandAutoBroadcast implements CommandExecutor {
 									player.sendMessage(placeholderManager.setPlaceholders(player, "&7 - " + actionbar.replace("{Prefix}", string)));
 							}
 
-							Methods.sendMessage(player, "", true);
+							this.plugin.getMethods().sendMessage(player, "", true);
 						} else {
-							Methods.sendMessage(player, "&cCommand Usage: &7/AutoBroadcast list actionbar", true);
+							this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/AutoBroadcast list actionbar", true);
 						}
 					} else {
-						Methods.sendMessage(player, Methods.noPermission(), true);
+						this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 					}
 				}
 
 				if (args[1].equalsIgnoreCase("title")) {
 					if (player.hasPermission("chatmanager.autobroadcast.list")) {
 						if (args.length == 2) {
-							Methods.sendMessage(player, "", true);
-							Methods.sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", "Title"), true);
+							this.plugin.getMethods().sendMessage(player, "", true);
+							this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", "Title"), true);
 
 							for (String title : autobroadcast.getStringList("Auto_Broadcast.Title_Messages.Messages")) {
 								player.sendMessage(placeholderManager.setPlaceholders(player, "&7 - " + title));
 							}
 
-							Methods.sendMessage(player, "", true);
+							this.plugin.getMethods().sendMessage(player, "", true);
 						} else {
-							Methods.sendMessage(player, "&cCommand Usage: &7/AutoBroadcast list title", true);
+							this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/AutoBroadcast list title", true);
 						}
 					} else {
-						Methods.sendMessage(player, Methods.noPermission(), true);
+						this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 					}
 				}
 
 				if (args[1].equalsIgnoreCase("bossbar")) {
 					if (player.hasPermission("chatmanager.autobroadcast.list")) {
 						if (args.length == 2) {
-							Methods.sendMessage(player, "", true);
-							Methods.sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", "Bossbar"), true);
+							this.plugin.getMethods().sendMessage(player, "", true);
+							this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", "Bossbar"), true);
 
 							for (String bossbar : autobroadcast.getStringList("Auto_Broadcast.Bossbar_Messages.Messages")) {
 								player.sendMessage(placeholderManager.setPlaceholders(player, "&7 - " + bossbar));
 							}
 
-							Methods.sendMessage(player, "", true);
+							this.plugin.getMethods().sendMessage(player, "", true);
 						} else {
-							Methods.sendMessage(player, "&cCommand Usage: &7/AutoBroadcast list bossbar", true);
+							this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/AutoBroadcast list bossbar", true);
 						}
 					} else {
-						Methods.sendMessage(player, Methods.noPermission(), true);
+						this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 					}
 				}
 
@@ -154,21 +154,21 @@ public class CommandAutoBroadcast implements CommandExecutor {
 								worlds.add(w);
 
 								if (args[2].equals(key)) {
-									Methods.sendMessage(player, "", true);
-									Methods.sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", key), true);
+									this.plugin.getMethods().sendMessage(player, "", true);
+									this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", key), true);
 
 									for (String bcmsg : autobroadcast.getStringList("Auto_Broadcast.Per_World_Messages.Messages." + key)) {
-										if (broadcast != null) player.sendMessage(Methods.color(player.getUniqueId(), "&7 - " + bcmsg.replace("{Prefix}", broadcast)));
+										if (broadcast != null) player.sendMessage(this.plugin.getMethods().color(player.getUniqueId(), "&7 - " + bcmsg.replace("{Prefix}", broadcast)));
 									}
 
-									Methods.sendMessage(player, "", true);
+									this.plugin.getMethods().sendMessage(player, "", true);
 								}
 							}
 						} else {
-							Methods.sendMessage(player, "&cCommand Usage: &7/AutoBroadcast list world <world>", true);
+							this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/AutoBroadcast list world <world>", true);
 						}
 					} else {
-						Methods.sendMessage(player, Methods.noPermission(), true);
+						this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 					}
 				}
 			}
@@ -176,11 +176,11 @@ public class CommandAutoBroadcast implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("add")) {
 				if (player.hasPermission("chatmanager.autobroadcast.add")) {
 					if (args.length == 1) {
-						Methods.sendMessage(player, "&cCommand Usage: &7/AutoBroadcast add [Global|World|Actionbar|Title|Bossbar] <world> <message>", true);
+						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/AutoBroadcast add [Global|World|Actionbar|Title|Bossbar] <world> <message>", true);
 						return true;
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 					return true;
 				}
 
@@ -199,14 +199,14 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							autobroadcast.set("Auto_Broadcast.Global_Messages.Messages", msgs);
 							Files.AUTO_BROADCAST.saveFile();
 							Files.AUTO_BROADCAST.reloadFile();
-							Methods.sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Global"), true);
+							this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Global"), true);
 							return true;
 						} else {
-							Methods.sendMessage(player, Methods.color("&cCommand Usage: &7/AutoBroadcast add global <message>"), true);
+							this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().color("&cCommand Usage: &7/AutoBroadcast add global <message>"), true);
 						}
 					} else
-						player.sendMessage(Methods.noPermission());
-					Methods.sendMessage(player, Methods.noPermission(), true);
+						player.sendMessage(this.plugin.getMethods().noPermission());
+					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				}
 			}
 
@@ -225,13 +225,13 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						autobroadcast.set("Auto_Broadcast.Actionbar_Messages.Messages", msgs);
 						Files.AUTO_BROADCAST.saveFile();
 						Files.AUTO_BROADCAST.reloadFile();
-						Methods.sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Actionbar"), true);
+						this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Actionbar"), true);
 						return true;
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/AutoBroadcast add actionbar <message.", true);
+						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/AutoBroadcast add actionbar <message.", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				}
 			}
 
@@ -250,13 +250,13 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						autobroadcast.set("Auto_Broadcast.Title_Messages.Messages", msgs);
 						Files.AUTO_BROADCAST.saveFile();
 						Files.AUTO_BROADCAST.reloadFile();
-						Methods.sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Title"), true);
+						this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Title"), true);
 						return true;
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/AutoBroadcast add title <message>", true);
+						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/AutoBroadcast add title <message>", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				}
 			}
 
@@ -275,13 +275,13 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						autobroadcast.set("Auto_Broadcast.Bossbar_Messages.Messages", msgs);
 						Files.AUTO_BROADCAST.saveFile();
 						Files.AUTO_BROADCAST.reloadFile();
-						Methods.sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Bossbar"), true);
+						this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Bossbar"), true);
 						return true;
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/AutoBroadcast add bossbar <message>", true);
+						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/AutoBroadcast add bossbar <message>", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				}
 			}
 
@@ -296,7 +296,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 
 							if (args[2].equals(key)) {
 								if (!player.hasPermission("chatmanager.autobroadcast.add")) {
-									Methods.sendMessage(player, Methods.noPermission(), true);
+									this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 									return true;
 								}
 
@@ -312,15 +312,15 @@ public class CommandAutoBroadcast implements CommandExecutor {
 								autobroadcast.set("Auto_Broadcast.Per_World_Messages.Messages." + key, msgs);
 								Files.AUTO_BROADCAST.saveFile();
 								Files.AUTO_BROADCAST.reloadFile();
-								Methods.sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", key), true);
+								this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", key), true);
 								return true;
 							}
 						}
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/Autobroadcast add world <world> <message>", true);
+						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Autobroadcast add world <world> <message>", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				}
 			}
 		}
@@ -340,30 +340,30 @@ public class CommandAutoBroadcast implements CommandExecutor {
 					autobroadcast.set("Auto_Broadcast.Per_World_Messages.Messages." + args[1], msgs);
 					Files.AUTO_BROADCAST.saveFile();
 					Files.AUTO_BROADCAST.reloadFile();
-					Methods.sendMessage(player, messages.getString("Auto_Broadcast.Created").replace("{world}", args[1]).replace("{message}", msg), true);
+					this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.Created").replace("{world}", args[1]).replace("{message}", msg), true);
 					return true;
 				} else {
-					Methods.sendMessage(player, "&cCommand Usage: &7/Autobroadcast create <world> <message>", true);
+					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Autobroadcast create <world> <message>", true);
 				}
 			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
+				this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 			}
 		}
 		return true;
 	}
 
 	private boolean checkProtocol(Player player) {
-		Methods.sendMessage(player, "", false);
-		Methods.sendMessage(player, " &3Auto-Broadcast Help Menu &f(v" + plugin.getDescription().getVersion() + ")", false);
-		Methods.sendMessage(player,"", false);
-		Methods.sendMessage(player, " &6<> &f= Required Arguments", false);
-		Methods.sendMessage(player, " &2[] &f= Optional Arguments", false);
-		Methods.sendMessage(player, " ", false);
-		Methods.sendMessage(player, " &f/AutoBroadcast Help &e- Shows a list of commands for Auto-Broadcast.", false);
-		Methods.sendMessage(player, "  &f/AutoBroadcast Add &6<Global|World|Actionbar|Title|Bossbar> &2[World] &6<message> &e- Add a message to the Auto-Broadcast to a specific world.", false);
-		Methods.sendMessage(player, " &f/AutoBroadcast Create &6<world> <message> &e- Create a new world in the Auto-Broadcast file.", false);
-		Methods.sendMessage(player, " &f/AutoBroadcast List &6<Global|World|Actionbar|Title|Bossbar> &2[World] &e- Shows a list of all the broadcast messages in a world.", false);
-		Methods.sendMessage(player, "", false);
+		this.plugin.getMethods().sendMessage(player, "", false);
+		this.plugin.getMethods().sendMessage(player, " &3Auto-Broadcast Help Menu &f(v" + plugin.getDescription().getVersion() + ")", false);
+		this.plugin.getMethods().sendMessage(player,"", false);
+		this.plugin.getMethods().sendMessage(player, " &6<> &f= Required Arguments", false);
+		this.plugin.getMethods().sendMessage(player, " &2[] &f= Optional Arguments", false);
+		this.plugin.getMethods().sendMessage(player, " ", false);
+		this.plugin.getMethods().sendMessage(player, " &f/AutoBroadcast Help &e- Shows a list of commands for Auto-Broadcast.", false);
+		this.plugin.getMethods().sendMessage(player, "  &f/AutoBroadcast Add &6<Global|World|Actionbar|Title|Bossbar> &2[World] &6<message> &e- Add a message to the Auto-Broadcast to a specific world.", false);
+		this.plugin.getMethods().sendMessage(player, " &f/AutoBroadcast Create &6<world> <message> &e- Create a new world in the Auto-Broadcast file.", false);
+		this.plugin.getMethods().sendMessage(player, " &f/AutoBroadcast List &6<Global|World|Actionbar|Title|Bossbar> &2[World] &e- Shows a list of all the broadcast messages in a world.", false);
+		this.plugin.getMethods().sendMessage(player, "", false);
 
 		return true;
 	}

@@ -33,10 +33,10 @@ public class CommandStaffChat implements CommandExecutor {
 								plugin.api().getStaffChatData().removeUser(player.getUniqueId());
 
 								// We want to remove anyway just in case they turned it off.
-								BossBarUtil bossBar = new BossBarUtil(Methods.color(config.getString("Staff_Chat.Boss_Bar.Title")));
+								BossBarUtil bossBar = new BossBarUtil(this.plugin.getMethods().color(config.getString("Staff_Chat.Boss_Bar.Title")));
 								bossBar.removeStaffBossBar(player);
 
-								Methods.sendMessage(player, messages.getString("Staff_Chat.Disabled"), true);
+								this.plugin.getMethods().sendMessage(player, messages.getString("Staff_Chat.Disabled"), true);
 
 								return true;
 							}
@@ -46,16 +46,16 @@ public class CommandStaffChat implements CommandExecutor {
 							boolean isBossBarEnabled = config.contains("Staff_Chat.Boss_Bar.Enable") && config.getBoolean("Staff_Chat.Boss_Bar.Enable");
 
 							if (isBossBarEnabled) {
-								BossBarUtil bossBar = new BossBarUtil(Methods.color(config.getString("Staff_Chat.Boss_Bar.Title")));
+								BossBarUtil bossBar = new BossBarUtil(this.plugin.getMethods().color(config.getString("Staff_Chat.Boss_Bar.Title")));
 								bossBar.setStaffBossBar(player);
 							}
 
-							Methods.sendMessage(player, messages.getString("Staff_Chat.Enabled"), true);
+							this.plugin.getMethods().sendMessage(player, messages.getString("Staff_Chat.Enabled"), true);
 
 							return true;
 
 						} else {
-							Methods.sendMessage(player, "&4Error: &cStaff Chat is currently disabled & cannot be used at this time.", true);
+							this.plugin.getMethods().sendMessage(player, "&4Error: &cStaff Chat is currently disabled & cannot be used at this time.", true);
 							return true;
 						}
 					} else {
@@ -67,17 +67,17 @@ public class CommandStaffChat implements CommandExecutor {
 							}
 
 							for (Player staff : plugin.getServer().getOnlinePlayers()) {
-								Methods.sendMessage(staff, placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)), true);
+								this.plugin.getMethods().sendMessage(staff, placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)), true);
 							}
 
-							Methods.tellConsole(placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)), true);
+							this.plugin.getMethods().tellConsole(placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)), true);
 						} else {
-							Methods.sendMessage(player, "&4Error: &cStaff Chat is currently disabled & cannot be used at this time.", true);
+							this.plugin.getMethods().sendMessage(player, "&4Error: &cStaff Chat is currently disabled & cannot be used at this time.", true);
 							return true;
 						}
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				}
 			}
 		} else if (sender instanceof ConsoleCommandSender) {
@@ -89,12 +89,12 @@ public class CommandStaffChat implements CommandExecutor {
 				}
 
 				for (Player staff : plugin.getServer().getOnlinePlayers()) {
-					if (staff.hasPermission("chatmanager.staffchat")) Methods.sendMessage(staff, config.getString("Staff_Chat.Format").replace("{player}", sender.getName()).replace("{message}", message), true);
+					if (staff.hasPermission("chatmanager.staffchat")) this.plugin.getMethods().sendMessage(staff, config.getString("Staff_Chat.Format").replace("{player}", sender.getName()).replace("{message}", message), true);
 				}
 
-				Methods.sendMessage(sender, config.getString("Staff_Chat.Format").replace("{player}", sender.getName()).replace("{message}", message), true);
+				this.plugin.getMethods().sendMessage(sender, config.getString("Staff_Chat.Format").replace("{player}", sender.getName()).replace("{message}", message), true);
 			} else {
-				Methods.sendMessage(sender, "&4Error: &cStaff Chat is currently disabled & cannot be used at this time.", true);
+				this.plugin.getMethods().sendMessage(sender, "&4Error: &cStaff Chat is currently disabled & cannot be used at this time.", true);
 				return true;
 			}
 		}

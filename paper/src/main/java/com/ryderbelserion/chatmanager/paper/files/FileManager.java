@@ -375,8 +375,6 @@ public class FileManager {
                 if (subFolder.exists()) {
                     this.fileObject = subFolder;
 
-                    Bukkit.getLogger().warning(this.fileObject.getPath());
-
                     if (subFolder.getName().endsWith(".yml")) file = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "/" + homeFolder + "/" + name));
                 } else {
                     file = null;

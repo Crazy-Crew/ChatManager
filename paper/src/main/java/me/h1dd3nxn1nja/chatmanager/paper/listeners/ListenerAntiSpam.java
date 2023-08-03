@@ -40,7 +40,7 @@ public class ListenerAntiSpam implements Listener {
 				String msg = plugin.api().getPreviousMsgData().getMessage(player.getUniqueId());
 
 				if (message.equalsIgnoreCase(msg)) {
-					player.sendMessage(Methods.color(player.getUniqueId(), messages.getString("Anti_Spam.Chat.Repetitive_Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+					player.sendMessage(this.plugin.getMethods().color(player.getUniqueId(), messages.getString("Anti_Spam.Chat.Repetitive_Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 					event.setCancelled(true);
 				}
 			}
@@ -68,7 +68,7 @@ public class ListenerAntiSpam implements Listener {
 		if (plugin.api().getChatCooldowns().containsUser(uuid)) {
 			int time = plugin.api().getChatCooldowns().getTime(uuid);
 
-			Methods.sendMessage(player, messages.getString("Anti_Spam.Chat.Delay_Message").replace("{Time}", String.valueOf(time)), true);
+			this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Spam.Chat.Delay_Message").replace("{Time}", String.valueOf(time)), true);
 			event.setCancelled(true);
 			return;
 		}
@@ -117,7 +117,7 @@ public class ListenerAntiSpam implements Listener {
 				if (plugin.api().getPreviousCmdData().containsUser(uuid)) {
 					String cmd = plugin.api().getPreviousCmdData().getMessage(uuid);
 					if (command.equalsIgnoreCase(cmd)) {
-						Methods.sendMessage(player, messages.getString("Anti_Spam.Command.Repetitive_Message"), true);
+						this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Spam.Command.Repetitive_Message"), true);
 
 						event.setCancelled(true);
 					}
@@ -129,7 +129,7 @@ public class ListenerAntiSpam implements Listener {
 			if (config.getInt("Anti_Spam.Command.Command_Delay") != 0) {
 				if (!player.hasPermission("chatmanager.bypass.commanddelay")) {
 					if (plugin.api().getCmdCooldowns().containsUser(uuid)) {
-						Methods.sendMessage(player, messages.getString("Anti_Spam.Command.Delay_Message").replace("{Time}", String.valueOf(plugin.api().getCmdCooldowns().getTime(uuid))), true);
+						this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Spam.Command.Delay_Message").replace("{Time}", String.valueOf(plugin.api().getCmdCooldowns().getTime(uuid))), true);
 						event.setCancelled(true);
 						return;
 					}

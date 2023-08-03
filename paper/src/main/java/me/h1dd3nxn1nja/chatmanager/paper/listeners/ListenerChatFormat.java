@@ -38,7 +38,7 @@ public class ListenerChatFormat implements Listener {
 		format = setupPlaceholderAPI(player, format);
 		format = placeholderManager.setPlaceholders(player, format);
 		format = setupChatRadius(player, format);
-		format = Methods.color(format);
+		format = this.plugin.getMethods().color(format);
 		format = format.replace("{message}", message);
 		format = format.replaceAll("%", "%%");
 

@@ -3,7 +3,6 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 import com.ryderbelserion.chatmanager.paper.files.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
@@ -73,7 +72,7 @@ public class ListenerPlayerJoin implements Listener {
                     if (event.getJoinMessage() != null) {
                         event.setJoinMessage(null);
 
-                        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> Bukkit.broadcastMessage(placeholderManager.setPlaceholders(player, message)));
+                        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> plugin.getServer().broadcastMessage(placeholderManager.setPlaceholders(player, message)));
                     }
                 } else {
                     event.setJoinMessage(placeholderManager.setPlaceholders(player, message));
@@ -126,8 +125,8 @@ public class ListenerPlayerJoin implements Listener {
                                 if (event.getJoinMessage() != null) {
                                     event.setJoinMessage(null);
 
-                                    Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                                        Bukkit.broadcastMessage(placeholderManager.setPlaceholders(player, joinMessage));
+                                    plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+                                        plugin.getServer().broadcastMessage(placeholderManager.setPlaceholders(player, joinMessage));
                                     });
                                 }
                             } else {
