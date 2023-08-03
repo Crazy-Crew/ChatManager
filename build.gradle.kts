@@ -87,7 +87,6 @@ Private_Messages:
    * also allowed staff chat bar to be reloaded if the player is in staffchat.
  * Fixed block commands not being disabled.
  * Fixed /ping command
- * 
     
 ## Other:
  * [Feature Requests](https://github.com/Crazy-Crew/${rootProject.name}/discussions/categories/features)
