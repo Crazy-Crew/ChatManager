@@ -31,7 +31,7 @@ tasks {
 
 val description = """
 ## New Features:
- * Changed the mention sound format. 
+ * Changed the mention sound format for all places with sounds. I've added an example of what it looks like below.
  ```yml
 #=================================================================================================#
 # When a player mentions another players name.
@@ -45,6 +45,8 @@ Mentions:
   sound:
     toggle: false
     value: 'ENTITY_PLAYER_LEVELUP'
+    volume: '1.0'
+    pitch: '1.0'
   
   # The symbol players have to use to tag other players, Leave it blank for nothing.
   Tag_Symbol: "@"
@@ -79,6 +81,8 @@ Private_Messages:
   sound:
     toggle: false
     value: 'ENTITY_PLAYER_LEVELUP'
+    volume: '1.0'
+    pitch: '1.0'
 ```
 ## Fix:
  * Fixed /msg not using the sound

@@ -151,6 +151,8 @@ public class CommandMessage implements CommandExecutor {
 		FileConfiguration config = Files.CONFIG.getFile();
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
+		if (message.isEmpty()) return true;
+
 		if (essentialsCheck(args, playerNotFound, player, target)) return true;
 
 		if (PluginSupport.PREMIUM_VANISH.isPluginEnabled() || PluginSupport.SUPER_VANISH.isPluginEnabled() && genericVanishSupport.isVanished(target) && !player.hasPermission("chatmanager.bypass.vanish")) {
@@ -166,9 +168,7 @@ public class CommandMessage implements CommandExecutor {
 				.replace("{receiver}", target.getName())
 				.replace("{receiver_displayname}", player.getDisplayName()) + message), true);
 
-		if (config.getBoolean("Private_Messages.sound.toggle", false)) {
-			target.playSound(target.getLocation(), Sound.valueOf(config.getString("Private_Messages.sound.value", Sound.ENTITY_PLAYER_LEVELUP.toString())), 1, 1);
-		}
+		this.plugin.getMethods().playSound(target, config, "Private_Messages.sound");
 
 		plugin.api().getUserRepliedData().addUser(uniqueId, uniqueId2);
 		plugin.api().getUserRepliedData().addUser(uniqueId2, uniqueId);
@@ -190,6 +190,7 @@ public class CommandMessage implements CommandExecutor {
 
 	private boolean essentialsCheck(String[] args, String playerNotFound, Player player, Player target) {
 		FileConfiguration messages = Files.MESSAGES.getFile();
+
 		if (PluginSupport.ESSENTIALS.isPluginEnabled()) {
 			if (essentialsSupport.getUser(target).isAfk() && (!player.hasPermission("chatmanager.bypass.afk"))) {
 				this.plugin.getMethods().sendMessage(player, messages.getString("Private_Message.AFK").replace("{target}", target.getName()), true);

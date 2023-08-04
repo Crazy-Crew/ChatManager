@@ -33,8 +33,25 @@ public class Debug {
 		if (!autobroadcast.contains("Auto_Broadcast.Global_Messages.Footer"))
 			plugin.getLogger().warning("Missing the section Auto_Broadcast.Global_Messages.Footer in the autobroadcast.yml file.");
 
-		if (!autobroadcast.contains("Auto_Broadcast.Global_Messages.Sound"))
-			plugin.getLogger().warning("Missing the section Auto_Broadcast.Global_Messages.Sound in the autobroadcast.yml file.");
+		if (!autobroadcast.contains("Auto_Broadcast.Global_Messages.sound.toggle")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Global_Messages.sound.toggle in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to false");
+		}
+
+		if (!autobroadcast.contains("Auto_Broadcast.Global_Messages.sound.value")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Global_Messages.sound.value in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined sound.");
+		}
+
+		if (!autobroadcast.contains("Auto_Broadcast.Global_Messages.sound.pitch")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Global_Messages.sound.pitch in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined pitch.");
+		}
+
+		if (!autobroadcast.contains("Auto_Broadcast.Global_Messages.sound.volume")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Global_Messages.sound.volume in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined volume.");
+		}
 
 		if (!autobroadcast.contains("Auto_Broadcast.Global_Messages.Messages"))
 			plugin.getLogger().warning("Missing the section Auto_Broadcast.Global_Messages.Messages in the autobroadcast.yml file.");
@@ -59,10 +76,27 @@ public class Debug {
 		if (!autobroadcast.contains("Auto_Broadcast.Per_World_Messages.Footer"))
 			plugin.getLogger().warning("Missing the section Auto_Broadcast.Per_World_Messages.Footer in the autobroadcast.yml file.");
 
-		if (!autobroadcast.contains("Auto_Broadcast.Per_World_Messages.Sound"))
-			plugin.getLogger().warning("Missing the section Auto_Broadcast.Per_World_Messages.Sound in the autobroadcast.yml file.");
+		if (!autobroadcast.contains("Auto_Broadcast.Per_World_Messages.sound.toggle")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Per_World_Messages.sound.toggle in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to false");
+		}
 
-		for (final String key : autobroadcast.getConfigurationSection("Auto_Broadcast.Per_World_Messages.Messages").getKeys(false))
+		if (!autobroadcast.contains("Auto_Broadcast.Per_World_Messages.sound.value")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Per_World_Messages.sound.value in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined sound.");
+		}
+
+		if (!autobroadcast.contains("Auto_Broadcast.Per_World_Messages.sound.pitch")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Per_World_Messages.sound.pitch in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined pitch.");
+		}
+
+		if (!autobroadcast.contains("Auto_Broadcast.Per_World_Messages.sound.volume")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Per_World_Messages.sound.volume in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined volume.");
+		}
+
+		for (String key : autobroadcast.getConfigurationSection("Auto_Broadcast.Per_World_Messages.Messages").getKeys(false))
 			if (!autobroadcast.contains("Auto_Broadcast.Per_World_Messages.Messages." + key))
 				plugin.getLogger().warning("The section Auto_Broadcast.Per_World_Messages.Messages." + key + " is either missing or isn't formatted correctly.");
 
@@ -78,10 +112,25 @@ public class Debug {
 		if (!autobroadcast.contains("Auto_Broadcast.Actionbar_Messages.Prefix"))
 			plugin.getLogger().warning("Missing the section Auto_Broadcast.Actionbar_Messages.Prefix in the autobroadcast.yml file.");
 
+		if (!autobroadcast.contains("Auto_Broadcast.Actionbar_Messages.sound.toggle")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Actionbar_Messages.sound.toggle in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to false");
+		}
 
-		if (!autobroadcast.contains("Auto_Broadcast.Actionbar_Messages.Sound"))
-			plugin.getLogger().warning("Missing the section Auto_Broadcast.Actionbar_Messages.Sound in the autobroadcast.yml file.");
+		if (!autobroadcast.contains("Auto_Broadcast.Actionbar_Messages.sound.value")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Actionbar_Messages.sound.value in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined sound.");
+		}
 
+		if (!autobroadcast.contains("Auto_Broadcast.Actionbar_Messages.sound.pitch")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Actionbar_Messages.sound.pitch in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined pitch.");
+		}
+
+		if (!autobroadcast.contains("Auto_Broadcast.Actionbar_Messages.sound.volume")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Actionbar_Messages.sound.volume in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined volume.");
+		}
 
 		if (!autobroadcast.contains("Auto_Broadcast.Actionbar_Messages.Messages"))
 			plugin.getLogger().warning("Missing the section Auto_Broadcast.Actionbar_Messages.Messages in the autobroadcast.yml file.");
@@ -95,10 +144,25 @@ public class Debug {
 		if (!autobroadcast.contains("Auto_Broadcast.Title_Messages.Interval"))
 			plugin.getLogger().warning("Missing the section Auto_Broadcast.Title_Messages.Interval in the autobroadcast.yml file.");
 
+		if (!autobroadcast.contains("Auto_Broadcast.Title_Messages.sound.toggle")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Title_Messages.sound.toggle in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to false");
+		}
 
-		if (!autobroadcast.contains("Auto_Broadcast.Title_Messages.Sound"))
-			plugin.getLogger().warning("Missing the section Auto_Broadcast.Title_Messages.Sound in the autobroadcast.yml file.");
+		if (!autobroadcast.contains("Auto_Broadcast.Title_Messages.sound.value")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Title_Messages.sound.value in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined sound.");
+		}
 
+		if (!autobroadcast.contains("Auto_Broadcast.Title_Messages.sound.pitch")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Title_Messages.sound.pitch in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined pitch.");
+		}
+
+		if (!autobroadcast.contains("Auto_Broadcast.Title_Messages.sound.volume")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Title_Messages.sound.volume in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined volume.");
+		}
 
 		if (!autobroadcast.contains("Auto_Broadcast.Title_Messages.Title"))
 			plugin.getLogger().warning("Missing the section Auto_Broadcast.Title_Messages.Title in the autobroadcast.yml file.");
@@ -115,9 +179,25 @@ public class Debug {
 		if (!autobroadcast.contains("Auto_Broadcast.Bossbar_Messages.Interval"))
 			plugin.getLogger().warning("Missing the section Auto_Broadcast.Bossbar_Messages.Interval in the autobroadcast.yml file.");
 
-		if (!autobroadcast.contains("Auto_Broadcast.Bossbar_Messages.Sound"))
-			plugin.getLogger().warning("Missing the section Auto_Broadcast.Bossbar_Messages.Sound in the autobroadcast.yml file.");
+		if (!autobroadcast.contains("Auto_Broadcast.Bossbar_Messages.sound.toggle")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Bossbar_Messages.sound.toggle in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to false");
+		}
 
+		if (!autobroadcast.contains("Auto_Broadcast.Bossbar_Messages.sound.value")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Bossbar_Messages.sound.value in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined sound.");
+		}
+
+		if (!autobroadcast.contains("Auto_Broadcast.Bossbar_Messages.sound.pitch")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Bossbar_Messages.sound.pitch in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined pitch.");
+		}
+
+		if (!autobroadcast.contains("Auto_Broadcast.Bossbar_Messages.sound.volume")) {
+			plugin.getLogger().warning("Missing the section Auto_Broadcast.Bossbar_Messages.sound.volume in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined volume.");
+		}
 
 		if (!autobroadcast.contains("Auto_Broadcast.Bossbar_Messages.Bar_Time"))
 			plugin.getLogger().warning("Missing the section Auto_Broadcast.Bossbar_Messages.Bar_Time in the autobroadcast.yml file.");
@@ -356,17 +436,68 @@ public class Debug {
 		if (!config.contains("Broadcast_Commands.Command.Broadcast.Default_Color"))
 			plugin.getLogger().warning("Missing the section Broadcast_Commands.Command.Broadcast.Default_Color in the config.yml file.");
 
-		if (!config.contains("Broadcast_Commands.Command.Broadcast.Sound"))
-			plugin.getLogger().warning("Missing the section Broadcast_Commands.Command.Broadcast.Sound in the config.yml file.");
+		if (!config.contains("Broadcast_Commands.Command.Broadcast.sound.toggle")) {
+			plugin.getLogger().warning("Missing the section Broadcast_Commands.Command.Broadcast.sound.toggle in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to false");
+		}
 
-		if (!config.contains("Broadcast_Commands.Command.Announcement.Sound"))
-			plugin.getLogger().warning("Missing the section Broadcast_Commands.Command.Announcement.Sound in the config.yml file.");
+		if (!config.contains("Broadcast_Commands.Command.Broadcast.sound.value")) {
+			plugin.getLogger().warning("Missing the section Broadcast_Commands.Command.Broadcast.sound.value in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined sound.");
+		}
+
+		if (!config.contains("Broadcast_Commands.Command.Broadcast.sound.pitch")) {
+			plugin.getLogger().warning("Missing the section Broadcast_Commands.Command.Broadcast.sound.pitch in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined pitch.");
+		}
+
+		if (!config.contains("Broadcast_Commands.Command.Broadcast.sound.volume")) {
+			plugin.getLogger().warning("Missing the section Broadcast_Commands.Command.Broadcast.sound.volume in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined volume.");
+		}
+
+		if (!config.contains("Broadcast_Commands.Command.Announcement.sound.toggle")) {
+			plugin.getLogger().warning("Missing the section Broadcast_Commands.Command.Announcement.sound.toggle in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to false");
+		}
+
+		if (!config.contains("Broadcast_Commands.Command.Announcement.sound.value")) {
+			plugin.getLogger().warning("Missing the section Broadcast_Commands.Command.Announcement.sound.value in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined sound.");
+		}
+
+		if (!config.contains("Broadcast_Commands.Command.Announcement.sound.pitch")) {
+			plugin.getLogger().warning("Missing the section Broadcast_Commands.Command.Announcement.sound.pitch in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined pitch.");
+		}
+
+		if (!config.contains("Broadcast_Commands.Command.Announcement.sound.volume")) {
+			plugin.getLogger().warning("Missing the section Broadcast_Commands.Command.Announcement.sound.volume in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined volume.");
+		}
 
 		if (!config.contains("Broadcast_Commands.Command.Announcement.Message"))
 			plugin.getLogger().warning("Missing the section Broadcast_Commands.Command.Announcement.Message in the config.yml file.");
 
-		if (!config.contains("Broadcast_Commands.Command.Warning.Sound"))
-			plugin.getLogger().warning("Missing the section Broadcast_Commands.Command.Warning.Sound in the config.yml file.");
+		if (!config.contains("Broadcast_Commands.Command.Warning.sound.toggle")) {
+			plugin.getLogger().warning("Missing the section Broadcast_Commands.Command.Warning.sound.toggle in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to false");
+		}
+
+		if (!config.contains("Broadcast_Commands.Command.Warning.sound.value")) {
+			plugin.getLogger().warning("Missing the section Broadcast_Commands.Command.Warning.sound.value in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined sound.");
+		}
+
+		if (!config.contains("Broadcast_Commands.Command.Warning.sound.pitch")) {
+			plugin.getLogger().warning("Missing the section Broadcast_Commands.Command.Warning.sound.pitch in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined pitch.");
+		}
+
+		if (!config.contains("Broadcast_Commands.Command.Warning.sound.volume")) {
+			plugin.getLogger().warning("Missing the section Broadcast_Commands.Command.Warning.sound.volume in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined volume.");
+		}
 
 		if (!config.contains("Broadcast_Commands.Command.Warning.Message"))
 			plugin.getLogger().warning("Missing the section Broadcast_Commands.Command.Warning.Message in the config.yml file.");
@@ -484,8 +615,25 @@ public class Debug {
 		if (!config.contains("Messages.First_Join.Welcome_Message.Enable"))
 			plugin.getLogger().warning("Missing the section Messages.First_Join.Welcome_Message.Enable in the config.yml file.");
 
-		if (!config.contains("Messages.First_Join.Welcome_Message.Sound"))
-			plugin.getLogger().warning("Missing the section Messages.First_Join.Welcome_Message.Sound in the config.yml file.");
+		if (!config.contains("Messages.Join_Quit_Messages.Welcome_Message.sound.toggle")) {
+			plugin.getLogger().warning("Missing the section Messages.Join_Quit_Messages.Quit_Message.sound.toggle in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to false");
+		}
+
+		if (!config.contains("Messages.Join_Quit_Messages.Welcome_Message.sound.value")) {
+			plugin.getLogger().warning("Missing the section Messages.Join_Quit_Messages.Quit_Message.sound.value in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined sound.");
+		}
+
+		if (!config.contains("Messages.Join_Quit_Messages.Welcome_Message.sound.pitch")) {
+			plugin.getLogger().warning("Missing the section Messages.Join_Quit_Messages.Quit_Message.sound.pitch in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined pitch.");
+		}
+
+		if (!config.contains("Messages.Join_Quit_Messages.Welcome_Message.sound.volume")) {
+			plugin.getLogger().warning("Missing the section Messages.Join_Quit_Messages.Quit_Message.sound.volume in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined volume.");
+		}
 
 		if (!config.contains("Messages.First_Join.Welcome_Message.First_Join_Message"))
 			plugin.getLogger().warning("Missing the section Messages.First_Join.Welcome_Message.First_Join_Message in the config.yml file.");
@@ -519,8 +667,25 @@ public class Debug {
 		if (!config.contains("Messages.Join_Quit_Messages.Join_Message.Enable"))
 			plugin.getLogger().warning("Missing the section Messages.Join_Quit_Messages.Join_Message.Enable in the config.yml file.");
 
-		if (!config.contains("Messages.Join_Quit_Messages.Join_Message.Sound"))
-			plugin.getLogger().warning("Missing the section Messages.Join_Quit_Messages.Join_Message.Sound in the config.yml file.");
+		if (!config.contains("Messages.Join_Quit_Messages.Join_Message.sound.toggle")) {
+			plugin.getLogger().warning("Missing the section Messages.Join_Quit_Messages.Join_Message.sound.toggle in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to false");
+		}
+
+		if (!config.contains("Messages.Join_Quit_Messages.Join_Message.sound.value")) {
+			plugin.getLogger().warning("Missing the section Messages.Join_Quit_Messages.Join_Message.sound.value in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined sound.");
+		}
+
+		if (!config.contains("Messages.Join_Quit_Messages.Join_Message.sound.pitch")) {
+			plugin.getLogger().warning("Missing the section Messages.Join_Quit_Messages.Join_Message.sound.pitch in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined pitch.");
+		}
+
+		if (!config.contains("Messages.Join_Quit_Messages.Join_Message.sound.volume")) {
+			plugin.getLogger().warning("Missing the section Messages.Join_Quit_Messages.Join_Message.sound.volume in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined volume.");
+		}
 
 		if (!config.contains("Messages.Join_Quit_Messages.Join_Message.Message"))
 			plugin.getLogger().warning("Missing the section Messages.Join_Quit_Messages.Join_Message.Message in the config.yml file.");
@@ -528,8 +693,25 @@ public class Debug {
 		if (!config.contains("Messages.Join_Quit_Messages.Quit_Message.Enable"))
 			plugin.getLogger().warning("Missing the section Messages.Join_Quit_Messages.Quit_Message.Enable in the config.yml file.");
 
-		if (!config.contains("Messages.Join_Quit_Messages.Quit_Message.Sound"))
-			plugin.getLogger().warning("Missing the section Messages.Join_Quit_Messages.Quit_Message.Sound in the config.yml file.");
+		if (!config.contains("Messages.Join_Quit_Messages.Quit_Message.sound.toggle")) {
+			plugin.getLogger().warning("Missing the section Messages.Join_Quit_Messages.Quit_Message.sound.toggle in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to false");
+		}
+
+		if (!config.contains("Messages.Join_Quit_Messages.Quit_Message.sound.value")) {
+			plugin.getLogger().warning("Missing the section Messages.Join_Quit_Messages.Quit_Message.sound.value in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined sound.");
+		}
+
+		if (!config.contains("Messages.Join_Quit_Messages.Quit_Message.sound.pitch")) {
+			plugin.getLogger().warning("Missing the section Messages.Join_Quit_Messages.Quit_Message.sound.pitch in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined pitch.");
+		}
+
+		if (!config.contains("Messages.Join_Quit_Messages.Quit_Message.sound.volume")) {
+			plugin.getLogger().warning("Missing the section Messages.Join_Quit_Messages.Quit_Message.sound.volume in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined volume.");
+		}
 
 		if (!config.contains("Messages.Join_Quit_Messages.Quit_Message.Message"))
 			plugin.getLogger().warning("Missing the section Messages.Join_Quit_Messages.Quit_Message.Message in the config.yml file.");
@@ -581,6 +763,16 @@ public class Debug {
 		if (!config.contains("Mentions.sound.value")) {
 			plugin.getLogger().warning("Missing the section Mentions.sound.value in the config.yml file.");
 			plugin.getLogger().warning("Defaulting to a pre-determined sound.");
+		}
+
+		if (!config.contains("Mentions.sound.pitch")) {
+			plugin.getLogger().warning("Missing the section Mentions.sound.pitch in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined pitch.");
+		}
+
+		if (!config.contains("Mentions.sound.volume")) {
+			plugin.getLogger().warning("Missing the section Mentions.sound.volume in the config.yml file.");
+			plugin.getLogger().warning("Defaulting to a pre-determined volume.");
 		}
 
 		if (!config.contains("Mentions.Tag_Symbol"))
