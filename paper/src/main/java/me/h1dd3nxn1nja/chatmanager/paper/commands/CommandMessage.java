@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import me.h1dd3nxn1nja.chatmanager.paper.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.paper.support.PluginSupport;
@@ -151,7 +152,10 @@ public class CommandMessage implements CommandExecutor {
 		FileConfiguration config = Files.CONFIG.getFile();
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
-		if (message.isEmpty()) return true;
+		if (message.isEmpty()) {
+			player.sendMessage(plugin.getMethods().color(plugin.getMethods().getPrefix() + "You need to supply a message in order to reply/send to " + target.getName()));
+			return true;
+		}
 
 		if (essentialsCheck(args, playerNotFound, player, target)) return true;
 
