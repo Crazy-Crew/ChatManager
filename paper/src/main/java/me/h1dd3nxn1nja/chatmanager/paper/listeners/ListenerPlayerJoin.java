@@ -4,7 +4,6 @@ import com.ryderbelserion.chatmanager.paper.files.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
-import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -33,18 +32,9 @@ public class ListenerPlayerJoin implements Listener {
                 event.setJoinMessage(placeholderManager.setPlaceholders(player, message));
 
                 String path = "Messages.First_Join.Welcome_Message.First_Join_Message.sound";
-                String sound = config.getString(path + ".value");
                 boolean isEnabled = config.contains(path + ".toggle") && config.getBoolean(path + ".toggle");
-                int volume = config.contains(path + ".volume") ? config.getInt(path + ".volume") : 10;
-                int pitch = config.contains(path + ".pitch") ? config.getInt(path + ".pitch") : 1;
 
-                if (isEnabled) {
-                    for (Player online : plugin.getServer().getOnlinePlayers()) {
-                        try {
-                            online.playSound(online.getLocation(), Sound.valueOf(sound), volume, pitch);
-                        } catch (IllegalArgumentException ignored) {}
-                    }
-                }
+                if (isEnabled) methods.playSound(config, path);
             }
 
             if (config.getBoolean("Messages.First_Join.Actionbar_Message.Enable")) {
@@ -79,10 +69,7 @@ public class ListenerPlayerJoin implements Listener {
                 boolean isAsync = config.getBoolean("Messages.Async", false);
 
                 String path = "Messages.Join_Quit_Messages.Join_Message.sound";
-                String sound = config.getString(path + ".value");
                 boolean isEnabled = config.contains(path + ".toggle") && config.getBoolean(path + ".toggle");
-                int volume = config.contains(path + ".volume") ? config.getInt(path + ".volume") : 10;
-                int pitch = config.contains(path + ".pitch") ? config.getInt(path + ".pitch") : 1;
 
                 if (isAsync) {
                     if (event.getJoinMessage() != null) {
@@ -94,13 +81,7 @@ public class ListenerPlayerJoin implements Listener {
                     event.setJoinMessage(placeholderManager.setPlaceholders(player, message));
                 }
 
-                if (isEnabled) {
-                    for (Player online : plugin.getServer().getOnlinePlayers()) {
-                        try {
-                            online.playSound(online.getLocation(), Sound.valueOf(sound), volume, pitch);
-                        } catch (IllegalArgumentException ignored) {}
-                    }
-                }
+                if (isEnabled) methods.playSound(config, path);
             }
 
             if ((config.getBoolean("Messages.Join_Quit_Messages.Actionbar_Message.Enable")) && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
@@ -165,7 +146,7 @@ public class ListenerPlayerJoin implements Listener {
                             }
                         }
 
-                        String path = "Messages.Join_Quit_Messages.Group_Messages." + key;
+                        String path = "Messages.Join_Quit_Messages.Group_Messages." + key + ".sound";
 
                         methods.playSound(config, path);
                     }
@@ -184,7 +165,7 @@ public class ListenerPlayerJoin implements Listener {
             String message = config.getString("Messages.Join_Quit_Messages.Quit_Message.Message");
             event.setQuitMessage(placeholderManager.setPlaceholders(player, message));
 
-            String path = "Messages.Join_Quit_Messages.Quit_Message";
+            String path = "Messages.Join_Quit_Messages.Quit_Message.sound";
 
             methods.playSound(config, path);
         }

@@ -237,8 +237,8 @@ Broadcast_Commands:
       sound:
         toggle: false
         value: 'ENTITY_PLAYER_LEVELUP'
-        pitch: 1
-        volume: 1
+        pitch: 1.0
+        volume: 1.0
     # Announcement Command
     Announcement:
       # The sound that will be sent to everyone on the server when an announcement is sent.
@@ -246,8 +246,8 @@ Broadcast_Commands:
       sound:
         toggle: false
         value: 'ENTITY_PLAYER_LEVELUP'
-        pitch: 1
-        volume: 1
+        pitch: 1.0
+        volume: 1.0
       # The message that will be sent to everyone on the server.
       Message:
         - "&8&m--------------------------"
@@ -261,8 +261,8 @@ Broadcast_Commands:
       sound:
         toggle: false
         value: 'ENTITY_PLAYER_LEVELUP'
-        pitch: 1
-        volume: 1
+        pitch: 1.0
+        volume: 1.0
       # The message that will be sent to everyone on the server.
       Message:
         - "&8&m--------------------------"
@@ -465,8 +465,8 @@ Messages:
       sound:
         toggle: false
         value: 'ENTITY_PLAYER_LEVELUP'
-        pitch: 1
-        volume: 1
+        pitch: 1.0
+        volume: 1.0
       First_Join_Message: "&eWelcome to &b{server_name} {vault_prefix}{player}&e!"
 
     Actionbar_Message:
@@ -497,8 +497,8 @@ Messages:
       sound:
         toggle: false
         value: 'ENTITY_PLAYER_LEVELUP'
-        pitch: 1
-        volume: 1
+        pitch: 1.0
+        volume: 1.0
       Message: "&b{player} &ajoined the server"
     
     Quit_Message:
@@ -509,8 +509,8 @@ Messages:
       sound:
         toggle: false
         value: 'ENTITY_PLAYER_LEVELUP'
-        pitch: 1
-        volume: 1
+        pitch: 1.0
+        volume: 1.0
 
       Message: "&b{player} &cleft the server"
     
@@ -555,8 +555,8 @@ Messages:
         sound:
           toggle: false
           value: 'ENTITY_PLAYER_LEVELUP'
-          pitch: 1
-          volume: 1
+          pitch: 1.0
+          volume: 1.0
 
       Donator:
         Permission: "chatmanager.join.donator"
@@ -573,8 +573,8 @@ Messages:
         sound:
           toggle: false
           value: 'ENTITY_PLAYER_LEVELUP'
-          pitch: 1
-          volume: 1
+          pitch: 1.0
+          volume: 1.0
 
       Owner:
         Permission: "chatmanager.join.owner"
@@ -590,8 +590,8 @@ Messages:
         sound:
           toggle: false
           value: 'ENTITY_PLAYER_LEVELUP'
-          pitch: 1
-          volume: 1
+          pitch: 1.0
+          volume: 1.0
 
 #=================================================================================================#
 # When a player mentions another players name.
@@ -603,8 +603,8 @@ Mentions:
   sound:
     toggle: false
     value: 'ENTITY_PLAYER_LEVELUP'
-    pitch: 1
-    volume: 1
+    pitch: 1.0
+    volume: 1.0
   # The symbol players have to use to tag other players, Leave it blank for nothing.
   Tag_Symbol: "@"
   # The color the players name will be highlighted as when mentioned in chat.
@@ -687,8 +687,8 @@ Private_Messages:
   sound:
     toggle: false
     value: 'ENTITY_PLAYER_LEVELUP'
-    pitch: 1
-    volume: 1
+    pitch: 1.0
+    volume: 1.0
 
 #=================================================================================================#
 # The server name used in {server_name} variable.

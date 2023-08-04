@@ -42,7 +42,7 @@ public class AutoBroadcastManager {
 							player.sendMessage(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix).replace("\\n", "\n")));
 						}
 
-						methods.playSound(player, autobroadcast, "Auto_Broadcast.Global_Messages");
+						methods.playSound(player, autobroadcast, "Auto_Broadcast.Global_Messages.sound");
 					}
 				}
 				line++;
@@ -78,7 +78,7 @@ public class AutoBroadcastManager {
 									player.sendMessage(crazyManager.getPlaceholderManager().setPlaceholders(player, world.getMessages().get(world.getIndex()).replace("{Prefix}", prefix).replace("\\n", "\n")));
 								}
 
-								methods.playSound(player, autobroadcast, "Auto_Broadcast.Per_World_Messages");
+								methods.playSound(player, autobroadcast, "Auto_Broadcast.Per_World_Messages.sound");
 							}
 						}
 					}
@@ -112,7 +112,7 @@ public class AutoBroadcastManager {
 
 						craftPlayer.sendActionBar(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix)));
 
-						methods.playSound(player, autobroadcast, "Auto_Broadcast.Actionbar_Messages");
+						methods.playSound(player, autobroadcast, "Auto_Broadcast.Actionbar_Messages.sound");
 					}
 				}
 
@@ -137,7 +137,7 @@ public class AutoBroadcastManager {
 
 						player.sendTitle(title, crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line)), 40, 20, 40);
 
-						methods.playSound(player, autobroadcast, "Auto_Broadcast.Title_Messages");
+						methods.playSound(player, autobroadcast, "Auto_Broadcast.Title_Messages.sound");
 					}
 				}
 
@@ -168,7 +168,7 @@ public class AutoBroadcastManager {
 							bossBar.setBossBarTime(player, time, plugin);
 						}
 
-						methods.playSound(player, autobroadcast, "Auto_Broadcast.Bossbar_Messages");
+						methods.playSound(player, autobroadcast, "Auto_Broadcast.Bossbar_Messages.sound");
 					}
 				}
 

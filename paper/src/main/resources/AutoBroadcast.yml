@@ -52,8 +52,8 @@ Auto_Broadcast:
     sound:
       toggle: false
       value: 'ENTITY_PLAYER_LEVELUP'
-      pitch: 1
-      volume: 1
+      pitch: 1.0
+      volume: 1.0
     Messages:
       - "{Prefix} &7Auto-Broadcast action bar message."
       - "{Prefix} &7Plugin created by H1DD3NxN1NJA."
@@ -64,8 +64,8 @@ Auto_Broadcast:
     sound:
       toggle: false
       value: 'ENTITY_PLAYER_LEVELUP'
-      pitch: 1
-      volume: 1
+      pitch: 1.0
+      volume: 1.0
     Title: "&cTitle"
     Messages:
       - "&7Auto-Broadcast title message."
@@ -77,8 +77,8 @@ Auto_Broadcast:
     sound:
       toggle: false
       value: 'ENTITY_PLAYER_LEVELUP'
-      pitch: 1
-      volume: 1
+      pitch: 1.0
+      volume: 1.0
     Bar_Time: 10 # How long the boss bar stays on for.
     Messages:
       - "&7Auto-Broadcast bossbar message."

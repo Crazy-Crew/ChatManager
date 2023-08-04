@@ -33,28 +33,30 @@ public class Methods {
 	}
 
 	public void playSound(FileConfiguration config, String path) {
-		String sound = config.getString(path + ".sound");
+		String sound = config.getString(path + ".value");
 		boolean isEnabled = config.contains(path + ".toggle") && config.getBoolean(path + ".toggle");
-		int volume = config.contains(path + ".volume") ? config.getInt(path + ".volume") : 1;
-		int pitch = config.contains(path + ".pitch") ? config.getInt(path + ".pitch") : 1;
+		double volume = config.contains(path + ".volume") ? config.getDouble(path + ".volume") : 1.0;
+		double pitch = config.contains(path + ".pitch") ? config.getDouble(path + ".pitch") : 1.0;
+
+		Bukkit.getLogger().warning(sound);
 
 		if (isEnabled) {
 			for (Player online : plugin.getServer().getOnlinePlayers()) {
 				try {
-					online.playSound(online.getLocation(), Sound.valueOf(sound), volume, pitch);
+					online.playSound(online.getLocation(), Sound.valueOf(sound), (float) volume, (float) pitch);
 				} catch (IllegalArgumentException ignored) {}
 			}
 		}
 	}
 
 	public void playSound(Player player, FileConfiguration config, String path) {
-		String sound = config.getString(path + ".sound");
+		String sound = config.getString(path + ".value");
 		boolean isEnabled = config.contains(path + ".toggle") && config.getBoolean(path + ".toggle");
-		int volume = config.contains(path + ".volume") ? config.getInt(path + ".volume") : 1;
-		int pitch = config.contains(path + ".pitch") ? config.getInt(path + ".pitch") : 1;
+		double volume = config.contains(path + ".volume") ? config.getDouble(path + ".volume") : 1.0;
+		double pitch = config.contains(path + ".pitch") ? config.getDouble(path + ".pitch") : 1.0;
 
 		if (isEnabled) {
-			player.playSound(player.getLocation(), Sound.valueOf(sound), volume, pitch);
+			player.playSound(player.getLocation(), Sound.valueOf(sound), (float) volume, (float) pitch);
 		}
 	}
 
@@ -78,8 +80,8 @@ public class Methods {
 				}
 
 				config.set(root + ".sound.value", oldSound);
-				config.set(root + ".sound.pitch", 1);
-				config.set(root + ".sound.volume", 1);
+				config.set(root + ".sound.pitch", 1.0);
+				config.set(root + ".sound.volume", 1.0);
 
 				config.set(oldSoundPath, null);
 
@@ -262,8 +264,8 @@ public class Methods {
 		if (oldSound.isEmpty()) autoBroadcast.set(path + ".toggle", false); else autoBroadcast.set(path + ".toggle", true);
 
 		autoBroadcast.set(path + ".value", oldSound);
-		autoBroadcast.set(path + ".pitch", 1);
-		autoBroadcast.set(path + ".volume", 1);
+		autoBroadcast.set(path + ".pitch", 1.0);
+		autoBroadcast.set(path + ".volume", 1.0);
 	}
 
 	public String color(UUID uuid, String message) {
