@@ -7,7 +7,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.BossBarUtil;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.Debug;
 import org.jetbrains.annotations.NotNull;
@@ -70,7 +69,6 @@ public class CommandChatManager implements CommandExecutor {
 				}
 
 				if (args.length == 1) {
-
 					this.plugin.getMethods().sendMessage(sender, "", true);
 					this.plugin.getMethods().sendMessage(sender, "&3ChatManager Debug Help Menu &f(v" + plugin.getDescription().getVersion() + ")", true);
 					this.plugin.getMethods().sendMessage(sender, "", true);

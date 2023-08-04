@@ -2,22 +2,22 @@ package me.h1dd3nxn1nja.chatmanager.paper.managers;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.ryderbelserion.chatmanager.paper.api.CrazyManager;
 import com.ryderbelserion.chatmanager.paper.files.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.BossBarUtil;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.World;
 
 public class AutoBroadcastManager {
 
 	private static final ChatManager plugin = ChatManager.getPlugin();
+	private static final Methods methods = plugin.getMethods();
 	private static final CrazyManager crazyManager = plugin.getCrazyManager();
 
 	private static final List<World> worlds = new ArrayList<>();
@@ -25,7 +25,6 @@ public class AutoBroadcastManager {
 	public static void globalMessages() {
 		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
 
-		String sound = autobroadcast.getString("Auto_Broadcast.Global_Messages.Sound");
 		String prefix = autobroadcast.getString("Auto_Broadcast.Global_Messages.Prefix");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Global_Messages.Interval");
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Global_Messages.Messages");
@@ -43,9 +42,7 @@ public class AutoBroadcastManager {
 							player.sendMessage(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix).replace("\\n", "\n")));
 						}
 
-						try {
-							player.playSound(player.getLocation(), Sound.valueOf(sound), 10, 1);
-						} catch (IllegalArgumentException ignored) {}
+						methods.playSound(player, autobroadcast, "Auto_Broadcast.Global_Messages");
 					}
 				}
 				line++;
@@ -58,7 +55,6 @@ public class AutoBroadcastManager {
 	public static void perWorldMessages() {
 		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
 
-		String sound = autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Sound");
 		String prefix = autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Prefix");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Per_World_Messages.Interval");
 		worlds.clear();
@@ -81,9 +77,8 @@ public class AutoBroadcastManager {
 								} else {
 									player.sendMessage(crazyManager.getPlaceholderManager().setPlaceholders(player, world.getMessages().get(world.getIndex()).replace("{Prefix}", prefix).replace("\\n", "\n")));
 								}
-								try {
-									player.playSound(player.getLocation(), Sound.valueOf(sound), 10, 1);
-								} catch (IllegalArgumentException ignored) {}
+
+								methods.playSound(player, autobroadcast, "Auto_Broadcast.Per_World_Messages");
 							}
 						}
 					}
@@ -102,7 +97,6 @@ public class AutoBroadcastManager {
 	public static void actionbarMessages() {
 		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
 
-		String sound = autobroadcast.getString("Auto_Broadcast.Actionbar_Messages.Sound");
 		String prefix = autobroadcast.getString("Auto_Broadcast.Actionbar_Messages.Prefix");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Actionbar_Messages.Interval");
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Actionbar_Messages.Messages");
@@ -118,9 +112,7 @@ public class AutoBroadcastManager {
 
 						craftPlayer.sendActionBar(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix)));
 
-						try {
-							player.playSound(player.getLocation(), Sound.valueOf(sound), 10, 1);
-						} catch (IllegalArgumentException ignored) {}
+						methods.playSound(player, autobroadcast, "Auto_Broadcast.Actionbar_Messages");
 					}
 				}
 
@@ -133,7 +125,6 @@ public class AutoBroadcastManager {
 	public static void titleMessages() {
 		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
 
-		String sound = autobroadcast.getString("Auto_Broadcast.Title_Messages.Sound");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Title_Messages.Interval");
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Title_Messages.Messages");
 		
@@ -146,9 +137,7 @@ public class AutoBroadcastManager {
 
 						player.sendTitle(title, crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line)), 40, 20, 40);
 
-						try {
-							player.playSound(player.getLocation(), Sound.valueOf(sound), 10, 1);
-						} catch (IllegalArgumentException ignored) {}
+						methods.playSound(player, autobroadcast, "Auto_Broadcast.Title_Messages");
 					}
 				}
 
@@ -161,7 +150,6 @@ public class AutoBroadcastManager {
 	public static void bossBarMessages() {
 		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
 
-		String sound = autobroadcast.getString("Auto_Broadcast.Bossbar_Messages.Sound");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Interval");
 		int time = autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Bar_Time");
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Bossbar_Messages.Messages");
@@ -180,9 +168,7 @@ public class AutoBroadcastManager {
 							bossBar.setBossBarTime(player, time, plugin);
 						}
 
-						try {
-							player.playSound(player.getLocation(), Sound.valueOf(sound), 10, 1);
-						} catch (IllegalArgumentException ignored) {}
+						methods.playSound(player, autobroadcast, "Auto_Broadcast.Bossbar_Messages");
 					}
 				}
 

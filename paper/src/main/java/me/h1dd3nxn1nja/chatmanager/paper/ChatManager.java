@@ -61,29 +61,7 @@ public class ChatManager extends JavaPlugin {
 
         FileConfiguration config = Files.CONFIG.getFile();
 
-        if (config.contains("Private_Messages.Sound")) {
-            String oldSound = config.getString("Private_Messages.Sound");
-
-            assert oldSound != null;
-            if (oldSound.isEmpty()) config.set("Private_Messages.sound.toggle", false); else config.set("Mentions.sound.toggle", true);
-            config.set("Private_Messages.sound.value", oldSound);
-
-            config.set("Private_Messages.Sound", null);
-
-            Files.CONFIG.saveFile();
-        }
-
-        if (config.contains("Mentions.Sound")) {
-            String oldSound = config.getString("Mentions.Sound");
-
-            assert oldSound != null;
-            if (oldSound.isEmpty()) config.set("Mentions.sound.toggle", false); else config.set("Mentions.sound.toggle", true);
-            config.set("Mentions.sound.value", oldSound);
-
-            config.set("Mentions.Sound", null);
-
-            Files.CONFIG.saveFile();
-        }
+        methods.convert();
 
         boolean metricsEnabled = config.getBoolean("Metrics_Enabled", false);
 

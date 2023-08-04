@@ -1,7 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
-import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

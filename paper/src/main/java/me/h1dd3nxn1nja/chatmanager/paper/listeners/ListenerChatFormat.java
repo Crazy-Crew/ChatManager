@@ -12,7 +12,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 
 public class ListenerChatFormat implements Listener {
 

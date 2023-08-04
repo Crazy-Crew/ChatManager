@@ -8,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandClearChat implements CommandExecutor {
@@ -27,7 +26,6 @@ public class CommandClearChat implements CommandExecutor {
 							sendClearMessage(members);
 
 							if (sender instanceof Player player) {
-
 								for (String broadcastMessage : messages.getStringList("Clear_Chat.Broadcast_Message")) {
 									this.plugin.getMethods().sendMessage(members, broadcastMessage.replace("{player}", player.getName()), true);
 								}

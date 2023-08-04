@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
 import com.ryderbelserion.chatmanager.paper.files.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -17,6 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class ListenerPlayerJoin implements Listener {
 
     private final ChatManager plugin = ChatManager.getPlugin();
+    private final Methods methods = plugin.getMethods();
     private final PlaceholderManager placeholderManager = this.plugin.getCrazyManager().getPlaceholderManager();
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -30,10 +32,18 @@ public class ListenerPlayerJoin implements Listener {
                 String message = config.getString("Messages.First_Join.Welcome_Message.First_Join_Message");
                 event.setJoinMessage(placeholderManager.setPlaceholders(player, message));
 
-                for (Player online : plugin.getServer().getOnlinePlayers()) {
-                    try {
-                        online.playSound(online.getLocation(), Sound.valueOf(config.getString("Messages.First_Join.Welcome_Message.Sound")), 10, 1);
-                    } catch (IllegalArgumentException ignored) {}
+                String path = "Messages.First_Join.Welcome_Message.First_Join_Message.sound";
+                String sound = config.getString(path + ".value");
+                boolean isEnabled = config.contains(path + ".toggle") && config.getBoolean(path + ".toggle");
+                int volume = config.contains(path + ".volume") ? config.getInt(path + ".volume") : 10;
+                int pitch = config.contains(path + ".pitch") ? config.getInt(path + ".pitch") : 1;
+
+                if (isEnabled) {
+                    for (Player online : plugin.getServer().getOnlinePlayers()) {
+                        try {
+                            online.playSound(online.getLocation(), Sound.valueOf(sound), volume, pitch);
+                        } catch (IllegalArgumentException ignored) {}
+                    }
                 }
             }
 
@@ -58,7 +68,7 @@ public class ListenerPlayerJoin implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void JoinMessage(PlayerJoinEvent event) {
+    public void joinMessage(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
         FileConfiguration config = Files.CONFIG.getFile();
@@ -67,6 +77,12 @@ public class ListenerPlayerJoin implements Listener {
             if ((config.getBoolean("Messages.Join_Quit_Messages.Join_Message.Enable")) && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
                 String message = config.getString("Messages.Join_Quit_Messages.Join_Message.Message");
                 boolean isAsync = config.getBoolean("Messages.Async", false);
+
+                String path = "Messages.Join_Quit_Messages.Join_Message.sound";
+                String sound = config.getString(path + ".value");
+                boolean isEnabled = config.contains(path + ".toggle") && config.getBoolean(path + ".toggle");
+                int volume = config.contains(path + ".volume") ? config.getInt(path + ".volume") : 10;
+                int pitch = config.contains(path + ".pitch") ? config.getInt(path + ".pitch") : 1;
 
                 if (isAsync) {
                     if (event.getJoinMessage() != null) {
@@ -78,15 +94,16 @@ public class ListenerPlayerJoin implements Listener {
                     event.setJoinMessage(placeholderManager.setPlaceholders(player, message));
                 }
 
-                for (Player online : plugin.getServer().getOnlinePlayers()) {
-                    try {
-                        online.playSound(online.getLocation(), Sound.valueOf(config.getString("Messages.Join_Quit_Messages.Join_Message.Sound")), 10, 1);
-                    } catch (IllegalArgumentException ignored) {}
+                if (isEnabled) {
+                    for (Player online : plugin.getServer().getOnlinePlayers()) {
+                        try {
+                            online.playSound(online.getLocation(), Sound.valueOf(sound), volume, pitch);
+                        } catch (IllegalArgumentException ignored) {}
+                    }
                 }
             }
 
-            if ((config.getBoolean("Messages.Join_Quit_Messages.Actionbar_Message.Enable"))
-                    && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
+            if ((config.getBoolean("Messages.Join_Quit_Messages.Actionbar_Message.Enable")) && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
                 String message = config.getString("Messages.Join_Quit_Messages.Actionbar_Message.Message");
 
                 CraftPlayer craftPlayer = (CraftPlayer) player;
@@ -94,8 +111,7 @@ public class ListenerPlayerJoin implements Listener {
                 craftPlayer.sendActionBar(placeholderManager.setPlaceholders(player, message));
             }
 
-            if ((config.getBoolean("Messages.Join_Quit_Messages.Title_Message.Enable"))
-                    && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
+            if ((config.getBoolean("Messages.Join_Quit_Messages.Title_Message.Enable")) && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
                 int fadeIn = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_In");
                 int stay = config.getInt("Messages.Join_Quit_Messages.Title_Message.Stay");
                 int fadeOut = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_Out");
@@ -115,7 +131,6 @@ public class ListenerPlayerJoin implements Listener {
                     int fadeIn = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_In");
                     int stay = config.getInt("Messages.Join_Quit_Messages.Title_Message.Stay");
                     int fadeOut = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_Out");
-                    String sound = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Sound");
 
                     if (permission != null && player.hasPermission(permission)) {
                         if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Join_Message")) {
@@ -125,9 +140,7 @@ public class ListenerPlayerJoin implements Listener {
                                 if (event.getJoinMessage() != null) {
                                     event.setJoinMessage(null);
 
-                                    plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-                                        plugin.getServer().broadcastMessage(placeholderManager.setPlaceholders(player, joinMessage));
-                                    });
+                                    plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> plugin.getServer().broadcastMessage(placeholderManager.setPlaceholders(player, joinMessage)));
                                 }
                             } else {
                                 event.setJoinMessage(placeholderManager.setPlaceholders(player, joinMessage));
@@ -152,13 +165,9 @@ public class ListenerPlayerJoin implements Listener {
                             }
                         }
 
-                        if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Sound")) {
-                            for (Player online : plugin.getServer().getOnlinePlayers()) {
-                                try {
-                                    online.playSound(online.getLocation(), Sound.valueOf(sound), 10, 1);
-                                } catch (IllegalArgumentException ignored) {}
-                            }
-                        }
+                        String path = "Messages.Join_Quit_Messages.Group_Messages." + key;
+
+                        methods.playSound(config, path);
                     }
                 }
             }
@@ -171,16 +180,13 @@ public class ListenerPlayerJoin implements Listener {
 
         FileConfiguration config = Files.CONFIG.getFile();
 
-        if ((config.getBoolean("Messages.Join_Quit_Messages.Quit_Message.Enable"))
-                && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
+        if ((config.getBoolean("Messages.Join_Quit_Messages.Quit_Message.Enable")) && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
             String message = config.getString("Messages.Join_Quit_Messages.Quit_Message.Message");
             event.setQuitMessage(placeholderManager.setPlaceholders(player, message));
 
-            for (Player online : plugin.getServer().getOnlinePlayers()) {
-                try {
-                    online.playSound(online.getLocation(), Sound.valueOf(config.getString("Messages.Join_Quit_Messages.Quit_Message.Sound")), 10, 1);
-                } catch (IllegalArgumentException ignored) {}
-            }
+            String path = "Messages.Join_Quit_Messages.Quit_Message";
+
+            methods.playSound(config, path);
         }
 
         if (config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable")) {
@@ -223,9 +229,9 @@ public class ListenerPlayerJoin implements Listener {
         }
 
         if (config.getBoolean("Chat_Radius.Enable")) {
-            if (config.getString("Chat_Radius.Default_Channel").equals("Local")) plugin.api().getLocalChatData().addUser(player.getUniqueId());
-            if (config.getString("Chat_Radius.Default_Channel").equals("Global")) plugin.api().getGlobalChatData().addUser(player.getUniqueId());
-            if (config.getString("Chat_Radius.Default_Channel").equals("World")) plugin.api().getWorldChatData().addUser(player.getUniqueId());
+            if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Local")) plugin.api().getLocalChatData().addUser(player.getUniqueId());
+            if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Global")) plugin.api().getGlobalChatData().addUser(player.getUniqueId());
+            if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("World")) plugin.api().getWorldChatData().addUser(player.getUniqueId());
         }
 
         if (config.getBoolean("Chat_Radius.Enable")) {

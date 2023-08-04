@@ -2,7 +2,6 @@ package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.ryderbelserion.chatmanager.paper.files.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
@@ -11,7 +10,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.World;
 import org.jetbrains.annotations.NotNull;
 
@@ -69,8 +67,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							String string = autobroadcast.getString("Auto_Broadcast.Global_Messages.Prefix");
 
 							for (String global : autobroadcast.getStringList("Auto_Broadcast.Global_Messages.Messages")) {
-								if (string != null)
-									player.sendMessage(placeholderManager.setPlaceholders(player, "&7 - " + global.replace("{Prefix}", string)));
+								if (string != null) player.sendMessage(placeholderManager.setPlaceholders(player, "&7 - " + global.replace("{Prefix}", string)));
 							}
 
 							this.plugin.getMethods().sendMessage(player, "", true);
@@ -91,8 +88,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							String string = autobroadcast.getString("Auto_Broadcast.Actionbar_Messages.Prefix");
 
 							for (String actionbar : autobroadcast.getStringList("Auto_Broadcast.Actionbar_Messages.Messages")) {
-								if (string != null)
-									player.sendMessage(placeholderManager.setPlaceholders(player, "&7 - " + actionbar.replace("{Prefix}", string)));
+								if (string != null) player.sendMessage(placeholderManager.setPlaceholders(player, "&7 - " + actionbar.replace("{Prefix}", string)));
 							}
 
 							this.plugin.getMethods().sendMessage(player, "", true);
@@ -190,7 +186,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							StringBuilder builder = new StringBuilder();
 
 							for (int i = 2; i < args.length; i++) {
-								builder.append(args[i] + " ");
+								builder.append(args[i]).append(" ");
 							}
 
 							String msg = builder.toString();
@@ -216,7 +212,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						StringBuilder builder = new StringBuilder();
 
 						for (int i = 2; i < args.length; i++) {
-							builder.append(args[i] + " ");
+							builder.append(args[i]).append(" ");
 						}
 
 						String msg = builder.toString();
@@ -241,7 +237,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						StringBuilder builder = new StringBuilder();
 
 						for (int i = 2; i < args.length; i++) {
-							builder.append(args[i] + " ");
+							builder.append(args[i]).append(" ");
 						}
 
 						String msg = builder.toString();
@@ -266,7 +262,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						StringBuilder builder = new StringBuilder();
 
 						for (int i = 2; i < args.length; i++) {
-							builder.append(args[i] + " ");
+							builder.append(args[i]).append(" ");
 						}
 
 						String msg = builder.toString();
@@ -303,7 +299,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 								StringBuilder builder = new StringBuilder();
 
 								for (int i = 3; i < args.length; i++) {
-									builder.append(args[i] + " ");
+									builder.append(args[i]).append(" ");
 								}
 
 								String msg = builder.toString();
@@ -325,13 +321,13 @@ public class CommandAutoBroadcast implements CommandExecutor {
 			}
 		}
 
-		if (args[0].equalsIgnoreCase("Create")) {
+		if (args[0].equalsIgnoreCase("create")) {
 			if (player.hasPermission("chatmanager.autobroadcast.create")) {
 				if (args.length >= 2) {
 					StringBuilder builder = new StringBuilder();
 
 					for (int i = 2; i < args.length; i++) {
-						builder.append(args[i] + " ");
+						builder.append(args[i]).append(" ");
 					}
 
 					String msg = builder.toString();
@@ -349,6 +345,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 				this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 			}
 		}
+
 		return true;
 	}
 

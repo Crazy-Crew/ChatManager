@@ -15,7 +15,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 

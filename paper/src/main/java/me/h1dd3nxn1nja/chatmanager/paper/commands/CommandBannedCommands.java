@@ -2,7 +2,6 @@ package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
 import com.ryderbelserion.chatmanager.paper.files.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
-import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -84,6 +83,7 @@ public class CommandBannedCommands implements CommandExecutor {
 					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				}
 			}
+
 			if (args[0].equalsIgnoreCase("remove")) {
 				if (player.hasPermission("chatmanager.bannedcommands.remove")) {
 					if (args.length == 2) {
@@ -104,6 +104,7 @@ public class CommandBannedCommands implements CommandExecutor {
 					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				}
 			}
+
 			if (args[0].equalsIgnoreCase("list")) {
 				if (player.hasPermission("chatmanager.bannedcommands.list")) {
 					if (args.length == 1) {

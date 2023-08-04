@@ -2,7 +2,6 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
 import java.util.Set;
 import java.util.UUID;
-
 import com.ryderbelserion.chatmanager.paper.files.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import org.bukkit.ChatColor;
@@ -12,7 +11,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 
 public class ListenerRadius implements Listener {
 
@@ -38,7 +36,7 @@ public class ListenerRadius implements Listener {
 
 		if (player.hasPermission("chatmanager.chatradius.global.override")) {
 			assert globalOverrideChar != null;
-			if (!globalOverrideChar.equals("")) {
+			if (!globalOverrideChar.isEmpty()) {
 				if (ChatColor.stripColor(message).charAt(0) == globalOverrideChar.charAt(0)) {
 					plugin.api().getWorldChatData().removeUser(uuid);
 					plugin.api().getLocalChatData().removeUser(uuid);
@@ -51,7 +49,7 @@ public class ListenerRadius implements Listener {
 		if (player.hasPermission("chatmanager.chatradius.local.override")) {
 			assert localOverrideChar != null;
 
-			if (!localOverrideChar.equals("")) {
+			if (!localOverrideChar.isEmpty()) {
 				if (ChatColor.stripColor(message).charAt(0) == localOverrideChar.charAt(0)) {
 					plugin.api().getWorldChatData().removeUser(uuid);
 					plugin.api().getGlobalChatData().removeUser(uuid);
@@ -64,7 +62,7 @@ public class ListenerRadius implements Listener {
 
 		if (player.hasPermission("chatmanager.chatradius.world.override")) {
 			assert worldOverrideChar != null;
-			if (!worldOverrideChar.equals("")) {
+			if (!worldOverrideChar.isEmpty()) {
 				if (ChatColor.stripColor(message).charAt(0) == worldOverrideChar.charAt(0)) {
 					plugin.api().getGlobalChatData().removeUser(uuid);
 					plugin.api().getLocalChatData().removeUser(uuid);

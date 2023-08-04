@@ -6,7 +6,6 @@ import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import me.h1dd3nxn1nja.chatmanager.paper.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.paper.support.PluginSupport;
 import org.bukkit.ChatColor;
-import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,6 +16,7 @@ import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 public class ListenerMentions implements Listener {
 
 	private final ChatManager plugin = ChatManager.getPlugin();
+	private final Methods methods = plugin.getMethods();
 	private final EssentialsSupport essentialsSupport = this.plugin.getPluginManager().getEssentialsSupport();
 	private final PlaceholderManager placeholderManager = this.plugin.getCrazyManager().getPlaceholderManager();
 
@@ -51,11 +51,8 @@ public class ListenerMentions implements Listener {
 			}
 
 			if (!plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) {
-				try {
-					if (config.getBoolean("Mentions.sound.toggle", false)) {
-						target.playSound(target.getLocation(), Sound.valueOf(config.getString("Mentions.sound.value", Sound.ENTITY_PLAYER_LEVELUP.toString())), 1, 1);
-					}
-				} catch (IllegalArgumentException ignored) {}
+				String path = "Mentions.sound";
+				methods.playSound(target, config, path);
 			}
 
 			if (config.getBoolean("Mentions.Title.Enable")) {
@@ -76,11 +73,8 @@ public class ListenerMentions implements Listener {
 			plugin.getServer().getOnlinePlayers().forEach(target -> {
 				if (player.hasPermission("chatmanager.mention.everyone") && target.hasPermission("chatmanager.mentions.receive")) {
 					if (!plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) {
-						try {
-							if (config.getBoolean("Mentions.sound.toggle", false)) {
-								target.playSound(target.getLocation(), Sound.valueOf(config.getString("Mentions.sound.value", Sound.ENTITY_PLAYER_LEVELUP.toString())), 1, 1);
-							}
-						} catch (IllegalArgumentException ignored) {}
+						String path = "Mentions.sound";
+						methods.playSound(target, config, path);
 					}
 
 					if (config.getBoolean("Mentions.Title.Enable")) {

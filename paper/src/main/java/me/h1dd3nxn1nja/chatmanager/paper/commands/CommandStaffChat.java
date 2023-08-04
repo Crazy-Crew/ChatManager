@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.BossBarUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,6 +21,7 @@ public class CommandStaffChat implements CommandExecutor {
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		FileConfiguration config = Files.CONFIG.getFile();
 		FileConfiguration messages = Files.MESSAGES.getFile();
+
 		if (sender instanceof Player player) {
 			if (cmd.getName().equalsIgnoreCase("StaffChat")) {
 				if (player.hasPermission("chatmanager.staffchat")) {

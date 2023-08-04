@@ -2,7 +2,6 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
 import java.util.List;
 import java.util.UUID;
-
 import com.ryderbelserion.chatmanager.paper.files.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,7 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 
 public class ListenerAntiSpam implements Listener {
 

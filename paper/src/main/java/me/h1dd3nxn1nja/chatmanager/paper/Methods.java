@@ -6,7 +6,10 @@ import java.util.regex.Pattern;
 
 import com.ryderbelserion.chatmanager.paper.files.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.support.PluginSupport;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
@@ -27,6 +30,240 @@ public class Methods {
 		}
 
 		return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
+	}
+
+	public void playSound(FileConfiguration config, String path) {
+		String sound = config.getString(path + ".sound");
+		boolean isEnabled = config.contains(path + ".toggle") && config.getBoolean(path + ".toggle");
+		int volume = config.contains(path + ".volume") ? config.getInt(path + ".volume") : 1;
+		int pitch = config.contains(path + ".pitch") ? config.getInt(path + ".pitch") : 1;
+
+		if (isEnabled) {
+			for (Player online : plugin.getServer().getOnlinePlayers()) {
+				try {
+					online.playSound(online.getLocation(), Sound.valueOf(sound), volume, pitch);
+				} catch (IllegalArgumentException ignored) {}
+			}
+		}
+	}
+
+	public void playSound(Player player, FileConfiguration config, String path) {
+		String sound = config.getString(path + ".sound");
+		boolean isEnabled = config.contains(path + ".toggle") && config.getBoolean(path + ".toggle");
+		int volume = config.contains(path + ".volume") ? config.getInt(path + ".volume") : 1;
+		int pitch = config.contains(path + ".pitch") ? config.getInt(path + ".pitch") : 1;
+
+		if (isEnabled) {
+			player.playSound(player.getLocation(), Sound.valueOf(sound), volume, pitch);
+		}
+	}
+
+	public void convert() {
+		FileConfiguration config = Files.CONFIG.getFile();
+
+		config.getConfigurationSection("Messages.Join_Quit_Messages.Group_Messages").getKeys(false).forEach(key -> {
+			if (key.equals("Enable")) return;
+
+			String root = "Messages.Join_Quit_Messages.Group_Messages." + key;
+
+			String oldSoundPath = root + ".Sound";
+
+			if (config.contains(oldSoundPath)) {
+				String oldSound = config.getString(oldSoundPath);
+
+				if (oldSound != null && oldSound.isEmpty()) {
+					config.set(root + ".sound.toggle", false);
+				} else {
+					config.set(root + ".sound.toggle", true);
+				}
+
+				config.set(root + ".sound.value", oldSound);
+				config.set(root + ".sound.pitch", 1);
+				config.set(root + ".sound.volume", 1);
+
+				config.set(oldSoundPath, null);
+
+				Files.CONFIG.saveFile();
+			}
+		});
+
+		if (config.contains("Private_Messages.Sound")) {
+			String oldSound = config.getString("Private_Messages.Sound");
+
+			String path = "Private_Messages.sound";
+
+			assert oldSound != null;
+			moveValues(config, oldSound, path);
+
+			Files.CONFIG.saveFile();
+		}
+
+		if (config.contains("Mentions.Sound")) {
+			String oldSound = config.getString("Mentions.Sound");
+
+			String path = "Mentions.sound";
+
+			assert oldSound != null;
+			moveValues(config, oldSound, path);
+
+			config.set("Mentions.Sound", null);
+
+			Files.CONFIG.saveFile();
+		}
+
+		if (config.contains("Broadcast_Commands.Command.Broadcast.Sound")) {
+			String oldSound = config.getString("Broadcast_Commands.Command.Broadcast.Sound");
+
+			String path = "Broadcast_Commands.Command.Broadcast.sound";
+
+			assert oldSound != null;
+			moveValues(config, oldSound, path);
+
+			config.set("Broadcast_Commands.Command.Broadcast.Sound", null);
+
+			Files.CONFIG.saveFile();
+		}
+
+		if (config.contains("Broadcast_Commands.Command.Announcement.Sound")) {
+			String oldSound = config.getString("Broadcast_Commands.Command.Announcement.Sound");
+
+			String path = "Broadcast_Commands.Command.Announcement.sound";
+
+			assert oldSound != null;
+			moveValues(config, oldSound, path);
+
+			config.set("Broadcast_Commands.Command.Announcement.Sound", null);
+
+			Files.CONFIG.saveFile();
+		}
+
+		if (config.contains("Broadcast_Commands.Command.Warning.Sound")) {
+			String oldSound = config.getString("Broadcast_Commands.Command.Warning.Sound");
+
+			String path = "Broadcast_Commands.Command.Warning.sound";
+
+			assert oldSound != null;
+			moveValues(config, oldSound, path);
+
+			config.set("Broadcast_Commands.Command.Warning.Sound", null);
+
+			Files.CONFIG.saveFile();
+		}
+
+		if (config.contains("Messages.First_Join.Welcome_Message.Sound")) {
+			String oldSound = config.getString("Messages.First_Join.Welcome_Message.Sound");
+
+			String path = "Messages.First_Join.Welcome_Message.sound";
+
+			assert oldSound != null;
+			moveValues(config, oldSound, path);
+
+			config.set("Messages.First_Join.Welcome_Message.Sound", null);
+
+			Files.CONFIG.saveFile();
+		}
+
+		if (config.contains("Messages.Join_Quit_Messages.Join_Message.Sound")) {
+			String oldSound = config.getString("Messages.Join_Quit_Messages.Join_Message.Sound");
+
+			String path = "Messages.Join_Quit_Messages.Join_Message.sound";
+
+			assert oldSound != null;
+			moveValues(config, oldSound, path);
+
+			config.set("Messages.Join_Quit_Messages.Join_Message.Sound", null);
+
+			Files.CONFIG.saveFile();
+		}
+
+		if (config.contains("Messages.Join_Quit_Messages.Quit_Message.Sound")) {
+			String oldSound = config.getString("Messages.Join_Quit_Messages.Quit_Message.Sound");
+
+			String path = "Messages.Join_Quit_Messages.Quit_Message.sound";
+
+			assert oldSound != null;
+			moveValues(config, oldSound, path);
+
+			config.set("Messages.Join_Quit_Messages.Quit_Message.Sound", null);
+
+			Files.CONFIG.saveFile();
+		}
+
+		FileConfiguration autoBroadcast = Files.AUTO_BROADCAST.getFile();
+
+		if (autoBroadcast.contains("Auto_Broadcast.Global_Messages.Sound")) {
+			String oldSound = autoBroadcast.getString("Auto_Broadcast.Global_Messages.Sound");
+
+			String path = "Auto_Broadcast.Global_Messages.sound";
+
+			assert oldSound != null;
+			moveValues(autoBroadcast, oldSound, path);
+
+			autoBroadcast.set("Auto_Broadcast.Global_Messages.Sound", null);
+
+			Files.AUTO_BROADCAST.saveFile();
+		}
+
+		if (autoBroadcast.contains("Auto_Broadcast.Per_World_Messages.Sound")) {
+			String oldSound = autoBroadcast.getString("Auto_Broadcast.Per_World_Messages.Sound");
+
+			String path = "Auto_Broadcast.Per_World_Messages.sound";
+
+			assert oldSound != null;
+			moveValues(autoBroadcast, oldSound, path);
+
+			autoBroadcast.set("Auto_Broadcast.Per_World_Messages.Sound", null);
+
+			Files.AUTO_BROADCAST.saveFile();
+		}
+
+		if (autoBroadcast.contains("Auto_Broadcast.Actionbar_Messages.Sound")) {
+			String oldSound = autoBroadcast.getString("Auto_Broadcast.Actionbar_Messages.Sound");
+
+			String path = "Auto_Broadcast.Actionbar_Messages.sound";
+
+			assert oldSound != null;
+			moveValues(autoBroadcast, oldSound, path);
+
+			autoBroadcast.set("Auto_Broadcast.Actionbar_Messages.Sound", null);
+
+			Files.AUTO_BROADCAST.saveFile();
+		}
+
+		if (autoBroadcast.contains("Auto_Broadcast.Title_Messages.Sound")) {
+			String oldSound = autoBroadcast.getString("Auto_Broadcast.Title_Messages.Sound");
+
+			String path = "Auto_Broadcast.Title_Messages.sound";
+
+			assert oldSound != null;
+			moveValues(autoBroadcast, oldSound, path);
+
+			autoBroadcast.set("Auto_Broadcast.Title_Messages.Sound", null);
+
+			Files.AUTO_BROADCAST.saveFile();
+		}
+
+		if (autoBroadcast.contains("Auto_Broadcast.Bossbar_Messages.Sound")) {
+			String oldSound = autoBroadcast.getString("Auto_Broadcast.Bossbar_Messages.Sound");
+
+			String path = "Auto_Broadcast.Bossbar_Messages.sound";
+
+            assert oldSound != null;
+            moveValues(autoBroadcast, oldSound, path);
+
+			autoBroadcast.set("Auto_Broadcast.Bossbar_Messages.Sound", null);
+
+			Files.AUTO_BROADCAST.saveFile();
+		}
+	}
+
+	private void moveValues(FileConfiguration autoBroadcast, String oldSound, String path) {
+		assert oldSound != null;
+		if (oldSound.isEmpty()) autoBroadcast.set(path + ".toggle", false); else autoBroadcast.set(path + ".toggle", true);
+
+		autoBroadcast.set(path + ".value", oldSound);
+		autoBroadcast.set(path + ".pitch", 1);
+		autoBroadcast.set(path + ".volume", 1);
 	}
 
 	public String color(UUID uuid, String message) {

@@ -2,7 +2,6 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
 import com.ryderbelserion.chatmanager.paper.files.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
-import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +12,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.util.Calendar;
 import java.util.Date;

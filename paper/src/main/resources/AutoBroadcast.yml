@@ -6,7 +6,11 @@ Auto_Broadcast:
     Prefix: "&7[&6AutoBroadcast&7]"
     Header: "&7*&7&m--------------------------------&7*"
     Footer: "&7*&7&m--------------------------------&7*"
-    Sound: ''
+    sound:
+      toggle: false
+      value: 'ENTITY_PLAYER_LEVELUP'
+      pitch: 1
+      volume: 1
     Messages:
       - "{Prefix} &7Auto-Broadcast chat message."
       - "{Prefix} &7Plugin created by H1DD3NxN1NJA."
@@ -18,7 +22,11 @@ Auto_Broadcast:
     Prefix: "&7[&6AutoBroadcast&7]"
     Header: "&7*&7&m--------------------------------&7*"
     Footer: "&7*&7&m--------------------------------&7*"
-    Sound: ''
+    sound:
+      toggle: false
+      value: 'ENTITY_PLAYER_LEVELUP'
+      pitch: 1
+      volume: 1
     Messages:
       world:
         - "{Prefix} &aWelcome to the server!"
@@ -41,7 +49,11 @@ Auto_Broadcast:
     Enable: false
     Interval: 60
     Prefix: "&7[&6AutoBroadcast&7]"
-    Sound: ''
+    sound:
+      toggle: false
+      value: 'ENTITY_PLAYER_LEVELUP'
+      pitch: 1
+      volume: 1
     Messages:
       - "{Prefix} &7Auto-Broadcast action bar message."
       - "{Prefix} &7Plugin created by H1DD3NxN1NJA."
@@ -49,17 +61,25 @@ Auto_Broadcast:
   Title_Messages:
     Enable: false
     Interval: 60
-    Sound: ''
+    sound:
+      toggle: false
+      value: 'ENTITY_PLAYER_LEVELUP'
+      pitch: 1
+      volume: 1
     Title: "&cTitle"
     Messages:
       - "&7Auto-Broadcast title message."
       - "&7Plugin created by H1DD3NxN1NJA."
       - "&7Hello &c{player} &7there are &c{online} &7players online."
-  Bossbar_Messages: #1.9+
+  Bossbar_Messages: # 1.9+
     Enable: false
     Interval: 60
-    Sound: ''
-    Bar_Time: 10 #How long the boss bar stays on for.
+    sound:
+      toggle: false
+      value: 'ENTITY_PLAYER_LEVELUP'
+      pitch: 1
+      volume: 1
+    Bar_Time: 10 # How long the boss bar stays on for.
     Messages:
       - "&7Auto-Broadcast bossbar message."
       - "&7Plugin created by H1DD3NxN1NJA."
