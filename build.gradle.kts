@@ -8,7 +8,7 @@ defaultTasks("build")
 
 rootProject.group = "me.h1dd3nxn1nja.chatmanager"
 rootProject.description = "The kitchen sink of Chat Management."
-rootProject.version = "3.10"
+rootProject.version = "3.10.1"
 
 val combine by tasks.registering(Jar::class) {
     dependsOn("build")
