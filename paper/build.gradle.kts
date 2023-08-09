@@ -14,6 +14,8 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/")
 
     maven("https://repo.essentialsx.net/releases/")
+
+    maven("https://jitpack.io/")
 }
 
 dependencies {
@@ -26,6 +28,8 @@ dependencies {
     }
 
     compileOnly("net.essentialsx", "EssentialsX", "2.19.0")
+
+    compileOnly("com.github.LeonMangler", "SuperVanish", "6.2.6-4")
 }
 
 val component: SoftwareComponent = components["java"]
