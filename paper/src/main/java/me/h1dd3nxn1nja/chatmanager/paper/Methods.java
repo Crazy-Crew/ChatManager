@@ -9,6 +9,7 @@ import me.h1dd3nxn1nja.chatmanager.paper.support.PluginSupport;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -63,31 +64,38 @@ public class Methods {
 	public void convert() {
 		FileConfiguration config = Files.CONFIG.getFile();
 
-		config.getConfigurationSection("Messages.Join_Quit_Messages.Group_Messages").getKeys(false).forEach(key -> {
-			if (key.equals("Enable")) return;
+		if (config.contains("Messages.Join_Quit_Messages.Group_Messages")) {
 
-			String root = "Messages.Join_Quit_Messages.Group_Messages." + key;
+			ConfigurationSection section = config.getConfigurationSection("Messages.Join_Quit_Messages.Group_Messages");
 
-			String oldSoundPath = root + ".Sound";
+			if (section != null && !section.getKeys(false).isEmpty()) {
+				section.getKeys(false).forEach(key -> {
+					if (key.equals("Enable")) return;
 
-			if (config.contains(oldSoundPath)) {
-				String oldSound = config.getString(oldSoundPath);
+					String root = "Messages.Join_Quit_Messages.Group_Messages." + key;
 
-				if (oldSound != null && oldSound.isEmpty()) {
-					config.set(root + ".sound.toggle", false);
-				} else {
-					config.set(root + ".sound.toggle", true);
-				}
+					String oldSoundPath = root + ".Sound";
 
-				config.set(root + ".sound.value", oldSound);
-				config.set(root + ".sound.pitch", 1.0);
-				config.set(root + ".sound.volume", 1.0);
+					if (config.contains(oldSoundPath)) {
+						String oldSound = config.getString(oldSoundPath);
 
-				config.set(oldSoundPath, null);
+						if (oldSound != null && oldSound.isEmpty()) {
+							config.set(root + ".sound.toggle", false);
+						} else {
+							config.set(root + ".sound.toggle", true);
+						}
 
-				Files.CONFIG.saveFile();
+						config.set(root + ".sound.value", oldSound);
+						config.set(root + ".sound.pitch", 1.0);
+						config.set(root + ".sound.volume", 1.0);
+
+						config.set(oldSoundPath, null);
+
+						Files.CONFIG.saveFile();
+					}
+				});
 			}
-		});
+		}
 
 		if (config.contains("Private_Messages.Sound")) {
 			String oldSound = config.getString("Private_Messages.Sound");
