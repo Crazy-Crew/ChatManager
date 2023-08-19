@@ -39,8 +39,6 @@ public class Methods {
 		double volume = config.contains(path + ".volume") ? config.getDouble(path + ".volume") : 1.0;
 		double pitch = config.contains(path + ".pitch") ? config.getDouble(path + ".pitch") : 1.0;
 
-		Bukkit.getLogger().warning(sound);
-
 		if (isEnabled) {
 			for (Player online : plugin.getServer().getOnlinePlayers()) {
 				try {
@@ -65,35 +63,34 @@ public class Methods {
 		FileConfiguration config = Files.CONFIG.getFile();
 
 		if (config.contains("Messages.Join_Quit_Messages.Group_Messages")) {
+			if (config.getConfigurationSection("Messages.Join_Quit_Messages.Group_Messages") != null) {
+                if (!config.getConfigurationSection("Messages.Join_Quit_Messages.Group_Messages").getKeys(false).isEmpty()) {
+					config.getConfigurationSection("Messages.Join_Quit_Messages.Group_Messages").getKeys(false).forEach(key -> {
+						if (key.equals("Enable")) return;
 
-			ConfigurationSection section = config.getConfigurationSection("Messages.Join_Quit_Messages.Group_Messages");
+						String root = "Messages.Join_Quit_Messages.Group_Messages." + key;
 
-			if (section != null && !section.getKeys(false).isEmpty()) {
-				section.getKeys(false).forEach(key -> {
-					if (key.equals("Enable")) return;
+						String oldSoundPath = root + ".Sound";
 
-					String root = "Messages.Join_Quit_Messages.Group_Messages." + key;
+						if (config.contains(oldSoundPath)) {
+							String oldSound = config.getString(oldSoundPath);
 
-					String oldSoundPath = root + ".Sound";
+							if (oldSound != null && oldSound.isEmpty()) {
+								config.set(root + ".sound.toggle", false);
+							} else {
+								config.set(root + ".sound.toggle", true);
+							}
 
-					if (config.contains(oldSoundPath)) {
-						String oldSound = config.getString(oldSoundPath);
+							config.set(root + ".sound.value", oldSound);
+							config.set(root + ".sound.pitch", 1.0);
+							config.set(root + ".sound.volume", 1.0);
 
-						if (oldSound != null && oldSound.isEmpty()) {
-							config.set(root + ".sound.toggle", false);
-						} else {
-							config.set(root + ".sound.toggle", true);
+							config.set(oldSoundPath, null);
+
+							Files.CONFIG.saveFile();
 						}
-
-						config.set(root + ".sound.value", oldSound);
-						config.set(root + ".sound.pitch", 1.0);
-						config.set(root + ".sound.volume", 1.0);
-
-						config.set(oldSoundPath, null);
-
-						Files.CONFIG.saveFile();
-					}
-				});
+					});
+				}
 			}
 		}
 
