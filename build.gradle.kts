@@ -37,8 +37,8 @@ val description = """
  * N/A
     
 ## Other:
- * [Feature Requests](https://github.com/Crazy-Crew/${rootProject.name}/discussions/categories/features)
- * [Bug Reports](https://github.com/Crazy-Crew/${rootProject.name}/issues)
+* [Feature Requests](https://github.com/Crazy-Crew/${rootProject.name}/issues)
+* [Bug Reports](https://github.com/Crazy-Crew/${rootProject.name}/issues)
 """.trimIndent()
 
 val versions = listOf(
