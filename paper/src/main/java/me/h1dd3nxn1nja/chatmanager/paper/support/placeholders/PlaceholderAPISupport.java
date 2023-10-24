@@ -48,9 +48,6 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
 					return plugin.api().getStaffChatData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
 				case "mute_chat": // Returns if mute chat is enabled/disabled.
 					return this.plugin.getMethods().isMuted() ? "Enabled" : "Disabled";
-				case "ping":
-					CraftPlayer craftPlayer = (CraftPlayer) playerOnline;
-					return df.format(craftPlayer.getPing());
 				default:
 					return "";
 			}
