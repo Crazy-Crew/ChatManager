@@ -16,14 +16,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 
 public class CommandMessage implements CommandExecutor {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
-	private final GenericVanishSupport genericVanishSupport = plugin.getPluginManager().getGenericVanishSupport();
-	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+
+	@NotNull
+	private final GenericVanishSupport genericVanishSupport = this.plugin.getPluginManager().getGenericVanishSupport();
+
+	@NotNull
+	private final PlaceholderManager placeholderManager = this.plugin.getCrazyManager().getPlaceholderManager();
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -32,7 +38,7 @@ public class CommandMessage implements CommandExecutor {
 		String playerNotFound = messages.getString("Message.Player_Not_Found");
 
 		if (sender instanceof ConsoleCommandSender) {
-			plugin.getLogger().warning("This command can only be used by a player.");
+			this.plugin.getLogger().warning("This command can only be used by a player.");
 			return true;
 		}
 
@@ -51,7 +57,7 @@ public class CommandMessage implements CommandExecutor {
 					return true;
 				}
 
-				Player target = plugin.getServer().getPlayer(args[0]);
+				Player target = this.plugin.getServer().getPlayer(args[0]);
 
 				if (target == null || !target.isOnline()) {
 					if (playerNotFound != null) this.plugin.getMethods().sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
@@ -93,16 +99,16 @@ public class CommandMessage implements CommandExecutor {
 						message.append(arg).append(" ");
 					}
 
-					UUID other = plugin.api().getUserRepliedData().getUser(player.getUniqueId());
+					UUID other = this.plugin.api().getUserRepliedData().getUser(player.getUniqueId());
 
-					Player target = plugin.getServer().getPlayer(other);
+					Player target = this.plugin.getServer().getPlayer(other);
 
 					if (target == null || !target.isOnline()) {
 						this.plugin.getMethods().sendMessage(player, messages.getString("Private_Message.Recipient_Not_Found"), true);
 						return true;
 					}
 
-					if (plugin.api().getToggleMessageData().containsUser(target.getUniqueId())) {
+					if (this.plugin.api().getToggleMessageData().containsUser(target.getUniqueId())) {
 						this.plugin.getMethods().sendMessage(player, messages.getString("Private_Message.Toggled"), true);
 						return true;
 					}
@@ -128,12 +134,12 @@ public class CommandMessage implements CommandExecutor {
 					boolean isValid = plugin.api().getToggleMessageData().containsUser(player.getUniqueId());
 
 					if (isValid) {
-						plugin.api().getToggleMessageData().removeUser(player.getUniqueId());
+						this.plugin.api().getToggleMessageData().removeUser(player.getUniqueId());
 						this.plugin.getMethods().sendMessage(player, messages.getString("TogglePM.Disabled"), true);
 						return true;
 					}
 
-					plugin.api().getToggleMessageData().addUser(player.getUniqueId());
+					this.plugin.api().getToggleMessageData().addUser(player.getUniqueId());
 					this.plugin.getMethods().sendMessage(player, messages.getString("TogglePM.Enabled"), true);
 
 					return true;
@@ -153,34 +159,34 @@ public class CommandMessage implements CommandExecutor {
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		if (message.isEmpty()) {
-			player.sendMessage(plugin.getMethods().color(plugin.getMethods().getPrefix() + "You need to supply a message in order to reply/send to " + target.getName()));
+			player.sendMessage(this.plugin.getMethods().color(this.plugin.getMethods().getPrefix() + "You need to supply a message in order to reply/send to " + target.getName()));
 			return true;
 		}
 
 		if (essentialsCheck(args, playerNotFound, player, target)) return true;
 
-		if (PluginSupport.PREMIUM_VANISH.isPluginEnabled() || PluginSupport.SUPER_VANISH.isPluginEnabled() && genericVanishSupport.isVanished(target) && !player.hasPermission("chatmanager.bypass.vanish")) {
+		if (PluginSupport.PREMIUM_VANISH.isPluginEnabled() || PluginSupport.SUPER_VANISH.isPluginEnabled() && this.genericVanishSupport.isVanished(target) && !player.hasPermission("chatmanager.bypass.vanish")) {
 			if (playerNotFound != null) this.plugin.getMethods().sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
 			return true;
 		}
 
-		this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(target, config.getString("Private_Messages.Sender.Format")
+		this.plugin.getMethods().sendMessage(player, this.placeholderManager.setPlaceholders(target, config.getString("Private_Messages.Sender.Format")
 				.replace("{receiver}", target.getName())
 				.replace("{receiver_displayname}", target.getDisplayName()) + message), true);
 
-		this.plugin.getMethods().sendMessage(target, placeholderManager.setPlaceholders(player, config.getString("Private_Messages.Receiver.Format")
+		this.plugin.getMethods().sendMessage(target, this.placeholderManager.setPlaceholders(player, config.getString("Private_Messages.Receiver.Format")
 				.replace("{receiver}", target.getName())
 				.replace("{receiver_displayname}", player.getDisplayName()) + message), true);
 
 		this.plugin.getMethods().playSound(target, config, "Private_Messages.sound");
 
-		plugin.api().getUserRepliedData().addUser(uniqueId, uniqueId2);
-		plugin.api().getUserRepliedData().addUser(uniqueId2, uniqueId);
+		this.plugin.api().getUserRepliedData().addUser(uniqueId, uniqueId2);
+		this.plugin.api().getUserRepliedData().addUser(uniqueId2, uniqueId);
 
-		for (Player staff : plugin.getServer().getOnlinePlayers()) {
+		for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 			if ((staff != player) && (staff != target)) {
 				if ((!player.hasPermission("chatmanager.bypass.socialspy")) && (!target.hasPermission("chatmanager.bypass.socialspy"))) {
-					boolean contains = plugin.api().getSocialSpyData().containsUser(staff.getUniqueId());
+					boolean contains = this.plugin.api().getSocialSpyData().containsUser(staff.getUniqueId());
 
 					if (contains) this.plugin.getMethods().sendMessage(staff, messages.getString("Social_Spy.Format").replace("{player}", player.getName()).replace("{receiver}", target.getName()).replace("{message}", message), true);
 				}
@@ -189,29 +195,29 @@ public class CommandMessage implements CommandExecutor {
 		return false;
 	}
 
-	private final EssentialsSupport essentialsSupport = plugin.getPluginManager().getEssentialsSupport();
-	private final EssentialsVanishSupport essentialsVanishSupport = plugin.getPluginManager().getEssentialsVanishSupport();
+	private final EssentialsSupport essentialsSupport = this.plugin.getPluginManager().getEssentialsSupport();
+	private final EssentialsVanishSupport essentialsVanishSupport = this.plugin.getPluginManager().getEssentialsVanishSupport();
 
 	private boolean essentialsCheck(String[] args, String playerNotFound, Player player, Player target) {
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		if (PluginSupport.ESSENTIALS.isPluginEnabled()) {
-			if (essentialsSupport.getUser(target).isAfk() && (!player.hasPermission("chatmanager.bypass.afk"))) {
+			if (this.essentialsSupport.getUser(target.getUniqueId()).isAfk() && (!player.hasPermission("chatmanager.bypass.afk"))) {
 				this.plugin.getMethods().sendMessage(player, messages.getString("Private_Message.AFK").replace("{target}", target.getName()), true);
 				return true;
 			}
 
-			if (essentialsSupport.isIgnored(target, player) && (!player.hasPermission("chatmanager.bypass.ignored"))) {
+			if (this.essentialsSupport.isIgnored(target.getUniqueId(), player.getUniqueId()) && (!player.hasPermission("chatmanager.bypass.ignored"))) {
 				this.plugin.getMethods().sendMessage(player, messages.getString("Private_Message.Ignored").replace("{target}", target.getName()), true);
 				return true;
 			}
 
-			if (essentialsVanishSupport.isVanished(target) && (!player.hasPermission("chatmanager.bypass.vanish"))) {
+			if (this.essentialsVanishSupport.isVanished(target) && (!player.hasPermission("chatmanager.bypass.vanish"))) {
 				if (playerNotFound != null) this.plugin.getMethods().sendMessage(player, playerNotFound.replace("{target}", args[0]), true);
 				return true;
 			}
 
-			return essentialsSupport.isMuted(player);
+			return this.essentialsSupport.isMuted(player.getUniqueId());
 		}
 
 		return false;

@@ -7,11 +7,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandSpy implements CommandExecutor {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -26,15 +28,15 @@ public class CommandSpy implements CommandExecutor {
 			if (player.hasPermission("chatmanager.commandspy")) {
 				if (args.length == 0) {
 
-					boolean isValid = plugin.api().getCommandSpyData().containsUser(player.getUniqueId());
+					boolean isValid = this.plugin.api().getCommandSpyData().containsUser(player.getUniqueId());
 
 					if (isValid) {
-						plugin.api().getCommandSpyData().removeUser(player.getUniqueId());
+						this.plugin.api().getCommandSpyData().removeUser(player.getUniqueId());
 						this.plugin.getMethods().sendMessage(player, messages.getString("Command_Spy.Disabled"), true);
 						return true;
 					}
 
-					plugin.api().getCommandSpyData().addUser(player.getUniqueId());
+					this.plugin.api().getCommandSpyData().addUser(player.getUniqueId());
 					this.plugin.getMethods().sendMessage(player, messages.getString("Command_Spy.Enabled"), true);
 
 					return true;
@@ -49,15 +51,15 @@ public class CommandSpy implements CommandExecutor {
 		if (cmd.getName().equalsIgnoreCase("SocialSpy")) {
 			if (player.hasPermission("chatmanager.socialspy")) {
 				if (args.length == 0) {
-					boolean isValid = plugin.api().getSocialSpyData().containsUser(player.getUniqueId());
+					boolean isValid = this.plugin.api().getSocialSpyData().containsUser(player.getUniqueId());
 
 					if (isValid) {
-						plugin.api().getSocialSpyData().removeUser(player.getUniqueId());
+						this.plugin.api().getSocialSpyData().removeUser(player.getUniqueId());
 						this.plugin.getMethods().sendMessage(player, messages.getString("Social_Spy.Disabled"), true);
 						return true;
 					}
 
-					plugin.api().getSocialSpyData().addUser(player.getUniqueId());
+					this.plugin.api().getSocialSpyData().addUser(player.getUniqueId());
 					this.plugin.getMethods().sendMessage(player, messages.getString("Social_Spy.Enabled"), true);
 
 					return true;

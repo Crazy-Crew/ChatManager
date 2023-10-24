@@ -8,10 +8,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public class ListenerStaffChat implements Listener {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+
+	@NotNull
 	private final PlaceholderManager placeholderManager = this.plugin.getCrazyManager().getPlaceholderManager();
 
 	@EventHandler(ignoreCancelled = true)
@@ -21,14 +26,14 @@ public class ListenerStaffChat implements Listener {
 
 		FileConfiguration config = Files.CONFIG.getFile();
 
-		if (!plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
+		if (!this.plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
 
 		event.setCancelled(true);
 
-		for (Player staff : plugin.getServer().getOnlinePlayers()) {
-			if (staff.hasPermission("chatmanager.staffchat")) staff.sendMessage(placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)));
+		for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
+			if (staff.hasPermission("chatmanager.staffchat")) staff.sendMessage(this.placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)));
 		}
 
-		this.plugin.getMethods().tellConsole(placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)), false);
+		this.plugin.getMethods().tellConsole(this.placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)), false);
 	}
 }

@@ -8,12 +8,16 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandToggleChat implements CommandExecutor {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
-	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+
+	@NotNull
+	private final PlaceholderManager placeholderManager = this.plugin.getCrazyManager().getPlaceholderManager();
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -32,13 +36,13 @@ public class CommandToggleChat implements CommandExecutor {
 		}
 
 		if (args.length == 0) {
-			if (plugin.api().getToggleChatData().containsUser(player.getUniqueId())) {
-				plugin.api().getToggleChatData().removeUser(player.getUniqueId());
+			if (this.plugin.api().getToggleChatData().containsUser(player.getUniqueId())) {
+				this.plugin.api().getToggleChatData().removeUser(player.getUniqueId());
 				this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Chat.Disabled")), true);
 				return true;
 			}
 
-			plugin.api().getToggleChatData().addUser(player.getUniqueId());
+			this.plugin.api().getToggleChatData().addUser(player.getUniqueId());
 			this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Chat.Enabled")), true);
 
 			return true;

@@ -9,11 +9,13 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.BossBarUtil;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.Debug;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandChatManager implements CommandExecutor {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
@@ -29,10 +31,10 @@ public class CommandChatManager implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("reload")) {
 				if (sender.hasPermission("chatmanager.reload")) {
 					if (args.length == 1) {
-						for (Player player : plugin.getServer().getOnlinePlayers()) {
-							plugin.api().getChatCooldowns().removeUser(player.getUniqueId());
-							plugin.api().getCooldownTask().removeUser(player.getUniqueId());
-							plugin.api().getCmdCooldowns().removeUser(player.getUniqueId());
+						for (Player player : this.plugin.getServer().getOnlinePlayers()) {
+							this.plugin.api().getChatCooldowns().removeUser(player.getUniqueId());
+							this.plugin.api().getCooldownTask().removeUser(player.getUniqueId());
+							this.plugin.api().getCmdCooldowns().removeUser(player.getUniqueId());
 
 							BossBarUtil bossBar = new BossBarUtil();
 							bossBar.removeAllBossBars(player);

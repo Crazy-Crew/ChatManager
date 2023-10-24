@@ -8,10 +8,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public class ListenerAntiBot implements Listener {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onJoin(PlayerJoinEvent event) {
@@ -21,7 +24,7 @@ public class ListenerAntiBot implements Listener {
 
 		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission("chatmanager.bypass.antibot")) return;
 
-		plugin.api().getAntiBotData().addUser(player.getUniqueId());
+		this.plugin.api().getAntiBotData().addUser(player.getUniqueId());
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -32,7 +35,7 @@ public class ListenerAntiBot implements Listener {
 
 		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission("chatmanager.bypass.antibot")) return;
 
-		plugin.api().getAntiBotData().removeUser(player.getUniqueId());
+		this.plugin.api().getAntiBotData().removeUser(player.getUniqueId());
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -43,7 +46,7 @@ public class ListenerAntiBot implements Listener {
 
 		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission("chatmanager.bypass.antibot")) return;
 
-		plugin.api().getAntiBotData().removeUser(player.getUniqueId());
+		this.plugin.api().getAntiBotData().removeUser(player.getUniqueId());
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -55,7 +58,7 @@ public class ListenerAntiBot implements Listener {
 
 		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission("chatmanager.bypass.antibot")) return;
 
-		if (!plugin.api().getAntiBotData().containsUser(player.getUniqueId())) return;
+		if (!this.plugin.api().getAntiBotData().containsUser(player.getUniqueId())) return;
 
 		event.setCancelled(true);
 
@@ -71,7 +74,7 @@ public class ListenerAntiBot implements Listener {
 
 		if (!config.getBoolean("Anti_Bot.Block_Commands_Until_Moved") || player.hasPermission("chatmanager.bypass.antibot")) return;
 
-		if (!plugin.api().getAntiBotData().containsUser(player.getUniqueId())) return;
+		if (!this.plugin.api().getAntiBotData().containsUser(player.getUniqueId())) return;
 
 		event.setCancelled(true);
 		this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Bot.Deny_Command_Message"), true);

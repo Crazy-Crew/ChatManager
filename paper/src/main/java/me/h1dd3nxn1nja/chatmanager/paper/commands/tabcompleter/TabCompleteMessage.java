@@ -8,22 +8,26 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TabCompleteMessage implements TabCompleter {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
-	private final PluginManager pluginManager = plugin.getPluginManager();
+	@NotNull
+	private final PluginManager pluginManager = this.plugin.getPluginManager();
 
-	private final EssentialsSupport essentialsSupport = pluginManager.getEssentialsSupport();
+	@NotNull
+	private final EssentialsSupport essentialsSupport = this.pluginManager.getEssentialsSupport();
 
 	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
 		if (args.length == 0) return null;
 
-		List<Player> matchPlayer = plugin.getServer().matchPlayer(args[args.length - 1]);
+		List<Player> matchPlayer = this.plugin.getServer().matchPlayer(args[args.length - 1]);
 		ArrayList<String> list = new ArrayList<>();
 
 		if (!(sender instanceof Player player2)) {
@@ -36,13 +40,13 @@ public class TabCompleteMessage implements TabCompleter {
 		boolean hasPermission3 = player2.hasPermission("chatmanager.bypass.togglepm");
 
         for (Player player3 : matchPlayer) {
-            if (!hasPermission && PluginSupport.ESSENTIALS.isPluginEnabled() && essentialsSupport.isIgnored(player3, player2)) continue;
+            if (!hasPermission && PluginSupport.ESSENTIALS.isPluginEnabled() && this.essentialsSupport.isIgnored(player3.getUniqueId(), player2.getUniqueId())) continue;
             if (!hasPermission2) {
-                if (PluginSupport.ESSENTIALS.isPluginEnabled() && pluginManager.getEssentialsVanishSupport().isVanished(player3)) continue;
-                if (PluginSupport.SUPER_VANISH.isPluginEnabled() || PluginSupport.PREMIUM_VANISH.isPluginEnabled() && pluginManager.getGenericVanishSupport().isVanished(player3)) continue;
+                if (PluginSupport.ESSENTIALS.isPluginEnabled() && this.pluginManager.getEssentialsVanishSupport().isVanished(player3)) continue;
+                if (PluginSupport.SUPER_VANISH.isPluginEnabled() || PluginSupport.PREMIUM_VANISH.isPluginEnabled() && this.pluginManager.getGenericVanishSupport().isVanished(player3)) continue;
             }
 
-            if (!hasPermission3 && plugin.api().getToggleMessageData().containsUser(player3.getUniqueId())) continue;
+            if (!hasPermission3 && this.plugin.api().getToggleMessageData().containsUser(player3.getUniqueId())) continue;
             list.add(player3.getName());
         }
 

@@ -8,11 +8,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandClearChat implements CommandExecutor {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
@@ -21,7 +23,7 @@ public class CommandClearChat implements CommandExecutor {
 		if (cmd.getName().equalsIgnoreCase("ClearChat")) {
 			if (sender.hasPermission("chatmanager.clearchat")) {
 				if (args.length == 0) {
-					for (Player members : plugin.getServer().getOnlinePlayers()) {
+					for (Player members : this.plugin.getServer().getOnlinePlayers()) {
 						if (!members.hasPermission("chatmanager.bypass.clearchat")) {
 							sendClearMessage(members);
 

@@ -8,12 +8,16 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandToggleMentions implements CommandExecutor {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
-	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+
+	@NotNull
+	private final PlaceholderManager placeholderManager = this.plugin.getCrazyManager().getPlaceholderManager();
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -32,13 +36,13 @@ public class CommandToggleMentions implements CommandExecutor {
 		}
 
 		if (args.length == 0) {
-			if (plugin.api().getToggleMentionsData().containsUser(player.getUniqueId())) {
-				plugin.api().getToggleMentionsData().removeUser(player.getUniqueId());
+			if (this.plugin.api().getToggleMentionsData().containsUser(player.getUniqueId())) {
+				this.plugin.api().getToggleMentionsData().removeUser(player.getUniqueId());
 				this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Mentions.Disabled")), true);
 				return true;
 			}
 
-			plugin.api().getToggleMentionsData().addUser(player.getUniqueId());
+			this.plugin.api().getToggleMentionsData().addUser(player.getUniqueId());
 			this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Toggle_Mentions.Enabled")), true);
 
 			return true;

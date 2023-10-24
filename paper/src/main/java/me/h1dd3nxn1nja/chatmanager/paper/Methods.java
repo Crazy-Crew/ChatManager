@@ -14,16 +14,19 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public class Methods {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
 	private final String format = Files.CONFIG.getFile().getString("Hex_Color_Format");
 	private final Pattern HEX_PATTERN = Pattern.compile(format + "([A-Fa-f0-9]{6})");
 
 	public String color(String message) {
-		Matcher matcher = HEX_PATTERN.matcher(message);
+		Matcher matcher = this.HEX_PATTERN.matcher(message);
 		StringBuilder buffer = new StringBuilder();
 
 		while (matcher.find()) {
@@ -40,7 +43,7 @@ public class Methods {
 		double pitch = config.contains(path + ".pitch") ? config.getDouble(path + ".pitch") : 1.0;
 
 		if (isEnabled) {
-			for (Player online : plugin.getServer().getOnlinePlayers()) {
+			for (Player online : this.plugin.getServer().getOnlinePlayers()) {
 				try {
 					online.playSound(online.getLocation(), Sound.valueOf(sound), (float) volume, (float) pitch);
 				} catch (IllegalArgumentException ignored) {}
@@ -274,14 +277,14 @@ public class Methods {
 	}
 
 	public String color(UUID uuid, String message) {
-		Matcher matcher = HEX_PATTERN.matcher(message);
+		Matcher matcher = this.HEX_PATTERN.matcher(message);
 		StringBuilder buffer = new StringBuilder();
 
 		while (matcher.find()) {
 			matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of(matcher.group()).toString());
 		}
 
-		Player player = plugin.getServer().getPlayer(uuid);
+		Player player = this.plugin.getServer().getPlayer(uuid);
 
 		return PluginSupport.PLACEHOLDERAPI.isPluginEnabled() ? ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(player, matcher.appendTail(buffer).toString())) : ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
 	}
@@ -306,16 +309,16 @@ public class Methods {
 	
 	public void tellConsole(String message, boolean prefix) {
 		if (prefix) {
-			sendMessage(plugin.getServer().getConsoleSender(), message, true);
+			sendMessage(this.plugin.getServer().getConsoleSender(), message, true);
 			return;
 		}
 
-		sendMessage(plugin.getServer().getConsoleSender(), message, false);
+		sendMessage(this.plugin.getServer().getConsoleSender(), message, false);
 	}
 	
 	public boolean inRange(UUID uuid, UUID receiver, int radius) {
-		Player player = plugin.getServer().getPlayer(uuid);
-		Player other = plugin.getServer().getPlayer(receiver);
+		Player player = this.plugin.getServer().getPlayer(uuid);
+		Player other = this.plugin.getServer().getPlayer(receiver);
 
 		if (other.getLocation().getWorld().equals(player.getLocation().getWorld())) {
 			return other.getLocation().distanceSquared(player.getLocation()) <= radius * radius;
@@ -325,8 +328,8 @@ public class Methods {
 	}
 	
 	public boolean inWorld(UUID uuid, UUID receiver) {
-		Player player = plugin.getServer().getPlayer(uuid);
-		Player other = plugin.getServer().getPlayer(receiver);
+		Player player = this.plugin.getServer().getPlayer(uuid);
+		Player other = this.plugin.getServer().getPlayer(receiver);
 
 		return other.getLocation().getWorld().equals(player.getLocation().getWorld());
 	}
@@ -350,6 +353,6 @@ public class Methods {
 
 		String prefix = getPrefix();
 
-		if (!prefix.isEmpty()) plugin.getServer().broadcastMessage(color(message.replace("{Prefix}", prefix))); else plugin.getServer().broadcastMessage(color(message));
+		if (!prefix.isEmpty()) this.plugin.getServer().broadcastMessage(color(message.replace("{Prefix}", prefix))); else this.plugin.getServer().broadcastMessage(color(message));
 	}
 }

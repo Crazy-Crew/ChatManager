@@ -10,7 +10,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.Calendar;
@@ -22,7 +25,8 @@ public class ListenerSwear implements Listener {
 
 	//TODO() Add a way so that chat manager highlights the swear word in the notify feature.
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
 	@EventHandler(ignoreCancelled = true)
 	public void onSwear(AsyncPlayerChatEvent event) {
@@ -39,7 +43,7 @@ public class ListenerSwear implements Listener {
 		String sensitiveMessage = event.getMessage().toLowerCase().replaceAll("[^a-zA-Z0-9 ]", "").replaceAll("\\s+", "");
 		String curseMessage = event.getMessage().toLowerCase();
 
-		if (plugin.api().getStaffChatData().containsUser(player.getUniqueId()) || !config.getBoolean("Anti_Swear.Chat.Enable")) return;
+		if (this.plugin.api().getStaffChatData().containsUser(player.getUniqueId()) || !config.getBoolean("Anti_Swear.Chat.Enable")) return;
 
 		if (player.hasPermission("chatmanager.bypass.antiswear")) return;
 
@@ -113,7 +117,7 @@ public class ListenerSwear implements Listener {
 							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 						}
 					}
-				}.runTask(plugin);
+				}.runTask(this.plugin);
 			}
 		}
 
@@ -151,7 +155,7 @@ public class ListenerSwear implements Listener {
 							if (config.getBoolean("Anti_Swear.Commands.Block_Command")) event.setCancelled(true);
 
 							if (config.getBoolean("Anti_Swear.Commands.Notify_Staff")) {
-								for (Player staff : plugin.getServer().getOnlinePlayers()) {
+								for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 									if (staff.hasPermission("chatmanager.notify.antiswear")) {
 										this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Swear.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 									}
@@ -287,7 +291,7 @@ public class ListenerSwear implements Listener {
 
 										if (config.getBoolean("Anti_Swear.Signs.Notify_Staff")) {
 											if (config.getBoolean("Anti_Swear.Signs.Notify_Staff")) {
-												for (Player staff : plugin.getServer().getOnlinePlayers()) {
+												for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 													if (staff.hasPermission("chatmanager.notify.antiswear")) {
 														this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Swear.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 													}
@@ -340,6 +344,6 @@ public class ListenerSwear implements Listener {
 					plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 				}
 			}
-		}.runTask(plugin);
+		}.runTask(this.plugin);
 	}
 }

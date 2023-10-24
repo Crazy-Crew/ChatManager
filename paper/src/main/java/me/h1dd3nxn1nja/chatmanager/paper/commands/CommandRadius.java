@@ -7,11 +7,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandRadius implements CommandExecutor {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -62,12 +64,12 @@ public class CommandRadius implements CommandExecutor {
 				if (player.hasPermission("chatmanager.chatradius.local")) {
 					if (args.length == 1) {
 
-						boolean isValid = plugin.api().getLocalChatData().containsUser(player.getUniqueId());
+						boolean isValid = this.plugin.api().getLocalChatData().containsUser(player.getUniqueId());
 
 						if (isValid) {
-							plugin.api().getGlobalChatData().removeUser(player.getUniqueId());
-							plugin.api().getWorldChatData().removeUser(player.getUniqueId());
-							plugin.api().getLocalChatData().addUser(player.getUniqueId());
+							this.plugin.api().getGlobalChatData().removeUser(player.getUniqueId());
+							this.plugin.api().getWorldChatData().removeUser(player.getUniqueId());
+							this.plugin.api().getLocalChatData().addUser(player.getUniqueId());
 
 							this.plugin.getMethods().sendMessage(player, messages.getString("Chat_Radius.Local_Chat.Enabled"), true);
 
@@ -86,12 +88,12 @@ public class CommandRadius implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("Global")) {
 				if (player.hasPermission("chatmanager.chatradius.global")) {
 					if (args.length == 1) {
-						boolean isValid = plugin.api().getGlobalChatData().containsUser(player.getUniqueId());
+						boolean isValid = this.plugin.api().getGlobalChatData().containsUser(player.getUniqueId());
 
 						if (isValid) {
-							plugin.api().getLocalChatData().removeUser(player.getUniqueId());
-							plugin.api().getWorldChatData().removeUser(player.getUniqueId());
-							plugin.api().getGlobalChatData().addUser(player.getUniqueId());
+							this.plugin.api().getLocalChatData().removeUser(player.getUniqueId());
+							this.plugin.api().getWorldChatData().removeUser(player.getUniqueId());
+							this.plugin.api().getGlobalChatData().addUser(player.getUniqueId());
 
 							this.plugin.getMethods().sendMessage(player, messages.getString("Chat_Radius.Global_Chat.Enabled"), true);
 							return true;
@@ -109,12 +111,12 @@ public class CommandRadius implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("World")) {
 				if (player.hasPermission("chatmanager.chatradius.world")) {
 					if (args.length == 1) {
-						boolean isValid = plugin.api().getWorldChatData().containsUser(player.getUniqueId());
+						boolean isValid = this.plugin.api().getWorldChatData().containsUser(player.getUniqueId());
 
 						if (isValid) {
-							plugin.api().getLocalChatData().removeUser(player.getUniqueId());
-							plugin.api().getGlobalChatData().removeUser(player.getUniqueId());
-							plugin.api().getWorldChatData().addUser(player.getUniqueId());
+							this.plugin.api().getLocalChatData().removeUser(player.getUniqueId());
+							this.plugin.api().getGlobalChatData().removeUser(player.getUniqueId());
+							this.plugin.api().getWorldChatData().addUser(player.getUniqueId());
 
 							this.plugin.getMethods().sendMessage(player, messages.getString("Chat_Radius.World_Chat.Enabled"), true);
 							return true;
@@ -132,16 +134,16 @@ public class CommandRadius implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("Spy")) {
 				if (player.hasPermission("chatmanager.chatradius.spy")) {
 					if (args.length == 1) {
-						boolean isValid = plugin.api().getSpyChatData().containsUser(player.getUniqueId());
+						boolean isValid = this.plugin.api().getSpyChatData().containsUser(player.getUniqueId());
 
 						if (isValid) {
-							plugin.api().getSpyChatData().removeUser(player.getUniqueId());
+							this.plugin.api().getSpyChatData().removeUser(player.getUniqueId());
 							this.plugin.getMethods().sendMessage(player, messages.getString("Chat_Radius.Spy.Disabled"), true);
 
 							return true;
 						}
 
-						plugin.api().getSpyChatData().addUser(player.getUniqueId());
+						this.plugin.api().getSpyChatData().addUser(player.getUniqueId());
 						this.plugin.getMethods().sendMessage(player, messages.getString("Chat_Radius.Spy.Enabled"), true);
 					} else {
 						this.plugin.getMethods().sendMessage(player, ("&cCommand Usage: &7/ChatRadius Spy"), true);

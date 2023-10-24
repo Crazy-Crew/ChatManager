@@ -7,12 +7,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class ListenerBannedCommand implements Listener {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
 	@EventHandler(ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
@@ -66,7 +70,7 @@ public class ListenerBannedCommand implements Listener {
 
 		if (!config.getBoolean("Banned_Commands.Notify_Staff")) return;
 
-		for (Player staff : plugin.getServer().getOnlinePlayers()) {
+		for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 			if (staff.hasPermission("chatmanager.notify.bannedcommands")) {
 				this.plugin.getMethods().sendMessage(staff, messages.getString("Banned_Commands.Message").replace("{player}", player.getName()).replace("{command}", message), true);
 			}
@@ -100,6 +104,6 @@ public class ListenerBannedCommand implements Listener {
 					plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 				}
 			}
-		}.runTask(plugin);
+		}.runTask(this.plugin);
 	}
 }

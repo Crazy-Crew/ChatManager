@@ -11,13 +11,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandBroadcast implements CommandExecutor {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
-	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
+	@NotNull
+	private final PlaceholderManager placeholderManager = this.plugin.getCrazyManager().getPlaceholderManager();
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
@@ -53,7 +56,7 @@ public class CommandBroadcast implements CommandExecutor {
 						message.append(arg).append(" ");
 					}
 
-					for (Player online : plugin.getServer().getOnlinePlayers()) {
+					for (Player online : this.plugin.getServer().getOnlinePlayers()) {
 						online.sendMessage(this.plugin.getMethods().color(prefix + color + message));
 						try {
 							online.playSound(online.getLocation(), Sound.valueOf(broadcastSound), broadcastVolume, broadcastPitch);
@@ -102,9 +105,9 @@ public class CommandBroadcast implements CommandExecutor {
 		}
 
 		for (String announce : warning) {
-			for (Player online : plugin.getServer().getOnlinePlayers()) {
+			for (Player online : this.plugin.getServer().getOnlinePlayers()) {
 				if (sender instanceof Player player) {
-					online.sendMessage(placeholderManager.setPlaceholders(player, announce.replace("{player}", player.getName()).replace("{message}", message).replace("\\n", "\n")));
+					online.sendMessage(this.placeholderManager.setPlaceholders(player, announce.replace("{player}", player.getName()).replace("{message}", message).replace("\\n", "\n")));
 				}
 
 				try {

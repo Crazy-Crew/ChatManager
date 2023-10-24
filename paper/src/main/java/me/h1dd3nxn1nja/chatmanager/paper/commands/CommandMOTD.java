@@ -8,11 +8,16 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import com.ryderbelserion.chatmanager.paper.files.Files;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandMOTD implements Listener {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
-	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+
+	@NotNull
+	private final PlaceholderManager placeholderManager = this.plugin.getCrazyManager().getPlaceholderManager();
 
 	@EventHandler
 	public void onMotd(PlayerCommandPreprocessEvent e) {
@@ -24,7 +29,7 @@ public class CommandMOTD implements Listener {
 		if (config.getBoolean("MOTD.Enable")) {
 			if (message.equalsIgnoreCase("/motd")) {
 				for (String motd : config.getStringList("MOTD.Message")) {
-					this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, motd), true);
+					this.plugin.getMethods().sendMessage(player, this.placeholderManager.setPlaceholders(player, motd), true);
 				}
 
 				e.setCancelled(true);

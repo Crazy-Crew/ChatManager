@@ -5,13 +5,16 @@ import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public class MetricsHandler {
 
-    private final ChatManager plugin = ChatManager.getPlugin();
+    @NotNull
+    private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
     public void start() {
-        Metrics metrics = new Metrics(plugin, 3291);
+        Metrics metrics = new Metrics(this.plugin, 3291);
 
         FileConfiguration config = Files.CONFIG.getFile();
 
@@ -23,6 +26,6 @@ public class MetricsHandler {
 
         metrics.addCustomChart(new SimplePie("update_checker", () -> config.getString("Update_Checker")));
 
-        plugin.getLogger().info("Metrics has been enabled.");
+        this.plugin.getLogger().info("Metrics has been enabled.");
     }
 }

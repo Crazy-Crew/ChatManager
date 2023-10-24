@@ -4,38 +4,40 @@ import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 public class EssentialsSupport {
 
 	private Essentials essentials = null;
 
 	public EssentialsSupport() {
-		if (PluginSupport.ESSENTIALS.isPluginEnabled()) essentials = (Essentials) PluginSupport.ESSENTIALS.getPlugin();
+		if (PluginSupport.ESSENTIALS.isPluginEnabled()) this.essentials = (Essentials) PluginSupport.ESSENTIALS.getPlugin();
 	}
 
-	public boolean isPlayerAFK(String player) {
+	public boolean isPlayerAFK(UUID uuid) {
 		if (isEssentialsReady()) return false;
 
-		User user = getUser(player);
+		User user = getUser(uuid);
 
 		return user != null && user.isAfk();
 	}
 	
-	public boolean isIgnored(Player player, Player player2) {
+	public boolean isIgnored(UUID uuid, UUID uuid2) {
 		if (isEssentialsReady()) return false;
 
-		User user = this.essentials.getUser(player);
+		User user = this.essentials.getUser(uuid);
 
 		if (user == null) return false;
 
-		User user2 = this.essentials.getUser(player2);
+		User user2 = this.essentials.getUser(uuid2);
 
         return user2 != null && user.isIgnoredPlayer(user2);
 	}
 	
-	public String getPlayerNickname(Player player) {
+	public String getPlayerNickname(UUID uuid) {
 		if (isEssentialsReady()) return "Essentials is not enabled.";
 
-		User user = this.essentials.getUser(player);
+		User user = this.essentials.getUser(uuid);
 
 		if (user == null) return null;
 
@@ -44,10 +46,10 @@ public class EssentialsSupport {
 		return user.getName();
 	}
 	
-	public String getPlayerBalance(Player player) {
+	public String getPlayerBalance(UUID uuid) {
 		if (isEssentialsReady()) return "0";
 
-		User user = essentials.getUser(player);
+		User user = this.essentials.getUser(uuid);
 
 		if (user == null) return "0";
 
@@ -58,29 +60,25 @@ public class EssentialsSupport {
 		return money;
 	}
 	
-	public boolean isMuted(Player player) {
+	public boolean isMuted(UUID uuid) {
 		if (isEssentialsReady()) return false;
 
-		User user = essentials.getUser(player);
+		User user = this.essentials.getUser(uuid);
 
 		if (user == null) return false;
 
 		return user.isMuted();
 	}
 
-	public User getUser(String player) {
-		return essentials.getUserMap().getUser(player);
-	}
-
-	public User getUser(Player player) {
-		return essentials.getUser(player);
+	public User getUser(UUID uuid) {
+		return this.essentials.getUser(uuid);
 	}
 
 	public boolean isEssentialsReady() {
-		return essentials == null;
+		return this.essentials == null;
 	}
 
 	public Essentials getEssentials() {
-		return essentials;
+		return this.essentials;
 	}
 }

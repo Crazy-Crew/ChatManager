@@ -7,11 +7,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandPerWorldChat implements CommandExecutor {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -38,11 +40,11 @@ public class CommandPerWorldChat implements CommandExecutor {
 				if (player.hasPermission("chatmanager.perworldchat")) {
 					if (args.length == 1) {
 						if (config.getBoolean("Per_World_Chat.Enable")) {
-							if (!plugin.api().getPerWorldChatData().containsUser(player.getUniqueId())) {
-								plugin.api().getPerWorldChatData().addUser(player.getUniqueId());
+							if (!this.plugin.api().getPerWorldChatData().containsUser(player.getUniqueId())) {
+								this.plugin.api().getPerWorldChatData().addUser(player.getUniqueId());
 								this.plugin.getMethods().sendMessage(player, messages.getString("Per_World_Chat.Bypass_Enabled"), true);
 							} else {
-								plugin.api().getPerWorldChatData().removeUser(player.getUniqueId());
+								this.plugin.api().getPerWorldChatData().removeUser(player.getUniqueId());
 								this.plugin.getMethods().sendMessage(player, messages.getString("Per_World_Chat.Bypass_Disabled"), true);
 							}
 						} else {

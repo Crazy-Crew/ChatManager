@@ -9,14 +9,18 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandLists implements CommandExecutor {
 	
-	DecimalFormat df = new DecimalFormat("#,###");
+	private final DecimalFormat df = new DecimalFormat("#,###");
 
-	private final ChatManager plugin = ChatManager.getPlugin();
-	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+
+	@NotNull
+	private final PlaceholderManager placeholderManager = this.plugin.getCrazyManager().getPlaceholderManager();
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
@@ -27,20 +31,20 @@ public class CommandLists implements CommandExecutor {
 				if (args.length == 0) {
 					StringBuilder str = new StringBuilder();
 
-					for (Player players : plugin.getServer().getOnlinePlayers()) {
+					for (Player players : this.plugin.getServer().getOnlinePlayers()) {
 						if (!str.isEmpty()) str.append(", ");
 
 						str.append("&a").append(players.getName()).append("&8");
 					}
 
-					String online = df.format(plugin.getServer().getOnlinePlayers().size());
-					String max = df.format(plugin.getServer().getMaxPlayers());
+					String online = this.df.format(this.plugin.getServer().getOnlinePlayers().size());
+					String max = this.df.format(this.plugin.getServer().getMaxPlayers());
 
 					if (sender instanceof Player) {
 						for (String list : config.getStringList("Lists.Player_List")) {
 							Player player = (Player) sender;
 
-							this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max)), true);
+							this.plugin.getMethods().sendMessage(player, this.placeholderManager.setPlaceholders(player, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max)), true);
 						}
 					} else {
 						for (String list : config.getStringList("Lists.Player_List")) {
@@ -60,7 +64,7 @@ public class CommandLists implements CommandExecutor {
 				if (args.length == 0) {
 					StringBuilder str = new StringBuilder();
 
-					for (Player staff : plugin.getServer().getOnlinePlayers()) {
+					for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 						if ((staff.hasPermission("chatmanager.staff")) || (staff.isOp())) {
 							if (!str.isEmpty()) str.append(", ");
 
@@ -68,13 +72,13 @@ public class CommandLists implements CommandExecutor {
 						}
 					}
 
-					String online = df.format(plugin.getServer().getOnlinePlayers().size());
-					String max = df.format(plugin.getServer().getMaxPlayers());
+					String online = this.df.format(this.plugin.getServer().getOnlinePlayers().size());
+					String max = this.df.format(this.plugin.getServer().getMaxPlayers());
 
 					if (sender instanceof Player) {
 						for (String list : config.getStringList("Lists.Staff_List")) {
 							Player player = (Player) sender;
-							this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max)), true);
+							this.plugin.getMethods().sendMessage(player, this.placeholderManager.setPlaceholders(player, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max)), true);
 						}
 					} else {
 						for (String list : config.getStringList("Lists.Staff_List")) {

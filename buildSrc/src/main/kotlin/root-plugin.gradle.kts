@@ -30,6 +30,12 @@ tasks {
         options.encoding = Charsets.UTF_8.name()
         options.release.set(17)
     }
+
+    shadowJar {
+        mergeServiceFiles()
+
+        exclude("META-INF/**")
+    }
 }
 
 val isSnapshot = rootProject.version.toString().contains("snapshot")

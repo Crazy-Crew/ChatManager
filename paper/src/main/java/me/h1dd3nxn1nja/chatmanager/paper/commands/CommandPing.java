@@ -6,13 +6,15 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import java.text.DecimalFormat;
 import com.ryderbelserion.chatmanager.paper.files.Files;
 
 public class CommandPing implements CommandExecutor {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -46,7 +48,7 @@ public class CommandPing implements CommandExecutor {
 				return true;
 			}
 
-			Player target = plugin.getServer().getPlayer(args[0]);
+			Player target = this.plugin.getServer().getPlayer(args[0]);
 
 			if (target == null || !target.isOnline()) {
 				this.plugin.getMethods().sendMessage(player, messages.getString("Message.Player_Not_Found").replace("{target}", args[0]), true);

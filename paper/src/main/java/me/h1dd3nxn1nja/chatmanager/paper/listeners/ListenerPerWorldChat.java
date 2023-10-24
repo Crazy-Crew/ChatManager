@@ -10,10 +10,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public class ListenerPerWorldChat implements Listener {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
 	@EventHandler
 	public void onWorldChat(AsyncPlayerChatEvent event) {
@@ -26,9 +29,9 @@ public class ListenerPerWorldChat implements Listener {
 
 		FileConfiguration config = Files.CONFIG.getFile();
 
-		if (!config.getBoolean("Per_World_Chat.Enable") || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
+		if (!config.getBoolean("Per_World_Chat.Enable") || this.plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
 
-		if (plugin.api().getPerWorldChatData().containsUser(player.getUniqueId())) return;
+		if (this.plugin.api().getPerWorldChatData().containsUser(player.getUniqueId())) return;
 
 		if (config.getBoolean("Per_World_Chat.Group_Worlds.Enable")) {
 			for (String key : config.getConfigurationSection("Per_World_Chat.Group_Worlds.Worlds").getKeys(false)) {
@@ -36,15 +39,15 @@ public class ListenerPerWorldChat implements Listener {
 				if (group.contains(world)) playerGroup = group;
 			}
 
-			for (Player player2 : plugin.getServer().getOnlinePlayers()) {
+			for (Player player2 : this.plugin.getServer().getOnlinePlayers()) {
 				String world2 = player2.getWorld().getName();
 				if (playerGroup != null) {
 					if (!playerGroup.contains(world2)) {
-						if (!plugin.api().getPerWorldChatData().containsUser(player2.getUniqueId())) recipients.remove(player2);
+						if (!this.plugin.api().getPerWorldChatData().containsUser(player2.getUniqueId())) recipients.remove(player2);
 					}
 				} else {
 					if (!world.equals(world2)) {
-						if (!plugin.api().getPerWorldChatData().containsUser(player2.getUniqueId())) recipients.remove(player2);
+						if (!this.plugin.api().getPerWorldChatData().containsUser(player2.getUniqueId())) recipients.remove(player2);
 					}
 				}
 			}
@@ -52,6 +55,6 @@ public class ListenerPerWorldChat implements Listener {
 			return;
 		}
 
-		recipients.removeIf(players -> !worldUID.equals(players.getWorld().getUID()) && !plugin.api().getPerWorldChatData().containsUser(players.getUniqueId()));
+		recipients.removeIf(players -> !worldUID.equals(players.getWorld().getUID()) && !this.plugin.api().getPerWorldChatData().containsUser(players.getUniqueId()));
 	}
 }

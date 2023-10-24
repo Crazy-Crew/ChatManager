@@ -67,74 +67,74 @@ public class ApiLoader {
     }
 
     public SocialSpyData getSocialSpyData() {
-        return socialSpyData;
+        return this.socialSpyData;
     }
 
     public CommandSpyData getCommandSpyData() {
-        return commandSpyData;
+        return this.commandSpyData;
     }
 
     public AntiBotData getAntiBotData() {
-        return antiBotData;
+        return this.antiBotData;
     }
 
     public StaffChatData getStaffChatData() {
-        return staffChatData;
+        return this.staffChatData;
     }
 
     public SpyChatData getSpyChatData() {
-        return spyChatData;
+        return this.spyChatData;
     }
 
     public LocalChatData getLocalChatData() {
-        return localChatData;
+        return this.localChatData;
     }
 
     public WorldChatData getWorldChatData() {
-        return worldChatData;
+        return this.worldChatData;
     }
 
     public GlobalChatData getGlobalChatData() {
-        return globalChatData;
+        return this.globalChatData;
     }
 
     public PerWorldChatData getPerWorldChatData() {
-        return perWorldChatData;
+        return this.perWorldChatData;
     }
 
     public ToggleMessageData getToggleMessageData() {
-        return toggleMessageData;
+        return this.toggleMessageData;
     }
 
     public ToggleChatData getToggleChatData() {
-        return toggleChatData;
+        return this.toggleChatData;
     }
 
     public ToggleMentionsData getToggleMentionsData() {
-        return toggleMentionsData;
+        return this.toggleMentionsData;
     }
 
     public PreviousCmdData getPreviousCmdData() {
-        return previousCmdData;
+        return this.previousCmdData;
     }
 
     public PreviousMsgData getPreviousMsgData() {
-        return previousMsgData;
+        return this.previousMsgData;
     }
 
     public ChatCooldowns getChatCooldowns() {
-        return chatCooldowns;
+        return this.chatCooldowns;
     }
 
     public CmdCooldowns getCmdCooldowns() {
-        return cmdCooldowns;
+        return this.cmdCooldowns;
     }
 
     public CooldownTask getCooldownTask() {
-        return cooldownTask;
+        return this.cooldownTask;
     }
 
     public UserRepliedData getUserRepliedData() {
-        return userRepliedData;
+        return this.userRepliedData;
     }
 }

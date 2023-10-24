@@ -10,12 +10,15 @@ import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import org.jetbrains.annotations.NotNull;
 
 public class BossBarUtil {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
 	private String title;
 	private BarColor color;
@@ -56,13 +59,13 @@ public class BossBarUtil {
 	public BossBarUtil setTitle(String title) {
 		this.title = this.plugin.getMethods().color(title);
 
-		bar.setTitle(this.title);
+		this.bar.setTitle(this.title);
 
 		return this;
 	}
 
 	public BarColor getColor() {
-		return color;
+		return this.color;
 	}
 
 	public BossBarUtil setColor(String stringColor) {
@@ -75,13 +78,13 @@ public class BossBarUtil {
 
 	public BossBarUtil setColor(BarColor color) {
 		this.color = color;
-		bar.setColor(color);
+		this.bar.setColor(color);
 
 		return this;
 	}
 
 	public BarStyle getStyle() {
-		return style;
+		return this.style;
 	}
 
 	public BossBarUtil setStyle(String stringStyle) {
@@ -95,37 +98,37 @@ public class BossBarUtil {
 	public BossBarUtil setStyle(BarStyle style) {
 		this.style = style;
 
-		bar.setStyle(style);
+		this.bar.setStyle(style);
 
 		return this;
 	}
 
 	public double getProgress() {
-		return progress;
+		return this.progress;
 	}
 
 	public BossBarUtil setProgress(double progress) {
 		this.progress = progress;
 
-		bar.setProgress(progress);
+		this.bar.setProgress(progress);
 
 		return this;
 	}
 
 	public boolean isVisible() {
-		return isVisible;
+		return this.isVisible;
 	}
 
 	public BossBarUtil setVisible(boolean visible) {
-		isVisible = visible;
+		this.isVisible = visible;
 
-		bar.setVisible(visible);
+		this.bar.setVisible(visible);
 
 		return this;
 	}
 
 	public BossBarUtil setBossBar(Player player) {
-		bar.addPlayer(player);
+		this.bar.addPlayer(player);
 
 		playerBars.put(player.getUniqueId(), this);
 
@@ -133,15 +136,15 @@ public class BossBarUtil {
 	}
 	
 	public BossBarUtil setStaffBossBar(Player player) {
-		staffBar.addPlayer(player);
+		this.staffBar.addPlayer(player);
 
 		staffBars.put(player.getUniqueId(), this);
 
 		return this;
 	}
 	
-	public BossBarUtil setBossBarTime(Player player, int time, ChatManager chatManager) {
-		bar.addPlayer(player);
+	public BossBarUtil setBossBarTime(Player player, int time) {
+		this.bar.addPlayer(player);
 
 		playerBars.put(player.getUniqueId(), this);
 
@@ -149,7 +152,7 @@ public class BossBarUtil {
 			public void run() {
 				if (playerBars.containsKey(player.getUniqueId())) playerBars.get(player.getUniqueId()).bar.removePlayer(player);
 			}
-		}.runTaskLater(chatManager, 20L * time);
+		}.runTaskLater(this.plugin, 20L * time);
 
 		return this;
 	}
@@ -175,11 +178,11 @@ public class BossBarUtil {
 	}
 	
 	public BossBarUtil setBossBarAnimation(Player player, List<String> titles, int time, ChatManager chatManager) {
-		BossBar bossBar = plugin.getServer().createBossBar(titles.get(0), color, BarStyle.SOLID, BarFlag.CREATE_FOG);
+		BossBar bossBar = this.plugin.getServer().createBossBar(titles.get(0), color, BarStyle.SOLID, BarFlag.CREATE_FOG);
 		bossBar.addPlayer(player);
-		bossBars.put(player.getUniqueId(), bossBar);
+		this.bossBars.put(player.getUniqueId(), bossBar);
 
-		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(chatManager, new Runnable() {
+		this.plugin.getServer().getScheduler().scheduleSyncRepeatingTask(chatManager, new Runnable() {
 			int i = 1;
 			int ticksRan = 0;
 
@@ -198,6 +201,7 @@ public class BossBarUtil {
 				}
 			}
 		}, 1, 1);
+
 		return this;
 	}
 }

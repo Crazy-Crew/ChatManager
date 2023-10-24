@@ -12,12 +12,21 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public class ListenerMentions implements Listener {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
-	private final Methods methods = plugin.getMethods();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+
+	@NotNull
+	private final Methods methods = this.plugin.getMethods();
+
+	@NotNull
 	private final EssentialsSupport essentialsSupport = this.plugin.getPluginManager().getEssentialsSupport();
+
+	@NotNull
 	private final PlaceholderManager placeholderManager = this.plugin.getCrazyManager().getPlaceholderManager();
 
 	@EventHandler(ignoreCancelled = true)
@@ -33,31 +42,31 @@ public class ListenerMentions implements Listener {
 
 		event.setMessage(this.plugin.getMethods().color(event.getMessage()));
 
-		plugin.getServer().getOnlinePlayers().forEach(target -> {
+		this.plugin.getServer().getOnlinePlayers().forEach(target -> {
 			if (!player.hasPermission("chatmanager.mention") || !target.hasPermission("chatmanager.mention.receive")) return;
 
 			if (!event.getMessage().contains(tagSymbol + target.getName())) return;
 
-			if (plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) return;
+			if (this.plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) return;
 
 			if (PluginSupport.ESSENTIALS.isPluginEnabled()) {
-				if (essentialsSupport.isIgnored(target, player) || essentialsSupport.isMuted(player)) return;
+				if (essentialsSupport.isIgnored(target.getUniqueId(), player.getUniqueId()) || essentialsSupport.isMuted(player.getUniqueId())) return;
 			}
 
-			if (plugin.api().getToggleChatData().containsUser(target.getUniqueId())) return;
+			if (this.plugin.api().getToggleChatData().containsUser(target.getUniqueId())) return;
 
 			if (config.getBoolean("Chat_Radius.Enable")) {
 				if ((!this.plugin.getMethods().inRange(target.getUniqueId(), player.getUniqueId(), config.getInt("Chat_Radius.Block_Distance"))) || (!this.plugin.getMethods().inWorld(target.getUniqueId(), player.getUniqueId()))) return;
 			}
 
-			if (!plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) {
+			if (!this.plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) {
 				String path = "Mentions.sound";
-				methods.playSound(target, config, path);
+				this.methods.playSound(target, config, path);
 			}
 
 			if (config.getBoolean("Mentions.Title.Enable")) {
-				String header = placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Header"));
-				String footer = placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Footer"));
+				String header = this.placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Header"));
+				String footer = this.placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Footer"));
 
 				target.sendTitle(header, footer, 40, 20, 40);
 			}
@@ -70,16 +79,16 @@ public class ListenerMentions implements Listener {
 		});
 
 		if (event.getMessage().toLowerCase().contains(tagSymbol + "everyone")) {
-			plugin.getServer().getOnlinePlayers().forEach(target -> {
+			this.plugin.getServer().getOnlinePlayers().forEach(target -> {
 				if (player.hasPermission("chatmanager.mention.everyone") && target.hasPermission("chatmanager.mentions.receive")) {
-					if (!plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) {
+					if (!this.plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) {
 						String path = "Mentions.sound";
 						methods.playSound(target, config, path);
 					}
 
 					if (config.getBoolean("Mentions.Title.Enable")) {
-						String header = placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Header"));
-						String footer = placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Footer"));
+						String header = this.placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Header"));
+						String footer = this.placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Footer"));
 
 						target.sendTitle(header, footer, 40, 20, 40);
 					}

@@ -10,7 +10,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.Calendar;
@@ -21,7 +24,8 @@ import java.util.regex.Pattern;
 
 public class ListenerAntiAdvertising implements Listener {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
@@ -45,7 +49,7 @@ public class ListenerAntiAdvertising implements Listener {
 
 		if (!config.getBoolean("Anti_Advertising.Chat.Enable")) return;
 
-		boolean isValid = plugin.api().getStaffChatData().containsUser(player.getUniqueId());
+		boolean isValid = this.plugin.api().getStaffChatData().containsUser(player.getUniqueId());
 
 		if (isValid && player.hasPermission("chatmanager.bypass.antiadvertising")) return;
 
@@ -71,7 +75,7 @@ public class ListenerAntiAdvertising implements Listener {
 		this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Advertising.Chat.Message"), true);
 
 		if (config.getBoolean("Anti_Advertising.Chat.Notify_Staff")) {
-			for (Player staff : plugin.getServer().getOnlinePlayers()) {
+			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission("chatmanager.notify.antiadvertising")) {
 					this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Advertising.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 				}
@@ -93,7 +97,7 @@ public class ListenerAntiAdvertising implements Listener {
 							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 						}
 					}
-				}.runTask(plugin);
+				}.runTask(this.plugin);
 			}
 		}
 
@@ -134,7 +138,7 @@ public class ListenerAntiAdvertising implements Listener {
 
 		if (!config.getBoolean("Anti_Advertising.Commands.Enable")) return;
 
-		boolean isValid = plugin.api().getStaffChatData().containsUser(player.getUniqueId());
+		boolean isValid = this.plugin.api().getStaffChatData().containsUser(player.getUniqueId());
 
 		if (isValid && player.hasPermission("chatmanager.bypass.antiadvertising")) return;
 
@@ -164,7 +168,7 @@ public class ListenerAntiAdvertising implements Listener {
 		this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Advertising.Commands.Message"), true);
 
 		if (config.getBoolean("Anti_Advertising.Commands.Notify_Staff")) {
-			for (Player staff : plugin.getServer().getOnlinePlayers()) {
+			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission("chatmanager.notify.antiadvertising")) {
 					this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Advertising.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 				}
@@ -185,7 +189,7 @@ public class ListenerAntiAdvertising implements Listener {
 							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 						}
 					}
-				}.runTask(plugin);
+				}.runTask(this.plugin);
 			}
 		}
 
@@ -257,7 +261,7 @@ public class ListenerAntiAdvertising implements Listener {
 		this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Advertising.Signs.Message"), true);
 
 		if (config.getBoolean("Anti_Advertising.Signs.Notify_Staff")) {
-			for (Player staff : plugin.getServer().getOnlinePlayers()) {
+			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission("chatmanager.notify.antiadvertising")) {
 					this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Advertising.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 				}
@@ -279,7 +283,7 @@ public class ListenerAntiAdvertising implements Listener {
 							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 						}
 					}
-				}.runTask(plugin);
+				}.runTask(this.plugin);
 			}
 		}
 

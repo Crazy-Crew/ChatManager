@@ -11,10 +11,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public class ListenerRadius implements Listener {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
@@ -32,15 +35,15 @@ public class ListenerRadius implements Listener {
 
 		int radius = config.getInt("Chat_Radius.Block_Distance");
 
-		if (!config.getBoolean("Chat_Radius.Enable") || plugin.api().getStaffChatData().containsUser(uuid)) return;
+		if (!config.getBoolean("Chat_Radius.Enable") || this.plugin.api().getStaffChatData().containsUser(uuid)) return;
 
 		if (player.hasPermission("chatmanager.chatradius.global.override")) {
 			assert globalOverrideChar != null;
 			if (!globalOverrideChar.isEmpty()) {
 				if (ChatColor.stripColor(message).charAt(0) == globalOverrideChar.charAt(0)) {
-					plugin.api().getWorldChatData().removeUser(uuid);
-					plugin.api().getLocalChatData().removeUser(uuid);
-					plugin.api().getGlobalChatData().addUser(uuid);
+					this.plugin.api().getWorldChatData().removeUser(uuid);
+					this.plugin.api().getLocalChatData().removeUser(uuid);
+					this.plugin.api().getGlobalChatData().addUser(uuid);
 					return;
 				}
 			}
@@ -51,9 +54,9 @@ public class ListenerRadius implements Listener {
 
 			if (!localOverrideChar.isEmpty()) {
 				if (ChatColor.stripColor(message).charAt(0) == localOverrideChar.charAt(0)) {
-					plugin.api().getWorldChatData().removeUser(uuid);
-					plugin.api().getGlobalChatData().removeUser(uuid);
-					plugin.api().getLocalChatData().addUser(uuid);
+					this.plugin.api().getWorldChatData().removeUser(uuid);
+					this.plugin.api().getGlobalChatData().removeUser(uuid);
+					this.plugin.api().getLocalChatData().addUser(uuid);
 					event.setMessage(message);
 					return;
 				}
@@ -64,17 +67,17 @@ public class ListenerRadius implements Listener {
 			assert worldOverrideChar != null;
 			if (!worldOverrideChar.isEmpty()) {
 				if (ChatColor.stripColor(message).charAt(0) == worldOverrideChar.charAt(0)) {
-					plugin.api().getGlobalChatData().removeUser(uuid);
-					plugin.api().getLocalChatData().removeUser(uuid);
-					plugin.api().getWorldChatData().addUser(uuid);
+					this.plugin.api().getGlobalChatData().removeUser(uuid);
+					this.plugin.api().getLocalChatData().removeUser(uuid);
+					this.plugin.api().getWorldChatData().addUser(uuid);
 					event.setMessage(message);
 					return;
 				}
 			}
 		}
 
-		if (plugin.api().getLocalChatData().containsUser(uuid)) {
-			for (Player receiver : plugin.getServer().getOnlinePlayers()) {
+		if (this.plugin.api().getLocalChatData().containsUser(uuid)) {
+			for (Player receiver : this.plugin.getServer().getOnlinePlayers()) {
 				recipients.remove(receiver);
 
 				if (this.plugin.getMethods().inRange(uuid, receiver.getUniqueId(), radius)) {
@@ -86,8 +89,8 @@ public class ListenerRadius implements Listener {
 			}
 		}
 
-		if (plugin.api().getWorldChatData().containsUser(uuid)) {
-			for (Player receiver : plugin.getServer().getOnlinePlayers()) {
+		if (this.plugin.api().getWorldChatData().containsUser(uuid)) {
+			for (Player receiver : this.plugin.getServer().getOnlinePlayers()) {
 				recipients.remove(receiver);
 
 				if (this.plugin.getMethods().inWorld(uuid, receiver.getUniqueId())) {
@@ -95,7 +98,7 @@ public class ListenerRadius implements Listener {
 					recipients.add(receiver);
 				}
 
-				if (plugin.api().getSpyChatData().containsUser(receiver.getUniqueId())) recipients.add(receiver);
+				if (this.plugin.api().getSpyChatData().containsUser(receiver.getUniqueId())) recipients.add(receiver);
 			}
 		}
 	}

@@ -4,8 +4,8 @@ import java.util.List;
 
 public class World {
 
-	private String name;
-	private List<String> messages;
+	private final String name;
+	private final List<String> messages;
 	private int index;
 
 	public World(String name, List<String> messages, int index) {
@@ -15,15 +15,15 @@ public class World {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public List<String> getMessages() {
-		return messages;
+		return this.messages;
 	}
 
 	public int getIndex() {
-		return index;
+		return this.index;
 	}
 
 	public void setIndex(int index) {

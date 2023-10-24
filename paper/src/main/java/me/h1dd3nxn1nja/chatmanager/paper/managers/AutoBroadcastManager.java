@@ -6,9 +6,8 @@ import com.ryderbelserion.chatmanager.paper.api.CrazyManager;
 import com.ryderbelserion.chatmanager.paper.files.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
-import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.BossBarUtil;
@@ -165,7 +164,7 @@ public class AutoBroadcastManager {
 							bossBar.removeBossBar(player);
 							bossBar.setBossBar(player);
 						} else if (autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Bar_Time") >= 0) {
-							bossBar.setBossBarTime(player, time, plugin);
+							bossBar.setBossBarTime(player, time);
 						}
 
 						methods.playSound(player, autobroadcast, "Auto_Broadcast.Bossbar_Messages.sound");

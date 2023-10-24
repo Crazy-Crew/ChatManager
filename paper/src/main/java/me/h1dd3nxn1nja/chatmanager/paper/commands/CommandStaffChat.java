@@ -10,12 +10,16 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.BossBarUtil;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandStaffChat implements CommandExecutor {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
-	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+
+	@NotNull
+	private final PlaceholderManager placeholderManager = this.plugin.getCrazyManager().getPlaceholderManager();
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -27,10 +31,10 @@ public class CommandStaffChat implements CommandExecutor {
 				if (player.hasPermission("chatmanager.staffchat")) {
 					if (args.length == 0) {
 						if (config.getBoolean("Staff_Chat.Enable")) {
-							boolean isValid = plugin.api().getStaffChatData().containsUser(player.getUniqueId());
+							boolean isValid = this.plugin.api().getStaffChatData().containsUser(player.getUniqueId());
 
 							if (isValid) {
-								plugin.api().getStaffChatData().removeUser(player.getUniqueId());
+								this.plugin.api().getStaffChatData().removeUser(player.getUniqueId());
 
 								// We want to remove anyway just in case they turned it off.
 								BossBarUtil bossBar = new BossBarUtil(this.plugin.getMethods().color(config.getString("Staff_Chat.Boss_Bar.Title")));
@@ -41,7 +45,7 @@ public class CommandStaffChat implements CommandExecutor {
 								return true;
 							}
 
-							plugin.api().getStaffChatData().addUser(player.getUniqueId());
+							this.plugin.api().getStaffChatData().addUser(player.getUniqueId());
 
 							boolean isBossBarEnabled = config.contains("Staff_Chat.Boss_Bar.Enable") && config.getBoolean("Staff_Chat.Boss_Bar.Enable");
 
@@ -66,7 +70,7 @@ public class CommandStaffChat implements CommandExecutor {
 								message.append(arg).append(" ");
 							}
 
-							for (Player staff : plugin.getServer().getOnlinePlayers()) {
+							for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 								this.plugin.getMethods().sendMessage(staff, placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)), true);
 							}
 
@@ -88,7 +92,7 @@ public class CommandStaffChat implements CommandExecutor {
 					message.append(arg).append(" ");
 				}
 
-				for (Player staff : plugin.getServer().getOnlinePlayers()) {
+				for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 					if (staff.hasPermission("chatmanager.staffchat")) this.plugin.getMethods().sendMessage(staff, config.getString("Staff_Chat.Format").replace("{player}", sender.getName()).replace("{message}", message), true);
 				}
 

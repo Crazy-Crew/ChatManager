@@ -7,11 +7,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class ListenerSpy implements Listener {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
 	@EventHandler(ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
@@ -28,9 +32,9 @@ public class ListenerSpy implements Listener {
 				if (message.toLowerCase().startsWith(command)) return;
 			}
 
-			for (Player staff : plugin.getServer().getOnlinePlayers()) {
+			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 
-				boolean isValid = plugin.api().getCommandSpyData().containsUser(staff.getUniqueId());
+				boolean isValid = this.plugin.api().getCommandSpyData().containsUser(staff.getUniqueId());
 
 				if (!isValid || !staff.hasPermission("chatmanager.commandspy")) return;
 

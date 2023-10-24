@@ -5,10 +5,13 @@ import me.h1dd3nxn1nja.chatmanager.paper.support.misc.VaultSupport;
 import me.h1dd3nxn1nja.chatmanager.paper.support.placeholders.PlaceholderAPISupport;
 import me.h1dd3nxn1nja.chatmanager.paper.support.vanish.EssentialsVanishSupport;
 import me.h1dd3nxn1nja.chatmanager.paper.support.vanish.GenericVanishSupport;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public class PluginManager {
 
-    private final ChatManager plugin = ChatManager.getPlugin();
+    @NotNull
+    private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
     private EssentialsSupport essentialsSupport;
 

@@ -54,20 +54,19 @@ public class ChatManager extends JavaPlugin {
                 .setup();
 
         this.methods = new Methods();
-        
-        api = new ApiLoader();
 
-        api.load();
+        this.api = new ApiLoader();
+        this.api.load();
 
         FileConfiguration config = Files.CONFIG.getFile();
 
-        methods.convert();
+        this.methods.convert();
 
         boolean metricsEnabled = config.getBoolean("Metrics_Enabled", false);
 
-        pluginManager = new PluginManager();
+        this.pluginManager = new PluginManager();
 
-        crazyManager = new CrazyManager();
+        this.crazyManager = new CrazyManager();
 
         if (metricsEnabled) {
             MetricsHandler metricsHandler = new MetricsHandler();
@@ -75,7 +74,7 @@ public class ChatManager extends JavaPlugin {
             metricsHandler.start();
         }
 
-        crazyManager.load(true);
+        this.crazyManager.load(true);
 
         if (!PluginSupport.LUCKPERMS.isPluginEnabled()) plugin.getLogger().severe("A permissions plugin was not found. You will likely have issues without one.");
 
@@ -93,9 +92,9 @@ public class ChatManager extends JavaPlugin {
         getServer().getScheduler().cancelTasks(this);
 
         for (Player player : getServer().getOnlinePlayers()) {
-            api.getChatCooldowns().removeUser(player.getUniqueId());
-            api.getCooldownTask().removeUser(player.getUniqueId());
-            api.getCmdCooldowns().removeUser(player.getUniqueId());
+            this.api.getChatCooldowns().removeUser(player.getUniqueId());
+            this.api.getCooldownTask().removeUser(player.getUniqueId());
+            this.api.getCmdCooldowns().removeUser(player.getUniqueId());
 
             BossBarUtil bossBar = new BossBarUtil();
             bossBar.removeAllBossBars(player);
@@ -193,11 +192,11 @@ public class ChatManager extends JavaPlugin {
         if (config.getBoolean("Chat_Radius.Enable")) {
             for (Player all : getServer().getOnlinePlayers()) {
                 if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Local")) {
-                    plugin.api().getLocalChatData().addUser(all.getUniqueId());
+                    this.api.getLocalChatData().addUser(all.getUniqueId());
                 } else if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Global")) {
-                    plugin.api.getGlobalChatData().addUser(all.getUniqueId());
+                    this.api.getGlobalChatData().addUser(all.getUniqueId());
                 } else if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("World")) {
-                    plugin.api.getWorldChatData().addUser(all.getUniqueId());
+                    this.api.getWorldChatData().addUser(all.getUniqueId());
                 }
             }
         }
@@ -225,11 +224,11 @@ public class ChatManager extends JavaPlugin {
     }
 
     public CrazyManager getCrazyManager() {
-        return crazyManager;
+        return this.crazyManager;
     }
 
     public PluginManager getPluginManager() {
-        return pluginManager;
+        return this.pluginManager;
     }
 
     public FileManager getFileManager() {

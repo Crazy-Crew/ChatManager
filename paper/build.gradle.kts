@@ -13,6 +13,8 @@ repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 
     maven("https://repo.essentialsx.net/releases/")
+
+    maven("https://jitpack.io")
 }
 
 dependencies {
@@ -20,13 +22,11 @@ dependencies {
 
     compileOnly("me.clip", "placeholderapi", "2.11.4")
 
-    compileOnly("com.github.MilkBowl", "VaultAPI", "1.7.3") {
+    compileOnly("com.github.MilkBowl", "VaultAPI", "1.7.1") {
         exclude("org.bukkit", "bukkit")
     }
 
     compileOnly("net.essentialsx", "EssentialsX", "2.20.1")
-
-    compileOnly("com.github.LeonMangler", "SuperVanish", "6.2.18")
 }
 
 val component: SoftwareComponent = components["java"]
@@ -41,6 +41,14 @@ tasks {
 
                 from(component)
             }
+        }
+    }
+
+    shadowJar {
+        listOf(
+            "org.bstats"
+        ).forEach {
+            relocate(it, "libs.$it")
         }
     }
 
@@ -70,6 +78,9 @@ val file = file("${rootProject.rootDir}/jars/${rootProject.name}-${rootProject.v
 val description = """
 ## Changes:
  * Added 1.20.2 support
+
+## Removed:
+ * Removed the %chatmanager_ping% placeholder, You can use the Player expansion to get ping.
     
 ## Other:
  * [Feature Requests](https://github.com/Crazy-Crew/${rootProject.name}/issues)
@@ -85,7 +96,7 @@ val versions = listOf(
 modrinth {
     autoAddDependsOn.set(false)
 
-    token.set(System.getenv("MODRINTH_TOKEN"))
+    token.set(System.getenv("modrinth_token"))
 
     projectId.set(rootProject.name.lowercase())
 
@@ -113,7 +124,7 @@ hangarPublish {
 
         changelog.set(description)
 
-        apiKey.set(System.getenv("HANGAR_KEY"))
+        apiKey.set(System.getenv("hangar_key"))
 
         platforms {
             register(Platforms.PAPER) {

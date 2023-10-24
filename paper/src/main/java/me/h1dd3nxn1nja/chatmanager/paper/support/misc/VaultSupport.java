@@ -5,10 +5,13 @@ import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public class VaultSupport {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
 	private Permission permission;
 	private Chat chat;
@@ -37,14 +40,14 @@ public class VaultSupport {
 	}
 
 	private void setupPermissions() {
-		RegisteredServiceProvider<Permission> permissionProvider = plugin.getServer().getServicesManager().getRegistration(Permission.class);
+		RegisteredServiceProvider<Permission> permissionProvider = this.plugin.getServer().getServicesManager().getRegistration(Permission.class);
 
 		if (permissionProvider != null) this.permission = permissionProvider.getProvider();
 
 	}
 
 	private void setupChat() {
-		RegisteredServiceProvider<Chat> chatProvider = plugin.getServer().getServicesManager().getRegistration(Chat.class);
+		RegisteredServiceProvider<Chat> chatProvider = this.plugin.getServer().getServicesManager().getRegistration(Chat.class);
 
 		if (chatProvider != null) this.chat = chatProvider.getProvider();
 	}

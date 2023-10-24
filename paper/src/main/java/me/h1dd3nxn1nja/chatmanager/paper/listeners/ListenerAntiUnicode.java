@@ -7,14 +7,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ListenerAntiUnicode implements Listener {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
 	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
@@ -43,7 +47,7 @@ public class ListenerAntiUnicode implements Listener {
 		player.sendMessage(this.plugin.getMethods().color(player.getUniqueId(), messages.getString("Anti_Unicode.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 
 		if (config.getBoolean("Anti_Unicode.Notify_Staff")) {
-			for (Player staff : plugin.getServer().getOnlinePlayers()) {
+			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission("chatmanager.notify.antiunicode")) {
 					this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Unicode.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 				}
@@ -65,7 +69,7 @@ public class ListenerAntiUnicode implements Listener {
 							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 						}
 					}
-				}.runTask(plugin);
+				}.runTask(this.plugin);
 			}
 		}
 	}

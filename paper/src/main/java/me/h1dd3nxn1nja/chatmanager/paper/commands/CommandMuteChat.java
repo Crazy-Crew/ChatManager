@@ -7,12 +7,16 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import com.ryderbelserion.chatmanager.paper.files.Files;
 
 public class CommandMuteChat implements CommandExecutor {
 
-	private final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+
+	@NotNull
 	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();
 
 	@Override
@@ -29,10 +33,10 @@ public class CommandMuteChat implements CommandExecutor {
 				if (args.length == 0) {
 					if (this.plugin.getMethods().isMuted()) {
 						this.plugin.getMethods().setMuted();
-						this.plugin.getMethods().broadcast(placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Enabled").replace("{player}", player.getName())));
+						this.plugin.getMethods().broadcast(this.placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Enabled").replace("{player}", player.getName())));
 					} else {
 						this.plugin.getMethods().setMuted();
-						this.plugin.getMethods().broadcast(placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Disabled").replace("{player}", player.getName())));
+						this.plugin.getMethods().broadcast(this.placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Disabled").replace("{player}", player.getName())));
 					}
 
 					return true;
@@ -47,7 +51,7 @@ public class CommandMuteChat implements CommandExecutor {
 					if (args.length == 1) {
 						if (this.plugin.getMethods().isMuted()) {
 							this.plugin.getMethods().setMuted();
-							for (Player staff : plugin.getServer().getOnlinePlayers()) {
+							for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 								if (staff.hasPermission("chatmanager.bypass.mutechat")) {
 									this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Enabled").replace("{player}", player.getName())), true);
 									return true;
@@ -56,7 +60,7 @@ public class CommandMuteChat implements CommandExecutor {
 
 						} else {
 							this.plugin.getMethods().setMuted();
-							for (Player staff : plugin.getServer().getOnlinePlayers()) {
+							for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 								if (staff.hasPermission("chatmanager.bypass.mutechat")) {
 									this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Disabled").replace("{player}", player.getName())), true);
 									return true;
