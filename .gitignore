@@ -8,3 +8,5 @@ buildSrc/.gradle
 
 paper/build
 paper/.gradle
+
+jars
