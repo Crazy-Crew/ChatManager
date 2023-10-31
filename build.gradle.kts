@@ -4,10 +4,6 @@ plugins {
 
 defaultTasks("build")
 
-rootProject.group = "me.h1dd3nxn1nja.chatmanager"
-rootProject.description = "The kitchen sink of Chat Management."
-rootProject.version = "3.10.2"
-
 tasks {
     assemble {
         val jarsDir = File("$rootDir/jars")
