@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.modrinth)
     alias(libs.plugins.hangar)
 
+    id("xyz.jpenilla.run-paper")
+
     id("paper-plugin")
 }
 
@@ -32,6 +34,12 @@ dependencies {
 val component: SoftwareComponent = components["java"]
 
 tasks {
+    runServer {
+        jvmArgs("-Dnet.kyori.ansi.colorLevel=truecolor")
+
+        minecraftVersion("1.20.2")
+    }
+
     publishing {
         publications {
             create<MavenPublication>("maven") {
