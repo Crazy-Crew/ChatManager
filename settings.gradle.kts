@@ -10,7 +10,8 @@ pluginManagement {
 rootProject.name = "ChatManager"
 
 listOf(
-    "paper"
+    "paper",
+    "common"
 ).forEach {
     include(it)
 }
