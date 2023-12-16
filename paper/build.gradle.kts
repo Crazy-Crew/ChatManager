@@ -1,46 +1,123 @@
 import io.papermc.hangarpublishplugin.model.Platforms
 
 plugins {
+    alias(libs.plugins.paperweight)
+    alias(libs.plugins.shadowjar)
+
     alias(libs.plugins.modrinth)
+
+    alias(libs.plugins.runpaper)
+
     alias(libs.plugins.hangar)
 
-    id("xyz.jpenilla.run-paper")
-
-    id("paper-plugin")
+    `maven-publish`
 }
 
-group = "${rootProject.group}.paper"
-
-repositories {
-    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-
-    maven("https://repo.essentialsx.net/releases/")
-
-    maven("https://jitpack.io")
+base {
+    archivesName.set(rootProject.name)
 }
+
+val mcVersion = rootProject.properties["minecraftVersion"] as String
 
 dependencies {
-    implementation("org.bstats", "bstats-bukkit", "3.0.2")
+    api(project(":common"))
 
-    compileOnly("me.clip", "placeholderapi", "2.11.4")
+    implementation(libs.bstats)
 
-    compileOnly("com.github.MilkBowl", "VaultAPI", "1.7.1") {
-        exclude("org.bukkit", "bukkit")
-    }
+    implementation(libs.cluster5)
 
-    compileOnly("net.essentialsx", "EssentialsX", "2.20.1")
+    compileOnly(libs.vault)
+
+    paperweightDevelopmentBundle("io.papermc.paper:dev-bundle:$mcVersion-R0.1-SNAPSHOT")
 }
+
+val isBeta: Boolean get() = rootProject.extra["isBeta"]?.toString()?.toBoolean() ?: false
+val type = if (isBeta) "Beta" else "Release"
+
+val description = """
+## Changes:
+ * data.yml has been renamed to users.yml
+
+## Other:
+ * [Feature Requests](https://github.com/Crazy-Crew/${rootProject.name}/issues)
+ * [Bug Reports](https://github.com/Crazy-Crew/${rootProject.name}/issues)
+"""
+
+val file = project.layout.buildDirectory.file("libs/${rootProject.name}-${rootProject.version}.jar").get().asFile
 
 val component: SoftwareComponent = components["java"]
 
 tasks {
+    // Publish to hangar.papermc.io.
+    hangarPublish {
+        publications.register("plugin") {
+            version.set("$rootProject.version")
+
+            id.set(rootProject.name)
+
+            channel.set(type)
+
+            changelog.set(description)
+
+            apiKey.set(System.getenv("hangar_key"))
+
+            platforms {
+                register(Platforms.PAPER) {
+                    jar.set(file)
+
+                    platformVersions.set(listOf(mcVersion))
+                }
+            }
+        }
+    }
+
+    // Publish to modrinth.
+    modrinth {
+        autoAddDependsOn.set(false)
+
+        token.set(System.getenv("modrinth_token"))
+
+        projectId.set(rootProject.name.lowercase())
+
+        versionName.set("${rootProject.name} ${rootProject.version}")
+
+        versionNumber.set("${rootProject.version}")
+
+        versionType.set(type.lowercase())
+
+        uploadFile.set(file)
+
+        gameVersions.add(mcVersion)
+
+        changelog.set(description)
+
+        loaders.addAll("paper", "purpur")
+    }
+
+    // Runs a test server.
     runServer {
         jvmArgs("-Dnet.kyori.ansi.colorLevel=truecolor")
 
-        minecraftVersion("1.20.2")
+        minecraftVersion(mcVersion)
+    }
+
+    // Assembles the plugin.
+    assemble {
+        dependsOn(reobfJar)
     }
 
     publishing {
+        repositories {
+            maven {
+                url = uri("https://repo.crazycrew.us/releases/")
+
+                credentials {
+                    this.username = System.getenv("GRADLE_USERNAME")
+                    this.password = System.getenv("GRADLE_PASSWORD")
+                }
+            }
+        }
+
         publications {
             create<MavenPublication>("maven") {
                 groupId = rootProject.group.toString()
@@ -53,92 +130,32 @@ tasks {
     }
 
     shadowJar {
+        archiveClassifier.set("")
+
+        exclude("META-INF/**")
+
         listOf(
-            "org.bstats"
+                "org.bstats", "com.ryderbelserion.cluster", "dev.jorel.commandapi"
         ).forEach {
             relocate(it, "libs.$it")
         }
     }
 
     processResources {
-        val props = mapOf(
-            "name" to rootProject.name,
-            "group" to project.group.toString(),
-            "version" to rootProject.version,
-            "description" to rootProject.description,
-            "authors" to rootProject.properties["authors"],
-            "apiVersion" to "1.20",
-            "website" to "https://modrinth.com/plugin/${rootProject.name.lowercase()}"
+        val properties = hashMapOf(
+                "name" to rootProject.name,
+                "version" to rootProject.version,
+                "group" to rootProject.group,
+                "description" to rootProject.description,
+                "apiVersion" to rootProject.properties["apiVersion"],
+                "authors" to rootProject.properties["authors"],
+                "website" to rootProject.properties["website"]
         )
 
-        filesMatching("plugin.yml") {
-            expand(props)
-        }
-    }
-}
+        inputs.properties(properties)
 
-val isSnapshot = rootProject.version.toString().contains("snapshot")
-val type = if (isSnapshot) "beta" else "release"
-val other = if (isSnapshot) "Beta" else "Release"
-
-val file = file("${rootProject.rootDir}/jars/${rootProject.name}-${rootProject.version}.jar")
-
-val description = """
-## Changes:
- * Added 1.20.2 support
-
-## Removed:
- * Removed the %chatmanager_ping% placeholder, You can use the Player expansion to get ping.
-    
-## Other:
- * [Feature Requests](https://github.com/Crazy-Crew/${rootProject.name}/issues)
- * [Bug Reports](https://github.com/Crazy-Crew/${rootProject.name}/issues)
-""".trimIndent()
-
-val versions = listOf(
-    "1.20",
-    "1.20.1",
-    "1.20.2"
-)
-
-modrinth {
-    autoAddDependsOn.set(false)
-
-    token.set(System.getenv("modrinth_token"))
-
-    projectId.set(rootProject.name.lowercase())
-
-    versionName.set("${rootProject.name} ${rootProject.version}")
-    versionNumber.set("${rootProject.version}")
-
-    versionType.set(type)
-
-    uploadFile.set(file("${rootProject.rootDir}/jars/${rootProject.name}-${rootProject.version}.jar"))
-
-    gameVersions.addAll(versions)
-
-    changelog.set(description)
-
-    loaders.addAll("paper", "purpur")
-}
-
-hangarPublish {
-    publications.register("plugin") {
-        version.set(rootProject.version as String)
-
-        id.set(rootProject.name)
-
-        channel.set(if (isSnapshot) "Beta" else "Release")
-
-        changelog.set(description)
-
-        apiKey.set(System.getenv("hangar_key"))
-
-        platforms {
-            register(Platforms.PAPER) {
-                jar.set(file("${rootProject.rootDir}/jars/${rootProject.name}-${rootProject.version}.jar"))
-                platformVersions.set(versions)
-            }
+        filesMatching("paper-plugin.yml") {
+            expand(properties)
         }
     }
 }

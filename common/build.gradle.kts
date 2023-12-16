@@ -1,16 +1,11 @@
-plugins {
-    id("root-plugin")
-}
-
-project.group = "${rootProject.group}.common"
-project.version = "${rootProject.version}"
-
 dependencies {
-    //api(project(":api"))
+    compileOnlyApi(libs.bundles.adventure)
+
+    compileOnly(libs.clusterApi5)
+
+    implementation(libs.cloud.core)
 
     api(libs.configme) {
-        exclude("org.yaml", "snakeyaml")
+        exclude(group = "org.yaml", module = "snakeyaml")
     }
-
-    compileOnly(libs.annotations)
 }

@@ -3,18 +3,16 @@
 
 build
 
-buildSrc/build
-buildSrc/.gradle
+common/.gradle
+common/build
 
-paper/build
 paper/.gradle
+paper/build
 
-jars
-
-run
+paper/run
 !paper/run/config
-!paper/run/spigot.yml
 !paper/run/bukkit.yml
 !paper/run/eula.txt
+!paper/run/ops.json
 !paper/run/server.properties
-!paper/run/plugins
+!paper/run/spigot.yml
