@@ -2,6 +2,28 @@ plugins {
     `java-library`
 }
 
+tasks {
+    assemble {
+        val jarsDir = File("$rootDir/jars")
+        if (jarsDir.exists()) jarsDir.delete()
+
+        jarsDir.mkdirs()
+
+        subprojects.forEach { project ->
+            dependsOn(":${project.name}:build")
+
+            doLast {
+                if (project.name == "common" || project.name == "api") return@doLast
+
+                copy {
+                    from(project.layout.buildDirectory.file("libs/${rootProject.name}-${rootProject.version}.jar"))
+                    into(jarsDir)
+                }
+            }
+        }
+    }
+}
+
 subprojects {
     apply(plugin = "java-library")
 
