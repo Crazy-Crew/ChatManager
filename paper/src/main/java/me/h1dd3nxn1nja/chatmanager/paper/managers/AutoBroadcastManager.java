@@ -105,10 +105,7 @@ public class AutoBroadcastManager {
 			public void run() {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
-
-						CraftPlayer craftPlayer = (CraftPlayer) player;
-
-						craftPlayer.sendActionBar(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix)));
+						player.sendActionBar(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix)));
 
 						methods.playSound(player, autobroadcast, "Auto_Broadcast.Actionbar_Messages.sound");
 					}

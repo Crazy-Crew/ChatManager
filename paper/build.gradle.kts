@@ -13,7 +13,10 @@ dependencies {
         exclude("org.bukkit", "bukkit")
     }
 
-    compileOnly("net.essentialsx", "EssentialsX", "2.20.1")
+    compileOnly("net.essentialsx", "EssentialsX", "2.20.1") {
+        exclude("org.spigotmc", "spigot-api")
+        exclude("org.bstats", "bstats-bukkit")
+    }
 }
 
 val component: SoftwareComponent = components["java"]

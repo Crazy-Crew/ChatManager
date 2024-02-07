@@ -46,9 +46,7 @@ public class ListenerPlayerJoin implements Listener {
             if (config.getBoolean("Messages.First_Join.Actionbar_Message.Enable")) {
                 String message = config.getString("Messages.First_Join.Actionbar_Message.First_Join_Message");
 
-                CraftPlayer craftPlayer = (CraftPlayer) player;
-
-                craftPlayer.sendActionBar(this.placeholderManager.setPlaceholders(player, message));
+                player.sendActionBar(this.placeholderManager.setPlaceholders(player, message));
             }
 
             if (config.getBoolean("Messages.First_Join.Title_Message.Enable")) {
@@ -93,9 +91,7 @@ public class ListenerPlayerJoin implements Listener {
             if ((config.getBoolean("Messages.Join_Quit_Messages.Actionbar_Message.Enable")) && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
                 String message = config.getString("Messages.Join_Quit_Messages.Actionbar_Message.Message");
 
-                CraftPlayer craftPlayer = (CraftPlayer) player;
-
-                craftPlayer.sendActionBar(this.placeholderManager.setPlaceholders(player, message));
+                player.sendActionBar(this.placeholderManager.setPlaceholders(player, message));
             }
 
             if ((config.getBoolean("Messages.Join_Quit_Messages.Title_Message.Enable")) && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
@@ -136,9 +132,7 @@ public class ListenerPlayerJoin implements Listener {
 
                         if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Actionbar")) {
                             try {
-                                CraftPlayer craftPlayer = (CraftPlayer) player;
-
-                                craftPlayer.sendActionBar(this.placeholderManager.setPlaceholders(player, actionbarMessage));
+                                player.sendActionBar(this.placeholderManager.setPlaceholders(player, actionbarMessage));
                             } catch (NullPointerException ex) {
                                 ex.printStackTrace();
                             }
