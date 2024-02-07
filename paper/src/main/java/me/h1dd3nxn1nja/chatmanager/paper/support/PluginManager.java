@@ -1,5 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.paper.support;
 
+import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.support.misc.VaultSupport;
 import me.h1dd3nxn1nja.chatmanager.paper.support.placeholders.PlaceholderAPISupport;
@@ -55,11 +56,13 @@ public class PluginManager {
     }
 
     private void printHooks() {
+        String prefix = Files.MESSAGES.getFile().getString("Message.Prefix");
+
         for (PluginSupport value : PluginSupport.values()) {
             if (value.isPluginEnabled()) {
-                this.plugin.getServer().getConsoleSender().sendMessage(this.plugin.getMethods().color("&6&l" + value.name() + " &a&lFOUND"));
+                this.plugin.getServer().getConsoleSender().sendMessage(prefix + this.plugin.getMethods().color("&6&l" + value.name() + " &a&lFOUND"));
             } else {
-                this.plugin.getServer().getConsoleSender().sendMessage(this.plugin.getMethods().color("&6&l" + value.name() + " &c&lNOT FOUND"));
+                this.plugin.getServer().getConsoleSender().sendMessage(prefix + this.plugin.getMethods().color("&6&l" + value.name() + " &c&lNOT FOUND"));
             }
         }
     }
