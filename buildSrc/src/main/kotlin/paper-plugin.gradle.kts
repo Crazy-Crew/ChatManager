@@ -1,3 +1,4 @@
+import io.papermc.hangarpublishplugin.model.Platforms
 import org.gradle.kotlin.dsl.support.uppercaseFirstChar
 
 plugins {
@@ -68,11 +69,11 @@ tasks {
             apiKey.set(System.getenv("hangar_key"))
 
             platforms {
-                /*register(Platforms.PAPER) {
+                register(Platforms.PAPER) {
                     jar.set(file("$directory/${rootProject.name}-${project.name.uppercaseFirstChar()}-${project.version}.jar"))
 
                     platformVersions.set(listOf(mcVersion))
-                }*/
+                }
             }
         }
     }
