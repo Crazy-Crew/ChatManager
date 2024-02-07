@@ -57,9 +57,9 @@ public class PluginManager {
     private void printHooks() {
         for (PluginSupport value : PluginSupport.values()) {
             if (value.isPluginEnabled()) {
-                this.plugin.getLogger().info(this.plugin.getMethods().color("&6&l" + value.name() + " &a&lFOUND"));
+                this.plugin.getServer().getConsoleSender().sendMessage(this.plugin.getMethods().color("&6&l" + value.name() + " &a&lFOUND"));
             } else {
-                this.plugin.getLogger().info(this.plugin.getMethods().color("&6&l" + value.name() + " &c&lNOT FOUND"));
+                this.plugin.getServer().getConsoleSender().sendMessage(this.plugin.getMethods().color("&6&l" + value.name() + " &c&lNOT FOUND"));
             }
         }
     }
