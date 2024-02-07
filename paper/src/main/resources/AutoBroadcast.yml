@@ -3,7 +3,7 @@ Auto_Broadcast:
     Enable: false
     Header_And_Footer: true
     Interval: 30
-    Prefix: "&7[&6AutoBroadcast&7]"
+    Prefix: "&7[&6AutoBroadcast&7] &r"
     Header: "&7*&7&m--------------------------------&7*"
     Footer: "&7*&7&m--------------------------------&7*"
     sound:
@@ -12,14 +12,14 @@ Auto_Broadcast:
       pitch: 1
       volume: 1
     Messages:
-      - "{Prefix} &7Auto-Broadcast chat message."
-      - "{Prefix} &7Plugin created by H1DD3NxN1NJA."
-      - "{Prefix} &7Hello &c{player} &7there are &c{online} &7players online."
+      - "{Prefix}&7Auto-Broadcast chat message."
+      - "{Prefix}&7Plugin created by H1DD3NxN1NJA."
+      - "{Prefix}&7Hello &c{player} &7there are &c{online} &7players online."
   Per_World_Messages:
     Enable: false
     Header_And_Footer: true
     Interval: 60
-    Prefix: "&7[&6AutoBroadcast&7]"
+    Prefix: "&7[&6AutoBroadcast&7] &r"
     Header: "&7*&7&m--------------------------------&7*"
     Footer: "&7*&7&m--------------------------------&7*"
     sound:
@@ -29,35 +29,35 @@ Auto_Broadcast:
       volume: 1
     Messages:
       world:
-        - "{Prefix} &aWelcome to the server!"
-        - "{Prefix} &aHope you enjoy our server!"
-        - "{Prefix} &aJoin our discord <Link>"
-        - "{Prefix} &aThis server is running the plugin ChatManager by H1DD3NxN1NJA"
-        - "{Prefix} &bYou can edit these in the ChatManager > AutoBroadcast.yml"
+        - "{Prefix}&aWelcome to the server!"
+        - "{Prefix}&aHope you enjoy our server!"
+        - "{Prefix}&aJoin our discord <Link>"
+        - "{Prefix}&aThis server is running the plugin ChatManager by H1DD3NxN1NJA"
+        - "{Prefix}&bYou can edit these in the ChatManager > AutoBroadcast.yml"
       world_nether:
-        - "{Prefix} &7The nether is a scary place"
-        - "{Prefix} &aWelcome to the server!"
-        - "{Prefix} &aHope you enjoy our server!"
-        - "{Prefix} &aJoin our discord <Link>"
-        - "{Prefix} &aThis server is running the plugin ChatManager by H1DD3NxN1NJA"
-        - "{Prefix} &bYou can edit these in the ChatManager > AutoBroadcast.yml"
+        - "{Prefix}&7The nether is a scary place"
+        - "{Prefix}&aWelcome to the server!"
+        - "{Prefix}&aHope you enjoy our server!"
+        - "{Prefix}&aJoin our discord <Link>"
+        - "{Prefix}&aThis server is running the plugin ChatManager by H1DD3NxN1NJA"
+        - "{Prefix}&bYou can edit these in the ChatManager > AutoBroadcast.yml"
       world_the_end:
-        - "{Prefix} &aThe end is a scary place"
-        - "{Prefix} &aWatch out for the ender dragon!"
-        - "{Prefix} &cDon't make eye contact with the enderman!"
+        - "{Prefix}&aThe end is a scary place"
+        - "{Prefix}&aWatch out for the ender dragon!"
+        - "{Prefix}&cDon't make eye contact with the enderman!"
   Actionbar_Messages:
     Enable: false
     Interval: 60
-    Prefix: "&7[&6AutoBroadcast&7]"
+    Prefix: "&7[&6AutoBroadcast&7] &r"
     sound:
       toggle: false
       value: 'ENTITY_PLAYER_LEVELUP'
       pitch: 1.0
       volume: 1.0
     Messages:
-      - "{Prefix} &7Auto-Broadcast action bar message."
-      - "{Prefix} &7Plugin created by H1DD3NxN1NJA."
-      - "{Prefix} &7Hello &c{player} &7there are &c{online} &7players online."
+      - "{Prefix}&7Auto-Broadcast action bar message."
+      - "{Prefix}&7Plugin created by H1DD3NxN1NJA."
+      - "{Prefix}&7Hello &c{player} &7there are &c{online} &7players online."
   Title_Messages:
     Enable: false
     Interval: 60
