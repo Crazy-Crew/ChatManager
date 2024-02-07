@@ -1,6 +1,7 @@
 name: '${name}'
-main: '${group}.ChatManager'
-authors: [H1DD3NxN1NJA, Ryder Belserion]
+main: '${group}.${name}'
+
+authors: ${authors}
 
 version: '${version}'
 api-version: '${apiVersion}'
