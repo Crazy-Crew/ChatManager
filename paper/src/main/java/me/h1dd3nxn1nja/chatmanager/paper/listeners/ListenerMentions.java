@@ -12,13 +12,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class ListenerMentions implements Listener {
 
 	@NotNull
-	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+	private final ChatManager plugin = ChatManager.get();
 
 	@NotNull
 	private final Methods methods = this.plugin.getMethods();

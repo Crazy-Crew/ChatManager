@@ -17,7 +17,7 @@ import java.util.UUID;
 public class PlaceholderManager {
 
 	@NotNull
-	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+	private final ChatManager plugin = ChatManager.get();
 
 	@NotNull
 	private final VaultSupport vaultSupport = this.plugin.getPluginManager().getVaultSupport();

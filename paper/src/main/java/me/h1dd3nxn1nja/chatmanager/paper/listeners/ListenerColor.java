@@ -11,13 +11,12 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.Format;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class ListenerColor implements Listener {
 
 	@NotNull
-	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+	private final ChatManager plugin = ChatManager.get();
 	
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onColorChat(AsyncPlayerChatEvent event) {

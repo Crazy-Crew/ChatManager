@@ -3,10 +3,12 @@ package me.h1dd3nxn1nja.chatmanager.paper.utils;
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 public class Debug {
 
-	private static final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private static final ChatManager plugin = ChatManager.get();
 
 	public static void debugAutoBroadcast() {
 		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();

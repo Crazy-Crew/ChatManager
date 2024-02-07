@@ -5,13 +5,12 @@ import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class VaultSupport {
 
 	@NotNull
-	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+	private final ChatManager plugin = ChatManager.get();
 
 	private Permission permission;
 	private Chat chat;

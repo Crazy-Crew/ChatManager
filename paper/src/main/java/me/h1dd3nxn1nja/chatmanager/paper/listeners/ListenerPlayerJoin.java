@@ -11,14 +11,13 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 public class ListenerPlayerJoin implements Listener {
 
     @NotNull
-    private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+    private final ChatManager plugin = ChatManager.get();
 
     @NotNull
     private final Methods methods = this.plugin.getMethods();

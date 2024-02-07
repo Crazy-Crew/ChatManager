@@ -4,8 +4,7 @@ import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
-
+import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,7 +14,8 @@ import java.util.HashMap;
 
 public class FileManager {
 
-    private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+    @NotNull
+    private final ChatManager plugin = ChatManager.get();
 
     private boolean log = false;
 
@@ -351,7 +351,8 @@ public class FileManager {
         private FileConfiguration file;
         private File fileObject;
 
-        private final ChatManager plugin = ChatManager.getPlugin();
+        @NotNull
+        private final ChatManager plugin = ChatManager.get();
 
         /**
          * A custom file that is being made.

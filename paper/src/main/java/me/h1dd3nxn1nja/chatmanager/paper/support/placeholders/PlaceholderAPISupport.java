@@ -5,14 +5,13 @@ import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 
 public class PlaceholderAPISupport extends PlaceholderExpansion {
 
 	@NotNull
-	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+	private final ChatManager plugin = ChatManager.get();
 
 	@Override
 	public @Nullable String onRequest(OfflinePlayer player, @NotNull String identifier) {

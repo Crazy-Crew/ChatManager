@@ -18,10 +18,14 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public class ChatManager extends JavaPlugin {
 
-    private static ChatManager plugin;
+    @NotNull
+    public static ChatManager get() {
+        return JavaPlugin.getPlugin(ChatManager.class);
+    }
 
     private ApiLoader api;
     
@@ -33,11 +37,9 @@ public class ChatManager extends JavaPlugin {
     private Methods methods;
 
     public void onEnable() {
-        plugin = this;
-
         if (!PluginSupport.VAULT.isPluginEnabled()) {
             getLogger().warning("Vault is required to use ChatManager, Disabling plugin!");
-            getServer().getPluginManager().disablePlugin(plugin);
+            getServer().getPluginManager().disablePlugin(this);
             return;
         }
 
@@ -75,7 +77,7 @@ public class ChatManager extends JavaPlugin {
 
         this.crazyManager.load(true);
 
-        if (!PluginSupport.LUCKPERMS.isPluginEnabled()) plugin.getLogger().severe("A permissions plugin was not found. You will likely have issues without one.");
+        if (!PluginSupport.LUCKPERMS.isPluginEnabled()) getLogger().severe("A permissions plugin was not found. You will likely have issues without one.");
 
         if (PluginSupport.VAULT.isPluginEnabled()) {
             registerCommands();
@@ -208,10 +210,6 @@ public class ChatManager extends JavaPlugin {
         if (autoBroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Enable")) AutoBroadcastManager.perWorldMessages();
         if (autoBroadcast.getBoolean("Auto_Broadcast.Title_Messages.Enable")) AutoBroadcastManager.titleMessages();
         if (autoBroadcast.getBoolean("Auto_Broadcast.Bossbar_Messages.Enable")) AutoBroadcastManager.bossBarMessages();
-    }
-
-    public static ChatManager getPlugin() {
-        return plugin;
     }
 
     public Methods getMethods() {

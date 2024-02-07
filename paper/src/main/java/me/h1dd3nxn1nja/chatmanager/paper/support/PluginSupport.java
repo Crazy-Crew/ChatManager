@@ -2,7 +2,6 @@ package me.h1dd3nxn1nja.chatmanager.paper.support;
 
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public enum PluginSupport {
@@ -17,7 +16,7 @@ public enum PluginSupport {
     private final String name;
 
     @NotNull
-    private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+    private final ChatManager plugin = ChatManager.get();
 
     PluginSupport(String name) {
         this.name = name;

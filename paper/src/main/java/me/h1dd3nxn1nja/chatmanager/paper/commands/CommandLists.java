@@ -9,7 +9,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandLists implements CommandExecutor {
@@ -17,7 +16,7 @@ public class CommandLists implements CommandExecutor {
 	private final DecimalFormat df = new DecimalFormat("#,###");
 
 	@NotNull
-	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+	private final ChatManager plugin = ChatManager.get();
 
 	@NotNull
 	private final PlaceholderManager placeholderManager = this.plugin.getCrazyManager().getPlaceholderManager();

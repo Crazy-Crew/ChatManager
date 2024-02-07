@@ -3,13 +3,14 @@ package com.ryderbelserion.chatmanager.paper.api;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import me.h1dd3nxn1nja.chatmanager.paper.support.PluginManager;
-
+import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.ArrayList;
 
 public class CrazyManager {
 
-    private final ChatManager plugin = ChatManager.getPlugin();
+    @NotNull
+    private final ChatManager plugin = ChatManager.get();
 
     private final PluginManager pluginManager = plugin.getPluginManager();
 

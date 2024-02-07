@@ -2,8 +2,6 @@ package me.h1dd3nxn1nja.chatmanager.paper.support;
 
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
-import org.bukkit.entity.Player;
-
 import java.util.UUID;
 
 public class EssentialsSupport {

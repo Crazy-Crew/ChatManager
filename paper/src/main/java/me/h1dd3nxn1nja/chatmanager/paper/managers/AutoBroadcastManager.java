@@ -11,10 +11,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.BossBarUtil;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.World;
+import org.jetbrains.annotations.NotNull;
 
 public class AutoBroadcastManager {
 
-	private static final ChatManager plugin = ChatManager.getPlugin();
+	@NotNull
+	private static final ChatManager plugin = ChatManager.get();
 	private static final Methods methods = plugin.getMethods();
 	private static final CrazyManager crazyManager = plugin.getCrazyManager();
 

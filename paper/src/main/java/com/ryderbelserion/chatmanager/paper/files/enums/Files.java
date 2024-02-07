@@ -3,6 +3,7 @@ package com.ryderbelserion.chatmanager.paper.files.enums;
 import com.ryderbelserion.chatmanager.paper.files.FileManager;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 public enum Files {
 
@@ -18,7 +19,8 @@ public enum Files {
     private final String fileJar;
     private final String fileLocation;
 
-    private final ChatManager plugin = ChatManager.getPlugin();
+    @NotNull
+    private final ChatManager plugin = ChatManager.get();
 
     private final FileManager fileManager = plugin.getFileManager();
 

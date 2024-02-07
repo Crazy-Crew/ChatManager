@@ -7,14 +7,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 
 public class CommandMuteChat implements CommandExecutor {
 
 	@NotNull
-	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+	private final ChatManager plugin = ChatManager.get();
 
 	@NotNull
 	private final PlaceholderManager placeholderManager = plugin.getCrazyManager().getPlaceholderManager();

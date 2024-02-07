@@ -5,13 +5,12 @@ import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class MetricsHandler {
 
     @NotNull
-    private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+    private final ChatManager plugin = ChatManager.get();
 
     public void start() {
         Metrics metrics = new Metrics(this.plugin, 3291);
