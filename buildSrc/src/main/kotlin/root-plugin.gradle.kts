@@ -1,28 +1,23 @@
+import org.gradle.kotlin.dsl.support.uppercaseFirstChar
+
 plugins {
     id("com.github.johnrengelman.shadow")
 
-    `maven-publish`
+    id("com.modrinth.minotaur")
+
     `java-library`
+
+    `maven-publish`
 }
 
 repositories {
-    maven("https://repo.codemc.io/repository/maven-public/")
-
-    maven("https://repo.crazycrew.us/first-party/")
-
-    maven("https://repo.crazycrew.us/third-party/")
-
     maven("https://repo.crazycrew.us/snapshots/")
 
     maven("https://repo.crazycrew.us/releases/")
 
-    maven("https://jitpack.io")
+    maven("https://jitpack.io/")
 
     mavenCentral()
-}
-
-java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of("17"))
 }
 
 tasks {
@@ -31,27 +26,42 @@ tasks {
         options.release.set(17)
     }
 
+    javadoc {
+        options.encoding = Charsets.UTF_8.name()
+    }
+
+    processResources {
+        filteringCharset = Charsets.UTF_8.name()
+    }
+
     shadowJar {
-        mergeServiceFiles()
+        archiveClassifier.set("")
 
         exclude("META-INF/**")
     }
+
+    val directory = File("$rootDir/jars")
+    val mcVersion = rootProject.properties["minecraftVersion"] as String
+
+    modrinth {
+        autoAddDependsOn.set(false)
+
+        token.set(System.getenv("modrinth_token"))
+
+        projectId.set(rootProject.name.lowercase())
+
+        versionName.set("${rootProject.name} ${project.version}")
+
+        versionNumber.set("${project.version}")
+
+        uploadFile.set("$directory/${rootProject.name}-${project.name.uppercaseFirstChar()}-${project.version}.jar")
+
+        gameVersions.add(mcVersion)
+
+        changelog.set(rootProject.file("CHANGELOG.md").readText())
+    }
 }
 
-val isSnapshot = rootProject.version.toString().contains("snapshot")
-
-publishing {
-    repositories {
-        maven {
-            val releases = "https://repo.crazycrew.us/releases/"
-            val snapshots = "https://repo.crazycrew.us/snapshots/"
-
-            url = if (!isSnapshot) uri(releases) else uri(snapshots)
-
-            credentials {
-                this.username = System.getenv("GRADLE_USERNAME")
-                this.password = System.getenv("GRADLE_PASSWORD")
-            }
-        }
-    }
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of("17"))
 }

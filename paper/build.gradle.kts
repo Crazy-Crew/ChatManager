@@ -1,23 +1,8 @@
-import io.papermc.hangarpublishplugin.model.Platforms
-
 plugins {
-    alias(libs.plugins.modrinth)
-    alias(libs.plugins.hangar)
-
-    id("xyz.jpenilla.run-paper")
-
     id("paper-plugin")
 }
 
 group = "${rootProject.group}.paper"
-
-repositories {
-    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-
-    maven("https://repo.essentialsx.net/releases/")
-
-    maven("https://jitpack.io")
-}
 
 dependencies {
     implementation("org.bstats", "bstats-bukkit", "3.0.2")
@@ -34,12 +19,6 @@ dependencies {
 val component: SoftwareComponent = components["java"]
 
 tasks {
-    runServer {
-        jvmArgs("-Dnet.kyori.ansi.colorLevel=truecolor")
-
-        minecraftVersion("1.20.2")
-    }
-
     publishing {
         publications {
             create<MavenPublication>("maven") {
@@ -61,84 +40,20 @@ tasks {
     }
 
     processResources {
-        val props = mapOf(
+        val properties = hashMapOf(
             "name" to rootProject.name,
-            "group" to project.group.toString(),
-            "version" to rootProject.version,
+            "version" to project.version,
+            "group" to rootProject.group,
             "description" to rootProject.description,
+            "apiVersion" to rootProject.properties["apiVersion"],
             "authors" to rootProject.properties["authors"],
-            "apiVersion" to "1.20",
-            "website" to "https://modrinth.com/plugin/${rootProject.name.lowercase()}"
+            "website" to rootProject.properties["website"]
         )
 
+        inputs.properties(properties)
+
         filesMatching("plugin.yml") {
-            expand(props)
-        }
-    }
-}
-
-val isSnapshot = rootProject.version.toString().contains("snapshot")
-val type = if (isSnapshot) "beta" else "release"
-val other = if (isSnapshot) "Beta" else "Release"
-
-val file = file("${rootProject.rootDir}/jars/${rootProject.name}-${rootProject.version}.jar")
-
-val description = """
-## Changes:
- * Added 1.20.2 support
-
-## Removed:
- * Removed the %chatmanager_ping% placeholder, You can use the Player expansion to get ping.
-    
-## Other:
- * [Feature Requests](https://github.com/Crazy-Crew/${rootProject.name}/issues)
- * [Bug Reports](https://github.com/Crazy-Crew/${rootProject.name}/issues)
-""".trimIndent()
-
-val versions = listOf(
-    "1.20",
-    "1.20.1",
-    "1.20.2"
-)
-
-modrinth {
-    autoAddDependsOn.set(false)
-
-    token.set(System.getenv("modrinth_token"))
-
-    projectId.set(rootProject.name.lowercase())
-
-    versionName.set("${rootProject.name} ${rootProject.version}")
-    versionNumber.set("${rootProject.version}")
-
-    versionType.set(type)
-
-    uploadFile.set(file("${rootProject.rootDir}/jars/${rootProject.name}-${rootProject.version}.jar"))
-
-    gameVersions.addAll(versions)
-
-    changelog.set(description)
-
-    loaders.addAll("paper", "purpur")
-}
-
-hangarPublish {
-    publications.register("plugin") {
-        version.set(rootProject.version as String)
-
-        id.set(rootProject.name)
-
-        channel.set(if (isSnapshot) "Beta" else "Release")
-
-        changelog.set(description)
-
-        apiKey.set(System.getenv("hangar_key"))
-
-        platforms {
-            register(Platforms.PAPER) {
-                jar.set(file("${rootProject.rootDir}/jars/${rootProject.name}-${rootProject.version}.jar"))
-                platformVersions.set(versions)
-            }
+            expand(properties)
         }
     }
 }

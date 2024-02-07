@@ -3,9 +3,13 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.paperweight.plugin)
+    implementation(libs.paperweight)
 
-    implementation(libs.jpenilla.plugin)
+    implementation(libs.shadowjar)
 
-    implementation(libs.shadow.plugin)
+    implementation(libs.runpaper)
+
+    implementation(libs.modrinth)
+
+    implementation(libs.hangar)
 }

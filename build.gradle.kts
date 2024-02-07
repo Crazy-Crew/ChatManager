@@ -1,25 +1,36 @@
+import org.gradle.kotlin.dsl.support.uppercaseFirstChar
+
 plugins {
     id("root-plugin")
 }
 
-defaultTasks("build")
-
 tasks {
     assemble {
         val jarsDir = File("$rootDir/jars")
-        if (jarsDir.exists()) jarsDir.delete()
+
+        doFirst {
+            delete(jarsDir)
+
+            jarsDir.mkdirs()
+        }
 
         subprojects.forEach { project ->
             dependsOn(":${project.name}:build")
 
             doLast {
-                if (!jarsDir.exists()) jarsDir.mkdirs()
-
-                val file = file("${project.layout.buildDirectory.get()}/libs/${rootProject.name}-${rootProject.version}.jar")
-
-                copy {
-                    from(file)
-                    into(jarsDir)
+                runCatching {
+                    if (project.name != "common") {
+                        copy {
+                            from(project.layout.buildDirectory.file("libs/${rootProject.name}-${project.name.uppercaseFirstChar()}-${project.version}.jar"))
+                            into(jarsDir)
+                        }
+                    }
+                }.onSuccess {
+                    // Delete to save space on jenkins.
+                    delete(project.layout.buildDirectory.get())
+                    delete(rootProject.layout.buildDirectory.get())
+                }.onFailure {
+                    println("Failed to copy file out of build folder into jars directory: Likely does not exist.")
                 }
             }
         }
