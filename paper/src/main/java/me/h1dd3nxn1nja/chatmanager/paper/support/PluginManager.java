@@ -60,9 +60,9 @@ public class PluginManager {
 
         for (PluginSupport value : PluginSupport.values()) {
             if (value.isPluginEnabled()) {
-                this.plugin.getServer().getConsoleSender().sendMessage(prefix + this.plugin.getMethods().color("&6&l" + value.name() + " &a&lFOUND"));
+                this.plugin.getServer().getConsoleSender().sendMessage(this.plugin.getMethods().color(prefix + "&6&l" + value.name() + " &a&lFOUND"));
             } else {
-                this.plugin.getServer().getConsoleSender().sendMessage(prefix + this.plugin.getMethods().color("&6&l" + value.name() + " &c&lNOT FOUND"));
+                this.plugin.getServer().getConsoleSender().sendMessage(this.plugin.getMethods().color(prefix + "&6&l" + value.name() + " &c&lNOT FOUND"));
             }
         }
     }
