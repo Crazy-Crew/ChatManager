@@ -9,7 +9,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-import com.ryderbelserion.chatmanager.paper.files.Files;
+import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 
 public class CommandMuteChat implements CommandExecutor {
 

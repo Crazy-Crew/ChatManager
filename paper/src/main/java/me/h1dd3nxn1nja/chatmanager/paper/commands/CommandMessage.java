@@ -1,15 +1,13 @@
 package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
-import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import me.h1dd3nxn1nja.chatmanager.paper.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.paper.support.PluginSupport;
-import com.ryderbelserion.chatmanager.paper.files.Files;
+import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.support.vanish.EssentialsVanishSupport;
 import me.h1dd3nxn1nja.chatmanager.paper.support.vanish.GenericVanishSupport;
 import org.bukkit.GameMode;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

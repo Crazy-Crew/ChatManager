@@ -3,8 +3,6 @@ package me.h1dd3nxn1nja.chatmanager.paper.utils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-
-import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
@@ -29,27 +27,28 @@ public class BossBarUtil {
 	private BossBar staffBar;
 	private static final HashMap<UUID, BossBarUtil> playerBars = new HashMap<>();
 	private static final HashMap<UUID, BossBarUtil> staffBars = new HashMap<>();
+
 	HashMap<UUID, BossBar> bossBars = new HashMap<>();
 
 	public BossBarUtil() {
-			this.title = this.plugin.getMethods().color("&bStaff Chat");
-			this.color = BarColor.PINK;
-			this.style = BarStyle.SOLID;
-			this.bar = org.bukkit.Bukkit.getServer().createBossBar(title, color, style);
+		this.title = this.plugin.getMethods().color("&bStaff Chat");
+		this.color = BarColor.PINK;
+		this.style = BarStyle.SOLID;
+		this.bar = org.bukkit.Bukkit.getServer().createBossBar(title, color, style);
 	}
 
 	public BossBarUtil(String title, BarColor color, BarStyle style) {
-			this.title = this.plugin.getMethods().color(title);
-			this.color = color;
-			this.style = style;
-			this.bar = plugin.getServer().createBossBar(this.title, color, style);
+		this.title = this.plugin.getMethods().color(title);
+		this.color = color;
+		this.style = style;
+		this.bar = plugin.getServer().createBossBar(this.title, color, style);
 	}
-	
+
 	public BossBarUtil(String title) {
-			this.title = this.plugin.getMethods().color(title);
-			this.color = BarColor.PINK;
-			this.style = BarStyle.SOLID;
-			this.staffBar = plugin.getServer().createBossBar(this.title, color, style);
+		this.title = this.plugin.getMethods().color(title);
+		this.color = BarColor.PINK;
+		this.style = BarStyle.SOLID;
+		this.staffBar = plugin.getServer().createBossBar(this.title, color, style);
 	}
 
 	public String getTitle() {
@@ -134,7 +133,7 @@ public class BossBarUtil {
 
 		return this;
 	}
-	
+
 	public BossBarUtil setStaffBossBar(Player player) {
 		this.staffBar.addPlayer(player);
 
@@ -142,7 +141,7 @@ public class BossBarUtil {
 
 		return this;
 	}
-	
+
 	public BossBarUtil setBossBarTime(Player player, int time) {
 		this.bar.addPlayer(player);
 
@@ -150,7 +149,8 @@ public class BossBarUtil {
 
 		new BukkitRunnable() {
 			public void run() {
-				if (playerBars.containsKey(player.getUniqueId())) playerBars.get(player.getUniqueId()).bar.removePlayer(player);
+				if (playerBars.containsKey(player.getUniqueId()))
+					playerBars.get(player.getUniqueId()).bar.removePlayer(player);
 			}
 		}.runTaskLater(this.plugin, 20L * time);
 
@@ -162,21 +162,23 @@ public class BossBarUtil {
 
 		return this;
 	}
-	
+
 	public BossBarUtil removeStaffBossBar(Player player) {
-		if (staffBars.containsKey(player.getUniqueId())) staffBars.get(player.getUniqueId()).staffBar.removePlayer(player);
+		if (staffBars.containsKey(player.getUniqueId()))
+			staffBars.get(player.getUniqueId()).staffBar.removePlayer(player);
 
 		return this;
 	}
-	
+
 	public BossBarUtil removeAllBossBars(Player player) {
 		if (playerBars.containsKey(player.getUniqueId())) playerBars.get(player.getUniqueId()).bar.removePlayer(player);
 
-		if (staffBars.containsKey(player.getUniqueId())) staffBars.get(player.getUniqueId()).staffBar.removePlayer(player);
+		if (staffBars.containsKey(player.getUniqueId()))
+			staffBars.get(player.getUniqueId()).staffBar.removePlayer(player);
 
 		return this;
 	}
-	
+
 	public BossBarUtil setBossBarAnimation(Player player, List<String> titles, int time, ChatManager chatManager) {
 		BossBar bossBar = this.plugin.getServer().createBossBar(titles.get(0), color, BarStyle.SOLID, BarFlag.CREATE_FOG);
 		bossBar.addPlayer(player);
@@ -196,8 +198,8 @@ public class BossBarUtil {
 
 				if (ticksRan >= time) {
 					bossBar.removePlayer(player);
-                    bossBar.setVisible(false);
-                    bossBars.remove(player.getUniqueId());
+					bossBar.setVisible(false);
+					bossBars.remove(player.getUniqueId());
 				}
 			}
 		}, 1, 1);

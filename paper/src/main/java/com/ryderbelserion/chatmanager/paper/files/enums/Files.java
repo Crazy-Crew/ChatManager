@@ -1,5 +1,6 @@
-package com.ryderbelserion.chatmanager.paper.files;
+package com.ryderbelserion.chatmanager.paper.files.enums;
 
+import com.ryderbelserion.chatmanager.paper.files.FileManager;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import org.bukkit.configuration.file.FileConfiguration;
 
