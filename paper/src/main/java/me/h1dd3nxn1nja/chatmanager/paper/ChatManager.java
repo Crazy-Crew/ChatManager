@@ -122,11 +122,6 @@ public class ChatManager extends JavaPlugin {
 
         registerCommand(getCommand("AntiSwear"), new TabCompleteAntiSwear(), new CommandAntiSwear());
 
-        CommandColor commandColor = new CommandColor();
-
-        registerCommand(getCommand("Colors"), null, commandColor);
-        registerCommand(getCommand("Formats"), null, commandColor);
-
         CommandMessage commandMessage = new CommandMessage();
 
         registerCommand(getCommand("Reply"), null, commandMessage);

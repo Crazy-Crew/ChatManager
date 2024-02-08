@@ -47,16 +47,10 @@ commands:
         description: Clears chat for everyone on the server.
         usage: /<command>
         aliases: [cc]
-    Colors:
-        usage: /<command>
-        description: Shows a list of color codes.
     CommandSpy:
         description: See what commands every player types on the server.
         usage: /<command>
         aliases: [cspy,cmdspy]
-    Formats:
-        description: Shows a list of format codes.
-        usage: /<command>
     List:
         description: Shows a list of all the players online.
         usage: /<command>
