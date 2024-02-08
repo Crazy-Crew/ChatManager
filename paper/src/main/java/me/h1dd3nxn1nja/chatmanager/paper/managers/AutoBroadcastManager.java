@@ -3,7 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.managers;
 import java.util.ArrayList;
 import java.util.List;
 import com.ryderbelserion.chatmanager.paper.api.CrazyManager;
-import com.ryderbelserion.chatmanager.paper.files.enums.Files;
+import com.ryderbelserion.chatmanager.paper.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
 import org.bukkit.configuration.file.FileConfiguration;

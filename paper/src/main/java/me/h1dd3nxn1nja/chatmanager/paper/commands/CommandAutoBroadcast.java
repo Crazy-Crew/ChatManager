@@ -2,9 +2,9 @@ package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.ryderbelserion.chatmanager.paper.files.enums.Files;
+import com.ryderbelserion.chatmanager.paper.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
-import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
+import com.ryderbelserion.chatmanager.paper.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

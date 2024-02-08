@@ -1,9 +1,9 @@
 package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
-import com.ryderbelserion.chatmanager.paper.files.enums.Files;
+import com.ryderbelserion.chatmanager.paper.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import java.util.List;
-import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
+import com.ryderbelserion.chatmanager.paper.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;

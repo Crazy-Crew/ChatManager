@@ -3,7 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.paper;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import com.ryderbelserion.chatmanager.paper.files.enums.Files;
+import com.ryderbelserion.chatmanager.paper.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.support.PluginSupport;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;

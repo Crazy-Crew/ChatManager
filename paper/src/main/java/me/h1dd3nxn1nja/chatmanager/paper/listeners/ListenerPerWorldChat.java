@@ -3,7 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import com.ryderbelserion.chatmanager.paper.files.enums.Files;
+import com.ryderbelserion.chatmanager.paper.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
