@@ -7,6 +7,7 @@ import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import me.h1dd3nxn1nja.chatmanager.paper.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.paper.support.PluginSupport;
 import org.bukkit.ChatColor;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -40,6 +41,8 @@ public class ListenerMentions implements Listener {
 
 		if (!config.getBoolean("Mentions.Enable")) return;
 
+		String message = event.getMessage();
+
 		this.plugin.getServer().getOnlinePlayers().forEach(target -> {
 			if (!player.hasPermission(Permissions.MENTION.getNode()) || !target.hasPermission(Permissions.RECEIVE_MENTION.getNode())) return;
 
@@ -70,14 +73,17 @@ public class ListenerMentions implements Listener {
 			}
 
 			if (!config.getString("Mentions.Mention_Color").equals("")) {
-				String before = event.getMessage();
-				String lastColor = ChatColor.getLastColors(before).equals("") ? ChatColor.WHITE.toString() : ChatColor.getLastColors(before);
-				event.setMessage(event.getMessage().replace(tagSymbol + ChatColor.stripColor(target.getName()), this.plugin.getMethods().color(mentionColor + tagSymbol + ChatColor.stripColor(target.getName())) + lastColor));
+				String modifiedMessage = message.replaceAll("@\\S+", methods.color(mentionColor + "$0"));
+
+				event.setMessage(modifiedMessage);
 			}
 		});
 
 		if (event.getMessage().toLowerCase().contains(tagSymbol + "everyone")) {
 			this.plugin.getServer().getOnlinePlayers().forEach(target -> {
+				// We don't need to ping ourselves.
+				if (player.getUniqueId() == target.getUniqueId()) return;
+
 				if (player.hasPermission(Permissions.MENTION_EVERYONE.getNode()) && target.hasPermission(Permissions.RECEIVE_MENTION.getNode())) {
 					if (!this.plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) {
 						String path = "Mentions.sound";
@@ -91,10 +97,10 @@ public class ListenerMentions implements Listener {
 						target.sendTitle(header, footer, 40, 20, 40);
 					}
 
-					if (!config.getString("Mentions.Mention_Color").equals("")) {
-						String before = event.getMessage();
-						String lastColor = ChatColor.getLastColors(before).equals("") ? ChatColor.WHITE.toString() : ChatColor.getLastColors(before);
-						event.setMessage(event.getMessage().replace(tagSymbol + ChatColor.stripColor("everyone"), this.plugin.getMethods().color(mentionColor + tagSymbol + ChatColor.stripColor("everyone")) + lastColor));
+					if (!config.getString("Mentions.Mention_Color").isBlank()) {
+						String modifiedMessage = message.replaceAll("@\\S+", methods.color(mentionColor + "$0"));
+
+						event.setMessage(modifiedMessage);
 					}
 				}
 			});
