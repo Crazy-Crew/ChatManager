@@ -2,11 +2,13 @@ package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandPerWorldChat implements CommandExecutor {
@@ -27,7 +29,7 @@ public class CommandPerWorldChat implements CommandExecutor {
 		if (cmd.getName().equalsIgnoreCase("perworldchat")) {
 			if (player.hasPermission(Permissions.COMMAND_PERWORLDCHAT.getNode())) {
 				if (args.length == 0) {
-					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Perworldchat bypass", true);
+					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/perworldchat bypass", true);
 					return true;
 				}
 			} else {

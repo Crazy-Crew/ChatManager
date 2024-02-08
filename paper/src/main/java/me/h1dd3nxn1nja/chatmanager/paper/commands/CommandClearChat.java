@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,7 +20,7 @@ public class CommandClearChat implements CommandExecutor {
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
-		if (cmd.getName().equalsIgnoreCase("ClearChat")) {
+		if (cmd.getName().equalsIgnoreCase("clearchat")) {
 			if (sender.hasPermission(Permissions.COMMAND_CLEARCHAT.getNode())) {
 				if (args.length == 0) {
 					for (Player members : this.plugin.getServer().getOnlinePlayers()) {
@@ -42,7 +43,7 @@ public class CommandClearChat implements CommandExecutor {
 						}
 					}
 				} else {
-					this.plugin.getMethods().sendMessage(sender, "&cCommand Usage: &7/Clearchat", true);
+					this.plugin.getMethods().sendMessage(sender, "&cCommand Usage: &7/clearchat", true);
 				}
 			} else {
 				this.plugin.getMethods().sendMessage(sender, this.plugin.getMethods().noPermission(), true);

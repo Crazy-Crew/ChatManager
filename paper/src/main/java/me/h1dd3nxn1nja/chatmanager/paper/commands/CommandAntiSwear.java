@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,7 +26,7 @@ public class CommandAntiSwear implements CommandExecutor {
 
 		UUID uuid = player.getUniqueId();
 
-		if (cmd.getName().equalsIgnoreCase("AntiSwear")) {
+		if (cmd.getName().equalsIgnoreCase("antiswear")) {
 			if (player.hasPermission(Permissions.COMMAND_ANTISWEAR_HELP.getNode())) {
 				if (args.length == 0) {
 					player.sendMessage("");
@@ -33,10 +34,10 @@ public class CommandAntiSwear implements CommandExecutor {
 					player.sendMessage("");
 					player.sendMessage(this.plugin.getMethods().color(" &6<> &f= Required Arguments"));
 					player.sendMessage("");
-					player.sendMessage(this.plugin.getMethods().color(" &f/AntiSwear Help &e- Shows a list of commands for Anti Swear."));
-					player.sendMessage(this.plugin.getMethods().color(" &f/AntiSwear add &6<blacklist|whitelist> <word> &e- Add a blacklisted or whitelisted swear word."));
-					player.sendMessage(this.plugin.getMethods().color(" &f/AntiSwear remove &6<blacklist|whitelist> <word> &e- Remove a blacklisted or whitelisted swear word."));
-					player.sendMessage(this.plugin.getMethods().color(" &f/AntiSwear List &e- Shows your list of blacklisted swear words."));
+					player.sendMessage(this.plugin.getMethods().color(" &f/antiswear Help &e- Shows a list of commands for Anti Swear."));
+					player.sendMessage(this.plugin.getMethods().color(" &f/antiswear add &6<blacklist|whitelist> <word> &e- Add a blacklisted or whitelisted swear word."));
+					player.sendMessage(this.plugin.getMethods().color(" &f/antiswear remove &6<blacklist|whitelist> <word> &e- Remove a blacklisted or whitelisted swear word."));
+					player.sendMessage(this.plugin.getMethods().color(" &f/antiswear List &e- Shows your list of blacklisted swear words."));
 					player.sendMessage("");
 				}
 			} else {
@@ -54,10 +55,10 @@ public class CommandAntiSwear implements CommandExecutor {
 						player.sendMessage("");
 						player.sendMessage(this.plugin.getMethods().color(" &6<> &f= Required Arguments"));
 						player.sendMessage("");
-						player.sendMessage(this.plugin.getMethods().color(" &f/AntiSwear Help &e- Shows a list of commands for Anti Swear."));
-						player.sendMessage(this.plugin.getMethods().color(" &f/AntiSwear add &6<blacklist|whitelist> <word> &e- Add a blacklisted or whitelisted swear word."));
-						player.sendMessage(this.plugin.getMethods().color(" &f/AntiSwear remove &6<blacklist|whitelist> <word> &e- Remove a blacklisted or whitelisted swear word."));
-						player.sendMessage(this.plugin.getMethods().color(" &f/AntiSwear List &e- Shows your list of blacklisted swear words."));
+						player.sendMessage(this.plugin.getMethods().color(" &f/antiswear Help &e- Shows a list of commands for Anti Swear."));
+						player.sendMessage(this.plugin.getMethods().color(" &f/antiswear add &6<blacklist|whitelist> <word> &e- Add a blacklisted or whitelisted swear word."));
+						player.sendMessage(this.plugin.getMethods().color(" &f/antiswear remove &6<blacklist|whitelist> <word> &e- Remove a blacklisted or whitelisted swear word."));
+						player.sendMessage(this.plugin.getMethods().color(" &f/antiswear List &e- Shows your list of blacklisted swear words."));
 						player.sendMessage("");
 					}
 				} else {
@@ -73,7 +74,7 @@ public class CommandAntiSwear implements CommandExecutor {
 				}
 
 				if (args.length == 1) {
-					player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/Antiswear add <blacklist|whitelist> <word>"));
+					player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/antiswear add <blacklist|whitelist> <word>"));
 					return true;
 				}
 
@@ -93,7 +94,7 @@ public class CommandAntiSwear implements CommandExecutor {
 								player.sendMessage(this.plugin.getMethods().color(uuid, messages.getString("Anti_Swear.Blacklisted_Word.Exists").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							}
 						} else {
-							player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/Antiswear add blacklist <word>"));
+							player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/antiswear add blacklist <word>"));
 						}
 					} else {
 						player.sendMessage(this.plugin.getMethods().noPermission());
@@ -114,7 +115,7 @@ public class CommandAntiSwear implements CommandExecutor {
 								player.sendMessage(this.plugin.getMethods().color(uuid, messages.getString("Anti_Swear.Whitelisted_Word.Exists").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							}
 						} else {
-							player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/Antiswear add whitelist <word>"));
+							player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/antiswear add whitelist <word>"));
 						}
 					} else {
 						player.sendMessage(this.plugin.getMethods().noPermission());
@@ -129,7 +130,7 @@ public class CommandAntiSwear implements CommandExecutor {
 				}
 
 				if (args.length == 1) {
-					player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/Antiswear remove <blacklist|whitelist> <word>"));
+					player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/antiswear remove <blacklist|whitelist> <word>"));
 					return true;
 				}
 
@@ -149,7 +150,7 @@ public class CommandAntiSwear implements CommandExecutor {
 								player.sendMessage(this.plugin.getMethods().color(uuid, messages.getString("Anti_Swear.Blacklisted_Word.Not_Found").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							}
 						} else {
-							player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/Antiswear remove blacklist <word>"));
+							player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/antiswear remove blacklist <word>"));
 						}
 					} else {
 						player.sendMessage(this.plugin.getMethods().noPermission());
@@ -170,7 +171,7 @@ public class CommandAntiSwear implements CommandExecutor {
 								player.sendMessage(this.plugin.getMethods().color(uuid, messages.getString("Anti_Swear.Whitelisted_Word.Not_Found").replace("{word}", args[2]).replace("{Prefix}", messages.getString("Message.Prefix"))));
 							}
 						} else {
-							player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/Antiswear remove whitelist <word>"));
+							player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/antiswear remove whitelist <word>"));
 						}
 					} else {
 						player.sendMessage(this.plugin.getMethods().noPermission());
@@ -191,7 +192,7 @@ public class CommandAntiSwear implements CommandExecutor {
 						player.sendMessage(this.plugin.getMethods().color("&cWhitelisted Words: &7" + list2));
 						return true;
 					} else {
-						player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/Antiswear list"));
+						player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/antiswear list"));
 					}
 				} else {
 					player.sendMessage(this.plugin.getMethods().noPermission());

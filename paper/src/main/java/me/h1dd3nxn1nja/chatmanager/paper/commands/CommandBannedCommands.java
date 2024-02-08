@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,10 +31,10 @@ public class CommandBannedCommands implements CommandExecutor {
 					this.plugin.getMethods().sendMessage(player, "", true);
 					this.plugin.getMethods().sendMessage(player, " &6<> &f= Required Arguments", true);
 					this.plugin.getMethods().sendMessage(player, "", true);
-					this.plugin.getMethods().sendMessage(player, " &f/BannedCommands Help &e- Shows the banned commands help menu.", true);
-					this.plugin.getMethods().sendMessage(player, " &f/BannedCommands Add &6<command> &e- Add a command to the banned command list.", true);
-					this.plugin.getMethods().sendMessage(player, " &f/BannedCommands Remove &6<command> &e- Remove a command from the banned command list.", true);
-					this.plugin.getMethods().sendMessage(player, " &f/BannedCommands List &e- Shows a list of the servers banned commands.", true);
+					this.plugin.getMethods().sendMessage(player, " &f/bannedCommands help &e- Shows the banned commands help menu.", true);
+					this.plugin.getMethods().sendMessage(player, " &f/bannedCommands add &6<command> &e- Add a command to the banned command list.", true);
+					this.plugin.getMethods().sendMessage(player, " &f/bannedCommands remove &6<command> &e- Remove a command from the banned command list.", true);
+					this.plugin.getMethods().sendMessage(player, " &f/bannedCommands list &e- Shows a list of the servers banned commands.", true);
 					this.plugin.getMethods().sendMessage(player, "", true);
 				}
 			} else {
@@ -49,10 +50,10 @@ public class CommandBannedCommands implements CommandExecutor {
 						this.plugin.getMethods().sendMessage(player, "", true);
 						this.plugin.getMethods().sendMessage(player, " &6<> &f= Required Arguments", true);
 						this.plugin.getMethods().sendMessage(player, "", true);
-						this.plugin.getMethods().sendMessage(player, " &f/BannedCommands Help &e- Shows the banned commands help menu.", true);
-						this.plugin.getMethods().sendMessage(player, " &f/BannedCommands Add &6<command> &e- Add a command to the banned command list.", true);
-						this.plugin.getMethods().sendMessage(player, " &f/BannedCommands Remove &6<command> &e- Remove a command from the banned command list.", true);
-						this.plugin.getMethods().sendMessage(player, " &f/BannedCommands List &e- Shows a list of the servers banned commands.", true);
+						this.plugin.getMethods().sendMessage(player, " &f/bannedCommands help &e- Shows the banned commands help menu.", true);
+						this.plugin.getMethods().sendMessage(player, " &f/bannedCommands add &6<command> &e- Add a command to the banned command list.", true);
+						this.plugin.getMethods().sendMessage(player, " &f/bannedCommands remove &6<command> &e- Remove a command from the banned command list.", true);
+						this.plugin.getMethods().sendMessage(player, " &f/bannedCommands list &e- Shows a list of the servers banned commands.", true);
 						this.plugin.getMethods().sendMessage(player, "", true);
 					}
 				} else {
@@ -78,7 +79,7 @@ public class CommandBannedCommands implements CommandExecutor {
 							this.plugin.getMethods().sendMessage(player, messages.getString("Banned_Commands.Command_Exists").replace("{command}", args[1]), true);
 						}
 					} else {
-						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Bannedcommands add <command>", true);
+						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/bannedcommands add <command>", true);
 					}
 				} else {
 					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
@@ -99,7 +100,7 @@ public class CommandBannedCommands implements CommandExecutor {
 							this.plugin.getMethods().sendMessage(player, messages.getString("Banned_Commands.Command_Not_Found").replace("{command}", args[1]), true);
 						}
 					} else {
-						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Bannedcommands remove <command>", true);
+						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/bannedcommands remove <command>", true);
 					}
 				} else {
 					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
@@ -114,7 +115,7 @@ public class CommandBannedCommands implements CommandExecutor {
 						this.plugin.getMethods().sendMessage(player, "&cCommands: &7" + list, true);
 						player.sendMessage(" ");
 					} else {
-						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Bannedcommands list", true);
+						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/bannedcommands list", true);
 					}
 				} else {
 					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);

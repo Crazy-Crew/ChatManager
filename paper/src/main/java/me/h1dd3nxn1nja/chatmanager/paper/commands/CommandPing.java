@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -43,7 +44,7 @@ public class CommandPing implements CommandExecutor {
 			}
 
 			if (args.length >= 2) {
-				this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Ping {player}", true);
+				this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/ping [player]", true);
 				return true;
 			}
 

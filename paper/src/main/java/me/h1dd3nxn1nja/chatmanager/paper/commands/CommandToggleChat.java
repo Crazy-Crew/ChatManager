@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,7 +28,7 @@ public class CommandToggleChat implements CommandExecutor {
 
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
-		if (!cmd.getName().equalsIgnoreCase("toggleChat")) return true;
+		if (!cmd.getName().equalsIgnoreCase("togglechat")) return true;
 
 		if (!player.hasPermission(Permissions.TOGGLE_CHAT.getNode())) {
 			this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
@@ -47,7 +48,7 @@ public class CommandToggleChat implements CommandExecutor {
 			return true;
 		}
 
-		this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Togglechat", true);
+		this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/togglechat", true);
 
 		return true;
 	}

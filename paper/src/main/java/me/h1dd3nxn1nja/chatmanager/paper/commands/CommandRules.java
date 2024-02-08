@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,7 +31,7 @@ public class CommandRules implements CommandExecutor {
 						this.plugin.getMethods().sendMessage(sender, rules, true);
 					}
 				} else {
-					this.plugin.getMethods().sendMessage(sender, "&cCommand Usage: &7/Rules <page>", true);
+					this.plugin.getMethods().sendMessage(sender, "&cCommand Usage: &7/rules <page>", true);
 				}
 			} else {
 				this.plugin.getMethods().sendMessage(sender, this.plugin.getMethods().noPermission(), true);

@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,7 +24,7 @@ public class CommandSpy implements CommandExecutor {
 
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
-		if (cmd.getName().equalsIgnoreCase("CommandSpy")) {
+		if (cmd.getName().equalsIgnoreCase("commandspy")) {
 			if (player.hasPermission(Permissions.COMMAND_SPY.getNode())) {
 				if (args.length == 0) {
 
@@ -40,14 +41,14 @@ public class CommandSpy implements CommandExecutor {
 
 					return true;
 				} else {
-					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Commandspy", true);
+					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/commandspy", true);
 				}
 			} else {
 				this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 			}
 		}
 
-		if (cmd.getName().equalsIgnoreCase("SocialSpy")) {
+		if (cmd.getName().equalsIgnoreCase("socialspy")) {
 			if (player.hasPermission(Permissions.SOCIAL_SPY.getNode())) {
 				if (args.length == 0) {
 					boolean isValid = this.plugin.api().getSocialSpyData().containsUser(player.getUniqueId());
@@ -63,7 +64,7 @@ public class CommandSpy implements CommandExecutor {
 
 					return true;
 				} else {
-					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Socialspy", true);
+					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/socialspy", true);
 				}
 			} else {
 				this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);

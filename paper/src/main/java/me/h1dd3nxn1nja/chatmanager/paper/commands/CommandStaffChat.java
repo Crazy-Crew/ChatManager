@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,7 +27,7 @@ public class CommandStaffChat implements CommandExecutor {
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		if (sender instanceof Player player) {
-			if (cmd.getName().equalsIgnoreCase("StaffChat")) {
+			if (cmd.getName().equalsIgnoreCase("staffchat")) {
 				if (player.hasPermission(Permissions.TOGGLE_STAFF_CHAT.getNode())) {
 					if (args.length == 0) {
 						if (config.getBoolean("Staff_Chat.Enable")) {

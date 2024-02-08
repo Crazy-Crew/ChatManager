@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.paper.commands;
 
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import me.h1dd3nxn1nja.chatmanager.paper.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.paper.support.PluginSupport;
@@ -41,7 +42,7 @@ public class CommandMessage implements CommandExecutor {
 
 		Player player = (Player) sender;
 
-		if (cmd.getName().equalsIgnoreCase("Message")) {
+		if (cmd.getName().equalsIgnoreCase("message")) {
 			if (player.hasPermission(Permissions.COMMAND_MESSAGE.getNode())) {
 				StringBuilder message = new StringBuilder();
 
@@ -50,7 +51,7 @@ public class CommandMessage implements CommandExecutor {
 				}
 
 				if (args.length < 1) {
-					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Message <player> <message>", true);
+					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/message <player> <message>", true);
 					return true;
 				}
 
@@ -87,7 +88,7 @@ public class CommandMessage implements CommandExecutor {
 			}
 		}
 
-		if (cmd.getName().equalsIgnoreCase("Reply")) {
+		if (cmd.getName().equalsIgnoreCase("reply")) {
 			if (player.hasPermission(Permissions.COMMAND_REPLY.getNode())) {
 				if (args.length > 0) {
 					StringBuilder message = new StringBuilder();
@@ -117,14 +118,14 @@ public class CommandMessage implements CommandExecutor {
 
 					if (duplicate(args, playerNotFound, player, message, target, target.getUniqueId(), player.getUniqueId())) return true;
 				} else {
-					player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/Reply <message>"));
+					player.sendMessage(this.plugin.getMethods().color("&cCommand Usage: &7/reply <message>"));
 				}
 			} else {
 				player.sendMessage(this.plugin.getMethods().noPermission());
 			}
 		}
 
-		if (cmd.getName().equalsIgnoreCase("TogglePM")) {
+		if (cmd.getName().equalsIgnoreCase("togglepm")) {
 			if (player.hasPermission(Permissions.TOGGLE_PM.getNode())) {
 				if (args.length == 0) {
 
@@ -141,7 +142,7 @@ public class CommandMessage implements CommandExecutor {
 
 					return true;
 				} else {
-					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Togglepm", true);
+					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/togglepm", true);
 				}
 			} else {
 				this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
