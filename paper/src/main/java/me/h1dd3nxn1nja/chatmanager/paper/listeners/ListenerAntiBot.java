@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,7 +22,7 @@ public class ListenerAntiBot implements Listener {
 
 		FileConfiguration config = Files.CONFIG.getFile();
 
-		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission("chatmanager.bypass.antibot")) return;
+		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission(Permissions.BYPASS_ANTI_BOT.getNode())) return;
 
 		this.plugin.api().getAntiBotData().addUser(player.getUniqueId());
 	}
@@ -32,7 +33,7 @@ public class ListenerAntiBot implements Listener {
 
 		FileConfiguration config = Files.CONFIG.getFile();
 
-		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission("chatmanager.bypass.antibot")) return;
+		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission(Permissions.BYPASS_ANTI_BOT.getNode())) return;
 
 		this.plugin.api().getAntiBotData().removeUser(player.getUniqueId());
 	}
@@ -43,7 +44,7 @@ public class ListenerAntiBot implements Listener {
 
 		FileConfiguration config = Files.CONFIG.getFile();
 
-		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission("chatmanager.bypass.antibot")) return;
+		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission(Permissions.BYPASS_ANTI_BOT.getNode())) return;
 
 		this.plugin.api().getAntiBotData().removeUser(player.getUniqueId());
 	}
@@ -55,7 +56,7 @@ public class ListenerAntiBot implements Listener {
 		FileConfiguration config = Files.CONFIG.getFile();
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
-		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission("chatmanager.bypass.antibot")) return;
+		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission(Permissions.BYPASS_ANTI_BOT.getNode())) return;
 
 		if (!this.plugin.api().getAntiBotData().containsUser(player.getUniqueId())) return;
 
@@ -71,7 +72,7 @@ public class ListenerAntiBot implements Listener {
 		FileConfiguration config = Files.CONFIG.getFile();
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
-		if (!config.getBoolean("Anti_Bot.Block_Commands_Until_Moved") || player.hasPermission("chatmanager.bypass.antibot")) return;
+		if (!config.getBoolean("Anti_Bot.Block_Commands_Until_Moved") || player.hasPermission(Permissions.BYPASS_ANTI_BOT.getNode())) return;
 
 		if (!this.plugin.api().getAntiBotData().containsUser(player.getUniqueId())) return;
 

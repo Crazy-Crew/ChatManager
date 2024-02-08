@@ -20,10 +20,10 @@ public class CommandClearChat implements CommandExecutor {
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		if (cmd.getName().equalsIgnoreCase("ClearChat")) {
-			if (sender.hasPermission("chatmanager.clearchat")) {
+			if (sender.hasPermission(Permissions.COMMAND_CLEARCHAT.getNode())) {
 				if (args.length == 0) {
 					for (Player members : this.plugin.getServer().getOnlinePlayers()) {
-						if (!members.hasPermission("chatmanager.bypass.clearchat")) {
+						if (!members.hasPermission(Permissions.BYPASS_CLEAR_CHAT.getNode())) {
 							sendClearMessage(members);
 
 							if (sender instanceof Player player) {

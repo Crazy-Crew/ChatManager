@@ -29,7 +29,7 @@ public class CommandToggleMentions implements CommandExecutor {
 
 		if (!cmd.getName().equalsIgnoreCase("togglementions")) return true;
 
-		if (!player.hasPermission("chatmanager.toggle.mentions")) {
+		if (!player.hasPermission(Permissions.TOGGLE_MENTIONS.getNode())) {
 			this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 			return true;
 		}

@@ -27,7 +27,7 @@ public class CommandStaffChat implements CommandExecutor {
 
 		if (sender instanceof Player player) {
 			if (cmd.getName().equalsIgnoreCase("StaffChat")) {
-				if (player.hasPermission("chatmanager.staffchat")) {
+				if (player.hasPermission(Permissions.TOGGLE_STAFF_CHAT.getNode())) {
 					if (args.length == 0) {
 						if (config.getBoolean("Staff_Chat.Enable")) {
 							boolean isValid = this.plugin.api().getStaffChatData().containsUser(player.getUniqueId());

@@ -32,7 +32,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
 
 		if (cmd.getName().equalsIgnoreCase("autobroadcast")) {
-			if (player.hasPermission("chatmanager.autobroadcast")) {
+			if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_HELP.getNode())) {
 				if (args.length == 0) return checkProtocol(player);
 			} else {
 				player.sendMessage(this.plugin.getMethods().noPermission());
@@ -40,7 +40,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("help")) {
-				if (player.hasPermission("chatmanager.autobroadcast.help")) {
+				if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_HELP.getNode())) {
 					if (args.length == 1) return checkProtocol(player);
 				} else {
 					player.sendMessage(this.plugin.getMethods().noPermission());
@@ -49,7 +49,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("list")) {
-				if (player.hasPermission("chatmanager.autobroadcast.list")) {
+				if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_LIST.getNode())) {
 					if (args.length == 1) {
 						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/AutoBroadcast list [Global|World|Actionbar|Title|Bossbar] [World]", true);
 						return true;
@@ -60,7 +60,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 				}
 
 				if (args[1].equalsIgnoreCase("global")) {
-					if (player.hasPermission("chatmanager.autobroadcast.list")) {
+					if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_LIST.getNode())) {
 						if (args.length == 2) {
 							this.plugin.getMethods().sendMessage(player, "", true);
 							this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", "Global"), true);
@@ -82,7 +82,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 				}
 
 				if (args[1].equalsIgnoreCase("actionbar")) {
-					if (player.hasPermission("chatmanager.autobroadcast.list")) {
+					if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_LIST.getNode())) {
 						if (args.length == 2) {
 							this.plugin.getMethods().sendMessage(player, "", true);
 							this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", "Actionbar"), true);
@@ -103,7 +103,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 				}
 
 				if (args[1].equalsIgnoreCase("title")) {
-					if (player.hasPermission("chatmanager.autobroadcast.list")) {
+					if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_LIST.getNode())) {
 						if (args.length == 2) {
 							this.plugin.getMethods().sendMessage(player, "", true);
 							this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", "Title"), true);
@@ -122,7 +122,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 				}
 
 				if (args[1].equalsIgnoreCase("bossbar")) {
-					if (player.hasPermission("chatmanager.autobroadcast.list")) {
+					if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_LIST.getNode())) {
 						if (args.length == 2) {
 							this.plugin.getMethods().sendMessage(player, "", true);
 							this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", "Bossbar"), true);
@@ -141,7 +141,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 				}
 
 				if (args[1].equalsIgnoreCase("world")) {
-					if (player.hasPermission("chatmanager.autobroadcast.list")) {
+					if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_LIST.getNode())) {
 						if (args.length == 3) {
 							List<World> worlds = new ArrayList<>();
 
@@ -172,7 +172,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("add")) {
-				if (player.hasPermission("chatmanager.autobroadcast.add")) {
+				if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_ADD.getNode())) {
 					if (args.length == 1) {
 						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/AutoBroadcast add [Global|World|Actionbar|Title|Bossbar] <world> <message>", true);
 						return true;
@@ -183,7 +183,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 				}
 
 				if (args[1].equalsIgnoreCase("global")) {
-					if (player.hasPermission("chatmanager.autobroadcast.add")) {
+					if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_ADD.getNode())) {
 						if (args.length != 2) {
 							StringBuilder builder = new StringBuilder();
 
@@ -209,7 +209,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 			}
 
 			if (args[1].equalsIgnoreCase("actionbar")) {
-				if (player.hasPermission("chatmanager.autobroadcast.add")) {
+				if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_ADD.getNode())) {
 					if (args.length != 2) {
 						StringBuilder builder = new StringBuilder();
 
@@ -234,7 +234,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 			}
 
 			if (args[1].equalsIgnoreCase("title")) {
-				if (player.hasPermission("chatmanager.autobroadcast.add")) {
+				if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_ADD.getNode())) {
 					if (args.length != 2) {
 						StringBuilder builder = new StringBuilder();
 
@@ -259,7 +259,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 			}
 
 			if (args[1].equalsIgnoreCase("bossbar")) {
-				if (player.hasPermission("chatmanager.autobroadcast.add")) {
+				if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_ADD.getNode())) {
 					if (args.length != 2) {
 						StringBuilder builder = new StringBuilder();
 
@@ -284,7 +284,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 			}
 
 			if (args[1].equalsIgnoreCase("world")) {
-				if (player.hasPermission("chatmanager.autobroadcast.add")) {
+				if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_ADD.getNode())) {
 					if (args.length != 2) {
 						List<World> worlds = new ArrayList<>();
 
@@ -324,7 +324,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 		}
 
 		if (args[0].equalsIgnoreCase("create")) {
-			if (player.hasPermission("chatmanager.autobroadcast.create")) {
+			if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_CREATE.getNode())) {
 				if (args.length >= 2) {
 					StringBuilder builder = new StringBuilder();
 

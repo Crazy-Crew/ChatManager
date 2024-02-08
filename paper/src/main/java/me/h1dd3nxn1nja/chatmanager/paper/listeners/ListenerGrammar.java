@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -24,7 +25,7 @@ public class ListenerGrammar implements Listener {
 
 		if (event.getMessage().toCharArray().length < config.getInt("Grammar.Min_Message_Length") || !config.getBoolean("Grammar.Enable") || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
 
-		if (player.hasPermission("chatmanager.bypass.grammar")) return;
+		if (player.hasPermission(Permissions.BYPASS_GRAMMAR.getNode())) return;
 
 		char[] listChar = event.getMessage().toCharArray();
 		String message = event.getMessage();

@@ -28,7 +28,7 @@ public class CommandChatManager implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("reload")) {
-				if (sender.hasPermission("chatmanager.reload")) {
+				if (sender.hasPermission(Permissions.COMMAND_RELOAD.getNode())) {
 					if (args.length == 1) {
 						for (Player player : this.plugin.getServer().getOnlinePlayers()) {
 							this.plugin.api().getChatCooldowns().removeUser(player.getUniqueId());
@@ -64,7 +64,7 @@ public class CommandChatManager implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("debug")) {
-				if (!sender.hasPermission("chatmanager.debug")) {
+				if (!sender.hasPermission(Permissions.COMMAND_DEBUG.getNode())) {
 					this.plugin.getMethods().sendMessage(sender, this.plugin.getMethods().noPermission(), true);
 					return true;
 				}
@@ -84,7 +84,7 @@ public class CommandChatManager implements CommandExecutor {
 				}
 
 				if (args[1].equalsIgnoreCase("all")) {
-					if (sender.hasPermission("chatmanager.debug")) {
+					if (sender.hasPermission(Permissions.COMMAND_DEBUG.getNode())) {
 						if (args.length == 2) {
 							this.plugin.getMethods().sendMessage(sender, "&7Debugging all configuration files, Please go to your console to see the debug low.", true);
 							Debug.debugAutoBroadcast();
@@ -99,7 +99,7 @@ public class CommandChatManager implements CommandExecutor {
 				}
 
 				if (args[1].equalsIgnoreCase("autobroadcast")) {
-					if (sender.hasPermission("chatmanager.debug")) {
+					if (sender.hasPermission(Permissions.COMMAND_DEBUG.getNode())) {
 						if (args.length == 2) {
 							this.plugin.getMethods().sendMessage(sender, "&7Debugging autobroadcast, Please go to your console to see the debug log.", true);
 							Debug.debugAutoBroadcast();
@@ -112,7 +112,7 @@ public class CommandChatManager implements CommandExecutor {
 				}
 
 				if (args[1].equalsIgnoreCase("config")) {
-					if (sender.hasPermission("chatmanager.debug")) {
+					if (sender.hasPermission(Permissions.COMMAND_DEBUG.getNode())) {
 						if (args.length == 2) {
 							this.plugin.getMethods().sendMessage(sender, "&7Debugging config, Please go to your console to see the debug log.", true);
 							Debug.debugConfig();
@@ -125,7 +125,7 @@ public class CommandChatManager implements CommandExecutor {
 				}
 
 				if (args[1].equalsIgnoreCase("messages")) {
-					if (sender.hasPermission("chatmanager.debug")) {
+					if (sender.hasPermission(Permissions.COMMAND_DEBUG.getNode())) {
 						if (args.length == 2) {
 							this.plugin.getMethods().sendMessage(sender, "&7Debugging config, Please go to your console to see the debug log.", true);
 							Debug.debugMessages();

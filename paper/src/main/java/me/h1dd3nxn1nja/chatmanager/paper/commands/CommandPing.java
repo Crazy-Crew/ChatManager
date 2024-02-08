@@ -27,7 +27,7 @@ public class CommandPing implements CommandExecutor {
 		}
 
 		if (cmd.getName().equalsIgnoreCase("ping")) {
-			if (!player.hasPermission("chatmanager.ping")) {
+			if (!player.hasPermission(Permissions.COMMAND_PING.getNode())) {
 				this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				return true;
 			}
@@ -37,7 +37,7 @@ public class CommandPing implements CommandExecutor {
 				return true;
 			}
 
-			if (!player.hasPermission("chatmanager.ping.others")) {
+			if (!player.hasPermission(Permissions.COMMAND_PING_OTHERS.getNode())) {
 				this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 				return true;
 			}

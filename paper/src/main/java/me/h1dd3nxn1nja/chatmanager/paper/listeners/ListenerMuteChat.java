@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,7 +22,7 @@ public class ListenerMuteChat implements Listener {
 
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
-		if (player.hasPermission("chatmanager.bypass.mutechat") || !this.plugin.getMethods().isMuted()) return;
+		if (player.hasPermission(Permissions.BYPASS_MUTE_CHAT.getNode()) || !this.plugin.getMethods().isMuted()) return;
 
 		this.plugin.getMethods().sendMessage(player, messages.getString("Mute_Chat.Denied_Message"), true);
 		event.setCancelled(true);
@@ -34,7 +35,7 @@ public class ListenerMuteChat implements Listener {
 		FileConfiguration config = Files.CONFIG.getFile();
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
-		if (!config.getBoolean("Mute_Chat.Disable_Commands") || player.hasPermission("chatmanager.bypass.mutechat") || !this.plugin.getMethods().isMuted()) return;
+		if (!config.getBoolean("Mute_Chat.Disable_Commands") || player.hasPermission(Permissions.BYPASS_MUTE_CHAT.getNode()) || !this.plugin.getMethods().isMuted()) return;
 
 		for (String command : config.getStringList("Mute_Chat.Disabled_Commands")) {
 			if (event.getMessage().toLowerCase().contains(command)) {

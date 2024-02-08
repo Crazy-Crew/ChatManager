@@ -29,7 +29,7 @@ public class CommandToggleChat implements CommandExecutor {
 
 		if (!cmd.getName().equalsIgnoreCase("toggleChat")) return true;
 
-		if (!player.hasPermission("chatmanager.toggle.chat")) {
+		if (!player.hasPermission(Permissions.TOGGLE_CHAT.getNode())) {
 			this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
 			return true;
 		}

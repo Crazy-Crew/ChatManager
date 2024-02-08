@@ -28,7 +28,7 @@ public class CommandMuteChat implements CommandExecutor {
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		if (cmd.getName().equalsIgnoreCase("MuteChat")) {
-			if (player.hasPermission("chatmanager.mutechat")) {
+			if (player.hasPermission(Permissions.COMMAND_MUTECHAT.getNode())) {
 				if (args.length == 0) {
 					if (this.plugin.getMethods().isMuted()) {
 						this.plugin.getMethods().setMuted();
@@ -46,12 +46,12 @@ public class CommandMuteChat implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("-s")) {
-				if (player.hasPermission("chatmanager.mutechat.silent")) {
+				if (player.hasPermission(Permissions.COMMAND_MUTECHAT_SILENT.getNode())) {
 					if (args.length == 1) {
 						if (this.plugin.getMethods().isMuted()) {
 							this.plugin.getMethods().setMuted();
 							for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
-								if (staff.hasPermission("chatmanager.bypass.mutechat")) {
+								if (staff.hasPermission(Permissions.BYPASS_MUTE_CHAT.getNode())) {
 									this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Enabled").replace("{player}", player.getName())), true);
 									return true;
 								}
@@ -60,7 +60,7 @@ public class CommandMuteChat implements CommandExecutor {
 						} else {
 							this.plugin.getMethods().setMuted();
 							for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
-								if (staff.hasPermission("chatmanager.bypass.mutechat")) {
+								if (staff.hasPermission(Permissions.BYPASS_MUTE_CHAT.getNode())) {
 									this.plugin.getMethods().sendMessage(player, placeholderManager.setPlaceholders(player, messages.getString("Mute_Chat.Broadcast_Messages.Disabled").replace("{player}", player.getName())), true);
 									return true;
 								}

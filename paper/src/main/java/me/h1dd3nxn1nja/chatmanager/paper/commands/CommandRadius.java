@@ -24,7 +24,7 @@ public class CommandRadius implements CommandExecutor {
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		if (cmd.getName().equalsIgnoreCase("chatradius")) {
-			if (player.hasPermission("chatmanager.chatradius")) {
+			if (player.hasPermission(Permissions.CHAT_RADIUS_HELP.getNode())) {
 				if (args.length == 0) {
 					this.plugin.getMethods().sendMessage(player, "", true);
 					this.plugin.getMethods().sendMessage(player, (" &3Chat Radius Help Menu &f(v" + plugin.getDescription().getVersion() + ")"), true);
@@ -41,7 +41,7 @@ public class CommandRadius implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("help")) {
-				if (player.hasPermission("chatmanager.chatradius")) {
+				if (player.hasPermission(Permissions.CHAT_RADIUS_HELP.getNode())) {
 					if (args.length == 1) {
 						this.plugin.getMethods().sendMessage(player, "", true);
 						this.plugin.getMethods().sendMessage(player, (" &3Chat Radius Help Menu &f(v" + plugin.getDescription().getVersion() + ")"), true);
@@ -60,7 +60,7 @@ public class CommandRadius implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("Local")) {
-				if (player.hasPermission("chatmanager.chatradius.local")) {
+				if (player.hasPermission(Permissions.COMMAND_CHATRADIUS_LOCAL.getNode())) {
 					if (args.length == 1) {
 
 						boolean isValid = this.plugin.api().getLocalChatData().containsUser(player.getUniqueId());
@@ -85,7 +85,7 @@ public class CommandRadius implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("Global")) {
-				if (player.hasPermission("chatmanager.chatradius.global")) {
+				if (player.hasPermission(Permissions.COMMAND_CHATRADIUS_GLOBAL.getNode())) {
 					if (args.length == 1) {
 						boolean isValid = this.plugin.api().getGlobalChatData().containsUser(player.getUniqueId());
 
@@ -108,7 +108,7 @@ public class CommandRadius implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("World")) {
-				if (player.hasPermission("chatmanager.chatradius.world")) {
+				if (player.hasPermission(Permissions.COMMAND_CHATRADIUS_WORLD.getNode())) {
 					if (args.length == 1) {
 						boolean isValid = this.plugin.api().getWorldChatData().containsUser(player.getUniqueId());
 
@@ -131,7 +131,7 @@ public class CommandRadius implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("Spy")) {
-				if (player.hasPermission("chatmanager.chatradius.spy")) {
+				if (player.hasPermission(Permissions.COMMAND_CHATRADIUS_SPY.getNode())) {
 					if (args.length == 1) {
 						boolean isValid = this.plugin.api().getSpyChatData().containsUser(player.getUniqueId());
 

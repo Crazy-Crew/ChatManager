@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.UUID;
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -36,7 +37,7 @@ public class ListenerRadius implements Listener {
 
 		if (!config.getBoolean("Chat_Radius.Enable") || this.plugin.api().getStaffChatData().containsUser(uuid)) return;
 
-		if (player.hasPermission("chatmanager.chatradius.global.override")) {
+		if (player.hasPermission(Permissions.CHAT_RADIUS_GLOBAL_OVERRIDE.getNode())) {
 			assert globalOverrideChar != null;
 			if (!globalOverrideChar.isEmpty()) {
 				if (ChatColor.stripColor(message).charAt(0) == globalOverrideChar.charAt(0)) {
@@ -48,7 +49,7 @@ public class ListenerRadius implements Listener {
 			}
 		}
 
-		if (player.hasPermission("chatmanager.chatradius.local.override")) {
+		if (player.hasPermission(Permissions.CHAT_RADIUS_LOCAL_OVERRIDE.getNode())) {
 			assert localOverrideChar != null;
 
 			if (!localOverrideChar.isEmpty()) {
@@ -62,7 +63,7 @@ public class ListenerRadius implements Listener {
 			}
 		}
 
-		if (player.hasPermission("chatmanager.chatradius.world.override")) {
+		if (player.hasPermission(Permissions.CHAT_RADIUS_WORLD_OVERRIDE.getNode())) {
 			assert worldOverrideChar != null;
 			if (!worldOverrideChar.isEmpty()) {
 				if (ChatColor.stripColor(message).charAt(0) == worldOverrideChar.charAt(0)) {

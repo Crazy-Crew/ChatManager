@@ -26,7 +26,7 @@ public class CommandAntiSwear implements CommandExecutor {
 		UUID uuid = player.getUniqueId();
 
 		if (cmd.getName().equalsIgnoreCase("AntiSwear")) {
-			if (player.hasPermission("chatmanager.antiswear")) {
+			if (player.hasPermission(Permissions.COMMAND_ANTISWEAR_HELP.getNode())) {
 				if (args.length == 0) {
 					player.sendMessage("");
 					player.sendMessage(this.plugin.getMethods().color(" &3Anti Swear Help Menu &f(v" + plugin.getDescription().getVersion() + ")"));
@@ -47,7 +47,7 @@ public class CommandAntiSwear implements CommandExecutor {
 			FileConfiguration messages = Files.MESSAGES.getFile();
 
 			if (args[0].equalsIgnoreCase("help")) {
-				if (player.hasPermission("chatmanager.antiswear.help")) {
+				if (player.hasPermission(Permissions.COMMAND_ANTISWEAR_HELP.getNode())) {
 					if (args.length == 1) {
 						player.sendMessage("");
 						player.sendMessage(this.plugin.getMethods().color(" &3Anti Swear Help Menu &f(v" + plugin.getDescription().getVersion() + ")"));
@@ -67,7 +67,7 @@ public class CommandAntiSwear implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("add")) {
-				if (!player.hasPermission("chatmanager.antiswear.add")) {
+				if (!player.hasPermission(Permissions.COMMAND_ANTISWEAR_ADD.getNode())) {
 					player.sendMessage(this.plugin.getMethods().noPermission());
 					return true;
 				}
@@ -80,7 +80,7 @@ public class CommandAntiSwear implements CommandExecutor {
 				FileConfiguration bannedWords = Files.BANNED_WORDS.getFile();
 
 				if (args[1].equalsIgnoreCase("blacklist")) {
-					if (player.hasPermission("chatmanager.antiswear.add")) {
+					if (player.hasPermission(Permissions.COMMAND_ANTISWEAR_ADD.getNode())) {
 						if (args.length == 3) {
 							if (!Files.BANNED_WORDS.getFile().getStringList("Banned-Words").contains(args[2])) {
 								List<String> swearWords = bannedWords.getStringList("Banned-Words");
@@ -101,7 +101,7 @@ public class CommandAntiSwear implements CommandExecutor {
 				}
 
 				if (args[1].equalsIgnoreCase("whitelist")) {
-					if (player.hasPermission("chatmanager.antiswear.add")) {
+					if (player.hasPermission(Permissions.COMMAND_ANTISWEAR_ADD.getNode())) {
 						if (args.length == 3) {
 							if (!bannedWords.getStringList("Whitelisted_Words").contains(args[2])) {
 								List<String> swearWords = bannedWords.getStringList("Whitelisted_Words");
@@ -123,7 +123,7 @@ public class CommandAntiSwear implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("remove")) {
-				if (!player.hasPermission("chatmanager.antiswear.remove")) {
+				if (!player.hasPermission(Permissions.COMMAND_ANTISWEAR_REMOVE.getNode())) {
 					player.sendMessage(this.plugin.getMethods().noPermission());
 					return true;
 				}
@@ -136,7 +136,7 @@ public class CommandAntiSwear implements CommandExecutor {
 				FileConfiguration bannedWords = Files.BANNED_WORDS.getFile();
 
 				if (args[1].equalsIgnoreCase("blacklist")) {
-					if (player.hasPermission("chatmanager.antiswear.remove")) {
+					if (player.hasPermission(Permissions.COMMAND_ANTISWEAR_REMOVE.getNode())) {
 						if (args.length == 3) {
 							if (bannedWords.getStringList("Banned-Words").contains(args[2])) {
 								List<String> list = bannedWords.getStringList("Banned-Words");
@@ -157,7 +157,7 @@ public class CommandAntiSwear implements CommandExecutor {
 				}
 
 				if (args[1].equalsIgnoreCase("whitelist")) {
-					if (player.hasPermission("chatmanager.antiswear.remove")) {
+					if (player.hasPermission(Permissions.COMMAND_ANTISWEAR_REMOVE.getNode())) {
 						if (args.length == 3) {
 							if (bannedWords.getStringList("Whitelisted_Words").contains(args[2])) {
 								List<String> list = bannedWords.getStringList("Whitelisted_Words");
@@ -181,7 +181,7 @@ public class CommandAntiSwear implements CommandExecutor {
 			FileConfiguration bannedWords = Files.BANNED_WORDS.getFile();
 
 			if (args[0].equalsIgnoreCase("list")) {
-				if (player.hasPermission("chatmanager.antiswear.list")) {
+				if (player.hasPermission(Permissions.COMMAND_ANTISWEAR_LIST.getNode())) {
 					if (args.length == 1) {
 						String list = bannedWords.getStringList("Banned-Words").toString().replace("[", "").replace("]", "");
 						String list2 = bannedWords.getStringList("Whitelisted_Words").toString().replace("[", "").replace("]", "");

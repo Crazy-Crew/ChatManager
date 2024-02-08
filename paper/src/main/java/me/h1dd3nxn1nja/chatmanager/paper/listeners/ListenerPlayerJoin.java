@@ -3,6 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.paper.Methods;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -193,7 +194,7 @@ public class ListenerPlayerJoin implements Listener {
         int delay = config.getInt("MOTD.Delay");
 
         if (config.getBoolean("Clear_Chat.Clear_On_Join")) {
-            if (player.hasPermission("chatmanager.bypass.clearchat.onjoin")) return;
+            if (player.hasPermission(Permissions.BYPASS_CLEAR_CHAT_ON_JOIN.getNode())) return;
 
             for (int i = 0; i < lines; i++) {
                 player.sendMessage("");
@@ -201,11 +202,11 @@ public class ListenerPlayerJoin implements Listener {
         }
 
         if (config.getBoolean("Social_Spy.Enable_On_Join")) {
-            if (player.hasPermission("chatmanager.socialspy")) this.plugin.api().getSocialSpyData().addUser(player.getUniqueId());
+            if (player.hasPermission(Permissions.SOCIAL_SPY.getNode())) this.plugin.api().getSocialSpyData().addUser(player.getUniqueId());
         }
 
         if (config.getBoolean("Command_Spy.Enable_On_Join")) {
-            if (player.hasPermission("chatmanager.commandspy")) this.plugin.api().getCommandSpyData().addUser(player.getUniqueId());
+            if (player.hasPermission(Permissions.COMMAND_SPY.getNode())) this.plugin.api().getCommandSpyData().addUser(player.getUniqueId());
         }
 
         if (config.getBoolean("Chat_Radius.Enable")) {
@@ -217,7 +218,7 @@ public class ListenerPlayerJoin implements Listener {
         if (config.getBoolean("Chat_Radius.Enable")) {
             if (!config.getBoolean("Chat_Radius.Enable_Spy_On_Join")) return;
 
-            if (player.hasPermission("chatmanager.chatradius.spy")) plugin.api().getSpyChatData().addUser(player.getUniqueId());
+            if (player.hasPermission(Permissions.COMMAND_CHATRADIUS_SPY.getNode())) plugin.api().getSpyChatData().addUser(player.getUniqueId());
         }
 
         if (config.getBoolean("MOTD.Enable")) {

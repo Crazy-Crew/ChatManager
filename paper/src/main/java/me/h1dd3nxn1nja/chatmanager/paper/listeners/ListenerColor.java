@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,7 +13,10 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.h1dd3nxn1nja.chatmanager.paper.utils.Format;
 import net.md_5.bungee.api.ChatColor;
 import org.jetbrains.annotations.NotNull;
+import java.util.HashMap;
+import java.util.Map;
 
+@SuppressWarnings("deprecation")
 public class ListenerColor implements Listener {
 
 	@NotNull
@@ -30,105 +34,139 @@ public class ListenerColor implements Listener {
 		String format = formatChat(player, message);
 		event.setMessage(format);
 	}
-	
+
 	@EventHandler(ignoreCancelled = true)
 	public void onSignChange(SignChangeEvent event) {
 		Player player = event.getPlayer();
-		
-		for (int i = 0; i < event.getLines().length; i++) {
-			String line = event.getLine(i);
 
-			if (player.hasPermission("chatmanager.sign.color")) line = Format.formatStringColor(line);
+		for (int index = 0; index < event.getLines().length; index++) {
+			String line = event.getLine(index);
 
-			if (player.hasPermission("chatmanager.sign.format")) line = Format.formatString(line);
+			if (player.hasPermission(Permissions.SIGN_COLOR_ALL.getNode())) line = Format.formatStringColor(line);
 
-			event.setLine(i, line);
+			if (player.hasPermission(Permissions.SIGN_FORMAT_ALL.getNode())) line = Format.formatString(line);
+
+			event.setLine(index, line);
 		}
 	}
 	
-	public char getColorCharacter() {
+	private char getColorCharacter() {
 		String characterString = "&";
 		
 		char[] charArray = characterString.toCharArray();
 
 		return charArray[0];
 	}
-	
-	public boolean hasAllPermissions(Player player) {
-		if (player.hasPermission("chatmanager.formats.all")) return true;
 
-		return (player.hasPermission("chatmanager.color.all") && player.hasPermission("chatmanager.format.all"));
+	private HashMap<String, String> colors() {
+        return new HashMap<>() {{
+			put(Permissions.COLOR_GREEN.getNode(), "a");
+			put(Permissions.COLOR_AQUA.getNode(), "b");
+			put(Permissions.COLOR_RED.getNode(), "c");
+			put(Permissions.COLOR_LIGHT_PURPLE.getNode(), "d");
+			put(Permissions.COLOR_YELLOW.getNode(), "e");
+			put(Permissions.COLOR_WHITE.getNode(), "f");
+			put(Permissions.COLOR_BLACK.getNode(), "0");
+			put(Permissions.COLOR_DARK_BLUE.getNode(), "1");
+			put(Permissions.COLOR_DARK_GREEN.getNode(), "2");
+			put(Permissions.COLOR_DARK_AQUA.getNode(), "3");
+			put(Permissions.COLOR_DARK_RED.getNode(), "4");
+			put(Permissions.COLOR_DARK_PURPLE.getNode(), "5");
+			put(Permissions.COLOR_GOLD.getNode(), "6");
+			put(Permissions.COLOR_GRAY.getNode(), "7");
+			put(Permissions.COLOR_DARK_GRAY.getNode(), "8");
+			put(Permissions.COLOR_BLUE.getNode(), "9");
+		}};
+	}
+
+	private HashMap<String, String> map() {
+		return new HashMap<>() {{
+			put(Permissions.FORMAT_OBFUSCATED.getNode(), "k");
+			put(Permissions.FORMAT_BOLD.getNode(), "l");
+			put(Permissions.FORMAT_STRIKETHROUGH.getNode(), "m");
+			put(Permissions.FORMAT_UNDERLINE.getNode(), "n");
+			put(Permissions.FORMAT_ITALIC.getNode(), "o");
+			put(Permissions.FORMAT_RESET.getNode(), "r");
+		}};
 	}
 	
-	public String formatChat(Player player, String string) {
+	private String formatChat(Player player, String msg) {
 		char colorChar = getColorCharacter();
-		if (hasAllPermissions(player)) return this.plugin.getMethods().color(string);
+
+		if (player.hasPermission(Permissions.FORMATTING_ALL.getNode())) {
+			return this.plugin.getMethods().color(msg);
+		}
+
 		boolean ignoreColorCheck = false, ignoreFormatCheck = false;
-		
-		if (player.hasPermission("chatmanager.color.all")) {
-			string = replaceColor(colorChar, string);
+
+		if (player.hasPermission(Permissions.CHAT_COLOR_ALL.getNode())) {
+			msg = replaceColor(colorChar, msg);
+
 			ignoreColorCheck = true;
 		}
-		
-		if (player.hasPermission("chatmanager.format.all")) {
-			string = replaceFormat(colorChar, string);
+
+		if (player.hasPermission(Permissions.CHAT_FORMAT_ALL.getNode())) {
+			msg = replaceFormat(colorChar, msg);
+
 			ignoreFormatCheck = true;
 		}
-		
-		if(!ignoreColorCheck) string = replaceColors(player, string);
-		if(!ignoreFormatCheck) string = replaceFormats(player, string);
-		
-		return string;
+
+		if (!ignoreColorCheck) msg = replaceColors(player, msg);
+		if (!ignoreFormatCheck) msg = replaceFormats(player, msg);
+
+		return msg;
 	}
 	
-	public String replaceColors(Player player, String string) {
-		char colorChar = getColorCharacter();
-		String[] validColorArray = {"a", "b", "c", "d", "e", "f", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
-		
-		for (String code : validColorArray) {
-			String permission = ("chatmanager.color." + code);
-			if (!player.hasPermission(permission)) continue;
-			
-			String caps = code.toUpperCase();
-			string = replaceSpecific(colorChar, caps + code, string);
+	private String replaceColors(Player player, String msg) {
+		char character = getColorCharacter();
+
+		for (Map.Entry<String, String> entry : colors().entrySet()) {
+			String node = entry.getKey();
+
+			if (player.hasPermission(node)) {
+				String symbol = entry.getValue().toUpperCase();
+
+				msg = replaceSpecificSymbol(character, symbol + entry.getValue(), msg);
+			}
 		}
 
-		return string;
+		return msg;
 	}
-	
-	public String replaceFormats(Player player, String string) {
-		char colorChar = getColorCharacter();
-		String[] validFormatArray = {"k", "l", "m", "n", "o", "r"};
-		
-		for (String code : validFormatArray) {
-			String permission = ("chatmanager.format." + code);
-			if (!player.hasPermission(permission)) continue;
-			
-			String caps = code.toUpperCase();
-			string = replaceSpecific(colorChar, caps + code, string);
+
+	private String replaceFormats(Player player, String msg) {
+		char character = getColorCharacter();
+
+		for (Map.Entry<String, String> entry : map().entrySet()) {
+			String node = entry.getKey();
+
+			if (player.hasPermission(node)) {
+				String symbol = entry.getValue().toUpperCase();
+
+				msg = replaceSpecificSymbol(character, symbol + entry.getValue(), msg);
+			}
 		}
 
-		return string;
+		return msg;
 	}
-	
-	public String replaceColor(char colorChar, String string) {
-        String specific = "0123456789AaBbCcDdEeFf";
 
-        return replaceSpecific(colorChar, specific, string);
+	private String replaceColor(char character, String msg) {
+        String values = "0123456789AaBbCcDdEeFf";
+
+        return replaceSpecificSymbol(character, values, msg);
     }
 
-    public String replaceFormat(char colorChar, String string) {
-        String specific = "KkLlMmNnOoRr";
+    private String replaceFormat(char character, String msg) {
+        String values = "KkLlMmNnOoRr";
 
-        return replaceSpecific(colorChar, specific, string);
+        return replaceSpecificSymbol(character, values, msg);
     }
     
-    public String replaceSpecific(char colorChar, String specific, String string) {
-		char[] charArray = string.toCharArray();
+    private String replaceSpecificSymbol(char colorChar, String values, String msg) {
+		char[] charArray = msg.toCharArray();
 
 		for (int i = 0; i < (charArray.length - 1); i++) {
 			boolean hasColor1 = (colorChar == charArray[i]);
-			boolean hasColor2 = (specific.indexOf(charArray[i + 1]) > -1);
+			boolean hasColor2 = (values.indexOf(charArray[i + 1]) > -1);
 
 			if (hasColor1 && hasColor2) {
 				charArray[i] = ChatColor.COLOR_CHAR;

@@ -24,7 +24,7 @@ public class CommandSpy implements CommandExecutor {
 		FileConfiguration messages = Files.MESSAGES.getFile();
 
 		if (cmd.getName().equalsIgnoreCase("CommandSpy")) {
-			if (player.hasPermission("chatmanager.commandspy")) {
+			if (player.hasPermission(Permissions.COMMAND_SPY.getNode())) {
 				if (args.length == 0) {
 
 					boolean isValid = this.plugin.api().getCommandSpyData().containsUser(player.getUniqueId());
@@ -48,7 +48,7 @@ public class CommandSpy implements CommandExecutor {
 		}
 
 		if (cmd.getName().equalsIgnoreCase("SocialSpy")) {
-			if (player.hasPermission("chatmanager.socialspy")) {
+			if (player.hasPermission(Permissions.SOCIAL_SPY.getNode())) {
 				if (args.length == 0) {
 					boolean isValid = this.plugin.api().getSocialSpyData().containsUser(player.getUniqueId());
 

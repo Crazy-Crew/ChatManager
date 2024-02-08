@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +26,7 @@ public class ListenerSpy implements Listener {
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 
-		if (!player.hasPermission("chatmanager.bypass.commandspy")) {
+		if (!player.hasPermission(Permissions.BYPASS_COMMAND_SPY.getNode())) {
 			for (String command : blacklist) {
 				if (message.toLowerCase().startsWith(command)) return;
 			}
@@ -34,7 +35,7 @@ public class ListenerSpy implements Listener {
 
 				boolean isValid = this.plugin.api().getCommandSpyData().containsUser(staff.getUniqueId());
 
-				if (!isValid || !staff.hasPermission("chatmanager.commandspy")) return;
+				if (!isValid || !staff.hasPermission(Permissions.COMMAND_SPY.getNode())) return;
 
 				this.plugin.getMethods().sendMessage(staff, messages.getString("Command_Spy.Format").replace("{player}", player.getName()).replace("{command}", message), true);
 			}

@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import me.h1dd3nxn1nja.chatmanager.paper.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.paper.support.PluginSupport;
@@ -39,10 +40,8 @@ public class ListenerMentions implements Listener {
 
 		if (!config.getBoolean("Mentions.Enable")) return;
 
-		event.setMessage(this.plugin.getMethods().color(event.getMessage()));
-
 		this.plugin.getServer().getOnlinePlayers().forEach(target -> {
-			if (!player.hasPermission("chatmanager.mention") || !target.hasPermission("chatmanager.mention.receive")) return;
+			if (!player.hasPermission(Permissions.MENTION.getNode()) || !target.hasPermission(Permissions.RECEIVE_MENTION.getNode())) return;
 
 			if (!event.getMessage().contains(tagSymbol + target.getName())) return;
 
@@ -79,7 +78,7 @@ public class ListenerMentions implements Listener {
 
 		if (event.getMessage().toLowerCase().contains(tagSymbol + "everyone")) {
 			this.plugin.getServer().getOnlinePlayers().forEach(target -> {
-				if (player.hasPermission("chatmanager.mention.everyone") && target.hasPermission("chatmanager.mentions.receive")) {
+				if (player.hasPermission(Permissions.MENTION_EVERYONE.getNode()) && target.hasPermission(Permissions.RECEIVE_MENTION.getNode())) {
 					if (!this.plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) {
 						String path = "Mentions.sound";
 						methods.playSound(target, config, path);

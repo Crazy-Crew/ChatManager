@@ -3,6 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.commands;
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
 import java.util.List;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -47,7 +48,7 @@ public class CommandBroadcast implements CommandExecutor {
 		List<String> warning = config.getStringList("Broadcast_Commands.Command.Warning.Message");
 
 		if (cmd.getName().equalsIgnoreCase("broadcast")) {
-			if (sender.hasPermission("chatmanager.broadcast")) {
+			if (sender.hasPermission(Permissions.COMMAND_BROADCAST.getNode())) {
 				if (args.length != 0) {
 					StringBuilder message = new StringBuilder();
 
@@ -69,8 +70,8 @@ public class CommandBroadcast implements CommandExecutor {
 			}
 		}
 		
-		if (cmd.getName().equalsIgnoreCase("Announcement")) {
-			if (sender.hasPermission("chatmanager.announcement")) {
+		if (cmd.getName().equalsIgnoreCase("announcement")) {
+			if (sender.hasPermission(Permissions.COMMAND_ANNOUNCEMENT.getNode())) {
 				if (args.length != 0) {
 					sendBroadcast(sender, args, announcementSound, announcementVolume, announcementPitch, announcement);
 				} else {
@@ -81,8 +82,8 @@ public class CommandBroadcast implements CommandExecutor {
 			}	
 		}
 		
-		if (cmd.getName().equalsIgnoreCase("Warning")) {
-			if (sender.hasPermission("chatmanager.warning")) {
+		if (cmd.getName().equalsIgnoreCase("warning")) {
+			if (sender.hasPermission(Permissions.COMMAND_WARNING.getNode())) {
 				if (args.length != 0) {
 					sendBroadcast(sender, args, warningSound, warningVolume, warningPitch, warning);
 				} else {

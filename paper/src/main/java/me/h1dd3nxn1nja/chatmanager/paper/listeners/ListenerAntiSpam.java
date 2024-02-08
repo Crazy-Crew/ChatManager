@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,7 +34,7 @@ public class ListenerAntiSpam implements Listener {
 		if (isValid) return;
 
 		if (config.getBoolean("Anti_Spam.Chat.Block_Repetitive_Messages")) {
-			if (player.hasPermission("chatmanager.bypass.dupe.chat")) return;
+			if (player.hasPermission(Permissions.BYPASS_DUPE_CHAT.getNode())) return;
 
 			if (this.plugin.api().getPreviousMsgData().containsUser(uuid)) {
 
@@ -63,7 +64,7 @@ public class ListenerAntiSpam implements Listener {
 
 		int delay = config.getInt("Anti_Spam.Chat.Chat_Delay");
 
-		if (delay == 0 || player.hasPermission("chatmanager.bypass.chatdelay")) return;
+		if (delay == 0 || player.hasPermission(Permissions.BYPASS_CHAT_DELAY.getNode())) return;
 
 		if (this.plugin.api().getChatCooldowns().containsUser(uuid)) {
 			int time = this.plugin.api().getChatCooldowns().getTime(uuid);
@@ -106,7 +107,7 @@ public class ListenerAntiSpam implements Listener {
 		List<String> whitelistedCommands = config.getStringList("Anti_Spam.Command.Whitelist");
 
 		if (config.getBoolean("Anti_Spam.Command.Block_Repetitive_Commands")) {
-			if (!player.hasPermission("chatmanager.bypass.dupe.command")) {
+			if (!player.hasPermission(Permissions.BYPASS_DUPE_COMMAND.getNode())) {
 				for (String commands : whitelistedCommands) {
 					if (event.getMessage().contains(commands)) {
 						this.plugin.api().getPreviousCmdData().removeUser(uuid);
@@ -127,7 +128,7 @@ public class ListenerAntiSpam implements Listener {
 			}
 
 			if (config.getInt("Anti_Spam.Command.Command_Delay") != 0) {
-				if (!player.hasPermission("chatmanager.bypass.commanddelay")) {
+				if (!player.hasPermission(Permissions.BYPASS_COMMAND_DELAY.getNode())) {
 					if (this.plugin.api().getCmdCooldowns().containsUser(uuid)) {
 						this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Spam.Command.Delay_Message").replace("{Time}", String.valueOf(plugin.api().getCmdCooldowns().getTime(uuid))), true);
 						event.setCancelled(true);

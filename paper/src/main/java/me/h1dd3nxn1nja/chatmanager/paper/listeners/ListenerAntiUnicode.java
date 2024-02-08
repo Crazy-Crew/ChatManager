@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("deprecation")
 public class ListenerAntiUnicode implements Listener {
 
 	@NotNull
@@ -33,7 +35,7 @@ public class ListenerAntiUnicode implements Listener {
 
 		if (!config.getBoolean("Anti_Unicode.Enable") || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
 
-		if (player.hasPermission("chatmanager.bypass.antiunicode")) return;
+		if (player.hasPermission(Permissions.BYPASS_ANTI_UNICODE.getNode())) return;
 
 		for (String allowed : whitelisted) {
 			if (event.getMessage().contains(allowed)) return;
@@ -46,7 +48,7 @@ public class ListenerAntiUnicode implements Listener {
 
 		if (config.getBoolean("Anti_Unicode.Notify_Staff")) {
 			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
-				if (staff.hasPermission("chatmanager.notify.antiunicode")) {
+				if (staff.hasPermission(Permissions.NOTIFY_ANTI_UNICODE.getNode())) {
 					this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Unicode.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 				}
 			}

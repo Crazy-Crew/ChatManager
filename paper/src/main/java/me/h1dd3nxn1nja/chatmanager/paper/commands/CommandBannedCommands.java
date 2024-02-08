@@ -23,7 +23,7 @@ public class CommandBannedCommands implements CommandExecutor {
 		}
 
 		if (cmd.getName().equalsIgnoreCase("BannedCommands")) {
-			if (player.hasPermission("chatmanager.bannedcommands")) {
+			if (player.hasPermission(Permissions.COMMAND_BANNEDCOMMANDS_HELP.getNode())) {
 				if (args.length == 0) {
 					this.plugin.getMethods().sendMessage(player, "", true);
 					this.plugin.getMethods().sendMessage(player, " &3Banned Commands Help Menu &f(v" + plugin.getDescription().getVersion() + ")", true);
@@ -42,7 +42,7 @@ public class CommandBannedCommands implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("help")) {
-				if (player.hasPermission("chatmanager.bannedcommands.help")) {
+				if (player.hasPermission(Permissions.COMMAND_BANNEDCOMMANDS_HELP.getNode())) {
 					if (args.length == 1) {
 						this.plugin.getMethods().sendMessage(player, "", true);
 						this.plugin.getMethods().sendMessage(player, " &3Banned Commands Help Menu &f(v" + plugin.getDescription().getVersion() + ")", true);
@@ -65,7 +65,7 @@ public class CommandBannedCommands implements CommandExecutor {
 			FileConfiguration messages = Files.MESSAGES.getFile();
 
 			if (args[0].equalsIgnoreCase("add")) {
-				if (player.hasPermission("chatmanager.bannedcommands.add")) {
+				if (player.hasPermission(Permissions.COMMAND_BANNEDCOMMANDS_ADD.getNode())) {
 					if (args.length == 2) {
 						if (!bannedCommands.getStringList("Banned-Commands").contains(args[1])) {
 							List<String> list = bannedCommands.getStringList("Banned-Commands");
@@ -86,7 +86,7 @@ public class CommandBannedCommands implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("remove")) {
-				if (player.hasPermission("chatmanager.bannedcommands.remove")) {
+				if (player.hasPermission(Permissions.COMMAND_BANNEDCOMMANDS_REMOVE.getNode())) {
 					if (args.length == 2) {
 						if (bannedCommands.getStringList("Banned-Commands").contains(args[1])) {
 							List<String> list = bannedCommands.getStringList("Banned-Commands");
@@ -107,7 +107,7 @@ public class CommandBannedCommands implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("list")) {
-				if (player.hasPermission("chatmanager.bannedcommands.list")) {
+				if (player.hasPermission(Permissions.COMMAND_BANNEDCOMMANDS_LIST.getNode())) {
 					if (args.length == 1) {
 						String list = bannedCommands.getStringList("Banned-Commands").toString().replace("[", "").replace("]", "");
 						this.plugin.getMethods().sendMessage(player, "", true);

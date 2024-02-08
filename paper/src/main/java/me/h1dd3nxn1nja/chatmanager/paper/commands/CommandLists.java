@@ -26,7 +26,7 @@ public class CommandLists implements CommandExecutor {
 		FileConfiguration config = Files.CONFIG.getFile();
 
 		if (cmd.getName().equalsIgnoreCase("List")) {
-			if (sender.hasPermission("chatmanager.lists.players")) {
+			if (sender.hasPermission(Permissions.COMMAND_LISTS_PLAYERS.getNode())) {
 				if (args.length == 0) {
 					StringBuilder str = new StringBuilder();
 
@@ -59,12 +59,12 @@ public class CommandLists implements CommandExecutor {
 		}
 
 		if (cmd.getName().equalsIgnoreCase("Staff")) {
-			if (sender.hasPermission("chatmanager.lists.staff")) {
+			if (sender.hasPermission(Permissions.COMMAND_LISTS_STAFF.getNode())) {
 				if (args.length == 0) {
 					StringBuilder str = new StringBuilder();
 
 					for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
-						if ((staff.hasPermission("chatmanager.staff")) || (staff.isOp())) {
+						if ((staff.hasPermission(Permissions.COMMAND_STAFF.getNode())) || (staff.isOp())) {
 							if (!str.isEmpty()) str.append(", ");
 
 							str.append("&a").append(staff.getName()).append("&8");

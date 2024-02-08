@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -43,7 +44,7 @@ public class ListenerSwear implements Listener {
 
 		if (this.plugin.api().getStaffChatData().containsUser(player.getUniqueId()) || !config.getBoolean("Anti_Swear.Chat.Enable")) return;
 
-		if (player.hasPermission("chatmanager.bypass.antiswear")) return;
+		if (player.hasPermission(Permissions.BYPASS_ANTI_SWEAR.getNode())) return;
 
 		if (config.getBoolean("Anti_Swear.Chat.Increase_Sensitivity")) {
 			for (String blockedWord : blockedWordsList) {
@@ -141,7 +142,7 @@ public class ListenerSwear implements Listener {
 		String curseMessage = event.getMessage().toLowerCase();
 
 		if (config.getBoolean("Anti_Swear.Commands.Enable")) {
-			if (!player.hasPermission("chatmanager.bypass.antiswear")) {
+			if (!player.hasPermission(Permissions.BYPASS_ANTI_SWEAR.getNode())) {
 				if (config.getBoolean("Anti_Swear.Commands.Increase_Sensitivity")) {
 					for (String blockedWords : blockedWordsList) {
 						for (String allowed : whitelisted) {
@@ -154,7 +155,7 @@ public class ListenerSwear implements Listener {
 
 							if (config.getBoolean("Anti_Swear.Commands.Notify_Staff")) {
 								for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
-									if (staff.hasPermission("chatmanager.notify.antiswear")) {
+									if (staff.hasPermission(Permissions.NOTIFY_ANTI_SWEAR.getNode())) {
 										this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Swear.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 									}
 								}
@@ -197,7 +198,7 @@ public class ListenerSwear implements Listener {
 
 	private void checkOnlineStaff(FileConfiguration messages, Player player, String message) {
 		for (Player staff : plugin.getServer().getOnlinePlayers()) {
-			if (staff.hasPermission("chatmanager.notify.antiswear")) {
+			if (staff.hasPermission(Permissions.NOTIFY_ANTI_SWEAR.getNode())) {
 				this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Swear.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 			}
 		}
@@ -243,7 +244,7 @@ public class ListenerSwear implements Listener {
 		List<String> blockedWordsList = bannedWords.getStringList("Banned-Words");
 
 		if (config.getBoolean("Anti_Swear.Signs.Enable")) {
-			if (!player.hasPermission("chatmanager.bypass.antiswear")) {
+			if (!player.hasPermission(Permissions.BYPASS_ANTI_SWEAR.getNode())) {
 				if (config.getBoolean("Anti_Swear.Signs.Increase_Sensitivity")) {
 					for (int line = 0; line < 4; line++) {
 						String message = event.getLine(line);
@@ -262,7 +263,7 @@ public class ListenerSwear implements Listener {
 								if (config.getBoolean("Anti_Swear.Signs.Notify_Staff")) {
 									if (config.getBoolean("Anti_Swear.Signs.Notify_Staff")) {
 										for (Player staff : plugin.getServer().getOnlinePlayers()) {
-											if (staff.hasPermission("chatmanager.notify.antiswear")) {
+											if (staff.hasPermission(Permissions.NOTIFY_ANTI_SWEAR.getNode())) {
 												this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Swear.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 											}
 										}
@@ -281,7 +282,7 @@ public class ListenerSwear implements Listener {
 							String message = event.getLine(line);
 							assert message != null;
 							for (String curseMessages : message.toLowerCase().split(" ")) {
-								if (!player.hasPermission("chatmanager.bypass.antiswear")) {
+								if (!player.hasPermission(Permissions.BYPASS_ANTI_SWEAR.getNode())) {
 									if (bannedWords.getStringList("Banned-Words").contains(curseMessages)) {
 										player.sendMessage(this.plugin.getMethods().color(uuid, messages.getString("Anti_Swear.Signs.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
 
@@ -290,7 +291,7 @@ public class ListenerSwear implements Listener {
 										if (config.getBoolean("Anti_Swear.Signs.Notify_Staff")) {
 											if (config.getBoolean("Anti_Swear.Signs.Notify_Staff")) {
 												for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
-													if (staff.hasPermission("chatmanager.notify.antiswear")) {
+													if (staff.hasPermission(Permissions.NOTIFY_ANTI_SWEAR.getNode())) {
 														this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Swear.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 													}
 												}

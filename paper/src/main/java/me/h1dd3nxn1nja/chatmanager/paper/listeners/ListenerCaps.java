@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +26,7 @@ public class ListenerCaps implements Listener {
 
 		if (!config.getBoolean("Anti_Caps.Enable") || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
 
-		if (player.hasPermission("chatmanager.bypass.caps")) return;
+		if (player.hasPermission(Permissions.BYPASS_CAPS.getNode())) return;
 
 		int upperChar = 0;
 		int lowerChar = 0;
@@ -60,7 +61,7 @@ public class ListenerCaps implements Listener {
 
 		if (!config.getBoolean("Anti_Caps.Enable") && !config.getBoolean("Anti_Caps.Enable_In_Commands") || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
 
-		if (player.hasPermission("chatmanager.bypass.caps")) return;
+		if (player.hasPermission(Permissions.BYPASS_CAPS.getNode())) return;
 
 		int upperChar = 0;
 		int lowerChar = 0;

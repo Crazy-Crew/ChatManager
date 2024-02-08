@@ -25,7 +25,7 @@ public class CommandPerWorldChat implements CommandExecutor {
 		}
 
 		if (cmd.getName().equalsIgnoreCase("perworldchat")) {
-			if (player.hasPermission("chatmanager.perworldchat")) {
+			if (player.hasPermission(Permissions.COMMAND_PERWORLDCHAT.getNode())) {
 				if (args.length == 0) {
 					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Perworldchat bypass", true);
 					return true;
@@ -36,7 +36,7 @@ public class CommandPerWorldChat implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("bypass")) {
-				if (player.hasPermission("chatmanager.perworldchat")) {
+				if (player.hasPermission(Permissions.COMMAND_PERWORLDCHAT.getNode())) {
 					if (args.length == 1) {
 						if (config.getBoolean("Per_World_Chat.Enable")) {
 							if (!this.plugin.api().getPerWorldChatData().containsUser(player.getUniqueId())) {
@@ -50,7 +50,7 @@ public class CommandPerWorldChat implements CommandExecutor {
 							this.plugin.getMethods().sendMessage(player, "&4Error: &cPer-world chat is currently disabled and you cannot execute that command at this time.", true);
 						}
 					} else {
-						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/Perworldchat bypass", true);
+						this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/perworldchat bypass", true);
 					}
 				} else {
 					this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);

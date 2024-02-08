@@ -18,7 +18,7 @@ public class CommandRules implements CommandExecutor {
 		FileConfiguration config = Files.CONFIG.getFile();
 
 		if (cmd.getName().equalsIgnoreCase("rules")) {
-			if (sender.hasPermission("chatmanager.rules")) {
+			if (sender.hasPermission(Permissions.COMMAND_RULES.getNode())) {
 				if (args.length == 0) {
 					for (String rules : config.getStringList("Server_Rules.Rules.1")) {
 						this.plugin.getMethods().sendMessage(sender, rules, true);

@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,7 +28,7 @@ public class ListenerBannedCommand implements Listener {
 
 		if (!config.getBoolean("Banned_Commands.Enable")) return;
 
-		if (!player.hasPermission("chatmanager.bypass.bannedcommands")) {
+		if (!player.hasPermission(Permissions.BYPASS_BANNED_COMMANDS.getNode())) {
 			if (!config.getBoolean("Banned_Commands.Increase_Sensitivity")) {
 				for (String command : cmd) {
 					if (event.getMessage().toLowerCase().equals("/" + command)) {
@@ -51,7 +52,7 @@ public class ListenerBannedCommand implements Listener {
 			}
 		}
 
-		if (!player.hasPermission("chatmanager.bypass.coloncommands")) {
+		if (!player.hasPermission(Permissions.BYPASS_COLON_COMMANDS.getNode())) {
 			if (event.getMessage().split(" ")[0].contains(":")) {
 				event.setCancelled(true);
 				this.plugin.getMethods().sendMessage(player, messages.getString("Banned_Commands.Message").replace("{command}", event.getMessage().replace("/", "")), true);
@@ -69,7 +70,7 @@ public class ListenerBannedCommand implements Listener {
 		if (!config.getBoolean("Banned_Commands.Notify_Staff")) return;
 
 		for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
-			if (staff.hasPermission("chatmanager.notify.bannedcommands")) {
+			if (staff.hasPermission(Permissions.NOTIFY_BANNED_COMMANDS.getNode())) {
 				this.plugin.getMethods().sendMessage(staff, messages.getString("Banned_Commands.Message").replace("{player}", player.getName()).replace("{command}", message), true);
 			}
 		}

@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.paper.listeners;
 
 import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.PlaceholderManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -30,7 +31,7 @@ public class ListenerStaffChat implements Listener {
 		event.setCancelled(true);
 
 		for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
-			if (staff.hasPermission("chatmanager.staffchat")) staff.sendMessage(this.placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)));
+			if (staff.hasPermission(Permissions.TOGGLE_STAFF_CHAT.getNode())) staff.sendMessage(this.placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)));
 		}
 
 		this.plugin.getMethods().tellConsole(this.placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)), false);
