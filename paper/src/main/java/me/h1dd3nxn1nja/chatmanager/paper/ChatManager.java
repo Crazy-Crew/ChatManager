@@ -6,6 +6,7 @@ import com.ryderbelserion.chatmanager.paper.files.enums.Files;
 import com.ryderbelserion.chatmanager.paper.api.CrazyManager;
 import me.h1dd3nxn1nja.chatmanager.paper.commands.*;
 import me.h1dd3nxn1nja.chatmanager.paper.commands.tabcompleter.*;
+import me.h1dd3nxn1nja.chatmanager.paper.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.paper.listeners.*;
 import me.h1dd3nxn1nja.chatmanager.paper.managers.AutoBroadcastManager;
 import me.h1dd3nxn1nja.chatmanager.paper.support.PluginManager;
@@ -17,8 +18,10 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import java.util.Arrays;
 
 public class ChatManager extends JavaPlugin {
 
@@ -77,7 +80,9 @@ public class ChatManager extends JavaPlugin {
 
         this.crazyManager.load(true);
 
-        if (!PluginSupport.LUCKPERMS.isPluginEnabled()) getLogger().severe("A permissions plugin was not found. You will likely have issues without one.");
+        if (!PluginSupport.LUCKPERMS.isPluginEnabled()) {
+            getLogger().severe("A permissions plugin was not found. You will likely have issues without one.");
+        }
 
         if (PluginSupport.VAULT.isPluginEnabled()) {
             registerCommands();
@@ -85,6 +90,8 @@ public class ChatManager extends JavaPlugin {
             check();
             setupChatRadius();
         }
+
+        registerPermissions();
     }
 
     public void onDisable() {
@@ -161,18 +168,22 @@ public class ChatManager extends JavaPlugin {
     }
 
     public void registerEvents() {
+        getServer().getPluginManager().registerEvents(new ListenerColor(), this);
+
         getServer().getPluginManager().registerEvents(new ListenerAntiAdvertising(), this);
         getServer().getPluginManager().registerEvents(new ListenerAntiBot(), this);
         getServer().getPluginManager().registerEvents(new ListenerAntiSpam(), this);
+
         getServer().getPluginManager().registerEvents(new ListenerAntiUnicode(), this);
         getServer().getPluginManager().registerEvents(new ListenerBannedCommand(), this);
         getServer().getPluginManager().registerEvents(new ListenerCaps(), this);
+
         getServer().getPluginManager().registerEvents(new ListenerChatFormat(), this);
-        getServer().getPluginManager().registerEvents(new ListenerColor(), this);
         getServer().getPluginManager().registerEvents(new ListenerRadius(), this);
         getServer().getPluginManager().registerEvents(new ListenerGrammar(), this);
         getServer().getPluginManager().registerEvents(new ListenerLogs(), this);
         getServer().getPluginManager().registerEvents(new CommandMOTD(), this);
+
         getServer().getPluginManager().registerEvents(new ListenerMentions(), this);
         getServer().getPluginManager().registerEvents(new ListenerMuteChat(), this);
         getServer().getPluginManager().registerEvents(new ListenerPerWorldChat(), this);
@@ -225,5 +236,18 @@ public class ChatManager extends JavaPlugin {
 
     public FileManager getFileManager() {
         return this.fileManager;
+    }
+
+    private void registerPermissions() {
+        Arrays.stream(Permissions.values()).toList().forEach(permission -> {
+            Permission newPermission = new Permission(
+                    permission.getNode(),
+                    permission.getDescription(),
+                    permission.isDefault(),
+                    permission.getChildren()
+            );
+
+            getServer().getPluginManager().addPermission(newPermission);
+        });
     }
 }
