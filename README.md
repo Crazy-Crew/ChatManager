@@ -18,12 +18,12 @@
   <p align="center">
     The kitchen sink of ChatManagement
     <br />
-    <a href="https://github.com/Crazy-Crew/ChatManager/wiki"><strong>Explore the docs »</strong></a>
+    <a href="https://docs.crazycrew.us/chatmanager/home"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Crazy-Crew/ChatManager/issues">Report Bug</a>
+    <a href="https://github.com/Crazy-Crew/ChatManager/issues/new?assignees=ryderbelserion&labels=bug&projects=&template=bugs.yml&title=%5BBug+Report%5D%3A+">Report Bug</a>
     ·
-    <a href="https://github.com/Crazy-Crew/ChatManager/discussions/categories/features">Request Feature</a>
+    <a href="https://github.com/Crazy-Crew/ChatManager/issues/new?assignees=ryderbelserion&labels=enhancement&projects=&template=feature_request.yml&title=%5BFeature+Request%5D%3A+">Request Feature</a>
     ·
     <a href="https://discord.gg/SekseczrWz">Get Support</a>
   </p>
