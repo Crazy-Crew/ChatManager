@@ -2,8 +2,6 @@ plugins {
     id("paper-plugin")
 }
 
-group = "${rootProject.group}.paper"
-
 dependencies {
     implementation("org.bstats", "bstats-bukkit", "3.0.2")
 
@@ -19,21 +17,7 @@ dependencies {
     }
 }
 
-val component: SoftwareComponent = components["java"]
-
 tasks {
-    publishing {
-        publications {
-            create<MavenPublication>("maven") {
-                groupId = rootProject.group.toString()
-                artifactId = "${rootProject.name.lowercase()}-${project.name.lowercase()}-api"
-                version = rootProject.version.toString()
-
-                from(component)
-            }
-        }
-    }
-
     shadowJar {
         listOf(
             "org.bstats"
@@ -46,11 +30,11 @@ tasks {
         val properties = hashMapOf(
             "name" to rootProject.name,
             "version" to project.version,
-            "group" to project.group,
+            "group" to rootProject.group,
             "description" to rootProject.description,
-            "apiVersion" to rootProject.properties["apiVersion"],
-            "authors" to rootProject.properties["authors"],
-            "website" to rootProject.properties["website"]
+            "apiVersion" to providers.gradleProperty("apiVersion").get(),
+            "authors" to providers.gradleProperty("authors").get(),
+            "website" to providers.gradleProperty("website").get()
         )
 
         inputs.properties(properties)

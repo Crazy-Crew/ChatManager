@@ -1,7 +1,7 @@
 package com.ryderbelserion.chatmanager.paper.enums;
 
 import com.ryderbelserion.chatmanager.paper.files.FileManager;
-import me.h1dd3nxn1nja.chatmanager.paper.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 
