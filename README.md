@@ -1,3 +1,7 @@
+> [!WARNING]
+> ChatManager is archived until further notice, It is recommended for the time being that you find another plugin that is more modern and actively updated.
+----
+
 <br />
 
 <div align="center">
