@@ -18,7 +18,7 @@ dependencies {
         exclude("org.bukkit", "bukkit")
     }
 
-    compileOnly("net.essentialsx", "EssentialsX", "2.20.1") {
+    compileOnly(libs.essentials) {
         exclude("org.spigotmc", "spigot-api")
         exclude("org.bstats", "bstats-bukkit")
     }
