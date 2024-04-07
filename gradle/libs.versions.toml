@@ -6,7 +6,6 @@ run-paper = { id = "xyz.jpenilla.run-paper", version = "2.2.3" }
 
 [versions]
 bundle = "1.20.4-R0.1-SNAPSHOT"
-cluster = "1.0-SNAPSHOT"
 
 [libraries]
 itemsadder-api = { group = "com.github.LoneDev6", name = "api-itemsadder", version = "3.6.1" }
