@@ -1,9 +1,7 @@
-plugins {
-    id("root-plugin")
-}
+val mcVersion = libs.versions.bundle.get()
 
 dependencies {
-    api(libs.configme) {
-        exclude("org.yaml", "snakeyaml")
-    }
+    paperweight.paperDevBundle(mcVersion)
+
+    compileOnly(libs.config.me)
 }

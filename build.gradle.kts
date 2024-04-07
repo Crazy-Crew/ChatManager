@@ -1,40 +1,65 @@
-import org.gradle.kotlin.dsl.support.uppercaseFirstChar
-
 plugins {
-    id("root-plugin")
+    alias(libs.plugins.userdev) apply false
+
+    `java-library`
+}
+
+rootProject.group = "me.h1dd3nxn1nja.chatmanager"
+rootProject.description = "The kitchen sink of Chat Management!"
+rootProject.version = if (System.getenv("BUILD_NUMBER") != null) "3.11-${System.getenv("BUILD_NUMBER")}" else "3.11"
+
+subprojects {
+    apply(plugin = "io.papermc.paperweight.userdev")
+    apply(plugin = "java-library")
+
+    repositories {
+        maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+
+        maven("https://repo.papermc.io/repository/maven-public/")
+
+        maven("https://repo.codemc.io/repository/maven-public/")
+
+        maven("https://repo.triumphteam.dev/snapshots/")
+
+        maven("https://repo.essentialsx.net/releases/")
+
+        maven("https://repo.crazycrew.us/snapshots/")
+
+        maven("https://repo.crazycrew.us/releases/")
+
+        maven("https://repo.oraxen.com/releases/")
+
+        maven("https://jitpack.io/")
+
+        flatDir { dirs("libs") }
+
+        mavenCentral()
+    }
+
+    java {
+        toolchain.languageVersion.set(JavaLanguageVersion.of("17"))
+    }
+
+    tasks {
+        compileJava {
+            options.encoding = Charsets.UTF_8.name()
+            options.release.set(17)
+        }
+
+        javadoc {
+            options.encoding = Charsets.UTF_8.name()
+        }
+
+        processResources {
+            filteringCharset = Charsets.UTF_8.name()
+        }
+    }
 }
 
 tasks {
     assemble {
-        val jarsDir = File("$rootDir/jars")
-
         doFirst {
-            delete(jarsDir)
-
-            jarsDir.mkdirs()
-        }
-
-        subprojects.filter { it.name == "paper" || it.name == "fabric" }.forEach { project ->
-            dependsOn(":${project.name}:build")
-
-            doLast {
-                runCatching {
-                    val file = File("$jarsDir/${project.name.uppercaseFirstChar().lowercase()}")
-
-                    file.mkdirs()
-
-                    copy {
-                        from(project.layout.buildDirectory.file("libs/${rootProject.name}-${project.version}.jar"))
-                        into(file)
-                    }
-                }.onSuccess {
-                    // Delete to save space on jenkins.
-                    delete(project.layout.buildDirectory.get())
-                    delete(rootProject.layout.buildDirectory.get())
-                }.onFailure {
-                    println("Failed to copy file out of build folder into jars directory: Likely does not exist.")
-                }
-            }
+            delete("$rootDir/jars")
         }
     }
 }

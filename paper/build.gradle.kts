@@ -1,13 +1,20 @@
 plugins {
-    id("paper-plugin")
+    alias(libs.plugins.run.paper)
+    alias(libs.plugins.shadow)
 }
 
+val mcVersion = libs.versions.bundle.get()
+
 dependencies {
-    implementation("org.bstats", "bstats-bukkit", "3.0.2")
+    paperweight.paperDevBundle(mcVersion)
 
-    compileOnly("me.clip", "placeholderapi", "2.11.4")
+    implementation(libs.config.me)
 
-    compileOnly("com.github.MilkBowl", "VaultAPI", "1.7.1") {
+    implementation(libs.metrics)
+
+    compileOnly(libs.placeholder.api)
+
+    compileOnly(libs.vault) {
         exclude("org.bukkit", "bukkit")
     }
 
@@ -18,9 +25,26 @@ dependencies {
 }
 
 tasks {
+    runServer {
+        jvmArgs("-Dnet.kyori.ansi.colorLevel=truecolor")
+
+        defaultCharacterEncoding = Charsets.UTF_8.name()
+
+        minecraftVersion(mcVersion)
+    }
+
+    assemble {
+        dependsOn(reobfJar)
+    }
+
+    reobfJar {
+        outputJar = rootProject.layout.buildDirectory.file("$rootDir/jars/paper/${rootProject.name}-${rootProject.version}.jar")
+    }
+
     shadowJar {
         listOf(
-            "org.bstats"
+            "org.bstats",
+            "ch.jalu"
         ).forEach {
             relocate(it, "libs.$it")
         }
