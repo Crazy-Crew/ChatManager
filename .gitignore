@@ -5,3 +5,17 @@ build
 
 buildSrc/build
 buildSrc/.gradle
+
+!run/config
+!run/bukkit.yml
+!run/eula.txt
+!run/ops.json
+!run/server.properties
+!run/spigot.yml
+
+!run/plugins/LuckPerms.jar
+!run/plugins/Vault.jar
+
+run
+
+jars
