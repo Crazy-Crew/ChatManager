@@ -1,6 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.support.placeholders;
 
-import com.ryderbelserion.chatmanager.paper.enums.Files;
+import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;

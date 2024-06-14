@@ -1,6 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager;
 
-import com.ryderbelserion.chatmanager.paper.ApiLoader;
+import com.ryderbelserion.chatmanager.ApiLoader;
 import com.ryderbelserion.chatmanager.files.FileManager;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.api.CrazyManager;

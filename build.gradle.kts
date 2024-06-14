@@ -51,7 +51,7 @@ tasks {
 
         defaultCharacterEncoding = Charsets.UTF_8.name()
 
-        minecraftVersion(libs.versions.paper.get())
+        minecraftVersion(libs.versions.minecraft.get())
     }
 
 

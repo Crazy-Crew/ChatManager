@@ -1,6 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.utils;
 
-import com.ryderbelserion.chatmanager.paper.enums.Files;
+import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
