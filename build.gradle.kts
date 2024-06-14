@@ -1,11 +1,8 @@
-import com.ryderbelserion.feather.tools.formatLog
-import com.ryderbelserion.feather.tools.latestCommitHash
-import com.ryderbelserion.feather.tools.latestCommitMessage
-
 plugins {
     alias(libs.plugins.paperweight)
     alias(libs.plugins.shadowJar)
     alias(libs.plugins.runPaper)
+    alias(libs.plugins.minotaur)
 
     `paper-plugin`
 }
@@ -16,15 +13,11 @@ base {
 
 val buildNumber: String? = System.getenv("BUILD_NUMBER")
 
-rootProject.version = if (buildNumber != null) "${libs.versions.chatmanager.get()}-$buildNumber" else libs.versions.chatmanager.get()
+rootProject.version = if (buildNumber != null) "3.11-$buildNumber" else "3.11"
 
 val isSnapshot = false
 
-val content: String = if (isSnapshot) {
-    formatLog(latestCommitHash(), latestCommitMessage(), rootProject.name, "Crazy-Crew")
-} else {
-    rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
-}
+val content: String = rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
 
 dependencies {
     paperweight.paperDevBundle(libs.versions.paper.get())
@@ -53,7 +46,6 @@ tasks {
 
         minecraftVersion(libs.versions.minecraft.get())
     }
-
 
     assemble {
         dependsOn(reobfJar)
@@ -91,5 +83,28 @@ tasks {
         filesMatching("plugin.yml") {
             expand(properties)
         }
+    }
+
+    modrinth {
+        token.set(System.getenv("MODRINTH_TOKEN"))
+
+        projectId.set(rootProject.name.lowercase())
+
+        versionType.set(if (isSnapshot) "beta" else "release")
+
+        versionName.set("${rootProject.name} ${rootProject.version}")
+        versionNumber.set(rootProject.version as String)
+
+        changelog.set(content)
+
+        uploadFile.set(rootProject.projectDir.resolve("jars/${rootProject.name}-${rootProject.version}.jar"))
+
+        gameVersions.set(listOf(libs.versions.minecraft.get()))
+
+        loaders.add("paper")
+        loaders.add("purpur")
+
+        autoAddDependsOn.set(false)
+        detectLoaders.set(false)
     }
 }
