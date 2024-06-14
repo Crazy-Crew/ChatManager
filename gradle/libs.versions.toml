@@ -1,7 +1,7 @@
 [versions]
 # Minecraft
-paper = "1.20.4-R0.1-SNAPSHOT"
-minecraft = "1.20.4"
+paper = "1.20.6-R0.1-SNAPSHOT"
+minecraft = "1.20.6"
 
 paperweight="1.7.1"
 shadowJar = "8.1.7"

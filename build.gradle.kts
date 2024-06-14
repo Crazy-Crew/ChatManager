@@ -13,7 +13,7 @@ base {
 
 val buildNumber: String? = System.getenv("BUILD_NUMBER")
 
-rootProject.version = if (buildNumber != null) "3.11-$buildNumber" else "3.11"
+rootProject.version = if (buildNumber != null) "3.12-$buildNumber" else "3.12"
 
 val isSnapshot = false
 
@@ -73,7 +73,7 @@ tasks {
             "version" to rootProject.version,
             "group" to rootProject.group,
             "description" to rootProject.description,
-            "apiVersion" to "1.20",
+            "apiVersion" to "1.20.6",
             "authors" to providers.gradleProperty("authors").get(),
             "website" to providers.gradleProperty("website").get()
         )
