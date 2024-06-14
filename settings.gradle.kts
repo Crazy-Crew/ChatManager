@@ -1,4 +1,9 @@
 rootProject.name = "ChatManager"
 
-include("common")
-include("paper")
+pluginManagement {
+    repositories {
+        maven("https://repo.crazycrew.us/releases")
+
+        gradlePluginPortal()
+    }
+}
