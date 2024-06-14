@@ -1,65 +1,95 @@
-plugins {
-    alias(libs.plugins.userdev) apply false
+import com.ryderbelserion.feather.tools.formatLog
+import com.ryderbelserion.feather.tools.latestCommitHash
+import com.ryderbelserion.feather.tools.latestCommitMessage
 
-    `java-library`
+plugins {
+    alias(libs.plugins.paperweight)
+    alias(libs.plugins.shadowJar)
+    alias(libs.plugins.runPaper)
+
+    `paper-plugin`
 }
 
-rootProject.group = "me.h1dd3nxn1nja.chatmanager"
-rootProject.description = "The kitchen sink of Chat Management!"
-rootProject.version = if (System.getenv("BUILD_NUMBER") != null) "3.11-${System.getenv("BUILD_NUMBER")}" else "3.11"
+base {
+    archivesName.set(rootProject.name)
+}
 
-subprojects {
-    apply(plugin = "io.papermc.paperweight.userdev")
-    apply(plugin = "java-library")
+val buildNumber: String? = System.getenv("BUILD_NUMBER")
 
-    repositories {
-        maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+rootProject.version = if (buildNumber != null) "${libs.versions.chatmanager.get()}-$buildNumber" else libs.versions.chatmanager.get()
 
-        maven("https://repo.papermc.io/repository/maven-public/")
+val isSnapshot = false
 
-        maven("https://repo.codemc.io/repository/maven-public/")
+val content: String = if (isSnapshot) {
+    formatLog(latestCommitHash(), latestCommitMessage(), rootProject.name, "Crazy-Crew")
+} else {
+    rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
+}
 
-        maven("https://repo.triumphteam.dev/snapshots/")
+dependencies {
+    paperweight.paperDevBundle(libs.versions.paper.get())
 
-        maven("https://repo.essentialsx.net/releases/")
+    implementation(libs.config.me)
 
-        maven("https://repo.crazycrew.us/snapshots/")
+    implementation(libs.metrics)
 
-        maven("https://repo.crazycrew.us/releases/")
+    compileOnly(libs.placeholder.api)
 
-        maven("https://repo.oraxen.com/releases/")
-
-        maven("https://jitpack.io/")
-
-        flatDir { dirs("libs") }
-
-        mavenCentral()
+    compileOnly(libs.vault) {
+        exclude("org.bukkit", "bukkit")
     }
 
-    java {
-        toolchain.languageVersion.set(JavaLanguageVersion.of("17"))
-    }
-
-    tasks {
-        compileJava {
-            options.encoding = Charsets.UTF_8.name()
-            options.release.set(17)
-        }
-
-        javadoc {
-            options.encoding = Charsets.UTF_8.name()
-        }
-
-        processResources {
-            filteringCharset = Charsets.UTF_8.name()
-        }
+    compileOnly(libs.essentials) {
+        exclude("org.spigotmc", "spigot-api")
+        exclude("org.bstats", "bstats-bukkit")
     }
 }
 
 tasks {
+    runServer {
+        jvmArgs("-Dnet.kyori.ansi.colorLevel=truecolor")
+
+        defaultCharacterEncoding = Charsets.UTF_8.name()
+
+        minecraftVersion(libs.versions.paper.get())
+    }
+
+
     assemble {
-        doFirst {
-            delete("$rootDir/jars")
+        dependsOn(reobfJar)
+
+        doLast {
+            copy {
+                from(reobfJar.get())
+                into(rootProject.projectDir.resolve("jars"))
+            }
+        }
+    }
+
+    shadowJar {
+        listOf(
+            "org.bstats",
+            "ch.jalu"
+        ).forEach {
+            relocate(it, "libs.$it")
+        }
+    }
+
+    processResources {
+        val properties = hashMapOf(
+            "name" to rootProject.name,
+            "version" to rootProject.version,
+            "group" to rootProject.group,
+            "description" to rootProject.description,
+            "apiVersion" to "1.20",
+            "authors" to providers.gradleProperty("authors").get(),
+            "website" to providers.gradleProperty("website").get()
+        )
+
+        inputs.properties(properties)
+
+        filesMatching("plugin.yml") {
+            expand(properties)
         }
     }
 }

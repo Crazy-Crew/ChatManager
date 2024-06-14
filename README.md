@@ -1,7 +1,3 @@
-> [!WARNING]
-> ChatManager is development is stagnant between other plugins and my personal projects... It is recommended for the time being that you find another plugin that is at least updated more than this one.
-----
-
 <br />
 
 <div align="center">
