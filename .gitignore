@@ -1,21 +1,27 @@
 .gradle
 .idea
-
 build
 
-buildSrc/build
 buildSrc/.gradle
+buildSrc/build
 
-!run/config
+core/.gradle
+core/build
+
+api/.gradle
+api/build
+
+paper/.gradle
+paper/build
+
+run/
+
+!run/config/paper-global.yml
+!run/config/paper-world-defaults.yml
 !run/bukkit.yml
 !run/eula.txt
 !run/ops.json
 !run/server.properties
 !run/spigot.yml
-
-!run/plugins/LuckPerms.jar
-!run/plugins/Vault.jar
-
-run
 
 jars
