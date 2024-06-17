@@ -3,6 +3,7 @@ package me.h1dd3nxn1nja.chatmanager;
 import com.ryderbelserion.chatmanager.ApiLoader;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.api.CrazyManager;
+import com.ryderbelserion.vital.paper.VitalPaper;
 import com.ryderbelserion.vital.paper.files.config.FileManager;
 import me.h1dd3nxn1nja.chatmanager.commands.*;
 import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.*;
@@ -47,6 +48,8 @@ public class ChatManager extends JavaPlugin {
             return;
         }
 
+        new VitalPaper(this);
+
         this.fileManager = new FileManager();
         this.fileManager
                 .addFile("config.yml")
@@ -54,7 +57,8 @@ public class ChatManager extends JavaPlugin {
                 .addFile("bannedwords.yml")
                 .addFile("AutoBroadcast.yml")
                 .addFile("bannedcommands.yml")
-                .addFolder("Logs");
+                .addFolder("Logs")
+                .init();
 
         this.methods = new Methods();
 
