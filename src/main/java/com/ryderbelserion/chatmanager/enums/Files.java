@@ -1,93 +1,49 @@
 package com.ryderbelserion.chatmanager.enums;
 
-import com.ryderbelserion.chatmanager.files.FileManager;
+import com.ryderbelserion.vital.paper.files.config.FileManager;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 public enum Files {
 
-    // ENUM_NAME("fileName.yml", "fileLocation.yml"),
-    // ENUM_NAME("fileName.yml", "newFileLocation.yml", "oldFileLocation.yml"),
-    CONFIG("config.yml", "config.yml"),
-    MESSAGES("Messages.yml", "Messages.yml"),
-    BANNED_WORDS("bannedwords.yml", "bannedwords.yml"),
-    BANNED_COMMANDS("bannedcommands.yml", "bannedcommands.yml"),
-    AUTO_BROADCAST("AutoBroadcast.yml", "AutoBroadcast.yml");
+    CONFIG("config.yml"),
+    MESSAGES("Messages.yml"),
+    BANNED_WORDS("bannedwords.yml"),
+    BANNED_COMMANDS("bannedcommands.yml"),
+    AUTO_BROADCAST("AutoBroadcast.yml");
 
     private final String fileName;
-    private final String fileJar;
-    private final String fileLocation;
+    private final String strippedName;
+    private final YamlConfiguration configuration;
 
-    @NotNull
     private final ChatManager plugin = ChatManager.get();
 
     private final FileManager fileManager = plugin.getFileManager();
 
     /**
-     * The files that the server will try and load.
-     * @param fileName The file name that will be in the plugin's folder.
-     * @param fileLocation The location the file in the plugin's folder.
+     * A constructor to build a file
+     *
+     * @param fileName the name of the file
      */
-    Files(String fileName, String fileLocation) {
-        this(fileName, fileLocation, fileLocation);
-    }
-
-    /**
-     * The files that the server will try and load.
-     * @param fileName The file name that will be in the plugin's folder.
-     * @param fileLocation The location of the file will be in the plugin's folder.
-     * @param fileJar The location of the file in the jar.
-     */
-    Files(String fileName, String fileLocation, String fileJar) {
+    Files(final String fileName) {
         this.fileName = fileName;
-        this.fileLocation = fileLocation;
-        this.fileJar = fileJar;
+        this.strippedName = this.fileName.replace(".yml", "");
+        this.configuration = this.plugin.getFileManager().getFile(this.fileName);
     }
 
-    /**
-     * Get the name of the file.
-     * @return The name of the file.
-     */
-    public String getFileName() {
-        return fileName;
+    public final String getFileName() {
+        return this.fileName;
     }
 
-    /**
-     * The location the jar it is at.
-     * @return The location in the jar the file is in.
-     */
-    public String getFileLocation() {
-        return fileLocation;
+    public final String getStrippedName() {
+        return this.strippedName;
     }
 
-    /**
-     * Get the location of the file in the jar.
-     * @return The location of the file in the jar.
-     */
-    public String getFileJar() {
-        return fileJar;
+    public final YamlConfiguration getConfiguration() {
+        return this.configuration;
     }
 
-    /**
-     * Gets the file from the system.
-     * @return The file from the system.
-     */
-    public FileConfiguration getFile() {
-        return fileManager.getFile(this);
-    }
-
-    /**
-     * Saves the file from the loaded state to the file system.
-     */
-    public void saveFile() {
-        fileManager.saveFile(this);
-    }
-
-    /**
-     * Overrides the loaded state file and loads the file systems file.
-     */
-    public void reloadFile() {
-        fileManager.reloadFile(this);
+    public void save() {
+        this.plugin.getFileManager().saveFile(this.fileName);
     }
 }

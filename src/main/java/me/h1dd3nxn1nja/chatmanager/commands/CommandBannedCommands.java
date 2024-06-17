@@ -62,8 +62,8 @@ public class CommandBannedCommands implements CommandExecutor {
 				}
 			}
 
-			FileConfiguration bannedCommands = Files.BANNED_COMMANDS.getFile();
-			FileConfiguration messages = Files.MESSAGES.getFile();
+			FileConfiguration bannedCommands = Files.BANNED_COMMANDS.getConfiguration();
+			FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 			if (args[0].equalsIgnoreCase("add")) {
 				if (player.hasPermission(Permissions.COMMAND_BANNEDCOMMANDS_ADD.getNode())) {
@@ -72,8 +72,7 @@ public class CommandBannedCommands implements CommandExecutor {
 							List<String> list = bannedCommands.getStringList("Banned-Commands");
 							list.add(args[1].toLowerCase());
 							bannedCommands.set("Banned-Commands", list);
-							Files.BANNED_COMMANDS.saveFile();
-							Files.BANNED_COMMANDS.reloadFile();
+							Files.BANNED_COMMANDS.save();
 							this.plugin.getMethods().sendMessage(player, messages.getString("Banned_Commands.Command_Added").replace("{command}", args[1]), true);
 						} else {
 							this.plugin.getMethods().sendMessage(player, messages.getString("Banned_Commands.Command_Exists").replace("{command}", args[1]), true);
@@ -93,8 +92,7 @@ public class CommandBannedCommands implements CommandExecutor {
 							List<String> list = bannedCommands.getStringList("Banned-Commands");
 							list.remove(args[1].toLowerCase());
 							bannedCommands.set("Banned-Commands", list);
-							Files.BANNED_COMMANDS.saveFile();
-							Files.BANNED_COMMANDS.reloadFile();
+							Files.BANNED_COMMANDS.save();
 							this.plugin.getMethods().sendMessage(player, messages.getString("Banned_Commands.Command_Removed").replace("{command}", args[1]), true);
 						} else {
 							this.plugin.getMethods().sendMessage(player, messages.getString("Banned_Commands.Command_Not_Found").replace("{command}", args[1]), true);

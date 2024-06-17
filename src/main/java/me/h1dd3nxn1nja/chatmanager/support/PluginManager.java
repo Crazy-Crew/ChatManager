@@ -56,7 +56,7 @@ public class PluginManager {
     }
 
     private void printHooks() {
-        String prefix = Files.MESSAGES.getFile().getString("Message.Prefix");
+        String prefix = Files.MESSAGES.getConfiguration().getString("Message.Prefix");
 
         for (PluginSupport value : PluginSupport.values()) {
             if (value.isPluginEnabled()) {

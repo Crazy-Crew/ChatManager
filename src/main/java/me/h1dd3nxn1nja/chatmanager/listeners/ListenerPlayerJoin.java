@@ -30,7 +30,7 @@ public class ListenerPlayerJoin implements Listener {
     public void firstJoinMessage(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        FileConfiguration config = Files.CONFIG.getFile();
+        FileConfiguration config = Files.CONFIG.getConfiguration();
 
         if (!player.hasPlayedBefore()) {
             if (config.getBoolean("Messages.First_Join.Welcome_Message.Enable")) {
@@ -65,7 +65,7 @@ public class ListenerPlayerJoin implements Listener {
     public void joinMessage(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        FileConfiguration config = Files.CONFIG.getFile();
+        FileConfiguration config = Files.CONFIG.getConfiguration();
 
         if (player.hasPlayedBefore()) {
             if ((config.getBoolean("Messages.Join_Quit_Messages.Join_Message.Enable")) && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
@@ -159,7 +159,7 @@ public class ListenerPlayerJoin implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        FileConfiguration config = Files.CONFIG.getFile();
+        FileConfiguration config = Files.CONFIG.getConfiguration();
 
         if ((config.getBoolean("Messages.Join_Quit_Messages.Quit_Message.Enable")) && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
             String message = config.getString("Messages.Join_Quit_Messages.Quit_Message.Message");
@@ -188,7 +188,7 @@ public class ListenerPlayerJoin implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        FileConfiguration config = Files.CONFIG.getFile();
+        FileConfiguration config = Files.CONFIG.getConfiguration();
 
         int lines = config.getInt("Clear_Chat.Broadcasted_Lines");
         int delay = config.getInt("MOTD.Delay");

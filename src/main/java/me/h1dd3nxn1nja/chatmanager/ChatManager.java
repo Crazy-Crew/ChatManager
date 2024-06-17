@@ -1,9 +1,9 @@
 package me.h1dd3nxn1nja.chatmanager;
 
 import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.files.FileManager;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.api.CrazyManager;
+import com.ryderbelserion.vital.paper.files.config.FileManager;
 import me.h1dd3nxn1nja.chatmanager.commands.*;
 import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.*;
 import com.ryderbelserion.chatmanager.enums.Permissions;
@@ -43,26 +43,25 @@ public class ChatManager extends JavaPlugin {
         if (!PluginSupport.VAULT.isPluginEnabled()) {
             getLogger().warning("Vault is required to use ChatManager, Disabling plugin!");
             getServer().getPluginManager().disablePlugin(this);
+
             return;
         }
 
         this.fileManager = new FileManager();
-        
-        this.fileManager.setLog(true)
-                .registerCustomFilesFolder("Logs")
-                .registerDefaultGenerateFiles("Advertisements.txt", "/Logs", "/Logs")
-                .registerDefaultGenerateFiles("Chat.txt", "/Logs", "/Logs")
-                .registerDefaultGenerateFiles("Commands.txt", "/Logs", "/Logs")
-                .registerDefaultGenerateFiles("Signs.txt", "/Logs", "/Logs")
-                .registerDefaultGenerateFiles("Swears.txt", "/Logs", "/Logs")
-                .setup();
+        this.fileManager
+                .addFile("config.yml")
+                .addFile("Messages.yml")
+                .addFile("bannedwords.yml")
+                .addFile("AutoBroadcast.yml")
+                .addFile("bannedcommands.yml")
+                .addFolder("Logs");
 
         this.methods = new Methods();
 
         this.api = new ApiLoader();
         this.api.load();
 
-        FileConfiguration config = Files.CONFIG.getFile();
+        FileConfiguration config = Files.CONFIG.getConfiguration();
 
         this.methods.convert();
 
@@ -195,7 +194,7 @@ public class ChatManager extends JavaPlugin {
     }
 
     public void setupChatRadius() {
-        FileConfiguration config = Files.CONFIG.getFile();
+        FileConfiguration config = Files.CONFIG.getConfiguration();
         if (config.getBoolean("Chat_Radius.Enable")) {
             for (Player all : getServer().getOnlinePlayers()) {
                 if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Local")) {
@@ -210,7 +209,7 @@ public class ChatManager extends JavaPlugin {
     }
 
     public void check() {
-        FileConfiguration autoBroadcast = Files.AUTO_BROADCAST.getFile();
+        FileConfiguration autoBroadcast = Files.AUTO_BROADCAST.getConfiguration();
         if (autoBroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) AutoBroadcastManager.actionbarMessages();
         if (autoBroadcast.getBoolean("Auto_Broadcast.Global_Messages.Enable")) AutoBroadcastManager.globalMessages();
         if (autoBroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Enable")) AutoBroadcastManager.perWorldMessages();

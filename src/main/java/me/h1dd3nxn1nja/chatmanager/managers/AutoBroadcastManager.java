@@ -23,7 +23,7 @@ public class AutoBroadcastManager {
 	private static final List<World> worlds = new ArrayList<>();
 	
 	public static void globalMessages() {
-		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
+		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getConfiguration();
 
 		String prefix = autobroadcast.getString("Auto_Broadcast.Global_Messages.Prefix");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Global_Messages.Interval");
@@ -53,7 +53,7 @@ public class AutoBroadcastManager {
 	}
 	
 	public static void perWorldMessages() {
-		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
+		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getConfiguration();
 
 		String prefix = autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Prefix");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Per_World_Messages.Interval");
@@ -95,7 +95,7 @@ public class AutoBroadcastManager {
 	}
 	
 	public static void actionbarMessages() {
-		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
+		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getConfiguration();
 
 		String prefix = autobroadcast.getString("Auto_Broadcast.Actionbar_Messages.Prefix");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Actionbar_Messages.Interval");
@@ -120,7 +120,7 @@ public class AutoBroadcastManager {
 	}
 	
 	public static void titleMessages() {
-		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
+		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getConfiguration();
 
 		int interval = autobroadcast.getInt("Auto_Broadcast.Title_Messages.Interval");
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Title_Messages.Messages");
@@ -145,7 +145,7 @@ public class AutoBroadcastManager {
 	}
 	
 	public static void bossBarMessages() {
-		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
+		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getConfiguration();
 
 		int interval = autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Interval");
 		int time = autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Bar_Time");

@@ -21,8 +21,8 @@ public class ListenerAntiSpam implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void antiSpamChat(AsyncPlayerChatEvent event) {
-		FileConfiguration config = Files.CONFIG.getFile();
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		Player player = event.getPlayer();
 		String message = event.getMessage();
@@ -52,8 +52,8 @@ public class ListenerAntiSpam implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onChatCoolDown(AsyncPlayerChatEvent event) {
-		FileConfiguration config = Files.CONFIG.getFile();
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
@@ -96,8 +96,8 @@ public class ListenerAntiSpam implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onSpamCommand(PlayerCommandPreprocessEvent event) {
-		FileConfiguration config = Files.CONFIG.getFile();
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		Player player = event.getPlayer();
 		String command = event.getMessage();

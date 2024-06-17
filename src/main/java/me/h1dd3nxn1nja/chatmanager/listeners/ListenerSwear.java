@@ -33,9 +33,9 @@ public class ListenerSwear implements Listener {
 		String message = event.getMessage();
 		Date time = Calendar.getInstance().getTime();
 
-		FileConfiguration bannedWords = Files.BANNED_WORDS.getFile();
-		FileConfiguration config = Files.CONFIG.getFile();
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration bannedWords = Files.BANNED_WORDS.getConfiguration();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
 		List<String> blockedWordsList = bannedWords.getStringList("Banned-Words");
@@ -86,7 +86,7 @@ public class ListenerSwear implements Listener {
 	private boolean curseMessageContains(Player player, String message, Date time, String curseMessage, String blockedWords) {
 		if (!curseMessage.contains(blockedWords)) return false;
 
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (config.getBoolean("Anti_Swear.Chat.Log_Swearing")) {
 			try {
@@ -131,9 +131,9 @@ public class ListenerSwear implements Listener {
 
 		UUID uuid = player.getUniqueId();
 
-		FileConfiguration bannedWords = Files.BANNED_WORDS.getFile();
-		FileConfiguration config = Files.CONFIG.getFile();
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration bannedWords = Files.BANNED_WORDS.getConfiguration();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
 		List<String> whitelistedCommands = config.getStringList("Anti_Swear.Commands.Whitelisted_Commands");
@@ -236,9 +236,9 @@ public class ListenerSwear implements Listener {
 
 		UUID uuid = player.getUniqueId();
 
-		FileConfiguration bannedWords = Files.BANNED_WORDS.getFile();
-		FileConfiguration config = Files.CONFIG.getFile();
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration bannedWords = Files.BANNED_WORDS.getConfiguration();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
 		List<String> blockedWordsList = bannedWords.getStringList("Banned-Words");

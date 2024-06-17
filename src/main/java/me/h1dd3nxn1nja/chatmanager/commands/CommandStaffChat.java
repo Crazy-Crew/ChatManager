@@ -23,8 +23,8 @@ public class CommandStaffChat implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration config = Files.CONFIG.getFile();
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		if (sender instanceof Player player) {
 			if (cmd.getName().equalsIgnoreCase("staffchat")) {

@@ -20,7 +20,7 @@ public class CommandPing implements CommandExecutor {
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		DecimalFormat df = new DecimalFormat("#,###");
 
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 		
 		if (!(sender instanceof Player player)) {
 			this.plugin.getMethods().sendMessage(sender, "&cError: You can only use that command in-game", true);

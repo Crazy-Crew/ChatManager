@@ -19,7 +19,7 @@ public class ListenerGrammar implements Listener {
 
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void grammarCheck(AsyncPlayerChatEvent event) {
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		Player player = event.getPlayer();
 

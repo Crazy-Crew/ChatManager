@@ -26,7 +26,7 @@ public class ListenerPerWorldChat implements Listener {
 
 		List<String> playerGroup = null;
 
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (!config.getBoolean("Per_World_Chat.Enable") || this.plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
 

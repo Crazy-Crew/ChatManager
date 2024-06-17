@@ -26,7 +26,7 @@ public class CommandMuteChat implements CommandExecutor {
 			return true;
 		}
 
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		if (cmd.getName().equalsIgnoreCase("mutechat")) {
 			if (player.hasPermission(Permissions.COMMAND_MUTECHAT.getNode())) {

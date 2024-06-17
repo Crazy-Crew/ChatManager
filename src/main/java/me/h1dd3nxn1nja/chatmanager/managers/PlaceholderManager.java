@@ -25,8 +25,8 @@ public class PlaceholderManager {
 	private final EssentialsSupport essentialsSupport = this.plugin.getPluginManager().getEssentialsSupport();
 
 	public String setPlaceholders(Player player, String placeholders) {
-		FileConfiguration messages = Files.MESSAGES.getFile();
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		DecimalFormat df = new DecimalFormat("#,###");
 		

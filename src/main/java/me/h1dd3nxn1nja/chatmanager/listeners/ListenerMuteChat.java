@@ -20,7 +20,7 @@ public class ListenerMuteChat implements Listener {
 	public void muteChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		if (player.hasPermission(Permissions.BYPASS_MUTE_CHAT.getNode()) || !this.plugin.getMethods().isMuted()) return;
 
@@ -32,8 +32,8 @@ public class ListenerMuteChat implements Listener {
 	public void onCommand(PlayerCommandPreprocessEvent event) {
 		Player player = event.getPlayer();
 
-		FileConfiguration config = Files.CONFIG.getFile();
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		if (!config.getBoolean("Mute_Chat.Disable_Commands") || player.hasPermission(Permissions.BYPASS_MUTE_CHAT.getNode()) || !this.plugin.getMethods().isMuted()) return;
 

@@ -29,7 +29,7 @@ public class ListenerAntiAdvertising implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		Player player = event.getPlayer();
 		String playerName = event.getPlayer().getName();
@@ -68,8 +68,8 @@ public class ListenerAntiAdvertising implements Listener {
 	private void chatMatch(AsyncPlayerChatEvent event, Player player, String playerName, String message, Date time, Matcher firstMatch, Matcher secondMatch) {
 		if (!firstMatch.find() || !secondMatch.find()) return;
 
-		FileConfiguration config = Files.CONFIG.getFile();
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		event.setCancelled(true);
 		this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Advertising.Chat.Message"), true);
@@ -117,7 +117,7 @@ public class ListenerAntiAdvertising implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		Player player = event.getPlayer();
 		String playerName = event.getPlayer().getName();
@@ -161,8 +161,8 @@ public class ListenerAntiAdvertising implements Listener {
 	private void increasedSensitivity(PlayerCommandPreprocessEvent event, Player player, String playerName, String message, Date time, Matcher firstMatch, Matcher secondMatch) {
 		if (!firstMatch.find() || !secondMatch.find()) return;
 
-		FileConfiguration config = Files.CONFIG.getFile();
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		event.setCancelled(true);
 		this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Advertising.Commands.Message"), true);
@@ -209,7 +209,7 @@ public class ListenerAntiAdvertising implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onSign(SignChangeEvent event) {
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		Player player = event.getPlayer();
 		String playerName = event.getPlayer().getName();
@@ -254,8 +254,8 @@ public class ListenerAntiAdvertising implements Listener {
 
 	private boolean findMatches(SignChangeEvent event, Player player, String message, String str, Matcher firstMatch, Matcher secondMatch) {
 		if (!firstMatch.find() || !secondMatch.find()) return false;
-		FileConfiguration config = Files.CONFIG.getFile();
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		event.setCancelled(true);
 		this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Advertising.Signs.Message"), true);

@@ -22,7 +22,7 @@ public class ListenerLogs implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		String playerName = event.getPlayer().getName();
 		String message = event.getMessage();
@@ -44,7 +44,7 @@ public class ListenerLogs implements Listener {
 	
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		List<String> blacklist = config.getStringList("Logs.Blacklist_Commands");
 
@@ -74,7 +74,7 @@ public class ListenerLogs implements Listener {
 	
 	@EventHandler(ignoreCancelled = true)
 	public void onSignChange(SignChangeEvent event) {
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		String playerName = event.getPlayer().getName();
 		Date time = Calendar.getInstance().getTime();

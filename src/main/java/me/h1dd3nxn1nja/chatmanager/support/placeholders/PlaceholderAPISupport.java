@@ -16,7 +16,7 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
 	@Override
 	public @Nullable String onRequest(OfflinePlayer player, @NotNull String identifier) {
 		if (player.isOnline()) {
-			FileConfiguration config = Files.CONFIG.getFile();
+			FileConfiguration config = Files.CONFIG.getConfiguration();
 			String lower = identifier.toLowerCase();
 
 			switch (lower) {

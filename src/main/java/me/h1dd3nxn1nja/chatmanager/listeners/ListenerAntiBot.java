@@ -20,7 +20,7 @@ public class ListenerAntiBot implements Listener {
 	public void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission(Permissions.BYPASS_ANTI_BOT.getNode())) return;
 
@@ -31,7 +31,7 @@ public class ListenerAntiBot implements Listener {
 	public void onLeave(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
 
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission(Permissions.BYPASS_ANTI_BOT.getNode())) return;
 
@@ -42,7 +42,7 @@ public class ListenerAntiBot implements Listener {
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission(Permissions.BYPASS_ANTI_BOT.getNode())) return;
 
@@ -53,8 +53,8 @@ public class ListenerAntiBot implements Listener {
 	public void onChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 
-		FileConfiguration config = Files.CONFIG.getFile();
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission(Permissions.BYPASS_ANTI_BOT.getNode())) return;
 
@@ -69,8 +69,8 @@ public class ListenerAntiBot implements Listener {
 	public void onCommand(PlayerCommandPreprocessEvent event) {
 		Player player = event.getPlayer();
 
-		FileConfiguration config = Files.CONFIG.getFile();
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		if (!config.getBoolean("Anti_Bot.Block_Commands_Until_Moved") || player.hasPermission(Permissions.BYPASS_ANTI_BOT.getNode())) return;
 

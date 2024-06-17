@@ -22,7 +22,7 @@ val content: String = rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
 dependencies {
     paperweight.paperDevBundle(libs.versions.paper.get())
 
-    implementation(libs.config.me)
+    implementation(libs.vital.paper)
 
     implementation(libs.metrics)
 
@@ -60,8 +60,8 @@ tasks {
 
     shadowJar {
         listOf(
-            "org.bstats",
-            "ch.jalu"
+            "com.ryderbelserion",
+            "org.bstats"
         ).forEach {
             relocate(it, "libs.$it")
         }

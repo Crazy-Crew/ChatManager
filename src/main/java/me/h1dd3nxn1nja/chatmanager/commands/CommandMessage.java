@@ -31,7 +31,7 @@ public class CommandMessage implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		String playerNotFound = messages.getString("Message.Player_Not_Found");
 
@@ -153,8 +153,8 @@ public class CommandMessage implements CommandExecutor {
 	}
 
 	private boolean duplicate(String[] args, String playerNotFound, Player player, StringBuilder message, Player target, UUID uniqueId, UUID uniqueId2) {
-		FileConfiguration config = Files.CONFIG.getFile();
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		if (message.isEmpty()) {
 			player.sendMessage(this.plugin.getMethods().color(this.plugin.getMethods().getPrefix() + "You need to supply a message in order to reply/send to " + target.getName()));
@@ -197,7 +197,7 @@ public class CommandMessage implements CommandExecutor {
 	private final EssentialsVanishSupport essentialsVanishSupport = this.plugin.getPluginManager().getEssentialsVanishSupport();
 
 	private boolean essentialsCheck(String[] args, String playerNotFound, Player player, Player target) {
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		if (PluginSupport.ESSENTIALS.isPluginEnabled()) {
 			if (this.essentialsSupport.getUser(target.getUniqueId()).isAfk() && (!player.hasPermission(Permissions.BYPASS_AFK.getNode()))) {

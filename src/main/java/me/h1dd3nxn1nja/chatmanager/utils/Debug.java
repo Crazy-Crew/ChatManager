@@ -11,7 +11,7 @@ public class Debug {
 	private static final ChatManager plugin = ChatManager.get();
 
 	public static void debugAutoBroadcast() {
-		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
+		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getConfiguration();
 
 		plugin.getLogger().info("Auto-Broadcast Debug in progress...");
 
@@ -212,7 +212,7 @@ public class Debug {
 	}
 
 	public static void debugConfig() {
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		plugin.getLogger().warning("Config Debug in progress...");
 
@@ -894,7 +894,7 @@ public class Debug {
 	}
 
 	public static void debugMessages() {
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		plugin.getLogger().warning("Messages Debug in progress...");
 

@@ -32,7 +32,7 @@ public class ListenerMentions implements Listener {
 	public void onChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		String tagSymbol = config.getString("Mentions.Tag_Symbol");
 		String mentionColor = config.getString("Mentions.Mention_Color");

@@ -18,7 +18,7 @@ public class CommandClearChat implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		if (cmd.getName().equalsIgnoreCase("clearchat")) {
 			if (sender.hasPermission(Permissions.COMMAND_CLEARCHAT.getNode())) {
@@ -54,7 +54,7 @@ public class CommandClearChat implements CommandExecutor {
 	}
 
 	public void sendClearMessage(CommandSender sender) {
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 		int lines = config.getInt("Clear_Chat.Broadcasted_Lines");
 		
 		for (int i = 0; i < lines; i++) {

@@ -22,7 +22,7 @@ public class CommandSpy implements CommandExecutor {
 			return true;
 		}
 
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		if (cmd.getName().equalsIgnoreCase("commandspy")) {
 			if (player.hasPermission(Permissions.COMMAND_SPY.getNode())) {

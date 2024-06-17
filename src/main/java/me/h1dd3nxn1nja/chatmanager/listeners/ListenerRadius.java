@@ -27,7 +27,7 @@ public class ListenerRadius implements Listener {
 
 		UUID uuid = player.getUniqueId();
 
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		String localOverrideChar = config.getString("Chat_Radius.Local_Chat.Override_Symbol");
 		String globalOverrideChar = config.getString("Chat_Radius.Global_Chat.Override_Symbol");

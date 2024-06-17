@@ -19,7 +19,7 @@ public class CommandChatManager implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 		if (cmd.getName().equalsIgnoreCase("ChatManager")) {
 			if (args.length == 0) {
 				this.plugin.getMethods().sendMessage(sender, "&7This server is using the plugin &cChatManager &7version " + plugin.getDescription().getVersion() + " by &cH1DD3NxN1NJA.", true);
@@ -47,14 +47,12 @@ public class CommandChatManager implements CommandExecutor {
 							}
 						}
 
-						this.plugin.getFileManager().reloadAllFiles();
-
-						this.plugin.getFileManager().setLog(true).setup();
+						this.plugin.getFileManager().reloadFiles();
 
 						this.plugin.getServer().getScheduler().cancelTasks(this.plugin);
 						this.plugin.check();
 
-						this.plugin.getMethods().sendMessage(sender, Files.MESSAGES.getFile().getString("Message.Reload"), true);
+						this.plugin.getMethods().sendMessage(sender, Files.MESSAGES.getConfiguration().getString("Message.Reload"), true);
 
 					} else {
 						this.plugin.getMethods().sendMessage(sender, "&cCommand Usage: &7/chatmanager reload", true);

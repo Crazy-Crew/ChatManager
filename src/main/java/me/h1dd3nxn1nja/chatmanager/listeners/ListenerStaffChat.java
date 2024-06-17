@@ -24,7 +24,7 @@ public class ListenerStaffChat implements Listener {
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (!this.plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
 

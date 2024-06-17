@@ -20,7 +20,7 @@ public class CommandMOTD implements Listener {
 
 	@EventHandler
 	public void onMotd(PlayerCommandPreprocessEvent e) {
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		Player player = e.getPlayer();
 		String message = e.getMessage();

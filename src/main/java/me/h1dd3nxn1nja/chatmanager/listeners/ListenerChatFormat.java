@@ -27,7 +27,7 @@ public class ListenerChatFormat implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onChatFormat(AsyncPlayerChatEvent event) {
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		Player player = event.getPlayer();
 		String message = event.getMessage();
@@ -50,7 +50,7 @@ public class ListenerChatFormat implements Listener {
 	}
 
 	public String setupChatRadius(Player player, String message) {
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		String placeholders = message;
 

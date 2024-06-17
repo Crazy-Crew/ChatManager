@@ -18,7 +18,7 @@ public class Methods {
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
 
-	private final String format = Files.CONFIG.getFile().getString("Hex_Color_Format");
+	private final String format = Files.CONFIG.getConfiguration().getString("Hex_Color_Format");
 	private final Pattern HEX_PATTERN = Pattern.compile(format + "([A-Fa-f0-9]{6})");
 
 	public String color(String message) {
@@ -59,7 +59,7 @@ public class Methods {
 	}
 
 	public void convert() {
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (config.contains("Messages.Join_Quit_Messages.Group_Messages")) {
 			if (config.getConfigurationSection("Messages.Join_Quit_Messages.Group_Messages") != null) {
@@ -86,7 +86,7 @@ public class Methods {
 
 							config.set(oldSoundPath, null);
 
-							Files.CONFIG.saveFile();
+							Files.CONFIG.save();
 						}
 					});
 				}
@@ -101,7 +101,7 @@ public class Methods {
 			assert oldSound != null;
 			moveValues(config, oldSound, path);
 
-			Files.CONFIG.saveFile();
+			Files.CONFIG.save();
 		}
 
 		if (config.contains("Mentions.Sound")) {
@@ -114,7 +114,7 @@ public class Methods {
 
 			config.set("Mentions.Sound", null);
 
-			Files.CONFIG.saveFile();
+			Files.CONFIG.save();
 		}
 
 		if (config.contains("Broadcast_Commands.Command.Broadcast.Sound")) {
@@ -127,7 +127,7 @@ public class Methods {
 
 			config.set("Broadcast_Commands.Command.Broadcast.Sound", null);
 
-			Files.CONFIG.saveFile();
+			Files.CONFIG.save();
 		}
 
 		if (config.contains("Broadcast_Commands.Command.Announcement.Sound")) {
@@ -140,7 +140,7 @@ public class Methods {
 
 			config.set("Broadcast_Commands.Command.Announcement.Sound", null);
 
-			Files.CONFIG.saveFile();
+			Files.CONFIG.save();
 		}
 
 		if (config.contains("Broadcast_Commands.Command.Warning.Sound")) {
@@ -153,7 +153,7 @@ public class Methods {
 
 			config.set("Broadcast_Commands.Command.Warning.Sound", null);
 
-			Files.CONFIG.saveFile();
+			Files.CONFIG.save();
 		}
 
 		if (config.contains("Messages.First_Join.Welcome_Message.Sound")) {
@@ -166,7 +166,7 @@ public class Methods {
 
 			config.set("Messages.First_Join.Welcome_Message.Sound", null);
 
-			Files.CONFIG.saveFile();
+			Files.CONFIG.save();
 		}
 
 		if (config.contains("Messages.Join_Quit_Messages.Join_Message.Sound")) {
@@ -179,7 +179,7 @@ public class Methods {
 
 			config.set("Messages.Join_Quit_Messages.Join_Message.Sound", null);
 
-			Files.CONFIG.saveFile();
+			Files.CONFIG.save();
 		}
 
 		if (config.contains("Messages.Join_Quit_Messages.Quit_Message.Sound")) {
@@ -192,10 +192,10 @@ public class Methods {
 
 			config.set("Messages.Join_Quit_Messages.Quit_Message.Sound", null);
 
-			Files.CONFIG.saveFile();
+			Files.CONFIG.save();
 		}
 
-		FileConfiguration autoBroadcast = Files.AUTO_BROADCAST.getFile();
+		FileConfiguration autoBroadcast = Files.AUTO_BROADCAST.getConfiguration();
 
 		if (autoBroadcast.contains("Auto_Broadcast.Global_Messages.Sound")) {
 			String oldSound = autoBroadcast.getString("Auto_Broadcast.Global_Messages.Sound");
@@ -207,7 +207,7 @@ public class Methods {
 
 			autoBroadcast.set("Auto_Broadcast.Global_Messages.Sound", null);
 
-			Files.AUTO_BROADCAST.saveFile();
+			Files.AUTO_BROADCAST.save();
 		}
 
 		if (autoBroadcast.contains("Auto_Broadcast.Per_World_Messages.Sound")) {
@@ -220,7 +220,7 @@ public class Methods {
 
 			autoBroadcast.set("Auto_Broadcast.Per_World_Messages.Sound", null);
 
-			Files.AUTO_BROADCAST.saveFile();
+			Files.AUTO_BROADCAST.save();
 		}
 
 		if (autoBroadcast.contains("Auto_Broadcast.Actionbar_Messages.Sound")) {
@@ -233,7 +233,7 @@ public class Methods {
 
 			autoBroadcast.set("Auto_Broadcast.Actionbar_Messages.Sound", null);
 
-			Files.AUTO_BROADCAST.saveFile();
+			Files.AUTO_BROADCAST.save();
 		}
 
 		if (autoBroadcast.contains("Auto_Broadcast.Title_Messages.Sound")) {
@@ -246,7 +246,7 @@ public class Methods {
 
 			autoBroadcast.set("Auto_Broadcast.Title_Messages.Sound", null);
 
-			Files.AUTO_BROADCAST.saveFile();
+			Files.AUTO_BROADCAST.save();
 		}
 
 		if (autoBroadcast.contains("Auto_Broadcast.Bossbar_Messages.Sound")) {
@@ -259,7 +259,7 @@ public class Methods {
 
 			autoBroadcast.set("Auto_Broadcast.Bossbar_Messages.Sound", null);
 
-			Files.AUTO_BROADCAST.saveFile();
+			Files.AUTO_BROADCAST.save();
 		}
 	}
 
@@ -286,11 +286,11 @@ public class Methods {
 	}
 	
 	public String getPrefix() {
-		return color(Files.MESSAGES.getFile().getString("Message.Prefix"));
+		return color(Files.MESSAGES.getConfiguration().getString("Message.Prefix"));
 	}
 	
 	public String noPermission() {
-		return color(Files.MESSAGES.getFile().getString("Message.No_Permission").replace("{Prefix}", getPrefix()));
+		return color(Files.MESSAGES.getConfiguration().getString("Message.No_Permission").replace("{Prefix}", getPrefix()));
 	}
 
 	private static boolean isMuted;

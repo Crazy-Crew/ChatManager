@@ -19,12 +19,12 @@ public class ListenerBannedCommand implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
-		FileConfiguration config = Files.CONFIG.getFile();
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		Player player = event.getPlayer();
 
-		List<String> cmd = Files.BANNED_COMMANDS.getFile().getStringList("Banned-Commands");
+		List<String> cmd = Files.BANNED_COMMANDS.getConfiguration().getStringList("Banned-Commands");
 
 		if (!config.getBoolean("Banned_Commands.Enable")) return;
 
@@ -64,8 +64,8 @@ public class ListenerBannedCommand implements Listener {
 	}
 
 	public void notifyStaff(Player player, String message) {
-		FileConfiguration config = Files.CONFIG.getFile();
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		if (!config.getBoolean("Banned_Commands.Notify_Staff")) return;
 
@@ -77,8 +77,8 @@ public class ListenerBannedCommand implements Listener {
 	}
 
 	public void tellConsole(Player player, String message) {
-		FileConfiguration config = Files.CONFIG.getFile();
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		if (!config.getBoolean("Banned_Commands.Notify_Staff")) return;
 
@@ -86,7 +86,7 @@ public class ListenerBannedCommand implements Listener {
 	}
 
 	public void executeCommand(Player player) {
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (!config.getBoolean("Banned_Commands.Execute_Command")) return;
 

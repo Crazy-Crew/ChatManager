@@ -24,7 +24,7 @@ public class CommandBroadcast implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		String prefix = config.getString("Broadcast_Commands.Command.Broadcast.Prefix");
 		String color = config.getString("Broadcast_Commands.Command.Broadcast.Default_Color");

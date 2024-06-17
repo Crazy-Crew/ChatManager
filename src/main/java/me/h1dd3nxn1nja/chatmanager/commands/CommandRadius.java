@@ -22,7 +22,7 @@ public class CommandRadius implements CommandExecutor {
 			return true;
 		}
 
-		FileConfiguration messages = Files.MESSAGES.getFile();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		if (cmd.getName().equalsIgnoreCase("chatradius")) {
 			if (player.hasPermission(Permissions.CHAT_RADIUS_HELP.getNode())) {

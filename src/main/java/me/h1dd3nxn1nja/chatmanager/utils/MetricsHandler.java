@@ -15,7 +15,7 @@ public class MetricsHandler {
     public void start() {
         Metrics metrics = new Metrics(this.plugin, 3291);
 
-        FileConfiguration config = Files.CONFIG.getFile();
+        FileConfiguration config = Files.CONFIG.getConfiguration();
 
         metrics.addCustomChart(new SimplePie("chat_format", () -> config.getString("Chat_Format.Enable")));
 

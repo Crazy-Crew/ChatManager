@@ -39,7 +39,7 @@ public class TabCompleteAutoBroadcast implements TabCompleter {
 			return StringUtil.copyPartialMatches(args[1], completions, new ArrayList<>());
 		} else if (args.length == 3) {
 			switch (args[0].toLowerCase()) {
-				case "list" -> completions.addAll(Files.AUTO_BROADCAST.getFile().getConfigurationSection("Auto_Broadcast.Per_World_Messages.Messages").getKeys(false));
+				case "list" -> completions.addAll(Files.AUTO_BROADCAST.getConfiguration().getConfigurationSection("Auto_Broadcast.Per_World_Messages.Messages").getKeys(false));
 				case "add" -> this.plugin.getServer().getWorlds().forEach(world -> completions.add(world.getName()));
 				case "create" -> completions.add("<message>");
 			}

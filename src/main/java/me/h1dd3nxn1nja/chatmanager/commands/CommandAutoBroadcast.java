@@ -29,8 +29,8 @@ public class CommandAutoBroadcast implements CommandExecutor {
 			return true;
 		}
 
-		FileConfiguration messages = Files.MESSAGES.getFile();
-		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getFile();
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
+		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getConfiguration();
 
 		if (cmd.getName().equalsIgnoreCase("autobroadcast")) {
 			if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_HELP.getNode())) {
@@ -196,8 +196,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Global_Messages.Messages");
 							msgs.add(msg);
 							autobroadcast.set("Auto_Broadcast.Global_Messages.Messages", msgs);
-							Files.AUTO_BROADCAST.saveFile();
-							Files.AUTO_BROADCAST.reloadFile();
+							Files.AUTO_BROADCAST.save();
 							this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Global"), true);
 							return true;
 						} else {
@@ -222,8 +221,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Actionbar_Messages.Messages");
 						msgs.add(msg);
 						autobroadcast.set("Auto_Broadcast.Actionbar_Messages.Messages", msgs);
-						Files.AUTO_BROADCAST.saveFile();
-						Files.AUTO_BROADCAST.reloadFile();
+						Files.AUTO_BROADCAST.save();
 						this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Actionbar"), true);
 						return true;
 					} else {
@@ -247,8 +245,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Title_Messages.Messages");
 						msgs.add(msg);
 						autobroadcast.set("Auto_Broadcast.Title_Messages.Messages", msgs);
-						Files.AUTO_BROADCAST.saveFile();
-						Files.AUTO_BROADCAST.reloadFile();
+						Files.AUTO_BROADCAST.save();
 						this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Title"), true);
 						return true;
 					} else {
@@ -272,8 +269,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Bossbar_Messages.Messages");
 						msgs.add(msg);
 						autobroadcast.set("Auto_Broadcast.Bossbar_Messages.Messages", msgs);
-						Files.AUTO_BROADCAST.saveFile();
-						Files.AUTO_BROADCAST.reloadFile();
+						Files.AUTO_BROADCAST.save();
 						this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Bossbar"), true);
 						return true;
 					} else {
@@ -309,8 +305,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 								List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Per_World_Messages.Messages." + key);
 								msgs.add(msg);
 								autobroadcast.set("Auto_Broadcast.Per_World_Messages.Messages." + key, msgs);
-								Files.AUTO_BROADCAST.saveFile();
-								Files.AUTO_BROADCAST.reloadFile();
+								Files.AUTO_BROADCAST.save();
 								this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", key), true);
 								return true;
 							}
@@ -337,8 +332,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 					List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Per_World_Messages.Messages");
 					msgs.add(msg);
 					autobroadcast.set("Auto_Broadcast.Per_World_Messages.Messages." + args[1], msgs);
-					Files.AUTO_BROADCAST.saveFile();
-					Files.AUTO_BROADCAST.reloadFile();
+					Files.AUTO_BROADCAST.save();
 					this.plugin.getMethods().sendMessage(player, messages.getString("Auto_Broadcast.Created").replace("{world}", args[1]).replace("{message}", msg), true);
 					return true;
 				} else {

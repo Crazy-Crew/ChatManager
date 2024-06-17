@@ -24,7 +24,7 @@ public class CommandLists implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration config = Files.CONFIG.getFile();
+		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (cmd.getName().equalsIgnoreCase("list")) {
 			if (sender.hasPermission(Permissions.COMMAND_LISTS_PLAYERS.getNode())) {
