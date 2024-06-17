@@ -89,7 +89,7 @@ public class ListenerSwear implements Listener {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (config.getBoolean("Anti_Swear.Chat.Log_Swearing")) {
-			try {
+			/*try {
 				FileWriter fw = new FileWriter(this.plugin.getFileManager().getFile("Swears.txt").getFileObject(), true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write("[" + time + "] [Chat] " + player.getName() + ": " + message.replaceAll("§", "&"));
@@ -98,9 +98,8 @@ public class ListenerSwear implements Listener {
 				bw.close();
 			} catch (Exception ex) {
 				ex.printStackTrace();
-			}
+			}*/
 		}
-
 
 		if (config.getBoolean("Anti_Swear.Chat.Execute_Command")) {
 			if (config.contains("Anti_Swear.Chat.Executed_Command")) {
@@ -207,7 +206,7 @@ public class ListenerSwear implements Listener {
 
 	private void commandSwearCheck(FileConfiguration config, Player player, String message, Date time) {
 		if (config.getBoolean("Anti_Swear.Commands.Log_Swearing")) {
-			try {
+			/*try {
 				FileWriter fw = new FileWriter(this.plugin.getFileManager().getFile("Swears").getFileObject(), true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write("[" + time + "] [Command] " + player.getName() + ": " + message.replaceAll("§", "&"));
@@ -216,7 +215,7 @@ public class ListenerSwear implements Listener {
 				bw.close();
 			} catch (Exception ex) {
 				ex.printStackTrace();
-			}
+			}*/
 		}
 
 		if (config.getBoolean("Anti_Swear.Commands.Execute_Command")) {
@@ -313,7 +312,7 @@ public class ListenerSwear implements Listener {
 
 	private void checkSwear(FileConfiguration config, Player player, Date time, int line, String message) {
 		if (config.getBoolean("Anti_Swear.Signs.Log_Swearing")) {
-			try {
+			/*try {
 				FileWriter fw = new FileWriter(this.plugin.getFileManager().getFile("Swears").getFileObject(), true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write("[" + time + "] [Sign] " + player.getName() + ": Line: " + line + " Text: " + message.replaceAll("§", "&"));
@@ -322,7 +321,7 @@ public class ListenerSwear implements Listener {
 				bw.close();
 			} catch (Exception ex) {
 				ex.printStackTrace();
-			}
+			}*/
 		}
 
 		if (config.getBoolean("Anti_Swear.Signs.Execute_Command")) {

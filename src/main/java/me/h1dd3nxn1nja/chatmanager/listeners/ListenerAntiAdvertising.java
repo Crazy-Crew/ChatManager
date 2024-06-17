@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.util.Calendar;
 import java.util.Date;
@@ -103,8 +104,8 @@ public class ListenerAntiAdvertising implements Listener {
 
 		if (!config.getBoolean("Anti_Advertising.Chat.Log_Advertisers")) return;
 
-		try {
-			FileWriter fw = new FileWriter(this.plugin.getFileManager().getFile("Advertisements").getFileObject(), true);
+		/*try {
+			FileWriter fw = new FileWriter(new File(this.plugin.getDataFolder() + "/Logs", "Advertisements.txt"), true);
 			BufferedWriter bw2 = new BufferedWriter(fw);
 			bw2.write("[" + time + "] [Chat] " + playerName + ": " + message.replaceAll("§", "&"));
 			bw2.newLine();
@@ -112,7 +113,7 @@ public class ListenerAntiAdvertising implements Listener {
 			bw2.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
-		}
+		}*/
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -195,7 +196,7 @@ public class ListenerAntiAdvertising implements Listener {
 
 		if (!config.getBoolean("Anti_Advertising.Commands.Log_Advertisers")) return;
 
-		try {
+		/*try {
 			FileWriter fw = new FileWriter(this.plugin.getFileManager().getFile("Advertisements.txt").getFileObject(), true);
 			BufferedWriter bw2 = new BufferedWriter(fw);
 			bw2.write("[" + time + "] [Command] " + playerName + ": " + message.replaceAll("§", "&"));
@@ -204,7 +205,7 @@ public class ListenerAntiAdvertising implements Listener {
 			bw2.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
-		}
+		}*/
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -287,7 +288,7 @@ public class ListenerAntiAdvertising implements Listener {
 			}
 		}
 
-		if (config.getBoolean("Anti_Advertising.Signs.Log_Advertisers")) {
+		/*if (config.getBoolean("Anti_Advertising.Signs.Log_Advertisers")) {
 			try {
 				FileWriter fw = new FileWriter(this.plugin.getFileManager().getFile("Advertisements.txt").getFileObject(), true);
 				BufferedWriter bw2 = new BufferedWriter(fw);
@@ -298,7 +299,7 @@ public class ListenerAntiAdvertising implements Listener {
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
-		}
+		}*/
 
 		return true;
 	}
