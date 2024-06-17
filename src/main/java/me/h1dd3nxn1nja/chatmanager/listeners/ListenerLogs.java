@@ -10,6 +10,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.jetbrains.annotations.NotNull;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,8 +31,8 @@ public class ListenerLogs implements Listener {
 
 		if (!config.getBoolean("Logs.Log_Chat")) return;
 
-		/*try {
-			FileWriter fw = new FileWriter(this.plugin.getFileManager().getFile("Chat.txt").getFileObject(), true);
+		try {
+			FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Chat.txt"), true);
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write("[" + time + "] " + playerName + ": " + message.replaceAll("§", "&"));
 			bw.newLine();
@@ -39,7 +40,7 @@ public class ListenerLogs implements Listener {
 			bw.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
-		}*/
+		}
 	}
 	
 	@EventHandler(ignoreCancelled = true)
@@ -60,8 +61,8 @@ public class ListenerLogs implements Listener {
 
 		if ((message.equals("/")) || (message.equals("//"))) return;
 
-		/*try {
-			FileWriter fw = new FileWriter(this.plugin.getFileManager().getFile("Commands.txt").getFileObject(), true);
+		try {
+			FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Commands.txt"), true);
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write("[" + time + "] " + playerName + ": " + message.replaceAll("§", "&"));
 			bw.newLine();
@@ -69,7 +70,7 @@ public class ListenerLogs implements Listener {
 			bw.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
-		}*/
+		}
 	}
 	
 	@EventHandler(ignoreCancelled = true)
@@ -88,8 +89,8 @@ public class ListenerLogs implements Listener {
 
 			if (!config.getBoolean("Logs.Log_Signs")) return;
 
-			/*try {
-				FileWriter fw = new FileWriter(this.plugin.getFileManager().getFile("Signs.txt").getFileObject(), true);
+			try {
+				FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Signs.txt"), true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write("[" + time + "] " + playerName + " | Location: X: " + X + " Y: " + Y + " Z: " + Z + " | Line: " + line + " | " + message.replaceAll("§", "&"));
 				bw.newLine();
@@ -97,7 +98,7 @@ public class ListenerLogs implements Listener {
 				bw.close();
 			} catch (Exception ex) {
 				ex.printStackTrace();
-			}*/
+			}
 		}
 	}
 }

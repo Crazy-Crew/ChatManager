@@ -104,8 +104,8 @@ public class ListenerAntiAdvertising implements Listener {
 
 		if (!config.getBoolean("Anti_Advertising.Chat.Log_Advertisers")) return;
 
-		/*try {
-			FileWriter fw = new FileWriter(new File(this.plugin.getDataFolder() + "/Logs", "Advertisements.txt"), true);
+		try {
+			FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Advertisements.txt"), true);
 			BufferedWriter bw2 = new BufferedWriter(fw);
 			bw2.write("[" + time + "] [Chat] " + playerName + ": " + message.replaceAll("§", "&"));
 			bw2.newLine();
@@ -113,7 +113,7 @@ public class ListenerAntiAdvertising implements Listener {
 			bw2.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
-		}*/
+		}
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -196,8 +196,8 @@ public class ListenerAntiAdvertising implements Listener {
 
 		if (!config.getBoolean("Anti_Advertising.Commands.Log_Advertisers")) return;
 
-		/*try {
-			FileWriter fw = new FileWriter(this.plugin.getFileManager().getFile("Advertisements.txt").getFileObject(), true);
+		try {
+			FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Advertisements.txt"), true);
 			BufferedWriter bw2 = new BufferedWriter(fw);
 			bw2.write("[" + time + "] [Command] " + playerName + ": " + message.replaceAll("§", "&"));
 			bw2.newLine();
@@ -205,7 +205,7 @@ public class ListenerAntiAdvertising implements Listener {
 			bw2.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
-		}*/
+		}
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -288,9 +288,9 @@ public class ListenerAntiAdvertising implements Listener {
 			}
 		}
 
-		/*if (config.getBoolean("Anti_Advertising.Signs.Log_Advertisers")) {
+		if (config.getBoolean("Anti_Advertising.Signs.Log_Advertisers")) {
 			try {
-				FileWriter fw = new FileWriter(this.plugin.getFileManager().getFile("Advertisements.txt").getFileObject(), true);
+				FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Advertisements.txt"), true);
 				BufferedWriter bw2 = new BufferedWriter(fw);
 				bw2.write(str);
 				bw2.newLine();
@@ -299,7 +299,7 @@ public class ListenerAntiAdvertising implements Listener {
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
-		}*/
+		}
 
 		return true;
 	}
