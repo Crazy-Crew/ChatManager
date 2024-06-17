@@ -101,7 +101,6 @@ public class ListenerSwear implements Listener {
 			}
 		}
 
-		Bukkit.getLogger().warning(String.valueOf(config.getBoolean("Anti_Swear.Chat.Execute_Command")));
 
 		if (config.getBoolean("Anti_Swear.Chat.Execute_Command")) {
 			if (config.contains("Anti_Swear.Chat.Executed_Command")) {
