@@ -13,7 +13,7 @@ base {
 
 val buildNumber: String? = System.getenv("BUILD_NUMBER")
 
-rootProject.version = if (buildNumber != null) "3.12-$buildNumber" else "3.12"
+rootProject.version = if (buildNumber != null) "3.13-$buildNumber" else "3.13"
 
 val isSnapshot = false
 
@@ -99,10 +99,9 @@ tasks {
 
         uploadFile.set(rootProject.projectDir.resolve("jars/${rootProject.name}-${rootProject.version}.jar"))
 
-        gameVersions.set(listOf(libs.versions.minecraft.get()))
+        gameVersions.set(listOf("1.21", "1.20.6"))
 
-        loaders.add("paper")
-        loaders.add("purpur")
+        loaders.addAll(listOf("paper", "purpur"))
 
         autoAddDependsOn.set(false)
         detectLoaders.set(false)
