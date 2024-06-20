@@ -13,7 +13,7 @@ base {
 
 val buildNumber: String? = System.getenv("BUILD_NUMBER")
 
-rootProject.version = if (buildNumber != null) "3.12-$buildNumber" else "3.12"
+rootProject.version = if (buildNumber != null) "${libs.versions.minecraft.get()}-$buildNumber" else "3.12"
 
 val isSnapshot = false
 
