@@ -73,7 +73,7 @@ tasks {
             "version" to rootProject.version,
             "group" to rootProject.group,
             "description" to rootProject.description,
-            "apiVersion" to "1.20.6",
+            "apiVersion" to libs.versions.minecraft.get(),
             "authors" to providers.gradleProperty("authors").get(),
             "website" to providers.gradleProperty("website").get()
         )
@@ -99,7 +99,7 @@ tasks {
 
         uploadFile.set(rootProject.projectDir.resolve("jars/${rootProject.name}-${rootProject.version}.jar"))
 
-        gameVersions.set(listOf("1.21", "1.20.6"))
+        gameVersions.set(listOf(libs.versions.minecraft.get()))
 
         loaders.addAll(listOf("paper", "purpur"))
 
