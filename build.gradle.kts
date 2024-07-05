@@ -21,7 +21,7 @@ rootProject.version = "${libs.versions.minecraft.get()}-$nextNumber"
 val isSnapshot = true
 
 val content: String = if (isSnapshot) {
-    latestCommitHistory("787c2c", rootProject.name, "Crazy-Crew")
+    latestCommitHistory("f638e1", rootProject.name, "Crazy-Crew")
 } else {
     rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
 }
