@@ -2,6 +2,8 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import com.ryderbelserion.vital.paper.plugins.PluginManager;
+import com.ryderbelserion.vital.paper.plugins.interfaces.Plugin;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -24,6 +26,14 @@ public class ListenerPlayerJoin implements Listener {
         Player player = event.getPlayer();
 
         if (player.hasPlayedBefore()) return;
+
+        if (PluginManager.isEnabled("GenericVanish")) {
+            final Plugin plugin = PluginManager.getPlugin("GenericVanish");
+
+            if (plugin.isVanished(player.getUniqueId())) {
+                return;
+            }
+        }
 
         FileConfiguration config = Files.CONFIG.getConfiguration();
 
@@ -60,6 +70,13 @@ public class ListenerPlayerJoin implements Listener {
 
         if (!player.hasPlayedBefore()) return;
 
+        if (PluginManager.isEnabled("GenericVanish")) {
+            final Plugin plugin = PluginManager.getPlugin("GenericVanish");
+
+            if (plugin.isVanished(player.getUniqueId())) {
+                return;
+            }
+        }
 
         FileConfiguration config = Files.CONFIG.getConfiguration();
 
