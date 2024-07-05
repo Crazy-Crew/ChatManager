@@ -1,3 +1,6 @@
+import task.ReleaseWebhook
+import task.WebhookExtension
+
 plugins {
     `maven-publish`
 
@@ -25,6 +28,14 @@ java {
 }
 
 tasks {
+    // Creating the extension to be available on the root gradle
+    val webhookExtension = extensions.create("webhook", WebhookExtension::class)
+
+    // Register the task
+    register<ReleaseWebhook>("webhook") {
+        extension = webhookExtension
+    }
+
     compileJava {
         options.encoding = Charsets.UTF_8.name()
         options.release.set(21)

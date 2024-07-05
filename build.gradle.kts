@@ -1,6 +1,5 @@
-import com.ryderbelserion.feather.tools.formatLog
-import com.ryderbelserion.feather.tools.latestCommitHash
-import com.ryderbelserion.feather.tools.latestCommitMessage
+import com.ryderbelserion.feather.tools.*
+import java.awt.Color
 
 plugins {
     alias(libs.plugins.paperweight)
@@ -19,10 +18,10 @@ val nextNumber: String? = if (System.getenv("NEXT_BUILD_NUMBER") != null) System
 
 rootProject.version = "${libs.versions.minecraft.get()}-$nextNumber"
 
-val isSnapshot = false
+val isSnapshot = true
 
 val content: String = if (isSnapshot) {
-    formatLog(latestCommitHash(), latestCommitMessage(), rootProject.name, "Crazy-Crew")
+    latestCommitHistory("787c2c", rootProject.name, "Crazy-Crew")
 } else {
     rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
 }
@@ -115,5 +114,32 @@ tasks {
 
         autoAddDependsOn.set(false)
         detectLoaders.set(false)
+    }
+}
+
+
+val releaseUpdate = Color(27, 217, 106)
+val betaUpdate = Color(255, 163, 71)
+
+val color = if (isSnapshot) betaUpdate else releaseUpdate
+
+webhook {
+    this.username("Ryder Belserion")
+
+    this.embeds {
+        this.embed {
+            this.color(color)
+
+            this.title("A new version of ChatManager is ready!")
+
+            this.fields {
+                this.field(
+                    "Version ${libs.versions.minecraft.get()} build ${System.getenv("NEXT_BUILD_NUMBER")}",
+                    "Click [here](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${libs.versions.minecraft.get()}-${System.getenv("NEXT_BUILD_NUMBER")}) to download!"
+                )
+
+                this.field("Commits", content)
+            }
+        }
     }
 }

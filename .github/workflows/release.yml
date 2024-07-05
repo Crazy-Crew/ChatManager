@@ -32,13 +32,6 @@ jobs:
           java-version: 21
           check-latest: true
 
-      - name: Import Gradle Version Catalog
-        uses: SebRollen/toml-action@v1.2.0
-        id: minecraft_version
-        with:
-          file: gradle/libs.versions.toml
-          field: versions.minecraft
-
       - uses: actions/github-script@v6
         name: Prepare build number if it doesn't exist
         with:
@@ -92,27 +85,8 @@ jobs:
         run: ./gradlew modrinth --stacktrace
 
       - name: Notify Discord
-        uses: granny/actions-status-discord@v1.14.0.pre-0
         if: success()
-        with:
-          webhook: ${{ secrets.CHATMANAGER_WEBHOOK }}
-          noprefix: true
-          title: New build of ChatManager is ready!
-          content: "<@&888222546573537280>"
-          description: |
-            Version ${{ steps.minecraft_version.outputs.value }} build ${{ env.NEXT_BUILD_NUMBER }}
-            Click [here](https://modrinth.com/plugin/chatmanager/version/${{ steps.minecraft_version.outputs.value }}-${{ env.NEXT_BUILD_NUMBER }}) to download!
-      - name: Notify Discord
-        uses: granny/actions-status-discord@v1.14.0.pre-0
-        if: ${{ failure() }}
-        with:
-          webhook: ${{ secrets.CHATMANAGER_WEBHOOK }}
-          noprefix: true
-          title: Build Failure!
-          color: 0xff0000
-          description: |
-            Version ${{ steps.minecraft_version.outputs.value }} build ${{ env.NEXT_BUILD_NUMBER }}
-            Click [here](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) to view the run!
+        run: ./gradlew webhook
 
       - uses: actions/github-script@v6
         name: Increment Build Number
