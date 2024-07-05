@@ -67,16 +67,16 @@ public class ListenerRadius implements Listener {
 					this.plugin.api().getGlobalChatData().removeUser(uuid);
 					this.plugin.api().getLocalChatData().removeUser(uuid);
 					this.plugin.api().getWorldChatData().addUser(uuid);
-					event.setMessage(message);
+					event.setMessage(message.replace(worldOverrideChar, ""));
 					return;
 				}
 			}
 		}
 
 		if (this.plugin.api().getLocalChatData().containsUser(uuid)) {
-			for (Player receiver : this.plugin.getServer().getOnlinePlayers()) {
-				recipients.remove(receiver);
+			recipients.clear();
 
+			for (Player receiver : this.plugin.getServer().getOnlinePlayers()) {
 				if (Methods.inRange(uuid, receiver.getUniqueId(), radius)) {
 					recipients.add(player);
 					recipients.add(receiver);
@@ -87,9 +87,9 @@ public class ListenerRadius implements Listener {
 		}
 
 		if (this.plugin.api().getWorldChatData().containsUser(uuid)) {
-			for (Player receiver : this.plugin.getServer().getOnlinePlayers()) {
-				recipients.remove(receiver);
+			recipients.clear();
 
+			for (Player receiver : this.plugin.getServer().getOnlinePlayers()) {
 				if (Methods.inWorld(uuid, receiver.getUniqueId())) {
 					recipients.add(player);
 					recipients.add(receiver);
