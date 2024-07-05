@@ -119,7 +119,7 @@ public enum Permissions {
     COMMAND_CLEARCHAT("clearchat", "Ability to use the command /clearchat", PermissionDefault.OP),
     COMMAND_DEBUG("debug", "Permission to debug the plugin.", PermissionDefault.OP),
     COMMAND_LISTS_PLAYERS("lists.players", "Ability to use /list", PermissionDefault.OP),
-    COMMAND_STAFF("chatmanager.staff", "Ability to do something", PermissionDefault.OP),
+    COMMAND_STAFF("staff", "Ability to do something", PermissionDefault.OP),
     COMMAND_LISTS_STAFF("lists.staff", "Ability to use /staff", PermissionDefault.OP),
     COMMAND_MESSAGE("message", "Send messages to other players", PermissionDefault.OP),
     COMMAND_MESSAGE_SELF("message.self", "Send messages to yourself because you have no friends.", PermissionDefault.OP),
