@@ -284,11 +284,11 @@ Chat_Format:
 # How to use chat radius: https://github.com/Crazy-Crew/ChatManager/wiki/Chat-Radius
 #=================================================================================================#
 Chat_Radius:
-  Enable: false
+  Enable: true
   # When players join the server, or if the plugin is hard reloaded (with plugman) players will be
   # automatically put into this chat channel.
   # Chat Channels: Local, Global, World.
-  Default_Channel: Local
+  Default_Channel: Global
   Local_Chat:
     # The prefix that's sent in local chat.
     Prefix: "&7[&cLocal&7]"
