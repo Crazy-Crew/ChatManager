@@ -7,9 +7,9 @@ import java.util.UUID;
 
 public class CmdCooldowns {
 
-    private final HashMap<UUID, Integer> map = new HashMap<>();
+    private final Map<UUID, Integer> map = new HashMap<>();
 
-    public void addUser(UUID uuid, Integer time) {
+    public void addUser(UUID uuid, int time) {
         if (!containsUser(uuid)) map.put(uuid, time);
     }
 

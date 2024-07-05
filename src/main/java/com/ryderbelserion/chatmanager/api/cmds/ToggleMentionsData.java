@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class ToggleMentionsData {
 
-    private final HashSet<UUID> users = new HashSet<>();
+    private final Set<UUID> users = new HashSet<>();
 
     public void addUser(UUID uuid) {
         if (!containsUser(uuid)) users.add(uuid);

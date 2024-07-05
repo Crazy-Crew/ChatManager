@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class CooldownTask {
 
-    private final HashMap<UUID, BukkitRunnable> map = new HashMap<>();
+    private final Map<UUID, BukkitRunnable> map = new HashMap<>();
 
     public void addUser(UUID uuid, BukkitRunnable runnable) {
         if (!containsUser(uuid)) map.put(uuid, runnable);

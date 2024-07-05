@@ -1,10 +1,13 @@
 package com.ryderbelserion.chatmanager.api.chat;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class UserRepliedData {
 
-    private final HashMap<UUID, UUID> replies = new HashMap<>();
+    private final Map<UUID, UUID> replies = new HashMap<>();
 
     public void addUser(UUID uuid, UUID other) {
         if (!containsUser(uuid)) replies.put(uuid, other);

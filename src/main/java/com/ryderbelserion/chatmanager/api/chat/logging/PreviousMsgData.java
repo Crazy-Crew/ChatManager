@@ -1,10 +1,13 @@
 package com.ryderbelserion.chatmanager.api.chat.logging;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class PreviousMsgData {
 
-    private final HashMap<UUID, String> map = new HashMap<>();
+    private final Map<UUID, String> map = new HashMap<>();
 
     public void addUser(UUID uuid, String message) {
         if (!containsUser(uuid)) map.put(uuid, message);

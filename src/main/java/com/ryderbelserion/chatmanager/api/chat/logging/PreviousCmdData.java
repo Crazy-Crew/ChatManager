@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class PreviousCmdData {
 
-    private final HashMap<UUID, String> map = new HashMap<>();
+    private final Map<UUID, String> map = new HashMap<>();
 
     public void addUser(UUID uuid, String message) {
         if (!containsUser(uuid)) map.put(uuid, message);
