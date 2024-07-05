@@ -19,7 +19,7 @@ val nextNumber: String? = if (System.getenv("NEXT_BUILD_NUMBER") != null) System
 
 rootProject.version = "${libs.versions.minecraft.get()}-$nextNumber"
 
-val isSnapshot = true
+val isSnapshot = false
 
 val content: String = if (isSnapshot) {
     formatLog(latestCommitHash(), latestCommitMessage(), rootProject.name, "Crazy-Crew")
