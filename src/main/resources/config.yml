@@ -31,7 +31,7 @@
 Anti_Advertising:
   Chat:
     # Block advertising in chat.
-    Enable: true
+    Enable: false
     # Should the anti advertising checker be more sensitive? This may cause false positives.
     Increase_Sensitivity: false
     # Should staff get notified when a player advertises in chat?
@@ -46,7 +46,7 @@ Anti_Advertising:
 
   Commands:
     # Block advertising in commands.
-    Enable: true
+    Enable: false
     # Should the anti advertising checker be more sensitive? This may cause false positives.
     Increase_Sensitivity: false
     # Should staff get notified when a player advertises in commands?
@@ -64,7 +64,7 @@ Anti_Advertising:
 
   Signs:
     # Block advertising on signs.
-    Enable: true
+    Enable: false
     # Should the anti advertising checker be more sensitive? This may cause false positives.
     Increase_Sensitivity: false
     # Should staff get notified when a player advertises on a sign?
@@ -86,15 +86,15 @@ Anti_Advertising:
 #=================================================================================================#
 Anti_Bot:
   # Block players from typing in chat until they move.
-  Block_Chat_Until_Moved: true
+  Block_Chat_Until_Moved: false
   # Block players from executing commands until they move.
-  Block_Commands_Until_Moved: true
+  Block_Commands_Until_Moved: false
 
 #=================================================================================================#
 # Prevent messages written in CAPS.
 #=================================================================================================#
 Anti_Caps:
-  Enable: true
+  Enable: false
   # Should players capitalize words in commands?
   Enable_In_Commands: true
   # The minimum size the message has to be to get blocked.
@@ -110,14 +110,14 @@ Anti_Spam:
   Chat:
     # How many seconds does the player have to wait till they send their next message?
     # Set to 0 to disable.
-    Chat_Delay: 3
+    Chat_Delay: 0
     # Prevent players from repeating the same messages.
     Block_Repetitive_Messages: true
   # Anti-spam section for commands.
   Command:
     # How many seconds does the player have to wait till they send their next command?
     # Set to 0 to disable.
-    Command_Delay: 3
+    Command_Delay: 0
     # Prevent players from repeating the same commands.
     Block_Repetitive_Commands: true
     # Whitelisted commands that won't be effected by the anti-spam.
@@ -130,7 +130,7 @@ Anti_Spam:
 Anti_Swear:
   Chat:
     # Block swearing in chat
-    Enable: true
+    Enable: false
     # Should the anti-swear checker be more sensitive? This may cause false positives.
     Increase_Sensitivity: false
     # Should chat manager block the message from being sent in chat?
@@ -148,7 +148,7 @@ Anti_Swear:
   
   Commands:
     # Block swearing in commands.
-    Enable: true
+    Enable: false
     # Should the anti-swear checker be more sensitive? This may cause false positives.
     Increase_Sensitivity: false
     # Should chat manager block the command from being sent?
@@ -171,7 +171,7 @@ Anti_Swear:
 
   Signs:
     # Block swearing on signs.
-    Enable: true
+    Enable: false
     # Should the anti-swear checker be more sensitive? This may cause false positives.
     Increase_Sensitivity: false
     # Should chat manager block the message from being added to the sign?
@@ -192,7 +192,7 @@ Anti_Swear:
 #=================================================================================================#
 Anti_Unicode:
   # Block special characters in chat.
-  Enable: true
+  Enable: false
   # Should staff get notified when a player uses special characters?
   Notify_Staff: true
   # Should a command be executed when a player uses special characters?
@@ -209,7 +209,7 @@ Anti_Unicode:
 # Prevent players from using certain commands.
 #=================================================================================================#
 Banned_Commands:
-  Enable: true
+  Enable: false
   # Increase banned commands sensitivity so if you add the command /gamemode,
   # players won't be able to do /gamemode creative, /gamemode survival, etc.
   Increase_Sensitivity: false
@@ -275,7 +275,7 @@ Broadcast_Commands:
 # Available Placeholders: https://github.com/Crazy-Crew/ChatManager/wiki/Chat-Format#placeholders-top
 #=================================================================================================#
 Chat_Format:
-  Enable: true
+  Enable: false
   # This will only be used if the players permission group isn't on the bottom of this section.
   Default_Format: "%luckperms_prefix% &7{player} &9> &7{message}"
 
@@ -345,13 +345,13 @@ Command_Spy:
 # chatmanager.format.all or chatmanager.format.{code} without the &. Example: chatmanager.color.f
 #=================================================================================================#
 Formatted_Messages:
-  Enable: true
+  Enable: false
 
 #=================================================================================================#
 # Correct player's grammar.
 #=================================================================================================#
 Grammar:
-  Enable: true
+  Enable: false
   # The minimum size the players message has to be for grammar to work.
   Min_Message_Length: 5
   # Correct words from "i" to "I", "dont" to "don't", and many more pre-set words!
@@ -375,11 +375,11 @@ Lists:
 #=================================================================================================#
 Logs:
   # Should every message in chat be logged in the Chat.txt file?
-  Log_Chat: true
+  Log_Chat: false
   # Should every command that is executed be logged in the Commands.txt file?
-  Log_Commands: true
+  Log_Commands: false
   # Should every message placed on a sign be logged in the Signs.txt file?
-  Log_Signs: true
+  Log_Signs: false
   # Commands that won't be logged in the Command.txt file.
   # Commands in the Blacklist_Commands list must be lowercase.
   Blacklist_Commands:
@@ -445,7 +445,7 @@ Messages:
 
   First_Join:
     Welcome_Message:
-      Enable: true
+      Enable: false
       # The sound that will be sent to everyone on the server when a broadcasted message is sent.
       # Set toggle to false
       sound:
@@ -456,11 +456,11 @@ Messages:
       First_Join_Message: "&eWelcome to &b{server_name} %luckperms_prefix% {player}&e!"
 
     Actionbar_Message:
-      Enable: true
+      Enable: false
       First_Join_Message: "&eWelcome to &b{server_name} %luckperms_prefix% {player}&e!"
 
     Title_Message:
-      Enable: true
+      Enable: false
       #The time it takes for the title to fade into the screen.
       Fade_In: 40
       #The time it takes for the title to stay on the screen.
@@ -477,7 +477,7 @@ Messages:
       #Enable if you don't want to use group messages
       #If players doesn't have a permission set in group messages these messages will send.
       #Same rules apply for the Quit, Actionbar, and Title Messages.
-      Enable: true
+      Enable: false
       # The sound that will be sent to everyone on the server when a broadcasted message is sent.
       # Set toggle to false
       sound:
@@ -488,7 +488,7 @@ Messages:
       Message: "&b{player} &ajoined the server"
     
     Quit_Message:
-      Enable: true
+      Enable: false
 
       # The sound that will be sent to everyone on the server when a broadcasted message is sent.
       # Set toggle to false
@@ -505,7 +505,7 @@ Messages:
       Message: "&eWelcome back to &b{server_name} %luckperms_prefix% {player}&e!"
     
     Title_Message:
-      Enable: true
+      Enable: false
       # The Fade In, Stay, Fade Out applies for all group and default title messages.
       # The time it takes for the title to fade into the screen.
       Fade_In: 40
@@ -583,7 +583,7 @@ Messages:
 # When a player mentions another players name.
 #=================================================================================================#
 Mentions:
-  Enable: true
+  Enable: false
   # The sound that's played to the receiver
   # https://jd.papermc.io/paper/1.20/org/bukkit/Sound.html
   sound:
@@ -606,7 +606,7 @@ Mentions:
 # When players join your server, welcome them with a Message of the Day.
 #=================================================================================================#
 MOTD:
-  Enable: true
+  Enable: false
   # How long to wait before displaying after login in seconds?
   Delay: 2
   Message:
@@ -622,7 +622,7 @@ MOTD:
 # Mute Chat.
 #=================================================================================================#
 Mute_Chat:
-  Disable_Commands: true
+  Disable_Commands: false
   # Commands that cannot be executed when chat is muted
   # if the boolean "Disable_Commands" is set to true.
   Disabled_Commands:
@@ -713,7 +713,7 @@ Social_Spy:
 # Talk silently with staff without everyone else on the server seeing.
 #=================================================================================================#
 Staff_Chat:
-  Enable: true
+  Enable: false
   Format: "&e[&bStaffChat&e] &a{player} &7> &b{message}"
   # A boss bar will appear when entering staff chat to show its enabled.
   Boss_Bar:
