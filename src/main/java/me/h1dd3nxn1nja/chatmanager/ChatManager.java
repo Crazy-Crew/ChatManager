@@ -111,13 +111,13 @@ public class ChatManager extends JavaPlugin {
 
         CommandMessage commandMessage = new CommandMessage();
 
-        registerCommand(getCommand("Reply"), null, commandMessage);
-        registerCommand(getCommand("TogglePM"), null, commandMessage);
+        registerCommand(getCommand("Reply"), commandMessage, commandMessage);
+        registerCommand(getCommand("TogglePM"), commandMessage, commandMessage);
         registerCommand(getCommand("Message"), new TabCompleteMessage(), commandMessage);
 
-        registerCommand(getCommand("StaffChat"), null, new CommandStaffChat());
+        registerCommand(getCommand("StaffChat"), new CommandStaffChat(), new CommandStaffChat());
 
-        registerCommand(getCommand("ChatRadius"), null, new CommandRadius());
+        registerCommand(getCommand("ChatRadius"), new CommandRadius(), new CommandRadius());
 
         registerCommand(getCommand("ChatManager"), new TabCompleteChatManager(), new CommandChatManager());
 

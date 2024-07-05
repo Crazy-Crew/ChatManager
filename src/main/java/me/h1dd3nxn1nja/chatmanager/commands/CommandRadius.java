@@ -161,4 +161,20 @@ public class CommandRadius implements CommandExecutor {
 
 		return true;
 	}
+
+	@Override
+	public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+		List<String> completions = new ArrayList<>();
+
+		if (args.length == 1) {
+			completions.add("help");
+
+			completions.add("local");
+			completions.add("global");
+			completions.add("world");
+			completions.add("spy");
+		}
+
+		return StringUtil.copyPartialMatches(args[0], completions, new ArrayList<>());
+	}
 }
