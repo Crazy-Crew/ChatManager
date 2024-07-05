@@ -33,6 +33,6 @@ public class ListenerStaffChat implements Listener {
 			}
 		}
 
-		Methods.tellConsole(config.getString("Staff_Chat.Format").replace("{message}", message), false);
+		Methods.tellConsole(config.getString("Staff_Chat.Format").replace("{player}", player.getName()).replace("{message}", message), false);
 	}
 }
