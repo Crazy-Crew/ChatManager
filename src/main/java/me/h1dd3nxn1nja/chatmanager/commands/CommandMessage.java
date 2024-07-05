@@ -13,12 +13,17 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-public class CommandMessage implements CommandExecutor {
+public class CommandMessage implements CommandExecutor, TabCompleter {
 
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
@@ -76,7 +81,7 @@ public class CommandMessage implements CommandExecutor {
 					return true;
 				}
 
-				if (duplicate(args, playerNotFound, player, message, target, player.getUniqueId(), target.getUniqueId())) return true;
+				if (handleMessage(args, playerNotFound, player, message, target)) return true;
 			} else {
 				Methods.sendMessage(player, Methods.noPermission(), true);
 			}
@@ -110,7 +115,7 @@ public class CommandMessage implements CommandExecutor {
 						return true;
 					}
 
-					if (duplicate(args, playerNotFound, player, message, target, target.getUniqueId(), player.getUniqueId())) return true;
+					if (handleMessage(args, playerNotFound, player, message, target)) return true;
 				} else {
 					Methods.sendMessage(player, "&cCommand Usage: &7/reply <message>", true);
 				}
@@ -146,7 +151,7 @@ public class CommandMessage implements CommandExecutor {
 		return true;
 	}
 
-	private boolean duplicate(String[] args, String playerNotFound, Player player, StringBuilder message, Player target, UUID uniqueId, UUID uniqueId2) {
+	private boolean handleMessage(String[] args, String playerNotFound, Player player, StringBuilder message, Player target) {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
 		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
@@ -175,8 +180,8 @@ public class CommandMessage implements CommandExecutor {
 
 		Methods.playSound(target, config, "Private_Messages.sound");
 
-		this.plugin.api().getUserRepliedData().addUser(uniqueId, uniqueId2);
-		this.plugin.api().getUserRepliedData().addUser(uniqueId2, uniqueId);
+		this.plugin.api().getUserRepliedData().addUser(player.getUniqueId(), target.getUniqueId());
+		this.plugin.api().getUserRepliedData().addUser(target.getUniqueId(), player.getUniqueId());
 
 		for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 			if ((staff != player) && (staff != target)) {
@@ -212,5 +217,26 @@ public class CommandMessage implements CommandExecutor {
 		}
 
 		return false;
+	}
+
+	@Override
+	public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+		List<String> completions = new ArrayList<>();
+
+		if (args.length == 2) { // /message <player>
+            if (args[0].equalsIgnoreCase("message")) {
+                if (sender.hasPermission(Permissions.COMMAND_MESSAGE.getNode())) {
+                    this.plugin.getServer().getOnlinePlayers().forEach(player -> completions.add(player.getName()));
+
+                    if (!sender.hasPermission(Permissions.COMMAND_MESSAGE_SELF.getNode())) {
+                        completions.remove(sender.getName());
+                    }
+                }
+
+                return StringUtil.copyPartialMatches(args[1], completions, new ArrayList<>());
+            }
+		}
+
+		return new ArrayList<>();
 	}
 }
