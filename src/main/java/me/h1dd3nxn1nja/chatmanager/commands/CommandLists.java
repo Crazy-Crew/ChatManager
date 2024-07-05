@@ -69,11 +69,11 @@ public class CommandLists implements CommandExecutor {
 
 					if (sender instanceof Player player) {
 						for (String list : config.getStringList("Lists.Staff_List")) {
-							Methods.sendMessage(player, Methods.placeholders(false, player, list.replace("{players}", str.toString())).replace("{server_online}", online).replace("{server_max_players}", max), true);
+							Methods.sendMessage(player, Methods.placeholders(false, player, list.replace("{staff}", str.toString())).replace("{server_online}", online).replace("{server_max_players}", max), true);
 						}
 					} else {
 						for (String list : config.getStringList("Lists.Staff_List")) {
-							Methods.sendMessage(sender, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max), true);
+							Methods.sendMessage(sender, list.replace("{staff}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max), true);
 						}
 					}
 				} else {
