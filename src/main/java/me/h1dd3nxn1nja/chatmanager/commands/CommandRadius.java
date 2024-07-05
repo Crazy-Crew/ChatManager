@@ -7,11 +7,17 @@ import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class CommandRadius implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class CommandRadius implements CommandExecutor, TabCompleter {
 
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
@@ -26,6 +32,13 @@ public class CommandRadius implements CommandExecutor {
 		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		if (cmd.getName().equalsIgnoreCase("chatradius")) {
+
+			if (!Files.CONFIG.getConfiguration().getBoolean("Chat_Radius.Enable")) {
+				Methods.sendMessage(sender, messages.getString("&cError: Chat Radius is currently disabled. Please enable it in the config.yml"), true);
+
+				return true;
+			}
+
 			if (player.hasPermission(Permissions.CHAT_RADIUS_HELP.getNode())) {
 				if (args.length == 0) {
 					Methods.sendMessage(player, "", true);
