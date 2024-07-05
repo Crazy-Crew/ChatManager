@@ -55,13 +55,14 @@ public class ListenerAntiBot implements Listener {
 		Player player = event.getPlayer();
 
 		FileConfiguration config = Files.CONFIG.getConfiguration();
-		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved") || player.hasPermission(Permissions.BYPASS_ANTI_BOT.getNode())) return;
 
 		if (!this.plugin.api().getAntiBotData().containsUser(player.getUniqueId())) return;
 
 		event.setCancelled(true);
+
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		Methods.sendMessage(player, messages.getString("Anti_Bot.Deny_Chat_Message"), true);
 	}
@@ -71,13 +72,15 @@ public class ListenerAntiBot implements Listener {
 		Player player = event.getPlayer();
 
 		FileConfiguration config = Files.CONFIG.getConfiguration();
-		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		if (!config.getBoolean("Anti_Bot.Block_Commands_Until_Moved") || player.hasPermission(Permissions.BYPASS_ANTI_BOT.getNode())) return;
 
 		if (!this.plugin.api().getAntiBotData().containsUser(player.getUniqueId())) return;
 
 		event.setCancelled(true);
+
+		FileConfiguration messages = Files.MESSAGES.getConfiguration();
+
 		Methods.sendMessage(player, messages.getString("Anti_Bot.Deny_Command_Message"), true);
 	}
 }
