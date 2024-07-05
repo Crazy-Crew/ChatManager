@@ -120,7 +120,7 @@ public class ListenerAntiSpam implements Listener {
 					}
 				}
 
-				if (this.plugin.api().getPreviousCmdData().containsUser(uuid)) {
+				if (this.plugin.api().getPreviousCmdData().containsUser(uuid) && !this.plugin.api().getCmdCooldowns().containsUser(uuid)) {
 					String cmd = this.plugin.api().getPreviousCmdData().getMessage(uuid);
 
 					if (command.equalsIgnoreCase(cmd)) {
