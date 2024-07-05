@@ -5,6 +5,7 @@ import java.util.UUID;
 import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -80,7 +81,7 @@ public class ListenerRadius implements Listener {
 			for (Player receiver : this.plugin.getServer().getOnlinePlayers()) {
 				recipients.remove(receiver);
 
-				if (this.plugin.getMethods().inRange(uuid, receiver.getUniqueId(), radius)) {
+				if (Methods.inRange(uuid, receiver.getUniqueId(), radius)) {
 					recipients.add(player);
 					recipients.add(receiver);
 				}
@@ -93,7 +94,7 @@ public class ListenerRadius implements Listener {
 			for (Player receiver : this.plugin.getServer().getOnlinePlayers()) {
 				recipients.remove(receiver);
 
-				if (this.plugin.getMethods().inWorld(uuid, receiver.getUniqueId())) {
+				if (Methods.inWorld(uuid, receiver.getUniqueId())) {
 					recipients.add(player);
 					recipients.add(receiver);
 				}

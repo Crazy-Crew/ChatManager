@@ -11,7 +11,7 @@ minotaur = "2.+"
 hangar = "0.1.2"
 
 # Libraries
-vital = "1.5.9"
+vital = "df306e3"
 
 [plugins]
 paperweight = { id = "io.papermc.paperweight.userdev", version.ref = "paperweight" }
@@ -31,7 +31,6 @@ triumph-cmds = { group = "dev.triumphteam", name = "triumph-cmd-bukkit", version
 triumph-gui = { group = "dev.triumphteam", name = "triumph-gui", version = "3.1.7" }
 
 vital-paper = { module = "com.ryderbelserion.vital:paper", version.ref = "vital" }
-vital-core = { module = "com.ryderbelserion.vital:core", version.ref = "vital" }
 
 vault = { group = "com.github.MilkBowl", name = "VaultAPI", version = "1.7.1" }
 metrics = { group = "org.bstats", name = "bstats-bukkit", version = "3.0.2" }

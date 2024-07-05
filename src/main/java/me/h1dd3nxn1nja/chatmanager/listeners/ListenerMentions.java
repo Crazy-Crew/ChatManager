@@ -3,7 +3,6 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
 import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -20,13 +19,7 @@ public class ListenerMentions implements Listener {
 	private final ChatManager plugin = ChatManager.get();
 
 	@NotNull
-	private final Methods methods = this.plugin.getMethods();
-
-	@NotNull
 	private final EssentialsSupport essentialsSupport = this.plugin.getPluginManager().getEssentialsSupport();
-
-	@NotNull
-	private final PlaceholderManager placeholderManager = this.plugin.getCrazyManager().getPlaceholderManager();
 
 	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
@@ -55,23 +48,22 @@ public class ListenerMentions implements Listener {
 			if (this.plugin.api().getToggleChatData().containsUser(target.getUniqueId())) return;
 
 			if (config.getBoolean("Chat_Radius.Enable")) {
-				if ((!this.plugin.getMethods().inRange(target.getUniqueId(), player.getUniqueId(), config.getInt("Chat_Radius.Block_Distance"))) || (!this.plugin.getMethods().inWorld(target.getUniqueId(), player.getUniqueId()))) return;
+				if ((!Methods.inRange(target.getUniqueId(), player.getUniqueId(), config.getInt("Chat_Radius.Block_Distance"))) || (!Methods.inWorld(target.getUniqueId(), player.getUniqueId()))) return;
 			}
 
 			if (!this.plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) {
 				String path = "Mentions.sound";
-				this.methods.playSound(target, config, path);
+				Methods.playSound(target, config, path);
 			}
 
 			if (config.getBoolean("Mentions.Title.Enable")) {
-				String header = this.placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Header"));
-				String footer = this.placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Footer"));
-
-				target.sendTitle(header, footer, 40, 20, 40);
+				target.sendTitle(
+						Methods.placeholders(false, player, Methods.color(config.getString("Mentions.Title.Header"))),
+						Methods.placeholders(false, player, Methods.color(config.getString("Mentions.Title.Footer"))), 40, 20, 40);
 			}
 
 			if (!config.getString("Mentions.Mention_Color").equals("")) {
-				String modifiedMessage = message.replaceAll("@\\S+", methods.color(mentionColor + "$0"));
+				String modifiedMessage = message.replaceAll("@\\S+", Methods.color(mentionColor + "$0"));
 
 				event.setMessage(modifiedMessage);
 			}
@@ -85,18 +77,17 @@ public class ListenerMentions implements Listener {
 				if (player.hasPermission(Permissions.MENTION_EVERYONE.getNode()) && target.hasPermission(Permissions.RECEIVE_MENTION.getNode())) {
 					if (!this.plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) {
 						String path = "Mentions.sound";
-						methods.playSound(target, config, path);
+						Methods.playSound(target, config, path);
 					}
 
 					if (config.getBoolean("Mentions.Title.Enable")) {
-						String header = this.placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Header"));
-						String footer = this.placeholderManager.setPlaceholders(player, config.getString("Mentions.Title.Footer"));
-
-						target.sendTitle(header, footer, 40, 20, 40);
+						target.sendTitle(
+								Methods.placeholders(false, player, Methods.color(config.getString("Mentions.Title.Header"))),
+										Methods.placeholders(false, player, Methods.color(config.getString("Mentions.Title.Footer"))), 40, 20, 40);
 					}
 
 					if (!config.getString("Mentions.Mention_Color").isBlank()) {
-						String modifiedMessage = message.replaceAll("@\\S+", methods.color(mentionColor + "$0"));
+						String modifiedMessage = message.replaceAll("@\\S+", Methods.color(mentionColor + "$0"));
 
 						event.setMessage(modifiedMessage);
 					}

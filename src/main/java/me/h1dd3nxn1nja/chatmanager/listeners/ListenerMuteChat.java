@@ -1,20 +1,16 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.jetbrains.annotations.NotNull;
 
 public class ListenerMuteChat implements Listener {
-
-	@NotNull
-	private final ChatManager plugin = ChatManager.get();
 
 	@EventHandler(ignoreCancelled = true)
 	public void muteChat(AsyncPlayerChatEvent event) {
@@ -22,9 +18,9 @@ public class ListenerMuteChat implements Listener {
 
 		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
-		if (player.hasPermission(Permissions.BYPASS_MUTE_CHAT.getNode()) || !this.plugin.getMethods().isMuted()) return;
+		if (player.hasPermission(Permissions.BYPASS_MUTE_CHAT.getNode()) || !Methods.isMuted()) return;
 
-		this.plugin.getMethods().sendMessage(player, messages.getString("Mute_Chat.Denied_Message"), true);
+		Methods.sendMessage(player, messages.getString("Mute_Chat.Denied_Message"), true);
 		event.setCancelled(true);
 	}
 
@@ -35,11 +31,11 @@ public class ListenerMuteChat implements Listener {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
 		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
-		if (!config.getBoolean("Mute_Chat.Disable_Commands") || player.hasPermission(Permissions.BYPASS_MUTE_CHAT.getNode()) || !this.plugin.getMethods().isMuted()) return;
+		if (!config.getBoolean("Mute_Chat.Disable_Commands") || player.hasPermission(Permissions.BYPASS_MUTE_CHAT.getNode()) || !Methods.isMuted()) return;
 
 		for (String command : config.getStringList("Mute_Chat.Disabled_Commands")) {
 			if (event.getMessage().toLowerCase().contains(command)) {
-				this.plugin.getMethods().sendMessage(player, messages.getString("Mute_Chat.Blocked_Commands.Message"), true);
+				Methods.sendMessage(player, messages.getString("Mute_Chat.Blocked_Commands.Message"), true);
 				event.setCancelled(true);
 				return;
 			}

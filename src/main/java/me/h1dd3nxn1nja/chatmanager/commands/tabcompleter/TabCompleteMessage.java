@@ -1,8 +1,10 @@
 package me.h1dd3nxn1nja.chatmanager.commands.tabcompleter;
 
+import com.ryderbelserion.vital.paper.plugins.PluginManager;
+import com.ryderbelserion.vital.paper.plugins.interfaces.Plugin;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
-import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
+import me.h1dd3nxn1nja.chatmanager.support.PluginHandler;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -18,10 +20,10 @@ public class TabCompleteMessage implements TabCompleter {
 	private final ChatManager plugin = ChatManager.get();
 
 	@NotNull
-	private final PluginManager pluginManager = this.plugin.getPluginManager();
+	private final PluginHandler pluginHandler = this.plugin.getPluginManager();
 
 	@NotNull
-	private final EssentialsSupport essentialsSupport = this.pluginManager.getEssentialsSupport();
+	private final EssentialsSupport essentialsSupport = this.pluginHandler.getEssentialsSupport();
 
 	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
 		if (args.length == 0) return null;
@@ -40,12 +42,17 @@ public class TabCompleteMessage implements TabCompleter {
 
         for (Player player3 : matchPlayer) {
             if (!hasPermission && PluginSupport.ESSENTIALS.isPluginEnabled() && this.essentialsSupport.isIgnored(player3.getUniqueId(), player2.getUniqueId())) continue;
+
             if (!hasPermission2) {
-                if (PluginSupport.ESSENTIALS.isPluginEnabled() && this.pluginManager.getEssentialsVanishSupport().isVanished(player3)) continue;
-                if (PluginSupport.SUPER_VANISH.isPluginEnabled() || PluginSupport.PREMIUM_VANISH.isPluginEnabled() && this.pluginManager.getGenericVanishSupport().isVanished(player3)) continue;
+				final Plugin genericVanish = PluginManager.getPlugin("GenericVanish");
+
+				if (genericVanish.isEnabled() && genericVanish.isVanished(player3.getUniqueId())) {
+					continue;
+				}
             }
 
             if (!hasPermission3 && this.plugin.api().getToggleMessageData().containsUser(player3.getUniqueId())) continue;
+
             list.add(player3.getName());
         }
 

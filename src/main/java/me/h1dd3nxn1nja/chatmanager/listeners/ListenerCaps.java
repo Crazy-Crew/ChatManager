@@ -3,6 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -44,7 +45,7 @@ public class ListenerCaps implements Listener {
 
 			if (upperChar + lowerChar != 0) {
 				if (1.0D * upperChar / (upperChar + lowerChar) * 100.0D >= config.getInt("Anti_Caps.Required_Percentage")) {
-					this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Caps.Message_Chat"), true);
+					Methods.sendMessage(player, messages.getString("Anti_Caps.Message_Chat"), true);
 					event.setMessage(message.toLowerCase());
 				}
 			}
@@ -79,7 +80,7 @@ public class ListenerCaps implements Listener {
 
 			if (upperChar + lowerChar != 0) {
 				if (1.0D * upperChar / (upperChar + lowerChar) * 100.0D >= config.getInt("Anti_Caps.Required_Percentage")) {
-					this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Caps.Message_Commands"), true);
+					Methods.sendMessage(player, messages.getString("Anti_Caps.Message_Commands"), true);
 					event.setMessage(message.toLowerCase());
 				}
 			}

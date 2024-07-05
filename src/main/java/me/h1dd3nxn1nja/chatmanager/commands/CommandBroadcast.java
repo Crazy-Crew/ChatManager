@@ -4,7 +4,7 @@ import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import java.util.List;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
+import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,9 +18,6 @@ public class CommandBroadcast implements CommandExecutor {
 
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
-
-	@NotNull
-	private final PlaceholderManager placeholderManager = this.plugin.getCrazyManager().getPlaceholderManager();
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
@@ -57,16 +54,17 @@ public class CommandBroadcast implements CommandExecutor {
 					}
 
 					for (Player online : this.plugin.getServer().getOnlinePlayers()) {
-						online.sendMessage(this.plugin.getMethods().color(prefix + color + message));
+						Methods.sendMessage(online.getPlayer(), message.toString(), true);
+
 						try {
 							online.playSound(online.getLocation(), Sound.valueOf(broadcastSound), broadcastVolume, broadcastPitch);
 						} catch (IllegalArgumentException ignored) {}
 					}
 				} else {
-					this.plugin.getMethods().sendMessage(sender, "&cCommand Usage: &7/Broadcast <message>", true);
+					Methods.sendMessage(sender, "&cCommand Usage: &7/Broadcast <message>", true);
 				}
 			} else {
-				this.plugin.getMethods().sendMessage(sender, this.plugin.getMethods().noPermission(), true);
+				Methods.sendMessage(sender, Methods.noPermission(), true);
 			}
 		}
 		
@@ -75,10 +73,10 @@ public class CommandBroadcast implements CommandExecutor {
 				if (args.length != 0) {
 					sendBroadcast(sender, args, announcementSound, announcementVolume, announcementPitch, announcement);
 				} else {
-					this.plugin.getMethods().sendMessage(sender, "&cCommand Usage: &7/Announcement <message>", true);
+					Methods.sendMessage(sender, "&cCommand Usage: &7/Announcement <message>", true);
 				}
 			} else {
-				this.plugin.getMethods().sendMessage(sender, this.plugin.getMethods().noPermission(), true);
+				Methods.sendMessage(sender, Methods.noPermission(), true);
 			}	
 		}
 		
@@ -87,10 +85,10 @@ public class CommandBroadcast implements CommandExecutor {
 				if (args.length != 0) {
 					sendBroadcast(sender, args, warningSound, warningVolume, warningPitch, warning);
 				} else {
-					this.plugin.getMethods().sendMessage(sender, "&cCommand Usage: &7/Warning <message>", true);
+					Methods.sendMessage(sender, "&cCommand Usage: &7/Warning <message>", true);
 				}
 			} else {
-				this.plugin.getMethods().sendMessage(sender, this.plugin.getMethods().noPermission(), true);
+				Methods.sendMessage(sender, Methods.noPermission(), true);
 			}
 		}
 
@@ -107,7 +105,7 @@ public class CommandBroadcast implements CommandExecutor {
 		for (String announce : warning) {
 			for (Player online : this.plugin.getServer().getOnlinePlayers()) {
 				if (sender instanceof Player player) {
-					online.sendMessage(this.placeholderManager.setPlaceholders(player, announce.replace("{player}", player.getName()).replace("{message}", message).replace("\\n", "\n")));
+					online.sendMessage(Methods.placeholders(false, player, announce.replace("{player}", player.getName())).replace("{message}", message).replace("\\n", "\n"));
 				}
 
 				try {
@@ -115,7 +113,7 @@ public class CommandBroadcast implements CommandExecutor {
 				} catch (IllegalArgumentException ignored) {}
 			}
 
-			if (sender instanceof ConsoleCommandSender) this.plugin.getMethods().broadcast(announce.replace("{player}", sender.getName()).replace("{message}", message).replace("\\n", "\n"));
+			if (sender instanceof ConsoleCommandSender) Methods.broadcast(null, announce.replace("{player}", sender.getName()).replace("{message}", message).replace("\\n", "\n"));
 		}
 	}
 }

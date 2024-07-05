@@ -3,6 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,24 +30,24 @@ public class CommandClearChat implements CommandExecutor {
 
 							if (sender instanceof Player player) {
 								for (String broadcastMessage : messages.getStringList("Clear_Chat.Broadcast_Message")) {
-									this.plugin.getMethods().sendMessage(members, broadcastMessage.replace("{player}", player.getName()), true);
+									Methods.sendMessage(members, broadcastMessage.replace("{player}", player.getName()), true);
 								}
 							} else if (sender instanceof ConsoleCommandSender) {
 								for (String broadcastMessage : messages.getStringList("Clear_Chat.Broadcast_Message")) {
-									this.plugin.getMethods().sendMessage(members, broadcastMessage.replace("{player}", sender.getName()), true);
+									Methods.sendMessage(members, broadcastMessage.replace("{player}", sender.getName()), true);
 								}
 
-								this.plugin.getMethods().sendMessage(sender, messages.getString("Clear_Chat.Staff_Message").replace("{player}", sender.getName()), true);
+								Methods.sendMessage(sender, messages.getString("Clear_Chat.Staff_Message").replace("{player}", sender.getName()), true);
 							}
 						} else {
-							this.plugin.getMethods().sendMessage(sender, messages.getString("Clear_Chat.Staff_Message").replace("{player}", sender.getName()), true);
+							Methods.sendMessage(sender, messages.getString("Clear_Chat.Staff_Message").replace("{player}", sender.getName()), true);
 						}
 					}
 				} else {
-					this.plugin.getMethods().sendMessage(sender, "&cCommand Usage: &7/clearchat", true);
+					Methods.sendMessage(sender, "&cCommand Usage: &7/clearchat", true);
 				}
 			} else {
-				this.plugin.getMethods().sendMessage(sender, this.plugin.getMethods().noPermission(), true);
+				Methods.sendMessage(sender, Methods.noPermission(), true);
 			}
 		}
 

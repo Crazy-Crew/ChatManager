@@ -3,6 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -62,7 +63,7 @@ public class ListenerAntiBot implements Listener {
 
 		event.setCancelled(true);
 
-		this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Bot.Deny_Chat_Message"), true);
+		Methods.sendMessage(player, messages.getString("Anti_Bot.Deny_Chat_Message"), true);
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -77,6 +78,6 @@ public class ListenerAntiBot implements Listener {
 		if (!this.plugin.api().getAntiBotData().containsUser(player.getUniqueId())) return;
 
 		event.setCancelled(true);
-		this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Bot.Deny_Command_Message"), true);
+		Methods.sendMessage(player, messages.getString("Anti_Bot.Deny_Command_Message"), true);
 	}
 }

@@ -99,7 +99,7 @@ Anti_Unicode:
 Auto_Broadcast:
   List: "&c{section}'s &7auto-broadcast messages:"
   Added: "{Prefix}&r{message} &7has been added to the &c{section} &7messages&7!"
-  Created: "{Prefix}&7Created the world &c'{world}' &7with the message &r{message}&7."
+  Created: "{Prefix}&7Created the world &c'%world%' &7with the message &r{message}&7."
   
 #=================================================================================================#
 # Banned Commands Messages

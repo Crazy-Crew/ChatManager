@@ -3,7 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
+import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,9 +15,6 @@ public class ListenerStaffChat implements Listener {
 
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
-
-	@NotNull
-	private final PlaceholderManager placeholderManager = this.plugin.getCrazyManager().getPlaceholderManager();
 
 	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
@@ -31,9 +28,11 @@ public class ListenerStaffChat implements Listener {
 		event.setCancelled(true);
 
 		for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
-			if (staff.hasPermission(Permissions.TOGGLE_STAFF_CHAT.getNode())) staff.sendMessage(this.placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)));
+			if (staff.hasPermission(Permissions.TOGGLE_STAFF_CHAT.getNode())) {
+				Methods.sendMessage(staff, config.getString("STaff_Chat.Format").replace("{message}", message), false);
+			}
 		}
 
-		this.plugin.getMethods().tellConsole(this.placeholderManager.setPlaceholders(player, config.getString("Staff_Chat.Format").replace("{message}", message)), false);
+		Methods.tellConsole(config.getString("Staff_Chat.Format").replace("{message}", message), false);
 	}
 }

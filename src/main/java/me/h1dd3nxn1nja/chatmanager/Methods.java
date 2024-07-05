@@ -4,7 +4,7 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.ryderbelserion.chatmanager.enums.Files;
-import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
+import com.ryderbelserion.vital.paper.plugins.PluginManager;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -16,30 +16,18 @@ import org.jetbrains.annotations.NotNull;
 public class Methods {
 
 	@NotNull
-	private final ChatManager plugin = ChatManager.get();
+	private static final ChatManager plugin = ChatManager.get();
 
-	private final String format = Files.CONFIG.getConfiguration().getString("Hex_Color_Format");
-	private final Pattern HEX_PATTERN = Pattern.compile(format + "([A-Fa-f0-9]{6})");
+	private static final Pattern HEX_PATTERN = Pattern.compile("#([A-Fa-f0-9]{6})");
 
-	public String color(String message) {
-		Matcher matcher = this.HEX_PATTERN.matcher(message);
-		StringBuilder buffer = new StringBuilder();
-
-		while (matcher.find()) {
-			matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of(matcher.group()).toString());
-		}
-
-		return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
-	}
-
-	public void playSound(FileConfiguration config, String path) {
+	public static void playSound(FileConfiguration config, String path) {
 		String sound = config.getString(path + ".value");
 		boolean isEnabled = config.contains(path + ".toggle") && config.getBoolean(path + ".toggle");
 		double volume = config.contains(path + ".volume") ? config.getDouble(path + ".volume") : 1.0;
 		double pitch = config.contains(path + ".pitch") ? config.getDouble(path + ".pitch") : 1.0;
 
 		if (isEnabled) {
-			for (Player online : this.plugin.getServer().getOnlinePlayers()) {
+			for (Player online : plugin.getServer().getOnlinePlayers()) {
 				try {
 					online.playSound(online.getLocation(), Sound.valueOf(sound), (float) volume, (float) pitch);
 				} catch (IllegalArgumentException ignored) {}
@@ -47,7 +35,7 @@ public class Methods {
 		}
 	}
 
-	public void playSound(Player player, FileConfiguration config, String path) {
+	public static void playSound(Player player, FileConfiguration config, String path) {
 		String sound = config.getString(path + ".value");
 		boolean isEnabled = config.contains(path + ".toggle") && config.getBoolean(path + ".toggle");
 		double volume = config.contains(path + ".volume") ? config.getDouble(path + ".volume") : 1.0;
@@ -58,7 +46,7 @@ public class Methods {
 		}
 	}
 
-	public void convert() {
+	public static void convert() {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (config.contains("Messages.Join_Quit_Messages.Group_Messages")) {
@@ -263,58 +251,55 @@ public class Methods {
 		}
 	}
 
-	private void moveValues(FileConfiguration autoBroadcast, String oldSound, String path) {
-		assert oldSound != null;
-		if (oldSound.isEmpty()) autoBroadcast.set(path + ".toggle", false); else autoBroadcast.set(path + ".toggle", true);
+	private static void moveValues(FileConfiguration autoBroadcast, String oldSound, String path) {
+		if (oldSound == null || oldSound.isEmpty()) autoBroadcast.set(path + ".toggle", false); else autoBroadcast.set(path + ".toggle", true);
 
 		autoBroadcast.set(path + ".value", oldSound);
 		autoBroadcast.set(path + ".pitch", 1.0);
 		autoBroadcast.set(path + ".volume", 1.0);
 	}
 
-	public String color(UUID uuid, String message) {
-		Matcher matcher = this.HEX_PATTERN.matcher(message);
+	public static String color(String message) {
+		Matcher matcher = HEX_PATTERN.matcher(message);
 		StringBuilder buffer = new StringBuilder();
 
 		while (matcher.find()) {
 			matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of(matcher.group()).toString());
 		}
 
-		Player player = this.plugin.getServer().getPlayer(uuid);
-
-		return PluginSupport.PLACEHOLDERAPI.isPluginEnabled() ? ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(player, matcher.appendTail(buffer).toString())) : ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
+		return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
 	}
 	
-	public String getPrefix() {
-		return color(Files.MESSAGES.getConfiguration().getString("Message.Prefix"));
+	public static String getPrefix() {
+		return Files.MESSAGES.getConfiguration().getString("Message.Prefix");
 	}
 	
-	public String noPermission() {
-		return color(Files.MESSAGES.getConfiguration().getString("Message.No_Permission").replace("{Prefix}", getPrefix()));
+	public static String noPermission() {
+		return Files.MESSAGES.getConfiguration().getString("Message.No_Permission");
 	}
 
 	private static boolean isMuted;
 
-	public boolean isMuted() {
+	public static boolean isMuted() {
 	    return isMuted;
 	}
 
-	public void setMuted() {
+	public static void setMuted() {
 		isMuted = !isMuted;
 	}
 	
-	public void tellConsole(String message, boolean prefix) {
+	public static void tellConsole(String message, boolean prefix) {
 		if (prefix) {
-			sendMessage(this.plugin.getServer().getConsoleSender(), message, true);
+			sendMessage(plugin.getServer().getConsoleSender(), message, true);
 			return;
 		}
 
-		sendMessage(this.plugin.getServer().getConsoleSender(), message, false);
+		sendMessage(plugin.getServer().getConsoleSender(), message, false);
 	}
 	
-	public boolean inRange(UUID uuid, UUID receiver, int radius) {
-		Player player = this.plugin.getServer().getPlayer(uuid);
-		Player other = this.plugin.getServer().getPlayer(receiver);
+	public static boolean inRange(UUID uuid, UUID receiver, int radius) {
+		Player player = plugin.getServer().getPlayer(uuid);
+		Player other = plugin.getServer().getPlayer(receiver);
 
 		if (other.getLocation().getWorld().equals(player.getLocation().getWorld())) {
 			return other.getLocation().distanceSquared(player.getLocation()) <= radius * radius;
@@ -323,20 +308,20 @@ public class Methods {
 		return false;
 	}
 	
-	public boolean inWorld(UUID uuid, UUID receiver) {
-		Player player = this.plugin.getServer().getPlayer(uuid);
-		Player other = this.plugin.getServer().getPlayer(receiver);
+	public static boolean inWorld(UUID uuid, UUID receiver) {
+		Player player = plugin.getServer().getPlayer(uuid);
+		Player other = plugin.getServer().getPlayer(receiver);
 
 		return other.getLocation().getWorld().equals(player.getLocation().getWorld());
 	}
 
-	public void sendMessage(CommandSender commandSender, String message, boolean prefixToggle) {
+	public static void sendMessage(CommandSender commandSender, String message, boolean prefixToggle) {
 		if (message == null || message.isEmpty()) return;
 
 		String prefix = getPrefix();
 
 		if (commandSender instanceof Player player) {
-			if (!prefix.isEmpty() && prefixToggle) player.sendMessage(color(message.replace("{Prefix}", prefix))); else player.sendMessage(color(message));
+			if (!prefix.isEmpty() && prefixToggle) player.sendMessage(placeholders(false, player, color(message))); else player.sendMessage(placeholders(true, player, color(message)));
 
 			return;
 		}
@@ -344,11 +329,31 @@ public class Methods {
 		if (!prefix.isEmpty() && prefixToggle) commandSender.sendMessage(color(message.replace("{Prefix}", prefix))); else commandSender.sendMessage(color(message));
 	}
 
-	public void broadcast(String message) {
+	public static void broadcast(Player player, String message) {
 		if (message == null || message.isEmpty()) return;
 
 		String prefix = getPrefix();
 
-		if (!prefix.isEmpty()) this.plugin.getServer().broadcastMessage(color(message.replace("{Prefix}", prefix))); else this.plugin.getServer().broadcastMessage(color(message));
+		if (!prefix.isEmpty()) plugin.getServer().broadcastMessage(placeholders(false, player, color(message))); else plugin.getServer().broadcastMessage(placeholders(true, player, color(message)));
+	}
+
+	public static String placeholders(boolean ignorePrefix, final Player player, final String message) {
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
+
+		String clonedMessage = message;
+
+		if (!ignorePrefix) {
+			clonedMessage = clonedMessage.replace("{Prefix}", getPrefix()).replaceAll("\\{prefix}", getPrefix());
+		}
+
+		if (player != null) {
+			if (PluginManager.isEnabled("PlaceholderAPI")) {
+				return color(PlaceholderAPI.setPlaceholders(player, clonedMessage.replaceAll("\\{player}", player.getName()).replaceAll("\\{server_name}", config.getString("Server_Name", "Server Name not found."))));
+			}
+
+			return color(clonedMessage.replaceAll("\\{player}", player.getName()).replaceAll("\\{server_name}", config.getString("Server_Name", "Server Name not found.")));
+		}
+
+		return color(clonedMessage.replaceAll("\\{server_name}", config.getString("Server_Name", "Server Name not found.")));
 	}
 }

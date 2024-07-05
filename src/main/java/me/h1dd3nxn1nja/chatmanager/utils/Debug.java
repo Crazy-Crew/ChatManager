@@ -512,10 +512,6 @@ public class Debug {
 		if (!config.contains("Chat_Format.Default_Format"))
 			plugin.getLogger().warning("Missing the section Chat_Format.Default_Format in the config.yml file.");
 
-		for (String key : config.getConfigurationSection("Chat_Format.Groups").getKeys(false))
-			if (!config.contains("Chat_Format.Groups." + key + ".Format"))
-				plugin.getLogger().warning("The section Chat_Format.Groups." + key + ".Format is either missing or isn't formatted correctly.");
-
 		//Chat Radius
 
 		if (!config.contains("Chat_Radius.Enable"))

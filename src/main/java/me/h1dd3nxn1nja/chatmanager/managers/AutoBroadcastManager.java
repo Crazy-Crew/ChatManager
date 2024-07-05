@@ -2,7 +2,6 @@ package me.h1dd3nxn1nja.chatmanager.managers;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.ryderbelserion.chatmanager.api.CrazyManager;
 import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -11,14 +10,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
 import me.h1dd3nxn1nja.chatmanager.utils.World;
-import org.jetbrains.annotations.NotNull;
 
 public class AutoBroadcastManager {
 
-	@NotNull
 	private static final ChatManager plugin = ChatManager.get();
-	private static final Methods methods = plugin.getMethods();
-	private static final CrazyManager crazyManager = plugin.getCrazyManager();
 
 	private static final List<World> worlds = new ArrayList<>();
 	
@@ -35,14 +30,14 @@ public class AutoBroadcastManager {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Global_Messages.Enable")) {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
 						if (autobroadcast.getBoolean("Auto_Broadcast.Global_Messages.Header_And_Footer")) {
-							player.sendMessage(plugin.getMethods().color(player.getUniqueId(), autobroadcast.getString("Auto_Broadcast.Global_Messages.Header")));
-							player.sendMessage(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix).replace("\\n", "\n")));
-							player.sendMessage(plugin.getMethods().color(player.getUniqueId(), autobroadcast.getString("Auto_Broadcast.Global_Messages.Footer")));
+							player.sendMessage(Methods.color(autobroadcast.getString("Auto_Broadcast.Global_Messages.Header")));
+							player.sendMessage(Methods.color(messages.get(line).replace("{Prefix}", prefix).replace("\\n", "\n")));
+							player.sendMessage(Methods.color(autobroadcast.getString("Auto_Broadcast.Global_Messages.Footer")));
 						} else {
-							player.sendMessage(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix).replace("\\n", "\n")));
+							player.sendMessage(Methods.color(messages.get(line).replace("{Prefix}", prefix).replace("\\n", "\n")));
 						}
 
-						methods.playSound(player, autobroadcast, "Auto_Broadcast.Global_Messages.sound");
+						Methods.playSound(player, autobroadcast, "Auto_Broadcast.Global_Messages.sound");
 					}
 				}
 				line++;
@@ -71,14 +66,14 @@ public class AutoBroadcastManager {
 						for (Player player : plugin.getServer().getOnlinePlayers()) {
 							if (player.getWorld().getName().equals(world.getName())) {
 								if (autobroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Header_And_Footer")) {
-									player.sendMessage(plugin.getMethods().color(player.getUniqueId(), autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Header")));
-									player.sendMessage(crazyManager.getPlaceholderManager().setPlaceholders(player, world.getMessages().get(world.getIndex()).replace("{Prefix}", prefix).replace("\\n", "\n")));
-									player.sendMessage(plugin.getMethods().color(player.getUniqueId(), autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Footer")));
+									player.sendMessage(Methods.color(autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Header")));
+									player.sendMessage(Methods.color(world.getMessages().get(world.getIndex()).replace("{Prefix}", prefix).replace("\\n", "\n")));
+									player.sendMessage(Methods.color(autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Footer")));
 								} else {
-									player.sendMessage(crazyManager.getPlaceholderManager().setPlaceholders(player, world.getMessages().get(world.getIndex()).replace("{Prefix}", prefix).replace("\\n", "\n")));
+									player.sendMessage(Methods.color(world.getMessages().get(world.getIndex()).replace("{Prefix}", prefix).replace("\\n", "\n")));
 								}
 
-								methods.playSound(player, autobroadcast, "Auto_Broadcast.Per_World_Messages.sound");
+								Methods.playSound(player, autobroadcast, "Auto_Broadcast.Per_World_Messages.sound");
 							}
 						}
 					}
@@ -107,9 +102,9 @@ public class AutoBroadcastManager {
 			public void run() {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
-						player.sendActionBar(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line).replace("{Prefix}", prefix)));
+						player.sendActionBar(Methods.color(messages.get(line).replace("{Prefix}", prefix)));
 
-						methods.playSound(player, autobroadcast, "Auto_Broadcast.Actionbar_Messages.sound");
+						Methods.playSound(player, autobroadcast, "Auto_Broadcast.Actionbar_Messages.sound");
 					}
 				}
 
@@ -130,11 +125,11 @@ public class AutoBroadcastManager {
 			public void run() {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
-						String title = crazyManager.getPlaceholderManager().setPlaceholders(player, autobroadcast.getString("Auto_Broadcast.Title_Messages.Title"));
+						String title = Methods.color(autobroadcast.getString("Auto_Broadcast.Title_Messages.Title"));
 
-						player.sendTitle(title, crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line)), 40, 20, 40);
+						player.sendTitle(title, Methods.color(messages.get(line)), 40, 20, 40);
 
-						methods.playSound(player, autobroadcast, "Auto_Broadcast.Title_Messages.sound");
+						Methods.playSound(player, autobroadcast, "Auto_Broadcast.Title_Messages.sound");
 					}
 				}
 
@@ -156,7 +151,7 @@ public class AutoBroadcastManager {
 			public void run() {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Bossbar_Messages.Enable")) {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
-						BossBarUtil bossBar = new BossBarUtil(crazyManager.getPlaceholderManager().setPlaceholders(player, messages.get(line)), org.bukkit.boss.BarColor.PINK, org.bukkit.boss.BarStyle.SOLID);
+						BossBarUtil bossBar = new BossBarUtil(Methods.color(messages.get(line)), org.bukkit.boss.BarColor.PINK, org.bukkit.boss.BarStyle.SOLID);
 
 						if (autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Bar_Time") == -1) {
 							bossBar.removeBossBar(player);
@@ -165,7 +160,7 @@ public class AutoBroadcastManager {
 							bossBar.setBossBarTime(player, time);
 						}
 
-						methods.playSound(player, autobroadcast, "Auto_Broadcast.Bossbar_Messages.sound");
+						Methods.playSound(player, autobroadcast, "Auto_Broadcast.Bossbar_Messages.sound");
 					}
 				}
 

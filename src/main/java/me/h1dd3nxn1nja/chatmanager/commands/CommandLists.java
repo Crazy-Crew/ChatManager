@@ -1,26 +1,20 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
-import java.text.DecimalFormat;
 import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import me.h1dd3nxn1nja.chatmanager.managers.PlaceholderManager;
+import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandLists implements CommandExecutor {
-	
-	private final DecimalFormat df = new DecimalFormat("#,###");
 
-	@NotNull
-	private final ChatManager plugin = ChatManager.get();
-
-	@NotNull
-	private final PlaceholderManager placeholderManager = this.plugin.getCrazyManager().getPlaceholderManager();
+	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
@@ -37,25 +31,23 @@ public class CommandLists implements CommandExecutor {
 						str.append("&a").append(players.getName()).append("&8");
 					}
 
-					String online = this.df.format(this.plugin.getServer().getOnlinePlayers().size());
-					String max = this.df.format(this.plugin.getServer().getMaxPlayers());
+					final String online = String.valueOf(this.plugin.getServer().getOnlinePlayers().size());
+					final String max = String.valueOf(this.plugin.getServer().getMaxPlayers());
 
-					if (sender instanceof Player) {
+					if (sender instanceof Player player) {
 						for (String list : config.getStringList("Lists.Player_List")) {
-							Player player = (Player) sender;
-
-							this.plugin.getMethods().sendMessage(player, this.placeholderManager.setPlaceholders(player, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max)), true);
+							Methods.sendMessage(player, Methods.placeholders(false, player, list.replace("{players}", str.toString())).replace("{server_online}", online).replace("{server_max_players}", max), true);
 						}
 					} else {
 						for (String list : config.getStringList("Lists.Player_List")) {
-							this.plugin.getMethods().sendMessage(sender, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max), true);
+							Methods.sendMessage(sender, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max), true);
 						}
 					}
 				} else {
-					this.plugin.getMethods().sendMessage(sender, "&cCommand Usage: &7/list", true);
+					Methods.sendMessage(sender, "&cCommand Usage: &7/list", true);
 				}
 			} else {
-				this.plugin.getMethods().sendMessage(sender, this.plugin.getMethods().noPermission(), true);
+				Methods.sendMessage(sender, Methods.noPermission(), true);
 			}
 		}
 
@@ -72,23 +64,23 @@ public class CommandLists implements CommandExecutor {
 						}
 					}
 
-					String online = this.df.format(this.plugin.getServer().getOnlinePlayers().size());
-					String max = this.df.format(this.plugin.getServer().getMaxPlayers());
+					final String online = String.valueOf(this.plugin.getServer().getOnlinePlayers().size());
+					final String max = String.valueOf(this.plugin.getServer().getMaxPlayers());
 
 					if (sender instanceof Player player) {
 						for (String list : config.getStringList("Lists.Staff_List")) {
-							this.plugin.getMethods().sendMessage(player, this.placeholderManager.setPlaceholders(player, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max)), true);
+							Methods.sendMessage(player, Methods.placeholders(false, player, list.replace("{players}", str.toString())).replace("{server_online}", online).replace("{server_max_players}", max), true);
 						}
 					} else {
 						for (String list : config.getStringList("Lists.Staff_List")) {
-							this.plugin.getMethods().sendMessage(sender, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max), true);
+							Methods.sendMessage(sender, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max), true);
 						}
 					}
 				} else {
-					this.plugin.getMethods().sendMessage(sender, "&cCommand Usage: &7/staff", true);
+					Methods.sendMessage(sender, "&cCommand Usage: &7/staff", true);
 				}
 			} else {
-				this.plugin.getMethods().sendMessage(sender, this.plugin.getMethods().noPermission(), true);
+				Methods.sendMessage(sender, Methods.noPermission(), true);
 			}
 		}
 

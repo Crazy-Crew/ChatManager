@@ -3,6 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -73,16 +74,16 @@ public class ListenerAntiAdvertising implements Listener {
 		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		event.setCancelled(true);
-		this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Advertising.Chat.Message"), true);
+		Methods.sendMessage(player, messages.getString("Anti_Advertising.Chat.Message"), true);
 
 		if (config.getBoolean("Anti_Advertising.Chat.Notify_Staff")) {
 			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission(Permissions.NOTIFY_ANTI_ADVERTISING.getNode())) {
-					this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Advertising.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+					Methods.sendMessage(staff, messages.getString("Anti_Advertising.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 				}
 			}
 
-			this.plugin.getMethods().tellConsole(messages.getString("Anti_Advertising.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+			Methods.tellConsole(messages.getString("Anti_Advertising.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 		}
 
 		if (config.getBoolean("Anti_Advertising.Chat.Execute_Command")) {
@@ -166,16 +167,16 @@ public class ListenerAntiAdvertising implements Listener {
 		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		event.setCancelled(true);
-		this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Advertising.Commands.Message"), true);
+		Methods.sendMessage(player, messages.getString("Anti_Advertising.Commands.Message"), true);
 
 		if (config.getBoolean("Anti_Advertising.Commands.Notify_Staff")) {
 			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission(Permissions.NOTIFY_ANTI_ADVERTISING.getNode())) {
-					this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Advertising.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+					Methods.sendMessage(staff, messages.getString("Anti_Advertising.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 				}
 			}
 
-			this.plugin.getMethods().tellConsole(messages.getString("Anti_Advertising.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+			Methods.tellConsole(messages.getString("Anti_Advertising.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 		}
 
 		if (config.getBoolean("Anti_Advertising.Commands.Execute_Command")) {
@@ -259,16 +260,16 @@ public class ListenerAntiAdvertising implements Listener {
 		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		event.setCancelled(true);
-		this.plugin.getMethods().sendMessage(player, messages.getString("Anti_Advertising.Signs.Message"), true);
+		Methods.sendMessage(player, messages.getString("Anti_Advertising.Signs.Message"), true);
 
 		if (config.getBoolean("Anti_Advertising.Signs.Notify_Staff")) {
 			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission(Permissions.NOTIFY_ANTI_ADVERTISING.getNode())) {
-					this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Advertising.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+					Methods.sendMessage(staff, messages.getString("Anti_Advertising.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 				}
 			}
 
-			this.plugin.getMethods().tellConsole(messages.getString("Anti_Advertising.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+			Methods.tellConsole(messages.getString("Anti_Advertising.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 		}
 
 		if (config.getBoolean("Anti_Advertising.Signs.Execute_Command")) {

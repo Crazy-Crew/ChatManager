@@ -271,27 +271,13 @@ Broadcast_Commands:
         - "&8&m--------------------------"
 
 #=================================================================================================#
-# Per-Group chat formats. REQUIRES VAULT TO WORK!!!!!
 # How to use chat format: https://github.com/Crazy-Crew/ChatManager/wiki/Chat-Format
 # Available Placeholders: https://github.com/Crazy-Crew/ChatManager/wiki/Chat-Format#placeholders-top
 #=================================================================================================#
 Chat_Format:
   Enable: true
   # This will only be used if the players permission group isn't on the bottom of this section.
-  Default_Format: "{vault_prefix} &7{player} &9> &7{message}"
-  # Chat Formats are set depending on what permission group the player is in.
-  # If a player is in the permission group named "Default" they will have the default chat format.
-  Groups:
-    default: # The name of the group, this is case-sensitive!
-      Format: "&8[&7Default&8] &7{player} &9> &7{message}" # The format you want the group to have.
-    vip:
-      Format: "&8[&5VIP&8] &7{displayname} &9> &7{message}"
-    moderator:
-      Format: "&a[&3Moderator&a] &b{player} &9> &e{message}"
-    admin:
-      Format: "&8[&cAdmin&8] &4{player} &9> &a{message}"
-    owner:
-      Format: "&b[&6Owner&b] {player} &9> &e{message}"
+  Default_Format: "%luckperms_prefix% &7{player} &9> &7{message}"
 
 #=================================================================================================#     
 # Players can only send messages to other players that are in range.
@@ -443,7 +429,7 @@ Logs:
 #       Permission: "chatmanager.join.donator"
 #       Join_Message: "{player} &ejoined the server!"
 #       Quit_Message: "{player} &eleft the server!"
-#       Actionbar: "&eWelcome back to &b{server_name} {vault_prefix}{player}&e!"
+#       Actionbar: "&eWelcome back to &b{server_name} %luckperms_prefix% {player}&e!"
 #       Title:
 #         Header: "&eWelcome Back"
 #         Footer: "&b{player} to {server_name}"
@@ -467,11 +453,11 @@ Messages:
         value: 'ENTITY_PLAYER_LEVELUP'
         pitch: 1.0
         volume: 1.0
-      First_Join_Message: "&eWelcome to &b{server_name} {vault_prefix}{player}&e!"
+      First_Join_Message: "&eWelcome to &b{server_name} %luckperms_prefix% {player}&e!"
 
     Actionbar_Message:
       Enable: true
-      First_Join_Message: "&eWelcome to &b{server_name} {vault_prefix}{player}&e!"
+      First_Join_Message: "&eWelcome to &b{server_name} %luckperms_prefix% {player}&e!"
 
     Title_Message:
       Enable: true
@@ -516,7 +502,7 @@ Messages:
     
     Actionbar_Message:
       Enable: true
-      Message: "&eWelcome back to &b{server_name} {vault_prefix}{player}&e!"
+      Message: "&eWelcome back to &b{server_name} %luckperms_prefix% {player}&e!"
     
     Title_Message:
       Enable: true
@@ -543,7 +529,7 @@ Messages:
         Join_Message: "{player} &ejoined the server!"
         Quit_Message: "{player} &eleft the server!"
         # Actionbar Messages groups will receive on join.
-        Actionbar: "&eWelcome back to &b{server_name} {vault_prefix}{player}&e!"
+        Actionbar: "&eWelcome back to &b{server_name} %luckperms_prefix% {player}&e!"
         
         # Title Messages groups will receive on join.
         Title:
@@ -562,7 +548,7 @@ Messages:
         Permission: "chatmanager.join.donator"
         Join_Message: "{player} &ejoined the server!"
         Quit_Message: "{player} &eleft the server!"
-        Actionbar: "&eWelcome back to &b{server_name} {vault_prefix}{player}&e!"
+        Actionbar: "&eWelcome back to &b{server_name} %luckperms_prefix% {player}&e!"
         
         Title:
           Header: "&eWelcome Back"
@@ -580,7 +566,7 @@ Messages:
         Permission: "chatmanager.join.owner"
         Join_Message: "{player} &ejoined the server!"
         Quit_Message: "{player} &eleft the server!"
-        Actionbar: "&eWelcome back to &b{server_name} {vault_prefix}{player}&e!"
+        Actionbar: "&eWelcome back to &b{server_name} %luckperms_prefix% {player}&e!"
 
         Title:
           Header: "&eWelcome Back"
@@ -734,16 +720,6 @@ Staff_Chat:
     Enable: false
     Title: "&eStaff Chat"
 
-# If metrics is enabled or not
-Metrics_Enabled: true
-
-# The hex color format.
-# Does not support <>, Only used to do &# etc. or any other identifier.
-Hex_Color_Format: "#"
-
 #=================================================================================================#
 # You are done with the config!
 #=================================================================================================#
-
-# Do not change this. We use this to check if your Configs are outdated.
-Config_Version: 1

@@ -3,6 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -44,16 +45,16 @@ public class ListenerAntiUnicode implements Listener {
 		if (matcher.find()) return;
 
 		event.setCancelled(true);
-		player.sendMessage(this.plugin.getMethods().color(player.getUniqueId(), messages.getString("Anti_Unicode.Message").replace("{Prefix}", messages.getString("Message.Prefix"))));
+		Methods.sendMessage(player, messages.getString("Anti_Unicode.Message"), true);
 
 		if (config.getBoolean("Anti_Unicode.Notify_Staff")) {
 			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission(Permissions.NOTIFY_ANTI_UNICODE.getNode())) {
-					this.plugin.getMethods().sendMessage(staff, messages.getString("Anti_Unicode.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+					Methods.sendMessage(staff, messages.getString("Anti_Unicode.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 				}
 			}
 
-			this.plugin.getMethods().tellConsole(messages.getString("Anti_Unicode.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+			Methods.tellConsole(messages.getString("Anti_Unicode.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
 		}
 
 		if (config.getBoolean("Anti_Unicode.Execute_Command")) {

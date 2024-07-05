@@ -3,6 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,7 +19,7 @@ public class CommandSpy implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		if (!(sender instanceof Player player)) {
-			this.plugin.getMethods().sendMessage(sender, "&cError: You can only use that command in-game", true);
+			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
 			return true;
 		}
 
@@ -32,19 +33,19 @@ public class CommandSpy implements CommandExecutor {
 
 					if (isValid) {
 						this.plugin.api().getCommandSpyData().removeUser(player.getUniqueId());
-						this.plugin.getMethods().sendMessage(player, messages.getString("Command_Spy.Disabled"), true);
+						Methods.sendMessage(player, messages.getString("Command_Spy.Disabled"), true);
 						return true;
 					}
 
 					this.plugin.api().getCommandSpyData().addUser(player.getUniqueId());
-					this.plugin.getMethods().sendMessage(player, messages.getString("Command_Spy.Enabled"), true);
+					Methods.sendMessage(player, messages.getString("Command_Spy.Enabled"), true);
 
 					return true;
 				} else {
-					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/commandspy", true);
+					Methods.sendMessage(player, "&cCommand Usage: &7/commandspy", true);
 				}
 			} else {
-				this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
+				Methods.sendMessage(player, Methods.noPermission(), true);
 			}
 		}
 
@@ -55,19 +56,19 @@ public class CommandSpy implements CommandExecutor {
 
 					if (isValid) {
 						this.plugin.api().getSocialSpyData().removeUser(player.getUniqueId());
-						this.plugin.getMethods().sendMessage(player, messages.getString("Social_Spy.Disabled"), true);
+						Methods.sendMessage(player, messages.getString("Social_Spy.Disabled"), true);
 						return true;
 					}
 
 					this.plugin.api().getSocialSpyData().addUser(player.getUniqueId());
-					this.plugin.getMethods().sendMessage(player, messages.getString("Social_Spy.Enabled"), true);
+					Methods.sendMessage(player, messages.getString("Social_Spy.Enabled"), true);
 
 					return true;
 				} else {
-					this.plugin.getMethods().sendMessage(player, "&cCommand Usage: &7/socialspy", true);
+					Methods.sendMessage(player, "&cCommand Usage: &7/socialspy", true);
 				}
 			} else {
-				this.plugin.getMethods().sendMessage(player, this.plugin.getMethods().noPermission(), true);
+				Methods.sendMessage(player, Methods.noPermission(), true);
 			}
 		}
 

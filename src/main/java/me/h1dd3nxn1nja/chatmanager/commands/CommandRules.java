@@ -3,6 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,19 +23,19 @@ public class CommandRules implements CommandExecutor {
 			if (sender.hasPermission(Permissions.COMMAND_RULES.getNode())) {
 				if (args.length == 0) {
 					for (String rules : config.getStringList("Server_Rules.Rules.1")) {
-						this.plugin.getMethods().sendMessage(sender, rules, true);
+						Methods.sendMessage(sender, rules, true);
 					}
 				} else if (args.length == 1) {
 					int page = Integer.parseInt(args[0]);
 
 					for (String rules : config.getStringList("Server_Rules.Rules." + page)) {
-						this.plugin.getMethods().sendMessage(sender, rules, true);
+						Methods.sendMessage(sender, rules, true);
 					}
 				} else {
-					this.plugin.getMethods().sendMessage(sender, "&cCommand Usage: &7/rules <page>", true);
+					Methods.sendMessage(sender, "&cCommand Usage: &7/rules <page>", true);
 				}
 			} else {
-				this.plugin.getMethods().sendMessage(sender, this.plugin.getMethods().noPermission(), true);
+				Methods.sendMessage(sender, Methods.noPermission(), true);
 			}
 		}
 

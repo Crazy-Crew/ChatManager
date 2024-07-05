@@ -2,18 +2,19 @@ package me.h1dd3nxn1nja.chatmanager;
 
 import com.ryderbelserion.chatmanager.ApiLoader;
 import com.ryderbelserion.chatmanager.enums.Files;
-import com.ryderbelserion.chatmanager.api.CrazyManager;
+import com.ryderbelserion.chatmanager.plugins.PlaceholderAPISupport;
+import com.ryderbelserion.chatmanager.plugins.VanishSupport;
+import com.ryderbelserion.chatmanager.plugins.VaultSupport;
 import com.ryderbelserion.vital.paper.VitalPaper;
 import com.ryderbelserion.vital.paper.files.config.FileManager;
+import com.ryderbelserion.vital.paper.plugins.PluginManager;
 import me.h1dd3nxn1nja.chatmanager.commands.*;
 import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.*;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.listeners.*;
 import me.h1dd3nxn1nja.chatmanager.managers.AutoBroadcastManager;
-import me.h1dd3nxn1nja.chatmanager.support.PluginManager;
-import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
+import me.h1dd3nxn1nja.chatmanager.support.PluginHandler;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
-import me.h1dd3nxn1nja.chatmanager.utils.MetricsHandler;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
@@ -23,6 +24,7 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
+import java.util.List;
 
 public class ChatManager extends JavaPlugin {
 
@@ -35,18 +37,16 @@ public class ChatManager extends JavaPlugin {
     
     private FileManager fileManager;
 
-    private CrazyManager crazyManager;
-
-    private PluginManager pluginManager;
-    private Methods methods;
+    private PluginHandler pluginHandler;
 
     public void onEnable() {
-        if (!PluginSupport.VAULT.isPluginEnabled()) {
-            getLogger().warning("Vault is required to use ChatManager, Disabling plugin!");
-            getServer().getPluginManager().disablePlugin(this);
+        List.of(
+                //new VaultSupport(),
+                new VanishSupport(),
+                new PlaceholderAPISupport()
+        ).forEach(PluginManager::registerPlugin);
 
-            return;
-        }
+        PluginManager.printPlugins(getLogger());
 
         new VitalPaper(this);
 
@@ -60,46 +60,23 @@ public class ChatManager extends JavaPlugin {
                 .addFolder("Logs")
                 .init();
 
-        this.methods = new Methods();
-
         this.api = new ApiLoader();
         this.api.load();
 
-        FileConfiguration config = Files.CONFIG.getConfiguration();
+        Methods.convert();
 
-        this.methods.convert();
+        this.pluginHandler = new PluginHandler();
+        this.pluginHandler.load();
 
-        boolean metricsEnabled = config.getBoolean("Metrics_Enabled", false);
-
-        this.pluginManager = new PluginManager();
-
-        this.crazyManager = new CrazyManager();
-
-        if (metricsEnabled) {
-            MetricsHandler metricsHandler = new MetricsHandler();
-
-            metricsHandler.start();
-        }
-
-        this.crazyManager.load(true);
-
-        if (!PluginSupport.LUCKPERMS.isPluginEnabled()) {
-            getLogger().severe("A permissions plugin was not found. You will likely have issues without one.");
-        }
-
-        if (PluginSupport.VAULT.isPluginEnabled()) {
-            registerCommands();
-            registerEvents();
-            check();
-            setupChatRadius();
-        }
+        registerCommands();
+        registerEvents();
+        check();
+        setupChatRadius();
 
         registerPermissions();
     }
 
     public void onDisable() {
-        if (!PluginSupport.VAULT.isPluginEnabled()) return;
-
         getServer().getScheduler().cancelTasks(this);
 
         for (Player player : getServer().getOnlinePlayers()) {
@@ -221,20 +198,12 @@ public class ChatManager extends JavaPlugin {
         if (autoBroadcast.getBoolean("Auto_Broadcast.Bossbar_Messages.Enable")) AutoBroadcastManager.bossBarMessages();
     }
 
-    public Methods getMethods() {
-        return this.methods;
-    }
-
     public ApiLoader api() {
         return this.api;
     }
 
-    public CrazyManager getCrazyManager() {
-        return this.crazyManager;
-    }
-
-    public PluginManager getPluginManager() {
-        return this.pluginManager;
+    public PluginHandler getPluginManager() {
+        return this.pluginHandler;
     }
 
     public FileManager getFileManager() {

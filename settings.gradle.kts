@@ -7,3 +7,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+plugins {
+    id("com.ryderbelserion.feather-settings") version "0.0.1"
+}

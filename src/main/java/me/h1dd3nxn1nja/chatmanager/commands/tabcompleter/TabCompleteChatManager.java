@@ -16,6 +16,7 @@ public class TabCompleteChatManager implements TabCompleter {
 		
 		if (args.length == 1) {
 			completions.add("help");
+
 			if (hasPermission(sender, "reload")) completions.add("reload");
 			if (hasPermission(sender, "debug")) completions.add("debug");
 			if (hasPermission(sender, "preview")) completions.add("preview"); return StringUtil.copyPartialMatches(args[0], completions, new ArrayList<>());
@@ -37,11 +38,9 @@ public class TabCompleteChatManager implements TabCompleter {
 
 			return StringUtil.copyPartialMatches(args[1], completions, new ArrayList<>());
 		} else if (args.length == 3) {
-            switch (args[0].toLowerCase()) {
-                case "preview" -> {
-                    completions.add("join");
-                    completions.add("firstjoin");
-                }
+            if (args[0].equalsIgnoreCase("preview")) {
+                completions.add("join");
+                completions.add("firstjoin");
             }
 
 			return StringUtil.copyPartialMatches(args[2], completions, new ArrayList<>());
@@ -49,6 +48,7 @@ public class TabCompleteChatManager implements TabCompleter {
 
 		return new ArrayList<>();
 	}
+
 	public boolean hasPermission(CommandSender sender, String node) {
 		return sender.hasPermission("chatmanager." + node) || sender.hasPermission("chatmanager.commands.all") ||sender.hasPermission("chatmanager.*");
 	}

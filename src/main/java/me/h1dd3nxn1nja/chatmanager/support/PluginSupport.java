@@ -7,11 +7,8 @@ import org.jetbrains.annotations.NotNull;
 public enum PluginSupport {
 
     ESSENTIALS("Essentials"),
-    VAULT("Vault"),
-    SUPER_VANISH("SuperVanish"),
     PLACEHOLDERAPI("PlaceholderAPI"),
-    LUCKPERMS("LuckPerms"),
-    PREMIUM_VANISH("PremiumVanish");
+    LUCKPERMS("LuckPerms");
 
     private final String name;
 

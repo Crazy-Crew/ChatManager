@@ -28,7 +28,7 @@ public enum Files {
     Files(final String fileName) {
         this.fileName = fileName;
         this.strippedName = this.fileName.replace(".yml", "");
-        this.configuration = this.plugin.getFileManager().getFile(this.fileName);
+        this.configuration = this.fileManager.getFile(this.fileName);
     }
 
     public final String getFileName() {
@@ -44,6 +44,6 @@ public enum Files {
     }
 
     public void save() {
-        this.plugin.getFileManager().saveFile(this.fileName);
+        this.fileManager.saveFile(this.fileName);
     }
 }

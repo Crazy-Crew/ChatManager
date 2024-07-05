@@ -1,3 +1,7 @@
+import com.ryderbelserion.feather.tools.formatLog
+import com.ryderbelserion.feather.tools.latestCommitHash
+import com.ryderbelserion.feather.tools.latestCommitMessage
+
 plugins {
     alias(libs.plugins.paperweight)
     alias(libs.plugins.shadowJar)
@@ -11,13 +15,17 @@ base {
     archivesName.set(rootProject.name)
 }
 
-val buildNumber: String? = System.getenv("BUILD_NUMBER")
+val nextNumber: String? = if (System.getenv("NEXT_BUILD_NUMBER") != null) System.getenv("NEXT_BUILD_NUMBER") else "SNAPSHOT"
 
-rootProject.version = if (buildNumber != null) "${libs.versions.minecraft.get()}-$buildNumber" else "3.13"
+rootProject.version = "${libs.versions.minecraft.get()}-$nextNumber"
 
 val isSnapshot = false
 
-val content: String = rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
+val content: String = if (isSnapshot) {
+    formatLog(latestCommitHash(), latestCommitMessage(), rootProject.name, "Crazy-Crew")
+} else {
+    rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
+}
 
 dependencies {
     paperweight.paperDevBundle(libs.versions.paper.get())
@@ -49,13 +57,6 @@ tasks {
 
     assemble {
         dependsOn(reobfJar)
-
-        doLast {
-            copy {
-                from(reobfJar.get())
-                into(rootProject.projectDir.resolve("jars"))
-            }
-        }
     }
 
     shadowJar {
@@ -90,14 +91,16 @@ tasks {
 
         projectId.set(rootProject.name.lowercase())
 
-        versionType.set(if (isSnapshot) "beta" else "release")
+        versionType.set("beta")
 
         versionName.set("${rootProject.name} ${rootProject.version}")
         versionNumber.set(rootProject.version as String)
 
         changelog.set(content)
 
-        uploadFile.set(rootProject.projectDir.resolve("jars/${rootProject.name}-${rootProject.version}.jar"))
+        uploadFile.set(reobfJar.get())
+
+        syncBodyFrom.set(rootProject.file("README.md").readText(Charsets.UTF_8))
 
         gameVersions.set(listOf(libs.versions.minecraft.get()))
 

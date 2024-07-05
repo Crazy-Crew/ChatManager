@@ -3,6 +3,8 @@ package me.h1dd3nxn1nja.chatmanager.utils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+
+import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
@@ -30,21 +32,21 @@ public class BossBarUtil {
 	HashMap<UUID, BossBar> bossBars = new HashMap<>();
 
 	public BossBarUtil() {
-		this.title = this.plugin.getMethods().color("&bStaff Chat");
+		this.title = Methods.color("&bStaff Chat");
 		this.color = BarColor.PINK;
 		this.style = BarStyle.SOLID;
 		this.bar = org.bukkit.Bukkit.getServer().createBossBar(title, color, style);
 	}
 
 	public BossBarUtil(String title, BarColor color, BarStyle style) {
-		this.title = this.plugin.getMethods().color(title);
+		this.title = Methods.color(title);
 		this.color = color;
 		this.style = style;
 		this.bar = plugin.getServer().createBossBar(this.title, color, style);
 	}
 
 	public BossBarUtil(String title) {
-		this.title = this.plugin.getMethods().color(title);
+		this.title = Methods.color(title);
 		this.color = BarColor.PINK;
 		this.style = BarStyle.SOLID;
 		this.staffBar = plugin.getServer().createBossBar(this.title, color, style);
@@ -55,7 +57,7 @@ public class BossBarUtil {
 	}
 
 	public BossBarUtil setTitle(String title) {
-		this.title = this.plugin.getMethods().color(title);
+		this.title = Methods.color(title);
 
 		this.bar.setTitle(this.title);
 
