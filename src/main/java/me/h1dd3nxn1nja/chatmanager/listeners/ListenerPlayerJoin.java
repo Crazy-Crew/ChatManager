@@ -170,6 +170,14 @@ public class ListenerPlayerJoin implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
+        if (PluginManager.isEnabled("GenericVanish")) {
+            final Plugin plugin = PluginManager.getPlugin("GenericVanish");
+
+            if (plugin.isVanished(player.getUniqueId())) {
+                return;
+            }
+        }
+
         FileConfiguration config = Files.CONFIG.getConfiguration();
 
         if ((config.getBoolean("Messages.Join_Quit_Messages.Quit_Message.Enable")) && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable"))) {
