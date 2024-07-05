@@ -55,7 +55,7 @@ public class ListenerRadius implements Listener {
 					this.plugin.api().getWorldChatData().removeUser(uuid);
 					this.plugin.api().getGlobalChatData().removeUser(uuid);
 					this.plugin.api().getLocalChatData().addUser(uuid);
-					event.setMessage(message);
+					event.setMessage(message.replace(localOverrideChar, ""));
 					return;
 				}
 			}
