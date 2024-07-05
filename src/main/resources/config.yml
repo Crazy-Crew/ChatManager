@@ -144,7 +144,7 @@ Anti_Swear:
       - kick {player} Do not swear in chat
       - warn {player} Do not swear in chat
     # Every time a player swears in chat their message will be logged in the Swears.txt file.
-    Log_Swearing: true
+    Log_Swearing: false
   
   Commands:
     # Block swearing in commands.
@@ -167,7 +167,7 @@ Anti_Swear:
       - kick {player} Do not swear in chat
       - warn {player} Do not swear in chat
     # Every time a player swears in commands their message will be logged in the Swears.txt file.
-    Log_Swearing: true
+    Log_Swearing: false
 
   Signs:
     # Block swearing on signs.
@@ -185,7 +185,7 @@ Anti_Swear:
       - kick {player} Do not swear in chat
       - warn {player} Do not swear in chat
     # Every time a player swears on signs their message will be logged in the Swears.txt file.
-    Log_Swearing: true
+    Log_Swearing: false
 
 #=================================================================================================#
 # Prevent players from using special chat characters.
