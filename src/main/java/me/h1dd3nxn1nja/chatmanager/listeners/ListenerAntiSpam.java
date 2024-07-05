@@ -158,11 +158,12 @@ public class ListenerAntiSpam implements Listener {
 						public void run() {
 							int time = plugin.api().getCmdCooldowns().getTime(uuid);
 
-							plugin.api().getCmdCooldowns().addUser(uuid, time--);
+							plugin.api().getCmdCooldowns().subtract(uuid);
 
 							if (time == 0) {
 								plugin.api().getCmdCooldowns().removeUser(uuid);
 								plugin.api().getCooldownTask().removeUser(uuid);
+
 								cancel();
 							}
 						}
