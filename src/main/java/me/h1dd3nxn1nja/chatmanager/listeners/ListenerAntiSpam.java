@@ -36,7 +36,7 @@ public class ListenerAntiSpam implements Listener {
 		if (config.getBoolean("Anti_Spam.Chat.Block_Repetitive_Messages")) {
 			if (player.hasPermission(Permissions.BYPASS_DUPE_CHAT.getNode())) return;
 
-			if (this.plugin.api().getPreviousMsgData().containsUser(uuid)) {
+			if (this.plugin.api().getPreviousMsgData().containsUser(uuid) && !this.plugin.api().getChatCooldowns().containsUser(uuid)) {
 				String msg = this.plugin.api().getPreviousMsgData().getMessage(player.getUniqueId());
 
 				if (message.equalsIgnoreCase(msg)) {
