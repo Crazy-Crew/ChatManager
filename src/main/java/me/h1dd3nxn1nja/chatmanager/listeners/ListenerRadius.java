@@ -39,8 +39,7 @@ public class ListenerRadius implements Listener {
 		if (!config.getBoolean("Chat_Radius.Enable") || this.plugin.api().getStaffChatData().containsUser(uuid)) return;
 
 		if (player.hasPermission(Permissions.CHAT_RADIUS_GLOBAL_OVERRIDE.getNode())) {
-			assert globalOverrideChar != null;
-			if (!globalOverrideChar.isEmpty()) {
+			if (globalOverrideChar != null && !globalOverrideChar.isEmpty()) {
 				if (ChatColor.stripColor(message).charAt(0) == globalOverrideChar.charAt(0)) {
 					this.plugin.api().getWorldChatData().removeUser(uuid);
 					this.plugin.api().getLocalChatData().removeUser(uuid);
@@ -51,9 +50,7 @@ public class ListenerRadius implements Listener {
 		}
 
 		if (player.hasPermission(Permissions.CHAT_RADIUS_LOCAL_OVERRIDE.getNode())) {
-			assert localOverrideChar != null;
-
-			if (!localOverrideChar.isEmpty()) {
+			if (localOverrideChar != null && !localOverrideChar.isEmpty()) {
 				if (ChatColor.stripColor(message).charAt(0) == localOverrideChar.charAt(0)) {
 					this.plugin.api().getWorldChatData().removeUser(uuid);
 					this.plugin.api().getGlobalChatData().removeUser(uuid);
@@ -65,8 +62,7 @@ public class ListenerRadius implements Listener {
 		}
 
 		if (player.hasPermission(Permissions.CHAT_RADIUS_WORLD_OVERRIDE.getNode())) {
-			assert worldOverrideChar != null;
-			if (!worldOverrideChar.isEmpty()) {
+			if (worldOverrideChar != null && !worldOverrideChar.isEmpty()) {
 				if (ChatColor.stripColor(message).charAt(0) == worldOverrideChar.charAt(0)) {
 					this.plugin.api().getGlobalChatData().removeUser(uuid);
 					this.plugin.api().getLocalChatData().removeUser(uuid);
