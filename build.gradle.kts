@@ -57,6 +57,13 @@ tasks {
 
     assemble {
         dependsOn(reobfJar)
+
+        doLast {
+            copy {
+                from(reobfJar.get())
+                into(rootProject.projectDir.resolve("jars"))
+            }
+        }
     }
 
     shadowJar {
@@ -98,7 +105,7 @@ tasks {
 
         changelog.set(content)
 
-        uploadFile.set(reobfJar.get())
+        uploadFile.set(rootProject.projectDir.resolve("jars/${rootProject.name}-${rootProject.version}.jar"))
 
         syncBodyFrom.set(rootProject.file("README.md").readText(Charsets.UTF_8))
 
