@@ -110,16 +110,16 @@ Anti_Spam:
   Chat:
     # How many seconds does the player have to wait till they send their next message?
     # Set to 0 to disable.
-    Chat_Delay: 0
+    Chat_Delay: 3
     # Prevent players from repeating the same messages.
-    Block_Repetitive_Messages: true
+    Block_Repetitive_Messages: false
   # Anti-spam section for commands.
   Command:
     # How many seconds does the player have to wait till they send their next command?
     # Set to 0 to disable.
-    Command_Delay: 0
+    Command_Delay: 3
     # Prevent players from repeating the same commands.
-    Block_Repetitive_Commands: true
+    Block_Repetitive_Commands: false
     # Whitelisted commands that won't be effected by the anti-spam.
     Whitelist:
       - "/spawn"
