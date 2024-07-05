@@ -1,10 +1,10 @@
 package me.h1dd3nxn1nja.chatmanager;
 
 import com.ryderbelserion.chatmanager.ApiLoader;
+import com.ryderbelserion.chatmanager.api.CustomMetrics;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.plugins.PlaceholderAPISupport;
 import com.ryderbelserion.chatmanager.plugins.VanishSupport;
-import com.ryderbelserion.chatmanager.plugins.VaultSupport;
 import com.ryderbelserion.vital.paper.VitalPaper;
 import com.ryderbelserion.vital.paper.files.config.FileManager;
 import com.ryderbelserion.vital.paper.plugins.PluginManager;
@@ -40,6 +40,10 @@ public class ChatManager extends JavaPlugin {
     private PluginHandler pluginHandler;
 
     public void onEnable() {
+        new VitalPaper(this).setLogging(true);
+
+        new CustomMetrics().start();
+
         List.of(
                 //new VaultSupport(),
                 new VanishSupport(),
@@ -47,8 +51,6 @@ public class ChatManager extends JavaPlugin {
         ).forEach(PluginManager::registerPlugin);
 
         PluginManager.printPlugins(getLogger());
-
-        new VitalPaper(this);
 
         this.fileManager = new FileManager();
         this.fileManager
