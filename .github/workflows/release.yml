@@ -88,6 +88,8 @@ jobs:
 
       - name: Notify Discord
         if: success()
+        env:
+          CHATMANAGER_WEBHOOK: ${{ secrets.CHATMANAGER_WEBHOOK }}
         run: ./gradlew webhook
 
       - uses: actions/github-script@v6
