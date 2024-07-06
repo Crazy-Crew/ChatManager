@@ -102,7 +102,7 @@ tasks {
         versionName.set("${rootProject.name} ${rootProject.version}")
         versionNumber.set(rootProject.version as String)
 
-        changelog.set(content)
+        changelog.set(content.replace("\n", ""))
 
         uploadFile.set(rootProject.projectDir.resolve("jars/${rootProject.name}-${rootProject.version}.jar"))
 
@@ -138,7 +138,7 @@ webhook {
                     "Click [here](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${libs.versions.minecraft.get()}-${System.getenv("NEXT_BUILD_NUMBER")}) to download!"
                 )
 
-                this.field("Commits", content)
+                this.field("Commits", content.replace("<br>", ""))
             }
         }
     }
