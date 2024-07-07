@@ -14,7 +14,6 @@ public enum Files {
 
     private final String fileName;
     private final String strippedName;
-    private final YamlConfiguration configuration;
 
     private final ChatManager plugin = ChatManager.get();
 
@@ -28,7 +27,6 @@ public enum Files {
     Files(final String fileName) {
         this.fileName = fileName;
         this.strippedName = this.fileName.replace(".yml", "");
-        this.configuration = this.fileManager.getFile(this.fileName);
     }
 
     public final String getFileName() {
@@ -40,10 +38,14 @@ public enum Files {
     }
 
     public final YamlConfiguration getConfiguration() {
-        return this.configuration;
+        return this.fileManager.getFile(this.fileName);
     }
 
     public void save() {
         this.fileManager.saveFile(this.fileName);
+    }
+
+    public void reload() {
+        this.fileManager.reloadFile(this.fileName);
     }
 }
