@@ -1,4 +1,4 @@
-import com.ryderbelserion.feather.tools.*
+import com.ryderbelserion.feather.tools.latestCommitHistory
 import java.awt.Color
 
 plugins {
@@ -18,13 +18,18 @@ val nextNumber: String? = if (System.getenv("NEXT_BUILD_NUMBER") != null) System
 
 rootProject.version = "${libs.versions.minecraft.get()}-$nextNumber"
 
-val isSnapshot = true
+val isSnapshot = false
 
 val content: String = if (isSnapshot) {
-    latestCommitHistory("f638e1", rootProject.name, "Crazy-Crew")
+    latestCommitHistory("f638e1", rootProject.name, "Crazy-Crew").replace("\n", "")
 } else {
     rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
 }
+
+val releaseUpdate = Color(27, 217, 106)
+val betaUpdate = Color(255, 163, 71)
+
+val color = if (isSnapshot) betaUpdate else releaseUpdate
 
 dependencies {
     paperweight.paperDevBundle(libs.versions.paper.get())
@@ -93,7 +98,7 @@ tasks {
     }
 
     modrinth {
-        token.set(System.getenv("MODRINTH_TOKEN"))
+        token.set(System.getenv("modrinth_token"))
 
         projectId.set(rootProject.name.lowercase())
 
@@ -102,7 +107,7 @@ tasks {
         versionName.set("${rootProject.name} ${rootProject.version}")
         versionNumber.set(rootProject.version as String)
 
-        changelog.set(content.replace("\n", ""))
+        changelog.set(content)
 
         uploadFile.set(rootProject.projectDir.resolve("jars/${rootProject.name}-${rootProject.version}.jar"))
 
@@ -115,30 +120,24 @@ tasks {
         autoAddDependsOn.set(false)
         detectLoaders.set(false)
     }
-}
 
+    webhook {
+        this.username("Ryder Belserion")
 
-val releaseUpdate = Color(27, 217, 106)
-val betaUpdate = Color(255, 163, 71)
+        this.content("<@&888222546573537280>")
 
-val color = if (isSnapshot) betaUpdate else releaseUpdate
+        this.embeds {
+            this.embed {
+                this.color(color)
 
-webhook {
-    this.username("Ryder Belserion")
+                this.title("A new version of ChatManager is ready!")
 
-    this.embeds {
-        this.embed {
-            this.color(color)
-
-            this.title("A new version of ChatManager is ready!")
-
-            this.fields {
-                this.field(
-                    "Version ${libs.versions.minecraft.get()} build ${System.getenv("NEXT_BUILD_NUMBER")}",
-                    "Click [here](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${libs.versions.minecraft.get()}-${System.getenv("NEXT_BUILD_NUMBER")}) to download!"
-                )
-
-                this.field("Commits", content.replace("<br>", ""))
+                this.fields {
+                    this.field(
+                        "Version ${libs.versions.minecraft.get()} build ${System.getenv("NEXT_BUILD_NUMBER")}",
+                        "Click [here](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${libs.versions.minecraft.get()}-${System.getenv("NEXT_BUILD_NUMBER")}) to download!"
+                    )
+                }
             }
         }
     }

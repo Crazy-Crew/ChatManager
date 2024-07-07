@@ -11,7 +11,7 @@ minotaur = "2.+"
 hangar = "0.1.2"
 
 # Libraries
-vital = "df306e3"
+vital = "1.8.4"
 
 [plugins]
 paperweight = { id = "io.papermc.paperweight.userdev", version.ref = "paperweight" }
