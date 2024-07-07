@@ -34,7 +34,7 @@ public class CommandRadius implements CommandExecutor, TabCompleter {
 		if (cmd.getName().equalsIgnoreCase("chatradius")) {
 
 			if (!Files.CONFIG.getConfiguration().getBoolean("Chat_Radius.Enable")) {
-				Methods.sendMessage(sender, messages.getString("&cError: Chat Radius is currently disabled. Please enable it in the config.yml"), true);
+				Methods.sendMessage(sender, "&cError: Chat Radius is currently disabled. Please enable it in the config.yml", true);
 
 				return true;
 			}
@@ -49,6 +49,8 @@ public class CommandRadius implements CommandExecutor, TabCompleter {
 					Methods.sendMessage(player, (" &f/chatradius global &e- Enables global chat."), true);
 					Methods.sendMessage(player, (" &f/chatradius world &e- Enables world chat."), true);
 					Methods.sendMessage(player, "", true);
+
+					return true;
 				}
 			} else {
 				Methods.sendMessage(player, Methods.noPermission(), true);
