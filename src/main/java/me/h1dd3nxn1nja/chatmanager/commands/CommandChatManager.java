@@ -48,7 +48,13 @@ public class CommandChatManager implements CommandExecutor {
 							}
 						}
 
-						this.plugin.getFileManager().reloadFiles();
+						this.plugin.getFileManager().init();
+
+						Files.CONFIG.reload();
+						Files.MESSAGES.reload();
+						Files.BANNED_COMMANDS.reload();
+						Files.BANNED_WORDS.reload();
+						Files.AUTO_BROADCAST.reload();
 
 						this.plugin.getServer().getScheduler().cancelTasks(this.plugin);
 						this.plugin.check();
