@@ -98,7 +98,7 @@ tasks {
     }
 
     modrinth {
-        token.set(System.getenv("modrinth_token"))
+        token.set(System.getenv("MODRINTH_TOKEN"))
 
         projectId.set(rootProject.name.lowercase())
 
