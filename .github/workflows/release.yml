@@ -86,12 +86,6 @@ jobs:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
         run: ./gradlew modrinth --stacktrace
 
-      - name: Notify Discord
-        if: success()
-        env:
-          CHATMANAGER_WEBHOOK: ${{ secrets.CHATMANAGER_WEBHOOK }}
-        run: ./gradlew webhook
-
       - uses: actions/github-script@v6
         name: Increment Build Number
         if: success()
@@ -119,3 +113,9 @@ jobs:
             if (data?.message != undefined) {
               return core.setFailed(`Failed to update configuration variable NEXT_BUILD_NUMBER with new value of '${value}'`);
             }
+
+      - name: Notify Discord
+        if: success()
+        env:
+          CHATMANAGER_WEBHOOK: ${{ secrets.CHATMANAGER_WEBHOOK }}
+        run: ./gradlew webhook
