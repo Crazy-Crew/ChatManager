@@ -5,6 +5,7 @@ import com.ryderbelserion.chatmanager.api.CustomMetrics;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.plugins.PlaceholderAPISupport;
 import com.ryderbelserion.chatmanager.plugins.VanishSupport;
+import com.ryderbelserion.chatmanager.plugins.VaultSupport;
 import com.ryderbelserion.vital.paper.VitalPaper;
 import com.ryderbelserion.vital.paper.files.config.FileManager;
 import com.ryderbelserion.vital.paper.plugins.PluginManager;
@@ -42,16 +43,6 @@ public class ChatManager extends JavaPlugin {
     public void onEnable() {
         new VitalPaper(this).setLogging(true);
 
-        new CustomMetrics().start();
-
-        List.of(
-                //new VaultSupport(),
-                new VanishSupport(),
-                new PlaceholderAPISupport()
-        ).forEach(PluginManager::registerPlugin);
-
-        PluginManager.printPlugins(getLogger());
-
         this.fileManager = new FileManager();
         this.fileManager
                 .addFile("config.yml")
@@ -61,6 +52,16 @@ public class ChatManager extends JavaPlugin {
                 .addFile("bannedcommands.yml")
                 .addFolder("Logs")
                 .init();
+
+        List.of(
+                new VaultSupport(),
+                new VanishSupport(),
+                new PlaceholderAPISupport()
+        ).forEach(PluginManager::registerPlugin);
+
+        PluginManager.printPlugins();
+
+        new CustomMetrics().start();
 
         this.api = new ApiLoader();
         this.api.load();

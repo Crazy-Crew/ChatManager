@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.plugins.VaultSupport;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -26,7 +27,13 @@ public class ListenerChatFormat implements Listener {
 
 		if (!config.getBoolean("Chat_Format.Enable")) return;
 
-		format = config.getString("Chat_Format.Default_Format");
+		if (VaultSupport.isChatReady()) {
+			String key = VaultSupport.getPermission().getPrimaryGroup(player);
+
+			format = config.getConfigurationSection("Chat_Format.Groups." + key) != null ? config.getString("Chat_Format.Groups." + key + ".Format") : config.getString("Chat_Format.Default_Format");
+		} else {
+			format = config.getString("Chat_Format.Default_Format");
+		}
 
 		format = setupChatRadius(player, format);
 		format = Methods.placeholders(false, player, Methods.color(format));
