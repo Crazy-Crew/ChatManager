@@ -18,13 +18,9 @@ val nextNumber: String? = if (System.getenv("NEXT_BUILD_NUMBER") != null) System
 
 rootProject.version = "${libs.versions.minecraft.get()}-$nextNumber"
 
-val isSnapshot = false
+val isSnapshot = true
 
-val content: String = if (isSnapshot) {
-    latestCommitHistory("f638e1", rootProject.name, "Crazy-Crew").replace("\n", "")
-} else {
-    rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
-}
+val content: String = rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
 
 val releaseUpdate = Color(27, 217, 106)
 val betaUpdate = Color(255, 163, 71)
