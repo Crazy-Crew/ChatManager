@@ -1,7 +1,5 @@
-### Changes:
-- Reverted the change removing per-group formats from the chat.
+**Fixed:**
+- Fixed an issue where a null pointer would be thrown if PlaceholderAPI was not on the server.
 
-### Fixed:
-- Config changes made would not actually be reflected when doing /chatmanager reload.
-- Error when running /chatradius with no args.
-- No message was sent when doing /chatradius with the option set to false.
+**Tested:**
+- Hex Colors have been tested, they do work. thy format is `#FFFFFF`.

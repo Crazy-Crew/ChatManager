@@ -133,6 +133,11 @@ tasks {
                         "Version ${libs.versions.minecraft.get()} build ${System.getenv("NEXT_BUILD_NUMBER")}",
                         "Click [here](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${libs.versions.minecraft.get()}-${System.getenv("NEXT_BUILD_NUMBER")}) to download!"
                     )
+
+                    this.field(
+                        "Changelog",
+                        content
+                    )
                 }
             }
         }
