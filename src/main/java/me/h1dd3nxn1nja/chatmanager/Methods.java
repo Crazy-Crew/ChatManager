@@ -18,8 +18,6 @@ public class Methods {
 	@NotNull
 	private static final ChatManager plugin = ChatManager.get();
 
-	private static final Pattern HEX_PATTERN = Pattern.compile("#([A-Fa-f0-9]{6})");
-
 	public static void playSound(FileConfiguration config, String path) {
 		String sound = config.getString(path + ".value");
 		boolean isEnabled = config.contains(path + ".toggle") && config.getBoolean(path + ".toggle");
@@ -260,14 +258,14 @@ public class Methods {
 	}
 
 	public static String color(String message) {
-		Matcher matcher = HEX_PATTERN.matcher(message);
+		Matcher matcher = Pattern.compile("#[a-fA-F\\d]{6}").matcher(message);
 		StringBuilder buffer = new StringBuilder();
 
 		while (matcher.find()) {
 			matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of(matcher.group()).toString());
 		}
 
-		return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
+		return org.bukkit.ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
 	}
 	
 	public static String getPrefix() {
