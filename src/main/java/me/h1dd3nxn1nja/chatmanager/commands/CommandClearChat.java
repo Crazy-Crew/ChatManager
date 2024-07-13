@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.enums.Messages;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -19,8 +20,6 @@ public class CommandClearChat implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration messages = Files.MESSAGES.getConfiguration();
-
 		if (cmd.getName().equalsIgnoreCase("clearchat")) {
 			if (sender.hasPermission(Permissions.COMMAND_CLEARCHAT.getNode())) {
 				if (args.length == 0) {
@@ -29,25 +28,21 @@ public class CommandClearChat implements CommandExecutor {
 							sendClearMessage(members);
 
 							if (sender instanceof Player player) {
-								for (String broadcastMessage : messages.getStringList("Clear_Chat.Broadcast_Message")) {
-									Methods.sendMessage(members, broadcastMessage.replace("{player}", player.getName()), true);
-								}
+								Messages.CLEAR_CHAT_BROADCAST_MESSAGE.sendMessage(members, "{player}", player.getName());
 							} else if (sender instanceof ConsoleCommandSender) {
-								for (String broadcastMessage : messages.getStringList("Clear_Chat.Broadcast_Message")) {
-									Methods.sendMessage(members, broadcastMessage.replace("{player}", sender.getName()), true);
-								}
+								Messages.CLEAR_CHAT_BROADCAST_MESSAGE.sendMessage(members, "{player}", sender.getName());
 
-								Methods.sendMessage(sender, messages.getString("Clear_Chat.Staff_Message").replace("{player}", sender.getName()), true);
+								Messages.CLEAR_CHAT_STAFF_MESSAGE.sendMessage(sender, "{player}", sender.getName());
 							}
 						} else {
-							Methods.sendMessage(sender, messages.getString("Clear_Chat.Staff_Message").replace("{player}", sender.getName()), true);
+							Messages.CLEAR_CHAT_STAFF_MESSAGE.sendMessage(sender, "{player}", sender.getName());
 						}
 					}
 				} else {
 					Methods.sendMessage(sender, "&cCommand Usage: &7/clearchat", true);
 				}
 			} else {
-				Methods.sendMessage(sender, Methods.noPermission(), true);
+				Messages.NO_PERMISSION.sendMessage(sender);
 			}
 		}
 
@@ -56,7 +51,7 @@ public class CommandClearChat implements CommandExecutor {
 
 	public void sendClearMessage(CommandSender sender) {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
-		int lines = config.getInt("Clear_Chat.Broadcasted_Lines");
+		int lines = config.getInt("Clear_Chat.Broadcasted_Lines", 300);
 		
 		for (int i = 0; i < lines; i++) {
 			sender.sendMessage("");

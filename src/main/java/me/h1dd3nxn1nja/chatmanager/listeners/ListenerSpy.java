@@ -1,15 +1,16 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.enums.Messages;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.jetbrains.annotations.NotNull;
+import java.util.HashMap;
 import java.util.List;
 
 public class ListenerSpy implements Listener {
@@ -38,7 +39,10 @@ public class ListenerSpy implements Listener {
 
 				if (!isValid || !staff.hasPermission(Permissions.COMMAND_SPY.getNode())) return;
 
-				Methods.sendMessage(staff, messages.getString("Command_Spy.Format").replace("{player}", player.getName()).replace("{command}", message), true);
+				Messages.COMMAND_SPY_FORMAT.sendMessage(staff, new HashMap<>() {{
+					put("{player}", player.getName());
+					put("{command}", message);
+				}});
 			}
 		}
 	}

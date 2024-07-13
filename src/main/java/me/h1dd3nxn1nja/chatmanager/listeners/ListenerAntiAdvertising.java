@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.enums.Messages;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -19,6 +20,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,7 +51,7 @@ public class ListenerAntiAdvertising implements Listener {
 		Matcher firstMatch = firstPattern.matcher(event.getMessage().toLowerCase());
 		Matcher secondMatch = secondPattern.matcher(event.getMessage().toLowerCase());
 
-		if (!config.getBoolean("Anti_Advertising.Chat.Enable")) return;
+		if (!config.getBoolean("Anti_Advertising.Chat.Enable", false)) return;
 
 		boolean isValid = this.plugin.api().getStaffChatData().containsUser(player.getUniqueId());
 
@@ -59,8 +61,9 @@ public class ListenerAntiAdvertising implements Listener {
 			if (event.getMessage().contains(allowed.toLowerCase())) return;
 		}
 
-		if (config.getBoolean("Anti_Advertising.Chat.Increase_Sensitivity")) {
+		if (config.getBoolean("Anti_Advertising.Chat.Increase_Sensitivity", false)) {
 			chatMatch(event, player, playerName, message, time, firstMatchIncrease, secondMatchIncrease);
+
 			return;
 		}
 
@@ -71,22 +74,30 @@ public class ListenerAntiAdvertising implements Listener {
 		if (!firstMatch.find() || !secondMatch.find()) return;
 
 		FileConfiguration config = Files.CONFIG.getConfiguration();
-		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		event.setCancelled(true);
-		Methods.sendMessage(player, messages.getString("Anti_Advertising.Chat.Message"), true);
 
-		if (config.getBoolean("Anti_Advertising.Chat.Notify_Staff")) {
+		Messages.ANTI_ADVERTISING_CHAT_MESSAGE.sendMessage(player);
+
+		if (config.getBoolean("Anti_Advertising.Chat.Notify_Staff", false)) {
 			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission(Permissions.NOTIFY_ANTI_ADVERTISING.getNode())) {
-					Methods.sendMessage(staff, messages.getString("Anti_Advertising.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+					Messages.ANTI_ADVERTISING_CHAT_NOTIFY_STAFF.sendMessage(staff, new HashMap<>() {{
+						put("{player}", player.getName());
+						put("{message}", message);
+					}});
 				}
 			}
 
-			Methods.tellConsole(messages.getString("Anti_Advertising.Chat.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+			String msg = Messages.ANTI_ADVERTISING_CHAT_NOTIFY_STAFF.getMessage(this.plugin.getServer().getConsoleSender(), new HashMap<>() {{
+				put("{player}", player.getName());
+				put("{message}", message);
+			}});
+
+			Methods.tellConsole(msg, false);
 		}
 
-		if (config.getBoolean("Anti_Advertising.Chat.Execute_Command")) {
+		if (config.getBoolean("Anti_Advertising.Chat.Execute_Command", false)) {
 			if (config.contains("Anti_Advertising.Chat.Executed_Command")) {
 				String command = config.getString("Anti_Advertising.Chat.Executed_Command").replace("{player}", player.getName());
 				List<String> commands = config.getStringList("Anti_Advertising.Chat.Executed_Command");
@@ -103,7 +114,7 @@ public class ListenerAntiAdvertising implements Listener {
 			}
 		}
 
-		if (!config.getBoolean("Anti_Advertising.Chat.Log_Advertisers")) return;
+		if (!config.getBoolean("Anti_Advertising.Chat.Log_Advertisers", false)) return;
 
 		try {
 			FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Advertisements.txt"), true);
@@ -138,7 +149,7 @@ public class ListenerAntiAdvertising implements Listener {
 		Matcher firstMatch = firstPattern.matcher(event.getMessage().toLowerCase());
 		Matcher secondMatch = secondPattern.matcher(event.getMessage().toLowerCase());
 
-		if (!config.getBoolean("Anti_Advertising.Commands.Enable")) return;
+		if (!config.getBoolean("Anti_Advertising.Commands.Enable", false)) return;
 
 		boolean isValid = this.plugin.api().getStaffChatData().containsUser(player.getUniqueId());
 
@@ -152,8 +163,9 @@ public class ListenerAntiAdvertising implements Listener {
 			if (event.getMessage().toLowerCase().contains(allowed)) return;
 		}
 
-		if (config.getBoolean("Anti_Advertising.Commands.Increase_Sensitivity")) {
+		if (config.getBoolean("Anti_Advertising.Commands.Increase_Sensitivity", false)) {
 			increasedSensitivity(event, player, playerName, message, time, firstMatchIncrease, secondMatchIncrease);
+
 			return;
 		}
 
@@ -164,22 +176,30 @@ public class ListenerAntiAdvertising implements Listener {
 		if (!firstMatch.find() || !secondMatch.find()) return;
 
 		FileConfiguration config = Files.CONFIG.getConfiguration();
-		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		event.setCancelled(true);
-		Methods.sendMessage(player, messages.getString("Anti_Advertising.Commands.Message"), true);
+
+		Messages.ANTI_ADVERTISING_COMMANDS_MESSAGE.sendMessage(player);
 
 		if (config.getBoolean("Anti_Advertising.Commands.Notify_Staff")) {
 			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission(Permissions.NOTIFY_ANTI_ADVERTISING.getNode())) {
-					Methods.sendMessage(staff, messages.getString("Anti_Advertising.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+					Messages.ANTI_ADVERTISING_COMMANDS_NOTIFY_STAFF.sendMessage(staff, new HashMap<>() {{
+						put("{player}", player.getName());
+						put("{message}", message);
+					}});
 				}
 			}
 
-			Methods.tellConsole(messages.getString("Anti_Advertising.Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+			String msg = Messages.ANTI_ADVERTISING_COMMANDS_NOTIFY_STAFF.getMessage(this.plugin.getServer().getConsoleSender(), new HashMap<>() {{
+				put("{player}", player.getName());
+				put("{message}", message);
+			}});
+
+			Methods.tellConsole(msg, false);
 		}
 
-		if (config.getBoolean("Anti_Advertising.Commands.Execute_Command")) {
+		if (config.getBoolean("Anti_Advertising.Commands.Execute_Command", false)) {
 			if (config.contains("Anti_Advertising.Commands.Executed_Command")) {
 				String command = config.getString("Anti_Advertising.Commands.Executed_Command").replace("{player}", player.getName());
 				List<String> commands = config.getStringList("Anti_Advertising.Commands.Executed_Command");
@@ -195,7 +215,7 @@ public class ListenerAntiAdvertising implements Listener {
 			}
 		}
 
-		if (!config.getBoolean("Anti_Advertising.Commands.Log_Advertisers")) return;
+		if (!config.getBoolean("Anti_Advertising.Commands.Log_Advertisers", false)) return;
 
 		try {
 			FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Advertisements.txt"), true);
@@ -222,7 +242,7 @@ public class ListenerAntiAdvertising implements Listener {
 		Pattern firstPattern = Pattern.compile("[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[0o]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}");
 		Pattern secondPattern = Pattern.compile("[a-zA-Z0-9\\-.]+(\\.|d[o0]t|\\(d[o0]t\\)|-|,)+(com|org|net|co|uk|sk|biz|mobi|xxx|io|ts|adv|de|eu|noip|gs|au|pl|cz|ru)");
 
-		if (!config.getBoolean("Anti_Advertising.Signs.Enable")) return;
+		if (!config.getBoolean("Anti_Advertising.Signs.Enable", false)) return;
 
 		for (int line = 0; line < 4; line++) {
 			String message = event.getLine(line);
@@ -256,23 +276,32 @@ public class ListenerAntiAdvertising implements Listener {
 
 	private boolean findMatches(SignChangeEvent event, Player player, String message, String str, Matcher firstMatch, Matcher secondMatch) {
 		if (!firstMatch.find() || !secondMatch.find()) return false;
+
 		FileConfiguration config = Files.CONFIG.getConfiguration();
-		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		event.setCancelled(true);
-		Methods.sendMessage(player, messages.getString("Anti_Advertising.Signs.Message"), true);
+
+		Messages.ANTI_ADVERTISING_SIGNS_MESSAGE.sendMessage(player);
 
 		if (config.getBoolean("Anti_Advertising.Signs.Notify_Staff")) {
 			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission(Permissions.NOTIFY_ANTI_ADVERTISING.getNode())) {
-					Methods.sendMessage(staff, messages.getString("Anti_Advertising.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+					Messages.ANTI_ADVERTISING_SIGNS_NOTIFY_STAFF.sendMessage(staff, new HashMap<>() {{
+						put("{player}", player.getName());
+						put("{message}", message);
+					}});
 				}
 			}
 
-			Methods.tellConsole(messages.getString("Anti_Advertising.Signs.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+			String msg = Messages.ANTI_ADVERTISING_SIGNS_NOTIFY_STAFF.getMessage(this.plugin.getServer().getConsoleSender(), new HashMap<>() {{
+				put("{player}", player.getName());
+				put("{message}", message);
+			}});
+
+			Methods.tellConsole(msg, false);
 		}
 
-		if (config.getBoolean("Anti_Advertising.Signs.Execute_Command")) {
+		if (config.getBoolean("Anti_Advertising.Signs.Execute_Command", false)) {
 			if (config.contains("Anti_Advertising.Signs.Executed_Command")) {
 				String command = config.getString("Anti_Advertising.Signs.Executed_Command").replace("{player}", player.getName());
 				List<String> commands = config.getStringList("Anti_Advertising.Signs.Executed_Command");
@@ -289,7 +318,7 @@ public class ListenerAntiAdvertising implements Listener {
 			}
 		}
 
-		if (config.getBoolean("Anti_Advertising.Signs.Log_Advertisers")) {
+		if (config.getBoolean("Anti_Advertising.Signs.Log_Advertisers", false)) {
 			try {
 				FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Advertisements.txt"), true);
 				BufferedWriter bw2 = new BufferedWriter(fw);

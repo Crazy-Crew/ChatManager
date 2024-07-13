@@ -1,8 +1,10 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.enums.Messages;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -23,6 +25,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		if (!(sender instanceof Player player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
+
 			return true;
 		}
 
@@ -33,7 +36,8 @@ public class CommandAutoBroadcast implements CommandExecutor {
 			if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_HELP.getNode())) {
 				if (args.length == 0) return checkProtocol(player);
 			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
+				Messages.NO_PERMISSION.sendMessage(player);
+
 				return true;
 			}
 
@@ -41,7 +45,8 @@ public class CommandAutoBroadcast implements CommandExecutor {
 				if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_HELP.getNode())) {
 					if (args.length == 1) return checkProtocol(player);
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					Messages.NO_PERMISSION.sendMessage(player);
+
 					return true;
 				}
 			}
@@ -50,10 +55,12 @@ public class CommandAutoBroadcast implements CommandExecutor {
 				if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_LIST.getNode())) {
 					if (args.length == 1) {
 						Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast list [Global|World|Actionbar|Title|Bossbar] [World]", true);
+
 						return true;
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					Messages.NO_PERMISSION.sendMessage(player);
+
 					return true;
 				}
 
@@ -61,7 +68,9 @@ public class CommandAutoBroadcast implements CommandExecutor {
 					if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_LIST.getNode())) {
 						if (args.length == 2) {
 							Methods.sendMessage(player, "", true);
-							Methods.sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", "Global"), true);
+
+							Messages.AUTO_BROADCAST_LIST.sendMessage(player, "{section}", "Global");
+
 							Methods.sendMessage(player, "", true);
 
 							String string = autobroadcast.getString("Auto_Broadcast.Global_Messages.Prefix");
@@ -77,7 +86,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast list global", true);
 						}
 					} else {
-						Methods.sendMessage(player, Methods.noPermission(), true);
+						Messages.NO_PERMISSION.sendMessage(player);
 					}
 				}
 
@@ -85,7 +94,8 @@ public class CommandAutoBroadcast implements CommandExecutor {
 					if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_LIST.getNode())) {
 						if (args.length == 2) {
 							Methods.sendMessage(player, "", true);
-							Methods.sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", "Actionbar"), true);
+
+							Messages.AUTO_BROADCAST_LIST.sendMessage(player, "{section}", "Actionbar");
 
 							String string = autobroadcast.getString("Auto_Broadcast.Actionbar_Messages.Prefix");
 
@@ -100,7 +110,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast list actionbar", true);
 						}
 					} else {
-						Methods.sendMessage(player, Methods.noPermission(), true);
+						Messages.NO_PERMISSION.sendMessage(player);
 					}
 				}
 
@@ -108,7 +118,8 @@ public class CommandAutoBroadcast implements CommandExecutor {
 					if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_LIST.getNode())) {
 						if (args.length == 2) {
 							Methods.sendMessage(player, "", true);
-							Methods.sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", "Title"), true);
+
+							Messages.AUTO_BROADCAST_LIST.sendMessage(player, "{section}", "Title");
 
 							for (String title : autobroadcast.getStringList("Auto_Broadcast.Title_Messages.Messages")) {
 								Methods.sendMessage(player, "&7 - " + title, false);
@@ -119,7 +130,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast list title", true);
 						}
 					} else {
-						Methods.sendMessage(player, Methods.noPermission(), true);
+						Messages.NO_PERMISSION.sendMessage(player);
 					}
 				}
 
@@ -127,7 +138,8 @@ public class CommandAutoBroadcast implements CommandExecutor {
 					if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_LIST.getNode())) {
 						if (args.length == 2) {
 							Methods.sendMessage(player, "", true);
-							Methods.sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", "Bossbar"), true);
+
+							Messages.AUTO_BROADCAST_LIST.sendMessage(player, "{section}", "Bossbar");
 
 							for (String bossbar : autobroadcast.getStringList("Auto_Broadcast.Bossbar_Messages.Messages")) {
 								Methods.sendMessage(player, "&7 - " + bossbar, false);
@@ -138,7 +150,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast list bossbar", true);
 						}
 					} else {
-						Methods.sendMessage(player, Methods.noPermission(), true);
+						Messages.NO_PERMISSION.sendMessage(player);
 					}
 				}
 
@@ -155,7 +167,8 @@ public class CommandAutoBroadcast implements CommandExecutor {
 
 								if (args[2].equals(key)) {
 									Methods.sendMessage(player, "", true);
-									Methods.sendMessage(player, messages.getString("Auto_Broadcast.List").replace("{section}", key), true);
+
+									Messages.AUTO_BROADCAST_LIST.sendMessage(player, "{section}", key);
 
 									for (String bcmsg : autobroadcast.getStringList("Auto_Broadcast.Per_World_Messages.Messages." + key)) {
 										if (broadcast != null) {
@@ -170,7 +183,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast list world <world>", true);
 						}
 					} else {
-						Methods.sendMessage(player, Methods.noPermission(), true);
+						Messages.NO_PERMISSION.sendMessage(player);
 					}
 				}
 			}
@@ -182,7 +195,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						return true;
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					Messages.NO_PERMISSION.sendMessage(player);
 					return true;
 				}
 
@@ -196,17 +209,25 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							}
 
 							String msg = builder.toString();
+
 							List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Global_Messages.Messages");
 							msgs.add(msg);
+
 							autobroadcast.set("Auto_Broadcast.Global_Messages.Messages", msgs);
+
 							Files.AUTO_BROADCAST.save();
-							Methods.sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Global"), true);
+
+							Messages.AUTO_BROADCAST_ADDED.sendMessage(player, new HashMap<>() {{
+								put("{message}", msg);
+								put("{section}", "Global");
+							}});
+
 							return true;
 						} else {
 							Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast add global <message>", true);
 						}
 					} else {
-						Methods.sendMessage(player, Methods.noPermission(), true);
+						Messages.NO_PERMISSION.sendMessage(player);
 					}
 				}
 			}
@@ -221,17 +242,25 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						}
 
 						String msg = builder.toString();
+
 						List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Actionbar_Messages.Messages");
 						msgs.add(msg);
+
 						autobroadcast.set("Auto_Broadcast.Actionbar_Messages.Messages", msgs);
+
 						Files.AUTO_BROADCAST.save();
-						Methods.sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Actionbar"), true);
+
+						Messages.AUTO_BROADCAST_ADDED.sendMessage(player, new HashMap<>() {{
+							put("{message}", msg);
+							put("{section}", "Actionbar");
+						}});
+
 						return true;
 					} else {
 						Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast add actionbar <message.", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					Messages.NO_PERMISSION.sendMessage(player);
 				}
 			}
 
@@ -245,17 +274,25 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						}
 
 						String msg = builder.toString();
+
 						List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Title_Messages.Messages");
 						msgs.add(msg);
+
 						autobroadcast.set("Auto_Broadcast.Title_Messages.Messages", msgs);
+
 						Files.AUTO_BROADCAST.save();
-						Methods.sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Title"), true);
+
+						Messages.AUTO_BROADCAST_ADDED.sendMessage(player, new HashMap<>() {{
+							put("{message}", msg);
+							put("{section}", "Title");
+						}});
+
 						return true;
 					} else {
 						Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast add title <message>", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					Messages.NO_PERMISSION.sendMessage(player);
 				}
 			}
 
@@ -269,17 +306,25 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						}
 
 						String msg = builder.toString();
+
 						List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Bossbar_Messages.Messages");
 						msgs.add(msg);
+
 						autobroadcast.set("Auto_Broadcast.Bossbar_Messages.Messages", msgs);
+
 						Files.AUTO_BROADCAST.save();
-						Methods.sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", "Bossbar"), true);
+
+						Messages.AUTO_BROADCAST_ADDED.sendMessage(player, new HashMap<>() {{
+							put("{message}", msg);
+							put("{section}", "Bossbar");
+						}});
+
 						return true;
 					} else {
 						Methods.sendMessage(player, "&cCommand Usage: &7/butobroadcast add bossbar <message>", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					Messages.NO_PERMISSION.sendMessage(player);
 				}
 			}
 
@@ -294,7 +339,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 
 							if (args[2].equals(key)) {
 								if (!player.hasPermission("chatmanager.autobroadcast.add")) {
-									Methods.sendMessage(player, Methods.noPermission(), true);
+									Messages.NO_PERMISSION.sendMessage(player);
 									return true;
 								}
 
@@ -305,11 +350,19 @@ public class CommandAutoBroadcast implements CommandExecutor {
 								}
 
 								String msg = builder.toString();
+
 								List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Per_World_Messages.Messages." + key);
 								msgs.add(msg);
+
 								autobroadcast.set("Auto_Broadcast.Per_World_Messages.Messages." + key, msgs);
+
 								Files.AUTO_BROADCAST.save();
-								Methods.sendMessage(player, messages.getString("Auto_Broadcast.Added").replace("{message}", msg).replace("{section}", key), true);
+
+								Messages.AUTO_BROADCAST_ADDED.sendMessage(player, new HashMap<>() {{
+									put("{message}", msg);
+									put("{section}", key);
+								}});
+
 								return true;
 							}
 						}
@@ -317,7 +370,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 						Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast add world <world> <message>", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					Messages.NO_PERMISSION.sendMessage(player);
 				}
 			}
 		}
@@ -332,17 +385,25 @@ public class CommandAutoBroadcast implements CommandExecutor {
 					}
 
 					String msg = builder.toString();
+
 					List<String> msgs = autobroadcast.getStringList("Auto_Broadcast.Per_World_Messages.Messages");
 					msgs.add(msg);
+
 					autobroadcast.set("Auto_Broadcast.Per_World_Messages.Messages." + args[1], msgs);
+
 					Files.AUTO_BROADCAST.save();
-					Methods.sendMessage(player, messages.getString("Auto_Broadcast.Created").replace("{world}", args[1]).replace("{message}", msg), true);
+
+					Messages.AUTO_BROADCAST_CREATED.sendMessage(player, new HashMap<>() {{
+						put("{world}", args[1]);
+						put("{message}", msg);
+					}});
+
 					return true;
 				} else {
 					Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast create <world> <message>", true);
 				}
 			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
+				Messages.NO_PERMISSION.sendMessage(player);
 			}
 		}
 

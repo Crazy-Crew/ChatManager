@@ -269,11 +269,11 @@ public class Methods {
 	}
 	
 	public static String getPrefix() {
-		return Files.MESSAGES.getConfiguration().getString("Message.Prefix");
+		return color(Files.MESSAGES.getConfiguration().getString("Message.Prefix"));
 	}
-	
-	public static String noPermission() {
-		return Files.MESSAGES.getConfiguration().getString("Message.No_Permission");
+
+	public static String getPrefix(String msg) {
+		return getPrefix() + color(msg);
 	}
 
 	private static boolean isMuted;
@@ -287,12 +287,7 @@ public class Methods {
 	}
 	
 	public static void tellConsole(String message, boolean prefix) {
-		if (prefix) {
-			sendMessage(plugin.getServer().getConsoleSender(), message, true);
-			return;
-		}
-
-		sendMessage(plugin.getServer().getConsoleSender(), message, false);
+		sendMessage(plugin.getServer().getConsoleSender(), message, prefix);
 	}
 	
 	public static boolean inRange(UUID uuid, UUID receiver, int radius) {
@@ -346,7 +341,7 @@ public class Methods {
 
 		if (player != null) {
 			if (PluginManager.isEnabled("PlaceholderAPI")) {
-				return color(PlaceholderAPI.setPlaceholders(player, clonedMessage.replaceAll("\\{player}", player.getName()).replaceAll("\\{server_name}", config.getString("Server_Name", "Server Name not found."))));
+				clonedMessage = PlaceholderAPI.setPlaceholders(player, clonedMessage);
 			}
 
 			return color(clonedMessage.replaceAll("\\{player}", player.getName()).replaceAll("\\{server_name}", config.getString("Server_Name", "Server Name not found.")));

@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.enums.Messages;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -40,7 +41,7 @@ public class CommandChatManager implements CommandExecutor {
 							BossBarUtil bossBar = new BossBarUtil();
 							bossBar.removeAllBossBars(player);
 
-							BossBarUtil bossBarStaff = new BossBarUtil(Methods.placeholders(true, player, Methods.color(config.getString("Staff_Chat.Boss_Bar.Title"))));
+							BossBarUtil bossBarStaff = new BossBarUtil(Methods.placeholders(true, player, Methods.color(config.getString("Staff_Chat.Boss_Bar.Title", "&eStaff Chat"))));
 
 							if (this.plugin.api().getStaffChatData().containsUser(player.getUniqueId()) && player.hasPermission("chatmanager.staffchat")) {
 								bossBarStaff.removeStaffBossBar(player);
@@ -59,19 +60,19 @@ public class CommandChatManager implements CommandExecutor {
 						this.plugin.getServer().getScheduler().cancelTasks(this.plugin);
 						this.plugin.check();
 
-						Methods.sendMessage(sender, Files.MESSAGES.getConfiguration().getString("Message.Reload"), true);
-
+						Messages.PLUGIN_RELOAD.sendMessage(sender);
 					} else {
 						Methods.sendMessage(sender, "&cCommand Usage: &7/chatmanager reload", true);
 					}
 				} else {
-					Methods.sendMessage(sender, Methods.noPermission(), true);
+					Messages.NO_PERMISSION.sendMessage(sender);
 				}
 			}
 
 			if (args[0].equalsIgnoreCase("debug")) {
 				if (!sender.hasPermission(Permissions.COMMAND_DEBUG.getNode())) {
-					Methods.sendMessage(sender, Methods.noPermission(), true);
+					Messages.NO_PERMISSION.sendMessage(sender);
+
 					return true;
 				}
 
@@ -93,6 +94,7 @@ public class CommandChatManager implements CommandExecutor {
 					if (sender.hasPermission(Permissions.COMMAND_DEBUG.getNode())) {
 						if (args.length == 2) {
 							Methods.sendMessage(sender, "&7Debugging all configuration files, Please go to your console to see the debug low.", true);
+
 							Debug.debugAutoBroadcast();
 							Debug.debugConfig();
 							Debug.debugMessages();
@@ -100,7 +102,7 @@ public class CommandChatManager implements CommandExecutor {
 							Methods.sendMessage(sender, "&cCommand Usage: &7/chatmanager debug all", true);
 						}
 					} else {
-						Methods.sendMessage(sender, Methods.noPermission(), true);
+						Messages.NO_PERMISSION.sendMessage(sender);
 					}
 				}
 
@@ -108,12 +110,13 @@ public class CommandChatManager implements CommandExecutor {
 					if (sender.hasPermission(Permissions.COMMAND_DEBUG.getNode())) {
 						if (args.length == 2) {
 							Methods.sendMessage(sender, "&7Debugging autobroadcast, Please go to your console to see the debug log.", true);
+
 							Debug.debugAutoBroadcast();
 						} else {
 							Methods.sendMessage(sender, "&cCommand Usage: &7/chatmanager debug autobroadcast", true);
 						}
 					} else {
-						Methods.sendMessage(sender, Methods.noPermission(), true);
+						Messages.NO_PERMISSION.sendMessage(sender);
 					}
 				}
 
@@ -121,12 +124,13 @@ public class CommandChatManager implements CommandExecutor {
 					if (sender.hasPermission(Permissions.COMMAND_DEBUG.getNode())) {
 						if (args.length == 2) {
 							Methods.sendMessage(sender, "&7Debugging config, Please go to your console to see the debug log.", true);
+
 							Debug.debugConfig();
 						} else {
 							Methods.sendMessage(sender, "&cCommand Usage: &7/chatmanager debug config", true);
 						}
 					} else {
-						Methods.sendMessage(sender, Methods.noPermission(), true);
+						Messages.NO_PERMISSION.sendMessage(sender);
 					}
 				}
 
@@ -134,12 +138,13 @@ public class CommandChatManager implements CommandExecutor {
 					if (sender.hasPermission(Permissions.COMMAND_DEBUG.getNode())) {
 						if (args.length == 2) {
 							Methods.sendMessage(sender, "&7Debugging config, Please go to your console to see the debug log.", true);
+
 							Debug.debugMessages();
 						} else {
 							Methods.sendMessage(sender, "&cCommand Usage: &7/chatmanager debug messages", true);
 						}
 					} else {
-						Methods.sendMessage(sender, Methods.noPermission(), true);
+						Messages.NO_PERMISSION.sendMessage(sender);
 					}
 				}
 			}
@@ -172,6 +177,7 @@ public class CommandChatManager implements CommandExecutor {
 							Methods.sendMessage(player, "", true);
 							Methods.sendMessage(player, "&7Page 2/3. Type /chatmanager help 3 to go to the next page.", true);
 							Methods.sendMessage(player, "", true);
+
 							return true;
 						}
 					}

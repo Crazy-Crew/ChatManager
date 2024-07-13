@@ -1,7 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -13,15 +12,11 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.h1dd3nxn1nja.chatmanager.utils.Format;
 import net.md_5.bungee.api.ChatColor;
-import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("deprecation")
 public class ListenerColor implements Listener {
-
-	@NotNull
-	private final ChatManager plugin = ChatManager.get();
 	
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onColorChat(AsyncPlayerChatEvent event) {
@@ -30,10 +25,9 @@ public class ListenerColor implements Listener {
 		Player player = event.getPlayer();
 		String message = event.getMessage();
 
-		if (!config.getBoolean("Formatted_Messages.Enable")) return;
+		if (!config.getBoolean("Formatted_Messages.Enable", false)) return;
 
-		String format = formatChat(player, message);
-		event.setMessage(format);
+		event.setMessage(formatChat(player, message));
 	}
 
 	@EventHandler(ignoreCancelled = true)

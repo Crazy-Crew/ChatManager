@@ -30,44 +30,49 @@ public class ListenerRadius implements Listener {
 
 		FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		String localOverrideChar = config.getString("Chat_Radius.Local_Chat.Override_Symbol");
-		String globalOverrideChar = config.getString("Chat_Radius.Global_Chat.Override_Symbol");
-		String worldOverrideChar = config.getString("Chat_Radius.World_Chat.Override_Symbol");
+		String localOverrideChar = config.getString("Chat_Radius.Local_Chat.Override_Symbol", "#");
+		String globalOverrideChar = config.getString("Chat_Radius.Global_Chat.Override_Symbol", "!");
+		String worldOverrideChar = config.getString("Chat_Radius.World_Chat.Override_Symbol", "$");
 
 		int radius = config.getInt("Chat_Radius.Block_Distance");
 
 		if (!config.getBoolean("Chat_Radius.Enable") || this.plugin.api().getStaffChatData().containsUser(uuid)) return;
 
 		if (player.hasPermission(Permissions.CHAT_RADIUS_GLOBAL_OVERRIDE.getNode())) {
-			if (globalOverrideChar != null && !globalOverrideChar.isEmpty()) {
+			if (!globalOverrideChar.isEmpty()) {
 				if (ChatColor.stripColor(message).charAt(0) == globalOverrideChar.charAt(0)) {
 					this.plugin.api().getWorldChatData().removeUser(uuid);
 					this.plugin.api().getLocalChatData().removeUser(uuid);
 					this.plugin.api().getGlobalChatData().addUser(uuid);
+
 					return;
 				}
 			}
 		}
 
 		if (player.hasPermission(Permissions.CHAT_RADIUS_LOCAL_OVERRIDE.getNode())) {
-			if (localOverrideChar != null && !localOverrideChar.isEmpty()) {
+			if (!localOverrideChar.isEmpty()) {
 				if (ChatColor.stripColor(message).charAt(0) == localOverrideChar.charAt(0)) {
 					this.plugin.api().getWorldChatData().removeUser(uuid);
 					this.plugin.api().getGlobalChatData().removeUser(uuid);
 					this.plugin.api().getLocalChatData().addUser(uuid);
+
 					event.setMessage(message.replace(localOverrideChar, ""));
+
 					return;
 				}
 			}
 		}
 
 		if (player.hasPermission(Permissions.CHAT_RADIUS_WORLD_OVERRIDE.getNode())) {
-			if (worldOverrideChar != null && !worldOverrideChar.isEmpty()) {
+			if (!worldOverrideChar.isEmpty()) {
 				if (ChatColor.stripColor(message).charAt(0) == worldOverrideChar.charAt(0)) {
 					this.plugin.api().getGlobalChatData().removeUser(uuid);
 					this.plugin.api().getLocalChatData().removeUser(uuid);
 					this.plugin.api().getWorldChatData().addUser(uuid);
+
 					event.setMessage(message.replace(worldOverrideChar, ""));
+
 					return;
 				}
 			}

@@ -1,7 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.enums.Files;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.command.Command;
@@ -11,9 +11,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandRules implements CommandExecutor {
-
-	@NotNull
-	private final ChatManager plugin = ChatManager.get();
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
@@ -35,7 +32,7 @@ public class CommandRules implements CommandExecutor {
 					Methods.sendMessage(sender, "&cCommand Usage: &7/rules <page>", true);
 				}
 			} else {
-				Methods.sendMessage(sender, Methods.noPermission(), true);
+				Messages.NO_PERMISSION.sendMessage(sender);
 			}
 		}
 

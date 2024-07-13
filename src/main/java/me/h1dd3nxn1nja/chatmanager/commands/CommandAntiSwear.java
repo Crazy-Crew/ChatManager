@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.enums.Messages;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -21,6 +22,7 @@ public class CommandAntiSwear implements CommandExecutor {
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		if (!(sender instanceof Player player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
+
 			return true;
 		}
 
@@ -40,11 +42,10 @@ public class CommandAntiSwear implements CommandExecutor {
 					).forEach(msg -> Methods.sendMessage(player, msg, false));
 				}
 			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
+				Messages.NO_PERMISSION.sendMessage(player);
+
 				return true;
 			}
-
-			FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 			if (args[0].equalsIgnoreCase("help")) {
 				if (player.hasPermission(Permissions.COMMAND_ANTISWEAR_HELP.getNode())) {
@@ -62,19 +63,22 @@ public class CommandAntiSwear implements CommandExecutor {
 						).forEach(msg -> Methods.sendMessage(player, msg, false));
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					Messages.NO_PERMISSION.sendMessage(player);
+
 					return true;
 				}
 			}
 
 			if (args[0].equalsIgnoreCase("add")) {
 				if (!player.hasPermission(Permissions.COMMAND_ANTISWEAR_ADD.getNode())) {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					Messages.NO_PERMISSION.sendMessage(player);
+
 					return true;
 				}
 
 				if (args.length == 1) {
 					Methods.sendMessage(player, "&cCommand Usage: &7/antiswear add <blacklist|whitelist> <word>", true);
+
 					return true;
 				}
 
@@ -83,20 +87,23 @@ public class CommandAntiSwear implements CommandExecutor {
 				if (args[1].equalsIgnoreCase("blacklist")) {
 					if (player.hasPermission(Permissions.COMMAND_ANTISWEAR_ADD.getNode())) {
 						if (args.length == 3) {
-							if (!Files.BANNED_WORDS.getConfiguration().getStringList("Banned-Words").contains(args[2])) {
+							if (!bannedWords.getStringList("Banned-Words").contains(args[2])) {
 								List<String> swearWords = bannedWords.getStringList("Banned-Words");
 								swearWords.add(args[2].toLowerCase());
+
 								bannedWords.set("Banned-Words", swearWords);
+
 								Files.BANNED_WORDS.save();
-								Methods.sendMessage(player, messages.getString("Anti_Swear.Blacklisted_Word.Added").replace("{word}", args[2]), true);
+
+								Messages.ANTI_SWEAR_BLACKLISTED_WORD_ADDED.sendMessage(player, "{word}", args[2]);
 							} else {
-								Methods.sendMessage(player, messages.getString("Anti_Swear.Blacklisted_Word.Exists").replace("{word}", args[2]), true);
+								Messages.ANTI_SWEAR_BLACKLISTED_WORD_EXISTS.sendMessage(player, "{word}", args[2]);
 							}
 						} else {
 							Methods.sendMessage(player, "&cCommand Usage: &7/antiswear add blacklist <word>", true);
 						}
 					} else {
-						Methods.sendMessage(player, Methods.noPermission(), true);
+						Messages.NO_PERMISSION.sendMessage(player);
 					}
 				}
 
@@ -106,29 +113,34 @@ public class CommandAntiSwear implements CommandExecutor {
 							if (!bannedWords.getStringList("Whitelisted_Words").contains(args[2])) {
 								List<String> swearWords = bannedWords.getStringList("Whitelisted_Words");
 								swearWords.add(args[2].toLowerCase());
+
 								bannedWords.set("Whitelisted_Words", swearWords);
+
 								Files.BANNED_WORDS.save();
-								Methods.sendMessage(player, messages.getString("Anti_Swear.Whitelisted_Word.Added").replace("{word}", args[2]), true);
+
+								Messages.ANTI_SWEAR_WHITELISTED_WORD_EXISTS.sendMessage(player, "{word}", args[2]);
 							} else {
-								Methods.sendMessage(player, messages.getString("Anti_Swear.Whitelisted_Word.Exists").replace("{word}", args[2]), true);
+								Messages.ANTI_SWEAR_WHITELISTED_WORD_EXISTS.sendMessage(player, "{word}", args[2]);
 							}
 						} else {
 							Methods.sendMessage(player, "&cCommand Usage: &7/antiswear add whitelist <word>", true);
 						}
 					} else {
-						Methods.sendMessage(player, Methods.noPermission(), true);
+						Messages.NO_PERMISSION.sendMessage(player);
 					}
 				}
 			}
 
 			if (args[0].equalsIgnoreCase("remove")) {
 				if (!player.hasPermission(Permissions.COMMAND_ANTISWEAR_REMOVE.getNode())) {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					Messages.NO_PERMISSION.sendMessage(player);
+
 					return true;
 				}
 
 				if (args.length == 1) {
 					Methods.sendMessage(player, "&cCommand Usage: &7/antiswear remove <blacklist|whitelist> <word>", true);
+
 					return true;
 				}
 
@@ -140,17 +152,20 @@ public class CommandAntiSwear implements CommandExecutor {
 							if (bannedWords.getStringList("Banned-Words").contains(args[2])) {
 								List<String> list = bannedWords.getStringList("Banned-Words");
 								list.remove(args[2].toLowerCase());
+
 								bannedWords.set("Banned-Words", list);
+
 								Files.BANNED_WORDS.save();
-								Methods.sendMessage(player, messages.getString("Anti_Swear.Blacklisted_Word.Removed").replace("{word}", args[2]), true);
+
+								Messages.ANTI_SWEAR_BLACKLISTED_WORD_REMOVED.sendMessage(player, "{word}", args[2]);
 							} else {
-								Methods.sendMessage(player, messages.getString("Anti_Swear.Blacklisted_Word.Not_Found").replace("{word}", args[2]), true);
+								Messages.ANTI_SWEAR_BLACKLISTED_WORD_NOT_FOUND.sendMessage(player, "{word}", args[2]);
 							}
 						} else {
 							Methods.sendMessage(player,"&cCommand Usage: &7/antiswear remove blacklist <word>", true);
 						}
 					} else {
-						Methods.sendMessage(player, Methods.noPermission(), true);
+						Messages.NO_PERMISSION.sendMessage(player);
 					}
 				}
 
@@ -160,17 +175,20 @@ public class CommandAntiSwear implements CommandExecutor {
 							if (bannedWords.getStringList("Whitelisted_Words").contains(args[2])) {
 								List<String> list = bannedWords.getStringList("Whitelisted_Words");
 								list.remove(args[2].toLowerCase());
+
 								bannedWords.set("Whitelisted_Words", list);
+
 								Files.BANNED_WORDS.save();
-								Methods.sendMessage(player, messages.getString("Anti_Swear.Whitelisted_Word.Removed").replace("{word}", args[2]), true);
+
+								Messages.ANTI_SWEAR_WHITELISTED_WORD_REMOVED.sendMessage(player, "{word}", args[2]);
 							} else {
-								Methods.sendMessage(player, messages.getString("Anti_Swear.Whitelisted_Word.Not_Found").replace("{word}", args[2]), true);
+								Messages.ANTI_SWEAR_WHITELISTED_WORD_NOT_FOUND.sendMessage(player, "{word}", args[2]);
 							}
 						} else {
 							Methods.sendMessage(player,"&cCommand Usage: &7/antiswear remove whitelist <word>", true);
 						}
 					} else {
-						Methods.sendMessage(player, Methods.noPermission(), true);
+						Messages.NO_PERMISSION.sendMessage(player);
 					}
 				}
 			}
@@ -195,7 +213,7 @@ public class CommandAntiSwear implements CommandExecutor {
 						Methods.sendMessage(player,"&cCommand Usage: &7/antiswear list", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					Messages.NO_PERMISSION.sendMessage(player);
 				}
 			}
 		}

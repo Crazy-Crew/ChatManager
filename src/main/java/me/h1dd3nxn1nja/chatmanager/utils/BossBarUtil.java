@@ -2,8 +2,8 @@ package me.h1dd3nxn1nja.chatmanager.utils;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
-
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
@@ -26,10 +26,10 @@ public class BossBarUtil {
 	private boolean isVisible;
 	private BossBar bar;
 	private BossBar staffBar;
-	private static final HashMap<UUID, BossBarUtil> playerBars = new HashMap<>();
-	private static final HashMap<UUID, BossBarUtil> staffBars = new HashMap<>();
+	private static final Map<UUID, BossBarUtil> playerBars = new HashMap<>();
+	private static final Map<UUID, BossBarUtil> staffBars = new HashMap<>();
 
-	HashMap<UUID, BossBar> bossBars = new HashMap<>();
+	private final Map<UUID, BossBar> bossBars = new HashMap<>();
 
 	public BossBarUtil() {
 		this.title = Methods.color("&bStaff Chat");
@@ -150,8 +150,7 @@ public class BossBarUtil {
 
 		new BukkitRunnable() {
 			public void run() {
-				if (playerBars.containsKey(player.getUniqueId()))
-					playerBars.get(player.getUniqueId()).bar.removePlayer(player);
+				if (playerBars.containsKey(player.getUniqueId())) playerBars.get(player.getUniqueId()).bar.removePlayer(player);
 			}
 		}.runTaskLater(this.plugin, 20L * time);
 
@@ -165,8 +164,7 @@ public class BossBarUtil {
 	}
 
 	public BossBarUtil removeStaffBossBar(Player player) {
-		if (staffBars.containsKey(player.getUniqueId()))
-			staffBars.get(player.getUniqueId()).staffBar.removePlayer(player);
+		if (staffBars.containsKey(player.getUniqueId())) staffBars.get(player.getUniqueId()).staffBar.removePlayer(player);
 
 		return this;
 	}
@@ -174,15 +172,15 @@ public class BossBarUtil {
 	public BossBarUtil removeAllBossBars(Player player) {
 		if (playerBars.containsKey(player.getUniqueId())) playerBars.get(player.getUniqueId()).bar.removePlayer(player);
 
-		if (staffBars.containsKey(player.getUniqueId()))
-			staffBars.get(player.getUniqueId()).staffBar.removePlayer(player);
+		if (staffBars.containsKey(player.getUniqueId())) staffBars.get(player.getUniqueId()).staffBar.removePlayer(player);
 
 		return this;
 	}
 
 	public BossBarUtil setBossBarAnimation(Player player, List<String> titles, int time, ChatManager chatManager) {
-		BossBar bossBar = this.plugin.getServer().createBossBar(titles.get(0), color, BarStyle.SOLID, BarFlag.CREATE_FOG);
+		BossBar bossBar = this.plugin.getServer().createBossBar(titles.getFirst(), color, BarStyle.SOLID, BarFlag.CREATE_FOG);
 		bossBar.addPlayer(player);
+
 		this.bossBars.put(player.getUniqueId(), bossBar);
 
 		this.plugin.getServer().getScheduler().scheduleSyncRepeatingTask(chatManager, new Runnable() {
@@ -192,7 +190,9 @@ public class BossBarUtil {
 			@Override
 			public void run() {
 				ticksRan++;
+
 				bossBar.setTitle(titles.get(i));
+
 				i++;
 
 				if (i >= titles.size()) i = 0;
@@ -200,6 +200,7 @@ public class BossBarUtil {
 				if (ticksRan >= time) {
 					bossBar.removePlayer(player);
 					bossBar.setVisible(false);
+
 					bossBars.remove(player.getUniqueId());
 				}
 			}

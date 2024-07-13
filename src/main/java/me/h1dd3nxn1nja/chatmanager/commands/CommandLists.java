@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.enums.Messages;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -47,7 +48,7 @@ public class CommandLists implements CommandExecutor {
 					Methods.sendMessage(sender, "&cCommand Usage: &7/list", true);
 				}
 			} else {
-				Methods.sendMessage(sender, Methods.noPermission(), true);
+				Messages.NO_PERMISSION.sendMessage(sender);
 			}
 		}
 
@@ -80,7 +81,7 @@ public class CommandLists implements CommandExecutor {
 					Methods.sendMessage(sender, "&cCommand Usage: &7/staff", true);
 				}
 			} else {
-				Methods.sendMessage(sender, Methods.noPermission(), true);
+				Messages.NO_PERMISSION.sendMessage(sender);
 			}
 		}
 

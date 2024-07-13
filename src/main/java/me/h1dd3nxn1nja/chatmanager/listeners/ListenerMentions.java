@@ -27,10 +27,10 @@ public class ListenerMentions implements Listener {
 
 		FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		String tagSymbol = config.getString("Mentions.Tag_Symbol");
-		String mentionColor = config.getString("Mentions.Mention_Color");
+		String tagSymbol = config.getString("Mentions.Tag_Symbol", "@");
+		String mentionColor = config.getString("Mentions.Mention_Color", "");
 
-		if (!config.getBoolean("Mentions.Enable")) return;
+		if (!config.getBoolean("Mentions.Enable", false)) return;
 
 		String message = event.getMessage();
 
@@ -47,8 +47,8 @@ public class ListenerMentions implements Listener {
 
 			if (this.plugin.api().getToggleChatData().containsUser(target.getUniqueId())) return;
 
-			if (config.getBoolean("Chat_Radius.Enable")) {
-				if ((!Methods.inRange(target.getUniqueId(), player.getUniqueId(), config.getInt("Chat_Radius.Block_Distance"))) || (!Methods.inWorld(target.getUniqueId(), player.getUniqueId()))) return;
+			if (config.getBoolean("Chat_Radius.Enable", false)) {
+				if ((!Methods.inRange(target.getUniqueId(), player.getUniqueId(), config.getInt("Chat_Radius.Block_Distance", 250))) || (!Methods.inWorld(target.getUniqueId(), player.getUniqueId()))) return;
 			}
 
 			if (!this.plugin.api().getToggleMentionsData().containsUser(target.getUniqueId())) {
@@ -56,13 +56,13 @@ public class ListenerMentions implements Listener {
 				Methods.playSound(target, config, path);
 			}
 
-			if (config.getBoolean("Mentions.Title.Enable")) {
+			if (config.getBoolean("Mentions.Title.Enable", false)) {
 				target.sendTitle(
-						Methods.placeholders(false, player, Methods.color(config.getString("Mentions.Title.Header"))),
-						Methods.placeholders(false, player, Methods.color(config.getString("Mentions.Title.Footer"))), 40, 20, 40);
+						Methods.placeholders(false, player, Methods.color(config.getString("Mentions.Title.Header", "&cMentioned"))),
+						Methods.placeholders(false, player, Methods.color(config.getString("Mentions.Title.Footer", "&7You have been mentioned by {player}"))), 40, 20, 40);
 			}
 
-			if (!config.getString("Mentions.Mention_Color").equals("")) {
+			if (!config.getString("Mentions.Mention_Color", "").equalsIgnoreCase("")) {
 				String modifiedMessage = message.replaceAll("@\\S+", Methods.color(mentionColor + "$0"));
 
 				event.setMessage(modifiedMessage);
@@ -80,13 +80,13 @@ public class ListenerMentions implements Listener {
 						Methods.playSound(target, config, path);
 					}
 
-					if (config.getBoolean("Mentions.Title.Enable")) {
+					if (config.getBoolean("Mentions.Title.Enable", false)) {
 						target.sendTitle(
-								Methods.placeholders(false, player, Methods.color(config.getString("Mentions.Title.Header"))),
-										Methods.placeholders(false, player, Methods.color(config.getString("Mentions.Title.Footer"))), 40, 20, 40);
+								Methods.placeholders(false, player, Methods.color(config.getString("Mentions.Title.Header", "&cMentioned"))),
+										Methods.placeholders(false, player, Methods.color(config.getString("Mentions.Title.Footer", "&7You have been mentioned by {player}"))), 40, 20, 40);
 					}
 
-					if (!config.getString("Mentions.Mention_Color").isBlank()) {
+					if (!config.getString("Mentions.Mention_Color", "").isBlank()) {
 						String modifiedMessage = message.replaceAll("@\\S+", Methods.color(mentionColor + "$0"));
 
 						event.setMessage(modifiedMessage);

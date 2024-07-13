@@ -23,7 +23,8 @@ public class ListenerGrammar implements Listener {
 
 		Player player = event.getPlayer();
 
-		if (event.getMessage().toCharArray().length < config.getInt("Grammar.Min_Message_Length") || !config.getBoolean("Grammar.Enable") || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
+		if (event.getMessage().toCharArray().length < config.getInt("Grammar.Min_Message_Length", 5) ||
+				!config.getBoolean("Grammar.Enable", false) || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
 
 		if (player.hasPermission(Permissions.BYPASS_GRAMMAR.getNode())) return;
 
@@ -44,7 +45,7 @@ public class ListenerGrammar implements Listener {
 		String[] messageSplit = message.split(" ");
 		StringBuilder sb = new StringBuilder();
 
-		if (config.getBoolean("Grammar.Autocorrect.Enable")) {
+		if (config.getBoolean("Grammar.Autocorrect.Enable", false)) {
 			for (String word : messageSplit) {
 				if (word.equals("i")) {
 					sb.append("I").append(" ");

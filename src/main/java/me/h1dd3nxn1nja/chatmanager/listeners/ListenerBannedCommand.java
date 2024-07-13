@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.enums.Messages;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -11,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
+import java.util.HashMap;
 import java.util.List;
 
 public class ListenerBannedCommand implements Listener {
@@ -21,22 +23,24 @@ public class ListenerBannedCommand implements Listener {
 	@EventHandler(ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
-		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		Player player = event.getPlayer();
 
 		List<String> cmd = Files.BANNED_COMMANDS.getConfiguration().getStringList("Banned-Commands");
 
-		if (!config.getBoolean("Banned_Commands.Enable")) return;
+		if (!config.getBoolean("Banned_Commands.Enable", false)) return;
 
 		if (!player.hasPermission(Permissions.BYPASS_BANNED_COMMANDS.getNode())) {
-			if (!config.getBoolean("Banned_Commands.Increase_Sensitivity")) {
+			if (!config.getBoolean("Banned_Commands.Increase_Sensitivity", false)) {
 				for (String command : cmd) {
 					if (event.getMessage().toLowerCase().equals("/" + command)) {
 						event.setCancelled(true);
-						Methods.sendMessage(player, messages.getString("Banned_Commands.Message").replace("{command}", command), true);
+
+						Messages.BANNED_COMMANDS_MESSAGE.sendMessage(player, "{command}", command);
+
 						notifyStaff(player, command);
 						tellConsole(player, command);
+
 						executeCommand(player);
 					}
 				}
@@ -44,9 +48,10 @@ public class ListenerBannedCommand implements Listener {
 				for (String command : cmd) {
 					if (event.getMessage().toLowerCase().contains("/" + command)) {
 						event.setCancelled(true);
-						Methods.sendMessage(player, messages.getString("Banned_Commands.Message").replace("{command}", command), true);
+
 						notifyStaff(player, command);
 						tellConsole(player, command);
+
 						executeCommand(player);
 					}
 				}
@@ -56,9 +61,12 @@ public class ListenerBannedCommand implements Listener {
 		if (!player.hasPermission(Permissions.BYPASS_COLON_COMMANDS.getNode())) {
 			if (event.getMessage().split(" ")[0].contains(":")) {
 				event.setCancelled(true);
-				Methods.sendMessage(player, messages.getString("Banned_Commands.Message").replace("{command}", event.getMessage().replace("/", "")), true);
+
+				Messages.BANNED_COMMANDS_MESSAGE.sendMessage(player, "{command}", event.getMessage().replaceAll("/", ""));
+
 				notifyStaff(player, event.getMessage().replace("/", ""));
 				tellConsole(player, event.getMessage().replace("/", ""));
+
 				executeCommand(player);
 			}
 		}
@@ -66,30 +74,34 @@ public class ListenerBannedCommand implements Listener {
 
 	public void notifyStaff(Player player, String message) {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
-		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		if (!config.getBoolean("Banned_Commands.Notify_Staff")) return;
 
 		for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 			if (staff.hasPermission(Permissions.NOTIFY_BANNED_COMMANDS.getNode())) {
-				Methods.sendMessage(staff, messages.getString("Banned_Commands.Message").replace("{player}", player.getName()).replace("{command}", message), true);
+				Messages.BANNED_COMMANDS_MESSAGE.sendMessage(staff, new HashMap<>() {{
+					put("{player}", player.getName());
+					put("{command}", message);
+				}});
 			}
 		}
 	}
 
 	public void tellConsole(Player player, String message) {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
-		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
-		if (!config.getBoolean("Banned_Commands.Notify_Staff")) return;
+		if (!config.getBoolean("Banned_Commands.Notify_Staff", false)) return;
 
-		Methods.tellConsole(messages.getString("Banned_Commands.Notify_Staff_Format").replace("{player}", player.getName()).replace("{command}", message), true);
+		Methods.tellConsole(Messages.BANNED_COMMANDS_MESSAGE.getMessage(this.plugin.getServer().getConsoleSender(), new HashMap<>() {{
+			put("{player}", player.getName());
+			put("{command}", message);
+		}}), false);
 	}
 
 	public void executeCommand(Player player) {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		if (!config.getBoolean("Banned_Commands.Execute_Command")) return;
+		if (!config.getBoolean("Banned_Commands.Execute_Command", false)) return;
 
 		if (!config.contains("Banned_Commands.Executed_Command")) return;
 

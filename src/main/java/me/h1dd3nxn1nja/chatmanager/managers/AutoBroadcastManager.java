@@ -20,14 +20,15 @@ public class AutoBroadcastManager {
 	public static void globalMessages() {
 		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getConfiguration();
 
-		String prefix = autobroadcast.getString("Auto_Broadcast.Global_Messages.Prefix");
-		int interval = autobroadcast.getInt("Auto_Broadcast.Global_Messages.Interval");
+		String prefix = autobroadcast.getString("Auto_Broadcast.Global_Messages.Prefix", "&7[&6AutoBroadcast&7] &r");
+		int interval = autobroadcast.getInt("Auto_Broadcast.Global_Messages.Interval", 30);
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Global_Messages.Messages");
-		
+
 		new BukkitRunnable() {
 			int line = 0;
+
 			public void run() {
-				if (autobroadcast.getBoolean("Auto_Broadcast.Global_Messages.Enable")) {
+				if (autobroadcast.getBoolean("Auto_Broadcast.Global_Messages.Enable", false)) {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
 						if (autobroadcast.getBoolean("Auto_Broadcast.Global_Messages.Header_And_Footer")) {
 							player.sendMessage(Methods.color(autobroadcast.getString("Auto_Broadcast.Global_Messages.Header")));
@@ -40,6 +41,7 @@ public class AutoBroadcastManager {
 						Methods.playSound(player, autobroadcast, "Auto_Broadcast.Global_Messages.sound");
 					}
 				}
+
 				line++;
 
 				if (line >= messages.size()) line = 0;
@@ -50,25 +52,27 @@ public class AutoBroadcastManager {
 	public static void perWorldMessages() {
 		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getConfiguration();
 
-		String prefix = autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Prefix");
-		int interval = autobroadcast.getInt("Auto_Broadcast.Per_World_Messages.Interval");
+		String prefix = autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Prefix", "&7[&6AutoBroadcast&7] &r");
+		int interval = autobroadcast.getInt("Auto_Broadcast.Per_World_Messages.Interval", 60);
+
 		worlds.clear();
 
 		for (String key : autobroadcast.getConfigurationSection("Auto_Broadcast.Per_World_Messages.Messages").getKeys(false)) {
 			World w = new World(key, autobroadcast.getStringList("Auto_Broadcast.Per_World_Messages.Messages." + key), 0);
+
 			worlds.add(w);
 		}
 
 		new BukkitRunnable() {
 			public void run() {
 				for (World world : getWorld()) {
-					if (autobroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Enable")) {
+					if (autobroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Enable", false)) {
 						for (Player player : plugin.getServer().getOnlinePlayers()) {
 							if (player.getWorld().getName().equals(world.getName())) {
-								if (autobroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Header_And_Footer")) {
-									player.sendMessage(Methods.color(autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Header")));
+								if (autobroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Header_And_Footer", false)) {
+									player.sendMessage(Methods.color(autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Header", "&7*&7&m--------------------------------&7*")));
 									player.sendMessage(Methods.color(world.getMessages().get(world.getIndex()).replace("{Prefix}", prefix).replace("\\n", "\n")));
-									player.sendMessage(Methods.color(autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Footer")));
+									player.sendMessage(Methods.color(autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Footer", "&7*&7&m--------------------------------&7*")));
 								} else {
 									player.sendMessage(Methods.color(world.getMessages().get(world.getIndex()).replace("{Prefix}", prefix).replace("\\n", "\n")));
 								}
@@ -79,6 +83,7 @@ public class AutoBroadcastManager {
 					}
 
 					int index = world.getIndex();
+
 					if (index + 1 < world.getMessages().size())
 						world.setIndex(index + 1);
 					else {
@@ -92,15 +97,15 @@ public class AutoBroadcastManager {
 	public static void actionbarMessages() {
 		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getConfiguration();
 
-		String prefix = autobroadcast.getString("Auto_Broadcast.Actionbar_Messages.Prefix");
-		int interval = autobroadcast.getInt("Auto_Broadcast.Actionbar_Messages.Interval");
+		String prefix = autobroadcast.getString("Auto_Broadcast.Actionbar_Messages.Prefix", "&7[&6AutoBroadcast&7] &r");
+		int interval = autobroadcast.getInt("Auto_Broadcast.Actionbar_Messages.Interval", 60);
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Actionbar_Messages.Messages");
 		
 		new BukkitRunnable() {
 			int line = 0;
 
 			public void run() {
-				if (autobroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) {
+				if (autobroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable", false)) {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
 						player.sendActionBar(Methods.color(messages.get(line).replace("{Prefix}", prefix)));
 
@@ -109,6 +114,7 @@ public class AutoBroadcastManager {
 				}
 
 				line++;
+
 				if (line >= messages.size() ) line = 0;
 			}
 		}.runTaskTimer(plugin, 0L, 20L * interval);
@@ -117,13 +123,14 @@ public class AutoBroadcastManager {
 	public static void titleMessages() {
 		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getConfiguration();
 
-		int interval = autobroadcast.getInt("Auto_Broadcast.Title_Messages.Interval");
+		int interval = autobroadcast.getInt("Auto_Broadcast.Title_Messages.Interval", 60);
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Title_Messages.Messages");
 		
 		new BukkitRunnable() {
 			int line = 0;
+
 			public void run() {
-				if (autobroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) {
+				if (autobroadcast.getBoolean("Auto_Broadcast.Title_Messages.Enable", false)) {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
 						String title = Methods.color(autobroadcast.getString("Auto_Broadcast.Title_Messages.Title"));
 
@@ -134,6 +141,7 @@ public class AutoBroadcastManager {
 				}
 
 				line++;
+
 				if (line >= messages.size() ) line = 0;
 			}
 		}.runTaskTimer(plugin, 0L, 20L * interval);
@@ -142,14 +150,15 @@ public class AutoBroadcastManager {
 	public static void bossBarMessages() {
 		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getConfiguration();
 
-		int interval = autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Interval");
-		int time = autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Bar_Time");
+		int interval = autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Interval", 60);
+		int time = autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Bar_Time", 10);
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Bossbar_Messages.Messages");
 		
 		new BukkitRunnable() {
 			int line = 0;
+
 			public void run() {
-				if (autobroadcast.getBoolean("Auto_Broadcast.Bossbar_Messages.Enable")) {
+				if (autobroadcast.getBoolean("Auto_Broadcast.Bossbar_Messages.Enable", false)) {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
 						BossBarUtil bossBar = new BossBarUtil(Methods.color(messages.get(line)), org.bukkit.boss.BarColor.PINK, org.bukkit.boss.BarStyle.SOLID);
 
@@ -165,6 +174,7 @@ public class AutoBroadcastManager {
 				}
 
 				line++;
+
 				if (line >= messages.size() ) line = 0;
 			}
 		}.runTaskTimer(plugin, 0L, 20L * interval);

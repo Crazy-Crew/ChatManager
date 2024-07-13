@@ -25,14 +25,14 @@ public class ListenerChatFormat implements Listener {
 		String message = event.getMessage();
 		String format;
 
-		if (!config.getBoolean("Chat_Format.Enable")) return;
+		if (!config.getBoolean("Chat_Format.Enable", false)) return;
 
 		if (VaultSupport.isChatReady()) {
 			String key = VaultSupport.getPermission().getPrimaryGroup(player);
 
 			format = config.getConfigurationSection("Chat_Format.Groups." + key) != null ? config.getString("Chat_Format.Groups." + key + ".Format") : config.getString("Chat_Format.Default_Format");
 		} else {
-			format = config.getString("Chat_Format.Default_Format");
+			format = config.getString("Chat_Format.Default_Format", "%luckperms_prefix% &7{player} &9> #32a87d{message}");
 		}
 
 		format = setupChatRadius(player, format);
@@ -49,11 +49,11 @@ public class ListenerChatFormat implements Listener {
 
 		String placeholders = message;
 
-		if (config.getBoolean("Chat_Radius.Enable")) {
-			if (this.plugin.api().getGlobalChatData().containsUser(player.getUniqueId())) placeholders = placeholders.replace("{radius}", config.getString("Chat_Radius.Global_Chat.Prefix"));
+		if (config.getBoolean("Chat_Radius.Enable", false)) {
+			if (this.plugin.api().getGlobalChatData().containsUser(player.getUniqueId())) placeholders = placeholders.replace("{radius}", config.getString("Chat_Radius.Global_Chat.Prefix", "&7[&bGlobal&7]"));
 
-			if (this.plugin.api().getLocalChatData().containsUser(player.getUniqueId())) placeholders = placeholders.replace("{radius}", config.getString("Chat_Radius.Local_Chat.Prefix"));
-			if (this.plugin.api().getWorldChatData().containsUser(player.getUniqueId())) placeholders = placeholders.replace("{radius}", config.getString("Chat_Radius.World_Chat.Prefix"));
+			if (this.plugin.api().getLocalChatData().containsUser(player.getUniqueId())) placeholders = placeholders.replace("{radius}", config.getString("Chat_Radius.Local_Chat.Prefix", "&7[&cLocal&7]"));
+			if (this.plugin.api().getWorldChatData().containsUser(player.getUniqueId())) placeholders = placeholders.replace("{radius}", config.getString("Chat_Radius.World_Chat.Prefix", "&7[&dWorld&7]"));
 		} else {
 			placeholders = placeholders.replace("{radius}", "");
 		}
