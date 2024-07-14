@@ -6,6 +6,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -144,8 +145,6 @@ public enum Messages {
         this.defaultListMessage = defaultListMessage;
     }
 
-    public static final FileConfiguration messages = Files.MESSAGES.getConfiguration();
-
     public static String convertList(final List<String> list) {
         StringBuilder message = new StringBuilder();
 
@@ -185,13 +184,13 @@ public enum Messages {
 
         if (isList()) {
             if (exists()) {
-                message = Methods.color(convertList(messages.getStringList(this.path), placeholders));
+                message = Methods.color(convertList(Files.MESSAGES.getConfiguration().getStringList(this.path), placeholders));
             } else {
                 message = Methods.color(convertList(getDefaultListMessage(), placeholders));
             }
         } else {
             if (exists()) {
-                message = Methods.color(messages.getString(this.path));
+                message = Methods.color(Files.MESSAGES.getConfiguration().getString(this.path));
             } else {
                 message = Methods.color(getDefaultMessage());
             }
@@ -227,12 +226,14 @@ public enum Messages {
     }
 
     private boolean exists() {
-        return messages.contains(this.path);
+        return Files.MESSAGES.getConfiguration().contains(this.path);
     }
 
     private boolean isList() {
-        if (messages.contains(this.path)) {
-            return !messages.getStringList(this.path).isEmpty();
+        final YamlConfiguration configuration = Files.MESSAGES.getConfiguration();
+
+        if (configuration.contains(this.path)) {
+            return !configuration.getStringList(this.path).isEmpty();
         } else {
             return this.defaultMessage == null;
         }
