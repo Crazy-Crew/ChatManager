@@ -1,8 +1,4 @@
 name: Publish Release
-env:
-  NEXT_BUILD_NUMBER: ${{ vars.NEXT_BUILD_NUMBER }}
-  BUILD_INITIAL_VALUE: 1
-
 on:
   push:
     branches:
@@ -17,12 +13,10 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.commits[0].message, '[ci-skip]')"
+    if: "contains(github.event.commits[0].message, '[build]')"
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: '0'
 
       - name: Validate Gradle Wrapper
         uses: gradle/actions/wrapper-validation@v3
@@ -34,41 +28,7 @@ jobs:
           java-version: 21
           check-latest: true
 
-      - uses: actions/github-script@v6
-        name: Prepare build number if it doesn't exist
-        with:
-          debug: true
-          github-token: ${{ secrets.GH_TOKEN }}
-          script: |
-            const { owner, repo } = context.repo;
-
-            if (process.env.NEXT_BUILD_NUMBER === undefined || process.env.NEXT_BUILD_NUMBER === "") {
-              core.info(`Could not find a NEXT_BUILD_NUMBER env variable. Creating a new one with value ${process.env.BUILD_INITIAL_VALUE}.`);
-
-              const { status, data } = await github.request('POST /repos/{owner}/{repo}/actions/variables', {
-                owner: owner,
-                repo: repo,
-                name: "NEXT_BUILD_NUMBER",
-                value: process.env.BUILD_INITIAL_VALUE,
-                headers: {
-                  'X-GitHub-Api-Version': '2022-11-28'
-                }
-              }).catch(err => err.response);
-              //const { status, data } = await github.rest.actions.createRepoVariable(owner, repo, "NEXT_BUILD_NUMBER", process.env.BUILD_INITIAL_VALUE);
-              core.debug(JSON.stringify(data, null, 2));
-
-              if (data?.message != undefined) {
-                return core.setFailed(`Failed to update configuration variable NEXT_BUILD_NUMBER with new value of '${process.env.BUILD_INITIAL_VALUE}' for reason ${data.message}`);
-              }
-            
-              return core.exportVariable("NEXT_BUILD_NUMBER", process.env.BUILD_INITIAL_VALUE);
-            } else if (process.env.NEXT_BUILD_NUMBER.split('.').length > 1 || Number.isNaN(Number.parseInt(process.env.NEXT_BUILD_NUMBER))) {
-              return core.setFailed(`NEXT_BUILD_NUMBER variable has invalid value "${process.env.NEXT_BUILD_NUMBER}", failing build.`);
-            }
-
-            return core.exportVariable("NEXT_BUILD_NUMBER", process.env.NEXT_BUILD_NUMBER);
-
-      - name: Import gradle properties
+      - name: Gradle Properties Import.
         id: properties
         shell: bash
         run: cat gradle.properties >> $GITHUB_ENV
@@ -84,35 +44,8 @@ jobs:
         env:
           HANGAR_KEY: ${{ secrets.HANGAR_KEY }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          COMMIT_MESSAGE: ${{ join(github.event.commits.*.message, '<br>* ') }}
         run: ./gradlew modrinth --stacktrace
-
-      - uses: actions/github-script@v6
-        name: Increment Build Number
-        if: success()
-        with:
-          debug: true
-          github-token: ${{ secrets.GH_TOKEN }}
-          script: |
-            const { owner, repo } = context.repo;
-            const value = '' + (${{ env.NEXT_BUILD_NUMBER }} + 1);
-
-            core.info(`attempting to update variable 'NEXT_BUILD_NUMBER' to '${value}'.`);
-            const { status, data } = await github.request('PATCH /repos/{owner}/{repo}/actions/variables/{name}', {
-              owner: owner,
-              repo: repo,
-              name: "NEXT_BUILD_NUMBER",
-              value: value,
-              headers: {
-                'X-GitHub-Api-Version': '2022-11-28'
-              }
-            }).catch(err => err.response);
-
-            //const { data } = await github.rest.actions.updateRepoVariable(owner, repo, "NEXT_BUILD_NUMBER", value)
-            core.debug(JSON.stringify(data, null, 2));
-
-            if (data?.message != undefined) {
-              return core.setFailed(`Failed to update configuration variable NEXT_BUILD_NUMBER with new value of '${value}'`);
-            }
 
       - name: Notify Discord
         if: success()
