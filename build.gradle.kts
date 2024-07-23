@@ -120,7 +120,7 @@ tasks {
     webhook {
         this.username("Ryder Belserion")
 
-        //this.content("<@&888222546573537280>")
+        this.content("<@&888222546573537280>")
 
         this.embeds {
             this.embed {

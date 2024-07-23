@@ -74,10 +74,12 @@ public class CommandStaffChat implements CommandExecutor, TabCompleter {
 							}
 
 							for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
-								Methods.sendMessage(staff, config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}").replace("{message}", message.toString()), true);
+								if (Permissions.TOGGLE_STAFF_CHAT.hasPermission(staff)) {
+									Methods.sendMessage(staff, config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}").replace("{player}", player.getName()).replace("{message}", message.toString()));
+								}
 							}
 
-							Methods.tellConsole(config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}").replace("{message}", message.toString()), false);
+							Methods.tellConsole(config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}").replace("{player}", player.getName()).replace("{message}", message.toString()), false);
 						} else {
 							Methods.sendMessage(player, "&4Error: &cStaff Chat is currently disabled & cannot be used at this time.", true);
 
