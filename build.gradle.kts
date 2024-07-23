@@ -136,7 +136,7 @@ tasks {
 
                     this.field(
                         "Changelog",
-                        content
+                        rootProject.file("DISCORD.md").readText(Charsets.UTF_8)
                     )
                 }
             }
