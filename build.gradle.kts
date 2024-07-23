@@ -1,4 +1,3 @@
-import com.ryderbelserion.feather.tools.latestCommitHistory
 import java.awt.Color
 
 plugins {
@@ -14,18 +13,18 @@ base {
     archivesName.set(rootProject.name)
 }
 
-val nextNumber: String? = if (System.getenv("NEXT_BUILD_NUMBER") != null) System.getenv("NEXT_BUILD_NUMBER") else "SNAPSHOT"
+val buildNumber: String? = System.getenv("BUILD_NUMBER")
 
-rootProject.version = "${libs.versions.minecraft.get()}-$nextNumber"
+rootProject.version = if (buildNumber != null) "${libs.versions.minecraft.get()}-$buildNumber" else "3.13"
 
-val isSnapshot = true
+val isBeta = true
 
 val content: String = rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
 
 val releaseUpdate = Color(27, 217, 106)
 val betaUpdate = Color(255, 163, 71)
 
-val color = if (isSnapshot) betaUpdate else releaseUpdate
+val color = if (isBeta) betaUpdate else releaseUpdate
 
 dependencies {
     paperweight.paperDevBundle(libs.versions.paper.get())
@@ -98,7 +97,7 @@ tasks {
 
         projectId.set(rootProject.name.lowercase())
 
-        versionType.set("beta")
+        versionType.set(if (isBeta) "beta" else "release")
 
         versionName.set("${rootProject.name} ${rootProject.version}")
         versionNumber.set(rootProject.version as String)
@@ -130,8 +129,8 @@ tasks {
 
                 this.fields {
                     this.field(
-                        "Version ${libs.versions.minecraft.get()} build ${System.getenv("NEXT_BUILD_NUMBER")}",
-                        "Click [here](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${libs.versions.minecraft.get()}-${System.getenv("NEXT_BUILD_NUMBER")}) to download!"
+                        "Version ${libs.versions.minecraft.get()} build ${rootProject.version}",
+                        "Click [here](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${rootProject.version}) to download!"
                     )
 
                     this.field(
