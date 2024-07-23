@@ -29,7 +29,6 @@ public class CommandAutoBroadcast implements CommandExecutor {
 			return true;
 		}
 
-		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getConfiguration();
 
 		if (cmd.getName().equalsIgnoreCase("autobroadcast")) {
@@ -77,7 +76,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 
 							for (String global : autobroadcast.getStringList("Auto_Broadcast.Global_Messages.Messages")) {
 								if (string != null) {
-									Methods.sendMessage(player, "&7 - " + global.replace("{Prefix}", string), false);
+									Methods.sendMessage(player, string, "&7 - " + global, false);
 								}
 							}
 
@@ -101,7 +100,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 
 							for (String actionbar : autobroadcast.getStringList("Auto_Broadcast.Actionbar_Messages.Messages")) {
 								if (string != null) {
-									Methods.sendMessage(player, "&7 - " + actionbar.replace("{Prefix}", string), false);
+									Methods.sendMessage(player, string, "&7 - " + actionbar, false);
 								}
 							}
 
@@ -172,7 +171,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 
 									for (String bcmsg : autobroadcast.getStringList("Auto_Broadcast.Per_World_Messages.Messages." + key)) {
 										if (broadcast != null) {
-											Methods.sendMessage(player, "&7 - " + bcmsg.replace("{Prefix}", broadcast), false);
+											Methods.sendMessage(player, broadcast, "&7 - " + bcmsg, false);
 										}
 									}
 

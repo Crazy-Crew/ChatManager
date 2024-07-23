@@ -308,38 +308,46 @@ public class Methods {
 		return other.getLocation().getWorld().equals(player.getLocation().getWorld());
 	}
 
-	public static void sendMessage(CommandSender commandSender, String message, boolean prefixToggle) {
+	public static void sendMessage(CommandSender commandSender, String message, boolean ignorePrefix) {
 		if (message == null || message.isEmpty()) return;
 
-		String prefix = getPrefix();
-
 		if (commandSender instanceof Player player) {
-			if (!prefix.isEmpty() && prefixToggle) player.sendMessage(placeholders(false, player, color(message))); else player.sendMessage(placeholders(true, player, color(message)));
+			player.sendMessage(placeholders(ignorePrefix, player, color(message)));
 
 			return;
 		}
 
-		if (!prefix.isEmpty() && prefixToggle) commandSender.sendMessage(color(message.replace("{Prefix}", prefix))); else commandSender.sendMessage(color(message));
+		commandSender.sendMessage(placeholders(ignorePrefix, commandSender, message));
+	}
+
+	public static void sendMessage(CommandSender commandSender, String prefix, String message, boolean ignorePrefix) {
+		if (message == null || message.isEmpty()) return;
+
+		if (commandSender instanceof Player player) {
+			player.sendMessage(placeholders(ignorePrefix, prefix, player, color(message)));
+
+			return;
+		}
+
+		commandSender.sendMessage(placeholders(ignorePrefix, prefix, commandSender, message));
 	}
 
 	public static void broadcast(Player player, String message) {
 		if (message == null || message.isEmpty()) return;
 
-		String prefix = getPrefix();
-
-		if (!prefix.isEmpty()) plugin.getServer().broadcastMessage(placeholders(false, player, color(message))); else plugin.getServer().broadcastMessage(placeholders(true, player, color(message)));
+		plugin.getServer().broadcastMessage(placeholders(getPrefix().isEmpty(), player, color(message)));
 	}
 
-	public static String placeholders(boolean ignorePrefix, final Player player, final String message) {
+	public static String placeholders(final boolean ignorePrefix, final String prefix, final CommandSender sender, final String message) {
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		String clonedMessage = message;
 
 		if (!ignorePrefix) {
-			clonedMessage = clonedMessage.replace("{Prefix}", getPrefix()).replaceAll("\\{prefix}", getPrefix());
+			clonedMessage = clonedMessage.replace("{Prefix}", prefix).replaceAll("\\{prefix}", prefix);
 		}
 
-		if (player != null) {
+		if (sender instanceof Player player) {
 			if (PluginManager.isEnabled("PlaceholderAPI")) {
 				clonedMessage = PlaceholderAPI.setPlaceholders(player, clonedMessage);
 			}
@@ -348,5 +356,9 @@ public class Methods {
 		}
 
 		return color(clonedMessage.replaceAll("\\{server_name}", config.getString("Server_Name", "Server Name not found.")));
+	}
+
+	public static String placeholders(boolean ignorePrefix, final CommandSender sender, final String message) {
+		return placeholders(ignorePrefix, getPrefix(), sender, message);
 	}
 }

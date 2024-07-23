@@ -32,10 +32,10 @@ public class AutoBroadcastManager {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
 						if (autobroadcast.getBoolean("Auto_Broadcast.Global_Messages.Header_And_Footer")) {
 							player.sendMessage(Methods.color(autobroadcast.getString("Auto_Broadcast.Global_Messages.Header")));
-							player.sendMessage(Methods.color(messages.get(line).replace("{Prefix}", prefix).replace("\\n", "\n")));
+							player.sendMessage(Methods.color(messages.get(line).replace("{prefix}", prefix).replace("{Prefix}", prefix).replace("\\n", "\n")));
 							player.sendMessage(Methods.color(autobroadcast.getString("Auto_Broadcast.Global_Messages.Footer")));
 						} else {
-							player.sendMessage(Methods.color(messages.get(line).replace("{Prefix}", prefix).replace("\\n", "\n")));
+							player.sendMessage(Methods.color(messages.get(line).replace("{prefix}", prefix).replace("{Prefix}", prefix).replace("\\n", "\n")));
 						}
 
 						Methods.playSound(player, autobroadcast, "Auto_Broadcast.Global_Messages.sound");
@@ -70,11 +70,11 @@ public class AutoBroadcastManager {
 						for (Player player : plugin.getServer().getOnlinePlayers()) {
 							if (player.getWorld().getName().equals(world.getName())) {
 								if (autobroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Header_And_Footer", false)) {
-									player.sendMessage(Methods.color(autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Header", "&7*&7&m--------------------------------&7*")));
-									player.sendMessage(Methods.color(world.getMessages().get(world.getIndex()).replace("{Prefix}", prefix).replace("\\n", "\n")));
-									player.sendMessage(Methods.color(autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Footer", "&7*&7&m--------------------------------&7*")));
+									Methods.sendMessage(player, prefix, autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Header", "&7*&7&m--------------------------------&7*"), false);
+									Methods.sendMessage(player, prefix, world.getMessages().get(world.getIndex()), false);
+									Methods.sendMessage(player, prefix, autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Footer", "&7*&7&m--------------------------------&7*"), false);
 								} else {
-									player.sendMessage(Methods.color(world.getMessages().get(world.getIndex()).replace("{Prefix}", prefix).replace("\\n", "\n")));
+									Methods.sendMessage(player, prefix, world.getMessages().get(world.getIndex()).replaceAll("\\n", "\n"), false);
 								}
 
 								Methods.playSound(player, autobroadcast, "Auto_Broadcast.Per_World_Messages.sound");
@@ -107,7 +107,7 @@ public class AutoBroadcastManager {
 			public void run() {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable", false)) {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
-						player.sendActionBar(Methods.color(messages.get(line).replace("{Prefix}", prefix)));
+						player.sendActionBar(Methods.color(messages.get(line).replace("{prefix}", prefix).replace("{Prefix}", prefix)));
 
 						Methods.playSound(player, autobroadcast, "Auto_Broadcast.Actionbar_Messages.sound");
 					}
