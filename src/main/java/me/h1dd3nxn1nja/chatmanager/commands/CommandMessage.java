@@ -103,6 +103,12 @@ public class CommandMessage implements CommandExecutor, TabCompleter {
 
 					UUID other = this.plugin.api().getUserRepliedData().getUser(player.getUniqueId());
 
+					if (other == null) {
+						Messages.PRIVATE_MESSAGE_RECIPIENT_NOT_FOUND.sendMessage(player);
+
+						return true;
+					}
+
 					Player target = this.plugin.getServer().getPlayer(other);
 
 					if (target == null || !target.isOnline()) {
