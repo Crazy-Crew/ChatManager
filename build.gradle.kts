@@ -110,7 +110,7 @@ tasks {
 
         gameVersions.set(listOf(libs.versions.minecraft.get()))
 
-        loaders.addAll(listOf("paper", "purpur"))
+        loaders.addAll(listOf("paper", "folia", "purpur"))
 
         autoAddDependsOn.set(false)
         detectLoaders.set(false)
