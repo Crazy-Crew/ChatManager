@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
+import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -12,7 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -107,7 +107,8 @@ public class ListenerSwear implements Listener {
 				String command = config.getString("Anti_Swear.Chat.Executed_Command").replace("{player}", player.getName());
 				List<String> commands = config.getStringList("Anti_Swear.Chat.Executed_Command");
 
-				new BukkitRunnable() {
+				new FoliaRunnable(this.plugin.getServer().getGlobalRegionScheduler()) {
+					@Override
 					public void run() {
 						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
 
@@ -115,7 +116,7 @@ public class ListenerSwear implements Listener {
 							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 						}
 					}
-				}.runTask(this.plugin);
+				}.run(this.plugin);
 			}
 		}
 
@@ -361,13 +362,15 @@ public class ListenerSwear implements Listener {
 	}
 
 	private void dispatchCommandRunnable(Player player, String command, List<String> commands) {
-		new BukkitRunnable() {
+		new FoliaRunnable(this.plugin.getServer().getGlobalRegionScheduler()) {
+			@Override
 			public void run() {
 				plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+
 				for (String cmd : commands) {
 					plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 				}
 			}
-		}.runTask(this.plugin);
+		}.run(this.plugin);
 	}
 }

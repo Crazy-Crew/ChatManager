@@ -57,7 +57,8 @@ public class CommandChatManager implements CommandExecutor {
 						Files.BANNED_WORDS.reload();
 						Files.AUTO_BROADCAST.reload();
 
-						this.plugin.getServer().getScheduler().cancelTasks(this.plugin);
+						this.plugin.getServer().getGlobalRegionScheduler().cancelTasks(this.plugin);
+						this.plugin.getServer().getAsyncScheduler().cancelTasks(this.plugin);
 						this.plugin.check();
 
 						Messages.PLUGIN_RELOAD.sendMessage(sender);

@@ -80,7 +80,8 @@ public class ChatManager extends JavaPlugin {
     }
 
     public void onDisable() {
-        getServer().getScheduler().cancelTasks(this);
+        getServer().getGlobalRegionScheduler().cancelTasks(this);
+        getServer().getAsyncScheduler().cancelTasks(this);
 
         for (Player player : getServer().getOnlinePlayers()) {
             this.api.getChatCooldowns().removeUser(player.getUniqueId());

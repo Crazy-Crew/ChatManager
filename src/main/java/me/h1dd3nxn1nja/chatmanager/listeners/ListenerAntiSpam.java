@@ -4,16 +4,15 @@ import java.util.List;
 import java.util.UUID;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
+import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 public class ListenerAntiSpam implements Listener {
@@ -78,7 +77,8 @@ public class ListenerAntiSpam implements Listener {
 
 		this.plugin.api().getChatCooldowns().addUser(uuid, delay);
 
-		this.plugin.api().getCooldownTask().addUser(uuid, new BukkitRunnable() {
+		this.plugin.api().getCooldownTask().addUser(uuid, new FoliaRunnable(this.plugin.getServer().getRegionScheduler(), player.getLocation()) {
+
 			@Override
 			public void run() {
 				int time = plugin.api().getChatCooldowns().getTime(uuid);
@@ -92,9 +92,7 @@ public class ListenerAntiSpam implements Listener {
 					cancel();
 				}
 			}
-		});
-
-		this.plugin.api().getCooldownTask().getUsers().get(player.getUniqueId()).runTaskTimer(this.plugin, 20L, 20L);
+		}.runAtFixedRate(this.plugin, 20L, 20L));
 	}
 
 	@EventHandler(ignoreCancelled = true)
@@ -149,7 +147,8 @@ public class ListenerAntiSpam implements Listener {
 
 					this.plugin.api().getCmdCooldowns().addUser(uuid, delay);
 
-					this.plugin.api().getCooldownTask().addUser(uuid, new BukkitRunnable() {
+					this.plugin.api().getCooldownTask().addUser(uuid, new FoliaRunnable(this.plugin.getServer().getRegionScheduler(), player.getLocation()) {
+
 						@Override
 						public void run() {
 							int time = plugin.api().getCmdCooldowns().getTime(uuid);
@@ -163,9 +162,7 @@ public class ListenerAntiSpam implements Listener {
 								cancel();
 							}
 						}
-					});
-
-					this.plugin.api().getCooldownTask().getUsers().get(player.getUniqueId()).runTaskTimer(this.plugin, 20L, 20L);
+					}.runAtFixedRate(this.plugin, 20L, 20L));
 				}
 			}
 		}

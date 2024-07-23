@@ -4,6 +4,7 @@ import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import com.ryderbelserion.vital.paper.plugins.PluginManager;
 import com.ryderbelserion.vital.paper.plugins.interfaces.Plugin;
+import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -13,7 +14,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 public class ListenerPlayerJoin implements Listener {
@@ -91,7 +91,12 @@ public class ListenerPlayerJoin implements Listener {
                 if (event.getJoinMessage() != null) {
                     event.setJoinMessage(null);
 
-                    this.plugin.getServer().getScheduler().runTaskAsynchronously(this.plugin, () -> this.plugin.getServer().broadcastMessage(Methods.placeholders(false, player, Methods.color(message))));
+                    new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
+                        @Override
+                        public void run() {
+                            plugin.getServer().broadcastMessage(Methods.placeholders(false, player, Methods.color(message)));
+                        }
+                    }.run(this.plugin);
                 }
             } else {
                 event.setJoinMessage(Methods.placeholders(false, player, Methods.color(message)));
@@ -135,7 +140,12 @@ public class ListenerPlayerJoin implements Listener {
                             if (event.getJoinMessage() != null) {
                                 event.setJoinMessage(null);
 
-                                this.plugin.getServer().getScheduler().runTaskAsynchronously(this.plugin, () -> this.plugin.getServer().broadcastMessage(Methods.placeholders(false, player, Methods.color(joinMessage))));
+                                new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
+                                    @Override
+                                    public void run() {
+                                        plugin.getServer().broadcastMessage(Methods.placeholders(false, player, Methods.color(joinMessage)));
+                                    }
+                                }.run(this.plugin);
                             }
                         } else {
                             event.setJoinMessage(Methods.placeholders(false, player, Methods.color(joinMessage)));
@@ -241,13 +251,14 @@ public class ListenerPlayerJoin implements Listener {
         }
 
         if (config.getBoolean("MOTD.Enable", false)) {
-            new BukkitRunnable() {
+            new FoliaRunnable(this.plugin.getServer().getGlobalRegionScheduler()) {
+                @Override
                 public void run() {
                     for (String motd : config.getStringList("MOTD.Message")) {
                         Methods.sendMessage(player, motd, false);
                     }
                 }
-            }.runTaskLater(this.plugin, 20L * delay);
+            }.runDelayed(this.plugin, 20L * delay);
         }
     }
 }

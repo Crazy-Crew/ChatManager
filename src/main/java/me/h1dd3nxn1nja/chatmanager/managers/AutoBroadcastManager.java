@@ -3,11 +3,11 @@ package me.h1dd3nxn1nja.chatmanager.managers;
 import java.util.ArrayList;
 import java.util.List;
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
 import me.h1dd3nxn1nja.chatmanager.utils.World;
 
@@ -24,9 +24,10 @@ public class AutoBroadcastManager {
 		int interval = autobroadcast.getInt("Auto_Broadcast.Global_Messages.Interval", 30);
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Global_Messages.Messages");
 
-		new BukkitRunnable() {
+		new FoliaRunnable(plugin.getServer().getGlobalRegionScheduler()) {
 			int line = 0;
 
+			@Override
 			public void run() {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Global_Messages.Enable", false)) {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
@@ -46,7 +47,7 @@ public class AutoBroadcastManager {
 
 				if (line >= messages.size()) line = 0;
 			}
-		}.runTaskTimer(plugin, 0L, 20L * interval);
+		}.runAtFixedRate(plugin, 0L, 20L * interval);
 	}
 	
 	public static void perWorldMessages() {
@@ -63,7 +64,9 @@ public class AutoBroadcastManager {
 			worlds.add(w);
 		}
 
-		new BukkitRunnable() {
+		new FoliaRunnable(plugin.getServer().getGlobalRegionScheduler()) {
+
+			@Override
 			public void run() {
 				for (World world : getWorld()) {
 					if (autobroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Enable", false)) {
@@ -91,7 +94,7 @@ public class AutoBroadcastManager {
 					}
 				}
 			}
-		}.runTaskTimer(plugin, 0L, 20L * interval);
+		}.runAtFixedRate(plugin, 0L, 20L * interval);
 	}
 	
 	public static void actionbarMessages() {
@@ -100,10 +103,11 @@ public class AutoBroadcastManager {
 		String prefix = autobroadcast.getString("Auto_Broadcast.Actionbar_Messages.Prefix", "&7[&6AutoBroadcast&7] &r");
 		int interval = autobroadcast.getInt("Auto_Broadcast.Actionbar_Messages.Interval", 60);
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Actionbar_Messages.Messages");
-		
-		new BukkitRunnable() {
+
+		new FoliaRunnable(plugin.getServer().getGlobalRegionScheduler()) {
 			int line = 0;
 
+			@Override
 			public void run() {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable", false)) {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
@@ -117,7 +121,7 @@ public class AutoBroadcastManager {
 
 				if (line >= messages.size() ) line = 0;
 			}
-		}.runTaskTimer(plugin, 0L, 20L * interval);
+		}.runAtFixedRate(plugin, 0L, 20L * interval);
 	}
 	
 	public static void titleMessages() {
@@ -125,10 +129,11 @@ public class AutoBroadcastManager {
 
 		int interval = autobroadcast.getInt("Auto_Broadcast.Title_Messages.Interval", 60);
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Title_Messages.Messages");
-		
-		new BukkitRunnable() {
+
+		new FoliaRunnable(plugin.getServer().getGlobalRegionScheduler()) {
 			int line = 0;
 
+			@Override
 			public void run() {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Title_Messages.Enable", false)) {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
@@ -144,7 +149,7 @@ public class AutoBroadcastManager {
 
 				if (line >= messages.size() ) line = 0;
 			}
-		}.runTaskTimer(plugin, 0L, 20L * interval);
+		}.runAtFixedRate(plugin, 0L, 20L * interval);
 	}
 	
 	public static void bossBarMessages() {
@@ -153,10 +158,11 @@ public class AutoBroadcastManager {
 		int interval = autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Interval", 60);
 		int time = autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Bar_Time", 10);
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Bossbar_Messages.Messages");
-		
-		new BukkitRunnable() {
+
+		new FoliaRunnable(plugin.getServer().getGlobalRegionScheduler()) {
 			int line = 0;
 
+			@Override
 			public void run() {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Bossbar_Messages.Enable", false)) {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
@@ -177,7 +183,7 @@ public class AutoBroadcastManager {
 
 				if (line >= messages.size() ) line = 0;
 			}
-		}.runTaskTimer(plugin, 0L, 20L * interval);
+		}.runAtFixedRate(plugin, 0L, 20L * interval);
 	}
 	
 	private static List<World> getWorld() {

@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -148,11 +148,12 @@ public class BossBarUtil {
 
 		playerBars.put(player.getUniqueId(), this);
 
-		new BukkitRunnable() {
+		new FoliaRunnable(this.plugin.getServer().getGlobalRegionScheduler()) {
+			@Override
 			public void run() {
 				if (playerBars.containsKey(player.getUniqueId())) playerBars.get(player.getUniqueId()).bar.removePlayer(player);
 			}
-		}.runTaskLater(this.plugin, 20L * time);
+		}.runDelayed(this.plugin, 20L * time);
 
 		return this;
 	}
@@ -177,13 +178,13 @@ public class BossBarUtil {
 		return this;
 	}
 
-	public BossBarUtil setBossBarAnimation(Player player, List<String> titles, int time, ChatManager chatManager) {
+	public BossBarUtil setBossBarAnimation(Player player, List<String> titles, int time) {
 		BossBar bossBar = this.plugin.getServer().createBossBar(titles.getFirst(), color, BarStyle.SOLID, BarFlag.CREATE_FOG);
 		bossBar.addPlayer(player);
 
 		this.bossBars.put(player.getUniqueId(), bossBar);
 
-		this.plugin.getServer().getScheduler().scheduleSyncRepeatingTask(chatManager, new Runnable() {
+		new FoliaRunnable(this.plugin.getServer().getGlobalRegionScheduler()) {
 			int i = 1;
 			int ticksRan = 0;
 
@@ -204,7 +205,7 @@ public class BossBarUtil {
 					bossBars.remove(player.getUniqueId());
 				}
 			}
-		}, 1, 1);
+		}.runAtFixedRate(this.plugin, 1, 1);
 
 		return this;
 	}
