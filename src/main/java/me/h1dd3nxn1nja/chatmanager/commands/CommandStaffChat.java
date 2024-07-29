@@ -99,7 +99,7 @@ public class CommandStaffChat implements CommandExecutor, TabCompleter {
 				}
 
 				for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
-					if (staff.hasPermission("chatmanager.staffchat")) Methods.sendMessage(staff, config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}")
+					if (staff.hasPermission(Permissions.TOGGLE_STAFF_CHAT.getNode())) Methods.sendMessage(staff, config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}")
 							.replace("{player}", sender.getName())
 							.replace("{message}", message), true);
 				}

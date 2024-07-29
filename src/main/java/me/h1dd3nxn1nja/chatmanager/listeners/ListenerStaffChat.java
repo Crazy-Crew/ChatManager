@@ -29,12 +29,10 @@ public class ListenerStaffChat implements Listener {
 
 		for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 			if (staff.hasPermission(Permissions.TOGGLE_STAFF_CHAT.getNode())) {
-				Methods.sendMessage(staff, config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}")
-						.replace("{message}", message), false);
+				Methods.sendMessage(staff, config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}").replace("{player}", player.getName()).replace("{message}", message));
 			}
 		}
 
-		Methods.tellConsole(config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}")
-				.replace("{player}", player.getName()).replace("{message}", message), false);
+		Methods.tellConsole(config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}").replace("{player}", player.getName()).replace("{message}", message), false);
 	}
 }
