@@ -29,7 +29,7 @@ public class ListenerLogs implements Listener {
 		String message = event.getMessage();
 		Date time = Calendar.getInstance().getTime();
 
-		if (!config.getBoolean("Logs.Log_Chat")) return;
+		if (!config.getBoolean("Logs.Log_Chat", false)) return;
 
 		try {
 			FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Chat.txt"), true);
@@ -53,7 +53,7 @@ public class ListenerLogs implements Listener {
 		String message = event.getMessage();
 		Date time = Calendar.getInstance().getTime();
 
-		if (!config.getBoolean("Logs.Log_Commands")) return;
+		if (!config.getBoolean("Logs.Log_Commands", false)) return;
 
 		for (String command : blacklist) {
 			if (event.getMessage().toLowerCase().startsWith(command)) return;
@@ -87,7 +87,7 @@ public class ListenerLogs implements Listener {
 			int Y = event.getBlock().getLocation().getBlockY();
 			int Z = event.getBlock().getLocation().getBlockZ();
 
-			if (!config.getBoolean("Logs.Log_Signs")) return;
+			if (!config.getBoolean("Logs.Log_Signs", false)) return;
 
 			try {
 				FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Signs.txt"), true);

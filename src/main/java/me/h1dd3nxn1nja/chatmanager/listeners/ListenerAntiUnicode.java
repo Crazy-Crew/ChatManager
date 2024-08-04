@@ -1,6 +1,8 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.enums.Messages;
+import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -9,8 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,7 +26,6 @@ public class ListenerAntiUnicode implements Listener {
 	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
-		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		Player player = event.getPlayer();
 		String message = event.getMessage();
@@ -34,7 +35,7 @@ public class ListenerAntiUnicode implements Listener {
 		Pattern pattern = Pattern.compile("^[A-Za-z0-9-~!@#$%^&*()<>_+=-{}|';:.,\\[\"\"]|';:.,/?><_.]+$");
 		Matcher matcher = pattern.matcher(event.getMessage().toLowerCase().replaceAll("\\s+", ""));
 
-		if (!config.getBoolean("Anti_Unicode.Enable") || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
+		if (!config.getBoolean("Anti_Unicode.Enable", false) || this.plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
 
 		if (player.hasPermission(Permissions.BYPASS_ANTI_UNICODE.getNode())) return;
 
@@ -45,24 +46,32 @@ public class ListenerAntiUnicode implements Listener {
 		if (matcher.find()) return;
 
 		event.setCancelled(true);
-		Methods.sendMessage(player, messages.getString("Anti_Unicode.Message"), true);
 
-		if (config.getBoolean("Anti_Unicode.Notify_Staff")) {
+		Messages.ANTI_UNICODE_MESSAGE.sendMessage(player);
+
+		if (config.getBoolean("Anti_Unicode.Notify_Staff", false)) {
 			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission(Permissions.NOTIFY_ANTI_UNICODE.getNode())) {
-					Methods.sendMessage(staff, messages.getString("Anti_Unicode.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+					Messages.ANTI_UNICODE_NOTIFY_STAFF_FORMAT.sendMessage(staff, new HashMap<>() {{
+						put("{player}", player.getName());
+						put("{message}", message);
+					}});
 				}
 			}
 
-			Methods.tellConsole(messages.getString("Anti_Unicode.Notify_Staff_Format").replace("{player}", player.getName()).replace("{message}", message), true);
+			Methods.tellConsole(Messages.ANTI_UNICODE_NOTIFY_STAFF_FORMAT.getMessage(this.plugin.getServer().getConsoleSender(), new HashMap<>() {{
+				put("{player}", player.getName());
+				put("{message}", message);
+			}}), false);
 		}
 
-		if (config.getBoolean("Anti_Unicode.Execute_Command")) {
+		if (config.getBoolean("Anti_Unicode.Execute_Command", false)) {
 			if (config.contains("Anti_Unicode.Executed_Command")) {
 				String command = config.getString("Anti_Unicode.Executed_Command").replace("{player}", player.getName());
 				List<String> commands = config.getStringList("Anti_Unicode.Executed_Command");
 
-				new BukkitRunnable() {
+				new FoliaRunnable(this.plugin.getServer().getGlobalRegionScheduler()) {
+					@Override
 					public void run() {
 						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
 
@@ -70,7 +79,7 @@ public class ListenerAntiUnicode implements Listener {
 							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 						}
 					}
-				}.runTask(this.plugin);
+				}.run(this.plugin);
 			}
 		}
 	}

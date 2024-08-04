@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.enums.Messages;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -19,10 +20,10 @@ public class CommandPerWorldChat implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
-		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		if (!(sender instanceof Player player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
+
 			return true;
 		}
 
@@ -30,23 +31,27 @@ public class CommandPerWorldChat implements CommandExecutor {
 			if (player.hasPermission(Permissions.COMMAND_PERWORLDCHAT.getNode())) {
 				if (args.length == 0) {
 					Methods.sendMessage(player, "&cCommand Usage: &7/perworldchat bypass", true);
+
 					return true;
 				}
 			} else {
-				Methods.sendMessage(player, Methods.noPermission(), true);
+				Messages.NO_PERMISSION.sendMessage(player);
+
 				return true;
 			}
 
 			if (args[0].equalsIgnoreCase("bypass")) {
 				if (player.hasPermission(Permissions.COMMAND_PERWORLDCHAT.getNode())) {
 					if (args.length == 1) {
-						if (config.getBoolean("Per_World_Chat.Enable")) {
+						if (config.getBoolean("Per_World_Chat.Enable", false)) {
 							if (!this.plugin.api().getPerWorldChatData().containsUser(player.getUniqueId())) {
 								this.plugin.api().getPerWorldChatData().addUser(player.getUniqueId());
-								Methods.sendMessage(player, messages.getString("Per_World_Chat.Bypass_Enabled"), true);
+
+								Messages.PER_WORLD_CHAT_BYPASS_ENABLED.sendMessage(player);
 							} else {
 								this.plugin.api().getPerWorldChatData().removeUser(player.getUniqueId());
-								Methods.sendMessage(player, messages.getString("Per_World_Chat.Bypass_Disabled"), true);
+
+								Messages.PER_WORLD_CHAT_BYPASS_DISABLED.sendMessage(player);
 							}
 						} else {
 							Methods.sendMessage(player, "&4Error: &cPer-world chat is currently disabled and you cannot execute that command at this time.", true);
@@ -55,7 +60,7 @@ public class CommandPerWorldChat implements CommandExecutor {
 						Methods.sendMessage(player, "&cCommand Usage: &7/perworldchat bypass", true);
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					Messages.NO_PERMISSION.sendMessage(player);
 				}
 			}
 		}

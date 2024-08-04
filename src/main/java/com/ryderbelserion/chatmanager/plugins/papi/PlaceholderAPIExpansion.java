@@ -1,7 +1,6 @@
-package com.ryderbelserion.chatmanager.plugins;
+package com.ryderbelserion.chatmanager.plugins.papi;
 
 import com.ryderbelserion.chatmanager.enums.Files;
-import com.ryderbelserion.vital.paper.plugins.interfaces.Plugin;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -11,14 +10,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 
-public class PlaceholderAPISupport extends PlaceholderExpansion implements Plugin {
+public class PlaceholderAPIExpansion extends PlaceholderExpansion {
 
     private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
-
-    @Override
-    public boolean isEnabled() {
-        return this.plugin.getServer().getPluginManager().isPluginEnabled(getName());
-    }
 
     @Override
     public @Nullable String onRequest(OfflinePlayer player, @NotNull String identifier) {
@@ -79,20 +73,5 @@ public class PlaceholderAPISupport extends PlaceholderExpansion implements Plugi
     @Override
     public boolean persist() {
         return true;
-    }
-
-    @Override
-    public void add() {
-        register();
-    }
-
-    @Override
-    public void remove() {
-        unregister();
-    }
-
-    @Override
-    public @NotNull String getName() {
-        return "PlaceholderAPI";
     }
 }

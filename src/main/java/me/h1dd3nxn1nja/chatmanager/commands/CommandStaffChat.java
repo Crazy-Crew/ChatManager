@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.enums.Messages;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -14,7 +15,6 @@ import org.bukkit.entity.Player;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,42 +26,43 @@ public class CommandStaffChat implements CommandExecutor, TabCompleter {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
-		FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		if (sender instanceof Player player) {
 			if (cmd.getName().equalsIgnoreCase("staffchat")) {
 				if (player.hasPermission(Permissions.TOGGLE_STAFF_CHAT.getNode())) {
 					if (args.length == 0) {
-						if (config.getBoolean("Staff_Chat.Enable")) {
+						if (config.getBoolean("Staff_Chat.Enable", false)) {
 							boolean isValid = this.plugin.api().getStaffChatData().containsUser(player.getUniqueId());
 
 							if (isValid) {
 								this.plugin.api().getStaffChatData().removeUser(player.getUniqueId());
 
 								// We want to remove anyway just in case they turned it off.
-								BossBarUtil bossBar = new BossBarUtil(Methods.placeholders(true, player, Methods.color(config.getString("Staff_Chat.Boss_Bar.Title"))));
+								BossBarUtil bossBar = new BossBarUtil(Methods.placeholders(true, player, Methods.color(config.getString("Staff_Chat.Boss_Bar.Title", "&eStaff Chat"))));
 								bossBar.removeStaffBossBar(player);
 
-								Methods.sendMessage(player, messages.getString("Staff_Chat.Disabled"), true);
+								Messages.STAFF_CHAT_DISABLED.sendMessage(player);
 
 								return true;
 							}
 
 							this.plugin.api().getStaffChatData().addUser(player.getUniqueId());
 
-							boolean isBossBarEnabled = config.contains("Staff_Chat.Boss_Bar.Enable") && config.getBoolean("Staff_Chat.Boss_Bar.Enable");
+							boolean isBossBarEnabled = config.getBoolean("Staff_Chat.Boss_Bar.Enable", false);
 
 							if (isBossBarEnabled) {
-								BossBarUtil bossBar = new BossBarUtil(Methods.placeholders(true, player, Methods.color(config.getString("Staff_Chat.Boss_Bar.Title"))));
+								BossBarUtil bossBar = new BossBarUtil(Methods.placeholders(true, player, Methods.color(config.getString("Staff_Chat.Boss_Bar.Title", "&eStaff Chat"))));
+
 								bossBar.setStaffBossBar(player);
 							}
 
-							Methods.sendMessage(player, messages.getString("Staff_Chat.Enabled"), true);
+							Messages.STAFF_CHAT_ENABLED.sendMessage(player);
 
 							return true;
 
 						} else {
 							Methods.sendMessage(player, "&4Error: &cStaff Chat is currently disabled & cannot be used at this time.", true);
+
 							return true;
 						}
 					} else {
@@ -73,21 +74,24 @@ public class CommandStaffChat implements CommandExecutor, TabCompleter {
 							}
 
 							for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
-								Methods.sendMessage(staff, config.getString("Staff_Chat.Format").replace("{message}", message), true);
+								if (Permissions.TOGGLE_STAFF_CHAT.hasPermission(staff)) {
+									Methods.sendMessage(staff, config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}").replace("{player}", player.getName()).replace("{message}", message.toString()));
+								}
 							}
 
-							Methods.tellConsole(config.getString("Staff_Chat.Format").replace("{message}", message), true);
+							Methods.tellConsole(config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}").replace("{player}", player.getName()).replace("{message}", message.toString()), false);
 						} else {
 							Methods.sendMessage(player, "&4Error: &cStaff Chat is currently disabled & cannot be used at this time.", true);
+
 							return true;
 						}
 					}
 				} else {
-					Methods.sendMessage(player, Methods.noPermission(), true);
+					Messages.NO_PERMISSION.sendMessage(player);
 				}
 			}
 		} else if (sender instanceof ConsoleCommandSender) {
-			if (config.getBoolean("Staff_Chat.Enable")) {
+			if (config.getBoolean("Staff_Chat.Enable", false)) {
 				StringBuilder message = new StringBuilder();
 
 				for (String arg : args) {
@@ -95,12 +99,17 @@ public class CommandStaffChat implements CommandExecutor, TabCompleter {
 				}
 
 				for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
-					if (staff.hasPermission("chatmanager.staffchat")) Methods.sendMessage(staff, config.getString("Staff_Chat.Format").replace("{player}", sender.getName()).replace("{message}", message), true);
+					if (staff.hasPermission(Permissions.TOGGLE_STAFF_CHAT.getNode())) Methods.sendMessage(staff, config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}")
+							.replace("{player}", sender.getName())
+							.replace("{message}", message), true);
 				}
 
-				Methods.sendMessage(sender, config.getString("Staff_Chat.Format").replace("{player}", sender.getName()).replace("{message}", message), true);
+				Methods.sendMessage(sender, config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}")
+						.replace("{player}", sender.getName())
+						.replace("{message}", message), true);
 			} else {
 				Methods.sendMessage(sender, "&4Error: &cStaff Chat is currently disabled & cannot be used at this time.", true);
+
 				return true;
 			}
 		}

@@ -1,5 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
+import com.ryderbelserion.chatmanager.enums.Messages;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -18,42 +19,47 @@ public class CommandPing implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration messages = Files.MESSAGES.getConfiguration();
-		
 		if (!(sender instanceof Player player)) {
 			Methods.sendMessage(sender, "&cError: You can only use that command in-game", true);
+
 			return true;
 		}
 
 		if (cmd.getName().equalsIgnoreCase("ping")) {
 			if (!player.hasPermission(Permissions.COMMAND_PING.getNode())) {
-				Methods.sendMessage(player, Methods.noPermission(), true);
+				Messages.NO_PERMISSION.sendMessage(player);
+
 				return true;
 			}
 
 			if (args.length == 0) {
-				Methods.sendMessage(player, messages.getString("Ping.Players_Ping"), true);
+				Messages.PING_PLAYERS_PING.sendMessage(player);
+
 				return true;
 			}
 
 			if (!player.hasPermission(Permissions.COMMAND_PING_OTHERS.getNode())) {
-				Methods.sendMessage(player, Methods.noPermission(), true);
+				Messages.NO_PERMISSION.sendMessage(player);
+
 				return true;
 			}
 
 			if (args.length >= 2) {
 				Methods.sendMessage(player, "&cCommand Usage: &7/ping [player]", true);
+
 				return true;
 			}
 
 			Player target = this.plugin.getServer().getPlayer(args[0]);
 
 			if (target == null || !target.isOnline()) {
-				Methods.sendMessage(player, messages.getString("Message.Player_Not_Found").replace("{target}", args[0]), true);
+				Messages.PLAYER_NOT_FOUND.sendMessage(player, "{target}", args[0]);
+
 				return true;
 			}
 
-			Methods.sendMessage(player, messages.getString("Ping.Targets_Ping").replace("{target}", target.getName()), true);
+			Messages.PING_TARGETS_PING.sendMessage(player, "{target}", target.getName());
+
 			return true;
 		}
 

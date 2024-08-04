@@ -1,4 +1,3 @@
-import com.ryderbelserion.feather.tools.*
 import java.awt.Color
 
 plugins {
@@ -14,17 +13,18 @@ base {
     archivesName.set(rootProject.name)
 }
 
-val nextNumber: String? = if (System.getenv("NEXT_BUILD_NUMBER") != null) System.getenv("NEXT_BUILD_NUMBER") else "SNAPSHOT"
+val buildNumber: String? = System.getenv("BUILD_NUMBER")
 
-rootProject.version = "${libs.versions.minecraft.get()}-$nextNumber"
+rootProject.version = if (buildNumber != null) "${libs.versions.minecraft.get()}-$buildNumber" else "3.13"
 
-val isSnapshot = true
+val isBeta = true
 
-val content: String = if (isSnapshot) {
-    latestCommitHistory("f638e1", rootProject.name, "Crazy-Crew")
-} else {
-    rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
-}
+val content: String = rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
+
+val releaseUpdate = Color(27, 217, 106)
+val betaUpdate = Color(255, 163, 71)
+
+val color = if (isBeta) betaUpdate else releaseUpdate
 
 dependencies {
     paperweight.paperDevBundle(libs.versions.paper.get())
@@ -80,7 +80,7 @@ tasks {
             "version" to rootProject.version,
             "group" to rootProject.group,
             "description" to rootProject.description,
-            "apiVersion" to "1.20.6",
+            "apiVersion" to libs.versions.minecraft.get(),
             "authors" to providers.gradleProperty("authors").get(),
             "website" to providers.gradleProperty("website").get()
         )
@@ -97,48 +97,47 @@ tasks {
 
         projectId.set(rootProject.name.lowercase())
 
-        versionType.set("beta")
+        versionType.set(if (isBeta) "beta" else "release")
 
         versionName.set("${rootProject.name} ${rootProject.version}")
         versionNumber.set(rootProject.version as String)
 
-        changelog.set(content.replace("\n", ""))
+        changelog.set(content)
 
         uploadFile.set(rootProject.projectDir.resolve("jars/${rootProject.name}-${rootProject.version}.jar"))
 
         syncBodyFrom.set(rootProject.file("README.md").readText(Charsets.UTF_8))
 
-        gameVersions.set(listOf("1.20.6", "1.21"))
+        gameVersions.set(listOf(libs.versions.minecraft.get()))
 
-        loaders.addAll(listOf("paper", "purpur"))
+        loaders.addAll(listOf("paper", "folia", "purpur"))
 
         autoAddDependsOn.set(false)
         detectLoaders.set(false)
     }
-}
 
+    webhook {
+        this.username("Ryder Belserion")
 
-val releaseUpdate = Color(27, 217, 106)
-val betaUpdate = Color(255, 163, 71)
+        this.content("<@&888222546573537280>")
 
-val color = if (isSnapshot) betaUpdate else releaseUpdate
+        this.embeds {
+            this.embed {
+                this.color(color)
 
-webhook {
-    this.username("Ryder Belserion")
+                this.title("A new version of ChatManager is ready!")
 
-    this.embeds {
-        this.embed {
-            this.color(color)
+                this.fields {
+                    this.field(
+                        "Version ${libs.versions.minecraft.get()} build ${rootProject.version}",
+                        "Click [here](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${rootProject.version}) to download!"
+                    )
 
-            this.title("A new version of ChatManager is ready!")
-
-            this.fields {
-                this.field(
-                    "Version ${libs.versions.minecraft.get()} build ${System.getenv("NEXT_BUILD_NUMBER")}",
-                    "Click [here](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${libs.versions.minecraft.get()}-${System.getenv("NEXT_BUILD_NUMBER")}) to download!"
-                )
-
-                this.field("Commits", content.replace("<br>", ""))
+                    this.field(
+                        "Changelog",
+                        rootProject.file("DISCORD.md").readText(Charsets.UTF_8)
+                    )
+                }
             }
         }
     }

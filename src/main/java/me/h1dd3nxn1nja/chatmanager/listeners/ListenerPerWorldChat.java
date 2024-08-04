@@ -28,11 +28,12 @@ public class ListenerPerWorldChat implements Listener {
 
 		FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		if (!config.getBoolean("Per_World_Chat.Enable") || this.plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
+		if (!config.getBoolean("Per_World_Chat.Enable", false)
+				|| this.plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
 
 		if (this.plugin.api().getPerWorldChatData().containsUser(player.getUniqueId())) return;
 
-		if (config.getBoolean("Per_World_Chat.Group_Worlds.Enable")) {
+		if (config.getBoolean("Per_World_Chat.Group_Worlds.Enable", false)) {
 			for (String key : config.getConfigurationSection("Per_World_Chat.Group_Worlds.Worlds").getKeys(false)) {
 				List<String> group = config.getStringList("Per_World_Chat.Group_Worlds.Worlds." + key);
 				if (group.contains(world)) playerGroup = group;

@@ -18,8 +18,6 @@ public class Methods {
 	@NotNull
 	private static final ChatManager plugin = ChatManager.get();
 
-	private static final Pattern HEX_PATTERN = Pattern.compile("#([A-Fa-f0-9]{6})");
-
 	public static void playSound(FileConfiguration config, String path) {
 		String sound = config.getString(path + ".value");
 		boolean isEnabled = config.contains(path + ".toggle") && config.getBoolean(path + ".toggle");
@@ -260,22 +258,22 @@ public class Methods {
 	}
 
 	public static String color(String message) {
-		Matcher matcher = HEX_PATTERN.matcher(message);
+		Matcher matcher = Pattern.compile("#[a-fA-F\\d]{6}").matcher(message);
 		StringBuilder buffer = new StringBuilder();
 
 		while (matcher.find()) {
 			matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of(matcher.group()).toString());
 		}
 
-		return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
+		return org.bukkit.ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
 	}
 	
 	public static String getPrefix() {
-		return Files.MESSAGES.getConfiguration().getString("Message.Prefix");
+		return color(Files.MESSAGES.getConfiguration().getString("Message.Prefix"));
 	}
-	
-	public static String noPermission() {
-		return Files.MESSAGES.getConfiguration().getString("Message.No_Permission");
+
+	public static String getPrefix(String msg) {
+		return getPrefix() + color(msg);
 	}
 
 	private static boolean isMuted;
@@ -289,12 +287,7 @@ public class Methods {
 	}
 	
 	public static void tellConsole(String message, boolean prefix) {
-		if (prefix) {
-			sendMessage(plugin.getServer().getConsoleSender(), message, true);
-			return;
-		}
-
-		sendMessage(plugin.getServer().getConsoleSender(), message, false);
+		sendMessage(plugin.getServer().getConsoleSender(), message, prefix);
 	}
 	
 	public static boolean inRange(UUID uuid, UUID receiver, int radius) {
@@ -315,45 +308,65 @@ public class Methods {
 		return other.getLocation().getWorld().equals(player.getLocation().getWorld());
 	}
 
-	public static void sendMessage(CommandSender commandSender, String message, boolean prefixToggle) {
+	public static void sendMessage(CommandSender commandSender, String message, boolean ignorePrefix) {
+		sendMessage(commandSender, getPrefix(), message, ignorePrefix, false);
+	}
+
+	public static void sendMessage(CommandSender commandSender, String prefix, String message, boolean ignorePrefix) {
+		sendMessage(commandSender, prefix, message, ignorePrefix, false);
+	}
+
+	public static void sendMessage(CommandSender commandSender, String prefix, String message, boolean ignorePrefix, boolean isStaffChat) {
 		if (message == null || message.isEmpty()) return;
 
-		String prefix = getPrefix();
-
 		if (commandSender instanceof Player player) {
-			if (!prefix.isEmpty() && prefixToggle) player.sendMessage(placeholders(false, player, color(message))); else player.sendMessage(placeholders(true, player, color(message)));
+			player.sendMessage(placeholders(isStaffChat, ignorePrefix, prefix, player, message));
 
 			return;
 		}
 
-		if (!prefix.isEmpty() && prefixToggle) commandSender.sendMessage(color(message.replace("{Prefix}", prefix))); else commandSender.sendMessage(color(message));
+		commandSender.sendMessage(placeholders(ignorePrefix, prefix, commandSender, message));
+	}
+
+	public static void sendMessage(CommandSender commandSender, String message) {
+		sendMessage(commandSender, "", message, true, true);
 	}
 
 	public static void broadcast(Player player, String message) {
 		if (message == null || message.isEmpty()) return;
 
-		String prefix = getPrefix();
-
-		if (!prefix.isEmpty()) plugin.getServer().broadcastMessage(placeholders(false, player, color(message))); else plugin.getServer().broadcastMessage(placeholders(true, player, color(message)));
+		plugin.getServer().broadcastMessage(placeholders(getPrefix().isEmpty(), player, color(message)));
 	}
 
-	public static String placeholders(boolean ignorePrefix, final Player player, final String message) {
+	public static String placeholders(final boolean isStaffChat, final boolean ignorePrefix, final String prefix, final CommandSender sender, final String message) {
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		String clonedMessage = message;
 
 		if (!ignorePrefix) {
-			clonedMessage = clonedMessage.replace("{Prefix}", getPrefix()).replaceAll("\\{prefix}", getPrefix());
+			clonedMessage = clonedMessage.replace("{Prefix}", prefix).replaceAll("\\{prefix}", prefix);
 		}
 
-		if (player != null) {
+		if (sender instanceof Player player) {
 			if (PluginManager.isEnabled("PlaceholderAPI")) {
-				return color(PlaceholderAPI.setPlaceholders(player, clonedMessage.replaceAll("\\{player}", player.getName()).replaceAll("\\{server_name}", config.getString("Server_Name", "Server Name not found."))));
+				clonedMessage = PlaceholderAPI.setPlaceholders(player, clonedMessage);
+			}
+
+			if (isStaffChat) {
+				return color(clonedMessage).replaceAll("\\{server_name}", config.getString("Server_Name", "Server Name not found."));
 			}
 
 			return color(clonedMessage.replaceAll("\\{player}", player.getName()).replaceAll("\\{server_name}", config.getString("Server_Name", "Server Name not found.")));
 		}
 
 		return color(clonedMessage.replaceAll("\\{server_name}", config.getString("Server_Name", "Server Name not found.")));
+	}
+
+	public static String placeholders(final boolean ignorePrefix, final String prefix, final CommandSender sender, final String message) {
+		return placeholders(false, ignorePrefix, prefix, sender, message);
+	}
+
+	public static String placeholders(boolean ignorePrefix, final CommandSender sender, final String message) {
+		return placeholders(false, ignorePrefix, getPrefix(), sender, message);
 	}
 }

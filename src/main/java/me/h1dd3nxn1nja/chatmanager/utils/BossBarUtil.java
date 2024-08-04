@@ -2,15 +2,15 @@ package me.h1dd3nxn1nja.chatmanager.utils;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
-
+import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,10 +26,10 @@ public class BossBarUtil {
 	private boolean isVisible;
 	private BossBar bar;
 	private BossBar staffBar;
-	private static final HashMap<UUID, BossBarUtil> playerBars = new HashMap<>();
-	private static final HashMap<UUID, BossBarUtil> staffBars = new HashMap<>();
+	private static final Map<UUID, BossBarUtil> playerBars = new HashMap<>();
+	private static final Map<UUID, BossBarUtil> staffBars = new HashMap<>();
 
-	HashMap<UUID, BossBar> bossBars = new HashMap<>();
+	private final Map<UUID, BossBar> bossBars = new HashMap<>();
 
 	public BossBarUtil() {
 		this.title = Methods.color("&bStaff Chat");
@@ -148,12 +148,12 @@ public class BossBarUtil {
 
 		playerBars.put(player.getUniqueId(), this);
 
-		new BukkitRunnable() {
+		new FoliaRunnable(this.plugin.getServer().getGlobalRegionScheduler()) {
+			@Override
 			public void run() {
-				if (playerBars.containsKey(player.getUniqueId()))
-					playerBars.get(player.getUniqueId()).bar.removePlayer(player);
+				if (playerBars.containsKey(player.getUniqueId())) playerBars.get(player.getUniqueId()).bar.removePlayer(player);
 			}
-		}.runTaskLater(this.plugin, 20L * time);
+		}.runDelayed(this.plugin, 20L * time);
 
 		return this;
 	}
@@ -165,8 +165,7 @@ public class BossBarUtil {
 	}
 
 	public BossBarUtil removeStaffBossBar(Player player) {
-		if (staffBars.containsKey(player.getUniqueId()))
-			staffBars.get(player.getUniqueId()).staffBar.removePlayer(player);
+		if (staffBars.containsKey(player.getUniqueId())) staffBars.get(player.getUniqueId()).staffBar.removePlayer(player);
 
 		return this;
 	}
@@ -174,25 +173,27 @@ public class BossBarUtil {
 	public BossBarUtil removeAllBossBars(Player player) {
 		if (playerBars.containsKey(player.getUniqueId())) playerBars.get(player.getUniqueId()).bar.removePlayer(player);
 
-		if (staffBars.containsKey(player.getUniqueId()))
-			staffBars.get(player.getUniqueId()).staffBar.removePlayer(player);
+		if (staffBars.containsKey(player.getUniqueId())) staffBars.get(player.getUniqueId()).staffBar.removePlayer(player);
 
 		return this;
 	}
 
-	public BossBarUtil setBossBarAnimation(Player player, List<String> titles, int time, ChatManager chatManager) {
-		BossBar bossBar = this.plugin.getServer().createBossBar(titles.get(0), color, BarStyle.SOLID, BarFlag.CREATE_FOG);
+	public BossBarUtil setBossBarAnimation(Player player, List<String> titles, int time) {
+		BossBar bossBar = this.plugin.getServer().createBossBar(titles.getFirst(), color, BarStyle.SOLID, BarFlag.CREATE_FOG);
 		bossBar.addPlayer(player);
+
 		this.bossBars.put(player.getUniqueId(), bossBar);
 
-		this.plugin.getServer().getScheduler().scheduleSyncRepeatingTask(chatManager, new Runnable() {
+		new FoliaRunnable(this.plugin.getServer().getGlobalRegionScheduler()) {
 			int i = 1;
 			int ticksRan = 0;
 
 			@Override
 			public void run() {
 				ticksRan++;
+
 				bossBar.setTitle(titles.get(i));
+
 				i++;
 
 				if (i >= titles.size()) i = 0;
@@ -200,10 +201,11 @@ public class BossBarUtil {
 				if (ticksRan >= time) {
 					bossBar.removePlayer(player);
 					bossBar.setVisible(false);
+
 					bossBars.remove(player.getUniqueId());
 				}
 			}
-		}, 1, 1);
+		}.runAtFixedRate(this.plugin, 1, 1);
 
 		return this;
 	}

@@ -1,6 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.enums.Messages;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import java.util.List;
 import com.ryderbelserion.chatmanager.enums.Permissions;
@@ -23,23 +24,20 @@ public class CommandBroadcast implements CommandExecutor {
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		String prefix = config.getString("Broadcast_Commands.Command.Broadcast.Prefix");
-		String color = config.getString("Broadcast_Commands.Command.Broadcast.Default_Color");
-
 		String broadcastPath = "Broadcast_Commands.Command.Broadcast.sound";
-		String broadcastSound = config.getString(broadcastPath + ".value");
-		int broadcastVolume = config.contains(broadcastPath + ".volume") ? config.getInt(broadcastPath + ".volume") : 10;
-		int broadcastPitch = config.contains(broadcastPath + ".pitch") ? config.getInt(broadcastPath + ".pitch") : 1;
+		String broadcastSound = config.getString(broadcastPath + ".value", "ENTITY_PLAYER_LEVELUP");
+		int broadcastVolume = config.getInt(broadcastPath + ".volume", 10);
+		int broadcastPitch = config.getInt(broadcastPath + ".pitch", 1);
 
 		String announcementPath = "Broadcast_Commands.Command.Announcement.sound";
-		String announcementSound = config.getString(announcementPath + ".value");
-		int announcementVolume = config.contains(announcementPath + ".volume") ? config.getInt(announcementPath + ".volume") : 10;
-		int announcementPitch = config.contains(announcementPath + ".pitch") ? config.getInt(announcementPath + ".pitch") : 1;
+		String announcementSound = config.getString(announcementPath + ".value", "ENTITY_PLAYER_LEVELUP");
+		int announcementVolume = config.getInt(announcementPath + ".volume", 10);
+		int announcementPitch = config.getInt(announcementPath + ".pitch", 1);
 
 		String warningPath = "Broadcast_Commands.Command.Warning.sound";
-		String warningSound = config.getString(warningPath + ".value");
-		int warningVolume = config.contains(warningPath + ".volume") ? config.getInt(warningPath + ".volume") : 10;
-		int warningPitch = config.contains(warningPath + ".pitch") ? config.getInt(warningPath + ".pitch") : 1;
+		String warningSound = config.getString(warningPath + ".value", "ENTITY_PLAYER_LEVELUP");
+		int warningVolume = config.getInt(warningPath + ".volume", 10);
+		int warningPitch = config.getInt(warningPath + ".pitch", 1);
 
 		List<String> announcement = config.getStringList("Broadcast_Commands.Command.Announcement.Message");
 		List<String> warning = config.getStringList("Broadcast_Commands.Command.Warning.Message");
@@ -54,7 +52,7 @@ public class CommandBroadcast implements CommandExecutor {
 					}
 
 					for (Player online : this.plugin.getServer().getOnlinePlayers()) {
-						Methods.sendMessage(online.getPlayer(), message.toString(), true);
+						Methods.sendMessage(online, message.toString(), true);
 
 						try {
 							online.playSound(online.getLocation(), Sound.valueOf(broadcastSound), broadcastVolume, broadcastPitch);
@@ -64,7 +62,7 @@ public class CommandBroadcast implements CommandExecutor {
 					Methods.sendMessage(sender, "&cCommand Usage: &7/Broadcast <message>", true);
 				}
 			} else {
-				Methods.sendMessage(sender, Methods.noPermission(), true);
+				Messages.NO_PERMISSION.sendMessage(sender);
 			}
 		}
 		
@@ -76,7 +74,7 @@ public class CommandBroadcast implements CommandExecutor {
 					Methods.sendMessage(sender, "&cCommand Usage: &7/Announcement <message>", true);
 				}
 			} else {
-				Methods.sendMessage(sender, Methods.noPermission(), true);
+				Messages.NO_PERMISSION.sendMessage(sender);
 			}	
 		}
 		
@@ -88,7 +86,7 @@ public class CommandBroadcast implements CommandExecutor {
 					Methods.sendMessage(sender, "&cCommand Usage: &7/Warning <message>", true);
 				}
 			} else {
-				Methods.sendMessage(sender, Methods.noPermission(), true);
+				Messages.NO_PERMISSION.sendMessage(sender);
 			}
 		}
 

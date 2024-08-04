@@ -17,7 +17,7 @@ public class CommandMOTD implements Listener {
 		Player player = e.getPlayer();
 		String message = e.getMessage();
 
-		if (config.getBoolean("MOTD.Enable")) {
+		if (config.getBoolean("MOTD.Enable", false)) {
 			if (message.equalsIgnoreCase("/motd")) {
 				for (String motd : config.getStringList("MOTD.Message")) {
 					Methods.sendMessage(player, motd, true);
