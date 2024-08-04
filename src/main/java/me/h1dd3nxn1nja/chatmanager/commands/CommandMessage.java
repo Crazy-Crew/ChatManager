@@ -1,5 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
+import com.ryderbelserion.chatmanager.api.chat.UserRepliedData;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.vital.paper.plugins.PluginManager;
 import com.ryderbelserion.vital.paper.plugins.interfaces.Plugin;
