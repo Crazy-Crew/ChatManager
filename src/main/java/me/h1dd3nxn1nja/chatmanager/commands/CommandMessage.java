@@ -1,5 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
+import com.ryderbelserion.chatmanager.api.chat.UserRepliedData;
 import com.ryderbelserion.vital.paper.plugins.PluginManager;
 import com.ryderbelserion.vital.paper.plugins.interfaces.Plugin;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
@@ -180,8 +181,10 @@ public class CommandMessage implements CommandExecutor, TabCompleter {
 
 		Methods.playSound(target, config, "Private_Messages.sound");
 
-		this.plugin.api().getUserRepliedData().addUser(player.getUniqueId(), target.getUniqueId());
-		this.plugin.api().getUserRepliedData().addUser(target.getUniqueId(), player.getUniqueId());
+		final UserRepliedData data = this.plugin.api().getUserRepliedData();
+
+		data.addUser(player.getUniqueId(), target.getUniqueId());
+		data.addUser(target.getUniqueId(), player.getUniqueId());
 
 		for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 			if ((staff != player) && (staff != target)) {
