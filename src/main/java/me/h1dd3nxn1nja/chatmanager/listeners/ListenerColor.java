@@ -29,21 +29,6 @@ public class ListenerColor implements Listener {
 
 		event.setMessage(formatChat(player, message));
 	}
-
-	@EventHandler(ignoreCancelled = true)
-	public void onSignChange(SignChangeEvent event) {
-		Player player = event.getPlayer();
-
-		for (int index = 0; index < event.getLines().length; index++) {
-			String line = event.getLine(index);
-
-			if (player.hasPermission(Permissions.SIGN_COLOR_ALL.getNode())) line = Format.formatStringColor(line);
-
-			if (player.hasPermission(Permissions.SIGN_FORMAT_ALL.getNode())) line = Format.formatString(line);
-
-			event.setLine(index, line);
-		}
-	}
 	
 	private char getColorCharacter() {
 		String characterString = "&";
