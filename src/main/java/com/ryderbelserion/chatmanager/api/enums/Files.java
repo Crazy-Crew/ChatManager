@@ -1,8 +1,10 @@
 package com.ryderbelserion.chatmanager.api.enums;
 
-import com.ryderbelserion.vital.paper.files.config.FileManager;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import org.bukkit.configuration.file.YamlConfiguration;
+import com.ryderbelserion.chatmanager.ChatManager;
+import com.ryderbelserion.vital.common.managers.files.FileManager;
+import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.file.YamlConfiguration;
+import java.io.File;
 
 public enum Files {
 
@@ -12,12 +14,11 @@ public enum Files {
     BANNED_COMMANDS("bannedcommands.yml"),
     AUTO_BROADCAST("AutoBroadcast.yml");
 
+    private @NotNull final ChatManager plugin = ChatManager.get();
+
+    private @NotNull final FileManager fileManager = this.plugin.getFileManager();
+
     private final String fileName;
-    private final String strippedName;
-
-    private final ChatManager plugin = ChatManager.get();
-
-    private final FileManager fileManager = plugin.getFileManager();
 
     /**
      * A constructor to build a file
@@ -26,26 +27,17 @@ public enum Files {
      */
     Files(final String fileName) {
         this.fileName = fileName;
-        this.strippedName = this.fileName.replace(".yml", "");
-    }
-
-    public final String getFileName() {
-        return this.fileName;
-    }
-
-    public final String getStrippedName() {
-        return this.strippedName;
     }
 
     public final YamlConfiguration getConfiguration() {
-        return this.fileManager.getFile(this.fileName);
+        return this.fileManager.getFile(this.fileName).getConfiguration();
+    }
+
+    public void reload() {
+        this.fileManager.addFile(new File(this.plugin.getDataFolder(), this.fileName));
     }
 
     public void save() {
         this.fileManager.saveFile(this.fileName);
-    }
-
-    public void reload() {
-        this.fileManager.reloadFile(this.fileName);
     }
 }

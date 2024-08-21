@@ -9,10 +9,10 @@ import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.Server;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.file.FileConfiguration;
 
 public class CommandMotd extends Command {
 

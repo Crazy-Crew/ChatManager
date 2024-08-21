@@ -2,7 +2,7 @@ package com.ryderbelserion.chatmanager.commands.subs.staff;
 
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.chatmanager.ChatManager;
-import com.ryderbelserion.chatmanager.api.enums.Messages;
+import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.utils.TaskUtils;
 import com.ryderbelserion.vital.paper.api.commands.Command;

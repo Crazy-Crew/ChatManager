@@ -1,10 +1,10 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
-import com.ryderbelserion.chatmanager.api.enums.Messages;
+import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.vital.paper.plugins.PluginManager;
 import com.ryderbelserion.vital.paper.plugins.interfaces.Plugin;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import com.ryderbelserion.chatmanager.api.enums.Permissions;
+import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
@@ -21,7 +21,6 @@ import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 

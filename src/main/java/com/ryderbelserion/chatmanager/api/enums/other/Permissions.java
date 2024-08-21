@@ -1,4 +1,4 @@
-package com.ryderbelserion.chatmanager.api.enums;
+package com.ryderbelserion.chatmanager.api.enums.other;
 
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
@@ -28,6 +28,7 @@ public enum Permissions {
         put("chatmanager.color.dark-gray", true);
         put("chatmanager.color.blue", true);
     }}),
+
     CHAT_FORMAT_ALL("chat-format.all", "Allows a player to use all message formatting.", PermissionDefault.OP, new HashMap<>() {{
         put("chatmanager.format.obfuscated", true);
         put("chatmanager.format.bold", true);
@@ -36,8 +37,7 @@ public enum Permissions {
         put("chatmanager.format.italic", true);
         put("chatmanager.format.reset", true);
     }}),
-    SIGN_COLOR_ALL("sign.color", "Allows players to use colors in signs.", PermissionDefault.OP),
-    SIGN_FORMAT_ALL("sign.format", "Allows players to use formatting in signs.", PermissionDefault.OP),
+
     COLOR_GREEN("color.green", "Allows players to use &a", PermissionDefault.OP),
     COLOR_AQUA("color.aqua", "Allows players to use &b", PermissionDefault.OP),
     COLOR_RED("color.red", "Allows players to use &c", PermissionDefault.OP),
@@ -60,6 +60,7 @@ public enum Permissions {
     FORMAT_UNDERLINE("format.underline", "Allows players to use &n", PermissionDefault.OP),
     FORMAT_ITALIC("format.italic", "Allows players to use &o", PermissionDefault.OP),
     FORMAT_RESET("format.reset", "Allows players to use &r", PermissionDefault.OP),
+
     PREVIEW_ACTIONBAR("preview.actionbar", "Shows action bar on join", PermissionDefault.OP),
     PREVIEW_TITLE("preview.title", "Shows title on join", PermissionDefault.OP),
     BYPASS_DUPE_CHAT("bypass.dupe.chat", "Permission to use repetitive messages.", PermissionDefault.OP),

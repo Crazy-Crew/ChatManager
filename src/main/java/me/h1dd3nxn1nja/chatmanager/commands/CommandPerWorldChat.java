@@ -1,9 +1,9 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.api.enums.Files;
-import com.ryderbelserion.chatmanager.api.enums.Messages;
+import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import com.ryderbelserion.chatmanager.api.enums.Permissions;
+import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

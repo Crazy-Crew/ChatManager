@@ -2,8 +2,8 @@ package com.ryderbelserion.chatmanager.listeners.staff;
 
 import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.ChatManager;
-import com.ryderbelserion.chatmanager.api.enums.Messages;
-import com.ryderbelserion.chatmanager.api.enums.Permissions;
+import com.ryderbelserion.chatmanager.api.enums.other.Messages;
+import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.api.events.MessageSendEvent;
 import com.ryderbelserion.chatmanager.api.cache.UserManager;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;

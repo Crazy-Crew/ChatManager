@@ -1,16 +1,14 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.api.enums.Files;
-import com.ryderbelserion.chatmanager.api.enums.Permissions;
+import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import me.h1dd3nxn1nja.chatmanager.utils.Format;
 import net.md_5.bungee.api.ChatColor;
 import java.util.HashMap;
 import java.util.Map;

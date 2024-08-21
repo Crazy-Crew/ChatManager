@@ -2,7 +2,7 @@ package com.ryderbelserion.chatmanager.utils;
 
 import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
-import com.ryderbelserion.chatmanager.api.enums.Permissions;
+import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import org.bukkit.Server;
 

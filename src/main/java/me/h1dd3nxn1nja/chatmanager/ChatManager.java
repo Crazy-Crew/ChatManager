@@ -10,7 +10,7 @@ import com.ryderbelserion.vital.paper.files.config.FileManager;
 import com.ryderbelserion.vital.paper.plugins.PluginManager;
 import me.h1dd3nxn1nja.chatmanager.commands.*;
 import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.*;
-import com.ryderbelserion.chatmanager.api.enums.Permissions;
+import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import me.h1dd3nxn1nja.chatmanager.listeners.*;
 import me.h1dd3nxn1nja.chatmanager.managers.AutoBroadcastManager;
 import me.h1dd3nxn1nja.chatmanager.support.PluginHandler;
