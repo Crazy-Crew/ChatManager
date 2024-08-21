@@ -29,7 +29,7 @@ public class DelayListener implements Listener {
 
         final User user = this.userManager.getUser(player);
 
-        if (user == null) return;
+        if (user == null || user.isStaffChat) return;
 
         if (this.config.getProperty(SpamKeys.block_repeated_commands)) {
             final String command = event.getMessage();
@@ -96,7 +96,7 @@ public class DelayListener implements Listener {
 
         final User user = this.userManager.getUser(player);
 
-        if (user == null) return;
+        if (user == null || user.isStaffChat) return;
 
         // we return, because the delay shouldn't be triggered.
         if (this.config.getProperty(SpamKeys.block_repeated_messages)) {

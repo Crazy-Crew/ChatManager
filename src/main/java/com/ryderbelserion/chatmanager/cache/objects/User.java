@@ -12,6 +12,8 @@ public class User {
 
     public boolean isBlockingCommands = false;
 
+    public boolean isStaffChat = false;
+
     public boolean isBlockingChat = false;
 
     public int chatDelay = 0;
