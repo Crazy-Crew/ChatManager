@@ -14,7 +14,14 @@ public class User {
 
     public boolean isStaffChat = false;
 
-    public boolean isBlockingChat = false;
+    // These settings, do not get stored to the data.yml, but are kept here for ease of access. transient anyway because meh
+    public transient boolean isBlockingCommands = false;
 
-    public int chatDelay = 0;
+    public transient boolean isBlockingChat = false;
+
+    public transient String previousCommand = "";
+    public transient int commandDelay = 0;
+
+    public transient String previousMessage = "";
+    public transient int chatDelay = 0;
 }
