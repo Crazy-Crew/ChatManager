@@ -45,10 +45,20 @@ public class ChatManager extends Vital {
             @Override
             public void run() {
                 getServer().getOnlinePlayers().forEach(player -> {
-                    if (!Permissions.TOGGLE_STAFF_CHAT.hasPermission(player)) {
-                        final User user = userManager.getUser(player);
+                    final User user = userManager.getUser(player);
 
+                    if (user == null) return;
+
+                    if (!Permissions.TOGGLE_STAFF_CHAT.hasPermission(player)) {
                         user.isStaffChat = false;
+                    }
+
+                    if (!Permissions.SOCIAL_SPY.hasPermission(player)) {
+                        user.isSocialSpy = false;
+                    }
+
+                    if (!Permissions.COMMAND_SPY.hasPermission(player)) {
+                        user.isCommandSpy = false;
                     }
                 });
             }
