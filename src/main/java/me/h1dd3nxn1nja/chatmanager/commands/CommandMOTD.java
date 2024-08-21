@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import com.ryderbelserion.chatmanager.enums.Files;
+import me.h1dd3nxn1nja.chatmanager.enums.Files;
 
 public class CommandMOTD implements Listener {
 

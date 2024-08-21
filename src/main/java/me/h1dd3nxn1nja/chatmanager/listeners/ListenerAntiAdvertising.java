@@ -1,10 +1,10 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import com.ryderbelserion.chatmanager.enums.Files;
-import com.ryderbelserion.chatmanager.enums.Messages;
+import me.h1dd3nxn1nja.chatmanager.enums.Files;
+import me.h1dd3nxn1nja.chatmanager.enums.Messages;
 import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import com.ryderbelserion.chatmanager.enums.Permissions;
+import me.h1dd3nxn1nja.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;

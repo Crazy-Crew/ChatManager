@@ -1,7 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import com.ryderbelserion.chatmanager.enums.Files;
-import com.ryderbelserion.chatmanager.plugins.VaultSupport;
+import me.h1dd3nxn1nja.chatmanager.enums.Files;
+import me.h1dd3nxn1nja.chatmanager.plugins.VaultSupport;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;

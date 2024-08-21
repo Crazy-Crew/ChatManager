@@ -1,17 +1,17 @@
 package me.h1dd3nxn1nja.chatmanager;
 
-import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.api.CustomMetrics;
-import com.ryderbelserion.chatmanager.enums.Files;
-import com.ryderbelserion.chatmanager.plugins.papi.PlaceholderAPISupport;
-import com.ryderbelserion.chatmanager.plugins.VanishSupport;
-import com.ryderbelserion.chatmanager.plugins.VaultSupport;
+import com.ryderbelserion.chatmanager.cache.UserManager;
+import me.h1dd3nxn1nja.chatmanager.api.CustomMetrics;
+import me.h1dd3nxn1nja.chatmanager.enums.Files;
+import me.h1dd3nxn1nja.chatmanager.plugins.papi.PlaceholderAPISupport;
+import me.h1dd3nxn1nja.chatmanager.plugins.VanishSupport;
+import me.h1dd3nxn1nja.chatmanager.plugins.VaultSupport;
 import com.ryderbelserion.vital.paper.VitalPaper;
 import com.ryderbelserion.vital.paper.files.config.FileManager;
 import com.ryderbelserion.vital.paper.plugins.PluginManager;
 import me.h1dd3nxn1nja.chatmanager.commands.*;
 import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.*;
-import com.ryderbelserion.chatmanager.enums.Permissions;
+import me.h1dd3nxn1nja.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.listeners.*;
 import me.h1dd3nxn1nja.chatmanager.managers.AutoBroadcastManager;
 import me.h1dd3nxn1nja.chatmanager.support.PluginHandler;
@@ -29,6 +29,8 @@ import java.util.List;
 
 public class ChatManager extends JavaPlugin {
 
+    private UserManager userManager;
+
     @NotNull
     public static ChatManager get() {
         return JavaPlugin.getPlugin(ChatManager.class);
@@ -40,7 +42,13 @@ public class ChatManager extends JavaPlugin {
 
     private PluginHandler pluginHandler;
 
+    public final UserManager getUserManager() {
+        return this.userManager;
+    }
+
     public void onEnable() {
+        userManager = new UserManager();
+
         new VitalPaper(this).setLogging(true);
 
         this.fileManager = new FileManager();
@@ -195,15 +203,13 @@ public class ChatManager extends JavaPlugin {
 
     public void check() {
         FileConfiguration autoBroadcast = Files.AUTO_BROADCAST.getConfiguration();
-        if (autoBroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) AutoBroadcastManager.actionbarMessages();
+        if (autoBroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable"))
+            AutoBroadcastManager.actionbarMessages();
         if (autoBroadcast.getBoolean("Auto_Broadcast.Global_Messages.Enable")) AutoBroadcastManager.globalMessages();
-        if (autoBroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Enable")) AutoBroadcastManager.perWorldMessages();
+        if (autoBroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Enable"))
+            AutoBroadcastManager.perWorldMessages();
         if (autoBroadcast.getBoolean("Auto_Broadcast.Title_Messages.Enable")) AutoBroadcastManager.titleMessages();
         if (autoBroadcast.getBoolean("Auto_Broadcast.Bossbar_Messages.Enable")) AutoBroadcastManager.bossBarMessages();
-    }
-
-    public ApiLoader api() {
-        return this.api;
     }
 
     public PluginHandler getPluginManager() {

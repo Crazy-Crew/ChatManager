@@ -1,7 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import com.ryderbelserion.chatmanager.enums.Files;
-import com.ryderbelserion.chatmanager.enums.Permissions;
+import me.h1dd3nxn1nja.chatmanager.enums.Files;
+import me.h1dd3nxn1nja.chatmanager.enums.Permissions;
 import com.ryderbelserion.vital.paper.plugins.PluginManager;
 import com.ryderbelserion.vital.paper.plugins.interfaces.Plugin;
 import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;

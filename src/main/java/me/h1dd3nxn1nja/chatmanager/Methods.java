@@ -3,14 +3,13 @@ package me.h1dd3nxn1nja.chatmanager;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import com.ryderbelserion.chatmanager.enums.Files;
+import me.h1dd3nxn1nja.chatmanager.enums.Files;
 import com.ryderbelserion.vital.paper.plugins.PluginManager;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.md_5.bungee.api.ChatColor;
 import org.jetbrains.annotations.NotNull;
 
 public class Methods {
