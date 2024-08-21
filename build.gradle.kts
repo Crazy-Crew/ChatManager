@@ -1,5 +1,3 @@
-import java.awt.Color
-
 plugins {
     alias(libs.plugins.paperweight)
     alias(libs.plugins.shadowJar)
@@ -15,25 +13,18 @@ base {
 
 val buildNumber: String? = System.getenv("BUILD_NUMBER")
 
-rootProject.version = if (buildNumber != null) "${libs.versions.minecraft.get()}-$buildNumber" else "3.13"
+rootProject.version = if (buildNumber != null) "${libs.versions.minecraft.get()}-$buildNumber" else "3.4"
 
-val isBeta = true
+val isSnapshot = false
 
 val content: String = rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
-
-val releaseUpdate = Color(27, 217, 106)
-val betaUpdate = Color(255, 163, 71)
-
-val color = if (isBeta) betaUpdate else releaseUpdate
 
 dependencies {
     paperweight.paperDevBundle(libs.versions.paper.get())
 
     implementation(libs.vital.paper)
 
-    implementation(libs.metrics)
-
-    compileOnly(libs.placeholder.api)
+    compileOnly(libs.placeholderapi)
 
     compileOnly(libs.vault) {
         exclude("org.bukkit", "bukkit")
@@ -43,6 +34,10 @@ dependencies {
         exclude("org.spigotmc", "spigot-api")
         exclude("org.bstats", "bstats-bukkit")
     }
+}
+
+paperweight {
+    reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
 }
 
 tasks {
@@ -55,11 +50,11 @@ tasks {
     }
 
     assemble {
-        dependsOn(reobfJar)
+        dependsOn(shadowJar)
 
         doLast {
             copy {
-                from(reobfJar.get())
+                from(shadowJar.get())
                 into(rootProject.projectDir.resolve("jars"))
             }
         }
@@ -67,8 +62,7 @@ tasks {
 
     shadowJar {
         listOf(
-            "com.ryderbelserion",
-            "org.bstats"
+            "com.ryderbelserion.vital"
         ).forEach {
             relocate(it, "libs.$it")
         }
@@ -97,7 +91,7 @@ tasks {
 
         projectId.set(rootProject.name.lowercase())
 
-        versionType.set(if (isBeta) "beta" else "release")
+        versionType.set(if (isSnapshot) "beta" else "release")
 
         versionName.set("${rootProject.name} ${rootProject.version}")
         versionNumber.set(rootProject.version as String)
@@ -114,31 +108,5 @@ tasks {
 
         autoAddDependsOn.set(false)
         detectLoaders.set(false)
-    }
-
-    webhook {
-        this.username("Ryder Belserion")
-
-        this.content("<@&888222546573537280>")
-
-        this.embeds {
-            this.embed {
-                this.color(color)
-
-                this.title("A new version of ChatManager is ready!")
-
-                this.fields {
-                    this.field(
-                        "Version ${libs.versions.minecraft.get()} build ${rootProject.version}",
-                        "Click [here](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${rootProject.version}) to download!"
-                    )
-
-                    this.field(
-                        "Changelog",
-                        rootProject.file("DISCORD.md").readText(Charsets.UTF_8)
-                    )
-                }
-            }
-        }
     }
 }
