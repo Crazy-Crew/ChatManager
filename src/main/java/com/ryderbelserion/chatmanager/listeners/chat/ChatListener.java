@@ -2,12 +2,13 @@ package com.ryderbelserion.chatmanager.listeners.chat;
 
 import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.api.enums.Messages;
 import com.ryderbelserion.chatmanager.cache.UserManager;
 import com.ryderbelserion.chatmanager.cache.objects.User;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.configs.types.SpamKeys;
 import io.papermc.paper.event.player.AsyncChatEvent;
-import me.h1dd3nxn1nja.chatmanager.enums.Permissions;
+import com.ryderbelserion.chatmanager.api.enums.Permissions;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -69,7 +70,7 @@ public class ChatListener implements Listener {
 
         event.setCancelled(true);
 
-        // send message
+        Messages.ANTI_BOT_DENY_COMMAND_MESSAGE.sendMessage(player);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -84,7 +85,7 @@ public class ChatListener implements Listener {
 
         event.setCancelled(true);
 
-        // send message
+        Messages.ANTI_BOT_DENY_CHAT_MESSAGE.sendMessage(player);
     }
 
     public final boolean isCommandsBlocked() {
