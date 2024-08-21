@@ -29,7 +29,7 @@ public class SpamKeys implements SettingsHolder {
 
     @Comment("A list of commands that will not be effected by the anti-spam")
     public static final Property<List<String>> whitelisted_commands = newListProperty("anti-spam.command.whitelisted_commands", List.of(
-            "spawn"
+            "/spawn"
     ));
 
     @Comment({
