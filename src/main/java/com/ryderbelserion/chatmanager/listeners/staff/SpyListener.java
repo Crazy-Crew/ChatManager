@@ -21,7 +21,7 @@ public class SpyListener implements Listener {
     private final ChatManager plugin = ChatManager.get();
     private final UserManager userManager = this.plugin.getUserManager();
 
-    private final SettingsManager config = ConfigManager.getSpam();
+    private final SettingsManager config = ConfigManager.getConfig();
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onCommandSpy(PlayerCommandPreprocessEvent event) {

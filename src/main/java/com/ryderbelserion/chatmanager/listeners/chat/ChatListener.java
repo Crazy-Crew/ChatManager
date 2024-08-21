@@ -23,7 +23,7 @@ public class ChatListener implements Listener {
     private final ChatManager plugin = ChatManager.get();
     private final UserManager userManager = this.plugin.getUserManager();
 
-    private final SettingsManager config = ConfigManager.getSpam();
+    private final SettingsManager spam = ConfigManager.getSpam();
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -100,10 +100,10 @@ public class ChatListener implements Listener {
     }
 
     public final boolean isCommandsBlocked() {
-        return this.config.getProperty(SpamKeys.block_commands_until_moved);
+        return this.spam.getProperty(SpamKeys.block_commands_until_moved);
     }
 
     public final boolean isChatBlocked() {
-        return this.config.getProperty(SpamKeys.block_chat_until_moved);
+        return this.spam.getProperty(SpamKeys.block_chat_until_moved);
     }
 }
