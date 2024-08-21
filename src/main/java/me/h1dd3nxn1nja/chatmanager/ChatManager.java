@@ -2,7 +2,7 @@ package me.h1dd3nxn1nja.chatmanager;
 
 import com.ryderbelserion.chatmanager.cache.UserManager;
 import me.h1dd3nxn1nja.chatmanager.api.CustomMetrics;
-import me.h1dd3nxn1nja.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.api.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.plugins.papi.PlaceholderAPISupport;
 import me.h1dd3nxn1nja.chatmanager.plugins.VanishSupport;
 import me.h1dd3nxn1nja.chatmanager.plugins.VaultSupport;
@@ -11,7 +11,7 @@ import com.ryderbelserion.vital.paper.files.config.FileManager;
 import com.ryderbelserion.vital.paper.plugins.PluginManager;
 import me.h1dd3nxn1nja.chatmanager.commands.*;
 import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.*;
-import me.h1dd3nxn1nja.chatmanager.enums.Permissions;
+import com.ryderbelserion.chatmanager.api.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.listeners.*;
 import me.h1dd3nxn1nja.chatmanager.managers.AutoBroadcastManager;
 import me.h1dd3nxn1nja.chatmanager.support.PluginHandler;

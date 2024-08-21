@@ -1,6 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.plugins.papi;
 
-import me.h1dd3nxn1nja.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.api.enums.Files;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;

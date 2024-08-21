@@ -1,4 +1,4 @@
-package me.h1dd3nxn1nja.chatmanager.enums;
+package com.ryderbelserion.chatmanager.api.enums;
 
 import com.ryderbelserion.vital.paper.files.config.FileManager;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;

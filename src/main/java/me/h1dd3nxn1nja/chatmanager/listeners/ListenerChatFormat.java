@@ -1,6 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import me.h1dd3nxn1nja.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.api.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.plugins.VaultSupport;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;

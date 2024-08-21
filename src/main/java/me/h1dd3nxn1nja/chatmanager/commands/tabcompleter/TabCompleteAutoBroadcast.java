@@ -2,7 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.commands.tabcompleter;
 
 import java.util.ArrayList;
 import java.util.List;
-import me.h1dd3nxn1nja.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.api.enums.Files;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;

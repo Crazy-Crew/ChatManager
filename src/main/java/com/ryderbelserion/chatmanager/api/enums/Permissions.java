@@ -1,4 +1,4 @@
-package me.h1dd3nxn1nja.chatmanager.enums;
+package com.ryderbelserion.chatmanager.api.enums;
 
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;

@@ -1,9 +1,9 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import me.h1dd3nxn1nja.chatmanager.enums.Files;
-import me.h1dd3nxn1nja.chatmanager.enums.Messages;
+import com.ryderbelserion.chatmanager.api.enums.Files;
+import com.ryderbelserion.chatmanager.api.enums.Messages;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import me.h1dd3nxn1nja.chatmanager.enums.Permissions;
+import com.ryderbelserion.chatmanager.api.enums.Permissions;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

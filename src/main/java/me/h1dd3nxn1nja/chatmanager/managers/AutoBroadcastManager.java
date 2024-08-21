@@ -2,7 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.managers;
 
 import java.util.ArrayList;
 import java.util.List;
-import me.h1dd3nxn1nja.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.api.enums.Files;
 import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
