@@ -1,13 +1,13 @@
 package com.ryderbelserion.chatmanager.cache.objects;
 
-import java.util.UUID;
+import org.bukkit.entity.Player;
 
 public class User {
 
-    public final UUID uuid;
+    public final Player player;
 
-    public User(final UUID uuid) {
-        this.uuid = uuid;
+    public User(final Player player) {
+        this.player = player;
     }
 
     public String locale = "en-US";
@@ -24,4 +24,9 @@ public class User {
 
     public transient String previousMessage = "";
     public transient int chatDelay = 0;
+
+
+    public final boolean hasPermission(final String permission) {
+        return this.player.hasPermission(permission);
+    }
 }
