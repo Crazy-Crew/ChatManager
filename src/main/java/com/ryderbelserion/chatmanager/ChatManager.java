@@ -1,5 +1,6 @@
 package com.ryderbelserion.chatmanager;
 
+import com.ryderbelserion.chatmanager.api.CustomMetrics;
 import com.ryderbelserion.chatmanager.cache.CacheListener;
 import com.ryderbelserion.chatmanager.cache.UserManager;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
@@ -25,6 +26,8 @@ public class ChatManager extends Vital {
 
         // Register cache listener!
         getServer().getPluginManager().registerEvents(new CacheListener(), this);
+
+        new CustomMetrics().start();
     }
 
     @Override

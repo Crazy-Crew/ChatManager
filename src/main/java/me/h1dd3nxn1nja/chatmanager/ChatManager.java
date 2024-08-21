@@ -1,7 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager;
 
 import com.ryderbelserion.chatmanager.cache.UserManager;
-import me.h1dd3nxn1nja.chatmanager.api.CustomMetrics;
+import com.ryderbelserion.chatmanager.api.CustomMetrics;
 import com.ryderbelserion.chatmanager.api.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.plugins.papi.PlaceholderAPISupport;
 import me.h1dd3nxn1nja.chatmanager.plugins.VanishSupport;
@@ -68,8 +68,6 @@ public class ChatManager extends JavaPlugin {
         ).forEach(PluginManager::registerPlugin);
 
         PluginManager.printPlugins();
-
-        new CustomMetrics().start();
 
         this.api = new ApiLoader();
         this.api.load();

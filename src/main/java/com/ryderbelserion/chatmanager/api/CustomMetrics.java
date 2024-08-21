@@ -1,7 +1,7 @@
-package me.h1dd3nxn1nja.chatmanager.api;
+package com.ryderbelserion.chatmanager.api;
 
-import me.h1dd3nxn1nja.chatmanager.enums.Files;
-import com.ryderbelserion.vital.paper.bStats;
+import com.ryderbelserion.chatmanager.api.enums.Files;
+import com.ryderbelserion.vital.paper.api.bStats;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
