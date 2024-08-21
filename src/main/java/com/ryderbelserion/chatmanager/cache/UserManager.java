@@ -11,7 +11,7 @@ public class UserManager {
     private final Set<User> users = new HashSet<>();
 
     public void addUser(final Player player) {
-        this.users.add(new User(player.getUniqueId()));
+        this.users.add(new User(player));
     }
 
     public void removeUser(final Player player) {
@@ -28,7 +28,7 @@ public class UserManager {
         final UUID uuid = player.getUniqueId();
 
         for (User key : this.users) {
-            if (uuid.equals(key.uuid)) {
+            if (uuid.equals(key.player.getUniqueId())) {
                 user = key;
 
                 break;

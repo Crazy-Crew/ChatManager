@@ -25,8 +25,12 @@ public class User {
     public transient String previousMessage = "";
     public transient int chatDelay = 0;
 
-
+    // other checks
     public final boolean hasPermission(final String permission) {
         return this.player.hasPermission(permission);
+    }
+
+    public final String getName() {
+        return this.player.getName();
     }
 }

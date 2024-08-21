@@ -8,6 +8,7 @@ import com.ryderbelserion.chatmanager.cache.objects.User;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.listeners.chat.ChatListener;
 import com.ryderbelserion.chatmanager.listeners.chat.DelayListener;
+import com.ryderbelserion.chatmanager.listeners.staff.StaffListener;
 import com.ryderbelserion.vital.paper.Vital;
 import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,6 +35,7 @@ public class ChatManager extends Vital {
 
         // Register core listeners!
         getServer().getPluginManager().registerEvents(new DelayListener(), this);
+        getServer().getPluginManager().registerEvents(new StaffListener(), this);
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
 
         // run task every minute, simply to check if a player can use staff chat.
