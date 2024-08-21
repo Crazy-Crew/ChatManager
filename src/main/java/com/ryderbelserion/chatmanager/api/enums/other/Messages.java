@@ -3,7 +3,6 @@ package com.ryderbelserion.chatmanager.api.enums.other;
 import com.ryderbelserion.chatmanager.api.enums.Files;
 import com.ryderbelserion.vital.paper.api.enums.Support;
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -148,7 +147,7 @@ public enum Messages {
         StringBuilder message = new StringBuilder();
 
         for (String m : list) {
-            message.append(Methods.color(m)).append("\n");
+            //message.append(Methods.color(m)).append("\n");
         }
 
         return message.toString();
@@ -158,7 +157,7 @@ public enum Messages {
         String message = convertList(list);
 
         for (String ph : placeholders.keySet()) {
-            message = Methods.color(message.replace(ph, placeholders.get(ph))).replace(ph, placeholders.get(ph).toLowerCase());
+            //message = Methods.color(message.replace(ph, placeholders.get(ph))).replace(ph, placeholders.get(ph).toLowerCase());
         }
 
         return message;
@@ -171,8 +170,8 @@ public enum Messages {
     public String getMessage(@Nullable final CommandSender sender, @NotNull final String placeholder, @NotNull final String replacement) {
         Map<String, String> placeholders = new HashMap<>() {{
             put(placeholder, replacement);
-            put("{prefix}", Methods.getPrefix());
-            put("{Prefix}", Methods.getPrefix());
+            //put("{prefix}", Methods.getPrefix());
+            //put("{Prefix}", Methods.getPrefix());
         }};
 
         return getMessage(sender, placeholders);
@@ -183,33 +182,33 @@ public enum Messages {
 
         if (isList()) {
             if (exists()) {
-                message = Methods.color(convertList(Files.MESSAGES.getConfiguration().getStringList(this.path), placeholders));
+                //message = Methods.color(convertList(Files.MESSAGES.getConfiguration().getStringList(this.path), placeholders));
             } else {
-                message = Methods.color(convertList(getDefaultListMessage(), placeholders));
+                //message = Methods.color(convertList(getDefaultListMessage(), placeholders));
             }
         } else {
             if (exists()) {
-                message = Methods.color(Files.MESSAGES.getConfiguration().getString(this.path));
+                //message = Methods.color(Files.MESSAGES.getConfiguration().getString(this.path));
             } else {
-                message = Methods.color(getDefaultMessage());
+                //message = Methods.color(getDefaultMessage());
             }
 
-            message = message.replaceAll("\\{prefix}", Methods.getPrefix()).replaceAll( "\\{Prefix}", Methods.getPrefix());
+            //message = message.replaceAll("\\{prefix}", Methods.getPrefix()).replaceAll( "\\{Prefix}", Methods.getPrefix());
 
             if (sender instanceof Player player) {
                 if (Support.placeholder_api.isEnabled()) {
-                    message = PlaceholderAPI.setPlaceholders(player, message);
+                    //message = PlaceholderAPI.setPlaceholders(player, message);
                 }
             }
 
             for (String ph : placeholders.keySet()) {
-                if (message.contains(ph)) {
-                    message = message.replace(ph, placeholders.get(ph)).replace(ph, placeholders.get(ph).toLowerCase());
-                }
+                //if (message.contains(ph)) {
+                //    message = message.replace(ph, placeholders.get(ph)).replace(ph, placeholders.get(ph).toLowerCase());
+                //}
             }
         }
 
-        return message;
+        return "";
     }
 
     public void sendMessage(final CommandSender sender, final String placeholder, final String replacement) {

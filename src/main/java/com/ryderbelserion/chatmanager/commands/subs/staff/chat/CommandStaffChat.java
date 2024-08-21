@@ -1,4 +1,4 @@
-package com.ryderbelserion.chatmanager.commands.subs.simple;
+package com.ryderbelserion.chatmanager.commands.subs.staff.chat;
 
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.chatmanager.ChatManager;
@@ -11,32 +11,33 @@ import org.bukkit.Server;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.jetbrains.annotations.NotNull;
-import org.simpleyaml.configuration.file.FileConfiguration;
+import org.simpleyaml.configuration.file.YamlConfiguration;
 
-public class CommandMotd extends Command {
+public class CommandStaffChat extends Command {
 
     private final ChatManager plugin = ChatManager.get();
     private final Server server = this.plugin.getServer();
 
     @Override
     public void execute(final CommandData data) {
-        final FileConfiguration config = Files.CONFIG.getConfiguration();
+        final YamlConfiguration config = Files.CONFIG.getConfiguration();
 
-        if (!config.getBoolean("MOTD.Enable", false)) return;
+        if (!config.getBoolean("Staff_Chat.Enable", false)) return;
 
-        for (String motd : config.getStringList("MOTD.Message")) {
-            //Methods.sendMessage(data.getCommandSender(), motd, true);
+        if (data.isPlayer()) {
+            return;
         }
     }
 
     @Override
-    public @NotNull final String getPermission() {
-        return "chatmanager.motd";
+    public @NotNull
+    final String getPermission() {
+        return "chatmanager.staff.chat";
     }
 
     @Override
     public @NotNull final LiteralCommandNode<CommandSourceStack> literal() {
-        return Commands.literal("motd")
+        return Commands.literal("chat")
                 .requires(source -> source.getSender().hasPermission(getPermission()))
                 .executes(context -> {
                     execute(new CommandData(context));

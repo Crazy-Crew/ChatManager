@@ -1,13 +1,17 @@
-package com.ryderbelserion.chatmanager.configs.types.spy;
+package com.ryderbelserion.chatmanager.configs.types;
 
 import ch.jalu.configme.Comment;
 import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.properties.Property;
+import com.ryderbelserion.chatmanager.api.objects.staff.StaffChat;
 import java.util.List;
+import static ch.jalu.configme.properties.PropertyInitializer.newBeanProperty;
 import static ch.jalu.configme.properties.PropertyInitializer.newListProperty;
 import static ch.jalu.configme.properties.PropertyInitializer.newProperty;
 
-public class ModKeys implements SettingsHolder {
+public class ConfigKeys implements SettingsHolder {
+
+
 
     @Comment("Turn on command spy when players with the correct permission join the server.")
     public static final Property<Boolean> toggle_command_spy = newProperty("Command_Spy.Enable_On_Join", false);
@@ -20,5 +24,8 @@ public class ModKeys implements SettingsHolder {
 
     @Comment("Turn on social spy when players with the correct permission join the server.")
     public static final Property<Boolean> toggle_social_spy = newProperty("Social_Spy.Enable_On_Join", false);
+
+    @Comment("")
+    public static final Property<StaffChat> staff_chat_settings = newBeanProperty(StaffChat.class, "Staff_Chat", new StaffChat());
 
 }

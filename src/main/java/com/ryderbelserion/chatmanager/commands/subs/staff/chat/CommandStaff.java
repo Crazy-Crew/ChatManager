@@ -1,8 +1,7 @@
-package com.ryderbelserion.chatmanager.commands.subs.simple;
+package com.ryderbelserion.chatmanager.commands.subs.staff.chat;
 
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.chatmanager.ChatManager;
-import com.ryderbelserion.chatmanager.api.enums.Files;
 import com.ryderbelserion.vital.paper.api.commands.Command;
 import com.ryderbelserion.vital.paper.api.commands.CommandData;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -11,38 +10,35 @@ import org.bukkit.Server;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.jetbrains.annotations.NotNull;
-import org.simpleyaml.configuration.file.FileConfiguration;
 
-public class CommandMotd extends Command {
+public class CommandStaff extends Command {
 
     private final ChatManager plugin = ChatManager.get();
     private final Server server = this.plugin.getServer();
 
     @Override
     public void execute(final CommandData data) {
-        final FileConfiguration config = Files.CONFIG.getConfiguration();
-
-        if (!config.getBoolean("MOTD.Enable", false)) return;
-
-        for (String motd : config.getStringList("MOTD.Message")) {
-            //Methods.sendMessage(data.getCommandSender(), motd, true);
-        }
+        //todo() send help menu
     }
 
     @Override
     public @NotNull final String getPermission() {
-        return "chatmanager.motd";
+        return "chatmanager.staff";
     }
 
     @Override
     public @NotNull final LiteralCommandNode<CommandSourceStack> literal() {
-        return Commands.literal("motd")
+        return Commands.literal("staff")
                 .requires(source -> source.getSender().hasPermission(getPermission()))
                 .executes(context -> {
                     execute(new CommandData(context));
 
                     return com.mojang.brigadier.Command.SINGLE_SUCCESS;
-                }).build();
+                })
+
+                .then(new CommandStaffChat().registerPermission().literal())
+
+                .build();
     }
 
     @Override

@@ -12,7 +12,6 @@ import com.ryderbelserion.vital.paper.api.commands.Command;
 import com.ryderbelserion.vital.paper.api.commands.CommandData;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
-import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.Server;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
@@ -30,7 +29,7 @@ public class CommandRules extends Command {
     public void execute(final CommandData data) {
         final int page = data.getIntegerArgument("page");
 
-        this.rules.getProperty(RuleKeys.rules).getRules().get(page).forEach(line -> Methods.sendMessage(data.getCommandSender(), line, true));
+        //this.rules.getProperty(RuleKeys.rules).getRules().get(page).forEach(line -> Methods.sendMessage(data.getCommandSender(), line, true));
     }
 
     @Override

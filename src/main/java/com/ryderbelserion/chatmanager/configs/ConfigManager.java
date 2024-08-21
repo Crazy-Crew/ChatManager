@@ -6,7 +6,7 @@ import ch.jalu.configme.resource.YamlFileResourceOptions;
 import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.configs.types.SpamKeys;
 import com.ryderbelserion.chatmanager.configs.types.rules.RuleKeys;
-import com.ryderbelserion.chatmanager.configs.types.spy.ModKeys;
+import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 
@@ -24,7 +24,7 @@ public class ConfigManager {
         config = SettingsManagerBuilder
                 .withYamlFile(new File(plugin.getDataFolder(), "config.yml"), builder)
                 .useDefaultMigrationService()
-                .configurationData(ModKeys.class)
+                .configurationData(ConfigKeys.class)
                 .create();
 
         rules = SettingsManagerBuilder

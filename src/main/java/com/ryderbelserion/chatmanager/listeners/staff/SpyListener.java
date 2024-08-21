@@ -8,7 +8,7 @@ import com.ryderbelserion.chatmanager.api.events.MessageSendEvent;
 import com.ryderbelserion.chatmanager.api.cache.UserManager;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.configs.types.spy.ModKeys;
+import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -25,7 +25,7 @@ public class SpyListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onCommandSpy(PlayerCommandPreprocessEvent event) {
-        if (!this.config.getProperty(ModKeys.toggle_command_spy)) return;
+        if (!this.config.getProperty(ConfigKeys.toggle_command_spy)) return;
 
         final Player player = event.getPlayer();
 
@@ -33,7 +33,7 @@ public class SpyListener implements Listener {
 
         final String message = event.getMessage();
 
-        for (final String command : this.config.getProperty(ModKeys.command_spy_commands)) {
+        for (final String command : this.config.getProperty(ConfigKeys.command_spy_commands)) {
             if (message.toLowerCase().startsWith(command)) return;
         }
 
@@ -53,7 +53,7 @@ public class SpyListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onSocialSpy(MessageSendEvent event) {
-        if (!this.config.getProperty(ModKeys.toggle_social_spy)) return;
+        if (!this.config.getProperty(ConfigKeys.toggle_social_spy)) return;
 
         final Player player = event.getPlayer();
 
@@ -61,7 +61,7 @@ public class SpyListener implements Listener {
 
         final String message = event.getMessage();
 
-        for (final String command : this.config.getProperty(ModKeys.command_spy_commands)) {
+        for (final String command : this.config.getProperty(ConfigKeys.command_spy_commands)) {
             if (message.toLowerCase().startsWith(command)) return;
         }
 
