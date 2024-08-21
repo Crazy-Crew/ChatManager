@@ -2,11 +2,14 @@ package com.ryderbelserion.chatmanager.commands.subs.simple;
 
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.api.enums.Files;
 import com.ryderbelserion.vital.paper.api.commands.Command;
 import com.ryderbelserion.vital.paper.api.commands.CommandData;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.Server;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +21,13 @@ public class CommandMotd extends Command {
 
     @Override
     public void execute(final CommandData data) {
+        final FileConfiguration config = Files.CONFIG.getConfiguration();
 
+        if (!config.getBoolean("MOTD.Enable", false)) return;
+
+        for (String motd : config.getStringList("MOTD.Message")) {
+            Methods.sendMessage(data.getCommandSender(), motd, true);
+        }
     }
 
     @Override
