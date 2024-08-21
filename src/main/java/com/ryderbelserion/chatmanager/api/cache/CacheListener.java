@@ -1,4 +1,4 @@
-package com.ryderbelserion.chatmanager.cache;
+package com.ryderbelserion.chatmanager.api.cache;
 
 import com.ryderbelserion.chatmanager.ChatManager;
 import org.bukkit.event.EventHandler;

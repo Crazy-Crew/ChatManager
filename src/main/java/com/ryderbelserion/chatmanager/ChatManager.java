@@ -2,9 +2,9 @@ package com.ryderbelserion.chatmanager;
 
 import com.ryderbelserion.chatmanager.api.CustomMetrics;
 import com.ryderbelserion.chatmanager.api.enums.Permissions;
-import com.ryderbelserion.chatmanager.cache.CacheListener;
-import com.ryderbelserion.chatmanager.cache.UserManager;
-import com.ryderbelserion.chatmanager.cache.objects.User;
+import com.ryderbelserion.chatmanager.api.cache.CacheListener;
+import com.ryderbelserion.chatmanager.api.cache.UserManager;
+import com.ryderbelserion.chatmanager.api.cache.objects.User;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.listeners.chat.ChatListener;
 import com.ryderbelserion.chatmanager.listeners.chat.DelayListener;

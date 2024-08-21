@@ -1,7 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager;
 
-import com.ryderbelserion.chatmanager.cache.UserManager;
-import com.ryderbelserion.chatmanager.api.CustomMetrics;
+import com.ryderbelserion.chatmanager.api.cache.UserManager;
 import com.ryderbelserion.chatmanager.api.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.plugins.papi.PlaceholderAPISupport;
 import me.h1dd3nxn1nja.chatmanager.plugins.VanishSupport;

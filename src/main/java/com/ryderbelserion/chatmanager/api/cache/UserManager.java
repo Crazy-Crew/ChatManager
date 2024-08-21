@@ -1,6 +1,6 @@
-package com.ryderbelserion.chatmanager.cache;
+package com.ryderbelserion.chatmanager.api.cache;
 
-import com.ryderbelserion.chatmanager.cache.objects.User;
+import com.ryderbelserion.chatmanager.api.cache.objects.User;
 import org.bukkit.entity.Player;
 import java.util.HashSet;
 import java.util.Set;

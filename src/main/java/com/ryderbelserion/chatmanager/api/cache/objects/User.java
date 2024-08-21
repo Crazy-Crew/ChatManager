@@ -1,4 +1,4 @@
-package com.ryderbelserion.chatmanager.cache.objects;
+package com.ryderbelserion.chatmanager.api.cache.objects;
 
 import org.bukkit.entity.Player;
 
