@@ -10,13 +10,9 @@ public class User {
         this.uuid = uuid;
     }
 
-    public boolean isMentionsEnabled = false;
-    public boolean isSocialSpy = false;
+    public boolean isBlockingCommands = false;
 
-    public boolean blockCommands = false;
-    public boolean blockChat = false;
-
-    public boolean isBot = false;
+    public boolean isBlockingChat = false;
 
     public int chatDelay = 0;
 }

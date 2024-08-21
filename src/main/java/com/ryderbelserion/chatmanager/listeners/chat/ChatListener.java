@@ -34,8 +34,8 @@ public class ChatListener implements Listener {
 
         if (user == null) return;
 
-        user.blockCommands = isCommandsBlocked();
-        user.blockChat = isChatBlocked();
+        user.isBlockingCommands = isCommandsBlocked();
+        user.isBlockingChat = isChatBlocked();
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -53,8 +53,8 @@ public class ChatListener implements Listener {
 
         if (user == null) return;
 
-        user.blockCommands = false;
-        user.blockChat = false;
+        user.isBlockingCommands = false;
+        user.isBlockingChat = false;
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -65,7 +65,7 @@ public class ChatListener implements Listener {
 
         final User user = this.userManager.getUser(player);
 
-        if (user == null || !user.blockChat) return;
+        if (user == null || !user.isBlockingCommands) return;
 
         event.setCancelled(true);
 
@@ -80,7 +80,7 @@ public class ChatListener implements Listener {
 
         final User user = this.userManager.getUser(player);
 
-        if (user == null || !user.blockCommands) return;
+        if (user == null || !user.isBlockingChat) return;
 
         event.setCancelled(true);
 
