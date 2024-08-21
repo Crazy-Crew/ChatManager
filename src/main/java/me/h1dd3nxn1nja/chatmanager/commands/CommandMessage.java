@@ -179,13 +179,13 @@ public class CommandMessage implements CommandExecutor, TabCompleter {
 
 		if (essentialsCheck(player, target)) return true;
 
-		final Plugin genericVanish = PluginManager.getPlugin("GenericVanish");
+		//final Plugin genericVanish = PluginManager.getPlugin("GenericVanish");
 
-		if (genericVanish.isEnabled() && genericVanish.isVanished(player.getUniqueId()) && !player.hasPermission(Permissions.BYPASS_VANISH.getNode())) {
+		/*if (genericVanish.isEnabled() && genericVanish.isVanished(player.getUniqueId()) && !player.hasPermission(Permissions.BYPASS_VANISH.getNode())) {
 			Messages.PLAYER_NOT_FOUND.sendMessage(player, "{target}", args[0]);
 
 			return true;
-		}
+		}*/
 
 		Methods.sendMessage(player, Methods.placeholders(false, target, config.getString("Private_Messages.Sender.Format", "&c&l(!) &f&l[&e&lYou &d-> &e{receiver}&f&l] &b")
 				.replace("{receiver}", target.getName())
@@ -200,21 +200,6 @@ public class CommandMessage implements CommandExecutor, TabCompleter {
 		this.plugin.api().getUserRepliedData().addUser(player.getUniqueId(), target.getUniqueId());
 		this.plugin.api().getUserRepliedData().addUser(target.getUniqueId(), player.getUniqueId());
 
-		for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
-			if ((staff != player) && (staff != target)) {
-				if ((!player.hasPermission(Permissions.BYPASS_SOCIAL_SPY.getNode())) && (!target.hasPermission(Permissions.BYPASS_SOCIAL_SPY.getNode()))) {
-					boolean contains = this.plugin.api().getSocialSpyData().containsUser(staff.getUniqueId());
-
-					if (contains) {
-						Messages.SOCIAL_SPY_FORMAT.sendMessage(staff, new HashMap<>() {{
-							put("{player}", player.getName());
-							put("{receiver", target.getName());
-							put("{message}", message.toString());
-						}});
-					}
-				}
-			}
-		}
 		return false;
 	}
 

@@ -10,9 +10,11 @@ public class User {
         this.player = player;
     }
 
-    public String locale = "en-US";
-
+    public boolean isCommandSpy = false;
     public boolean isStaffChat = false;
+    public boolean isSocialSpy = false;
+
+    public String locale = "en-US";
 
     // These settings, do not get stored to the data.yml, but are kept here for ease of access. transient anyway because meh
     public transient boolean isBlockingCommands = false;
