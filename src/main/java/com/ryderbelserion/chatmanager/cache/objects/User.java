@@ -10,6 +10,7 @@ public class User {
         this.player = player;
     }
 
+    public boolean isChatToggled = false;
     public boolean isCommandSpy = false;
     public boolean isStaffChat = false;
     public boolean isSocialSpy = false;

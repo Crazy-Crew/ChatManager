@@ -73,7 +73,18 @@ public class ChatListener implements Listener {
         Messages.ANTI_BOT_DENY_COMMAND_MESSAGE.sendMessage(player);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onToggleChat(AsyncChatEvent event) {
+        final Player player = event.getPlayer();
+
+        final User user = this.userManager.getUser(player);
+
+        if (user == null || !user.isChatToggled) return;
+
+        event.viewers().remove(player);
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlayerChat(AsyncChatEvent event) {
         final Player player = event.getPlayer();
 
