@@ -170,7 +170,6 @@ public class ChatManager extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new ListenerChatFormat(), this);
         getServer().getPluginManager().registerEvents(new ListenerRadius(), this);
-        getServer().getPluginManager().registerEvents(new ListenerGrammar(), this);
         getServer().getPluginManager().registerEvents(new ListenerLogs(), this);
         getServer().getPluginManager().registerEvents(new CommandMOTD(), this);
 
