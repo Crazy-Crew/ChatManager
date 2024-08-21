@@ -9,13 +9,11 @@ import com.ryderbelserion.chatmanager.cache.UserManager;
 import com.ryderbelserion.chatmanager.cache.objects.User;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.configs.types.spy.ModKeys;
-import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-
 import java.util.HashMap;
 
 public class SpyListener implements Listener {
