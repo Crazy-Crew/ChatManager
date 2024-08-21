@@ -10,7 +10,7 @@ public class User {
         this.uuid = uuid;
     }
 
-    public boolean isBlockingCommands = false;
+    public String locale = "en-US";
 
     public boolean isStaffChat = false;
 
