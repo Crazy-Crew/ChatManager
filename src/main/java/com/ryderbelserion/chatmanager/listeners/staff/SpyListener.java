@@ -44,7 +44,7 @@ public class SpyListener implements Listener {
 
             if (user == null || !user.isCommandSpy) return;
 
-            Messages.COMMAND_SPY_FORMAT.sendMessage(staff, new HashMap<>() {{
+            Messages.command_spy_format.sendMessage(staff, new HashMap<>() {{
                 put("{player}", player.getName());
                 put("{command}", message);
             }});
@@ -74,7 +74,7 @@ public class SpyListener implements Listener {
 
             if (user == null || !user.isCommandSpy) return;
 
-            Messages.SOCIAL_SPY_FORMAT.sendMessage(staff, new HashMap<>() {{
+            Messages.social_spy_format.sendMessage(staff, new HashMap<>() {{
                 put("{receiver}", target.getName());
                 put("{player}", player.getName());
                 put("{message}", message);

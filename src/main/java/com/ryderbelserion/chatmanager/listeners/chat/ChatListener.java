@@ -23,7 +23,7 @@ public class ChatListener implements Listener {
     private final ChatManager plugin = ChatManager.get();
     private final UserManager userManager = this.plugin.getUserManager();
 
-    private final SettingsManager spam = ConfigManager.getSpam();
+    private final SettingsManager config = ConfigManager.getConfig();
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -70,7 +70,7 @@ public class ChatListener implements Listener {
 
         event.setCancelled(true);
 
-        Messages.ANTI_BOT_DENY_COMMAND_MESSAGE.sendMessage(player);
+        Messages.anti_bot_deny_command_message.sendMessage(player);
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -96,14 +96,14 @@ public class ChatListener implements Listener {
 
         event.setCancelled(true);
 
-        Messages.ANTI_BOT_DENY_CHAT_MESSAGE.sendMessage(player);
+        Messages.anti_bot_deny_chat_message.sendMessage(player);
     }
 
     public final boolean isCommandsBlocked() {
-        return this.spam.getProperty(SpamKeys.block_commands_until_moved);
+        return this.config.getProperty(SpamKeys.block_commands_until_moved);
     }
 
     public final boolean isChatBlocked() {
-        return this.spam.getProperty(SpamKeys.block_chat_until_moved);
+        return this.config.getProperty(SpamKeys.block_chat_until_moved);
     }
 }

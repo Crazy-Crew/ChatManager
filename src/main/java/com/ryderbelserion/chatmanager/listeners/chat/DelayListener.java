@@ -21,7 +21,7 @@ public class DelayListener implements Listener {
     private final ChatManager plugin = ChatManager.get();
     private final UserManager userManager = this.plugin.getUserManager();
 
-    private final SettingsManager spam = ConfigManager.getSpam();
+    private final SettingsManager config = ConfigManager.getConfig();
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onCommandProcess(PlayerCommandPreprocessEvent event) {
@@ -31,11 +31,11 @@ public class DelayListener implements Listener {
 
         if (user == null || user.isStaffChat) return;
 
-        if (this.spam.getProperty(SpamKeys.block_repeated_commands)) {
+        if (this.config.getProperty(SpamKeys.block_repeated_commands)) {
             final String command = event.getMessage();
 
             if (!player.hasPermission(Permissions.BYPASS_DUPE_COMMAND.getNode())) {
-                for (String value : this.spam.getProperty(SpamKeys.whitelisted_commands)) {
+                for (String value : this.config.getProperty(SpamKeys.whitelisted_commands)) {
                     if (command.contains(value)) {
                         user.previousCommand = "";
 
@@ -47,26 +47,26 @@ public class DelayListener implements Listener {
 
                 if (!previousCommand.isEmpty() && user.commandDelay < 1) {
                     if (command.equalsIgnoreCase(user.previousCommand)) {
-                        Messages.ANTI_SPAM_COMMAND_REPETITIVE_MESSAGE.sendMessage(player);
+                        Messages.anti_spam_command_repetitive_message.sendMessage(player);
 
                         event.setCancelled(true);
                     }
                 }
             }
 
-            int commandDelay = this.spam.getProperty(SpamKeys.command_delay);
+            int commandDelay = this.config.getProperty(SpamKeys.command_delay);
 
             if (commandDelay == -1 || user.commandDelay == 0) return;
 
             if (user.commandDelay >= 1) {
                 int delayLeft = user.commandDelay;
 
-                Messages.ANTI_SPAM_COMMAND_DELAY_MESSAGE.sendMessage(player, "{Time}", String.valueOf(delayLeft));
+                Messages.anti_spam_command_delay_message.sendMessage(player, "{Time}", String.valueOf(delayLeft));
 
                 return;
             }
 
-            for (String value : this.spam.getProperty(SpamKeys.whitelisted_commands)) {
+            for (String value : this.config.getProperty(SpamKeys.whitelisted_commands)) {
                 if (command.contains(value)) {
                     return;
                 }
@@ -99,14 +99,14 @@ public class DelayListener implements Listener {
         if (user == null || user.isStaffChat) return;
 
         // we return, because the delay shouldn't be triggered.
-        if (this.spam.getProperty(SpamKeys.block_repeated_messages)) {
+        if (this.config.getProperty(SpamKeys.block_repeated_messages)) {
             if (player.hasPermission(Permissions.BYPASS_DUPE_CHAT.getNode())) return;
 
             final String message = event.signedMessage().message();
             final String previousMessage = user.previousMessage;
 
             if (!previousMessage.isEmpty() && previousMessage.equals(message)) {
-                Messages.ANTI_SPAM_CHAT_REPETITIVE_MESSAGE.sendMessage(player);
+                Messages.anti_spam_chat_repetitive_message.sendMessage(player);
 
                 event.setCancelled(true);
             }
@@ -117,7 +117,7 @@ public class DelayListener implements Listener {
             return;
         }
 
-        int chatDelay = this.spam.getProperty(SpamKeys.chat_delay);
+        int chatDelay = this.config.getProperty(SpamKeys.chat_delay);
 
         if (chatDelay == -1 || player.hasPermission(Permissions.BYPASS_CHAT_DELAY.getNode())) return;
 
@@ -126,7 +126,7 @@ public class DelayListener implements Listener {
         if (user.chatDelay >= 1) {
             int delayLeft = user.chatDelay;
 
-            Messages.ANTI_SPAM_CHAT_DELAY_MESSAGE.sendMessage(player, "{Time}", String.valueOf(delayLeft));
+            Messages.anti_spam_chat_delay_message.sendMessage(player, "{Time}", String.valueOf(delayLeft));
 
             return;
         }

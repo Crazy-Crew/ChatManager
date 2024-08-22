@@ -1,19 +1,24 @@
 package com.ryderbelserion.chatmanager.listeners.staff;
 
+import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.ChatManager;
-import com.ryderbelserion.chatmanager.api.enums.Files;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.api.cache.UserManager;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
+import com.ryderbelserion.chatmanager.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
+import com.ryderbelserion.chatmanager.utils.MsgUtils;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.simpleyaml.configuration.file.FileConfiguration;
+import java.util.HashMap;
 
 public class StaffListener implements Listener {
 
     private final ChatManager plugin = ChatManager.get();
     private final UserManager userManager = this.plugin.getUserManager();
+
+    private final SettingsManager config = ConfigManager.getConfig();
 
     @EventHandler(ignoreCancelled = true)
     public void onStaffChat(AsyncChatEvent event) {
@@ -23,14 +28,18 @@ public class StaffListener implements Listener {
 
         event.setCancelled(true);
 
-        FileConfiguration config = Files.CONFIG.getConfiguration();
-
         this.plugin.getServer().getOnlinePlayers().forEach(player -> {
             if (Permissions.TOGGLE_STAFF_CHAT.hasPermission(player)) {
-                //Methods.sendMessage(player, config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}").replace("{player}", player.getName()).replace("{message}", event.signedMessage().message()));
+                MsgUtils.sendMessage(player, this.config.getProperty(ConfigKeys.staff_chat_format), new HashMap<>() {{
+                    put("{player}", user.getName());
+                    put("{message}", event.signedMessage().message());
+                }});
             }
         });
 
-        //Methods.tellConsole(config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}").replace("{player}", user.getName()).replace("{message}", event.signedMessage().message()), false);
+        MsgUtils.sendMessage(this.plugin.getServer().getConsoleSender(), this.config.getProperty(ConfigKeys.staff_chat_format), new HashMap<>() {{
+            put("{player}", user.getName());
+            put("{message}", event.signedMessage().message());
+        }});
     }
 }
