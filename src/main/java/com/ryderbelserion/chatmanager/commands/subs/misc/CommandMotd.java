@@ -20,7 +20,7 @@ public class CommandMotd extends BaseCommand {
         if (!this.config.getProperty(ConfigKeys.motd_toggle)) return;
 
         for (final String line : this.config.getProperty(ConfigKeys.motd_message)) {
-            MsgUtils.sendMessage(sender, line);
+            MsgUtils.sendMessage(sender, line, "{player}", sender.getName());
         }
     }
 }
