@@ -80,5 +80,10 @@ public class SpyListener implements Listener {
                 put("{command}", message);
             }});
         }
+
+        if (!this.config.getProperty(ConfigKeys.log_chat)) return;
+
+        // We getSender() because, we only need the name. this could be anything, we don't give a shit about it.
+        LogUtils.write(Files.chat_log_file.getFile(), Calendar.getInstance().getTime(), event.getSender(), ": " + event.getMessage());
     }
 }
