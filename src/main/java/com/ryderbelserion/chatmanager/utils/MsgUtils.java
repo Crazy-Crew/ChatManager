@@ -70,6 +70,9 @@ public class MsgUtils {
     }
 
     public static void send(final CommandSender sender, final String message, final boolean isConsole) {
+        // call the event, with only the sender.
+        plugin.getServer().getPluginManager().callEvent(new MessageSendEvent(sender, message));
+
         plugin.getServer().getOnlinePlayers().forEach(player -> {
             if (sender instanceof Player person) {
                 if (player.getUniqueId().equals(person.getUniqueId())) {
@@ -78,8 +81,6 @@ public class MsgUtils {
             }
 
             if (Permissions.RECEIVE_STAFF_CHAT.hasPermission(player)) {
-                plugin.getServer().getPluginManager().callEvent(new MessageSendEvent(sender, player, message));
-
                 MsgUtils.sendMessage(player, config.getProperty(ConfigKeys.staff_chat_format), new HashMap<>() {{
                     put("{player}", sender.getName());
                     put("{message}", message);

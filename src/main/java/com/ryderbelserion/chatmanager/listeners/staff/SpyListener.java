@@ -57,9 +57,14 @@ public class SpyListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onSocialSpy(MessageSendEvent event) {
-        if (!this.config.getProperty(ConfigKeys.toggle_social_spy)) return;
-
         final String message = event.getMessage();
+
+        if (this.config.getProperty(ConfigKeys.log_chat)) {
+            // We getSender() because, we only need the name. this could be anything, we don't give a shit about it.
+            LogUtils.write(Files.chat_log_file.getFile(), Calendar.getInstance().getTime(), event.getSender(), " staff_chat: " + event.getMessage());
+        }
+
+        if (!this.config.getProperty(ConfigKeys.toggle_social_spy)) return;
 
         for (final String command : this.config.getProperty(ConfigKeys.command_spy_commands)) {
             if (message.toLowerCase().startsWith(command)) return;
@@ -81,14 +86,12 @@ public class SpyListener implements Listener {
             if (user == null || !user.activeSpyStates.contains(SpyState.social_spy)) return;
 
             Messages.spy_chat_format.sendMessage(staff, new HashMap<>() {{
-                put("{player}", target.getName());
+                if (target != null) {
+                    put("{player}", target.getName());
+                }
+
                 put("{command}", message);
             }});
         }
-
-        if (!this.config.getProperty(ConfigKeys.log_chat)) return;
-
-        // We getSender() because, we only need the name. this could be anything, we don't give a shit about it.
-        LogUtils.write(Files.chat_log_file.getFile(), Calendar.getInstance().getTime(), event.getSender(), ": " + event.getMessage());
     }
 }

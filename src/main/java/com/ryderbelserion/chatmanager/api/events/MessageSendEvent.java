@@ -25,6 +25,15 @@ public class MessageSendEvent extends Event implements Cancellable {
         this.message = message;
     }
 
+    public MessageSendEvent(final CommandSender sender, final String message) {
+        this.sender = sender;
+
+        this.player = this.sender instanceof Player human ? human : null;
+        this.target = this.player;
+
+        this.message = message;
+    }
+
     public @NotNull final String getMessage() {
         return this.message;
     }
@@ -33,16 +42,16 @@ public class MessageSendEvent extends Event implements Cancellable {
         return this.sender;
     }
 
-    public final boolean isPlayer() {
-        return this.player != null;
-    }
-
     public @Nullable final Player getPlayer() {
         return this.player;
     }
 
-    public @NotNull final Player getTarget() {
+    public @Nullable final Player getTarget() {
         return this.target;
+    }
+
+    public final boolean isPlayer() {
+        return this.player != null;
     }
 
     // event specific classes
