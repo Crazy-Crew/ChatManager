@@ -4,10 +4,11 @@ import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.SettingsManagerBuilder;
 import ch.jalu.configme.resource.YamlFileResourceOptions;
 import com.ryderbelserion.chatmanager.ChatManager;
-import com.ryderbelserion.chatmanager.configs.impl.messages.messages.ErrorKeys;
-import com.ryderbelserion.chatmanager.configs.impl.messages.messages.MiscKeys;
-import com.ryderbelserion.chatmanager.configs.impl.messages.messages.PlayerKeys;
-import com.ryderbelserion.chatmanager.configs.impl.messages.messages.SpyKeys;
+import com.ryderbelserion.chatmanager.configs.impl.messages.commands.ChatKeys;
+import com.ryderbelserion.chatmanager.configs.impl.messages.ErrorKeys;
+import com.ryderbelserion.chatmanager.configs.impl.messages.MiscKeys;
+import com.ryderbelserion.chatmanager.configs.impl.messages.PlayerKeys;
+import com.ryderbelserion.chatmanager.configs.impl.messages.commands.SpyKeys;
 import com.ryderbelserion.chatmanager.configs.types.MessageKeys;
 import com.ryderbelserion.chatmanager.configs.types.SpamKeys;
 import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
@@ -44,7 +45,7 @@ public class ConfigManager {
                 .useDefaultMigrationService()
                 // the order these are added in, is how they are applied to messages.yml
                 // SpyKeys, i.e. goes under commands like commands.spy, so similar sections should go together.
-                .configurationData(MiscKeys.class, PlayerKeys.class, ErrorKeys.class, SpyKeys.class, MessageKeys.class)
+                .configurationData(MiscKeys.class, PlayerKeys.class, ErrorKeys.class, SpyKeys.class, ChatKeys.class, MessageKeys.class)
                 .create();
 
         populateRules();

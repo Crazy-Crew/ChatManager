@@ -1,6 +1,7 @@
 package com.ryderbelserion.chatmanager.api.cache.objects;
 
 import ch.jalu.configme.SettingsManager;
+import com.ryderbelserion.chatmanager.api.enums.chat.ChatState;
 import com.ryderbelserion.chatmanager.api.enums.chat.SpyState;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
@@ -25,6 +26,8 @@ public class User {
     public boolean isStaffChat = false;
 
     public final List<SpyState> activeSpyStates = new ArrayList<>();
+
+    public ChatState chatState = ChatState.global_chat;
 
     public String locale = "en-US";
 

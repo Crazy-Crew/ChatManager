@@ -1,10 +1,12 @@
 package com.ryderbelserion.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.api.enums.chat.ChatState;
 import com.ryderbelserion.chatmanager.api.enums.chat.SpyState;
 import com.ryderbelserion.chatmanager.commands.relations.ArgumentRelations;
 import com.ryderbelserion.chatmanager.commands.subs.misc.CommandMotd;
 import com.ryderbelserion.chatmanager.commands.subs.misc.CommandRules;
+import com.ryderbelserion.chatmanager.commands.subs.player.CommandChatRadius;
 import com.ryderbelserion.chatmanager.commands.subs.staff.CommandReload;
 import com.ryderbelserion.chatmanager.commands.subs.staff.CommandSpy;
 import com.ryderbelserion.chatmanager.commands.subs.staff.chat.CommandClearChat;
@@ -41,7 +43,9 @@ public class CommandManager {
             return numbers;
         });
 
-        commandManager.registerSuggestion(SuggestionKey.of("states"), (sender, context) -> Arrays.stream(SpyState.values()).map(SpyState::getSpyState).toList());
+        commandManager.registerSuggestion(SuggestionKey.of("spy_states"), (sender, context) -> Arrays.stream(SpyState.values()).map(SpyState::getSpyState).toList());
+
+        commandManager.registerSuggestion(SuggestionKey.of("chat_states"), (sender, context) -> Arrays.stream(ChatState.values()).map(ChatState::getChatState).toList());
 
         // default
         commandManager.registerSuggestion(SuggestionKey.of("players"), (sender, context) -> plugin.getServer().getOnlinePlayers().stream().map(Player::getName).toList());
@@ -57,6 +61,8 @@ public class CommandManager {
         commandManager.registerArgument(PlayerBuilder.class, (sender, context) -> new PlayerBuilder(context));
 
         List.of(
+                new CommandChatRadius(),
+
                 new CommandRules(),
                 new CommandMotd(),
 
