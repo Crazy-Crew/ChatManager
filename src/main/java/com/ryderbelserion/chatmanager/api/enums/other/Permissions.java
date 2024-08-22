@@ -6,6 +6,9 @@ import java.util.HashMap;
 
 public enum Permissions {
 
+    // chatmanager.staff.chat.receive
+    RECEIVE_STAFF_CHAT("staff.chat.receive", "Ability to receive messages sent through StaffChat.", PermissionDefault.OP),
+
     FORMATTING_ALL("formatting.all", "Allows a player to use formatting for messages.", PermissionDefault.OP, new HashMap<>() {{
         put("chatmanager.chat-color.all", true);
         put("chatmanager.chat-format.all", true);
@@ -135,7 +138,7 @@ public enum Permissions {
     COMMAND_WARNING("warning", "/warning", PermissionDefault.OP),
     TOGGLE_MENTIONS("toggle.togglementions", "Ability to use the command /togglementions", PermissionDefault.OP),
     TOGGLE_CHAT("toggle.chat", "Ability to use the command /togglechat", PermissionDefault.OP),
-    TOGGLE_STAFF_CHAT("staffchat", "Ability to use the command /staffchat", PermissionDefault.OP),
+
     SOCIAL_SPY("socialspy", "Ability to use social spy", PermissionDefault.OP),
     COMMAND_SPY("commandspy", "Ability to use command spy", PermissionDefault.OP),
     TOGGLE_PM("toggle.pm", "Ability to use the command /togglepm", PermissionDefault.OP),
