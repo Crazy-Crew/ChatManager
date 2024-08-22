@@ -5,6 +5,7 @@ import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.api.cache.UserManager;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
 import com.ryderbelserion.chatmanager.utils.MsgUtils;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.event.EventHandler;
@@ -19,6 +20,8 @@ public class StaffListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onStaffChat(AsyncChatEvent event) {
+        if (!this.config.getProperty(ConfigKeys.staff_chat_toggle)) return;
+
         final User user = this.userManager.getUser(event.getPlayer());
 
         if (user == null || !user.isStaffChat) return;
