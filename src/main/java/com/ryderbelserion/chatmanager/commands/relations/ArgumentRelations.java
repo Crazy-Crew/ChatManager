@@ -16,6 +16,7 @@ public class ArgumentRelations extends MessageManager {
 
         switch (command) {
             case "staffchat" -> usage = order + " [message]";
+            case "rules" -> usage = order + " <page>";
         }
 
         return usage;
