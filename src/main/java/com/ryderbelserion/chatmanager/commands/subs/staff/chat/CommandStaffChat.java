@@ -21,10 +21,14 @@ public class CommandStaffChat extends BaseCommand {
     private final UserManager userManager = this.plugin.getUserManager();
     private final SettingsManager config = ConfigManager.getConfig();
 
-    @Command
+    @Command("staffchat")
     @Permission(value = "chatmanager.staff.chat", def = PermissionDefault.OP)
-    public void execute(final CommandSender sender, @Optional final String message) {
-        if (!this.config.getProperty(ConfigKeys.staff_chat_toggle)) return;
+    public void chat(final CommandSender sender, @Optional final String message) {
+        if (!this.config.getProperty(ConfigKeys.staff_chat_toggle)) {
+            Messages.feature_disabled.sendMessage(sender);
+
+            return;
+        }
 
         if (sender instanceof Player player) {
             final User user = this.userManager.getUser(player);

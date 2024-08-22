@@ -1,6 +1,7 @@
 package com.ryderbelserion.chatmanager.commands.subs.misc;
 
 import ch.jalu.configme.SettingsManager;
+import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.commands.subs.BaseCommand;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
@@ -16,8 +17,12 @@ public class CommandMotd extends BaseCommand {
 
     @Command("motd")
     @Permission(value = "chatmanager.motd", def = PermissionDefault.OP)
-    public void execute(final CommandSender sender) {
-        if (!this.config.getProperty(ConfigKeys.motd_toggle)) return;
+    public void motd(final CommandSender sender) {
+        if (!this.config.getProperty(ConfigKeys.motd_toggle)) {
+            Messages.feature_disabled.sendMessage(sender);
+
+            return;
+        }
 
         for (final String line : this.config.getProperty(ConfigKeys.motd_message)) {
             MsgUtils.sendMessage(sender, line, "{player}", sender.getName());
