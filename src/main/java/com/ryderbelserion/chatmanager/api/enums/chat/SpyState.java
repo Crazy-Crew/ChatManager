@@ -1,5 +1,7 @@
 package com.ryderbelserion.chatmanager.api.enums.chat;
 
+import org.apache.commons.lang.WordUtils;
+
 public enum SpyState {
 
     social_spy("social_spy"),
@@ -11,7 +13,11 @@ public enum SpyState {
         this.spyState = spyState;
     }
 
-    public final String getSpyState() {
+    public final String getPrettyName() {
+        return WordUtils.capitalize(getName().replace("_", ""));
+    }
+
+    public final String getName() {
         return this.spyState;
     }
 
@@ -23,7 +29,7 @@ public enum SpyState {
         }
 
         for (final SpyState key : SpyState.values()) {
-            if (key.getSpyState().equals(value)) {
+            if (key.getName().equals(value)) {
                 state = key;
 
                 break;

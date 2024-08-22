@@ -43,9 +43,9 @@ public class CommandManager {
             return numbers;
         });
 
-        commandManager.registerSuggestion(SuggestionKey.of("spy_states"), (sender, context) -> Arrays.stream(SpyState.values()).map(SpyState::getSpyState).toList());
+        commandManager.registerSuggestion(SuggestionKey.of("spy_states"), (sender, context) -> Arrays.stream(SpyState.values()).map(SpyState::getName).toList());
 
-        commandManager.registerSuggestion(SuggestionKey.of("chat_states"), (sender, context) -> Arrays.stream(ChatState.values()).map(ChatState::getChatState).toList());
+        commandManager.registerSuggestion(SuggestionKey.of("chat_states"), (sender, context) -> Arrays.stream(ChatState.values()).map(ChatState::getName).toList());
 
         // default
         commandManager.registerSuggestion(SuggestionKey.of("players"), (sender, context) -> plugin.getServer().getOnlinePlayers().stream().map(Player::getName).toList());

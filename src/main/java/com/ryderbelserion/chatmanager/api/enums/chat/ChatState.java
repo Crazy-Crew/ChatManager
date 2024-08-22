@@ -1,5 +1,7 @@
 package com.ryderbelserion.chatmanager.api.enums.chat;
 
+import org.apache.commons.lang.WordUtils;
+
 public enum ChatState {
 
     local_chat("local_chat"),
@@ -13,7 +15,11 @@ public enum ChatState {
         this.chat = chat;
     }
 
-    public final String getChatState() {
+    public final String getPrettyName() {
+        return WordUtils.capitalize(getName().replace("_", ""));
+    }
+
+    public final String getName() {
         return this.chat;
     }
 
@@ -25,7 +31,7 @@ public enum ChatState {
         }
 
         for (final ChatState key : ChatState.values()) {
-            if (key.getChatState().equals(value)) {
+            if (key.getName().equals(value)) {
                 state = key;
 
                 break;

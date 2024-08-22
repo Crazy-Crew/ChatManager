@@ -27,9 +27,9 @@ public class SpyKeys implements SettingsHolder {
     })
     public static final Property<String> spy_toggle = newProperty("commands.spy.toggle_message", "{prefix}<green>{state} has been {status}");
 
-    public static final Property<String> spy_enabled = newProperty("commands.spy.enabled", "<green>Enabled");
+    public static final Property<String> spy_enabled = newProperty("commands.spy.enabled", "<green>enabled");
 
-    public static final Property<String> spy_disabled = newProperty("commands.spy.disabled", "<red>Disabled");
+    public static final Property<String> spy_disabled = newProperty("commands.spy.disabled", "<red>disabled");
 
     @Comment({
             "Shows in chat, to staff with the proper permission to see direct messages.",

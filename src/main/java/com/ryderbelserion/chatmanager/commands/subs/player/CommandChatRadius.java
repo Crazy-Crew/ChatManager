@@ -16,30 +16,30 @@ public class CommandChatRadius extends BaseCommand {
 
     @Command("chatradius")
     @Permission(value = "chatmanager.chatradius", def = PermissionDefault.OP, description = "Access to /chatmanager radius <state>")
-    public void radius(final Player player, @Suggestion("chat_states") final String state) {
-        if (state.equalsIgnoreCase("help")) {
+    public void radius(final Player player, @Suggestion("chat_states") final String value) {
+        if (value.equalsIgnoreCase("help")) {
             Messages.chatradius_help.sendMessage(player);
 
             return;
         }
 
-        final ChatState chatState = ChatState.getChatState(state);
+        final ChatState state = ChatState.getChatState(value);
 
         final User user = this.userManager.getUser(player);
 
-        if (user.chatState.getChatState().equalsIgnoreCase(chatState.getChatState())) {
+        if (user.chatState.getName().equalsIgnoreCase(state.getName())) {
             Messages.chatradius_already_enabled.sendMessage(player, new HashMap<>() {{
-                put("{state}", chatState.getChatState());
+                put("{state}", state.getPrettyName());
                 put("{status}", messages.getProperty(ChatKeys.chatradius_enabled));
             }});
 
             return;
         }
 
-        user.chatState = chatState;
+        user.chatState = state;
 
         Messages.chatradius_toggle.sendMessage(player, new HashMap<>() {{
-            put("{state}", chatState.getChatState());
+            put("{state}", state.getPrettyName());
             put("{status}", messages.getProperty(ChatKeys.chatradius_enabled));
         }});
     }

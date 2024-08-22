@@ -37,9 +37,9 @@ public class ChatKeys implements SettingsHolder {
     })
     public static final Property<String> chatradius_already_enabled = newProperty("commands.chatradius.already_enabled", "{prefix}<green>{state} is already {status}");
 
-    public static final Property<String> chatradius_enabled = newProperty("commands.chatradius.enabled", "<green>Enabled");
+    public static final Property<String> chatradius_enabled = newProperty("commands.chatradius.enabled", "<green>enabled");
 
-    public static final Property<String> chatradius_disabled = newProperty("commands.chatradius.disabled", "<red>Disabled");
+    public static final Property<String> chatradius_disabled = newProperty("commands.chatradius.disabled", "<red>disabled");
 
     public static final Property<List<String>> chatradius_help = newListProperty("commands.chatradius.help", List.of(
             "<dark_gray>=========================================================================</dark_gray>",

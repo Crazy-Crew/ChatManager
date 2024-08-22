@@ -16,26 +16,26 @@ public class CommandSpy extends BaseCommand {
 
     @Command("spy")
     @Permission(value = "chatmanager.spy", def = PermissionDefault.OP, description = "Access to /chatmanager spy <state>")
-    public void spy(final Player player, @Suggestion("spy_states") final String state) {
-        final SpyState spyState = SpyState.getSpyState(state);
+    public void spy(final Player player, @Suggestion("spy_states") final String value) {
+        final SpyState state = SpyState.getSpyState(value);
 
         final User user = this.userManager.getUser(player);
 
-        if (user.activeSpyStates.contains(spyState)) {
-            user.activeSpyStates.remove(spyState);
+        if (user.activeSpyStates.contains(state.getName())) {
+            user.activeSpyStates.remove(state.getName());
 
             Messages.spy_toggle.sendMessage(player, new HashMap<>() {{
-                put("{state}", spyState.getSpyState());
+                put("{state}", state.getPrettyName());
                 put("{status}", messages.getProperty(SpyKeys.spy_disabled));
             }});
 
             return;
         }
 
-        user.activeSpyStates.add(spyState);
+        user.activeSpyStates.add(state.getName());
 
         Messages.spy_toggle.sendMessage(player, new HashMap<>() {{
-            put("{state}", spyState.getSpyState());
+            put("{state}", state.getPrettyName());
             put("{status}", messages.getProperty(SpyKeys.spy_enabled));
         }});
     }
