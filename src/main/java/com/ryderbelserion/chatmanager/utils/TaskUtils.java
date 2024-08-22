@@ -5,6 +5,7 @@ import com.ryderbelserion.chatmanager.api.cache.objects.User;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import org.bukkit.Server;
+import java.util.concurrent.TimeUnit;
 
 public class TaskUtils {
 
@@ -37,11 +38,11 @@ public class TaskUtils {
         }.runAtFixedRate(plugin, 0, 1200); // 1 minute
 
         // run task every minute, simply to check if a player can use staff chat.
-        new FoliaRunnable(server.getGlobalRegionScheduler()) {
+        new FoliaRunnable(server.getAsyncScheduler(), TimeUnit.HOURS) {
             @Override
             public void run() {
                 LogUtils.zip();
             }
-        }.runAtFixedRate(plugin, 0, 288000); // 4 hours
+        }.runAtFixedRate(plugin, 0, 4); // 4 hours
     }
 }
