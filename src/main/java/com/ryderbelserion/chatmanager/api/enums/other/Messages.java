@@ -224,7 +224,7 @@ public enum Messages {
         sendMessage(this.plugin.getServer().getConsoleSender(), placeholders);
 
         for (Player player : this.plugin.getServer().getOnlinePlayers()) {
-            if (placeholders == null) sendMessage(player); else sendMessage(player, placeholders);
+            sendMessage(player, placeholders);
         }
     }
 }
