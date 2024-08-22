@@ -21,7 +21,7 @@ public class TaskUtils {
 
                     if (user == null) return;
 
-                    if (!Permissions.TOGGLE_STAFF_CHAT.hasPermission(player)) {
+                    if (!Permissions.RECEIVE_STAFF_CHAT.hasPermission(player)) {
                         user.isStaffChat = false;
                     }
 
