@@ -14,6 +14,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.server.ServerCommandEvent;
 import java.io.File;
 import java.util.Calendar;
 
@@ -54,7 +55,7 @@ public class HistoryListener implements Listener {
         LogUtils.write(Files.command_log_file.getFile(), Calendar.getInstance().getTime(), event.getPlayer(), ": " + message);
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onSignChangeEvent(SignChangeEvent event) {
         if (!this.config.getProperty(ConfigKeys.log_signs)) return;
 
