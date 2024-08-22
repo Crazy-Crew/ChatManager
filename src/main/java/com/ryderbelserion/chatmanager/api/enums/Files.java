@@ -1,9 +1,9 @@
 package com.ryderbelserion.chatmanager.api.enums;
 
 import com.ryderbelserion.chatmanager.ChatManager;
-import com.ryderbelserion.vital.common.managers.files.FileManager;
+import com.ryderbelserion.vital.paper.api.files.FileManager;
 import org.jetbrains.annotations.NotNull;
-import org.simpleyaml.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 
 public enum Files {

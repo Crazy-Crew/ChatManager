@@ -11,8 +11,6 @@ import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
 import com.ryderbelserion.chatmanager.configs.types.MessageKeys;
 import com.ryderbelserion.chatmanager.utils.MsgUtils;
 import com.ryderbelserion.vital.common.utils.StringUtil;
-import com.ryderbelserion.vital.paper.api.enums.Support;
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

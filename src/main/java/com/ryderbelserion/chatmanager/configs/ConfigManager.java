@@ -10,11 +10,12 @@ import com.ryderbelserion.chatmanager.configs.impl.messages.messages.PlayerKeys;
 import com.ryderbelserion.chatmanager.configs.types.MessageKeys;
 import com.ryderbelserion.chatmanager.configs.types.SpamKeys;
 import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
-import com.ryderbelserion.vital.common.managers.files.CustomFile;
+import com.ryderbelserion.vital.paper.api.files.CustomFile;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.simpleyaml.configuration.ConfigurationSection;
-import org.simpleyaml.configuration.file.YamlFile;
+import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,10 +70,10 @@ public class ConfigManager {
         final CustomFile customFile = plugin.getFileManager().getFile("rules.yml");
 
         if (customFile != null) {
-            YamlFile file = customFile.getConfiguration();
+            final YamlConfiguration file = customFile.getConfiguration();
 
             if (file != null) {
-                ConfigurationSection section = file.getConfigurationSection("rules");
+                final ConfigurationSection section = file.getConfigurationSection("rules");
 
                 if (section != null) {
                     section.getKeys(false).forEach(key -> {
