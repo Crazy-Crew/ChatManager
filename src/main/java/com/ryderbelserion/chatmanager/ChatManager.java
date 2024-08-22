@@ -45,6 +45,7 @@ public class ChatManager extends Vital {
 
         ConfigManager.load();
 
+        LogUtils.zip();
         LogUtils.create();
 
         List.of(
