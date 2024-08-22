@@ -89,9 +89,6 @@ public class MessageKeys implements SettingsHolder {
     public static final Property<String> per_world_chat_bypass_enabled = newProperty("Per_World_Chat.Bypass_Enabled", "{prefix}<green>Per-world chat bypass has been enabled.");
     public static final Property<String> per_world_chat_bypass_disabled = newProperty("Per_World_Chat.Bypass_Disabled", "{prefix}<red>Per-world chat bypass has been disabled.");
 
-    public static final Property<String> ping_players_ping = newProperty("Ping.Players_Ping", "{prefix}<gray>Your current ping is <red>{ping} ms.");
-    public static final Property<String> ping_targets_ping = newProperty("Ping.Targets_Ping", "{prefix}<gray>{target}'s current ping is <red>{ping} ms.");
-
     public static final Property<String> private_message_recipient_not_found = newProperty("Private_Message.Recipient_Not_Found", "{prefix}<red>You have nobody to reply to.");
     public static final Property<String> private_message_toggled = newProperty("Private_Message.Toggled", "{prefix}<red>That player cannot receive messages right now.");
     public static final Property<String> private_message_ignored = newProperty("Private_Message.Ignored", "{prefix}<red>{target} <gray>is currently ignoring you and cant receive any private messages.");

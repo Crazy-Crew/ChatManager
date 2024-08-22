@@ -122,9 +122,6 @@ public enum Messages {
     per_world_chat_bypass_enabled(MessageKeys.per_world_chat_bypass_enabled),
     per_world_chat_bypass_disabled(MessageKeys.per_world_chat_bypass_disabled),
 
-    ping_players_ping(MessageKeys.ping_players_ping),
-    ping_targets_ping(MessageKeys.ping_targets_ping),
-
     private_message_recipient_not_found(MessageKeys.private_message_recipient_not_found),
     private_message_toggled(MessageKeys.private_message_toggled),
     private_message_ignored(MessageKeys.private_message_ignored),
