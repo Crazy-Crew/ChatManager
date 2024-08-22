@@ -4,10 +4,11 @@ import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.properties.Property;
 import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.configs.impl.messages.messages.ErrorKeys;
-import com.ryderbelserion.chatmanager.configs.impl.messages.messages.MiscKeys;
-import com.ryderbelserion.chatmanager.configs.impl.messages.messages.PlayerKeys;
-import com.ryderbelserion.chatmanager.configs.impl.messages.messages.SpyKeys;
+import com.ryderbelserion.chatmanager.configs.impl.messages.commands.ChatKeys;
+import com.ryderbelserion.chatmanager.configs.impl.messages.ErrorKeys;
+import com.ryderbelserion.chatmanager.configs.impl.messages.MiscKeys;
+import com.ryderbelserion.chatmanager.configs.impl.messages.PlayerKeys;
+import com.ryderbelserion.chatmanager.configs.impl.messages.commands.SpyKeys;
 import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
 import com.ryderbelserion.chatmanager.configs.types.MessageKeys;
 import com.ryderbelserion.chatmanager.utils.MsgUtils;
@@ -43,6 +44,11 @@ public enum Messages {
 
     spy_chat_format(SpyKeys.spy_chat_format),
     spy_command_format(SpyKeys.spy_command_format),
+
+    chatradius_toggle(ChatKeys.chatradius_toggle),
+    chatradius_enabled(ChatKeys.chatradius_enabled),
+    chatradius_disabled(ChatKeys.chatradius_disabled),
+    chatradius_already_enabled(ChatKeys.chatradius_already_enabled),
 
     // old keys
     anti_advertising_chat_message(MessageKeys.anti_advertising_chat_message),

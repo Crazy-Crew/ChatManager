@@ -1,4 +1,4 @@
-package com.ryderbelserion.chatmanager.configs.impl.messages.messages;
+package com.ryderbelserion.chatmanager.configs.impl.messages.commands;
 
 import ch.jalu.configme.Comment;
 import ch.jalu.configme.SettingsHolder;
@@ -15,7 +15,7 @@ public class SpyKeys implements SettingsHolder {
                 "Welcome to the CIA, Watson!"
         };
 
-        conf.setComment("spying", header);
+        conf.setComment("commands.spy", header);
     }
 
     @Comment({
@@ -25,7 +25,7 @@ public class SpyKeys implements SettingsHolder {
             "",
             "{status} returns enabled or disabled, which can be configured below."
     })
-    public static final Property<String> spy_toggle = newProperty("commands.spy.toggle_message", "{prefix} <green>{state} has been {status}");
+    public static final Property<String> spy_toggle = newProperty("commands.spy.toggle_message", "{prefix}<green>{state} has been {status}");
 
     public static final Property<String> spy_enabled = newProperty("commands.spy.enabled", "<green>Enabled");
 
