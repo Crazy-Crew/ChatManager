@@ -5,10 +5,17 @@ import com.ryderbelserion.vital.paper.api.files.FileManager;
 import org.jetbrains.annotations.NotNull;
 import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
+import java.io.IOException;
 
 public enum Files {
 
-    AUTO_BROADCAST("AutoBroadcast.yml");
+    //AUTO_BROADCAST("AutoBroadcast.yml", false),
+
+    advertisement_log_file("advertisements.log", "logs", true),
+    command_log_file("commands.log", "logs", true),
+    swear_log_file("swears.log", "logs", true),
+    sign_log_file("signs.log", "logs", true),
+    chat_log_file("chat.log", "logs", true);
 
     //CONFIG("config.yml"),
     //MESSAGES("Messages.yml"),
@@ -21,6 +28,23 @@ public enum Files {
     private @NotNull final FileManager fileManager = this.plugin.getFileManager();
 
     private final String fileName;
+    private final boolean isPlain;
+
+    private final File file;
+
+    /**
+     * A constructor to build a file
+     *
+     * @param fileName the name of the file
+     * @param filePath the path of the file
+     * @param isPlain true or false
+     */
+    Files(final String fileName, final String filePath, final boolean isPlain) {
+        this.fileName = fileName;
+        this.isPlain = isPlain;
+
+        this.file = this.isPlain ? new File(new File(this.plugin.getDataFolder(), filePath), this.fileName) : new File(this.plugin.getDataFolder(), this.fileName);
+    }
 
     /**
      * A constructor to build a file
@@ -28,18 +52,38 @@ public enum Files {
      * @param fileName the name of the file
      */
     Files(final String fileName) {
-        this.fileName = fileName;
+        this(fileName, "", false);
     }
 
     public final YamlConfiguration getConfiguration() {
+        if (this.isPlain) return null;
+
         return this.fileManager.getFile(this.fileName).getConfiguration();
     }
 
     public void reload() {
-        this.fileManager.addFile(new File(this.plugin.getDataFolder(), this.fileName));
+        if (this.isPlain) return;
+
+        this.fileManager.addFile(this.file);
     }
 
     public void save() {
+        if (this.isPlain) return;
+
         this.fileManager.saveFile(this.fileName);
+    }
+
+    public void create() {
+        if (!this.file.exists()) {
+            try {
+                this.file.createNewFile();
+            } catch (IOException exception) {
+                this.plugin.getComponentLogger().warn("Failed to create file: {}", this.file.getName());
+            }
+        }
+    }
+
+    public final File getFile() {
+        return this.file;
     }
 }

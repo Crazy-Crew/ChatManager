@@ -202,7 +202,7 @@ public class ConfigKeys implements SettingsHolder {
     })
     public static final Property<String> anti_advertising_chat_executed_command = newProperty("Anti_Advertising.Chat.Executed_Command", "kick {player} Please do not advertise in chat");
 
-    @Comment("Every time a player advertises in chat, their message will be logged in the Advertisements.txt file.")
+    @Comment("Every time a player advertises in chat, the message will be logged in the advertisements.log file.")
     public static final Property<Boolean> anti_advertising_chat_log_to_file = newProperty("Anti_Advertising.Chat.Log_Advertisers", false);
 
     @Comment("Block advertising in commands.")
@@ -223,7 +223,7 @@ public class ConfigKeys implements SettingsHolder {
     })
     public static final Property<String> anti_advertising_commands_executed_command = newProperty("Anti_Advertising.Commands.Executed_Command", "kick {player} Please do not advertise in chat");
 
-    @Comment("Every time a player advertises in commands, their message will be logged in the Advertisements.txt file.")
+    @Comment("Every time a player advertises in commands, their message will be logged in the advertisements.log file.")
     public static final Property<Boolean> anti_advertising_commands_log_to_file = newProperty("Anti_Advertising.Commands.Log_Advertisers", true);
 
     @Comment("If a player executes one of these commands with an advertisement in it, the command will not be blocked.")
@@ -247,7 +247,7 @@ public class ConfigKeys implements SettingsHolder {
     })
     public static final Property<String> anti_advertising_signs_executed_command = newProperty("Anti_Advertising.Signs.Executed_Command", "kick {player} Please do not advertise in chat");
 
-    @Comment("Every time a player advertises on signs, their message will be logged in the Advertisements.txt file.")
+    @Comment("Every time a player advertises on signs, their message will be logged in the advertisements.log file.")
     public static final Property<Boolean> anti_advertising_signs_log_to_file = newProperty("Anti_Advertising.Signs.Log_Advertisers", true);
 
     @Comment("Websites that won't be blocked if said in chat, commands, or signs.")
@@ -312,7 +312,7 @@ public class ConfigKeys implements SettingsHolder {
     })
     public static final ListProperty<String> anti_swear_chat_executed_command = newListProperty("Anti_Swear.Chat.Executed_Command", List.of("kick {player} Do not swear in chat", "warn {player} Do not swear in chat"));
 
-    @Comment("Every time a player swears in chat their message will be logged in the Swears.txt file.")
+    @Comment("Every time a player swears in chat their message will be logged in the swears.log file.")
     public static final Property<Boolean> anti_swear_chat_log_swearing = newProperty("Anti_Swear.Chat.Log_Swearing", false);
 
     // Anti-Swear (Commands)
@@ -340,7 +340,7 @@ public class ConfigKeys implements SettingsHolder {
     })
     public static final ListProperty<String> anti_swear_commands_executed_command = newListProperty("Anti_Swear.Commands.Executed_Command", List.of("kick {player} Do not swear in chat", "warn {player} Do not swear in chat"));
 
-    @Comment("Every time a player swears in commands their message will be logged in the Swears.txt file.")
+    @Comment("Every time a player swears in commands their message will be logged in the swears.log file.")
     public static final Property<Boolean> anti_swear_commands_log_swearing = newProperty("Anti_Swear.Commands.Log_Swearing", false);
 
     // Anti-Swear (Signs)
@@ -365,7 +365,7 @@ public class ConfigKeys implements SettingsHolder {
     })
     public static final ListProperty<String> anti_swear_signs_executed_command = newListProperty("Anti_Swear.Signs.Executed_Command", List.of("kick {player} Do not swear in chat", "warn {player} Do not swear in chat"));
 
-    @Comment("Every time a player swears on signs their message will be logged in the Swears.txt file.")
+    @Comment("Every time a player swears on signs their message will be logged in the swears.log file.")
     public static final Property<Boolean> anti_swear_signs_log_swearing = newProperty("Anti_Swear.Signs.Log_Swearing", false);
 
     @Comment("Block special characters in chat.")
@@ -544,16 +544,16 @@ public class ConfigKeys implements SettingsHolder {
     ));
 
     // Logs
-    @Comment("Should every message in chat be logged in the Chat.txt file?")
+    @Comment("Should every message in chat be logged in the chat.log file?")
     public static final Property<Boolean> log_chat = newProperty("Logs.Log_Chat", false);
 
-    @Comment("Should every command that is executed be logged in the Commands.txt file?")
+    @Comment("Should every command that is executed be logged in the commands.log file?")
     public static final Property<Boolean> log_commands = newProperty("Logs.Log_Commands", false);
 
-    @Comment("Should every message placed on a sign be logged in the Signs.txt file?")
+    @Comment("Should every message placed on a sign be logged in the signs.log file?")
     public static final Property<Boolean> log_signs = newProperty("Logs.Log_Signs", false);
 
-    @Comment("Commands that won't be logged in the Command.txt file. Commands in the Blacklist_Commands list must be lowercase.")
+    @Comment("Commands that won't be logged in the commands.log file. Commands in the Blacklist_Commands list must be lowercase.")
     public static final ListProperty<String> log_blacklist_commands = newListProperty("Logs.Blacklist_Commands", List.of("/login", "/register"));
 
     @Comment("Enable mentions.")
@@ -628,7 +628,7 @@ public class ConfigKeys implements SettingsHolder {
             "",
             "<green>If you need any help please message any online staff member.",
             "",
-            "<green>You can change this message in the ChatManager - Config.yml",
+            "<green>You can change this message in the ChatManager - config.yml",
             "<gray><st>------------------------------------"
     ));
 
