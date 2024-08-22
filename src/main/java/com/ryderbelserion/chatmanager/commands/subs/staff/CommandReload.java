@@ -21,15 +21,13 @@ public class CommandReload extends Command {
 
     @Override
     public void execute(final CommandData data) {
-        this.plugin.getFileManager().reloadFiles(); // all static and dynamic files get reloaded here
+        this.plugin.getFileManager().reloadFiles();
 
         ConfigManager.refresh();
 
-        // Cancel current events
         this.server.getGlobalRegionScheduler().cancelTasks(this.plugin);
         this.server.getAsyncScheduler().cancelTasks(this.plugin);
 
-        // Monitor staff changes
         TaskUtils.startMonitoringTask();
 
         Messages.PLUGIN_RELOAD.sendMessage(data.getCommandSender());

@@ -7,7 +7,6 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.configs.types.rules.RuleKeys;
 import com.ryderbelserion.vital.paper.api.commands.Command;
 import com.ryderbelserion.vital.paper.api.commands.CommandData;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -23,13 +22,11 @@ public class CommandRules extends Command {
     private final ChatManager plugin = ChatManager.get();
     private final Server server = this.plugin.getServer();
 
-    private final SettingsManager rules = ConfigManager.getRules();
-
     @Override
     public void execute(final CommandData data) {
         final int page = data.getIntegerArgument("page");
 
-        //this.rules.getProperty(RuleKeys.rules).getRules().get(page).forEach(line -> Methods.sendMessage(data.getCommandSender(), line, true));
+        //ConfigManager.getRules().get(page).forEach(line -> Methods.sendMessage(data.getCommandSender(), line, true));
     }
 
     @Override
@@ -41,8 +38,8 @@ public class CommandRules extends Command {
     public @NotNull final LiteralCommandNode<CommandSourceStack> literal() {
         final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("rules").requires(source -> source.getSender().hasPermission(getPermission()));
 
-        final RequiredArgumentBuilder<CommandSourceStack, Integer> arg1 = argument("min", IntegerArgumentType.integer()).suggests((ctx, builder) -> {
-            this.rules.getProperty(RuleKeys.rules).getRules().keySet().forEach(builder::suggest);
+        final RequiredArgumentBuilder<CommandSourceStack, Integer> arg1 = argument("page", IntegerArgumentType.integer()).suggests((ctx, builder) -> {
+            ConfigManager.getRules().keySet().forEach(builder::suggest);
 
             return builder.buildFuture();
         }).executes(context -> {
