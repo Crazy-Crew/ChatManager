@@ -182,7 +182,7 @@ public class ConfigKeys implements SettingsHolder {
     }
 
     @Comment("The prefix in front of the commands")
-    public static final Property<String> prefix = newProperty("Root.Prefix", "<aqua>[<gold>ChatManager<aqua>] <reset>");
+    public static final Property<String> prefix = newProperty("root.prefix", "<aqua>[<gold>ChatManager<aqua>] <reset>");
 
     @Comment("Block advertising in chat.")
     public static final Property<Boolean> anti_advertising_chat = newProperty("Anti_Advertising.Chat.Enable", false);
