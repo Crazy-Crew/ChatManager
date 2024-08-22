@@ -3,6 +3,7 @@ package com.ryderbelserion.chatmanager.utils;
 import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
+import com.ryderbelserion.chatmanager.api.events.MessageSendEvent;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
 import com.ryderbelserion.vital.paper.api.enums.Support;
@@ -77,6 +78,8 @@ public class MsgUtils {
             }
 
             if (Permissions.RECEIVE_STAFF_CHAT.hasPermission(player)) {
+                plugin.getServer().getPluginManager().callEvent(new MessageSendEvent(sender, player, message));
+
                 MsgUtils.sendMessage(player, config.getProperty(ConfigKeys.staff_chat_format), new HashMap<>() {{
                     put("{player}", sender.getName());
                     put("{message}", message);
