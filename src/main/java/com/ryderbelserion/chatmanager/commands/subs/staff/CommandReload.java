@@ -25,6 +25,7 @@ public class CommandReload extends BaseCommand {
 
         ConfigManager.refresh();
 
+        LogUtils.zip();
         LogUtils.create();
 
         this.server.getGlobalRegionScheduler().cancelTasks(this.plugin);
