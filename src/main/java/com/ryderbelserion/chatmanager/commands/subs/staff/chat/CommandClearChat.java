@@ -17,8 +17,8 @@ public class CommandClearChat extends BaseCommand {
 
     @Command("clearchat")
     @Permission(value = "chatmanager.staff.clear", def = PermissionDefault.OP, description = "Clears the chat with an optional arg")
-    public void clear(final CommandSender sender, @Suggestion ("numbers") @Optional int lines) {
-        final int amount = lines > 0 ? lines : this.config.getProperty(ConfigKeys.clear_chat_broadcasted_lines);
+    public void clear(final CommandSender sender, @Suggestion ("numbers") @Optional Integer lines) {
+        final int amount = lines != null && lines > 0 ? lines : this.config.getProperty(ConfigKeys.clear_chat_broadcasted_lines);
 
         this.plugin.getServer().getOnlinePlayers().forEach(player -> {
             if (player.hasPermission(Permissions.BYPASS_CLEAR_CHAT.getNode())) return;
