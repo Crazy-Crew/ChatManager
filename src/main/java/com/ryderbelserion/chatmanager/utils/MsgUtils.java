@@ -1,6 +1,8 @@
 package com.ryderbelserion.chatmanager.utils;
 
+import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
 import com.ryderbelserion.vital.paper.api.enums.Support;
@@ -16,6 +18,8 @@ import java.util.Map;
 public class MsgUtils {
 
     private static final ChatManager plugin = ChatManager.get();
+
+    private static final SettingsManager config = ConfigManager.getConfig();
 
     public static void sendMessage(final CommandSender sender, final String message, @Nullable final Map<String, String> placeholders) {
         if (message.isEmpty()) return;
@@ -62,6 +66,37 @@ public class MsgUtils {
         }
 
         return msg;
+    }
+
+    public static void send(final CommandSender sender, final String message, final boolean isConsole) {
+        plugin.getServer().getOnlinePlayers().forEach(player -> {
+            if (sender instanceof Player person) {
+                if (player.getUniqueId().equals(person.getUniqueId())) {
+                    return;
+                }
+            }
+
+            if (Permissions.RECEIVE_STAFF_CHAT.hasPermission(player)) {
+                MsgUtils.sendMessage(player, config.getProperty(ConfigKeys.staff_chat_format), new HashMap<>() {{
+                    put("{player}", sender.getName());
+                    put("{message}", message);
+                }});
+            }
+        });
+
+        if (isConsole) {
+            // send to console
+            MsgUtils.sendMessage(plugin.getServer().getConsoleSender(), config.getProperty(ConfigKeys.staff_chat_format), new HashMap<>() {{
+                put("{player}", sender.getName());
+                put("{message}", message);
+            }});
+        } else {
+            // send to the sender, so they know what they sent
+            MsgUtils.sendMessage(sender, config.getProperty(ConfigKeys.staff_chat_format), new HashMap<>() {{
+                put("{player}", sender.getName());
+                put("{message}", message);
+            }});
+        }
     }
 
     /**

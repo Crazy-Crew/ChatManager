@@ -14,7 +14,6 @@ import dev.triumphteam.cmd.core.annotations.Optional;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
-import java.util.HashMap;
 
 public class CommandStaffChat extends BaseCommand {
 
@@ -22,7 +21,7 @@ public class CommandStaffChat extends BaseCommand {
     private final SettingsManager config = ConfigManager.getConfig();
 
     @Command("staffchat")
-    @Permission(value = "chatmanager.staff.chat", def = PermissionDefault.OP)
+    @Permission(value = "chatmanager.staff.chat", def = PermissionDefault.OP, description = "Allows you to send messages to other staff!")
     public void chat(final CommandSender sender, @Optional final String message) {
         if (!this.config.getProperty(ConfigKeys.staff_chat_toggle)) {
             Messages.feature_disabled.sendMessage(sender);
@@ -32,6 +31,12 @@ public class CommandStaffChat extends BaseCommand {
 
         if (sender instanceof Player player) {
             final User user = this.userManager.getUser(player);
+
+            if (!message.isEmpty()) {
+                MsgUtils.send(user.player, message, false);
+
+                return;
+            }
 
             if (user.isStaffChat) {
                 user.isStaffChat = false;
@@ -56,9 +61,6 @@ public class CommandStaffChat extends BaseCommand {
             return;
         }
 
-        MsgUtils.sendMessage(sender, this.config.getProperty(ConfigKeys.staff_chat_format), new HashMap<>() {{
-            put("{player}", sender.getName());
-            put("{message}", message);
-        }});
+        MsgUtils.send(sender, message, true);
     }
 }
