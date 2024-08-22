@@ -19,6 +19,7 @@ import com.ryderbelserion.vital.paper.Vital;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.util.List;
+import java.util.Locale;
 
 public class ChatManager extends Vital {
 
@@ -27,16 +28,18 @@ public class ChatManager extends Vital {
     }
 
     private final UserManager userManager;
+    private final long startTime;
 
     public ChatManager() {
+        this.startTime = System.nanoTime();
+
         this.userManager = new UserManager();
     }
 
     @Override
     public void onEnable() {
-        getFileManager().addFile(new File(getDataFolder(), "rules.yml"));
+        getFileManager().addFile(new File(getDataFolder(), "rules.yml")).init();
 
-        // Load configuration file!
         ConfigManager.load();
 
         List.of(
@@ -65,6 +68,10 @@ public class ChatManager extends Vital {
 
         // Start metrics
         new CustomMetrics().start();
+
+        if (isVerbose()) {
+            getComponentLogger().info("Done ({})!", String.format(Locale.ROOT, "%.3fs", (double) (System.nanoTime() - this.startTime) / 1.0E9D));
+        }
     }
 
     @Override
