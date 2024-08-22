@@ -1,6 +1,7 @@
-package com.ryderbelserion.chatmanager.api.cache;
+package com.ryderbelserion.chatmanager.api.cache.listeners;
 
 import com.ryderbelserion.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.api.cache.UserManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
