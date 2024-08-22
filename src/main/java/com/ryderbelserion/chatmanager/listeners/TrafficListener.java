@@ -32,7 +32,6 @@ public class TrafficListener implements Listener {
         }
 
         new FoliaRunnable(this.plugin.getServer().getGlobalRegionScheduler()) {
-
             @Override
             public void run() {
                 send(event.getPlayer());

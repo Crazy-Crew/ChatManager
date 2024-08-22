@@ -10,6 +10,7 @@ import com.ryderbelserion.chatmanager.listeners.chat.ChatListener;
 import com.ryderbelserion.chatmanager.listeners.chat.DelayListener;
 import com.ryderbelserion.chatmanager.listeners.staff.SpyListener;
 import com.ryderbelserion.chatmanager.listeners.staff.StaffListener;
+import com.ryderbelserion.chatmanager.listeners.staff.logs.HistoryListener;
 import com.ryderbelserion.chatmanager.utils.LogUtils;
 import com.ryderbelserion.chatmanager.utils.TaskUtils;
 import com.ryderbelserion.chatmanager.utils.support.EssentialsSupport;
@@ -61,6 +62,8 @@ public class ChatManager extends Vital {
                 new TrafficListener(),
                 new DelayListener(),
                 new StaffListener(),
+
+                new HistoryListener(),
                 new ChatListener(),
                 new SpyListener()
         ).forEach(listener -> getServer().getPluginManager().registerEvents(listener, this));

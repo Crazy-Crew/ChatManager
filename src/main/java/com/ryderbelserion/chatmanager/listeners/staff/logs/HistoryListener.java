@@ -17,20 +17,20 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import java.io.File;
 import java.util.Calendar;
 
-public class ChatLogEvent implements Listener {
+public class HistoryListener implements Listener {
 
     private final SettingsManager config = ConfigManager.getConfig();
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerChat(AsyncChatEvent event) {
-        if (this.config.getProperty(ConfigKeys.log_chat)) return;
+        if (!this.config.getProperty(ConfigKeys.log_chat)) return;
 
         LogUtils.write(Files.chat_log_file.getFile(), Calendar.getInstance().getTime(), event.getPlayer(), ": " + event.signedMessage().message());
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
-        if (this.config.getProperty(ConfigKeys.log_commands)) return;
+        if (!this.config.getProperty(ConfigKeys.log_commands)) return;
 
         final String message = event.getMessage();
 
@@ -45,7 +45,7 @@ public class ChatLogEvent implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onSignChangeEvent(SignChangeEvent event) {
-        if (this.config.getProperty(ConfigKeys.log_signs)) return;
+        if (!this.config.getProperty(ConfigKeys.log_signs)) return;
 
         final Location location = event.getBlock().getLocation();
 
