@@ -4,7 +4,8 @@ public enum ChatState {
 
     local_chat("local_chat"),
     world_chat("world_chat"),
-    global_chat("global_chat");
+    global_chat("global_chat"),
+    help("help");
 
     private final String chat;
 

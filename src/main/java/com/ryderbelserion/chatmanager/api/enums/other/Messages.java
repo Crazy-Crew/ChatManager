@@ -48,6 +48,7 @@ public enum Messages {
     chatradius_toggle(ChatKeys.chatradius_toggle),
     chatradius_enabled(ChatKeys.chatradius_enabled),
     chatradius_disabled(ChatKeys.chatradius_disabled),
+    chatradius_help(ChatKeys.chatradius_help, true),
     chatradius_already_enabled(ChatKeys.chatradius_already_enabled),
 
     // old keys
