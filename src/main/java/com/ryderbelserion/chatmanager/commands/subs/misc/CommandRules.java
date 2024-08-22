@@ -14,7 +14,7 @@ import java.util.Map;
 public class CommandRules extends BaseCommand {
 
     @Command("rules")
-    @Permission(value = "chatmanager.rules", def = PermissionDefault.OP)
+    @Permission(value = "chatmanager.rules", def = PermissionDefault.OP, description = "Access to /chatmanager rules")
     public void rules(final CommandSender sender, @Suggestion("pages") final int page) {
         final Map<Integer, List<String>> rules = ConfigManager.getRules();
 

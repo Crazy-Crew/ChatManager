@@ -16,7 +16,7 @@ public class CommandMotd extends BaseCommand {
     private final SettingsManager config = ConfigManager.getConfig();
 
     @Command("motd")
-    @Permission(value = "chatmanager.motd", def = PermissionDefault.OP)
+    @Permission(value = "chatmanager.motd", def = PermissionDefault.OP, description = "Access to /chatmanager motd")
     public void motd(final CommandSender sender) {
         if (!this.config.getProperty(ConfigKeys.motd_toggle)) {
             Messages.feature_disabled.sendMessage(sender);
