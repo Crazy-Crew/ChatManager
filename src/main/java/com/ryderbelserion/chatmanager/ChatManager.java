@@ -10,6 +10,7 @@ import com.ryderbelserion.chatmanager.listeners.chat.ChatListener;
 import com.ryderbelserion.chatmanager.listeners.chat.DelayListener;
 import com.ryderbelserion.chatmanager.listeners.staff.SpyListener;
 import com.ryderbelserion.chatmanager.listeners.staff.StaffListener;
+import com.ryderbelserion.chatmanager.utils.LogUtils;
 import com.ryderbelserion.chatmanager.utils.TaskUtils;
 import com.ryderbelserion.chatmanager.utils.support.EssentialsSupport;
 import com.ryderbelserion.chatmanager.utils.support.PlaceholderAPISupport;
@@ -42,6 +43,8 @@ public class ChatManager extends Vital {
         getFileManager().addFile(new File(getDataFolder(), "rules.yml")).init();
 
         ConfigManager.load();
+
+        LogUtils.create(true);
 
         List.of(
                 new VaultSupport(),

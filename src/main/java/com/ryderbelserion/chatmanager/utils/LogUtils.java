@@ -1,0 +1,103 @@
+package com.ryderbelserion.chatmanager.utils;
+
+import com.ryderbelserion.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.api.enums.Files;
+import com.ryderbelserion.vital.common.utils.FileUtil;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
+import org.bukkit.entity.Player;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+public class LogUtils {
+
+    private static final ChatManager plugin = ChatManager.get();
+
+    private static final ComponentLogger logger = plugin.getComponentLogger();
+
+    private static final File logsFolder = new File(plugin.getDataFolder(), "logs");
+
+    public static void create() {
+        create(false);
+    }
+
+    public static void create(final boolean isStarting) {
+        if (!logsFolder.exists()) {
+            logsFolder.mkdirs();
+        }
+
+        if (isStarting) {
+            zip();
+        }
+
+        Files.advertisement_log_file.create();
+        Files.command_log_file.create();
+        Files.swear_log_file.create();
+        Files.sign_log_file.create();
+        Files.chat_log_file.create();
+    }
+
+    public static void write(final File file, final Date time, final Player player, final String format) {
+        try (final FileWriter writer = new FileWriter(file); final BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
+            bufferedWriter.write("[" + time + "] " + player.getName() + format.replaceAll("§", "&"));
+            bufferedWriter.newLine();
+            writer.flush();
+        } catch (Exception exception) {
+            logger.warn("Failed to write to: {}", file.getName(), exception);
+        }
+    }
+
+    private static void zip() {
+        final List<File> logFiles = FileUtil.getFileObjects(plugin.getDataFolder(), logsFolder.getName(), ".log");
+
+        if (logFiles.isEmpty()) return;
+
+        final List<String> files = FileUtil.getFiles(logsFolder, ".gz", true);
+
+        int count = files.size();
+
+        count++;
+
+        final String zipName = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "-" + count + ".gz";
+
+        final File zip = new File(logsFolder, zipName);
+
+        try (final FileOutputStream fileOutputStream = new FileOutputStream(zip); ZipOutputStream zipOut = new ZipOutputStream(fileOutputStream)) {
+            for (final File file : logFiles) {
+                if (!file.exists()) continue;
+
+                if (file.length() > 0) {
+                    try (final FileInputStream fileInputStream = new FileInputStream(file)) {
+                        final ZipEntry zipEntry = new ZipEntry(file.getName());
+
+                        zipOut.putNextEntry(zipEntry);
+
+                        byte[] bytes = new byte[1024];
+                        int length;
+
+                        while ((length = fileInputStream.read(bytes)) >= 0) {
+                            zipOut.write(bytes, 0, length);
+                        }
+                    }
+
+                    file.delete();
+                } else {
+                    if (plugin.isVerbose()) {
+                        logger.warn("The file named {}'s size is 0, We are not adding to zip.", file.getName());
+                    }
+                }
+            }
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+}
