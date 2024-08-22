@@ -34,6 +34,14 @@ public class TaskUtils {
                     }
                 });
             }
-        }.runAtFixedRate(plugin, 0, 1200); // 60 seconds
+        }.runAtFixedRate(plugin, 0, 1200); // 1 minute
+
+        // run task every minute, simply to check if a player can use staff chat.
+        new FoliaRunnable(server.getGlobalRegionScheduler()) {
+            @Override
+            public void run() {
+                LogUtils.zip();
+            }
+        }.runAtFixedRate(plugin, 0, 18000); // 15 minutes
     }
 }

@@ -45,7 +45,7 @@ public class ChatManager extends Vital {
 
         ConfigManager.load();
 
-        LogUtils.create(true);
+        LogUtils.create();
 
         List.of(
                 new VaultSupport(),

@@ -27,16 +27,8 @@ public class LogUtils {
     private static final File logsFolder = new File(plugin.getDataFolder(), "logs");
 
     public static void create() {
-        create(false);
-    }
-
-    public static void create(final boolean isStarting) {
         if (!logsFolder.exists()) {
             logsFolder.mkdirs();
-        }
-
-        if (isStarting) {
-            zip();
         }
 
         Files.advertisement_log_file.create();
