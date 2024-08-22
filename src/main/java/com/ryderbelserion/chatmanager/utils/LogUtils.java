@@ -47,7 +47,7 @@ public class LogUtils {
     }
 
     public static void write(final File file, final Date time, final Player player, final String format) {
-        try (final FileWriter writer = new FileWriter(file); final BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
+        try (final FileWriter writer = new FileWriter(file, true); final BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
             bufferedWriter.write("[" + time + "] " + player.getName() + format.replaceAll("§", "&"));
             bufferedWriter.newLine();
             writer.flush();
