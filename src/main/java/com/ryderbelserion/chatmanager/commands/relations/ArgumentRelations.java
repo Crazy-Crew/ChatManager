@@ -31,17 +31,13 @@ public class ArgumentRelations extends MessageManager {
         this.commandManager.registerMessage(MessageKey.TOO_MANY_ARGUMENTS, (sender, context) -> {
             Optional<String> meta = context.getMeta().get(MetaKey.NAME);
 
-            meta.ifPresent(key -> {
-                Messages.correct_usage.sendMessage(sender, "{usage}", getContext(key, "/chatmanager " + key));
-            });
+            meta.ifPresent(key -> Messages.correct_usage.sendMessage(sender, "{usage}", getContext(key, "/chatmanager " + key)));
         });
 
         this.commandManager.registerMessage(MessageKey.NOT_ENOUGH_ARGUMENTS, (sender, context) -> {
             Optional<String> meta = context.getMeta().get(MetaKey.NAME);
 
-            meta.ifPresent(key -> {
-                Messages.correct_usage.sendMessage(sender, "{usage}", getContext(key, "/chatmanager " + key));
-            });
+            meta.ifPresent(key -> Messages.correct_usage.sendMessage(sender, "{usage}", getContext(key, "/chatmanager " + key)));
         });
 
         this.commandManager.registerMessage(MessageKey.INVALID_ARGUMENT, (sender, context) -> Messages.correct_usage.sendMessage(sender, "{usage}", context.getSyntax()));
