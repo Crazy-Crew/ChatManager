@@ -42,6 +42,6 @@ public class TaskUtils {
             public void run() {
                 LogUtils.zip();
             }
-        }.runAtFixedRate(plugin, 0, 18000); // 15 minutes
+        }.runAtFixedRate(plugin, 0, 288000); // 4 hours
     }
 }

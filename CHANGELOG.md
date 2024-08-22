@@ -19,3 +19,7 @@
 - Messages.yml is now messages.yml, You only have to lowercase the file.
 - Rules have been lifted out of `config.yml` into `rules.yml` with a different format!
 - BossBar only works as a feature, if you use MiniMessage.
+- Log Files have completely changed, they are no longer in the `Logs` folder
+  - Log Files are no longer .txt files, they are .log files much like the root .log file.
+  - Every restart/plugin reload and every 4 hours, the log files will zip up and compress, to start all over again.
+  - This avoids the files getting to large!
