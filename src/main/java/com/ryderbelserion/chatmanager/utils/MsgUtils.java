@@ -1,0 +1,73 @@
+package com.ryderbelserion.chatmanager.utils;
+
+import com.ryderbelserion.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
+import com.ryderbelserion.vital.paper.api.enums.Support;
+import com.ryderbelserion.vital.paper.util.ItemUtil;
+import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import java.util.HashMap;
+import java.util.Map;
+
+public class MsgUtils {
+
+    private static final ChatManager plugin = ChatManager.get();
+
+    public static void sendMessage(final CommandSender sender, final String message, @Nullable final Map<String, String> placeholders) {
+        if (message.isEmpty()) return;
+
+        final String msg = getMessage(sender, message, placeholders);
+
+        if (plugin.isLegacy()) {
+            sender.sendMessage(ItemUtil.color(msg));
+        } else {
+            sender.sendRichMessage(msg);
+        }
+    }
+
+    public static void sendMessage(final CommandSender sender, final String message, final String placeholder, final String replacement) {
+        sendMessage(sender, message, new HashMap<>() {{
+            put(placeholder, replacement);
+        }});
+    }
+
+    public static void sendMessage(final CommandSender sender, final String message) {
+        sendMessage(sender, message, null);
+    }
+
+    public static String getMessage(final CommandSender sender, final String message, @Nullable final Map<String, String> placeholders) {
+        String msg = message;
+
+        if (sender instanceof Player player) {
+            if (Support.placeholder_api.isEnabled()) {
+                msg = PlaceholderAPI.setPlaceholders(player, msg);
+            }
+        }
+
+        if (placeholders != null && !placeholders.isEmpty()) {
+            for (Map.Entry<String, String> placeholder : placeholders.entrySet()) {
+                if (placeholder != null) {
+                    final String key = placeholder.getKey();
+                    final String value = placeholder.getValue();
+
+                    if (key != null && value != null) {
+                        msg = msg.replace(key, value).replace(key.toLowerCase(), value);
+                    }
+                }
+            }
+        }
+
+        return msg;
+    }
+
+    /**
+     * @return the {@link String}
+     */
+    public static @NotNull String getPrefix() {
+        return ConfigManager.getConfig().getProperty(ConfigKeys.prefix);
+    }
+}

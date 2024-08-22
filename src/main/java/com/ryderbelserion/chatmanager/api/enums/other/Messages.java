@@ -1,251 +1,232 @@
 package com.ryderbelserion.chatmanager.api.enums.other;
 
-import com.ryderbelserion.chatmanager.api.enums.Files;
+import ch.jalu.configme.SettingsManager;
+import ch.jalu.configme.properties.Property;
+import com.ryderbelserion.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.configs.impl.messages.messages.ErrorKeys;
+import com.ryderbelserion.chatmanager.configs.impl.messages.messages.MiscKeys;
+import com.ryderbelserion.chatmanager.configs.impl.messages.messages.PlayerKeys;
+import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
+import com.ryderbelserion.chatmanager.configs.types.MessageKeys;
+import com.ryderbelserion.chatmanager.utils.MsgUtils;
+import com.ryderbelserion.vital.common.utils.StringUtil;
 import com.ryderbelserion.vital.paper.api.enums.Support;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.simpleyaml.configuration.file.YamlConfiguration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public enum Messages {
-    
-    PREFIX("Message.Prefix", "&b[&6ChatManager&b] &r"),
-    NO_PERMISSION("Message.No_Permission", "{prefix}&cYou don't have the permissions to do this."),
-    PLAYER_NOT_FOUND("Message.Player-Not-Found", "{prefix}&7The player &c{target} &7cannot be found."),
-    PLUGIN_RELOAD("Message.Reload", "{prefix}&aConfig has been reloaded."),
 
-    ANTI_ADVERTISING_CHAT_MESSAGE("Anti_Advertising.Chat.Message", "{prefix}&cAdvertising is not allowed in chat. Staff has been notified."),
-    ANTI_ADVERTISING_CHAT_NOTIFY_STAFF("Anti_Advertising.Chat.Notify_Staff_Format", "&7[Anti-Advertise Chat] &f{player}: &7{message}"),
+    feature_disabled(MiscKeys.feature_disabled),
+    unknown_command(MiscKeys.unknown_command),
+    correct_usage(MiscKeys.correct_usage),
 
-    ANTI_ADVERTISING_COMMANDS_MESSAGE("Anti_Advertising.Commands.Message", "{prefix}&cAdvertising is not allowed in commands. Staff has been notified."),
-    ANTI_ADVERTISING_COMMANDS_NOTIFY_STAFF("Anti_Advertising.Commands.Notify_Staff_Format", "&7[Anti-Advertise Commands] &f{player}: &7{message}"),
+    internal_error(ErrorKeys.internal_error),
 
-    ANTI_ADVERTISING_SIGNS_MESSAGE("Anti_Advertising.Signs.Message", "{prefix}&cAdvertising is not allowed on signs. Staff has been notified."),
-    ANTI_ADVERTISING_SIGNS_NOTIFY_STAFF("Anti_Advertising.Signs.Notify_Staff_Format", "&7[Anti-Advertise Signs] &f{player}: &7{message}"),
+    player_not_found(PlayerKeys.not_online),
+    no_permission(PlayerKeys.no_permission),
+    same_player(PlayerKeys.same_player),
 
-    ANTI_BOT_DENY_CHAT_MESSAGE("Anti_Bot.Deny_Chat_Message", "{prefix}&cYou must move one block before talking in chat."),
-    ANTI_BOT_DENY_COMMAND_MESSAGE("Anti_Bot.Deny_Command_Message", "{prefix}&cYou must move one block before executing commands."),
+    must_be_a_player(PlayerKeys.must_be_a_player),
+    must_be_console_sender(PlayerKeys.must_be_console_sender),
 
-    ANTI_CAPS_MESSAGE_CHAT("Anti_Caps.Message_Chat", "{prefix}&cPlease do not use caps in chat."),
-    ANTI_CAPS_MESSAGE_COMMANDS("Anti_Caps.Message_Commands", "{prefix}&cPlease do not use caps in commands."),
+    inventory_not_empty(PlayerKeys.inventory_not_empty),
 
-    ANTI_SPAM_CHAT_REPETITIVE_MESSAGE("Anti_Spam.Chat.Repetitive_Message", "{prefix}&cPlease do not repeat the same message."),
-    ANTI_SPAM_CHAT_DELAY_MESSAGE("Anti_Spam.Chat.Delay_Message", "{prefix}&7Please wait &c{Time} seconds &7before sending another message."),
+    plugin_reload(MessageKeys.plugin_reload),
 
-    ANTI_SPAM_COMMAND_REPETITIVE_MESSAGE("Anti_Spam.Command.Repetitive_Message", "{prefix}&cPlease do not repeat the same command."),
-    ANTI_SPAM_COMMAND_DELAY_MESSAGE("Anti_Spam.Command.Delay_Message", "{prefix}&7Please wait &c{Time} seconds &7before sending another command."),
+    anti_advertising_chat_message(MessageKeys.anti_advertising_chat_message),
+    anti_advertising_chat_notify_staff(MessageKeys.anti_advertising_chat_notify_staff),
 
-    ANTI_SWEAR_CHAT_MESSAGE("Anti_Swear.Chat.Message", "{prefix}&cPlease do not curse in chat."),
-    ANTI_SWEAR_CHAT_NOTIFY_STAFF_FORMAT("Anti_Swear.Chat.Notify_Staff_Format", "&7[Anti-Swear Chat] &f{player}: &7{message}"),
+    anti_advertising_commands_message(MessageKeys.anti_advertising_commands_message),
+    anti_advertising_commands_notify_staff(MessageKeys.anti_advertising_commands_notify_staff),
 
-    ANTI_SWEAR_COMMAND_MESSAGE("Anti_Swear.Commands.Message", "{prefix}&cPlease do not curse in commands."),
-    ANTI_SWEAR_COMMAND_NOTIFY_STAFF_FORMAT("Anti_Swear.Commands.Notify_Staff_Format", "&7[Anti-Swear Commands] &f{player}: &7{message}"),
+    anti_advertising_signs_message(MessageKeys.anti_advertising_signs_message),
+    anti_advertising_signs_notify_staff(MessageKeys.anti_advertising_signs_notify_staff),
 
-    ANTI_SWEAR_SIGNS_MESSAGE("Anti_Swear.Signs.Message", "{prefix}&cPlease do not curse on signs."),
-    ANTI_SWEAR_SIGNS_NOTIFY_STAFF_FORMAT("Anti_Swear.Signs.Notify_Staff_Format", "&7[Anti-Swear Signs] &f{player}: &7{message}"),
+    anti_bot_deny_chat_message(MessageKeys.anti_bot_deny_chat),
+    anti_bot_deny_command_message(MessageKeys.anti_bot_deny_command),
 
-    ANTI_SWEAR_BLACKLISTED_WORD_ADDED("Anti_Swear.Blacklisted_Word.Added", "{prefix}&7You added the word &c{word} &7to the anti swears blacklist."),
-    ANTI_SWEAR_BLACKLISTED_WORD_EXISTS("Anti_Swear.Blacklisted_Word.Exists", "{prefix}&7The word &c{word} &7is already added to the anti swears blacklist."),
-    ANTI_SWEAR_BLACKLISTED_WORD_REMOVED("Anti_Swear.Blacklisted_Word.Removed", "{prefix}&7You removed the word &c{word} &7from the anti swears blacklist."),
-    ANTI_SWEAR_BLACKLISTED_WORD_NOT_FOUND("Anti_Swear.Blacklisted_Word.Not_Found", "{prefix}&7The word &c{word} &7is not in the anti swears blacklist."),
+    anti_caps_message_chat(MessageKeys.anti_caps_message_chat),
+    anti_caps_message_commands(MessageKeys.anti_caps_message_command),
 
-    ANTI_SWEAR_WHITELISTED_WORD_ADDED("Anti_Swear.Whitelisted_Word.Added", "{prefix}&7You added the word &c{word} &7to the anti swears whitelist."),
-    ANTI_SWEAR_WHITELISTED_WORD_EXISTS("Anti_Swear.Whitelisted_Word.Exists", "{prefix}&7The word &c{word} &7is already added to the anti swears whitelist."),
-    ANTI_SWEAR_WHITELISTED_WORD_REMOVED("Anti_Swear.Whitelisted_Word.Removed", "{prefix}&7You removed the word &c{word} &7from the anti swears whitelist."),
-    ANTI_SWEAR_WHITELISTED_WORD_NOT_FOUND("Anti_Swear.Whitelisted_Word.Not_Found", "{prefix}&7The word &c{word} &7is not in the anti swears whitelist."),
+    anti_spam_chat_repetitive_message(MessageKeys.anti_spam_chat_repeated_message),
+    anti_spam_chat_delay_message(MessageKeys.anti_spam_chat_delay_message),
 
-    ANTI_UNICODE_MESSAGE("Anti_Unicode.Message", "{prefix}&cPlease do not use special characters in chat."),
-    ANTI_UNICODE_NOTIFY_STAFF_FORMAT("Anti_Unicode.Notify_Staff_Format", "&7[Anti-Unicode] &f{player}: &7{message}"),
+    anti_spam_command_repetitive_message(MessageKeys.anti_spam_command_repeated_message),
+    anti_spam_command_delay_message(MessageKeys.anti_spam_command_delay_message),
 
-    AUTO_BROADCAST_LIST("Auto_Broadcast.List", "&c{section}'s &7auto-broadcast messages:"),
-    AUTO_BROADCAST_ADDED("Auto_Broadcast.Added", "{prefix}&r{message} &7has been added to the &c{section} &7messages&7!"),
-    AUTO_BROADCAST_CREATED("Auto_Broadcast.Created", "{prefix}&7Created the world &c'%world%' &7with the message &r{message}&7."),
+    anti_swear_chat_message(MessageKeys.anti_swear_chat_message),
+    anti_swear_chat_notify_staff_format(MessageKeys.anti_swear_chat_notify_staff),
 
-    BANNED_COMMANDS_MESSAGE("Banned_Commands.Message", "{prefix}&cYou do not have permission to use the command &7/{command}&c."),
-    BANNED_COMMANDS_ADDED("Banned_Commands.Command_Added", "{prefix}&7You added the command &c{command} &7to the list of banned commands."),
-    BANNED_COMMANDS_EXISTS("Banned_Commands.Command_Exists", "{prefix}&7The command &c{command} &7is already added to the list of banned commands."),
-    BANNED_COMMANDS_REMOVED("Banned_Commands.Command_Removed", "{prefix}&7You removed the command &c{command} &7from the list of banned commands."),
-    BANNED_COMMANDS_NOT_FOUND("Banned_Commands.Command_Not_Found", "{prefix}&7The command &c{command} &7is not in the list of banned commands."),
-    BANNED_COMMANDS_NOTIFY_STAFF_FORMAT("Banned_Commands.Notify_Staff_Format", "&7[Blocked-Cmd] &f{player}: &7{command}"),
+    anti_swear_command_message(MessageKeys.anti_swear_commands_message),
+    anti_swear_command_notify_staff_format(MessageKeys.anti_swear_commands_notify_staff),
 
-    CHAT_RADIUS_LOCAL_CHAT_ENABLED("Chat_Radius.Local_Chat.Enabled", "{prefix}&7You've entered &cLocal Chat&7! Do &c/ChatRadius global &7or &c/ChatRadius world &7to leave Local Chat!"),
-    CHAT_RADIUS_LOCAL_CHAT_ALREADY_ENABLED("Chat_Radius.Local_Chat.Already_Enabled", "{prefix}&7You are already in local chat."),
+    anti_swear_signs_message(MessageKeys.anti_swear_signs_message),
+    anti_swear_signs_notify_staff_format(MessageKeys.anti_swear_signs_notify_staff),
 
-    CHAT_RADIUS_GLOBAL_CHAT_ENABLED("Chat_Radius.Global_Chat.Enabled", "{prefix}&7You've entered &cGlobal Chat&7! Do &c/ChatRadius local &7or &c/ChatRadius world &7to leave global Chat!"),
-    CHAT_RADIUS_GLOBAL_CHAT_ALREADY_ENABLED("Chat_Radius.Global_Chat.Already_Enabled", "{prefix}&7You are already in global chat."),
+    anti_swear_blacklisted_word_added(MessageKeys.blacklist_added),
+    anti_swear_blacklisted_word_exists(MessageKeys.blacklist_exists),
+    anti_swear_blacklisted_word_removed(MessageKeys.blacklist_removed),
+    anti_swear_blacklisted_word_not_found(MessageKeys.blacklist_not_found),
 
-    CHAT_RADIUS_WORLD_CHAT_ENABLED("Chat_Radius.World_Chat.Enabled", "{prefix}&7You've entered &cWorld Chat&7! Do &c/ChatRadius local &7or &c/ChatRadius global &7to leave world Chat!"),
-    CHAT_RADIUS_WORLD_CHAT_ALREADY_ENABLED("Chat_Radius.World_Chat.Already_Enabled", "{prefix}&7You are already in world chat."),
+    anti_swear_whitelisted_word_added(MessageKeys.whitelist_added),
+    anti_swear_whitelisted_word_exists(MessageKeys.whitelist_exists),
+    anti_swear_whitelisted_word_removed(MessageKeys.whitelist_removed),
+    anti_swear_whitelisted_word_not_found(MessageKeys.whitelist_not_found),
 
-    CHAT_RADIUS_SPY_ENABLED("Chat_Radius.Spy.Enabled", "{prefix}&7Chat Radius spy has been &aEnabled."),
-    CHAT_RADIUS_SPY_DISABLED("Chat_Radius.Spy.Disabled", "{prefix}&7Chat Radius spy has been &cDisabled."),
+    anti_unicode_message(MessageKeys.anti_unicode_message),
+    anti_unicode_notify_staff_format(MessageKeys.anti_unicode_notify_staff),
 
-    CLEAR_CHAT_STAFF_MESSAGE("Clear_Chat.Staff_Message", "{prefix}&eChat has been cleared by {player}."),
-    CLEAR_CHAT_BROADCAST_MESSAGE("Clear_Chat.Broadcast_Message", List.of(
-            "&f*&c&m--------------------------------------------&f*",
-            "&eThe chat has been cleared by {player}",
-            "&f*&c&m--------------------------------------------&f*"
-    )),
+    auto_broadcast_list(MessageKeys.auto_broadcast_list),
+    auto_broadcast_added(MessageKeys.auto_broadcast_added),
+    auto_broadcast_created(MessageKeys.auto_broadcast_created),
 
-    COMMAND_SPY_FORMAT("Command_Spy.Format", "&7[Command-Spy] {player}: &b{command}"),
-    COMMAND_SPY_ENABLED("Command_Spy.Enabled", "{prefix}&aCommand Spy has been enabled."),
-    COMMAND_SPY_DISABLED("Command_Spy.Disabled", "{prefix}&cCommand Spy has been disabled."),
+    banned_commands_message(MessageKeys.banned_commands_message),
+    banned_commands_added(MessageKeys.banned_commands_command_added),
+    banned_commands_exists(MessageKeys.banned_commands_command_exists),
+    banned_commands_removed(MessageKeys.banned_commands_command_removed),
+    banned_commands_not_found(MessageKeys.banned_commands_command_not_found),
+    banned_commands_notify_staff_format(MessageKeys.banned_commands_notify_staff_format),
 
-    MUTE_CHAT_DENIED_MESSAGE("Mute_Chat.Denied_Message", "{prefix}&cYou are not able to talk in chat right now."),
-    MUTE_CHAT_BROADCAST_MESSAGES_ENABLED("Mute_Chat.Broadcast_Messages.Enabled", "{prefix}&aChat has been Enabled by {player}."),
-    MUTE_CHAT_BROADCAST_MESSAGES_DISABLED("Mute_Chat.Broadcast_Messages.Disabled", "{prefix}&cChat has been Disabled by {player}."),
-    MUTE_CHAT_BLOCKED_COMMANDS_MESSAGE("Mute_Chat.Blocked_Commands.Message", "{prefix}&cYou are not allowed to use that command while the chat is muted."),
+    chat_radius_local_chat_enabled(MessageKeys.chat_radius_local_chat_enabled),
+    chat_radius_local_chat_already_enabled(MessageKeys.chat_radius_local_chat_already_enabled),
 
-    PER_WORLD_CHAT_BYPASS_ENABLED("Per_World_Chat.Bypass_Enabled", "{prefix}&aPer-world chat bypass has been enabled."),
-    PER_WORLD_CHAT_BYPASS_DISABLED("Per_World_Chat.Bypass_Disabled", "{prefix}&cPer-world chat bypass has been disabled."),
+    chat_radius_global_chat_enabled(MessageKeys.chat_radius_global_chat_enabled),
+    chat_radius_global_chat_already_enabled(MessageKeys.chat_radius_global_chat_already_enabled),
 
-    PING_PLAYERS_PING("Ping.Players_Ping", "{prefix}&7Your current ping is &c{ping} ms."),
-    PING_TARGETS_PING("Ping.Targets_Ping", "{prefix}&7{target}'s current ping is &c{ping} ms."),
+    chat_radius_world_chat_enabled(MessageKeys.chat_radius_world_chat_enabled),
+    chat_radius_world_chat_already_enabled(MessageKeys.chat_radius_world_chat_already_enabled),
 
-    PRIVATE_MESSAGE_RECIPIENT_NOT_FOUND("Private_Message.Recipient_Not_Found", "{prefix}&cYou have nobody to reply to."),
-    PRIVATE_MESSAGE_TOGGLED("Private_Message.Toggled", "{prefix}&cThat player cannot receive messages right now."),
-    PRIVATE_MESSAGE_IGNORED("Private_Message.Ignored", "{prefix}&c{target} &7is currently ignoring you and cant receive any private messages."),
-    PRIVATE_MESSAGE_SELF("Private_Message.Self", "{prefix}&cYou cannot message yourself."),
-    PRIVATE_MESSAGE_AFK("Private_Message.Afk", "{prefix}&c{target} &7is currently afk."),
+    chat_radius_spy_enabled(MessageKeys.chat_radius_spy_enabled),
+    chat_radius_spy_disabled(MessageKeys.chat_radius_spy_disabled),
 
-    SOCIAL_SPY_FORMAT("Social_Spy.Format", "&b&l(*)&bSpy &f&l[&e{player} &d-> &e{receiver}&f&l] &b{message}"),
-    SOCIAL_SPY_ENABLED("Social_Spy.Enabled", "{prefix}&aSocial Spy has been enabled."),
-    SOCIAL_SPY_DISABLED("Social_Spy.Disabled", "{prefix}&cSocial Spy has been disabled."),
+    clear_chat_staff_message(MessageKeys.clear_chat_staff_message),
+    clear_chat_broadcast_message(MessageKeys.clear_chat_broadcast_message, true),
 
-    STAFF_CHAT_ENABLED("Staff_Chat.Enabled", "{prefix}&aStaff Chat has been enabled."),
-    STAFF_CHAT_DISABLED("Staff_Chat.Disabled", "{prefix}&cStaff Chat has been disabled."),
+    command_spy_format(MessageKeys.command_spy_format),
+    command_spy_enabled(MessageKeys.command_spy_enabled),
+    command_spy_disabled(MessageKeys.command_spy_disabled),
 
-    TOGGLE_CHAT_ENABLED("Toggle_Chat.Enabled", "{prefix}&aToggle chat has been enabled, you will no longer receive chat messages."),
-    TOGGLE_CHAT_DISABLED("Toggle_Chat.Disabled", "{prefix}&cToggle chat has been disabled, you will start receiving chat messages."),
+    mute_chat_denied_message(MessageKeys.mute_chat_denied_message),
+    mute_chat_broadcast_messages_enabled(MessageKeys.mute_chat_broadcast_enabled),
+    mute_chat_broadcast_messages_disabled(MessageKeys.mute_chat_broadcast_disabled),
+    mute_chat_blocked_commands_message(MessageKeys.mute_chat_blocked_commands_message),
 
-    TOGGLE_MENTIONS_ENABLED("Toggle_Mentions.Enabled", "{prefix}&7Toggle mentions has been &aenabled&7, you will no longer receive mention messages."),
-    TOGGLE_MENTIONS_DISABLED("Toggle_Mentions.Disabled", "{prefix}&7Toggle mentions has been &cdisabled&7, you will start receiving mention messages."),
+    per_world_chat_bypass_enabled(MessageKeys.per_world_chat_bypass_enabled),
+    per_world_chat_bypass_disabled(MessageKeys.per_world_chat_bypass_disabled),
 
-    TOGGLE_PM_ENABLED("TogglePM.Enabled", "{prefix}&aTogglePM has been enabled."),
-    TOGGLE_PM_DISABLED("TogglePM.Disabled", "{prefix}&cTogglePM has been disabled.");
+    ping_players_ping(MessageKeys.ping_players_ping),
+    ping_targets_ping(MessageKeys.ping_targets_ping),
 
-    private final String path;
-    private String defaultMessage;
-    private List<String> defaultListMessage;
-    
-    Messages(String path, String defaultMessage) {
-        this.path = path;
-        this.defaultMessage = defaultMessage;
-    }
-    
-    Messages(String path, List<String> defaultListMessage) {
-        this.path = path;
-        this.defaultListMessage = defaultListMessage;
-    }
+    private_message_recipient_not_found(MessageKeys.private_message_recipient_not_found),
+    private_message_toggled(MessageKeys.private_message_toggled),
+    private_message_ignored(MessageKeys.private_message_ignored),
+    private_message_self(MessageKeys.private_message_self),
+    private_message_afk(MessageKeys.private_message_afk),
 
-    public static String convertList(final List<String> list) {
-        StringBuilder message = new StringBuilder();
+    social_spy_format(MessageKeys.social_spy_format),
+    social_spy_enabled(MessageKeys.social_spy_enabled),
+    social_spy_disabled(MessageKeys.social_spy_disabled),
 
-        for (String m : list) {
-            //message.append(Methods.color(m)).append("\n");
-        }
+    staff_chat_enabled(MessageKeys.staff_chat_enabled),
+    staff_chat_disabled(MessageKeys.staff_chat_disabled),
 
-        return message.toString();
+    toggle_chat_enabled(MessageKeys.toggle_chat_enabled),
+    toggle_chat_disabled(MessageKeys.toggle_chat_disabled),
+
+    toggle_mentions_enabled(MessageKeys.toggle_mentions_enabled),
+    toggle_mentions_disabled(MessageKeys.toggle_mentions_disabled),
+
+    toggle_pm_enabled(MessageKeys.toggle_pm_enabled),
+    toggle_pm_disabled(MessageKeys.toggle_pm_disabled);
+
+    private Property<String> property;
+
+    private Property<List<String>> properties;
+    private boolean isList = false;
+
+    Messages(@NotNull final Property<String> property) {
+        this.property = property;
     }
 
-    public static String convertList(final List<String> list, final Map<String, String> placeholders) {
-        String message = convertList(list);
-
-        for (String ph : placeholders.keySet()) {
-            //message = Methods.color(message.replace(ph, placeholders.get(ph))).replace(ph, placeholders.get(ph).toLowerCase());
-        }
-
-        return message;
+    Messages(@NotNull final Property<List<String>> properties, final boolean isList) {
+        this.properties = properties;
+        this.isList = isList;
     }
 
-    public String getMessage(final CommandSender sender) {
+    private final ChatManager plugin = ChatManager.get();
+
+    private final SettingsManager config = ConfigManager.getConfig();
+
+    private final SettingsManager messages = ConfigManager.getMessages();
+
+    private boolean isList() {
+        return this.isList;
+    }
+
+    public String getString() {
+        return this.messages.getProperty(this.property);
+    }
+
+    public List<String> getList() {
+        return this.messages.getProperty(this.properties);
+    }
+
+    public String getMessage(@NotNull final CommandSender sender) {
         return getMessage(sender, new HashMap<>());
     }
 
-    public String getMessage(@Nullable final CommandSender sender, @NotNull final String placeholder, @NotNull final String replacement) {
+    public String getMessage(@NotNull final CommandSender sender, @NotNull final String placeholder, @NotNull final String replacement) {
         Map<String, String> placeholders = new HashMap<>() {{
             put(placeholder, replacement);
-            //put("{prefix}", Methods.getPrefix());
-            //put("{Prefix}", Methods.getPrefix());
         }};
 
         return getMessage(sender, placeholders);
     }
 
-    public String getMessage(final CommandSender sender, final Map<String, String> placeholders) {
-        String message;
-
-        if (isList()) {
-            if (exists()) {
-                //message = Methods.color(convertList(Files.MESSAGES.getConfiguration().getStringList(this.path), placeholders));
-            } else {
-                //message = Methods.color(convertList(getDefaultListMessage(), placeholders));
-            }
-        } else {
-            if (exists()) {
-                //message = Methods.color(Files.MESSAGES.getConfiguration().getString(this.path));
-            } else {
-                //message = Methods.color(getDefaultMessage());
-            }
-
-            //message = message.replaceAll("\\{prefix}", Methods.getPrefix()).replaceAll( "\\{Prefix}", Methods.getPrefix());
-
-            if (sender instanceof Player player) {
-                if (Support.placeholder_api.isEnabled()) {
-                    //message = PlaceholderAPI.setPlaceholders(player, message);
-                }
-            }
-
-            for (String ph : placeholders.keySet()) {
-                //if (message.contains(ph)) {
-                //    message = message.replace(ph, placeholders.get(ph)).replace(ph, placeholders.get(ph).toLowerCase());
-                //}
-            }
-        }
-
-        return "";
+    public String getMessage(@NotNull final CommandSender sender, @NotNull final Map<String, String> placeholders) {
+        return parse(sender, placeholders).replaceAll("\\{prefix}", this.config.getProperty(ConfigKeys.prefix));
     }
 
     public void sendMessage(final CommandSender sender, final String placeholder, final String replacement) {
-        sender.sendMessage(getMessage(sender, placeholder, replacement));
+        sender.sendRichMessage(getMessage(sender, placeholder, replacement));
     }
 
     public void sendMessage(final CommandSender sender, final Map<String, String> placeholders) {
-        sender.sendMessage(getMessage(sender, placeholders));
+        sender.sendRichMessage(getMessage(sender, placeholders));
     }
 
     public void sendMessage(final CommandSender sender) {
-        sender.sendMessage(getMessage(sender));
+        sender.sendRichMessage(getMessage(sender));
     }
 
-    private boolean exists() {
-        return Files.MESSAGES.getConfiguration().contains(this.path);
-    }
+    private @NotNull String parse(@NotNull final CommandSender sender, @Nullable final Map<String, String> placeholders) {
+        String message;
 
-    private boolean isList() {
-        final YamlConfiguration configuration = Files.MESSAGES.getConfiguration();
-
-        if (configuration.contains(this.path)) {
-            return !configuration.getStringList(this.path).isEmpty();
+        if (isList()) {
+            message = StringUtil.chomp(StringUtil.convertList(getList()));
         } else {
-            return this.defaultMessage == null;
+            message = getString();
         }
+
+        return MsgUtils.getMessage(sender, message, placeholders);
     }
 
-    private String getPath() {
-        return this.path;
+    public void broadcast() {
+        broadcast(null);
     }
 
-    private String getDefaultMessage() {
-        return this.defaultMessage;
-    }
+    public void broadcast(@Nullable final Map<String, String> placeholders) {
+        sendMessage(this.plugin.getServer().getConsoleSender(), placeholders);
 
-    private List<String> getDefaultListMessage() {
-        return this.defaultListMessage;
+        for (Player player : this.plugin.getServer().getOnlinePlayers()) {
+            if (placeholders == null) sendMessage(player); else sendMessage(player, placeholders);
+        }
     }
 }
