@@ -28,7 +28,18 @@ public class HistoryListener implements Listener {
         LogUtils.write(Files.chat_log_file.getFile(), Calendar.getInstance().getTime(), event.getPlayer(), ": " + event.signedMessage().message());
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onConsoleCommand(ServerCommandEvent event) {
+        if (!this.config.getProperty(ConfigKeys.log_commands)) return;
+
+        final String message = event.getCommand();
+
+        if ((message.equals("/")) || (message.equals("//"))) return;
+
+        LogUtils.write(Files.command_log_file.getFile(), Calendar.getInstance().getTime(), event.getSender(), ": " + message);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
         if (!this.config.getProperty(ConfigKeys.log_commands)) return;
 
