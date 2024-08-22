@@ -1,19 +1,19 @@
 rules:
   "1":
     lines:
-      - "<gray><st>----------<dark_gray>[ <green>Server Rules Page 1/{max} <dark_gray>]<gray><st>----------"
+      - "<gray><st>----------<reset> <dark_gray>[ <green>Server Rules Page 1/{max} <dark_gray>]<gray><st>----------"
       - "<green>No Hacking"
       - "<green>No DDOS Threats"
       - "<green>Be Kind to all players and staff"
   "2":
     lines:
-      - "<gray><st>----------<dark_gray>[ <green>Server Rules Page 2/{max} <dark_gray>]<gray><st>----------"
+      - "<gray><st>----------<reset> <dark_gray>[ <green>Server Rules Page 2/{max} <dark_gray>]<gray><st>----------"
       - "<green>No swearing anywhere at anytime!"
       - "<green>Do NOT abusing caps!"
       - "<green>No Advertising any other minecraft servers!"
   "3":
     lines:
-      - "<gray><st>----------<dark_gray>[ <green>Server Rules Page 3/{max} <dark_gray>]<gray><st>----------"
+      - "<gray><st>----------<reset> <dark_gray>[ <green>Server Rules Page 3/{max} <dark_gray>]<gray><st>----------"
       - "<green>Do not use any special characters in chat."
       - "<green>Do not ask for staff."
       - "<green>Do not spam in chat."
