@@ -60,14 +60,6 @@ public class ChatManager extends JavaPlugin {
                 .addFolder("Logs")
                 .init();
 
-        List.of(
-                new VaultSupport(),
-                new VanishSupport(),
-                new PlaceholderAPISupport()
-        ).forEach(PluginManager::registerPlugin);
-
-        PluginManager.printPlugins();
-
         this.api = new ApiLoader();
         this.api.load();
 

@@ -10,9 +10,15 @@ import com.ryderbelserion.chatmanager.listeners.chat.DelayListener;
 import com.ryderbelserion.chatmanager.listeners.staff.SpyListener;
 import com.ryderbelserion.chatmanager.listeners.staff.StaffListener;
 import com.ryderbelserion.chatmanager.utils.TaskUtils;
+import com.ryderbelserion.chatmanager.utils.support.EssentialsSupport;
+import com.ryderbelserion.chatmanager.utils.support.PlaceholderAPISupport;
+import com.ryderbelserion.chatmanager.utils.support.VaultSupport;
+import com.ryderbelserion.chatmanager.utils.support.generic.GenericVanish;
+import com.ryderbelserion.vital.common.managers.PluginManager;
 import com.ryderbelserion.vital.paper.Vital;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
+import java.util.List;
 
 public class ChatManager extends Vital {
 
@@ -32,6 +38,15 @@ public class ChatManager extends Vital {
 
         // Load configuration file!
         ConfigManager.load();
+
+        List.of(
+                new VaultSupport(),
+                new GenericVanish(),
+                new EssentialsSupport(),
+                new PlaceholderAPISupport()
+        ).forEach(PluginManager::registerPlugin);
+
+        PluginManager.printPlugins();
 
         // Register cache listener!
         getServer().getPluginManager().registerEvents(new CacheListener(), this);
