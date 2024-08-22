@@ -56,10 +56,28 @@ public class LogUtils {
         }
     }
 
-    private static void zip() {
+    public static void zip() {
         final List<File> logFiles = FileUtil.getFileObjects(plugin.getDataFolder(), logsFolder.getName(), ".log");
 
         if (logFiles.isEmpty()) return;
+
+        boolean hasNonEmptyFile = false;
+
+        for (final File file : logFiles) {
+            if (file.exists() && file.length() > 0) {
+                hasNonEmptyFile = true;
+
+                break;
+            }
+        }
+
+        if (!hasNonEmptyFile) {
+            if (plugin.isVerbose()) {
+                logger.warn("All log files are empty. No zip file will be created.");
+            }
+
+            return;
+        }
 
         final List<String> files = FileUtil.getFiles(logsFolder, ".gz", true);
 
