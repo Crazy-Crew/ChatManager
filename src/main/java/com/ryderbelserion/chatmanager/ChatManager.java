@@ -5,6 +5,7 @@ import com.ryderbelserion.chatmanager.api.cache.listeners.CacheListener;
 import com.ryderbelserion.chatmanager.api.cache.UserManager;
 import com.ryderbelserion.chatmanager.commands.CommandManager;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.listeners.TrafficListener;
 import com.ryderbelserion.chatmanager.listeners.chat.ChatListener;
 import com.ryderbelserion.chatmanager.listeners.chat.DelayListener;
 import com.ryderbelserion.chatmanager.listeners.staff.SpyListener;
@@ -51,14 +52,15 @@ public class ChatManager extends Vital {
 
         PluginManager.printPlugins();
 
-        // Register cache listener!
-        getServer().getPluginManager().registerEvents(new CacheListener(), this);
+        List.of(
+                new CacheListener(),
 
-        // Register core listeners!
-        getServer().getPluginManager().registerEvents(new DelayListener(), this);
-        getServer().getPluginManager().registerEvents(new StaffListener(), this);
-        getServer().getPluginManager().registerEvents(new ChatListener(), this);
-        getServer().getPluginManager().registerEvents(new SpyListener(), this);
+                new TrafficListener(),
+                new DelayListener(),
+                new StaffListener(),
+                new ChatListener(),
+                new SpyListener()
+        ).forEach(listener -> getServer().getPluginManager().registerEvents(listener, this));
 
         // Monitor staff changes
         TaskUtils.startMonitoringTask();

@@ -220,7 +220,6 @@ public class ListenerPlayerJoin implements Listener {
         FileConfiguration config = Files.CONFIG.getConfiguration();
 
         int lines = config.getInt("Clear_Chat.Broadcasted_Lines", 300);
-        int delay = config.getInt("MOTD.Delay", 2);
 
         if (config.getBoolean("Clear_Chat.Clear_On_Join", false)) {
             if (player.hasPermission(Permissions.BYPASS_CLEAR_CHAT_ON_JOIN.getNode())) return;
@@ -248,17 +247,6 @@ public class ListenerPlayerJoin implements Listener {
             if (!config.getBoolean("Chat_Radius.Enable_Spy_On_Join", false)) return;
 
             if (player.hasPermission(Permissions.COMMAND_CHATRADIUS_SPY.getNode())) plugin.api().getSpyChatData().addUser(player.getUniqueId());
-        }
-
-        if (config.getBoolean("MOTD.Enable", false)) {
-            new FoliaRunnable(this.plugin.getServer().getGlobalRegionScheduler()) {
-                @Override
-                public void run() {
-                    for (String motd : config.getStringList("MOTD.Message")) {
-                        Methods.sendMessage(player, motd, false);
-                    }
-                }
-            }.runDelayed(this.plugin, 20L * delay);
         }
     }
 }
