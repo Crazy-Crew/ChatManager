@@ -14,7 +14,7 @@ public enum SpyState {
     }
 
     public final String getPrettyName() {
-        return WordUtils.capitalize(getName().replace("_", ""));
+        return WordUtils.capitalize(getName().replace("_", " "));
     }
 
     public final String getName() {
