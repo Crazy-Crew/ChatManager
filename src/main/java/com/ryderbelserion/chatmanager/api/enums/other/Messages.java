@@ -7,6 +7,7 @@ import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.configs.impl.messages.messages.ErrorKeys;
 import com.ryderbelserion.chatmanager.configs.impl.messages.messages.MiscKeys;
 import com.ryderbelserion.chatmanager.configs.impl.messages.messages.PlayerKeys;
+import com.ryderbelserion.chatmanager.configs.impl.messages.messages.SpyKeys;
 import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
 import com.ryderbelserion.chatmanager.configs.types.MessageKeys;
 import com.ryderbelserion.chatmanager.utils.MsgUtils;
@@ -33,11 +34,17 @@ public enum Messages {
 
     must_be_a_player(PlayerKeys.must_be_a_player),
     must_be_console_sender(PlayerKeys.must_be_console_sender),
-
     inventory_not_empty(PlayerKeys.inventory_not_empty),
-
     plugin_reload(MessageKeys.plugin_reload),
 
+    spy_toggle(SpyKeys.spy_toggle),
+    spy_enabled(SpyKeys.spy_enabled),
+    spy_disabled(SpyKeys.spy_disabled),
+
+    spy_chat_format(SpyKeys.spy_chat_format),
+    spy_command_format(SpyKeys.spy_command_format),
+
+    // old keys
     anti_advertising_chat_message(MessageKeys.anti_advertising_chat_message),
     anti_advertising_chat_notify_staff(MessageKeys.anti_advertising_chat_notify_staff),
 
@@ -107,10 +114,6 @@ public enum Messages {
     clear_chat_staff_message(MessageKeys.clear_chat_staff_message),
     clear_chat_broadcast_message(MessageKeys.clear_chat_broadcast_message, true),
 
-    command_spy_format(MessageKeys.command_spy_format),
-    command_spy_enabled(MessageKeys.command_spy_enabled),
-    command_spy_disabled(MessageKeys.command_spy_disabled),
-
     mute_chat_denied_message(MessageKeys.mute_chat_denied_message),
     mute_chat_broadcast_messages_enabled(MessageKeys.mute_chat_broadcast_enabled),
     mute_chat_broadcast_messages_disabled(MessageKeys.mute_chat_broadcast_disabled),
@@ -127,10 +130,6 @@ public enum Messages {
     private_message_ignored(MessageKeys.private_message_ignored),
     private_message_self(MessageKeys.private_message_self),
     private_message_afk(MessageKeys.private_message_afk),
-
-    social_spy_format(MessageKeys.social_spy_format),
-    social_spy_enabled(MessageKeys.social_spy_enabled),
-    social_spy_disabled(MessageKeys.social_spy_disabled),
 
     staff_chat_enabled(MessageKeys.staff_chat_enabled),
     staff_chat_disabled(MessageKeys.staff_chat_disabled),

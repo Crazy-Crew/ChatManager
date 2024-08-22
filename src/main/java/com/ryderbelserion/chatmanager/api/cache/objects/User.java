@@ -1,11 +1,14 @@
 package com.ryderbelserion.chatmanager.api.cache.objects;
 
 import ch.jalu.configme.SettingsManager;
+import com.ryderbelserion.chatmanager.api.enums.chat.SpyState;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
 import com.ryderbelserion.vital.paper.util.AdvUtil;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.entity.Player;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class User {
@@ -19,9 +22,9 @@ public class User {
     }
 
     public boolean isChatToggled = false;
-    public boolean isCommandSpy = false;
     public boolean isStaffChat = false;
-    public boolean isSocialSpy = false;
+
+    public final List<SpyState> activeSpyStates = new ArrayList<>();
 
     public String locale = "en-US";
 

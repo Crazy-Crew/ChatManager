@@ -81,10 +81,6 @@ public class MessageKeys implements SettingsHolder {
             "<white>*<red><st>--------------------------------------------<white>*"
     ));
 
-    public static final Property<String> command_spy_format = newProperty("Command_Spy.Format", "<gray>[Command-Spy] {player}: <aqua>{command}");
-    public static final Property<String> command_spy_enabled = newProperty("Command_Spy.Enabled", "{prefix}<green>Command Spy has been enabled.");
-    public static final Property<String> command_spy_disabled = newProperty("Command_Spy.Disabled", "{prefix}<red>Command Spy has been disabled.");
-
     public static final Property<String> mute_chat_denied_message = newProperty("Mute_Chat.Denied_Message", "{prefix}<red>You are not able to talk in chat right now.");
     public static final Property<String> mute_chat_broadcast_enabled = newProperty("Mute_Chat.Broadcast_Messages.Enabled", "{prefix}<green>Chat has been Enabled by {player}.");
     public static final Property<String> mute_chat_broadcast_disabled = newProperty("Mute_Chat.Broadcast_Messages.Disabled", "{prefix}<red>Chat has been Disabled by {player}.");
@@ -101,10 +97,6 @@ public class MessageKeys implements SettingsHolder {
     public static final Property<String> private_message_ignored = newProperty("Private_Message.Ignored", "{prefix}<red>{target} <gray>is currently ignoring you and cant receive any private messages.");
     public static final Property<String> private_message_self = newProperty("Private_Message.Self", "{prefix}<red>You cannot message yourself.");
     public static final Property<String> private_message_afk = newProperty("Private_Message.AFK", "{prefix}<red>{target} <gray>is currently afk.");
-
-    public static final Property<String> social_spy_format = newProperty("Social_Spy.Format", "<aqua><b>(*)<aqua>Spy <white><b>[<yellow>{player} <light_purple>-> <yellow>{receiver}<white><b>] <aqua>{message}");
-    public static final Property<String> social_spy_enabled = newProperty("Social_Spy.Enabled", "{prefix}<green>Social Spy has been enabled.");
-    public static final Property<String> social_spy_disabled = newProperty("Social_Spy.Disabled", "{prefix}<red>Social Spy has been disabled.");
 
     public static final Property<String> staff_chat_enabled = newProperty("Staff_Chat.Enabled", "{prefix}<green>Staff chat has been enabled.");
     public static final Property<String> staff_chat_disabled = newProperty("Staff_Chat.Disabled", "{prefix}<red>Staff chat has been disabled.");

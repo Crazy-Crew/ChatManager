@@ -1,10 +1,12 @@
 package com.ryderbelserion.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.api.enums.chat.SpyState;
 import com.ryderbelserion.chatmanager.commands.relations.ArgumentRelations;
 import com.ryderbelserion.chatmanager.commands.subs.misc.CommandMotd;
 import com.ryderbelserion.chatmanager.commands.subs.misc.CommandRules;
 import com.ryderbelserion.chatmanager.commands.subs.staff.CommandReload;
+import com.ryderbelserion.chatmanager.commands.subs.staff.CommandSpy;
 import com.ryderbelserion.chatmanager.commands.subs.staff.chat.CommandClearChat;
 import com.ryderbelserion.chatmanager.commands.subs.staff.chat.CommandStaffChat;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
@@ -15,6 +17,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CommandManager {
@@ -38,6 +41,8 @@ public class CommandManager {
             return numbers;
         });
 
+        commandManager.registerSuggestion(SuggestionKey.of("states"), (sender, context) -> Arrays.stream(SpyState.values()).map(SpyState::getSpyState).toList());
+
         // default
         commandManager.registerSuggestion(SuggestionKey.of("players"), (sender, context) -> plugin.getServer().getOnlinePlayers().stream().map(Player::getName).toList());
 
@@ -57,7 +62,10 @@ public class CommandManager {
 
                 new CommandStaffChat(),
                 new CommandClearChat(),
-                new CommandReload()
+
+                new CommandReload(),
+
+                new CommandSpy()
         ).forEach(commandManager::registerCommand);
     }
 
