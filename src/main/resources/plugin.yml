@@ -12,7 +12,6 @@ folia-supported: true
 
 softdepend:
  - PlaceholderAPI
- - SuperVanish
  - Essentials
  - Vault
 
