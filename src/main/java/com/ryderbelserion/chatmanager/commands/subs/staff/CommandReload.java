@@ -11,9 +11,15 @@ import org.bukkit.permissions.PermissionDefault;
 
 public class CommandReload extends BaseCommand {
 
+    @Command
+    @Permission(value = "chatmanager.access", def = PermissionDefault.OP)
+    public void help(final CommandSender sender) {
+
+    }
+
     @Command("reload")
     @Permission(value = "chatmanager.reload", def = PermissionDefault.OP)
-    public void execute(final CommandSender sender) {
+    public void reload(final CommandSender sender) {
         this.plugin.getFileManager().reloadFiles();
 
         ConfigManager.refresh();
