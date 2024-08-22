@@ -5,6 +5,7 @@ import com.ryderbelserion.chatmanager.commands.relations.ArgumentRelations;
 import com.ryderbelserion.chatmanager.commands.subs.misc.CommandMotd;
 import com.ryderbelserion.chatmanager.commands.subs.misc.CommandRules;
 import com.ryderbelserion.chatmanager.commands.subs.staff.CommandReload;
+import com.ryderbelserion.chatmanager.commands.subs.staff.chat.CommandClearChat;
 import com.ryderbelserion.chatmanager.commands.subs.staff.chat.CommandStaffChat;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.vital.paper.api.builders.PlayerBuilder;
@@ -55,6 +56,7 @@ public class CommandManager {
                 new CommandMotd(),
 
                 new CommandStaffChat(),
+                new CommandClearChat(),
                 new CommandReload()
         ).forEach(commandManager::registerCommand);
     }
