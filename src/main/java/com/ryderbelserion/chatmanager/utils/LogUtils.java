@@ -4,6 +4,7 @@ import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.api.enums.Files;
 import com.ryderbelserion.vital.common.utils.FileUtil;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -38,9 +39,9 @@ public class LogUtils {
         Files.chat_log_file.create();
     }
 
-    public static void write(final File file, final Date time, final Player player, final String format) {
+    public static void write(final File file, final Date time, final CommandSender sender, final String format) {
         try (final FileWriter writer = new FileWriter(file, true); final BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
-            bufferedWriter.write("[" + time + "] " + player.getName() + format.replaceAll("§", "&"));
+            bufferedWriter.write("[" + time + "] " + sender.getName() + format.replaceAll("§", "&"));
             bufferedWriter.newLine();
             writer.flush();
         } catch (Exception exception) {
