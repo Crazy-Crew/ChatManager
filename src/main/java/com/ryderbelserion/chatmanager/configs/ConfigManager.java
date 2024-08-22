@@ -42,7 +42,9 @@ public class ConfigManager {
         messages = SettingsManagerBuilder
                 .withYamlFile(new File(plugin.getDataFolder(), "messages.yml"), builder)
                 .useDefaultMigrationService()
-                .configurationData(MessageKeys.class, PlayerKeys.class, ErrorKeys.class, SpyKeys.class, MiscKeys.class)
+                // the order these are added in, is how they are applied to messages.yml
+                // SpyKeys, i.e. goes under commands like commands.spy, so similar sections should go together.
+                .configurationData(MiscKeys.class, PlayerKeys.class, ErrorKeys.class, SpyKeys.class, MessageKeys.class)
                 .create();
 
         populateRules();
