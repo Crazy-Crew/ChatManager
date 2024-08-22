@@ -5,9 +5,6 @@ import com.ryderbelserion.chatmanager.api.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.plugins.papi.PlaceholderAPISupport;
 import me.h1dd3nxn1nja.chatmanager.plugins.VanishSupport;
 import me.h1dd3nxn1nja.chatmanager.plugins.VaultSupport;
-import com.ryderbelserion.vital.paper.VitalPaper;
-import com.ryderbelserion.vital.paper.files.config.FileManager;
-import com.ryderbelserion.vital.paper.plugins.PluginManager;
 import me.h1dd3nxn1nja.chatmanager.commands.*;
 import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.*;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
@@ -35,31 +32,9 @@ public class ChatManager extends JavaPlugin {
         return JavaPlugin.getPlugin(ChatManager.class);
     }
 
-    private ApiLoader api;
-    
-    private FileManager fileManager;
-
     private PluginHandler pluginHandler;
 
-    public final UserManager getUserManager() {
-        return this.userManager;
-    }
-
     public void onEnable() {
-        userManager = new UserManager();
-
-        new VitalPaper(this).setLogging(true);
-
-        this.fileManager = new FileManager();
-        this.fileManager
-                .addFile("config.yml")
-                .addFile("Messages.yml")
-                .addFile("bannedwords.yml")
-                .addFile("AutoBroadcast.yml")
-                .addFile("bannedcommands.yml")
-                .addFolder("Logs")
-                .init();
-
         this.api = new ApiLoader();
         this.api.load();
 
@@ -104,8 +79,6 @@ public class ChatManager extends JavaPlugin {
         registerCommand(getCommand("List"), null, listsCommand);
         registerCommand(getCommand("Staff"), null, listsCommand);
 
-        registerCommand(getCommand("ClearChat"), null, new CommandClearChat());
-
         registerCommand(getCommand("BannedCommands"), new TabCompleteBannedCommands(), new CommandBannedCommands());
 
         registerCommand(getCommand("AntiSwear"), new TabCompleteAntiSwear(), new CommandAntiSwear());
@@ -116,24 +89,15 @@ public class ChatManager extends JavaPlugin {
         registerCommand(getCommand("TogglePM"), commandMessage, commandMessage);
         registerCommand(getCommand("Message"), new TabCompleteMessage(), commandMessage);
 
-        registerCommand(getCommand("StaffChat"), new CommandStaffChat(), new CommandStaffChat());
-
         registerCommand(getCommand("ChatRadius"), new CommandRadius(), new CommandRadius());
 
         registerCommand(getCommand("ChatManager"), new TabCompleteChatManager(), new CommandChatManager());
 
         CommandSpy commandSpy = new CommandSpy();
 
-        registerCommand(getCommand("CommandSpy"), null, commandSpy);
-        registerCommand(getCommand("SocialSpy"), null, commandSpy);
-
         registerCommand(getCommand("MuteChat"), null, new CommandMuteChat());
 
         registerCommand(getCommand("PerWorldChat"), null, new CommandPerWorldChat());
-
-        registerCommand(getCommand("Ping"), null, new CommandPing());
-
-        registerCommand(getCommand("Rules"), null, new CommandRules());
 
         registerCommand(getCommand("ToggleChat"), null, new CommandToggleChat());
 
@@ -152,8 +116,6 @@ public class ChatManager extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ListenerColor(), this);
 
         getServer().getPluginManager().registerEvents(new ListenerAntiAdvertising(), this);
-        getServer().getPluginManager().registerEvents(new ListenerAntiBot(), this);
-        getServer().getPluginManager().registerEvents(new ListenerAntiSpam(), this);
 
         getServer().getPluginManager().registerEvents(new ListenerAntiUnicode(), this);
         getServer().getPluginManager().registerEvents(new ListenerBannedCommand(), this);
@@ -162,20 +124,15 @@ public class ChatManager extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ListenerChatFormat(), this);
         getServer().getPluginManager().registerEvents(new ListenerRadius(), this);
         getServer().getPluginManager().registerEvents(new ListenerLogs(), this);
-        getServer().getPluginManager().registerEvents(new CommandMOTD(), this);
 
         getServer().getPluginManager().registerEvents(new ListenerMentions(), this);
         getServer().getPluginManager().registerEvents(new ListenerMuteChat(), this);
         getServer().getPluginManager().registerEvents(new ListenerPerWorldChat(), this);
         getServer().getPluginManager().registerEvents(new ListenerPlayerJoin(), this);
-        getServer().getPluginManager().registerEvents(new ListenerSpy(), this);
-        getServer().getPluginManager().registerEvents(new ListenerStaffChat(), this);
         getServer().getPluginManager().registerEvents(new ListenerSwear(), this);
-        getServer().getPluginManager().registerEvents(new ListenerToggleChat(), this);
     }
 
     public void setupChatRadius() {
-        FileConfiguration config = Files.CONFIG.getConfiguration();
         if (config.getBoolean("Chat_Radius.Enable")) {
             for (Player all : getServer().getOnlinePlayers()) {
                 if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Local")) {
@@ -190,7 +147,6 @@ public class ChatManager extends JavaPlugin {
     }
 
     public void check() {
-        FileConfiguration autoBroadcast = Files.AUTO_BROADCAST.getConfiguration();
         if (autoBroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable"))
             AutoBroadcastManager.actionbarMessages();
         if (autoBroadcast.getBoolean("Auto_Broadcast.Global_Messages.Enable")) AutoBroadcastManager.globalMessages();
@@ -202,10 +158,6 @@ public class ChatManager extends JavaPlugin {
 
     public PluginHandler getPluginManager() {
         return this.pluginHandler;
-    }
-
-    public FileManager getFileManager() {
-        return this.fileManager;
     }
 
     private void registerPermissions() {
