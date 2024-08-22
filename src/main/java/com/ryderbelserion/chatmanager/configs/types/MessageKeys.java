@@ -76,9 +76,9 @@ public class MessageKeys implements SettingsHolder {
 
     public static final Property<String> clear_chat_staff_message = newProperty("Clear_Chat.Staff_Message", "{prefix}<yellow>Chat has been cleared by {player}.");
     public static final ListProperty<String> clear_chat_broadcast_message = newListProperty("Clear_Chat.Broadcast_Message", List.of(
-            "<white>*<red><st>--------------------------------------------<white>*",
+            "<white>*<red><st>--------------------------------------------</st><white>*",
             "<yellow>The chat has been cleared by {player}",
-            "<white>*<red><st>--------------------------------------------<white>*"
+            "<white>*<red><st>--------------------------------------------</st><white>*"
     ));
 
     public static final Property<String> mute_chat_denied_message = newProperty("Mute_Chat.Denied_Message", "{prefix}<red>You are not able to talk in chat right now.");
