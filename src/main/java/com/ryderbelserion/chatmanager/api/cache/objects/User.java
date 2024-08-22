@@ -1,8 +1,16 @@
 package com.ryderbelserion.chatmanager.api.cache.objects;
 
+import ch.jalu.configme.SettingsManager;
+import com.ryderbelserion.chatmanager.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
+import com.ryderbelserion.vital.paper.util.AdvUtil;
+import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.entity.Player;
+import java.util.UUID;
 
 public class User {
+
+    private final SettingsManager config = ConfigManager.getConfig();
 
     public final Player player;
 
@@ -27,6 +35,28 @@ public class User {
 
     public transient String previousMessage = "";
     public transient int chatDelay = 0;
+
+    public transient BossBar bossBar = null;
+
+    public void showBossBar() {
+        final UUID uuid = this.player.getUniqueId();
+
+        final BossBar bossBar = BossBar
+                .bossBar(AdvUtil.parse(this.config.getProperty(ConfigKeys.staff_bossbar_title), uuid),
+                        0,
+                        BossBar.Color.PURPLE,
+                        BossBar.Overlay.NOTCHED_12);
+
+        this.player.showBossBar(this.bossBar = bossBar);
+    }
+
+    public void hideBossBar() {
+        if (this.bossBar == null) return;
+
+        this.player.hideBossBar(this.bossBar);
+
+        this.bossBar = null;
+    }
 
     // other checks
     public final boolean hasPermission(final String permission) {
