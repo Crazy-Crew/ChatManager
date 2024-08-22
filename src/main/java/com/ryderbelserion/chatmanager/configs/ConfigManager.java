@@ -53,6 +53,8 @@ public class ConfigManager {
     public static void refresh() {
         config.reload();
 
+        messages.reload();
+
         populateRules();
     }
 
@@ -77,7 +79,7 @@ public class ConfigManager {
 
                 if (section != null) {
                     section.getKeys(false).forEach(key -> {
-                        final List<String> rule = section.getStringList(key);
+                        final List<String> rule = section.getStringList(key + ".lines");
 
                         rules.put(Integer.parseInt(key), rule);
                     });
@@ -87,6 +89,6 @@ public class ConfigManager {
     }
 
     public static Map<Integer, List<String>> getRules() {
-        return rules;
+        return Collections.unmodifiableMap(rules);
     }
 }
