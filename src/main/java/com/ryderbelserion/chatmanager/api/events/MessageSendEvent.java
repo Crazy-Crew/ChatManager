@@ -1,33 +1,47 @@
 package com.ryderbelserion.chatmanager.api.events;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class MessageSendEvent extends Event implements Cancellable {
 
+    private final CommandSender sender;
     private final Player player;
     private final Player target;
 
     private final String message;
 
-    public MessageSendEvent(final Player player, final Player target, final String message) {
-        this.player = player;
+    public MessageSendEvent(final CommandSender sender, final Player target, final String message) {
+        this.sender = sender;
+
+        this.player = this.sender instanceof Player human ? human : null;
+
         this.target = target;
         this.message = message;
     }
 
-    public final String getMessage() {
+    public @NotNull final String getMessage() {
         return this.message;
     }
 
-    public final Player getPlayer() {
+    public @NotNull final CommandSender getSender() {
+        return this.sender;
+    }
+
+    public final boolean isPlayer() {
+        return this.player != null;
+    }
+
+    public @Nullable final Player getPlayer() {
         return this.player;
     }
 
-    public final Player getTarget() {
+    public @NotNull final Player getTarget() {
         return this.target;
     }
 
