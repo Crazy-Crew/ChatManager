@@ -9,6 +9,7 @@ import com.ryderbelserion.chatmanager.configs.impl.messages.ErrorKeys;
 import com.ryderbelserion.chatmanager.configs.impl.messages.MiscKeys;
 import com.ryderbelserion.chatmanager.configs.impl.messages.PlayerKeys;
 import com.ryderbelserion.chatmanager.configs.impl.messages.commands.SpyKeys;
+import com.ryderbelserion.chatmanager.configs.impl.messages.commands.ToggleKeys;
 import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
 import com.ryderbelserion.chatmanager.configs.types.MessageKeys;
 import com.ryderbelserion.chatmanager.utils.MsgUtils;
@@ -50,6 +51,10 @@ public enum Messages {
     chatradius_disabled(ChatKeys.chatradius_disabled),
     chatradius_help(ChatKeys.chatradius_help, true),
     chatradius_already_enabled(ChatKeys.chatradius_already_enabled),
+
+    chat_toggle(ToggleKeys.chat_toggle),
+    toggle_enabled(ToggleKeys.toggle_enabled),
+    toggle_disabled(ToggleKeys.toggle_disabled),
 
     // old keys
     anti_advertising_chat_message(MessageKeys.anti_advertising_chat_message),

@@ -97,14 +97,4 @@ public class MessageKeys implements SettingsHolder {
 
     public static final Property<String> staff_chat_enabled = newProperty("Staff_Chat.Enabled", "{prefix}<green>Staff chat has been enabled.");
     public static final Property<String> staff_chat_disabled = newProperty("Staff_Chat.Disabled", "{prefix}<red>Staff chat has been disabled.");
-
-    public static final Property<String> toggle_chat_enabled = newProperty("Toggle_Chat.Enabled", "{prefix}<green>Toggle chat has been enabled, you will no longer receive chat messages.");
-    public static final Property<String> toggle_chat_disabled = newProperty("Toggle_Chat.Disabled", "{prefix}<red>Toggle chat has been disabled, you will start receiving chat messages.");
-
-    public static final Property<String> toggle_mentions_enabled = newProperty("Toggle_Mentions.Enabled", "{prefix}<gray>Toggle mentions has been <green>enabled<gray>, you will no longer receive mention messages.");
-    public static final Property<String> toggle_mentions_disabled = newProperty("Toggle_Mentions.Disabled", "{prefix}<gray>Toggle mentions has been <red>disabled<gray>, you will start receiving mention messages.");
-
-    public static final Property<String> toggle_pm_enabled = newProperty("TogglePM.Enabled", "{prefix}<green>TogglePM has been enabled.");
-    public static final Property<String> toggle_pm_disabled = newProperty("TogglePM.Disabled", "{prefix}<red>TogglePM has been disabled.");
-
 }

@@ -26,6 +26,7 @@ public class User {
     public boolean isStaffChat = false;
 
     public final List<String> activeSpyStates = new ArrayList<>();
+    public final List<String> activeChatToggles = new ArrayList<>();
 
     public ChatState chatState = ChatState.global_chat;
 
