@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
 import java.util.HashMap;
 
-public class CommandChatRadius extends BaseCommand {
+public class CommandRadius extends BaseCommand {
 
     @Command("chatradius")
     @Permission(value = "chatmanager.chatradius", def = PermissionDefault.OP, description = "Access to /chatmanager radius <state>")
