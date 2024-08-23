@@ -2,7 +2,6 @@ package com.ryderbelserion.chatmanager.api.cache.objects;
 
 import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.api.enums.chat.ChatState;
-import com.ryderbelserion.chatmanager.api.enums.chat.SpyState;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
 import com.ryderbelserion.vital.paper.util.AdvUtil;
@@ -22,11 +21,10 @@ public class User {
         this.player = player;
     }
 
-    public boolean isChatToggled = false;
     public boolean isStaffChat = false;
 
-    public final List<String> activeSpyStates = new ArrayList<>();
     public final List<String> activeChatToggles = new ArrayList<>();
+    public final List<String> activeSpyStates = new ArrayList<>();
 
     public ChatState chatState = ChatState.global_chat;
 
