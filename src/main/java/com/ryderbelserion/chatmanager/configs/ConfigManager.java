@@ -31,6 +31,8 @@ public class ConfigManager {
 
     private static final Map<Integer, List<String>> rules = new HashMap<>();
 
+    private static final Map<Integer, List<String>> help = new HashMap<>();
+
     private static SettingsManager config;
     private static SettingsManager messages;
 
@@ -50,6 +52,7 @@ public class ConfigManager {
                 .create();
 
         populateRules();
+        populateHelp();
     }
 
     /**
@@ -61,6 +64,7 @@ public class ConfigManager {
         messages.reload();
 
         populateRules();
+        populateHelp();
     }
 
     public static SettingsManager getConfig() {
@@ -93,7 +97,33 @@ public class ConfigManager {
         }
     }
 
+    public static void populateHelp() {
+        help.clear();
+
+        final CustomFile customFile = plugin.getFileManager().getFile("help.yml");
+
+        if (customFile != null) {
+            final YamlConfiguration file = customFile.getConfiguration();
+
+            if (file != null) {
+                final ConfigurationSection section = file.getConfigurationSection("help");
+
+                if (section != null) {
+                    section.getKeys(false).forEach(key -> {
+                        final List<String> rule = section.getStringList(key + ".lines");
+
+                        help.put(Integer.parseInt(key), rule);
+                    });
+                }
+            }
+        }
+    }
+
     public static Map<Integer, List<String>> getRules() {
         return Collections.unmodifiableMap(rules);
+    }
+
+    public static Map<Integer, List<String>> getHelp() {
+        return Collections.unmodifiableMap(help);
     }
 }

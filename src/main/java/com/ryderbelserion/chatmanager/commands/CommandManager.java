@@ -7,6 +7,7 @@ import com.ryderbelserion.chatmanager.api.enums.chat.ToggleState;
 import com.ryderbelserion.chatmanager.commands.relations.ArgumentRelations;
 import com.ryderbelserion.chatmanager.commands.subs.misc.CommandMotd;
 import com.ryderbelserion.chatmanager.commands.subs.misc.CommandRules;
+import com.ryderbelserion.chatmanager.commands.subs.player.CommandHelp;
 import com.ryderbelserion.chatmanager.commands.subs.player.CommandRadius;
 import com.ryderbelserion.chatmanager.commands.subs.player.CommandToggle;
 import com.ryderbelserion.chatmanager.commands.subs.staff.CommandReload;
@@ -45,6 +46,14 @@ public class CommandManager {
             return numbers;
         });
 
+        commandManager.registerSuggestion(SuggestionKey.of("help_pages"), (sender, context) -> {
+            final List<String> numbers = new ArrayList<>();
+
+            ConfigManager.getHelp().keySet().forEach(value -> numbers.add(String.valueOf(value)));
+
+            return numbers;
+        });
+
         commandManager.registerSuggestion(SuggestionKey.of("spy_states"), (sender, context) -> Arrays.stream(SpyState.values()).map(SpyState::getName).toList());
 
         commandManager.registerSuggestion(SuggestionKey.of("chat_states"), (sender, context) -> Arrays.stream(ChatState.values()).map(ChatState::getName).toList());
@@ -68,6 +77,7 @@ public class CommandManager {
                 new CommandRadius(),
                 new CommandToggle(),
 
+                new CommandHelp(),
                 new CommandRules(),
                 new CommandMotd(),
 

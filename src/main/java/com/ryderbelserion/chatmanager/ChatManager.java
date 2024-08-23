@@ -41,7 +41,7 @@ public class ChatManager extends Vital {
 
     @Override
     public void onEnable() {
-        getFileManager().addFile(new File(getDataFolder(), "rules.yml")).init();
+        getFileManager().addFile(new File(getDataFolder(), "rules.yml")).addFile(new File(getDataFolder(), "help.yml")).init();
 
         ConfigManager.load();
 
