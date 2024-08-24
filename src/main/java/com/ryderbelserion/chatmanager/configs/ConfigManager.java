@@ -4,12 +4,15 @@ import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.SettingsManagerBuilder;
 import ch.jalu.configme.resource.YamlFileResourceOptions;
 import com.ryderbelserion.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.api.enums.Files;
 import com.ryderbelserion.chatmanager.configs.impl.messages.commands.ChatKeys;
 import com.ryderbelserion.chatmanager.configs.impl.messages.ErrorKeys;
 import com.ryderbelserion.chatmanager.configs.impl.messages.MiscKeys;
 import com.ryderbelserion.chatmanager.configs.impl.messages.PlayerKeys;
 import com.ryderbelserion.chatmanager.configs.impl.messages.commands.SpyKeys;
 import com.ryderbelserion.chatmanager.configs.impl.messages.commands.ToggleKeys;
+import com.ryderbelserion.chatmanager.configs.persist.blacklist.CommandsConfig;
+import com.ryderbelserion.chatmanager.configs.persist.blacklist.WordsConfig;
 import com.ryderbelserion.chatmanager.configs.types.MessageKeys;
 import com.ryderbelserion.chatmanager.configs.types.SpamKeys;
 import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
@@ -29,12 +32,17 @@ public class ConfigManager {
 
     private static final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
+    private static final File folder = new File(plugin.getDataFolder(), "blacklist");
+
     private static final Map<Integer, List<String>> rules = new HashMap<>();
 
     private static final Map<Integer, List<String>> help = new HashMap<>();
 
     private static SettingsManager config;
     private static SettingsManager messages;
+
+    private static CommandsConfig commandsConfig;
+    private static WordsConfig wordsConfig;
 
     public static void load() {
         config = SettingsManagerBuilder
@@ -51,6 +59,13 @@ public class ConfigManager {
                 .configurationData(MiscKeys.class, PlayerKeys.class, ErrorKeys.class, ToggleKeys.class, SpyKeys.class, ChatKeys.class, MessageKeys.class)
                 .create();
 
+        folder.mkdirs();
+
+        commandsConfig = new CommandsConfig();
+        commandsConfig.load();
+
+        wordsConfig = new WordsConfig();
+        wordsConfig.load();
         populateRules();
         populateHelp();
     }
@@ -63,6 +78,13 @@ public class ConfigManager {
 
         messages.reload();
 
+        Files.commands_file.create();
+        Files.words_file.create();
+
+        commandsConfig.save();
+
+        wordsConfig.save();
+
         populateRules();
         populateHelp();
     }
@@ -73,6 +95,14 @@ public class ConfigManager {
 
     public static SettingsManager getMessages() {
         return messages;
+    }
+
+    public static CommandsConfig getCommandsConfig() {
+        return commandsConfig;
+    }
+
+    public static WordsConfig getWordsConfig() {
+        return wordsConfig;
     }
 
     public static void populateRules() {
