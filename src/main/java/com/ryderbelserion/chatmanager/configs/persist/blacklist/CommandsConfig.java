@@ -10,7 +10,7 @@ import java.util.List;
 public class CommandsConfig {
 
     @Expose
-    public static final List<String> banned_commands = new ArrayList<>();
+    public static List<String> banned_commands = new ArrayList<>();
 
     static {
         banned_commands.add("gamemode");
