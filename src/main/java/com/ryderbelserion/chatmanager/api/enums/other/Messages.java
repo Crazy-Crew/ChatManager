@@ -141,16 +141,7 @@ public enum Messages {
     private_message_afk(MessageKeys.private_message_afk),
 
     staff_chat_enabled(MessageKeys.staff_chat_enabled),
-    staff_chat_disabled(MessageKeys.staff_chat_disabled),
-
-    toggle_chat_enabled(MessageKeys.toggle_chat_enabled),
-    toggle_chat_disabled(MessageKeys.toggle_chat_disabled),
-
-    toggle_mentions_enabled(MessageKeys.toggle_mentions_enabled),
-    toggle_mentions_disabled(MessageKeys.toggle_mentions_disabled),
-
-    toggle_pm_enabled(MessageKeys.toggle_pm_enabled),
-    toggle_pm_disabled(MessageKeys.toggle_pm_disabled);
+    staff_chat_disabled(MessageKeys.staff_chat_disabled);
 
     private Property<String> property;
 
