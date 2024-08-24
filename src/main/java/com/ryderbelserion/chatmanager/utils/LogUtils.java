@@ -5,7 +5,6 @@ import com.ryderbelserion.chatmanager.api.enums.Files;
 import com.ryderbelserion.vital.common.utils.FileUtil;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;

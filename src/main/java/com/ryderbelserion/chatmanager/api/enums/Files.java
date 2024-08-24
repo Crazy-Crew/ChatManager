@@ -15,13 +15,10 @@ public enum Files {
     command_log_file("commands.log", "logs", true),
     swear_log_file("swears.log", "logs", true),
     sign_log_file("signs.log", "logs", true),
-    chat_log_file("chat.log", "logs", true);
+    chat_log_file("chat.log", "logs", true),
 
-    //CONFIG("config.yml"),
-    //MESSAGES("Messages.yml"),
-    //BANNED_WORDS("bannedwords.yml"),
-    //BANNED_COMMANDS("bannedcommands.yml"),
-    //AUTO_BROADCAST("AutoBroadcast.yml");
+    commands_file("commands.json", "blacklist", true),
+    words_file("words.json", "blacklist", true);
 
     private @NotNull final ChatManager plugin = ChatManager.get();
 
@@ -73,14 +70,18 @@ public enum Files {
         this.fileManager.saveFile(this.fileName);
     }
 
-    public void create() {
+    public final Files create() {
         if (!this.file.exists()) {
+            this.file.getParentFile().mkdirs();
+
             try {
                 this.file.createNewFile();
             } catch (IOException exception) {
                 this.plugin.getComponentLogger().warn("Failed to create file: {}", this.file.getName());
             }
         }
+
+        return this;
     }
 
     public final File getFile() {
