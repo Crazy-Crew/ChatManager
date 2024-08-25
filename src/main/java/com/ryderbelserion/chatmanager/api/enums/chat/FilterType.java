@@ -22,7 +22,7 @@ public enum FilterType {
         return this.type;
     }
 
-    public static FilterType getType(final String value) {
+    public static FilterType getFilterType(final String value) {
         FilterType type = FilterType.banned_commands;
 
         if (value.isEmpty()) {

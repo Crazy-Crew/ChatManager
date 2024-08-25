@@ -1,1 +1,9 @@
-{}
+{
+  "banned_commands": [
+    "gamemode",
+    "plugins",
+    "gmc",
+    "op",
+    "pl"
+  ]
+}
