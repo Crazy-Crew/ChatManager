@@ -62,7 +62,7 @@ Messages:
       # Set toggle to false
       sound:
         toggle: false
-        value: 'ENTITY_PLAYER_LEVELUP'
+        value: 'entity.player.levelup'
         pitch: 1.0
         volume: 1.0
       First_Join_Message: "<yellow>Welcome to <aqua>{server_name} %luckperms_prefix% {player}<yellow>!"
@@ -94,7 +94,7 @@ Messages:
       # Set toggle to false
       sound:
         toggle: false
-        value: 'ENTITY_PLAYER_LEVELUP'
+        value: 'entity.player.levelup'
         pitch: 1.0
         volume: 1.0
       Message: "<aqua>{player} <green>joined the server"
@@ -106,7 +106,7 @@ Messages:
       # Set toggle to false
       sound:
         toggle: false
-        value: 'ENTITY_PLAYER_LEVELUP'
+        value: 'entity.player.levelup'
         pitch: 1.0
         volume: 1.0
 
@@ -152,7 +152,7 @@ Messages:
         # Set toggle to false
         sound:
           toggle: false
-          value: 'ENTITY_PLAYER_LEVELUP'
+          value: 'entity.player.levelup'
           pitch: 1.0
           volume: 1.0
 
@@ -170,7 +170,7 @@ Messages:
         # Set toggle to false
         sound:
           toggle: false
-          value: 'ENTITY_PLAYER_LEVELUP'
+          value: 'entity.player.levelup'
           pitch: 1.0
           volume: 1.0
 
@@ -187,6 +187,6 @@ Messages:
         # Set toggle to false
         sound:
           toggle: false
-          value: 'ENTITY_PLAYER_LEVELUP'
+          value: 'entity.player.levelup'
           pitch: 1.0
           volume: 1.0
