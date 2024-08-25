@@ -66,6 +66,7 @@ public class ConfigManager {
 
         wordsConfig = new WordsConfig();
         wordsConfig.load();
+
         populateRules();
         populateHelp();
     }

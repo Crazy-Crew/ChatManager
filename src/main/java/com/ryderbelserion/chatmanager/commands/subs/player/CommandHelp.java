@@ -13,15 +13,7 @@ import java.util.Map;
 
 public class CommandHelp extends BaseCommand {
 
-    @Command
-    @Permission(value = "chatmanager.access", def = PermissionDefault.TRUE, description = "Access to /chatmanager")
-    public void root(final CommandSender sender) {
-        final Map<Integer, List<String>> help = ConfigManager.getHelp();
-
-        help.get(1).forEach(line -> MsgUtils.sendMessage(sender, line, "{max}", String.valueOf(help.size())));
-    }
-
-    @Command("Help")
+    @Command("help")
     @Permission(value = "chatmanager.help", def = PermissionDefault.TRUE, description = "Access to /chatmanager help")
     public void help(final CommandSender sender, @Suggestion("help_pages") final int page) {
         final Map<Integer, List<String>> help = ConfigManager.getHelp();
