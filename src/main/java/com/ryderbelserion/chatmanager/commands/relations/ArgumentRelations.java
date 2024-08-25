@@ -18,7 +18,7 @@ public class ArgumentRelations extends MessageManager {
             case "filter" -> usage = order + " add/remove/help <type> <word/command>";
             case "staffchat" -> usage = order + " [message]";
             case "clearchat" -> usage = order + " [lines]";
-            case "rules" -> usage = order + " <page>";
+            case "rules", "help" -> usage = order + " <page>";
             case "spy" -> usage = order + " <type>";
         }
 

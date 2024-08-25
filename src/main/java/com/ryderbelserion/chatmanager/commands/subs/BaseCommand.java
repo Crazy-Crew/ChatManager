@@ -62,6 +62,11 @@ public class BaseCommand {
                     commands.add(value);
 
                     ConfigManager.getCommandsConfig().save();
+
+                    Messages.filter_value_added.sendMessage(sender, new HashMap<>() {{
+                        put("{value}", value);
+                        put("{type}", type.getPrettyName());
+                    }});
                 }
 
                 case banned_words -> {
@@ -79,6 +84,11 @@ public class BaseCommand {
                     words.add(value);
 
                     ConfigManager.getWordsConfig().save();
+
+                    Messages.filter_value_added.sendMessage(sender, new HashMap<>() {{
+                        put("{value}", value);
+                        put("{type}", type.getPrettyName());
+                    }});
                 }
 
                 case allowed_words -> {
@@ -96,6 +106,11 @@ public class BaseCommand {
                     words.add(value);
 
                     ConfigManager.getWordsConfig().save();
+
+                    Messages.filter_value_added.sendMessage(sender, new HashMap<>() {{
+                        put("{value}", value);
+                        put("{type}", type.getPrettyName());
+                    }});
                 }
             }
         }
@@ -117,6 +132,11 @@ public class BaseCommand {
             allowed_words.remove(value);
 
             ConfigManager.getWordsConfig().save();
+
+            Messages.filter_value_remove.sendMessage(sender, new HashMap<>() {{
+                put("{value}", value);
+                put("{type}", FilterType.allowed_words.getPrettyName());
+            }});
         }
 
         @Command("remove-command")
@@ -136,6 +156,11 @@ public class BaseCommand {
             commands.remove(value);
 
             ConfigManager.getCommandsConfig().save();
+
+            Messages.filter_value_remove.sendMessage(sender, new HashMap<>() {{
+                put("{value}", value);
+                put("{type}", FilterType.banned_commands.getPrettyName());
+            }});
         }
 
         @Command("remove-word")
@@ -155,6 +180,11 @@ public class BaseCommand {
             words.remove(value);
 
             ConfigManager.getWordsConfig().save();
+
+            Messages.filter_value_remove.sendMessage(sender, new HashMap<>() {{
+                put("{value}", value);
+                put("{type}", FilterType.banned_words.getPrettyName());
+            }});
         }
 
         @Command("help")
