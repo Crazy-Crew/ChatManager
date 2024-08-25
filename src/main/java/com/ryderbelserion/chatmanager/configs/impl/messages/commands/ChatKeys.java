@@ -51,4 +51,33 @@ public class ChatKeys implements SettingsHolder {
             " &f/chatradius world &e- Enables world chat.",
             "<dark_gray>=========================================================================</dark_gray>"
     ));
+
+    @Comment("A list of available placeholders: {value}, {type}")
+    public static final Property<String> filter_value_added = newProperty("commands.filter.add", "{prefix}<gray>You added the {type} <red>{value} <gray>to the list of filter {type}.");
+
+    @Comment("A list of available placeholders: {value}, {type}")
+    public static final Property<String> filter_value_remove = newProperty("commands.filter.remove", "{prefix}<gray>You removed the {type} <red>{value} <gray>from the list of filter {type}.");
+
+    @Comment("A list of available placeholders: {value}, {type}")
+    public static final Property<String> filter_value_exists = newProperty("commands.filter.command.exists", "{prefix}<gray>The {type} <red>{value} <gray>is already added to the list of filter {type}.");
+
+    @Comment("A list of available placeholders: {value}, {type}")
+    public static final Property<String> filter_value_not_found = newProperty("commands.filter.not-found", "{prefix}<gray>The {type} <red>{value} <gray>is not in the list of filter {type}.");
+
+    @Comment("A list of available placeholders: {command}")
+    public static final Property<String> filter_command_notify_staff = newProperty("commands.filter.command-notify-staff", "<gray>[Blocked-Cmd] <white>{player}: <gray>{command}");
+
+    @Comment("A list of available placeholders: {word}")
+    public static final Property<String> filter_word_notify_staff = newProperty("commands.filter.word-notify-staff", "<gray>[Blocked-Word] <white>{player}: <gray>{word}");
+
+    public static final Property<List<String>> filter_command_help = newListProperty("commands.filter.help", List.of(
+            "<dark_gray>=========================================================================</dark_gray>",
+            " <aqua>Filter Help Menu",
+            "",
+            " <white>/chatmanager filter help <yellow>- Shows help menu for /chatmanager filter.",
+            " <white>/chatmanager filter add <gold>[command/word] [value] <yellow>- Adds a command/word to the filter.",
+            " <white>/chatmanager filter remove <gold>[command/word] [value] <yellow>- Removes a command/word from the filter.",
+            "",
+            "<dark_gray>=========================================================================</dark_gray>"
+    ));
 }

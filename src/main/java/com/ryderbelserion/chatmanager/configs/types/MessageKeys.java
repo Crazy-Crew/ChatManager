@@ -58,13 +58,6 @@ public class MessageKeys implements SettingsHolder {
     public static final Property<String> auto_broadcast_added = newProperty("Auto_Broadcast.Added", "{prefix}<reset>{message} <gray>has been added to the <red>{section} <gray>messages<gray>!");
     public static final Property<String> auto_broadcast_created = newProperty("Auto_Broadcast.Created", "{prefix}<gray>Created the world <red>'%world%' <gray>with the message <reset>{message}<gray>.");
 
-    public static final Property<String> banned_commands_message = newProperty("Banned_Commands.Message", "{prefix}<red>You do not have permission to use the command <gray>/{command}<red>.");
-    public static final Property<String> banned_commands_command_added = newProperty("Banned_Commands.Command_Added", "{prefix}<gray>You added the command <red>{command} <gray>to the list of banned commands.");
-    public static final Property<String> banned_commands_command_exists = newProperty("Banned_Commands.Command_Exists", "{prefix}<gray>The command <red>{command} <gray>is already added to the list of banned commands.");
-    public static final Property<String> banned_commands_command_removed = newProperty("Banned_Commands.Command_Removed", "{prefix}<gray>You removed the command <red>{command} <gray>from the list of banned commands.");
-    public static final Property<String> banned_commands_command_not_found = newProperty("Banned_Commands.Command_Not_Found", "{prefix}<gray>The command <red>{command} <gray>is not in the list of banned commands.");
-    public static final Property<String> banned_commands_notify_staff_format = newProperty("Banned_Commands.Notify_Staff_Format", "<gray>[Blocked-Cmd] <white>{player}: <gray>{command}");
-
     public static final Property<String> chat_radius_local_chat_enabled = newProperty("Chat_Radius.Local_Chat.Enabled", "{prefix}<gray>You've entered <red>Local Chat<gray>! Do <red>/ChatRadius global <gray>or <red>/ChatRadius world <gray>to leave Local Chat!");
     public static final Property<String> chat_radius_local_chat_already_enabled = newProperty("Chat_Radius.Local_Chat.Already_Enabled", "{prefix}<gray>You are already in local chat.");
     public static final Property<String> chat_radius_global_chat_enabled = newProperty("Chat_Radius.Global_Chat.Enabled", "{prefix}<gray>You've entered <red>Global Chat<gray>! Do <red>/ChatRadius local <gray>or <red>/ChatRadius world <gray>to leave global Chat!");

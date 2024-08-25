@@ -56,6 +56,14 @@ public enum Messages {
     toggle_enabled(ToggleKeys.toggle_enabled),
     toggle_disabled(ToggleKeys.toggle_disabled),
 
+    filter_value_added(ChatKeys.filter_value_added),
+    filter_value_remove(ChatKeys.filter_value_remove),
+    filter_value_exists(ChatKeys.filter_value_exists),
+    filter_value_not_found(ChatKeys.filter_value_not_found),
+    filter_command_notify_staff(ChatKeys.filter_command_notify_staff),
+    filter_word_notify_staff(ChatKeys.filter_word_notify_staff),
+    filter_command_help(ChatKeys.filter_command_help, true),
+
     // old keys
     anti_advertising_chat_message(MessageKeys.anti_advertising_chat_message),
     anti_advertising_chat_notify_staff(MessageKeys.anti_advertising_chat_notify_staff),
@@ -103,13 +111,6 @@ public enum Messages {
     auto_broadcast_list(MessageKeys.auto_broadcast_list),
     auto_broadcast_added(MessageKeys.auto_broadcast_added),
     auto_broadcast_created(MessageKeys.auto_broadcast_created),
-
-    banned_commands_message(MessageKeys.banned_commands_message),
-    banned_commands_added(MessageKeys.banned_commands_command_added),
-    banned_commands_exists(MessageKeys.banned_commands_command_exists),
-    banned_commands_removed(MessageKeys.banned_commands_command_removed),
-    banned_commands_not_found(MessageKeys.banned_commands_command_not_found),
-    banned_commands_notify_staff_format(MessageKeys.banned_commands_notify_staff_format),
 
     chat_radius_local_chat_enabled(MessageKeys.chat_radius_local_chat_enabled),
     chat_radius_local_chat_already_enabled(MessageKeys.chat_radius_local_chat_already_enabled),
