@@ -10,16 +10,14 @@ import java.util.List;
 public class WordsConfig {
 
     @Expose
-    public static List<String> banned_words = new ArrayList<>();
+    public static List<String> banned_words = new ArrayList<>() {{
+        add("anal");
+    }};
 
     @Expose
-    public static List<String> allowed_words = new ArrayList<>();
-
-    static {
-        banned_words.add("anal");
-
-        allowed_words.add("an alt");
-    }
+    public static List<String> allowed_words = new ArrayList<>() {{
+        add("an alt");
+    }};
 
     private final Serializer<WordsConfig> serializer;
 

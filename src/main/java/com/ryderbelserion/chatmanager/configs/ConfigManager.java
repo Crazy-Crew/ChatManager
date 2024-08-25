@@ -82,9 +82,8 @@ public class ConfigManager {
         Files.commands_file.create();
         Files.words_file.create();
 
-        commandsConfig.save();
-
-        wordsConfig.save();
+        commandsConfig.load();
+        wordsConfig.load();
 
         populateRules();
         populateHelp();
