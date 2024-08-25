@@ -1,6 +1,7 @@
 package com.ryderbelserion.chatmanager.utils.support.generic;
 
 import com.ryderbelserion.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.utils.ChatUtils;
 import com.ryderbelserion.vital.common.api.interfaces.IPlugin;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
@@ -14,6 +15,22 @@ public class GenericVanish implements IPlugin {
     @Override
     public @NotNull final String getName() {
         return "GenericVanish";
+    }
+
+    @Override
+    public void init() {
+        ChatUtils.add(this);
+    }
+
+    @Override
+    public void stop() {
+        if (!isEnabled()) {
+            ChatUtils.remove(this);
+
+            return;
+        }
+
+        ChatUtils.remove(this);
     }
 
     @Override
