@@ -288,7 +288,7 @@ public class ConfigKeys implements SettingsHolder {
     public static final Property<Boolean> anti_spam_command_block_repetitive_commands = newProperty("Anti_Spam.Command.Block_Repetitive_Commands", false);
 
     @Comment("Whitelisted commands that won't be affected by the anti-spam.")
-    public static final ListProperty<String> anti_spam_command_whitelist = newListProperty("Anti_Spam.Command.Whitelist", Arrays.asList("/spawn"));
+    public static final ListProperty<String> anti_spam_command_whitelist = newListProperty("Anti_Spam.Command.Whitelist", List.of("/spawn"));
 
     // Anti-Swear (Chat)
     @Comment("Block swearing in chat.")
