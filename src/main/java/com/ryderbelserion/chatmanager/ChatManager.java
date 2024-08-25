@@ -12,6 +12,7 @@ import com.ryderbelserion.chatmanager.listeners.chat.FilterListener;
 import com.ryderbelserion.chatmanager.listeners.staff.SpyListener;
 import com.ryderbelserion.chatmanager.listeners.staff.StaffListener;
 import com.ryderbelserion.chatmanager.listeners.staff.logs.HistoryListener;
+import com.ryderbelserion.chatmanager.managers.BroadcastManager;
 import com.ryderbelserion.chatmanager.utils.LogUtils;
 import com.ryderbelserion.chatmanager.utils.TaskUtils;
 import com.ryderbelserion.chatmanager.utils.support.EssentialsSupport;
@@ -71,6 +72,8 @@ public class ChatManager extends Vital {
                 new ChatListener(),
                 new SpyListener()
         ).forEach(listener -> getServer().getPluginManager().registerEvents(listener, this));
+
+        BroadcastManager.start();
 
         // Monitor staff changes
         TaskUtils.startMonitoringTask();

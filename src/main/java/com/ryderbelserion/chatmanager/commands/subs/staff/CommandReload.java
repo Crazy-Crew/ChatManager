@@ -5,6 +5,7 @@ import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.commands.subs.BaseCommand;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.managers.BroadcastManager;
 import com.ryderbelserion.chatmanager.utils.LogUtils;
 import com.ryderbelserion.chatmanager.utils.TaskUtils;
 import dev.triumphteam.cmd.bukkit.annotation.Permission;
@@ -28,10 +29,10 @@ public class CommandReload extends BaseCommand {
         this.server.getGlobalRegionScheduler().cancelTasks(this.plugin);
         this.server.getAsyncScheduler().cancelTasks(this.plugin);
 
-        TaskUtils.startMonitoringTask();
-
         for (final Player player : this.plugin.getServer().getOnlinePlayers()) {
             final User user = this.userManager.getUser(player);
+
+            user.hideBossBar();
 
             //todo() remove cooldowns
             //this.plugin.api().getChatCooldowns().removeUser(player.getUniqueId());
@@ -48,6 +49,10 @@ public class CommandReload extends BaseCommand {
                 }
             }
         }
+
+        BroadcastManager.start();
+
+        TaskUtils.startMonitoringTask();
 
         Messages.plugin_reload.sendMessage(sender);
     }

@@ -9,8 +9,6 @@ import java.io.IOException;
 
 public enum Files {
 
-    //AUTO_BROADCAST("AutoBroadcast.yml", false),
-
     advertisement_log_file("advertisements.log", "logs", true),
     command_log_file("commands.log", "logs", true),
     swear_log_file("swears.log", "logs", true),
@@ -18,7 +16,9 @@ public enum Files {
     chat_log_file("chat.log", "logs", true),
 
     commands_file("commands.json", "blacklist", true),
-    words_file("words.json", "blacklist", true);
+    words_file("words.json", "blacklist", true),
+
+    auto_broadcast_file("broadcast.yml");
 
     private @NotNull final ChatManager plugin = ChatManager.get();
 

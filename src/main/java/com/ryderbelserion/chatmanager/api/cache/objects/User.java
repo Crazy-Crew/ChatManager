@@ -4,7 +4,9 @@ import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.api.enums.chat.ChatType;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
+import com.ryderbelserion.vital.paper.api.enums.Support;
 import com.ryderbelserion.vital.paper.util.AdvUtil;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.entity.Player;
 import java.util.ArrayList;
@@ -44,24 +46,44 @@ public class User {
 
     public transient BossBar bossBar = null;
 
-    public void showBossBar() {
+    public final User showBossBar() {
         final UUID uuid = this.player.getUniqueId();
 
-        final BossBar bossBar = BossBar
-                .bossBar(AdvUtil.parse(this.config.getProperty(ConfigKeys.staff_bossbar_title), uuid),
-                        0,
-                        BossBar.Color.PURPLE,
-                        BossBar.Overlay.NOTCHED_12);
+        BossBar bar = null;
 
-        this.player.showBossBar(this.bossBar = bossBar);
+        if (this.bossBar == null) {
+            this.bossBar = BossBar.bossBar(AdvUtil.parse(this.config.getProperty(ConfigKeys.staff_bossbar_title), uuid),
+                    0,
+                    BossBar.Color.PURPLE,
+                    BossBar.Overlay.NOTCHED_12);
+        } else {
+            bar = this.bossBar;
+        }
+
+        this.player.showBossBar(bar == null ? this.bossBar : bar);
+
+        return this;
     }
 
-    public void hideBossBar() {
-        if (this.bossBar == null) return;
+    public final User createBossBar(final Player player, final String name) {
+        this.bossBar = BossBar.bossBar(
+                AdvUtil.parse(Support.placeholder_api.isEnabled() ? PlaceholderAPI.setPlaceholders(player, name) : name),
+                0,
+                BossBar.Color.PURPLE,
+                BossBar.Overlay.NOTCHED_12
+        );
+
+        return this;
+    }
+
+    public final User hideBossBar() {
+        if (this.bossBar == null) return null;
 
         this.player.hideBossBar(this.bossBar);
 
         this.bossBar = null;
+
+        return this;
     }
 
     // other checks
