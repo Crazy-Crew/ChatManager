@@ -22,6 +22,7 @@ public class User {
     }
 
     public boolean isStaffChat = false;
+    public boolean isMuted = false;
 
     public final List<String> activeChatTypes = new ArrayList<>();
     public final List<String> activeSpyTypes = new ArrayList<>();

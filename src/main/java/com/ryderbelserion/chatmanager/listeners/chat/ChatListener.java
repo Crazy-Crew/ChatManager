@@ -102,6 +102,40 @@ public class ChatListener implements Listener {
         Messages.anti_bot_deny_chat_message.sendMessage(player);
     }
 
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerMuteChat(AsyncChatEvent event) {
+        final Player player = event.getPlayer();
+
+        final User user = this.userManager.getUser(player);
+
+        if (player.hasPermission(Permissions.BYPASS_MUTE_CHAT.getNode()) || !user.isMuted) return;
+
+        //todo() send message that they are muted
+
+        event.setCancelled(true);
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerMuteCommand(PlayerCommandPreprocessEvent event) {
+        final Player player = event.getPlayer();
+
+        final User user = this.userManager.getUser(player);
+
+        if (!this.config.getProperty(ConfigKeys.mute_chat_disable_commands) ||
+                player.hasPermission(Permissions.BYPASS_MUTE_CHAT.getNode()) ||
+                !user.isMuted) return;
+
+        final String message = event.getMessage().toLowerCase();
+
+        this.config.getProperty(ConfigKeys.mute_chat_disabled_commands).forEach(command -> {
+            if (message.contains(command)) {
+                //todo() tell them commands are blocked, because muted.
+
+                event.setCancelled(true);
+            }
+        });
+    }
+
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlayerRadiusChat(AsyncChatEvent event) {
         final Player player = event.getPlayer();
