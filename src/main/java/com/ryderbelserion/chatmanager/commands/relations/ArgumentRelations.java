@@ -15,10 +15,11 @@ public class ArgumentRelations extends MessageManager {
         String usage = null;
 
         switch (command) {
+            case "filter" -> usage = order + " add/remove/help <type> <word/command>";
             case "staffchat" -> usage = order + " [message]";
             case "clearchat" -> usage = order + " [lines]";
             case "rules" -> usage = order + " <page>";
-            case "spy" -> usage = order + " <state>";
+            case "spy" -> usage = order + " <type>";
         }
 
         return usage;

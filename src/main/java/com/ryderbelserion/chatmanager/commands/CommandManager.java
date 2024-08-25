@@ -1,10 +1,12 @@
 package com.ryderbelserion.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.ChatManager;
-import com.ryderbelserion.chatmanager.api.enums.chat.ChatState;
-import com.ryderbelserion.chatmanager.api.enums.chat.SpyState;
-import com.ryderbelserion.chatmanager.api.enums.chat.ToggleState;
+import com.ryderbelserion.chatmanager.api.enums.chat.ChatType;
+import com.ryderbelserion.chatmanager.api.enums.chat.FilterType;
+import com.ryderbelserion.chatmanager.api.enums.chat.SpyType;
+import com.ryderbelserion.chatmanager.api.enums.chat.ToggleType;
 import com.ryderbelserion.chatmanager.commands.relations.ArgumentRelations;
+import com.ryderbelserion.chatmanager.commands.subs.BaseCommand;
 import com.ryderbelserion.chatmanager.commands.subs.misc.CommandMotd;
 import com.ryderbelserion.chatmanager.commands.subs.misc.CommandRules;
 import com.ryderbelserion.chatmanager.commands.subs.player.CommandHelp;
@@ -15,11 +17,17 @@ import com.ryderbelserion.chatmanager.commands.subs.staff.CommandSpy;
 import com.ryderbelserion.chatmanager.commands.subs.staff.chat.CommandClearChat;
 import com.ryderbelserion.chatmanager.commands.subs.staff.chat.CommandStaffChat;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.configs.persist.blacklist.CommandsConfig;
+import com.ryderbelserion.chatmanager.configs.persist.blacklist.WordsConfig;
 import com.ryderbelserion.vital.paper.api.builders.PlayerBuilder;
 import dev.triumphteam.cmd.bukkit.BukkitCommandManager;
+import dev.triumphteam.cmd.core.argument.keyed.Argument;
+import dev.triumphteam.cmd.core.argument.keyed.ArgumentKey;
 import dev.triumphteam.cmd.core.suggestion.SuggestionKey;
+import dev.triumphteam.cmd.core.suggestion.SuggestionMethod;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.codehaus.plexus.util.cli.Arg;
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,11 +62,19 @@ public class CommandManager {
             return numbers;
         });
 
-        commandManager.registerSuggestion(SuggestionKey.of("spy_states"), (sender, context) -> Arrays.stream(SpyState.values()).map(SpyState::getName).toList());
+        commandManager.registerSuggestion(SuggestionKey.of("blacklisted_commands"), (sender, context) -> CommandsConfig.banned_commands);
+        commandManager.registerSuggestion(SuggestionKey.of("blacklisted_words"), (sender, context) -> WordsConfig.banned_words);
+        commandManager.registerSuggestion(SuggestionKey.of("whitelisted_words"), (sender, context) -> WordsConfig.allowed_words);
 
-        commandManager.registerSuggestion(SuggestionKey.of("chat_states"), (sender, context) -> Arrays.stream(ChatState.values()).map(ChatState::getName).toList());
+        commandManager.registerSuggestion(SuggestionKey.of("spy_type"), (sender, context) -> Arrays.stream(SpyType.values()).map(SpyType::getName).toList());
 
-        commandManager.registerSuggestion(SuggestionKey.of("toggle_states"), (sender, context) -> Arrays.stream(ToggleState.values()).map(ToggleState::getName).toList());
+        commandManager.registerSuggestion(SuggestionKey.of("chat_type"), (sender, context) -> Arrays.stream(ChatType.values()).map(ChatType::getName).toList());
+
+        commandManager.registerSuggestion(SuggestionKey.of("toggle_type"), (sender, context) -> Arrays.stream(ToggleType.values()).map(ToggleType::getName).toList());
+
+        commandManager.registerSuggestion(SuggestionKey.of("filter_type"), (sender, context) -> Arrays.stream(FilterType.values()).map(FilterType::getName).toList());
+
+        commandManager.registerSuggestion(SuggestionKey.of("filter_type_minimal"), (sender, context) -> Arrays.stream(FilterType.values()).map(FilterType::getName).filter(name -> name.equalsIgnoreCase("allowed_words")).toList());
 
         // default
         commandManager.registerSuggestion(SuggestionKey.of("players"), (sender, context) -> plugin.getServer().getOnlinePlayers().stream().map(Player::getName).toList());
@@ -71,9 +87,12 @@ public class CommandManager {
             return numbers;
         });
 
+        // default
         commandManager.registerArgument(PlayerBuilder.class, (sender, context) -> new PlayerBuilder(context));
 
         List.of(
+                new BaseCommand(),
+
                 new CommandRadius(),
                 new CommandToggle(),
 
@@ -83,7 +102,6 @@ public class CommandManager {
 
                 new CommandStaffChat(),
                 new CommandClearChat(),
-
                 new CommandReload(),
 
                 new CommandSpy()
