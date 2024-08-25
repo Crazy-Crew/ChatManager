@@ -2,11 +2,13 @@ package com.ryderbelserion.chatmanager.listeners.chat;
 
 import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.api.enums.chat.ChatType;
 import com.ryderbelserion.chatmanager.api.enums.chat.ToggleType;
 import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.cache.UserManager;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
 import com.ryderbelserion.chatmanager.configs.types.SpamKeys;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
@@ -98,6 +100,83 @@ public class ChatListener implements Listener {
         event.setCancelled(true);
 
         Messages.anti_bot_deny_chat_message.sendMessage(player);
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onPlayerRadiusChat(AsyncChatEvent event) {
+        final Player player = event.getPlayer();
+
+        final User user = this.userManager.getUser(player);
+
+        if (!this.config.getProperty(ConfigKeys.chat_radius_enable) || user.isStaffChat) return;
+
+        final String localCharacter = this.config.getProperty(ConfigKeys.local_chat_override_symbol);
+        final String globalCharacter = this.config.getProperty(ConfigKeys.global_chat_override_symbol);
+        final String worldCharacter = this.config.getProperty(ConfigKeys.world_chat_override_symbol);
+
+        final String message = event.signedMessage().message();
+
+        if (player.hasPermission(Permissions.CHAT_RADIUS_GLOBAL_OVERRIDE.getNode())) {
+            if (!globalCharacter.isEmpty()) {
+                if (message.charAt(0) == globalCharacter.charAt(0)) {
+                    user.chatType = ChatType.world_chat;
+
+                    //todo() update message without breaking chat signatures
+
+                    return;
+                }
+            }
+        }
+
+        if (player.hasPermission(Permissions.CHAT_RADIUS_LOCAL_OVERRIDE.getNode())) {
+            if (!localCharacter.isEmpty()) {
+                if (message.charAt(0) == localCharacter.charAt(0)) {
+                    user.chatType = ChatType.local_chat;
+
+                    //todo() update message without breaking chat signatures
+
+                    return;
+                }
+            }
+        }
+
+        if (player.hasPermission(Permissions.CHAT_RADIUS_WORLD_OVERRIDE.getNode())) {
+            if (!worldCharacter.isEmpty()) {
+                if (message.charAt(0) == worldCharacter.charAt(0)) {
+                    user.chatType = ChatType.world_chat;
+
+                    //todo() update message without breaking chat signatures
+
+                    return;
+                }
+            }
+        }
+
+        if (user.chatType == ChatType.local_chat) {
+            event.viewers().clear();
+
+//            for (Player receiver : this.plugin.getServer().getOnlinePlayers()) { //todo() uncomment this
+//                if (Methods.inRange(uuid, receiver.getUniqueId(), radius)) {
+//                    recipients.add(player);
+//                    recipients.add(receiver);
+//                }
+//
+//                if (plugin.api().getSpyChatData().containsUser(receiver.getUniqueId())) recipients.add(receiver);
+//            }
+        }
+
+        if (user.chatType == ChatType.world_chat) {
+            event.viewers().clear();
+
+//            for (Player receiver : this.plugin.getServer().getOnlinePlayers()) { //todo() uncomment this
+//                if (Methods.inWorld(uuid, receiver.getUniqueId())) {
+//                    recipients.add(player);
+//                    recipients.add(receiver);
+//                }
+//
+//                if (this.plugin.api().getSpyChatData().containsUser(receiver.getUniqueId())) recipients.add(receiver);
+//            }
+        }
     }
 
     public final boolean isCommandsBlocked() {
