@@ -39,12 +39,12 @@
 #    Use this format if you don't know what to add.
 #    Default: #Group ID
 #       Permission: "chatmanager.join.donator"
-#       Join_Message: "{player} &ejoined the server!"
-#       Quit_Message: "{player} &eleft the server!"
-#       Actionbar: "&eWelcome back to &b{server_name} %luckperms_prefix% {player}&e!"
+#       Join_Message: "{player} <yellow>joined the server!"
+#       Quit_Message: "{player} <yellow>left the server!"
+#       Actionbar: "<yellow>Welcome back to <aqua>{server_name} %luckperms_prefix% {player}<yellow>!"
 #       Title:
-#         Header: "&eWelcome Back"
-#         Footer: "&b{player} to {server_name}"
+#         Header: "<yellow>Welcome Back"
+#         Footer: "<aqua>{player} to {server_name}"
 #       Sound: ''
 #
 #=================================================================================================#
@@ -65,11 +65,11 @@ Messages:
         value: 'ENTITY_PLAYER_LEVELUP'
         pitch: 1.0
         volume: 1.0
-      First_Join_Message: "&eWelcome to &b{server_name} %luckperms_prefix% {player}&e!"
+      First_Join_Message: "<yellow>Welcome to <aqua>{server_name} %luckperms_prefix% {player}<yellow>!"
 
     Actionbar_Message:
       Enable: false
-      First_Join_Message: "&eWelcome to &b{server_name} %luckperms_prefix% {player}&e!"
+      First_Join_Message: "<yellow>Welcome to <aqua>{server_name} %luckperms_prefix% {player}<yellow>!"
 
     Title_Message:
       Enable: false
@@ -80,8 +80,8 @@ Messages:
       #The time it takes for the title to fade out of the screen.
       Fade_Out: 40
       First_Join_Message:
-        Header: "&eWelcome"
-        Footer: "&b{player} to {server_name}"
+        Header: "<yellow>Welcome"
+        Footer: "<aqua>{player} to {server_name}"
 
   Join_Quit_Messages:
     Join_Message:
@@ -97,7 +97,7 @@ Messages:
         value: 'ENTITY_PLAYER_LEVELUP'
         pitch: 1.0
         volume: 1.0
-      Message: "&b{player} &ajoined the server"
+      Message: "<aqua>{player} <green>joined the server"
 
     Quit_Message:
       Enable: false
@@ -110,11 +110,11 @@ Messages:
         pitch: 1.0
         volume: 1.0
 
-      Message: "&b{player} &cleft the server"
+      Message: "<aqua>{player} <red>left the server"
 
     Actionbar_Message:
       Enable: true
-      Message: "&eWelcome back to &b{server_name} %luckperms_prefix% {player}&e!"
+      Message: "<yellow>Welcome back to <aqua>{server_name} %luckperms_prefix% {player}<yellow>!"
 
     Title_Message:
       Enable: false
@@ -126,8 +126,8 @@ Messages:
       # The time it takes for the title to fade out of the screen.
       Fade_Out: 40
       Message:
-        Header: "&eWelcome Back"
-        Footer: "&b{player} to {server_name}"
+        Header: "<yellow>Welcome Back"
+        Footer: "<aqua>{player} to {server_name}"
 
     # Per group messages
     # You can add as many sections of you'd like
@@ -138,15 +138,15 @@ Messages:
       Default:
         # Permission you give the group for then to send these messages.
         Permission: "chatmanager.join.default"
-        Join_Message: "{player} &ejoined the server!"
-        Quit_Message: "{player} &eleft the server!"
+        Join_Message: "{player} <yellow>joined the server!"
+        Quit_Message: "{player} <yellow>left the server!"
         # Actionbar Messages groups will receive on join.
-        Actionbar: "&eWelcome back to &b{server_name} %luckperms_prefix% {player}&e!"
+        Actionbar: "<yellow>Welcome back to <aqua>{server_name} %luckperms_prefix% {player}<yellow>!"
 
         # Title Messages groups will receive on join.
         Title:
-          Header: "&eWelcome Back"
-          Footer: "&b{player} to {server_name}"
+          Header: "<yellow>Welcome Back"
+          Footer: "<aqua>{player} to {server_name}"
 
         # The sound that will be sent to everyone on the server when a broadcasted message is sent.
         # Set toggle to false
@@ -158,13 +158,13 @@ Messages:
 
       Donator:
         Permission: "chatmanager.join.donator"
-        Join_Message: "{player} &ejoined the server!"
-        Quit_Message: "{player} &eleft the server!"
-        Actionbar: "&eWelcome back to &b{server_name} %luckperms_prefix% {player}&e!"
+        Join_Message: "{player} <yellow>joined the server!"
+        Quit_Message: "{player} <yellow>left the server!"
+        Actionbar: "<yellow>Welcome back to <aqua>{server_name} %luckperms_prefix% {player}<yellow>!"
 
         Title:
-          Header: "&eWelcome Back"
-          Footer: "&b{player} to {server_name}"
+          Header: "<yellow>Welcome Back"
+          Footer: "<aqua>{player} to {server_name}"
 
         # The sound that will be sent to everyone on the server when a broadcasted message is sent.
         # Set toggle to false
@@ -176,13 +176,13 @@ Messages:
 
       Owner:
         Permission: "chatmanager.join.owner"
-        Join_Message: "{player} &ejoined the server!"
-        Quit_Message: "{player} &eleft the server!"
-        Actionbar: "&eWelcome back to &b{server_name} %luckperms_prefix% {player}&e!"
+        Join_Message: "{player} <yellow>joined the server!"
+        Quit_Message: "{player} <yellow>left the server!"
+        Actionbar: "<yellow>Welcome back to <aqua>{server_name} %luckperms_prefix% {player}<yellow>!"
 
         Title:
-          Header: "&eWelcome Back"
-          Footer: "&b{player} to {server_name}"
+          Header: "<yellow>Welcome Back"
+          Footer: "<aqua>{player} to {server_name}"
         # The sound that will be sent to everyone on the server when a broadcasted message is sent.
         # Set toggle to false
         sound:
