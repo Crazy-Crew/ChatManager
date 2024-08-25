@@ -2,7 +2,7 @@ package com.ryderbelserion.chatmanager.utils;
 
 import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
-import com.ryderbelserion.chatmanager.api.enums.chat.SpyState;
+import com.ryderbelserion.chatmanager.api.enums.chat.SpyType;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import org.bukkit.Server;
@@ -28,11 +28,11 @@ public class TaskUtils {
                     }
 
                     if (!Permissions.SOCIAL_SPY.hasPermission(player)) {
-                        user.activeSpyStates.remove(SpyState.social_spy);
+                        user.activeSpyTypes.remove(SpyType.social_spy.getName());
                     }
 
                     if (!Permissions.COMMAND_SPY.hasPermission(player)) {
-                        user.activeSpyStates.remove(SpyState.command_spy);
+                        user.activeSpyTypes.remove(SpyType.command_spy.getName());
                     }
                 });
             }

@@ -1,7 +1,7 @@
 package com.ryderbelserion.chatmanager.api.cache.objects;
 
 import ch.jalu.configme.SettingsManager;
-import com.ryderbelserion.chatmanager.api.enums.chat.ChatState;
+import com.ryderbelserion.chatmanager.api.enums.chat.ChatType;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
 import com.ryderbelserion.vital.paper.util.AdvUtil;
@@ -23,10 +23,10 @@ public class User {
 
     public boolean isStaffChat = false;
 
-    public final List<String> activeChatToggles = new ArrayList<>();
-    public final List<String> activeSpyStates = new ArrayList<>();
+    public final List<String> activeChatTypes = new ArrayList<>();
+    public final List<String> activeSpyTypes = new ArrayList<>();
 
-    public ChatState chatState = ChatState.global_chat;
+    public ChatType chatType = ChatType.global_chat;
 
     public String locale = "en-US";
 

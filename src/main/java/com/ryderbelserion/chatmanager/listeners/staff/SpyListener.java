@@ -3,7 +3,7 @@ package com.ryderbelserion.chatmanager.listeners.staff;
 import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.api.enums.Files;
-import com.ryderbelserion.chatmanager.api.enums.chat.SpyState;
+import com.ryderbelserion.chatmanager.api.enums.chat.SpyType;
 import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.api.events.MessageSendEvent;
@@ -46,7 +46,7 @@ public class SpyListener implements Listener {
 
             final User user = this.userManager.getUser(player);
 
-            if (user == null || !user.activeSpyStates.contains(SpyState.command_spy)) return;
+            if (user == null || !user.activeSpyTypes.contains(SpyType.command_spy.getName())) return;
 
             Messages.spy_command_format.sendMessage(staff, new HashMap<>() {{
                 put("{player}", player.getName());
@@ -83,7 +83,7 @@ public class SpyListener implements Listener {
 
             final User user = this.userManager.getUser(staff);
 
-            if (user == null || !user.activeSpyStates.contains(SpyState.social_spy)) return;
+            if (user == null || !user.activeSpyTypes.contains(SpyType.social_spy.getName())) return;
 
             Messages.spy_chat_format.sendMessage(staff, new HashMap<>() {{
                 if (target != null) {

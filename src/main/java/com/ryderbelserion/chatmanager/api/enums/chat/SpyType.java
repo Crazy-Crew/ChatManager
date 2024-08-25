@@ -2,14 +2,14 @@ package com.ryderbelserion.chatmanager.api.enums.chat;
 
 import org.apache.commons.lang.WordUtils;
 
-public enum SpyState {
+public enum SpyType {
 
     social_spy("social_spy"),
     command_spy("command_spy");
 
     private final String spyState;
 
-    SpyState(final String spyState) {
+    SpyType(final String spyState) {
         this.spyState = spyState;
     }
 
@@ -21,21 +21,21 @@ public enum SpyState {
         return this.spyState;
     }
 
-    public static SpyState getSpyState(final String value) {
-        SpyState state = SpyState.social_spy;
+    public static SpyType getSpyType(final String value) {
+        SpyType type = SpyType.social_spy;
 
         if (value.isEmpty()) {
-            return state;
+            return type;
         }
 
-        for (final SpyState key : SpyState.values()) {
+        for (final SpyType key : SpyType.values()) {
             if (key.getName().equals(value)) {
-                state = key;
+                type = key;
 
                 break;
             }
         }
 
-        return state;
+        return type;
     }
 }

@@ -2,7 +2,7 @@ package com.ryderbelserion.chatmanager.api.enums.chat;
 
 import org.apache.commons.lang.WordUtils;
 
-public enum ChatState {
+public enum ChatType {
 
     local_chat("local_chat"),
     world_chat("world_chat"),
@@ -11,7 +11,7 @@ public enum ChatState {
 
     private final String chat;
 
-    ChatState(final String chat) {
+    ChatType(final String chat) {
         this.chat = chat;
     }
 
@@ -23,21 +23,21 @@ public enum ChatState {
         return this.chat;
     }
 
-    public static ChatState getChatState(final String value) {
-        ChatState state = ChatState.global_chat;
+    public static ChatType getChatType(final String value) {
+        ChatType type = ChatType.global_chat;
 
         if (value.isEmpty()) {
-            return state;
+            return type;
         }
 
-        for (final ChatState key : ChatState.values()) {
+        for (final ChatType key : ChatType.values()) {
             if (key.getName().equals(value)) {
-                state = key;
+                type = key;
 
                 break;
             }
         }
 
-        return state;
+        return type;
     }
 }

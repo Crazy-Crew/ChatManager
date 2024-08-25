@@ -1,7 +1,7 @@
 package com.ryderbelserion.chatmanager.commands.subs.staff;
 
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
-import com.ryderbelserion.chatmanager.api.enums.chat.SpyState;
+import com.ryderbelserion.chatmanager.api.enums.chat.SpyType;
 import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.commands.subs.BaseCommand;
 import com.ryderbelserion.chatmanager.configs.impl.messages.commands.SpyKeys;
@@ -15,27 +15,27 @@ import java.util.HashMap;
 public class CommandSpy extends BaseCommand {
 
     @Command("spy")
-    @Permission(value = "chatmanager.spy", def = PermissionDefault.OP, description = "Access to /chatmanager spy <state>")
-    public void spy(final Player player, @Suggestion("spy_states") final String value) {
-        final SpyState state = SpyState.getSpyState(value);
+    @Permission(value = "chatmanager.spy", def = PermissionDefault.OP, description = "Access to /chatmanager spy <type>")
+    public void spy(final Player player, @Suggestion("spy_type") final String value) {
+        final SpyType type = SpyType.getSpyType(value);
 
         final User user = this.userManager.getUser(player);
 
-        if (user.activeSpyStates.contains(state.getName())) {
-            user.activeSpyStates.remove(state.getName());
+        if (user.activeSpyTypes.contains(type.getName())) {
+            user.activeSpyTypes.remove(type.getName());
 
             Messages.spy_toggle.sendMessage(player, new HashMap<>() {{
-                put("{state}", state.getPrettyName());
+                put("{state}", type.getPrettyName());
                 put("{status}", messages.getProperty(SpyKeys.spy_disabled));
             }});
 
             return;
         }
 
-        user.activeSpyStates.add(state.getName());
+        user.activeSpyTypes.add(type.getName());
 
         Messages.spy_toggle.sendMessage(player, new HashMap<>() {{
-            put("{state}", state.getPrettyName());
+            put("{state}", type.getPrettyName());
             put("{status}", messages.getProperty(SpyKeys.spy_enabled));
         }});
     }

@@ -2,7 +2,7 @@ package com.ryderbelserion.chatmanager.api.enums.chat;
 
 import org.apache.commons.lang.WordUtils;
 
-public enum ToggleState {
+public enum ToggleType {
 
     toggle_private_messages("toggle_private_messages"),
     toggle_mentions("toggle_mentions"),
@@ -11,7 +11,7 @@ public enum ToggleState {
 
     private final String chat;
 
-    ToggleState(final String chat) {
+    ToggleType(final String chat) {
         this.chat = chat;
     }
 
@@ -23,21 +23,21 @@ public enum ToggleState {
         return this.chat;
     }
 
-    public static ToggleState getToggleState(final String value) {
-        ToggleState state = null;
+    public static ToggleType getToggleType(final String value) {
+        ToggleType type = null;
 
         if (value.isEmpty()) {
-            return state;
+            return type;
         }
 
-        for (final ToggleState key : ToggleState.values()) {
+        for (final ToggleType key : ToggleType.values()) {
             if (key.getName().equals(value)) {
-                state = key;
+                type = key;
 
                 break;
             }
         }
 
-        return state;
+        return type;
     }
 }

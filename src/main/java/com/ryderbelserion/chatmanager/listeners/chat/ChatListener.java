@@ -2,7 +2,7 @@ package com.ryderbelserion.chatmanager.listeners.chat;
 
 import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.ChatManager;
-import com.ryderbelserion.chatmanager.api.enums.chat.ToggleState;
+import com.ryderbelserion.chatmanager.api.enums.chat.ToggleType;
 import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.cache.UserManager;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
@@ -80,7 +80,7 @@ public class ChatListener implements Listener {
 
         final User user = this.userManager.getUser(player);
 
-        if (user == null || !user.activeChatToggles.contains(ToggleState.toggle_chat.getName())) return;
+        if (user == null || !user.activeChatTypes.contains(ToggleType.toggle_chat.getName())) return;
 
         event.viewers().remove(player);
     }
