@@ -7,12 +7,17 @@ import com.ryderbelserion.chatmanager.api.events.MessageSendEvent;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
 import com.ryderbelserion.vital.paper.api.enums.Support;
+import com.ryderbelserion.vital.paper.util.AdvUtil;
 import com.ryderbelserion.vital.paper.util.ItemUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +37,21 @@ public class MsgUtils {
         } else {
             sender.sendRichMessage(msg);
         }
+    }
+
+    public static void sendActionBar(final CommandSender sender, final String message, @Nullable final Map<String, String> placeholders) {
+        if (message.isEmpty()) return;
+
+        sender.sendActionBar(AdvUtil.parse(getMessage(sender, message, placeholders)));
+    }
+
+    public static void sendTitle(final Player player, final String message, @Nullable final Map<String, String> placeholders) {
+        if (message.isEmpty()) return;
+
+        final Title.Times times = Title.Times.times(Duration.ofMillis(400), Duration.ofMillis(200), Duration.ofMillis(400));
+        final Title title = Title.title(AdvUtil.parse(getMessage(player, message, placeholders)), Component.empty(), times);
+
+        player.showTitle(title);
     }
 
     public static void sendMessage(final CommandSender sender, final String message, final String placeholder, final String replacement) {

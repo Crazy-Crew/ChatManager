@@ -8,7 +8,7 @@ Auto_Broadcast:
     Footer: "<gray>*<gray><st>--------------------------------</st><gray>*"
     sound:
       toggle: false
-      value: 'ENTITY_PLAYER_LEVELUP'
+      value: 'entity.player.levelup'
       pitch: 1
       volume: 1
     Messages:
@@ -24,7 +24,7 @@ Auto_Broadcast:
     Footer: "<gray>*<gray><st>--------------------------------</st><gray>*"
     sound:
       toggle: false
-      value: 'ENTITY_PLAYER_LEVELUP'
+      value: 'entity.player.levelup'
       pitch: 1
       volume: 1
     Messages:
@@ -63,7 +63,7 @@ Auto_Broadcast:
     Interval: 60
     sound:
       toggle: false
-      value: 'ENTITY_PLAYER_LEVELUP'
+      value: 'entity.player.levelup'
       pitch: 1.0
       volume: 1.0
     Title: "<red>Title"
@@ -76,7 +76,7 @@ Auto_Broadcast:
     Interval: 60
     sound:
       toggle: false
-      value: 'ENTITY_PLAYER_LEVELUP'
+      value: 'entity.player.levelup'
       pitch: 1.0
       volume: 1.0
     Bar_Time: 10 # How long the boss bar stays on for.

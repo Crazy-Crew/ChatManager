@@ -1,22 +1,19 @@
 package com.ryderbelserion.chatmanager.managers;
 
-import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.api.cache.UserManager;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
 import com.ryderbelserion.chatmanager.api.enums.Files;
 import com.ryderbelserion.chatmanager.api.objects.CustomWorld;
-import com.ryderbelserion.chatmanager.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.utils.Methods;
-import com.ryderbelserion.vital.paper.util.AdvUtil;
+import com.ryderbelserion.chatmanager.utils.MsgUtils;
+import com.ryderbelserion.chatmanager.utils.old.Methods;
 import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.title.Title;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import java.time.Duration;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BroadcastManager {
 
@@ -25,8 +22,6 @@ public class BroadcastManager {
     private static final UserManager userManager = plugin.getUserManager();
 
     private static final List<CustomWorld> worlds = new ArrayList<>();
-
-    private static final SettingsManager config = ConfigManager.getConfig();
 
     public static void start() {
         final YamlConfiguration configuration = Files.auto_broadcast_file.getConfiguration();
@@ -37,19 +32,29 @@ public class BroadcastManager {
         final int interval = configuration.getInt("Auto_Broadcast.Global_Messages.Interval", 30);
         final List<String> messages = configuration.getStringList("Auto_Broadcast.Global_Messages.Messages");
 
+        Map<String, String> placeholders = new HashMap<>() {{
+            put("{prefix}", prefix);
+        }};
+
+        final String header = configuration.getString("Auto_Broadcast.Global_Messages.Header", "&7*&7&m--------------------------------&7*");
+        final String footer = configuration.getString("Auto_Broadcast.Global_Messages.Footer", "&7*&7&m--------------------------------&7*");
+        final boolean hasHeader = configuration.getBoolean("Auto_Broadcast.Global_Messages.Header_And_Footer", false);
+
+        final boolean isGlobal = configuration.getBoolean("Auto_Broadcast.Global_Messages.Enable", false);
+
         new FoliaRunnable(plugin.getServer().getGlobalRegionScheduler()) {
             int line = 0;
 
             @Override
             public void run() {
-                if (configuration.getBoolean("Auto_Broadcast.Global_Messages.Enable", false)) {
-                    for (Player player : plugin.getServer().getOnlinePlayers()) {
-                        if (configuration.getBoolean("Auto_Broadcast.Global_Messages.Header_And_Footer")) {
-                            Methods.sendMessage(player, prefix, configuration.getString("Auto_Broadcast.Global_Messages.Header"), false);
-                            Methods.sendMessage(player, prefix, messages.get(line).replace("{prefix}", prefix).replace("\\n", "\n"), false);
-                            Methods.sendMessage(player, prefix, configuration.getString("Auto_Broadcast.Global_Messages.Footer"), false);
+                if (isGlobal) {
+                    for (final Player player : plugin.getServer().getOnlinePlayers()) {
+                        if (hasHeader) {
+                            MsgUtils.sendMessage(player, header, placeholders);
+                            MsgUtils.sendMessage(player, messages.get(line).replace("{prefix}", prefix).replace("\\n", "\n"));
+                            MsgUtils.sendMessage(player, footer, placeholders);
                         } else {
-                            Methods.sendMessage(player, prefix, messages.get(line).replace("{prefix}", prefix).replace("\\n", "\n"), false);
+                            MsgUtils.sendMessage(player, messages.get(line).replace("{prefix}", prefix).replace("\\n", "\n"));
                         }
 
                         Methods.playSound(player, configuration, "Auto_Broadcast.Global_Messages.sound");
@@ -78,19 +83,29 @@ public class BroadcastManager {
             worlds.add(new CustomWorld(key, configuration.getStringList("Auto_Broadcast.Per_World_Messages.Messages." + key), 0));
         }
 
+        Map<String, String> placeholders = new HashMap<>() {{
+            put("{prefix}", prefix);
+        }};
+
+        final String header = configuration.getString("Auto_Broadcast.Per_World_Messages.Header", "&7*&7&m--------------------------------&7*");
+        final String footer = configuration.getString("Auto_Broadcast.Per_World_Messages.Footer", "&7*&7&m--------------------------------&7*");
+        final boolean hasHeader = configuration.getBoolean("Auto_Broadcast.Per_World_Messages.Header_And_Footer", false);
+
+        final boolean perWorld = configuration.getBoolean("Auto_Broadcast.Per_World_Messages.Enable", false);
+
         new FoliaRunnable(plugin.getServer().getGlobalRegionScheduler()) {
             @Override
             public void run() {
                 for (final CustomWorld world : getWorlds()) {
-                    if (configuration.getBoolean("Auto_Broadcast.Per_World_Messages.Enable", false)) {
-                        for (Player player : plugin.getServer().getOnlinePlayers()) {
+                    if (perWorld) {
+                        for (final Player player : plugin.getServer().getOnlinePlayers()) {
                             if (player.getWorld().getName().equals(world.getName())) {
-                                if (configuration.getBoolean("Auto_Broadcast.Per_World_Messages.Header_And_Footer", false)) {
-                                    Methods.sendMessage(player, prefix, configuration.getString("Auto_Broadcast.Per_World_Messages.Header", "&7*&7&m--------------------------------&7*"), false);
-                                    Methods.sendMessage(player, prefix, world.getMessages().get(world.getIndex()), false);
-                                    Methods.sendMessage(player, prefix, configuration.getString("Auto_Broadcast.Per_World_Messages.Footer", "&7*&7&m--------------------------------&7*"), false);
+                                if (hasHeader) {
+                                    MsgUtils.sendMessage(player, header, placeholders);
+                                    MsgUtils.sendMessage(player, world.getMessages().get(world.getIndex()).replaceAll("\\n", "\n"), placeholders);
+                                    MsgUtils.sendMessage(player, footer, placeholders);
                                 } else {
-                                    Methods.sendMessage(player, prefix, world.getMessages().get(world.getIndex()).replaceAll("\\n", "\n"), false);
+                                    MsgUtils.sendMessage(player, world.getMessages().get(world.getIndex()).replaceAll("\\n", "\n"), placeholders);
                                 }
 
                                 Methods.playSound(player, configuration, "Auto_Broadcast.Per_World_Messages.sound");
@@ -121,8 +136,11 @@ public class BroadcastManager {
             @Override
             public void run() {
                 if (configuration.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable", false)) {
-                    for (Player player : plugin.getServer().getOnlinePlayers()) {
-                        player.sendActionBar(AdvUtil.parse(Methods.placeholders(true, player, messages.get(line).replace("{prefix}", prefix).replace("{Prefix}", prefix))));
+                    for (final Player player : plugin.getServer().getOnlinePlayers()) {
+                        MsgUtils.sendActionBar(player, messages.get(line), new HashMap<>() {{
+                            put("{Prefix}", prefix);
+                            put("{prefix}", prefix);
+                        }});
 
                         Methods.playSound(player, configuration, "Auto_Broadcast.Actionbar_Messages.sound");
                     }
@@ -146,12 +164,7 @@ public class BroadcastManager {
             public void run() {
                 if (configuration.getBoolean("Auto_Broadcast.Title_Messages.Enable", false)) {
                     for (final Player player : plugin.getServer().getOnlinePlayers()) {
-                        final String text = Methods.placeholders(true, player, configuration.getString("Auto_Broadcast.Title_Messages.Title"));
-
-                        final Title.Times times = Title.Times.times(Duration.ofMillis(400), Duration.ofMillis(200), Duration.ofMillis(400));
-                        final Title title = Title.title(AdvUtil.parse(text), Component.empty(), times);
-
-                        player.showTitle(title);
+                        MsgUtils.sendTitle(player, configuration.getString("Auto_Broadcast.Title_Messages.Title", ""), null);
 
                         Methods.playSound(player, configuration, "Auto_Broadcast.Title_Messages.sound");
                     }
