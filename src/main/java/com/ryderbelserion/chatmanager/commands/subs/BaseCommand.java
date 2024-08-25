@@ -100,52 +100,61 @@ public class BaseCommand {
             }
         }
 
-        @Command("remove")
-        @Permission(value = "remove", def = PermissionDefault.OP, description = "Access to /chatmanager filter remove <type> <word/command>")
-        public void remove(final CommandSender sender, @Suggestion("filler_type_minimal") final String key, final String value) {
-            final FilterType type = FilterType.valueOf(key);
+        @Command("remove-whitelist")
+        @Permission(value = "remove-whitelist", def = PermissionDefault.OP, description = "Access to /chatmanager filter remove-whitelist <word>")
+        public void removeWhitelist(final CommandSender sender, @Suggestion("whitelisted_words") final String value) {
+            final List<String> allowed_words = WordsConfig.allowed_words;
 
-            if (type == FilterType.allowed_words) {
-                //todo() send message maybe?
+            if (!allowed_words.contains(value)) {
+                Messages.filter_value_not_found.sendMessage(sender, new HashMap<>() {{
+                    put("{value}", value);
+                    put("{type}", FilterType.allowed_words.getPrettyName());
+                }});
 
                 return;
             }
 
-            switch (type) {
-                case banned_commands -> {
-                    final List<String> commands = CommandsConfig.banned_commands;
+            allowed_words.remove(value);
 
-                    if (!commands.contains(value)) {
-                        Messages.filter_value_not_found.sendMessage(sender, new HashMap<>() {{
-                            put("{value}", value);
-                            put("{type}", type.getPrettyName());
-                        }});
+            ConfigManager.getWordsConfig().save();
+        }
 
-                        return;
-                    }
+        @Command("remove-command")
+        @Permission(value = "remove-command", def = PermissionDefault.OP, description = "Access to /chatmanager filter remove-command <command>")
+        public void removeCommand(final CommandSender sender, @Suggestion("blacklisted_commands") final String value) {
+            final List<String> commands = CommandsConfig.banned_commands;
 
-                    commands.remove(value);
+            if (!commands.contains(value)) {
+                Messages.filter_value_not_found.sendMessage(sender, new HashMap<>() {{
+                    put("{value}", value);
+                    put("{type}", FilterType.banned_commands.getPrettyName());
+                }});
 
-                    ConfigManager.getCommandsConfig().save();
-                }
-
-                case banned_words -> {
-                    final List<String> words = WordsConfig.banned_words;
-
-                    if (!words.contains(value)) {
-                        Messages.filter_value_not_found.sendMessage(sender, new HashMap<>() {{
-                            put("{value}", value);
-                            put("{type}", type.getPrettyName());
-                        }});
-
-                        return;
-                    }
-
-                    words.remove(value);
-
-                    ConfigManager.getWordsConfig().save();
-                }
+                return;
             }
+
+            commands.remove(value);
+
+            ConfigManager.getCommandsConfig().save();
+        }
+
+        @Command("remove-word")
+        @Permission(value = "remove-word", def = PermissionDefault.OP, description = "Access to /chatmanager filter remove-word <command>")
+        public void removeWord(final CommandSender sender, @Suggestion("blacklisted_words") final String value) {
+            final List<String> words = WordsConfig.banned_words;
+
+            if (!words.contains(value)) {
+                Messages.filter_value_not_found.sendMessage(sender, new HashMap<>() {{
+                    put("{value}", value);
+                    put("{type}", FilterType.banned_words.getPrettyName());
+                }});
+
+                return;
+            }
+
+            words.remove(value);
+
+            ConfigManager.getWordsConfig().save();
         }
 
         @Command("help")

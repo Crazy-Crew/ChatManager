@@ -74,8 +74,6 @@ public class CommandManager {
 
         commandManager.registerSuggestion(SuggestionKey.of("filter_type"), (sender, context) -> Arrays.stream(FilterType.values()).map(FilterType::getName).toList());
 
-        commandManager.registerSuggestion(SuggestionKey.of("filter_type_minimal"), (sender, context) -> Arrays.stream(FilterType.values()).map(FilterType::getName).filter(name -> name.equalsIgnoreCase("allowed_words")).toList());
-
         // default
         commandManager.registerSuggestion(SuggestionKey.of("players"), (sender, context) -> plugin.getServer().getOnlinePlayers().stream().map(Player::getName).toList());
 
