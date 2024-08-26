@@ -38,19 +38,19 @@ public class VaultSupport implements IPlugin {
     }
 
     public static String getPlayerPrefix(final Player player) {
-        if (chat.getPlayerPrefix(player) == null) return "";
+        if (isChatNull() || chat.getPlayerPrefix(player) == null) return "N/A";
 
         return chat.getPlayerPrefix(player);
     }
 
     public static String getPlayerSuffix(final Player player) {
-        if (chat.getPlayerSuffix(player) == null) return "";
+        if (isChatNull() || chat.getPlayerSuffix(player) == null) return "N/A";
 
         return chat.getPlayerSuffix(player);
     }
 
     public static String getPlayerGroup(final Player player) {
-        if (chat.getPrimaryGroup(player) == null) return "";
+        if (isChatNull() || chat.getPrimaryGroup(player) == null) return "N/A";
 
         return chat.getPrimaryGroup(player);
     }
@@ -67,8 +67,8 @@ public class VaultSupport implements IPlugin {
         if (chatProvider != null) chat = chatProvider.getProvider();
     }
 
-    public static boolean isChatReady() {
-        return chat != null;
+    public static boolean isChatNull() {
+        return chat == null;
     }
 
     public static boolean isPermissionReady() {

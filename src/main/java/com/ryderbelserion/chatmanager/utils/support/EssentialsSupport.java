@@ -26,12 +26,6 @@ public class EssentialsSupport implements IPlugin {
 
     @Override
     public void stop() {
-        if (!isEnabled()) {
-            ChatUtils.remove(this);
-
-            return;
-        }
-
         ChatUtils.remove(this);
     }
 
@@ -42,11 +36,13 @@ public class EssentialsSupport implements IPlugin {
 
     @Override
     public @NotNull final String getName() {
-        return "EssentialsX";
+        return "Essentials";
     }
 
     @Override
     public final boolean isVanished(@NotNull final UUID uuid) {
+        if (!isEnabled()) return false;
+
         final User user = this.essentials.getUser(uuid);
 
         if (user == null) return false;
@@ -56,15 +52,23 @@ public class EssentialsSupport implements IPlugin {
 
     @Override
     public final boolean isIgnored(@NotNull final UUID sender, @NotNull final UUID target) {
+        if (!isEnabled()) return false;
+
         final User user = this.essentials.getUser(sender);
 
         if (user == null) return false;
 
-        return user.isIgnoredPlayer(this.essentials.getUser(target));
+        final User otherUser = this.essentials.getUser(target);
+
+        if (otherUser == null) return false;
+
+        return user.isIgnoredPlayer(otherUser);
     }
 
     @Override
     public final boolean isMuted(@NotNull final UUID uuid) {
+        if (!isEnabled()) return false;
+
         final User user = this.essentials.getUser(uuid);
 
         if (user == null) return false;

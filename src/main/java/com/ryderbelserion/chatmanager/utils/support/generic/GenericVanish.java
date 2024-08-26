@@ -24,12 +24,6 @@ public class GenericVanish implements IPlugin {
 
     @Override
     public void stop() {
-        if (!isEnabled()) {
-            ChatUtils.remove(this);
-
-            return;
-        }
-
         ChatUtils.remove(this);
     }
 
