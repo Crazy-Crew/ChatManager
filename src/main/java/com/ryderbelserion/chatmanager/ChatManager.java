@@ -32,18 +32,17 @@ public class ChatManager extends Vital {
         return JavaPlugin.getPlugin(ChatManager.class);
     }
 
-    private final UserManager userManager;
     private final long startTime;
 
     public ChatManager() {
         this.startTime = System.nanoTime();
-
-        this.userManager = new UserManager();
     }
+
+    private UserManager userManager;
 
     @Override
     public void onEnable() {
-        getFileManager().addFile(new File(getDataFolder(), "rules.yml")).addFile(new File(getDataFolder(), "help.yml")).init();
+        this.userManager = new UserManager();
 
         getFileManager().addFile(new File(getDataFolder(), "broadcast.yml")).addFile(new File(getDataFolder(), "rules.yml")).addFile(new File(getDataFolder(), "help.yml")).init();
 
