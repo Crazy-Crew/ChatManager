@@ -143,6 +143,7 @@ entities:
         cobblestone: 300
     count-all-mobs-for-spawning: false
     creative-arrow-despawn-rate: default
+    despawn-range-shape: ELLIPSOID
     despawn-ranges:
       ambient:
         hard: 128
