@@ -7,6 +7,7 @@ import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.commands.subs.BaseCommand;
 import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
 import com.ryderbelserion.chatmanager.utils.ChatUtils;
+import com.ryderbelserion.chatmanager.utils.MiscUtils;
 import com.ryderbelserion.chatmanager.utils.MsgUtils;
 import com.ryderbelserion.vital.common.api.interfaces.IPlugin;
 import com.ryderbelserion.vital.paper.api.builders.PlayerBuilder;
@@ -32,15 +33,19 @@ public class CommandMsg extends BaseCommand {
         }
 
         if (message.isEmpty()) {
-            //todo() message can't be empty.
+            Messages.message_empty.sendMessage(sender);
 
             return;
         }
 
+        final Player target = builder.getPlayer();
+
+        final User user = this.userManager.getUser(target);
+        final User receiver = this.userManager.getUser(sender);
+
         // player-specific sender
         if (sender instanceof Player player) {
             final UUID id = player.getUniqueId();
-            final Player target = builder.getPlayer();
 
             if (id.equals(target.getUniqueId())) {
                 Messages.private_message_self.sendMessage(player);
@@ -119,8 +124,6 @@ public class CommandMsg extends BaseCommand {
                 return;
             }
 
-            final User user = this.userManager.getUser(target);
-
             if (user.activeChatTypes.contains(ToggleType.toggle_private_messages.getName()) && !player.hasPermission(Permissions.BYPASS_TOGGLE_PM.getNode())) {
                 Messages.private_message_toggled.sendMessage(player);
 
@@ -131,10 +134,30 @@ public class CommandMsg extends BaseCommand {
             final String receiverFormat = this.config.getProperty(ConfigKeys.private_messages_receiver_format);
 
             MsgUtils.sendMessage(player, senderFormat.replace("{receiver}", target.getName()));
-
             MsgUtils.sendMessage(target, receiverFormat.replace("{player}", player.getName()));
 
-            //Methods.playSound(target, config, "Private_Messages.sound");
+            if (this.config.getProperty(ConfigKeys.private_messages_sound_toggle)) {
+                final String sound = this.config.getProperty(ConfigKeys.private_messages_sound_value);
+                final double volume = this.config.getProperty(ConfigKeys.private_messages_sound_volume);
+                final double pitch = this.config.getProperty(ConfigKeys.private_messages_sound_pitch);
+
+                MiscUtils.playSound(target, sound, volume, pitch);
+            }
+
+            // add reply data to player
+            receiver.replyPlayer = target.getUniqueId().toString();
+            user.replyPlayer = player.getUniqueId().toString();
+
+            return;
         }
+
+        final String senderFormat = this.config.getProperty(ConfigKeys.private_messages_sender_format);
+        final String receiverFormat = this.config.getProperty(ConfigKeys.private_messages_receiver_format);
+
+        MsgUtils.sendMessage(sender, senderFormat.replace("{receiver}", target.getName()));
+        MsgUtils.sendMessage(target, receiverFormat.replace("{player}", sender.getName()));
+
+        receiver.replyPlayer = target.getUniqueId().toString();
+        user.replyPlayer = sender.getName();
     }
 }

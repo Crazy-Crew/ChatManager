@@ -29,6 +29,7 @@ public enum Messages {
     correct_usage(MiscKeys.correct_usage),
 
     internal_error(ErrorKeys.internal_error),
+    message_empty(ErrorKeys.message_empty),
 
     player_not_found(PlayerKeys.not_online),
     no_permission(PlayerKeys.no_permission),

@@ -8,6 +8,7 @@ import com.ryderbelserion.vital.paper.api.enums.Support;
 import com.ryderbelserion.vital.paper.util.AdvUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.bossbar.BossBar;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +18,23 @@ public class User {
 
     private final SettingsManager config = ConfigManager.getConfig();
 
+    public final CommandSender sender;
     public final Player player;
 
-    public User(final Player player) {
-        this.player = player;
+    public User(final CommandSender sender) {
+        if (sender instanceof Player target) {
+            this.sender = target;
+            this.player = target;
+        } else {
+            this.sender = sender;
+            this.player = null;
+        }
     }
 
     public boolean isStaffChat = false;
     public boolean isMuted = false;
+
+    public String replyPlayer = "";
 
     public final List<String> activeChatTypes = new ArrayList<>();
     public final List<String> activeSpyTypes = new ArrayList<>();
@@ -47,6 +57,8 @@ public class User {
     public transient BossBar bossBar = null;
 
     public final User showBossBar() {
+        if (this.player == null) return this;
+
         final UUID uuid = this.player.getUniqueId();
 
         BossBar bar = null;
@@ -65,7 +77,9 @@ public class User {
         return this;
     }
 
-    public final User createBossBar(final Player player, final String name) {
+    public final User createBossBar(final String name) {
+        if (this.player == null) return this;
+
         this.bossBar = BossBar.bossBar(
                 AdvUtil.parse(Support.placeholder_api.isEnabled() ? PlaceholderAPI.setPlaceholders(player, name) : name),
                 0,
@@ -77,7 +91,7 @@ public class User {
     }
 
     public final User hideBossBar() {
-        if (this.bossBar == null) return null;
+        if (this.bossBar == null || this.player == null) return null;
 
         this.player.hideBossBar(this.bossBar);
 
@@ -88,10 +102,12 @@ public class User {
 
     // other checks
     public final boolean hasPermission(final String permission) {
+        if (this.player == null) return false;
+
         return this.player.hasPermission(permission);
     }
 
     public final String getName() {
-        return this.player.getName();
+        return this.player != null ? this.player.getName() : this.sender.getName();
     }
 }
