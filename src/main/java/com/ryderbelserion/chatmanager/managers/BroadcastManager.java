@@ -5,8 +5,8 @@ import com.ryderbelserion.chatmanager.api.cache.UserManager;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
 import com.ryderbelserion.chatmanager.api.enums.Files;
 import com.ryderbelserion.chatmanager.api.objects.CustomWorld;
+import com.ryderbelserion.chatmanager.utils.MiscUtils;
 import com.ryderbelserion.chatmanager.utils.MsgUtils;
-import com.ryderbelserion.chatmanager.utils.old.Methods;
 import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -57,7 +57,7 @@ public class BroadcastManager {
                             MsgUtils.sendMessage(player, messages.get(line).replace("{prefix}", prefix).replace("\\n", "\n"));
                         }
 
-                        Methods.playSound(player, configuration, "Auto_Broadcast.Global_Messages.sound");
+                        MiscUtils.playSound(player, configuration, "Auto_Broadcast.Global_Messages.sound");
                     }
                 }
 
@@ -108,7 +108,7 @@ public class BroadcastManager {
                                     MsgUtils.sendMessage(player, world.getMessages().get(world.getIndex()).replaceAll("\\n", "\n"), placeholders);
                                 }
 
-                                Methods.playSound(player, configuration, "Auto_Broadcast.Per_World_Messages.sound");
+                                MiscUtils.playSound(player, configuration, "Auto_Broadcast.Per_World_Messages.sound");
                             }
                         }
                     }
@@ -142,7 +142,7 @@ public class BroadcastManager {
                             put("{prefix}", prefix);
                         }});
 
-                        Methods.playSound(player, configuration, "Auto_Broadcast.Actionbar_Messages.sound");
+                        MiscUtils.playSound(player, configuration, "Auto_Broadcast.Actionbar_Messages.sound");
                     }
                 }
 
@@ -166,7 +166,7 @@ public class BroadcastManager {
                     for (final Player player : plugin.getServer().getOnlinePlayers()) {
                         MsgUtils.sendTitle(player, configuration.getString("Auto_Broadcast.Title_Messages.Title", ""), null);
 
-                        Methods.playSound(player, configuration, "Auto_Broadcast.Title_Messages.sound");
+                        MiscUtils.playSound(player, configuration, "Auto_Broadcast.Title_Messages.sound");
                     }
                 }
 
@@ -191,7 +191,7 @@ public class BroadcastManager {
                     for (final Player player : plugin.getServer().getOnlinePlayers()) {
                         final User user = userManager.getUser(player);
 
-                        user.createBossBar(player, messages.get(line)).showBossBar();
+                        user.createBossBar(messages.get(line)).showBossBar();
 
                         if (time == -1) {
                             user.hideBossBar();
@@ -204,7 +204,7 @@ public class BroadcastManager {
                             }.runDelayed(plugin, 20L * time);
                         }
 
-                        Methods.playSound(player, configuration, "Auto_Broadcast.Bossbar_Messages.sound");
+                        MiscUtils.playSound(player, configuration, "Auto_Broadcast.Bossbar_Messages.sound");
                     }
                 }
 
