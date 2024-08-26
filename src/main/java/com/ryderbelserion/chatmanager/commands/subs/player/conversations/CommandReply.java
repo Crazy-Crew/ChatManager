@@ -3,6 +3,7 @@ package com.ryderbelserion.chatmanager.commands.subs.player.conversations;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
 import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.commands.subs.BaseCommand;
+import com.ryderbelserion.chatmanager.utils.MsgUtils;
 import com.ryderbelserion.vital.paper.api.builders.PlayerBuilder;
 import dev.triumphteam.cmd.bukkit.annotation.Permission;
 import dev.triumphteam.cmd.core.annotations.Command;
@@ -23,15 +24,15 @@ public class CommandReply extends BaseCommand {
 
         final User receiver = this.userManager.getUser(sender);
 
-        final String target = receiver.replyPlayer;
+        final String replyPlayer = receiver.replyPlayer;
 
-        if (target.isEmpty()) {
-            // no one to reply to
+        if (replyPlayer.isEmpty()) {
+            // no one to reply to, so send message
 
             return;
         }
 
-        final PlayerBuilder builder = new PlayerBuilder(target);
+        final PlayerBuilder builder = new PlayerBuilder(replyPlayer);
 
         if (builder.getPlayer() == null || !builder.getPlayer().isOnline()) { //todo() add a mailbox feature, i.e. if you send a message to an offline player. it'll notify them on join
             Messages.player_not_found.sendMessage(sender, "{target}", builder.name());
@@ -39,6 +40,8 @@ public class CommandReply extends BaseCommand {
             return;
         }
 
-        final Player player = builder.getPlayer();
+        final Player target = builder.getPlayer();
+
+        MsgUtils.sendMessage(sender, target);
     }
 }

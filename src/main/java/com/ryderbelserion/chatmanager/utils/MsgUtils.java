@@ -2,28 +2,36 @@ package com.ryderbelserion.chatmanager.utils;
 
 import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.api.cache.UserManager;
+import com.ryderbelserion.chatmanager.api.cache.objects.User;
+import com.ryderbelserion.chatmanager.api.enums.chat.ToggleType;
+import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.api.events.MessageSendEvent;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
+import com.ryderbelserion.vital.common.api.interfaces.IPlugin;
 import com.ryderbelserion.vital.paper.api.enums.Support;
 import com.ryderbelserion.vital.paper.util.AdvUtil;
 import com.ryderbelserion.vital.paper.util.ItemUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
+import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class MsgUtils {
 
     private static final ChatManager plugin = ChatManager.get();
+
+    private static final UserManager userManager = plugin.getUserManager();
 
     private static final SettingsManager config = ConfigManager.getConfig();
 
@@ -128,5 +136,127 @@ public class MsgUtils {
      */
     public static @NotNull String getPrefix() {
         return ConfigManager.getConfig().getProperty(ConfigKeys.prefix);
+    }
+
+    public static void sendMessage(final CommandSender sender, final Player target) {
+        final User user = userManager.getUser(target);
+        final User receiver = userManager.getUser(sender);
+
+        // player-specific sender
+        if (sender instanceof Player player) {
+            final UUID id = player.getUniqueId();
+
+            if (id.equals(target.getUniqueId())) {
+                Messages.private_message_self.sendMessage(player);
+
+                return;
+            }
+
+            if (target.getGameMode() == GameMode.SPECTATOR && !player.hasPermission(Permissions.BYPASS_SPECTATOR.getNode())) {
+                Messages.player_not_found.sendMessage(player, "{target}", target.getName());
+
+                return;
+            }
+
+            if (!player.canSee(target)) {
+                Messages.player_not_found.sendMessage(player, "{target}", target.getName());
+
+                return;
+            }
+
+            boolean shouldReturn = false;
+            boolean isIgnored = false;
+            boolean isMuted = false;
+            boolean isAfk = false;
+
+            for (final IPlugin plugin : ChatUtils.getPlugins()) {
+                if (plugin.isEnabled()) {
+                    if (plugin.isMuted(player.getUniqueId())) {
+                        shouldReturn = true;
+                        isMuted = true;
+
+                        break;
+                    }
+
+                    if (plugin.isVanished(target.getUniqueId())) {
+                        shouldReturn = true;
+
+                        break;
+                    }
+
+                    if (plugin.isAfk(target.getUniqueId())) {
+                        shouldReturn = true;
+                        isAfk = true;
+
+                        break;
+                    }
+
+                    if (plugin.isIgnored(player.getUniqueId(), target.getUniqueId())) {
+                        shouldReturn = true;
+                        isIgnored = true;
+
+                        break;
+                    }
+                }
+            }
+
+            if (shouldReturn) {
+                if (isMuted) { // don't send message if muted, the plugin handling the mute will send one.
+                    return;
+                }
+
+                if (isAfk) {
+                    Messages.private_message_afk.sendMessage(player, "{target}", target.getName());
+
+                    return;
+                }
+
+                if (isIgnored) {
+                    //todo() we need to add in a chatmanager check, as we have our own /ignore command
+                    Messages.private_message_ignored.sendMessage(player, "{target}", target.getName());
+
+                    return;
+                }
+
+                Messages.player_not_found.sendMessage(player, "{target}", target.getName());
+
+                return;
+            }
+
+            if (user.activeChatTypes.contains(ToggleType.toggle_private_messages.getName()) && !player.hasPermission(Permissions.BYPASS_TOGGLE_PM.getNode())) {
+                Messages.private_message_toggled.sendMessage(player);
+
+                return;
+            }
+
+            final String senderFormat = config.getProperty(ConfigKeys.private_messages_sender_format);
+            final String receiverFormat = config.getProperty(ConfigKeys.private_messages_receiver_format);
+
+            MsgUtils.sendMessage(player, senderFormat.replace("{receiver}", target.getName()));
+            MsgUtils.sendMessage(target, receiverFormat.replace("{player}", player.getName()));
+
+            if (config.getProperty(ConfigKeys.private_messages_sound_toggle)) {
+                final String sound = config.getProperty(ConfigKeys.private_messages_sound_value);
+                final double volume = config.getProperty(ConfigKeys.private_messages_sound_volume);
+                final double pitch = config.getProperty(ConfigKeys.private_messages_sound_pitch);
+
+                MiscUtils.playSound(target, sound, volume, pitch);
+            }
+
+            // add reply data to player
+            receiver.replyPlayer = target.getUniqueId().toString();
+            user.replyPlayer = player.getUniqueId().toString();
+
+            return;
+        }
+
+        final String senderFormat = config.getProperty(ConfigKeys.private_messages_sender_format);
+        final String receiverFormat = config.getProperty(ConfigKeys.private_messages_receiver_format);
+
+        MsgUtils.sendMessage(sender, senderFormat.replace("{receiver}", target.getName()));
+        MsgUtils.sendMessage(target, receiverFormat.replace("{player}", sender.getName()));
+
+        receiver.replyPlayer = target.getUniqueId().toString();
+        user.replyPlayer = sender.getName();
     }
 }

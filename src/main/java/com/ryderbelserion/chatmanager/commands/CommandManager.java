@@ -12,6 +12,8 @@ import com.ryderbelserion.chatmanager.commands.subs.misc.CommandRules;
 import com.ryderbelserion.chatmanager.commands.subs.player.CommandHelp;
 import com.ryderbelserion.chatmanager.commands.subs.player.CommandRadius;
 import com.ryderbelserion.chatmanager.commands.subs.player.CommandToggle;
+import com.ryderbelserion.chatmanager.commands.subs.player.conversations.CommandMsg;
+import com.ryderbelserion.chatmanager.commands.subs.player.conversations.CommandReply;
 import com.ryderbelserion.chatmanager.commands.subs.staff.CommandReload;
 import com.ryderbelserion.chatmanager.commands.subs.staff.CommandSpy;
 import com.ryderbelserion.chatmanager.commands.subs.staff.chat.CommandClearChat;
@@ -86,6 +88,9 @@ public class CommandManager {
 
         List.of(
                 new BaseCommand(),
+
+                new CommandReply(),
+                new CommandMsg(),
 
                 new CommandRadius(),
                 new CommandToggle(),
