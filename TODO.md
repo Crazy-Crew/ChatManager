@@ -1,0 +1,7 @@
+- Prioritize EssentialsX /msg over our own, so if we detect EssentialsX is enabled. we will disable our own
+  - Both use the same /msg, /reply or /r setup, so the commands will conflict.
+  - A toggle will be provided to turn this back on, as I assume you know what you are doing
+  - You will not be given support with the duplicate commands. You are on your own.
+- Prioritizing EssentialsX commands over our own, implies that we will also listen to their events to ensure other features we have work.
+  - Features such as our own socialspy, EssentialsX has its own social spy... so we'll piggyback on that, while disabling our own socialspy command.
+  - There is a few other features like toggling direct messages, we'll hook into EssentialsX and pass the torch to them.
