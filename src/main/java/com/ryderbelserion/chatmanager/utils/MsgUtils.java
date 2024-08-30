@@ -103,7 +103,7 @@ public class MsgUtils {
                 }
             }
 
-            if (Permissions.RECEIVE_STAFF_CHAT.hasPermission(player)) {
+            if (Permissions.STAFF_CHAT_RECEIVE.hasPermission(player)) {
                 MsgUtils.sendMessage(player, config.getProperty(ConfigKeys.staff_chat_format), new HashMap<>() {{
                     put("{player}", sender.getName());
                     put("{message}", message);

@@ -40,8 +40,6 @@ public class CommandReload extends BaseCommand {
             //this.plugin.api().getCmdCooldowns().removeUser(player.getUniqueId());
 
             if (user.isStaffChat) {
-                user.hideBossBar();
-
                 if (Permissions.COMMAND_STAFF.hasPermission(player)) {
                     user.showBossBar();
                 } else {

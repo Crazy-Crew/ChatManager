@@ -33,7 +33,7 @@ public class CommandStaffChat extends BaseCommand {
             final User user = this.userManager.getUser(player);
 
             if (!message.isEmpty()) {
-                MsgUtils.send(user.player, message, false);
+                MsgUtils.send(player, message, false);
 
                 return;
             }
@@ -45,7 +45,7 @@ public class CommandStaffChat extends BaseCommand {
                     user.hideBossBar();
                 }
 
-                Messages.staff_chat_disabled.sendMessage(user.player);
+                Messages.staff_chat_disabled.sendMessage(player);
 
                 return;
             }
@@ -56,7 +56,7 @@ public class CommandStaffChat extends BaseCommand {
                 user.showBossBar();
             }
 
-            Messages.staff_chat_enabled.sendMessage(user.player);
+            Messages.staff_chat_enabled.sendMessage(player);
 
             return;
         }
