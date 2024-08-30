@@ -1,7 +1,6 @@
 package com.ryderbelserion.chatmanager.commands.v2.subs.staff;
 
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
 import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
@@ -10,18 +9,13 @@ import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.managers.BroadcastManager;
 import com.ryderbelserion.chatmanager.utils.LogUtils;
 import com.ryderbelserion.chatmanager.utils.TaskUtils;
-import com.ryderbelserion.vital.paper.api.commands.Command;
 import com.ryderbelserion.vital.paper.api.commands.CommandData;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
-import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandReload extends AbstractCommand {
-
-    private final ChatManager plugin = ChatManager.get();
-    private final Server server = this.plugin.getServer();
 
     @Override
     public void execute(final CommandData data) {
@@ -78,7 +72,7 @@ public class CommandReload extends AbstractCommand {
     }
 
     @Override
-    public @NotNull final Command registerPermission() {
+    public @NotNull final AbstractCommand registerPermission() {
         Permissions.reload_plugin.registerPermission();
 
         return this;

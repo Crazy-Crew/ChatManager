@@ -10,7 +10,6 @@ import com.ryderbelserion.chatmanager.api.enums.chat.SpyType;
 import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.configs.impl.messages.commands.SpyKeys;
-import com.ryderbelserion.vital.paper.api.commands.Command;
 import com.ryderbelserion.vital.paper.api.commands.CommandData;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
@@ -80,7 +79,7 @@ public class CommandSpy extends AbstractCommand {
     }
 
     @Override
-    public @NotNull final Command registerPermission() {
+    public @NotNull final AbstractCommand registerPermission() {
         Permissions.spy.registerPermission();
 
         return this;

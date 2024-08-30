@@ -7,20 +7,15 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.chatmanager.api.AbstractCommand;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
 import com.ryderbelserion.chatmanager.api.enums.chat.ChatType;
-import com.ryderbelserion.chatmanager.api.enums.chat.SpyType;
 import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.configs.impl.messages.commands.ChatKeys;
-import com.ryderbelserion.chatmanager.configs.impl.messages.commands.SpyKeys;
-import com.ryderbelserion.vital.paper.api.commands.Command;
 import com.ryderbelserion.vital.paper.api.commands.CommandData;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
-
 import static io.papermc.paper.command.brigadier.Commands.argument;
 
 public class CommandRadius extends AbstractCommand {
@@ -88,7 +83,7 @@ public class CommandRadius extends AbstractCommand {
     }
 
     @Override
-    public @NotNull final Command registerPermission() {
+    public @NotNull final AbstractCommand registerPermission() {
         Permissions.chat_radius.registerPermission();
 
         return this;

@@ -8,16 +8,13 @@ import com.ryderbelserion.chatmanager.api.AbstractCommand;
 import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.configs.impl.types.ConfigKeys;
-import com.ryderbelserion.vital.paper.api.commands.Command;
 import com.ryderbelserion.vital.paper.api.commands.CommandData;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
-
 import static io.papermc.paper.command.brigadier.Commands.argument;
 
 public class CommandClearChat extends AbstractCommand {
@@ -66,7 +63,7 @@ public class CommandClearChat extends AbstractCommand {
     }
 
     @Override
-    public @NotNull final Command registerPermission() {
+    public @NotNull final AbstractCommand registerPermission() {
         Permissions.staff_clear.registerPermission();
 
         return this;

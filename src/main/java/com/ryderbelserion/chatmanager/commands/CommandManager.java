@@ -4,10 +4,6 @@ import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.api.enums.chat.ChatType;
 import com.ryderbelserion.chatmanager.api.enums.chat.FilterType;
 import com.ryderbelserion.chatmanager.api.enums.chat.ToggleType;
-import com.ryderbelserion.chatmanager.commands.relations.ArgumentRelations;
-import com.ryderbelserion.chatmanager.commands.subs.BaseCommand;
-import com.ryderbelserion.chatmanager.commands.subs.player.conversations.CommandMsg;
-import com.ryderbelserion.chatmanager.commands.subs.player.conversations.CommandReply;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.configs.persist.blacklist.CommandsConfig;
 import com.ryderbelserion.chatmanager.configs.persist.blacklist.WordsConfig;
@@ -31,8 +27,6 @@ public class CommandManager {
      * Loads commands.
      */
     public static void load() {
-        new ArgumentRelations().build();
-
         // plugin specific
         commandManager.registerSuggestion(SuggestionKey.of("pages"), (sender, context) -> {
             final List<String> numbers = new ArrayList<>();
@@ -73,13 +67,6 @@ public class CommandManager {
 
         // default
         commandManager.registerArgument(PlayerBuilder.class, (sender, context) -> new PlayerBuilder(context));
-
-        List.of(
-                new BaseCommand(),
-
-                new CommandReply(),
-                new CommandMsg()
-        ).forEach(commandManager::registerCommand);
     }
 
     public static @NotNull BukkitCommandManager<CommandSender> getCommandManager() {

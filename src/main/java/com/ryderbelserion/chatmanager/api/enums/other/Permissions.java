@@ -76,6 +76,8 @@ public enum Permissions {
 
     filter_add("filter.use.add", "Access to /chatmanager filter add <type> <word>", PermissionDefault.OP),
     filter_remove("filter.use.remove", "Access to /chatmanager filter remove <type> <word>", PermissionDefault.OP),
+    filter_list("filter.use.list", "Access to /chatmanager filter list <type>", PermissionDefault.OP),
+    filter_help("filter.use.help", "Access to /chatmanager filter help", PermissionDefault.OP),
 
     motd("motd", "Access to /chatmanager motd", PermissionDefault.TRUE),
     help("help", "Access to /chatmanager help", PermissionDefault.TRUE),
