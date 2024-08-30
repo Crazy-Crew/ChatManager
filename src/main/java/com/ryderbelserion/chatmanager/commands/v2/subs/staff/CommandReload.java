@@ -1,5 +1,6 @@
 package com.ryderbelserion.chatmanager.commands.v2.subs.staff;
 
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
 import com.ryderbelserion.chatmanager.api.enums.other.Messages;
@@ -62,13 +63,13 @@ public class CommandReload extends AbstractCommand {
 
     @Override
     public @NotNull final LiteralCommandNode<CommandSourceStack> literal() {
-        return Commands.literal("reload")
-                .requires(source -> source.getSender().hasPermission(getPermission()))
-                .executes(context -> {
-                    execute(new CommandData(context));
+        final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("reload").requires(source -> source.getSender().hasPermission(getPermission()));
 
-                    return com.mojang.brigadier.Command.SINGLE_SUCCESS;
-                }).build();
+        return root.executes(context -> {
+            execute(new CommandData(context));
+
+            return com.mojang.brigadier.Command.SINGLE_SUCCESS;
+        }).build();
     }
 
     @Override
