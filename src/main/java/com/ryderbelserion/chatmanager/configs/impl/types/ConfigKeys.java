@@ -509,7 +509,7 @@ public class ConfigKeys implements SettingsHolder {
     public static final Property<Boolean> clear_chat_on_join = newProperty("Clear_Chat.Clear_On_Join", false);
 
     @Comment("How many blank lines should be broadcasted in chat?")
-    public static final Property<Integer> clear_chat_broadcasted_lines = newProperty("Clear_Chat.Broadcasted_Lines", 300);
+    public static final Property<Integer> clear_chat_broadcasted_lines = newProperty("Clear_Chat.Broadcasted_Lines", 60);
 
     @Comment("Turn on command spy when players with the correct permission join the server.")
     public static final Property<Boolean> toggle_command_spy = newProperty("Command_Spy.Enable_On_Join", false);
@@ -601,10 +601,13 @@ public class ConfigKeys implements SettingsHolder {
 
     // Private Messages
     @Comment("Format for the sender's private message.")
-    public static final Property<String> private_messages_sender_format = newProperty("Private_Messages.Sender.Format", "&c&l(!) &f&l[&e&lYou &d-> &e{receiver}&f&l] &b");
+    public static final Property<String> private_messages_sender_format = newProperty("Private_Messages.Sender.Format", "&c&l(!) &f&l[&e&lYou &d-> &e{receiver}&f&l] &b{message}");
 
     @Comment("Format for the receiver's private message.")
-    public static final Property<String> private_messages_receiver_format = newProperty("Private_Messages.Receiver.Format", "&c&l(!) &f&l[&e{player} &d-> &e&lYou&f&l] &b");
+    public static final Property<String> private_messages_receiver_format = newProperty("Private_Messages.Receiver.Format", "&c&l(!) &f&l[&e{player} &d-> &e&lYou&f&l] &b{message}");
+
+    @Comment("Allows offline players, to appear in tab completion for commands like /msg or /reply, This can be very intensive which is why it's false.")
+    public static final Property<Boolean> private_message_load_offline_players = newProperty("", false);
 
     @Comment("The sound that's played to the receiver.")
     public static final Property<Boolean> private_messages_sound_toggle = newProperty("Private_Messages.sound.toggle", false);

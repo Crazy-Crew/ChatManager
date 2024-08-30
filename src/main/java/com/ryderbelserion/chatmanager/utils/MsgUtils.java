@@ -133,7 +133,7 @@ public class MsgUtils {
         return config.getProperty(ConfigKeys.prefix);
     }
 
-    public static void sendMessage(final CommandSender sender, final Player target) {
+    public static void sendMessage(final CommandSender sender, final Player target, final String message) {
         final User user = userManager.getUser(target);
         final User receiver = userManager.getUser(sender);
 
@@ -227,8 +227,15 @@ public class MsgUtils {
             final String senderFormat = config.getProperty(ConfigKeys.private_messages_sender_format);
             final String receiverFormat = config.getProperty(ConfigKeys.private_messages_receiver_format);
 
-            MsgUtils.sendMessage(player, senderFormat.replace("{receiver}", target.getName()));
-            MsgUtils.sendMessage(target, receiverFormat.replace("{player}", player.getName()));
+            MsgUtils.sendMessage(player, senderFormat, new HashMap<>() {{
+                put("{receiver}", target.getName());
+                put("{message}", message);
+            }});
+
+            MsgUtils.sendMessage(target, receiverFormat, new HashMap<>() {{
+                put("{player}", target.getName());
+                put("{message}", message);
+            }});
 
             if (config.getProperty(ConfigKeys.private_messages_sound_toggle)) {
                 final String sound = config.getProperty(ConfigKeys.private_messages_sound_value);

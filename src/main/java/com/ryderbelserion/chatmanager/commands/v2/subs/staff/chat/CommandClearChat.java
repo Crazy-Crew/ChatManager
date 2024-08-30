@@ -21,9 +21,7 @@ public class CommandClearChat extends AbstractCommand {
 
     @Override
     public void execute(final CommandData data) {
-        final int lines = data.getIntegerArgument("amount");
-
-        final int amount = lines > 0 ? lines : this.config.getProperty(ConfigKeys.clear_chat_broadcasted_lines);
+        final int amount = data.getIntegerArgument("amount");
 
         this.plugin.getServer().getOnlinePlayers().forEach(player -> {
             if (player.hasPermission(Permissions.BYPASS_CLEAR_CHAT.getNode())) return;
@@ -53,7 +51,7 @@ public class CommandClearChat extends AbstractCommand {
     public @NotNull final LiteralCommandNode<CommandSourceStack> literal() {
         final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("clearchat").requires(source -> source.getSender().hasPermission(getPermission()));
 
-        final RequiredArgumentBuilder<CommandSourceStack, Integer> arg1 = argument("amount", IntegerArgumentType.integer()).suggests((ctx, builder) -> suggestIntegers(builder, 1, 20)).executes(context -> {
+        final RequiredArgumentBuilder<CommandSourceStack, Integer> arg1 = argument("amount", IntegerArgumentType.integer()).suggests((ctx, builder) -> suggestIntegers(builder, 1, this.config.getProperty(ConfigKeys.clear_chat_broadcasted_lines))).executes(context -> {
             execute(new CommandData(context));
 
             return com.mojang.brigadier.Command.SINGLE_SUCCESS;

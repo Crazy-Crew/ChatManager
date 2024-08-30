@@ -1,5 +1,6 @@
 package com.ryderbelserion.chatmanager.commands.v2.subs.staff.chat;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
@@ -74,12 +75,17 @@ public class CommandStaffChat extends AbstractCommand {
 
     @Override
     public @NotNull final LiteralCommandNode<CommandSourceStack> literal() {
-        final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("staffchat").requires(source -> source.getSender().hasPermission(getPermission()));
+        final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("staffchat").requires(source -> source.getSender().hasPermission(getPermission()))
+                .executes(context -> {
+                    execute(new CommandData(context));
+
+                    return Command.SINGLE_SUCCESS;
+                });
 
         final RequiredArgumentBuilder<CommandSourceStack, String> arg1 = argument("message", StringArgumentType.string()).suggests((ctx, builder) -> builder.buildFuture()).executes(context -> {
             execute(new CommandData(context));
 
-            return com.mojang.brigadier.Command.SINGLE_SUCCESS;
+            return Command.SINGLE_SUCCESS;
         });
 
         return root.then(arg1).build();
