@@ -6,7 +6,7 @@ import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.cache.UserManager;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.configs.types.SpamKeys;
+import com.ryderbelserion.chatmanager.configs.impl.types.SpamKeys;
 import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;

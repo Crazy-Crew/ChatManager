@@ -9,11 +9,10 @@ import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.api.events.MessageSendEvent;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
+import com.ryderbelserion.chatmanager.configs.impl.types.ConfigKeys;
 import com.ryderbelserion.vital.common.api.interfaces.IPlugin;
 import com.ryderbelserion.vital.paper.api.enums.Support;
 import com.ryderbelserion.vital.paper.util.AdvUtil;
-import com.ryderbelserion.vital.paper.util.ItemUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
@@ -40,11 +39,7 @@ public class MsgUtils {
 
         final String msg = getMessage(sender, message, placeholders);
 
-        if (plugin.isLegacy()) {
-            sender.sendMessage(ItemUtil.color(msg));
-        } else {
-            sender.sendRichMessage(msg);
-        }
+        sender.sendRichMessage(msg);
     }
 
     public static void sendActionBar(final CommandSender sender, final String message, @Nullable final Map<String, String> placeholders) {
@@ -135,7 +130,7 @@ public class MsgUtils {
      * @return the {@link String}
      */
     public static @NotNull String getPrefix() {
-        return ConfigManager.getConfig().getProperty(ConfigKeys.prefix);
+        return config.getProperty(ConfigKeys.prefix);
     }
 
     public static void sendMessage(final CommandSender sender, final Player target) {

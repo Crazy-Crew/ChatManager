@@ -3,7 +3,7 @@ package com.ryderbelserion.chatmanager.commands.subs.staff.chat;
 import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.commands.subs.BaseCommand;
-import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
+import com.ryderbelserion.chatmanager.configs.impl.types.ConfigKeys;
 import dev.triumphteam.cmd.bukkit.annotation.Permission;
 import dev.triumphteam.cmd.core.annotations.Command;
 import dev.triumphteam.cmd.core.annotations.Optional;

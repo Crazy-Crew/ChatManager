@@ -6,7 +6,7 @@ import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.configs.persist.blacklist.CommandsConfig;
-import com.ryderbelserion.chatmanager.configs.types.ConfigKeys;
+import com.ryderbelserion.chatmanager.configs.impl.types.ConfigKeys;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

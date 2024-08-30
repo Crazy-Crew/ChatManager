@@ -99,4 +99,9 @@ public class ChatManager extends Vital {
     public final UserManager getUserManager() {
         return this.userManager;
     }
+
+    @Override
+    public final boolean isLegacy() {
+        return false;
+    }
 }
