@@ -1,9 +1,14 @@
 package com.ryderbelserion.chatmanager.commands.v2.subs.staff.filter;
 
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.chatmanager.api.AbstractCommand;
 import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
+import com.ryderbelserion.chatmanager.commands.v2.subs.staff.filter.subs.CommandFilterAdd;
+import com.ryderbelserion.chatmanager.commands.v2.subs.staff.filter.subs.CommandFilterHelp;
+import com.ryderbelserion.chatmanager.commands.v2.subs.staff.filter.subs.CommandFilterList;
+import com.ryderbelserion.chatmanager.commands.v2.subs.staff.filter.subs.CommandFilterRemove;
 import com.ryderbelserion.vital.paper.api.commands.Command;
 import com.ryderbelserion.vital.paper.api.commands.CommandData;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -24,9 +29,11 @@ public class CommandFilter extends AbstractCommand {
 
     @Override
     public @NotNull final LiteralCommandNode<CommandSourceStack> literal() {
-        return Commands.literal("filter")
-                .requires(source -> source.getSender().hasPermission(getPermission()))
-                .executes(context -> {
+        final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("filter").requires(source -> source.getSender().hasPermission(getPermission()));
+
+        return root.then(new CommandFilterAdd().registerPermission().literal()).then(new CommandFilterHelp().registerPermission().literal())
+                .then(new CommandFilterList().registerPermission().literal())
+                .then(new CommandFilterRemove().registerPermission().literal()).executes(context -> {
                     execute(new CommandData(context));
 
                     return com.mojang.brigadier.Command.SINGLE_SUCCESS;
