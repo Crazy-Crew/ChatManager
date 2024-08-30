@@ -7,14 +7,10 @@ import com.ryderbelserion.chatmanager.api.enums.chat.SpyType;
 import com.ryderbelserion.chatmanager.api.enums.chat.ToggleType;
 import com.ryderbelserion.chatmanager.commands.relations.ArgumentRelations;
 import com.ryderbelserion.chatmanager.commands.subs.BaseCommand;
-import com.ryderbelserion.chatmanager.commands.subs.misc.CommandMotd;
-import com.ryderbelserion.chatmanager.commands.subs.misc.CommandRules;
-import com.ryderbelserion.chatmanager.commands.subs.player.CommandHelp;
 import com.ryderbelserion.chatmanager.commands.subs.player.CommandRadius;
 import com.ryderbelserion.chatmanager.commands.subs.player.CommandToggle;
 import com.ryderbelserion.chatmanager.commands.subs.player.conversations.CommandMsg;
 import com.ryderbelserion.chatmanager.commands.subs.player.conversations.CommandReply;
-import com.ryderbelserion.chatmanager.commands.subs.staff.CommandReload;
 import com.ryderbelserion.chatmanager.commands.subs.staff.CommandSpy;
 import com.ryderbelserion.chatmanager.commands.subs.staff.chat.CommandClearChat;
 import com.ryderbelserion.chatmanager.commands.subs.staff.chat.CommandStaffChat;
@@ -95,13 +91,8 @@ public class CommandManager {
                 new CommandRadius(),
                 new CommandToggle(),
 
-                new CommandHelp(),
-                new CommandRules(),
-                new CommandMotd(),
-
                 new CommandStaffChat(),
                 new CommandClearChat(),
-                new CommandReload(),
 
                 new CommandSpy()
         ).forEach(commandManager::registerCommand);

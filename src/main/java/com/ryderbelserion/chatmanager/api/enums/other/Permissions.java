@@ -1,8 +1,15 @@
 package com.ryderbelserion.chatmanager.api.enums.other;
 
+import com.ryderbelserion.chatmanager.ChatManager;
+import org.bukkit.Server;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
+import org.bukkit.plugin.PluginManager;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
+import java.util.Map;
 
 public enum Permissions {
 
@@ -51,14 +58,22 @@ public enum Permissions {
     COMMAND_STAFF("staff", "Ability to do something", PermissionDefault.OP),
 
     SOCIAL_SPY("socialspy", "Ability to use social spy", PermissionDefault.OP),
-    COMMAND_SPY("commandspy", "Ability to use command spy", PermissionDefault.OP);
+    COMMAND_SPY("commandspy", "Ability to use command spy", PermissionDefault.OP),
+
+    reload_plugin("reload", "Access to /chatmanager reload", PermissionDefault.OP),
+    rules("rules", "Access to /chatmanager rules", PermissionDefault.OP),
+    motd("motd", "Access to /chatmanager motd", PermissionDefault.TRUE),
+    help("help", "Access to /chatmanager help", PermissionDefault.TRUE),
+    use("use", "Access to /chatmanager", PermissionDefault.TRUE);
 
     private final String node;
     private final String description;
     private final PermissionDefault isDefault;
-    private final HashMap<String, Boolean> children;
+    private final Map<String, Boolean> children;
 
-    Permissions(String node, String description, PermissionDefault isDefault, HashMap<String, Boolean> children) {
+    private final PluginManager manager = ChatManager.get().getServer().getPluginManager();
+
+    Permissions(String node, String description, PermissionDefault isDefault, Map<String, Boolean> children) {
         this.node = node;
         this.description = description;
 
@@ -75,23 +90,43 @@ public enum Permissions {
         this.children = new HashMap<>();
     }
 
-    public String getNode() {
+    public final String getNode() {
         return "chatmanager." + this.node;
     }
 
-    public String getDescription() {
+    public final String getDescription() {
         return this.description;
     }
 
-    public PermissionDefault isDefault() {
+    public final PermissionDefault isDefault() {
         return this.isDefault;
     }
 
-    public HashMap<String, Boolean> getChildren() {
+    public final Map<String, Boolean> getChildren() {
         return this.children;
     }
 
-    public boolean hasPermission(Player player) {
+    public final boolean hasPermission(final Player player) {
         return player.hasPermission(getNode());
+    }
+
+    public final boolean isValid() {
+        return this.manager.getPermission(getNode()) != null;
+    }
+
+    public final Permission getPermission() {
+        return new Permission(getNode(), getDescription(), isDefault());
+    }
+
+    public void registerPermission() {
+        if (isValid()) return;
+
+        this.manager.addPermission(getPermission());
+    }
+
+    public void unregisterPermission() {
+        if (!isValid()) return;
+
+        this.manager.removePermission(getNode());
     }
 }

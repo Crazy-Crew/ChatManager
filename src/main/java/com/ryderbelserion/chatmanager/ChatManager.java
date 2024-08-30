@@ -1,9 +1,15 @@
 package com.ryderbelserion.chatmanager;
 
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.ryderbelserion.chatmanager.api.CustomMetrics;
 import com.ryderbelserion.chatmanager.api.cache.listeners.CacheListener;
 import com.ryderbelserion.chatmanager.api.cache.UserManager;
 import com.ryderbelserion.chatmanager.commands.CommandManager;
+import com.ryderbelserion.chatmanager.commands.v2.BaseCommand;
+import com.ryderbelserion.chatmanager.commands.v2.subs.misc.CommandMotd;
+import com.ryderbelserion.chatmanager.commands.v2.subs.misc.CommandRules;
+import com.ryderbelserion.chatmanager.commands.v2.subs.player.CommandHelp;
+import com.ryderbelserion.chatmanager.commands.v2.subs.staff.CommandReload;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.listeners.TrafficListener;
 import com.ryderbelserion.chatmanager.listeners.chat.ChatListener;
@@ -21,6 +27,8 @@ import com.ryderbelserion.chatmanager.utils.support.VaultSupport;
 import com.ryderbelserion.chatmanager.utils.support.generic.GenericVanish;
 import com.ryderbelserion.vital.common.managers.PluginManager;
 import com.ryderbelserion.vital.paper.Vital;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.util.List;
@@ -80,6 +88,19 @@ public class ChatManager extends Vital {
         TaskUtils.startMonitoringTask();
 
         // Register commands.
+        getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
+            LiteralArgumentBuilder<CommandSourceStack> root = new BaseCommand().registerPermission().literal().createBuilder();
+
+            List.of(
+                    new CommandReload(),
+                    new CommandRules(),
+                    new CommandHelp(),
+                    new CommandMotd()
+            ).forEach(command -> root.then(command.registerPermission().literal()));
+
+            event.registrar().register(root.build(), "the base command for RedstonePvP");
+        });
+
         CommandManager.load();
 
         // Start metrics

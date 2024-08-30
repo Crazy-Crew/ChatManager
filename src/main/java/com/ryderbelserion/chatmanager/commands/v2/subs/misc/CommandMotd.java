@@ -1,0 +1,55 @@
+package com.ryderbelserion.chatmanager.commands.v2.subs.misc;
+
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import com.ryderbelserion.chatmanager.api.enums.other.Messages;
+import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
+import com.ryderbelserion.chatmanager.api.AbstractCommand;
+import com.ryderbelserion.chatmanager.configs.impl.types.ConfigKeys;
+import com.ryderbelserion.chatmanager.utils.MsgUtils;
+import com.ryderbelserion.vital.paper.api.commands.Command;
+import com.ryderbelserion.vital.paper.api.commands.CommandData;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
+import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
+
+public class CommandMotd extends AbstractCommand {
+
+    @Override
+    public void execute(final CommandData data) {
+        final CommandSender sender = data.getCommandSender();
+
+        if (!this.config.getProperty(ConfigKeys.motd_toggle)) {
+            Messages.feature_disabled.sendMessage(sender);
+
+            return;
+        }
+
+        for (final String line : this.config.getProperty(ConfigKeys.motd_message)) {
+            MsgUtils.sendMessage(sender, line, "{player}", sender.getName());
+        }
+    }
+
+    @Override
+    public @NotNull final String getPermission() {
+        return Permissions.motd.getNode();
+    }
+
+    @Override
+    public @NotNull final LiteralCommandNode<CommandSourceStack> literal() {
+        return Commands.literal("motd")
+                .requires(source -> source.getSender().hasPermission(getPermission()))
+                .executes(context -> {
+                    execute(new CommandData(context));
+
+                    return com.mojang.brigadier.Command.SINGLE_SUCCESS;
+                }).build();
+    }
+
+    @Override
+    public @NotNull final Command registerPermission() {
+        Permissions.motd.registerPermission();
+
+        return this;
+    }
+}
