@@ -3,17 +3,11 @@ package com.ryderbelserion.chatmanager.commands;
 import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.api.enums.chat.ChatType;
 import com.ryderbelserion.chatmanager.api.enums.chat.FilterType;
-import com.ryderbelserion.chatmanager.api.enums.chat.SpyType;
 import com.ryderbelserion.chatmanager.api.enums.chat.ToggleType;
 import com.ryderbelserion.chatmanager.commands.relations.ArgumentRelations;
 import com.ryderbelserion.chatmanager.commands.subs.BaseCommand;
-import com.ryderbelserion.chatmanager.commands.subs.player.CommandRadius;
-import com.ryderbelserion.chatmanager.commands.subs.player.CommandToggle;
 import com.ryderbelserion.chatmanager.commands.subs.player.conversations.CommandMsg;
 import com.ryderbelserion.chatmanager.commands.subs.player.conversations.CommandReply;
-import com.ryderbelserion.chatmanager.commands.subs.staff.CommandSpy;
-import com.ryderbelserion.chatmanager.commands.subs.staff.chat.CommandClearChat;
-import com.ryderbelserion.chatmanager.commands.subs.staff.chat.CommandStaffChat;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.configs.persist.blacklist.CommandsConfig;
 import com.ryderbelserion.chatmanager.configs.persist.blacklist.WordsConfig;
@@ -60,8 +54,6 @@ public class CommandManager {
         commandManager.registerSuggestion(SuggestionKey.of("blacklisted_words"), (sender, context) -> WordsConfig.banned_words);
         commandManager.registerSuggestion(SuggestionKey.of("whitelisted_words"), (sender, context) -> WordsConfig.allowed_words);
 
-        commandManager.registerSuggestion(SuggestionKey.of("spy_type"), (sender, context) -> Arrays.stream(SpyType.values()).map(SpyType::getName).toList());
-
         commandManager.registerSuggestion(SuggestionKey.of("chat_type"), (sender, context) -> Arrays.stream(ChatType.values()).map(ChatType::getName).toList());
 
         commandManager.registerSuggestion(SuggestionKey.of("toggle_type"), (sender, context) -> Arrays.stream(ToggleType.values()).map(ToggleType::getName).toList());
@@ -86,15 +78,7 @@ public class CommandManager {
                 new BaseCommand(),
 
                 new CommandReply(),
-                new CommandMsg(),
-
-                new CommandRadius(),
-                new CommandToggle(),
-
-                new CommandStaffChat(),
-                new CommandClearChat(),
-
-                new CommandSpy()
+                new CommandMsg()
         ).forEach(commandManager::registerCommand);
     }
 

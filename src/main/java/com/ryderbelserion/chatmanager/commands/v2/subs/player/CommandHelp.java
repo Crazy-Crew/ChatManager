@@ -38,7 +38,7 @@ public class CommandHelp extends AbstractCommand {
 
     @Override
     public @NotNull final LiteralCommandNode<CommandSourceStack> literal() {
-        final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("rules").requires(source -> source.getSender().hasPermission(getPermission()));
+        final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("help").requires(source -> source.getSender().hasPermission(getPermission()));
 
         final RequiredArgumentBuilder<CommandSourceStack, Integer> arg1 = argument("page", IntegerArgumentType.integer()).suggests((ctx, builder) -> {
             ConfigManager.getHelp().keySet().forEach(builder::suggest);

@@ -62,6 +62,21 @@ public enum Permissions {
 
     reload_plugin("reload", "Access to /chatmanager reload", PermissionDefault.OP),
     rules("rules", "Access to /chatmanager rules", PermissionDefault.OP),
+
+    chat_radius("chatradius", "Access to /chatmanager radius <type>", PermissionDefault.OP),
+    toggle("toggle", "Access to /chatmanager toggle <type>", PermissionDefault.OP),
+
+    reply("reply", "Reply to another player", PermissionDefault.TRUE),
+    msg("msg", "Send a message to another player", PermissionDefault.TRUE),
+
+    spy("spy", "Access to /chatmanager spy <type>", PermissionDefault.OP),
+
+    staff_chat("staff.chat", "Allows you to send messages to other staff", PermissionDefault.OP),
+    staff_clear("staff.clear", "Clears the chat with an optional arg", PermissionDefault.OP),
+
+    filter_add("filter.use.add", "Access to /chatmanager filter add <type> <word>", PermissionDefault.OP),
+    filter_remove("filter.use.remove", "Access to /chatmanager filter remove <type> <word>", PermissionDefault.OP),
+
     motd("motd", "Access to /chatmanager motd", PermissionDefault.TRUE),
     help("help", "Access to /chatmanager help", PermissionDefault.TRUE),
     use("use", "Access to /chatmanager", PermissionDefault.TRUE);
