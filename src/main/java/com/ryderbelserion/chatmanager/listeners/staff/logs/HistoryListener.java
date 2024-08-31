@@ -3,7 +3,7 @@ package com.ryderbelserion.chatmanager.listeners.staff.logs;
 import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.api.enums.Files;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.configs.impl.types.ConfigKeys;
+import com.ryderbelserion.chatmanager.configs.impl.v2.ConfigKeys;
 import com.ryderbelserion.chatmanager.utils.LogUtils;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
@@ -46,7 +46,7 @@ public class HistoryListener implements Listener {
 
         final String message = event.getMessage();
 
-        for (String command : this.config.getProperty(ConfigKeys.log_blacklist_commands)) {
+        for (String command : this.config.getProperty(ConfigKeys.log_commands_whitelist)) {
             if (message.toLowerCase().startsWith(command)) return;
         }
 

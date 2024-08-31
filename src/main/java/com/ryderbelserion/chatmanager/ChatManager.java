@@ -4,19 +4,19 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.ryderbelserion.chatmanager.api.CustomMetrics;
 import com.ryderbelserion.chatmanager.api.cache.listeners.CacheListener;
 import com.ryderbelserion.chatmanager.api.cache.UserManager;
-import com.ryderbelserion.chatmanager.commands.v2.BaseCommand;
-import com.ryderbelserion.chatmanager.commands.v2.subs.misc.CommandMotd;
-import com.ryderbelserion.chatmanager.commands.v2.subs.misc.CommandRules;
-import com.ryderbelserion.chatmanager.commands.v2.subs.player.CommandHelp;
-import com.ryderbelserion.chatmanager.commands.v2.subs.player.CommandRadius;
-import com.ryderbelserion.chatmanager.commands.v2.subs.player.conversations.CommandMsg;
-import com.ryderbelserion.chatmanager.commands.v2.subs.player.conversations.CommandReply;
-import com.ryderbelserion.chatmanager.commands.v2.subs.staff.CommandReload;
-import com.ryderbelserion.chatmanager.commands.v2.subs.staff.CommandSpy;
-import com.ryderbelserion.chatmanager.commands.v2.subs.staff.CommandToggle;
-import com.ryderbelserion.chatmanager.commands.v2.subs.staff.chat.CommandClearChat;
-import com.ryderbelserion.chatmanager.commands.v2.subs.staff.chat.CommandStaffChat;
-import com.ryderbelserion.chatmanager.commands.v2.subs.staff.filter.CommandFilter;
+import com.ryderbelserion.chatmanager.commands.BaseCommand;
+import com.ryderbelserion.chatmanager.commands.subs.misc.CommandMotd;
+import com.ryderbelserion.chatmanager.commands.subs.misc.CommandRules;
+import com.ryderbelserion.chatmanager.commands.subs.player.CommandHelp;
+import com.ryderbelserion.chatmanager.commands.subs.player.CommandRadius;
+import com.ryderbelserion.chatmanager.commands.subs.player.conversations.CommandMsg;
+import com.ryderbelserion.chatmanager.commands.subs.player.conversations.CommandReply;
+import com.ryderbelserion.chatmanager.commands.subs.staff.CommandReload;
+import com.ryderbelserion.chatmanager.commands.subs.staff.CommandSpy;
+import com.ryderbelserion.chatmanager.commands.subs.staff.CommandToggle;
+import com.ryderbelserion.chatmanager.commands.subs.staff.chat.CommandClearChat;
+import com.ryderbelserion.chatmanager.commands.subs.staff.chat.CommandStaffChat;
+import com.ryderbelserion.chatmanager.commands.subs.staff.filter.CommandFilter;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.listeners.TrafficListener;
 import com.ryderbelserion.chatmanager.listeners.chat.ChatListener;
@@ -120,8 +120,6 @@ public class ChatManager extends Vital {
 
             event.registrar().register(root.build(), "the base command for RedstonePvP");
         });
-
-        //CommandManager.load();
 
         // Start metrics
         new CustomMetrics().start();

@@ -6,7 +6,7 @@ import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.cache.UserManager;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.configs.impl.types.SpamKeys;
+import com.ryderbelserion.chatmanager.configs.impl.v2.chat.SpamKeys;
 import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
@@ -31,11 +31,11 @@ public class DelayListener implements Listener {
 
         if (user == null || user.isStaffChat) return;
 
-        if (this.config.getProperty(SpamKeys.block_repeated_commands)) {
+        if (this.config.getProperty(SpamKeys.block_chat_spam_repeating_commands)) {
             final String command = event.getMessage();
 
             if (!player.hasPermission(Permissions.BYPASS_DUPE_COMMAND.getNode())) {
-                for (String value : this.config.getProperty(SpamKeys.whitelisted_commands)) {
+                for (String value : this.config.getProperty(SpamKeys.block_chat_spam_whitelist_commands)) {
                     if (command.contains(value)) {
                         user.previousCommand = "";
 
@@ -54,7 +54,7 @@ public class DelayListener implements Listener {
                 }
             }
 
-            int commandDelay = this.config.getProperty(SpamKeys.command_delay);
+            int commandDelay = this.config.getProperty(SpamKeys.block_chat_spam_command_delay);
 
             if (commandDelay == -1 || user.commandDelay == 0) return;
 
@@ -66,7 +66,7 @@ public class DelayListener implements Listener {
                 return;
             }
 
-            for (String value : this.config.getProperty(SpamKeys.whitelisted_commands)) {
+            for (String value : this.config.getProperty(SpamKeys.block_chat_spam_whitelist_commands)) {
                 if (command.contains(value)) {
                     return;
                 }
@@ -99,7 +99,7 @@ public class DelayListener implements Listener {
         if (user == null || user.isStaffChat) return;
 
         // we return, because the delay shouldn't be triggered.
-        if (this.config.getProperty(SpamKeys.block_repeated_messages)) {
+        if (this.config.getProperty(SpamKeys.block_chat_spam_repeating_messages)) {
             if (player.hasPermission(Permissions.BYPASS_DUPE_CHAT.getNode())) return;
 
             final String message = event.signedMessage().message();
@@ -117,7 +117,7 @@ public class DelayListener implements Listener {
             return;
         }
 
-        int chatDelay = this.config.getProperty(SpamKeys.chat_delay);
+        int chatDelay = this.config.getProperty(SpamKeys.block_chat_spam_delay);
 
         if (chatDelay == -1 || player.hasPermission(Permissions.BYPASS_CHAT_DELAY.getNode())) return;
 

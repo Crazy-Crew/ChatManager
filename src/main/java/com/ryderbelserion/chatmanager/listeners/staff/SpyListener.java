@@ -10,7 +10,7 @@ import com.ryderbelserion.chatmanager.api.events.MessageSendEvent;
 import com.ryderbelserion.chatmanager.api.cache.UserManager;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.configs.impl.types.ConfigKeys;
+import com.ryderbelserion.chatmanager.configs.impl.v2.ConfigKeys;
 import com.ryderbelserion.chatmanager.utils.LogUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

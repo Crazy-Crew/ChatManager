@@ -9,7 +9,8 @@ import com.ryderbelserion.chatmanager.api.cache.UserManager;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.configs.impl.types.ConfigKeys;
-import com.ryderbelserion.chatmanager.configs.impl.types.SpamKeys;
+import com.ryderbelserion.chatmanager.configs.impl.v2.chat.ChatRadiusKeys;
+import com.ryderbelserion.chatmanager.configs.impl.v2.chat.SpamKeys;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import org.bukkit.Location;
@@ -142,11 +143,11 @@ public class ChatListener implements Listener {
 
         final User user = this.userManager.getUser(player);
 
-        if (!this.config.getProperty(ConfigKeys.chat_radius_enable) || user.isStaffChat) return;
+        if (!this.config.getProperty(ChatRadiusKeys.chat_radius_enabled) || user.isStaffChat) return;
 
-        final String localCharacter = this.config.getProperty(ConfigKeys.local_chat_override_symbol);
-        final String globalCharacter = this.config.getProperty(ConfigKeys.global_chat_override_symbol);
-        final String worldCharacter = this.config.getProperty(ConfigKeys.world_chat_override_symbol);
+        final String localCharacter = this.config.getProperty(ChatRadiusKeys.chat_radius_local_chat_override_symbol);
+        final String globalCharacter = this.config.getProperty(ChatRadiusKeys.chat_radius_global_chat_override_symbol);
+        final String worldCharacter = this.config.getProperty(ChatRadiusKeys.chat_radius_world_chat_override_symbol);
 
         final String message = event.signedMessage().message();
 

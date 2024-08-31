@@ -3,7 +3,7 @@ package com.ryderbelserion.chatmanager.listeners;
 import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.configs.impl.types.ConfigKeys;
+import com.ryderbelserion.chatmanager.configs.impl.v2.ConfigKeys;
 import com.ryderbelserion.chatmanager.utils.MsgUtils;
 import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ public class TrafficListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (!this.config.getProperty(ConfigKeys.motd_toggle)) return;
+        if (!this.config.getProperty(ConfigKeys.motd_enabled)) return;
 
         final int delay = this.config.getProperty(ConfigKeys.motd_delay);
 

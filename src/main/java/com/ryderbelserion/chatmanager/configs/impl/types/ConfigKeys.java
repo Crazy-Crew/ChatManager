@@ -6,7 +6,6 @@ import ch.jalu.configme.configurationdata.CommentsConfiguration;
 import ch.jalu.configme.properties.ListProperty;
 import ch.jalu.configme.properties.Property;
 import org.jetbrains.annotations.NotNull;
-import java.util.Arrays;
 import java.util.List;
 import static ch.jalu.configme.properties.PropertyInitializer.newListProperty;
 import static ch.jalu.configme.properties.PropertyInitializer.newProperty;
@@ -40,238 +39,10 @@ public class ConfigKeys implements SettingsHolder {
                 
                 =================================================================================================#
                 """);
-
-        conf.setComment("Anti_Advertising", """
-                =================================================================================================#
-                 Block players from advertising other servers.
-                =================================================================================================#
-                """);
-
-        conf.setComment("Anti_Bot", """
-                =================================================================================================#
-                 Prevent players from executing commands, or typing in chat until they move when they join your server.
-                =================================================================================================#
-                """);
-
-        conf.setComment("Anti_Caps", """
-                =================================================================================================#
-                 Prevent messages written in CAPS.
-                =================================================================================================#
-                """);
-
-        conf.setComment("Anti_Spam", """
-                =================================================================================================#
-                 Prevent the chat from being flooded with repetitive messages.
-                =================================================================================================#
-                """);
-
-        conf.setComment("Anti_Swear", """
-                =================================================================================================#
-                 Prevent players from executing commands, or typing in chat until they move when they join your server.
-                =================================================================================================#
-                """);
-
-        conf.setComment("Anti_Unicode", """
-                =================================================================================================#
-                 Prevent players from swearing in chat, comamnds, and signs.
-                =================================================================================================#
-                """);
-
-        conf.setComment("Banned_Commands", """
-                =================================================================================================#
-                 Prevent players from swearing in chat, comamnds, and signs.
-                =================================================================================================#
-                """);
-
-        conf.setComment("Broadcast_Commands", """
-                =================================================================================================#
-                 Prevent players from swearing in chat, comamnds, and signs.
-                =================================================================================================#
-                """);
-
-        // per group chat formats
-
-        conf.setComment("Chat_Radius", """
-                =================================================================================================#
-                 Players can only send messages to other players that are in range.
-                 How to use chat radius: https://docs.crazycrew.us/docs/plugins/chatmanager/guides/chat/radius
-                =================================================================================================#
-                """);
-
-        conf.setComment("Clear_Chat", """
-                =================================================================================================#
-                 Clear Chat
-                =================================================================================================#
-                """);
-
-        conf.setComment("Command_Spy", """
-                =================================================================================================#
-                 Command Spy
-                =================================================================================================#
-                """);
-
-        conf.setComment("Anti_Unicode", """
-                #=================================================================================================#
-                # Formatted Messages
-                # This section allows you to enable or disable the use of color codes and format codes in chat.
-                # Each color code and format is permission based.
-                # To give players permission to use color codes give them\s
-                # chatmanager.color.all or chatmanager.color.{code} without the &. Example: chatmanager.color.a
-                # To give players permission to use format codes give them\s
-                # chatmanager.format.all or chatmanager.format.{code} without the &. Example: chatmanager.color.f
-                #=================================================================================================#
-                """);
-
-        conf.setComment("Lists", """
-                #=================================================================================================#
-                # Staff and Player List:
-                #=================================================================================================#
-                """);
-
-        conf.setComment("Logs", """
-                #=================================================================================================#
-                # Logs
-                #=================================================================================================#
-                """);
-
-        // per group formats
-
-        conf.setComment("Mentions", """
-                #=================================================================================================#
-                # When a player mentions another players name.
-                #=================================================================================================#
-                """);
-
-        conf.setComment("MOTD", """
-                #=================================================================================================#
-                # When players join your server, welcome them with a Message of the Day.
-                #=================================================================================================#
-                """);
-
-        conf.setComment("Mute_Chat", """
-                #=================================================================================================#
-                # Mute Chat.
-                #=================================================================================================#
-                """);
-
-        // per world chat
-
-        conf.setComment("Private_Messages", """
-                #=================================================================================================#
-                # Private messages allow you to secretly message another player without everyone else seeing.
-                #=================================================================================================#
-                """);
-
-        conf.setComment("Server_Name", """
-                #=================================================================================================#
-                # The server name used in {server_name} variable.
-                #=================================================================================================#
-                """);
-
-        conf.setComment("Social_Spy", """
-                #=================================================================================================#
-                # Staff can see what players type in certain commands.
-                #=================================================================================================#
-                """);
-
-        conf.setComment("Staff_Chat", """
-                #=================================================================================================#
-                # Talk silently with staff without everyone else on the server seeing.
-                #=================================================================================================#
-                """);
     }
 
     @Comment("The prefix in front of the commands")
     public static final Property<String> prefix = newProperty("root.prefix", "<aqua>[<gold>ChatManager<aqua>] <reset>");
-
-    @Comment("Block advertising in chat.")
-    public static final Property<Boolean> anti_advertising_chat = newProperty("Anti_Advertising.Chat.Enable", false);
-
-    @Comment("Should the anti advertising checker be more sensitive? This may cause false positives.")
-    public static final Property<Boolean> anti_advertising_chat_sensitivity = newProperty("Anti_Advertising.Chat.Increase_Sensitivity", false);
-
-    @Comment("Should staff get notified when a player advertises in chat?")
-    public static final Property<Boolean> anti_advertising_chat_notify_staff = newProperty("Anti_Advertising.Chat.Notify_Staff", false);
-
-    @Comment("Should a command be executed to the player that advertises?")
-    public static final Property<Boolean> anti_advertising_chat_execute_command = newProperty("Anti_Advertising.Chat.Execute_Command", false);
-
-    @Comment({
-            "The command that is executed when a player advertises.",
-            "Set this section to Executed_Command: '' to disable"
-    })
-    public static final Property<String> anti_advertising_chat_executed_command = newProperty("Anti_Advertising.Chat.Executed_Command", "kick {player} Please do not advertise in chat");
-
-    @Comment("Every time a player advertises in chat, the message will be logged in the advertisements.log file.")
-    public static final Property<Boolean> anti_advertising_chat_log_to_file = newProperty("Anti_Advertising.Chat.Log_Advertisers", false);
-
-    @Comment("Block advertising in commands.")
-    public static final Property<Boolean> anti_advertising_commands = newProperty("Anti_Advertising.Commands.Enable", false);
-
-    @Comment("Should the anti advertising checker be more sensitive? This may cause false positives.")
-    public static final Property<Boolean> anti_advertising_commands_sensitivity = newProperty("Anti_Advertising.Commands.Increase_Sensitivity", false);
-
-    @Comment("Should staff get notified when a player advertises in commands?")
-    public static final Property<Boolean> anti_advertising_commands_notify_staff = newProperty("Anti_Advertising.Commands.Notify_Staff", true);
-
-    @Comment("Should a command be executed to the player that advertises?")
-    public static final Property<Boolean> anti_advertising_commands_execute_command = newProperty("Anti_Advertising.Commands.Execute_Command", false);
-
-    @Comment({
-            "The command that is executed when a player advertises.",
-            "Set this section to Executed_Command: '' to disable"
-    })
-    public static final Property<String> anti_advertising_commands_executed_command = newProperty("Anti_Advertising.Commands.Executed_Command", "kick {player} Please do not advertise in chat");
-
-    @Comment("Every time a player advertises in commands, their message will be logged in the advertisements.log file.")
-    public static final Property<Boolean> anti_advertising_commands_log_to_file = newProperty("Anti_Advertising.Commands.Log_Advertisers", true);
-
-    @Comment("If a player executes one of these commands with an advertisement in it, the command will not be blocked.")
-    public static final ListProperty<String> anti_advertising_commands_whitelist = newListProperty("Anti_Advertising.Commands.Whitelist", List.of("/report"));
-
-    @Comment("Block advertising on signs.")
-    public static final Property<Boolean> anti_advertising_signs = newProperty("Anti_Advertising.Signs.Enable", false);
-
-    @Comment("Should the anti advertising checker be more sensitive? This may cause false positives.")
-    public static final Property<Boolean> anti_advertising_signs_sensitivity = newProperty("Anti_Advertising.Signs.Increase_Sensitivity", false);
-
-    @Comment("Should staff get notified when a player advertises on a sign?")
-    public static final Property<Boolean> anti_advertising_signs_notify_staff = newProperty("Anti_Advertising.Signs.Notify_Staff", true);
-
-    @Comment("Should a command be executed to the player that advertises?")
-    public static final Property<Boolean> anti_advertising_signs_execute_command = newProperty("Anti_Advertising.Signs.Execute_Command", false);
-
-    @Comment({
-            "The command that is executed when a player advertises.",
-            "Set this section to Executed_Command: '' to disable"
-    })
-    public static final Property<String> anti_advertising_signs_executed_command = newProperty("Anti_Advertising.Signs.Executed_Command", "kick {player} Please do not advertise in chat");
-
-    @Comment("Every time a player advertises on signs, their message will be logged in the advertisements.log file.")
-    public static final Property<Boolean> anti_advertising_signs_log_to_file = newProperty("Anti_Advertising.Signs.Log_Advertisers", true);
-
-    @Comment("Websites that won't be blocked if said in chat, commands, or signs.")
-    public static final ListProperty<String> anti_advertising_whitelist = newListProperty("Anti_Advertising.Whitelist", List.of("google.com"));
-
-    // Anti-Bot
-    @Comment("Block players from typing in chat until they move.")
-    public static final Property<Boolean> anti_bot_block_chat_until_moved = newProperty("Anti_Bot.Block_Chat_Until_Moved", false);
-
-    @Comment("Block players from executing commands until they move.")
-    public static final Property<Boolean> anti_bot_block_commands_until_moved = newProperty("Anti_Bot.Block_Commands_Until_Moved", false);
-
-    // Anti-Caps
-    @Comment("Enable anti-caps.")
-    public static final Property<Boolean> anti_caps_enable = newProperty("Anti_Caps.Enable", false);
-
-    @Comment("Should players capitalize words in commands?")
-    public static final Property<Boolean> anti_caps_enable_in_commands = newProperty("Anti_Caps.Enable_In_Commands", true);
-
-    @Comment("The minimum size the message has to be to get blocked.")
-    public static final Property<Integer> anti_caps_min_message_length = newProperty("Anti_Caps.Min_Message_Length", 5);
-
-    @Comment("The percentage the message has to be capitalized to get blocked.")
-    public static final Property<Integer> anti_caps_required_percentage = newProperty("Anti_Caps.Required_Percentage", 70);
 
     // Anti-Spam (Chat)
     @Comment("How many seconds does the player have to wait till they send their next message? Set to 0 to disable.")
@@ -279,16 +50,6 @@ public class ConfigKeys implements SettingsHolder {
 
     @Comment("Prevent players from repeating the same messages.")
     public static final Property<Boolean> anti_spam_chat_block_repetitive_messages = newProperty("Anti_Spam.Chat.Block_Repetitive_Messages", false);
-
-    // Anti-Spam (Command)
-    @Comment("How many seconds does the player have to wait till they send their next command? Set to 0 to disable.")
-    public static final Property<Integer> anti_spam_command_delay = newProperty("Anti_Spam.Command.Command_Delay", 3);
-
-    @Comment("Prevent players from repeating the same commands.")
-    public static final Property<Boolean> anti_spam_command_block_repetitive_commands = newProperty("Anti_Spam.Command.Block_Repetitive_Commands", false);
-
-    @Comment("Whitelisted commands that won't be affected by the anti-spam.")
-    public static final ListProperty<String> anti_spam_command_whitelist = newListProperty("Anti_Spam.Command.Whitelist", List.of("/spawn"));
 
     // Anti-Swear (Chat)
     @Comment("Block swearing in chat.")
@@ -456,69 +217,11 @@ public class ConfigKeys implements SettingsHolder {
             "&8&m--------------------------"
     ));
 
-    @Comment("Enable chat radius.")
-    public static final Property<Boolean> chat_radius_enable = newProperty("Chat_Radius.Enable", true);
-
-    @Comment({
-            "When players join the server, or if the plugin is hard reloaded (with plugman) players will be",
-            "automatically put into this chat channel.",
-            "Chat Channels: Local, Global, World."
-    })
-    public static final Property<String> chat_radius_default_channel = newProperty("Chat_Radius.Default_Channel", "Global");
-
-    // Local Chat
-    @Comment("The prefix that's sent in local chat.")
-    public static final Property<String> local_chat_prefix = newProperty("Chat_Radius.Local_Chat.Prefix", "&7[&cLocal&7]");
-
-    @Comment({
-            "If you put this symbol in front of your message, it will override any channel which you are in,",
-            "sending the message to all players in the server, then keeps you in local chat.",
-            "Do Override_Symbol: '' to disable."
-    })
-    public static final Property<String> local_chat_override_symbol = newProperty("Chat_Radius.Local_Chat.Override_Symbol", "#");
-
-    // Global Chat
-    @Comment("The prefix that's sent in global chat.")
-    public static final Property<String> global_chat_prefix = newProperty("Chat_Radius.Global_Chat.Prefix", "&7[&bGlobal&7]");
-
-    @Comment({
-            "If you put this symbol in front of your message, it will override any channel which you are in,",
-            "sending the message to all players in the server, then keeps you in global chat.",
-            "Do Override_Symbol: '' to disable."
-    })
-    public static final Property<String> global_chat_override_symbol = newProperty("Chat_Radius.Global_Chat.Override_Symbol", "!");
-
-    // World Chat
-    @Comment("The prefix that's sent in world chat.")
-    public static final Property<String> world_chat_prefix = newProperty("Chat_Radius.World_Chat.Prefix", "&7[&dWorld&7]");
-
-    @Comment({
-            "If you put this symbol in front of your message, it will override any channel which you are in,",
-            "sending the message to all players in the server, then keeps you in world chat.",
-            "Do Override_Symbol: '' to disable."
-    })
-    public static final Property<String> world_chat_override_symbol = newProperty("Chat_Radius.World_Chat.Override_Symbol", "$");
-
-    @Comment("The maximum distance players will receive the sender's messages.")
-    public static final Property<Integer> chat_radius_block_distance = newProperty("Chat_Radius.Block_Distance", 250);
-
-    @Comment("Enable chat radius spy on join.")
-    public static final Property<Boolean> chat_radius_enable_spy_on_join = newProperty("Chat_Radius.Enable_Spy_On_Join", false);
-
     @Comment("Clear players chat when they join the server.")
     public static final Property<Boolean> clear_chat_on_join = newProperty("Clear_Chat.Clear_On_Join", false);
 
     @Comment("How many blank lines should be broadcasted in chat?")
     public static final Property<Integer> clear_chat_broadcasted_lines = newProperty("Clear_Chat.Broadcasted_Lines", 60);
-
-    @Comment("Turn on command spy when players with the correct permission join the server.")
-    public static final Property<Boolean> toggle_command_spy = newProperty("Command_Spy.Enable_On_Join", false);
-
-    @Comment("Commands that won't be shown in command spy.")
-    public static final Property<List<String>> command_spy_commands = newListProperty("Command_Spy.Blacklist_Commands", List.of(
-            "/login",
-            "/register"
-    ));
 
     @Comment({
             "This section allows you to enable or disable the use of color codes and format codes in chat.",
@@ -542,19 +245,6 @@ public class ConfigKeys implements SettingsHolder {
             "&7&m---------------&8[ &aPlayer List &8]&7&m---------------",
             "&7Online Players &a{server_online}&8/&a{server_max_players}&7: {players}"
     ));
-
-    // Logs
-    @Comment("Should every message in chat be logged in the chat.log file?")
-    public static final Property<Boolean> log_chat = newProperty("Logs.Log_Chat", false);
-
-    @Comment("Should every command that is executed be logged in the commands.log file?")
-    public static final Property<Boolean> log_commands = newProperty("Logs.Log_Commands", false);
-
-    @Comment("Should every message placed on a sign be logged in the signs.log file?")
-    public static final Property<Boolean> log_signs = newProperty("Logs.Log_Signs", false);
-
-    @Comment("Commands that won't be logged in the commands.log file. Commands in the Blacklist_Commands list must be lowercase.")
-    public static final ListProperty<String> log_blacklist_commands = newListProperty("Logs.Blacklist_Commands", List.of("/login", "/register"));
 
     @Comment("Enable mentions.")
     public static final Property<Boolean> mentions_enable = newProperty("Mentions.Enable", false);
@@ -619,24 +309,6 @@ public class ConfigKeys implements SettingsHolder {
     public static final Property<Double> private_messages_sound_volume = newProperty("Private_Messages.sound.volume", 1.0);
 
     public static final Property<String> server_name = newProperty("Server_Name", "Server Name");
-
-    public static final Property<Boolean> motd_toggle = newProperty("MOTD.Enable", false);
-
-    @Comment("How long to wait before displaying after login in seconds?")
-    public static final Property<Integer> motd_delay = newProperty("MOTD.Delay", 2);
-
-    public static final Property<List<String>> motd_message = newListProperty("MOTD.Message", List.of(
-            "<gray><st>------------------------------------",
-            "<green>Welcome to the server <aqua>{player}<green>!",
-            "",
-            "<green>If you need any help please message any online staff member.",
-            "",
-            "<green>You can change this message in the ChatManager - config.yml",
-            "<gray><st>------------------------------------"
-    ));
-
-    @Comment("Turn on social spy when players with the correct permission join the server.")
-    public static final Property<Boolean> toggle_social_spy = newProperty("Social_Spy.Enable_On_Join", false);
 
     @Comment({
             "=================================================================================================",

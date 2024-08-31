@@ -11,11 +11,13 @@ import com.ryderbelserion.chatmanager.configs.impl.messages.MiscKeys;
 import com.ryderbelserion.chatmanager.configs.impl.messages.PlayerKeys;
 import com.ryderbelserion.chatmanager.configs.impl.messages.commands.SpyKeys;
 import com.ryderbelserion.chatmanager.configs.impl.messages.commands.ToggleKeys;
+import com.ryderbelserion.chatmanager.configs.impl.v2.ConfigKeys;
+import com.ryderbelserion.chatmanager.configs.impl.v2.chat.AdvertisingKeys;
+import com.ryderbelserion.chatmanager.configs.impl.v2.chat.SpamKeys;
+import com.ryderbelserion.chatmanager.configs.impl.v2.chat.ChatRadiusKeys;
 import com.ryderbelserion.chatmanager.configs.persist.blacklist.CommandsConfig;
 import com.ryderbelserion.chatmanager.configs.persist.blacklist.WordsConfig;
 import com.ryderbelserion.chatmanager.configs.impl.types.MessageKeys;
-import com.ryderbelserion.chatmanager.configs.impl.types.SpamKeys;
-import com.ryderbelserion.chatmanager.configs.impl.types.ConfigKeys;
 import com.ryderbelserion.vital.paper.api.files.CustomFile;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -48,7 +50,7 @@ public class ConfigManager {
         config = SettingsManagerBuilder
                 .withYamlFile(new File(plugin.getDataFolder(), "config.yml"), builder)
                 .useDefaultMigrationService()
-                .configurationData(ConfigKeys.class, SpamKeys.class)
+                .configurationData(ConfigKeys.class, AdvertisingKeys.class, ChatRadiusKeys.class, SpamKeys.class)
                 .create();
 
         messages = SettingsManagerBuilder
