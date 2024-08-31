@@ -12,7 +12,6 @@ import com.ryderbelserion.chatmanager.configs.impl.messages.PlayerKeys;
 import com.ryderbelserion.chatmanager.configs.impl.messages.commands.SpyKeys;
 import com.ryderbelserion.chatmanager.configs.impl.messages.commands.ToggleKeys;
 import com.ryderbelserion.chatmanager.configs.impl.v2.ConfigKeys;
-import com.ryderbelserion.chatmanager.configs.impl.v2.chat.AdvertisingKeys;
 import com.ryderbelserion.chatmanager.configs.impl.v2.chat.SpamKeys;
 import com.ryderbelserion.chatmanager.configs.impl.v2.chat.ChatRadiusKeys;
 import com.ryderbelserion.chatmanager.configs.persist.blacklist.CommandsConfig;
@@ -50,7 +49,7 @@ public class ConfigManager {
         config = SettingsManagerBuilder
                 .withYamlFile(new File(plugin.getDataFolder(), "config.yml"), builder)
                 .useDefaultMigrationService()
-                .configurationData(ConfigKeys.class, AdvertisingKeys.class, ChatRadiusKeys.class, SpamKeys.class)
+                .configurationData(ConfigKeys.class, ChatRadiusKeys.class, SpamKeys.class)
                 .create();
 
         messages = SettingsManagerBuilder

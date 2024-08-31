@@ -2,13 +2,37 @@ package com.ryderbelserion.chatmanager.configs.impl.v2;
 
 import ch.jalu.configme.Comment;
 import ch.jalu.configme.SettingsHolder;
+import ch.jalu.configme.configurationdata.CommentsConfiguration;
 import ch.jalu.configme.properties.ListProperty;
 import ch.jalu.configme.properties.Property;
+import com.ryderbelserion.chatmanager.configs.impl.v2.beans.GenericProperty;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
+import static ch.jalu.configme.properties.PropertyInitializer.newBeanProperty;
 import static ch.jalu.configme.properties.PropertyInitializer.newListProperty;
 import static ch.jalu.configme.properties.PropertyInitializer.newProperty;
 
 public class ConfigKeys implements SettingsHolder {
+
+    @Override
+    public void registerComments(@NotNull CommentsConfiguration conf) {
+        String[] header = {
+                "Support: https://discord.gg/badbones-s-live-chat-182615261403283459",
+                "Documentation: https://docs.crazycrew.us/docs/plugins/chatmanager",
+                "Github: https://github.com/Crazy-Crew",
+                "",
+                "Issues: https://github.com/Crazy-Crew/ChatManager/issues",
+                "Features: https://github.com/Crazy-Crew/ChatManager/issues",
+                "",
+                "List of all sounds: https://minecraft.wiki/w/Sounds.json#Java_Edition_values",
+                "",
+                "We no longer support &7 or &c, You can find a neat tool to easily configure MiniMessage below",
+                " ⤷ https://webui.advntr.dev/"
+        };
+
+        conf.setComment("root", header);
+    }
 
     @Comment("The prefix used in commands")
     public static final Property<String> command_prefix = newProperty("root.prefix", "<aqua>[<gold>ChatManager<aqua>] <reset>");
@@ -123,4 +147,16 @@ public class ConfigKeys implements SettingsHolder {
 
     @Comment("How many blank lines should be broadcasted in chat?")
     public static final Property<Integer> clear_chat_lines = newProperty("features.chat.clear", 60);
+
+    @Comment("Block certain commands in chat!")
+    public static final Property<GenericProperty> blocked_commands = newBeanProperty(GenericProperty.class, "features.blocked_commands", new GenericProperty("blocked_commands"));
+
+    @Comment("Blocks advertising in chat!")
+    public static final Property<GenericProperty> block_advertising_chat = newBeanProperty(GenericProperty.class, "features.anti-advertising.chat", new GenericProperty("block_advertising_chat"));
+
+    @Comment("Blocks advertising in signs!")
+    public static final Property<GenericProperty> block_advertising_signs = newBeanProperty(GenericProperty.class, "features.anti-advertising.signs", new GenericProperty("block_advertising_signs"));
+
+    @Comment("Blocks advertising in commands!")
+    public static final Property<GenericProperty> block_advertising_commands = newBeanProperty(GenericProperty.class, "features.anti-advertising.commands", new GenericProperty("block_advertising_commands"));
 }

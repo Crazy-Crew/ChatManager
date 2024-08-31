@@ -2,44 +2,13 @@ package com.ryderbelserion.chatmanager.configs.impl.types;
 
 import ch.jalu.configme.Comment;
 import ch.jalu.configme.SettingsHolder;
-import ch.jalu.configme.configurationdata.CommentsConfiguration;
 import ch.jalu.configme.properties.ListProperty;
 import ch.jalu.configme.properties.Property;
-import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import static ch.jalu.configme.properties.PropertyInitializer.newListProperty;
 import static ch.jalu.configme.properties.PropertyInitializer.newProperty;
 
 public class ConfigKeys implements SettingsHolder {
-
-    @Override
-    public void registerComments(@NotNull CommentsConfiguration conf) {
-        conf.setComment("Root", """
-                =================================================================================================#
-                                                 Main Configuration of Chat Manager
-                =================================================================================================#
-                
-                    If you need any plugin support, feel free to join our discord server
-                
-                    Discord Link: https://discord.gg/mh7Ydaf
-                
-                =================================================================================================#
-                
-                 Information:
-                   1. Migrate existing configurations to https://toolbox.helpch.at/
-                
-                   2. https://webui.advntr.dev/
-                
-                   3. Sound List
-                      - 1.21.1 and newer: https://minecraft.wiki/w/Sounds.json#Java_Edition_values
-                
-                   4. All messages can be changed in the messages.yml file.
-                
-                   5. Wiki: https://docs.crazycrew.us/docs/plugins/chatmanager
-                
-                =================================================================================================#
-                """);
-    }
 
     // Anti-Spam (Chat)
     @Comment("How many seconds does the player have to wait till they send their next message? Set to 0 to disable.")
@@ -143,24 +112,6 @@ public class ConfigKeys implements SettingsHolder {
 
     @Comment("Anything that's in this list won’t be blocked by the anti unicode checker.")
     public static final ListProperty<String> anti_unicode_whitelist = newListProperty("Anti_Unicode.Whitelist", List.of("«", "»"));
-
-    @Comment("Enable banned commands.")
-    public static final Property<Boolean> banned_commands_enable = newProperty("Banned_Commands.Enable", false);
-
-    @Comment("Increase banned commands sensitivity so if you add the command /gamemode, players won't be able to do /gamemode creative, /gamemode survival, etc.")
-    public static final Property<Boolean> banned_commands_increase_sensitivity = newProperty("Banned_Commands.Increase_Sensitivity", false);
-
-    @Comment("Should staff get notified when a player uses a banned command?")
-    public static final Property<Boolean> banned_commands_notify_staff = newProperty("Banned_Commands.Notify_Staff", true);
-
-    @Comment("Should a command be executed to the player that uses a banned command?")
-    public static final Property<Boolean> banned_commands_execute_command = newProperty("Banned_Commands.Execute_Command", true);
-
-    @Comment({
-            "The command that is executed when a player executes a banned command.",
-            "Set this section to Executed_Command: '' to disable"
-    })
-    public static final Property<String> banned_commands_executed_command = newProperty("Banned_Commands.Executed_Command", "kick {player} You are not allowed to use that command!");
 
     // Broadcast Command
     @Comment("The default prefix that goes in front of the broadcasted message.")

@@ -1,9 +1,15 @@
 package com.ryderbelserion.chatmanager.configs.impl.v2.beans;
 
+import ch.jalu.configme.Comment;
+import ch.jalu.configme.beanmapper.ExportName;
+
 public class CommandProperty {
 
+    @Comment("Should we execute a command?")
+    @ExportName("is_enabled")
     private boolean execute;
 
+    @Comment("The command that will be executed.")
     private String value;
 
     public CommandProperty() {

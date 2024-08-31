@@ -69,7 +69,7 @@ public class ChatManager extends Vital {
         List.of(
                 new VaultSupport(),
                 new GenericVanish(),
-                new EssentialsSupport(),
+                //new EssentialsSupport(),
                 new PlaceholderAPISupport()
         ).forEach(PluginManager::registerPlugin);
 
