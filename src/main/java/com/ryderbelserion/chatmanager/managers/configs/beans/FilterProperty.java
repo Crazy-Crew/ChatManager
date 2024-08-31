@@ -2,9 +2,10 @@ package com.ryderbelserion.chatmanager.managers.configs.beans;
 
 import ch.jalu.configme.Comment;
 import ch.jalu.configme.beanmapper.ExportName;
+
 import java.util.List;
 
-public class GenericProperty {
+public class FilterProperty {
 
     @Comment("Should it be enabled?")
     @ExportName("is_enabled")
@@ -35,17 +36,27 @@ public class GenericProperty {
     @ExportName("is_logging")
     private boolean isLogging;
 
-    @Comment("The command/message to allow in chat/signs/messages")
-    private List<String> whitelist;
+    @Comment("Should messages/commands be blocked, if they contain swears or advertisements?")
+    @ExportName("is_blocking")
+    private boolean isBlocking;
 
-    public GenericProperty(final boolean enabled, final boolean notify_staff, final boolean isLogging, final String sensitivity, final CommandProperty command, final List<String> whitelist) {
+    public FilterProperty(final boolean enabled, final boolean isBlocking, final boolean notify_staff, final boolean isLogging, final String sensitivity, final CommandProperty command) {
         this.enabled = enabled;
         this.sensitivity = sensitivity;
         this.notify_staff = notify_staff;
         this.isLogging = isLogging;
 
         this.command = command;
-        this.whitelist = whitelist;
+
+        this.isBlocking = isBlocking;
+    }
+
+    public void setBlock(final boolean isBlocking) {
+        this.isBlocking = isBlocking;
+    }
+
+    public boolean isBlocking() {
+        return this.isBlocking;
     }
 
     public boolean isEnabled() {
@@ -86,13 +97,5 @@ public class GenericProperty {
 
     public boolean isLogging() {
         return this.isLogging;
-    }
-
-    public void setWhitelist(final List<String> whitelist) {
-        this.whitelist = whitelist;
-    }
-
-    public List<String> getWhitelist() {
-        return this.whitelist;
     }
 }

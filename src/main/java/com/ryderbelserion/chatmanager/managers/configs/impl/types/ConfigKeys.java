@@ -6,6 +6,7 @@ import ch.jalu.configme.configurationdata.CommentsConfiguration;
 import ch.jalu.configme.properties.ListProperty;
 import ch.jalu.configme.properties.Property;
 import com.ryderbelserion.chatmanager.managers.configs.beans.CommandProperty;
+import com.ryderbelserion.chatmanager.managers.configs.beans.FilterProperty;
 import com.ryderbelserion.chatmanager.managers.configs.beans.GenericProperty;
 import org.jetbrains.annotations.NotNull;
 import java.util.List;
@@ -195,7 +196,7 @@ public class ConfigKeys implements SettingsHolder {
     public static final Property<Boolean> anti_spam_settings_block_repeated_messages = newProperty("features.anti-spam.settings.block.repeated_messages", false);
 
     @Comment("Blocks swearing in chat!")
-    public static final Property<GenericProperty> block_swears_chat = newBeanProperty(GenericProperty.class, "features.anti-swear.chat", new GenericProperty(
+    public static final Property<FilterProperty> block_swears_chat = newBeanProperty(FilterProperty.class, "features.anti-swear.chat", new FilterProperty(
             false,
             false,
             false,
@@ -208,7 +209,7 @@ public class ConfigKeys implements SettingsHolder {
     ));
 
     @Comment("Blocks swearing in commands!")
-    public static final Property<GenericProperty> block_swears_commands = newBeanProperty(GenericProperty.class, "features.anti-swear.commands", new GenericProperty(
+    public static final Property<FilterProperty> block_swears_commands = newBeanProperty(FilterProperty.class, "features.anti-swear.commands", new FilterProperty(
             false,
             false,
             false,
@@ -221,7 +222,7 @@ public class ConfigKeys implements SettingsHolder {
     ));
 
     @Comment("Blocks swearing on signs!")
-    public static final Property<GenericProperty> block_swears_signs = newBeanProperty(GenericProperty.class, "features.anti-swear.signs", new GenericProperty(
+    public static final Property<FilterProperty> block_swears_signs = newBeanProperty(FilterProperty.class, "features.anti-swear.signs", new FilterProperty(
             false,
             false,
             false,
