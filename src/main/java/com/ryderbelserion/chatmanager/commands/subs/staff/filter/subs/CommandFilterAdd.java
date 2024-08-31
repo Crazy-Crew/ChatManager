@@ -115,17 +115,7 @@ public class CommandFilterAdd extends AbstractCommand {
             return builder.buildFuture();
         });
 
-        final RequiredArgumentBuilder<CommandSourceStack, String> arg2 = argument("word", StringArgumentType.string()).suggests((ctx, builder) -> {
-            final FilterType type = FilterType.getFilterType(ctx.getLastChild().getArgument("type", String.class));
-
-            switch (type) {
-                case banned_commands -> CommandsConfig.banned_commands.forEach(builder::suggest);
-                case banned_words -> WordsConfig.banned_words.forEach(builder::suggest);
-                case allowed_words -> WordsConfig.allowed_words.forEach(builder::suggest);
-            }
-
-            return builder.buildFuture();
-        }).executes(context -> {
+        final RequiredArgumentBuilder<CommandSourceStack, String> arg2 = argument("word", StringArgumentType.string()).suggests((ctx, builder) -> builder.suggest("<word>").buildFuture()).executes(context -> {
             execute(new CommandData(context));
 
             return com.mojang.brigadier.Command.SINGLE_SUCCESS;
