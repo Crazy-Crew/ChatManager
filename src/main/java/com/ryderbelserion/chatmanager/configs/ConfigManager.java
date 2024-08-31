@@ -11,21 +11,15 @@ import com.ryderbelserion.chatmanager.configs.impl.messages.MiscKeys;
 import com.ryderbelserion.chatmanager.configs.impl.messages.PlayerKeys;
 import com.ryderbelserion.chatmanager.configs.impl.messages.commands.SpyKeys;
 import com.ryderbelserion.chatmanager.configs.impl.messages.commands.ToggleKeys;
+import com.ryderbelserion.chatmanager.configs.impl.types.RuleKeys;
 import com.ryderbelserion.chatmanager.configs.impl.v2.ConfigKeys;
-import com.ryderbelserion.chatmanager.configs.impl.v2.chat.SpamKeys;
-import com.ryderbelserion.chatmanager.configs.impl.v2.chat.ChatRadiusKeys;
+import com.ryderbelserion.chatmanager.configs.impl.types.chat.SpamKeys;
+import com.ryderbelserion.chatmanager.configs.impl.types.chat.ChatRadiusKeys;
 import com.ryderbelserion.chatmanager.configs.persist.blacklist.CommandsConfig;
 import com.ryderbelserion.chatmanager.configs.persist.blacklist.WordsConfig;
 import com.ryderbelserion.chatmanager.configs.impl.types.MessageKeys;
-import com.ryderbelserion.vital.paper.api.files.CustomFile;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ConfigManager {
 
@@ -35,12 +29,10 @@ public class ConfigManager {
 
     private static final File folder = new File(plugin.getDataFolder(), "blacklist");
 
-    private static final Map<Integer, List<String>> rules = new HashMap<>();
-
-    private static final Map<Integer, List<String>> help = new HashMap<>();
-
     private static SettingsManager config;
     private static SettingsManager messages;
+
+    private static SettingsManager rules;
 
     private static CommandsConfig commandsConfig;
     private static WordsConfig wordsConfig;
@@ -60,6 +52,12 @@ public class ConfigManager {
                 .configurationData(MiscKeys.class, PlayerKeys.class, ErrorKeys.class, ToggleKeys.class, SpyKeys.class, ChatKeys.class, MessageKeys.class)
                 .create();
 
+        rules = SettingsManagerBuilder
+                .withYamlFile(new File(plugin.getDataFolder(), "rules.yml"), builder)
+                .useDefaultMigrationService()
+                .configurationData(RuleKeys.class)
+                .create();
+
         folder.mkdirs();
 
         commandsConfig = new CommandsConfig();
@@ -67,9 +65,6 @@ public class ConfigManager {
 
         wordsConfig = new WordsConfig();
         wordsConfig.load();
-
-        populateRules();
-        populateHelp();
     }
 
     /**
@@ -85,9 +80,6 @@ public class ConfigManager {
 
         commandsConfig.load();
         wordsConfig.load();
-
-        populateRules();
-        populateHelp();
     }
 
     public static SettingsManager getConfig() {
@@ -98,63 +90,15 @@ public class ConfigManager {
         return messages;
     }
 
+    public static SettingsManager getRules() {
+        return rules;
+    }
+
     public static CommandsConfig getCommandsConfig() {
         return commandsConfig;
     }
 
     public static WordsConfig getWordsConfig() {
         return wordsConfig;
-    }
-
-    public static void populateRules() {
-        rules.clear();
-
-        final CustomFile customFile = plugin.getFileManager().getFile("rules.yml");
-
-        if (customFile != null) {
-            final YamlConfiguration file = customFile.getConfiguration();
-
-            if (file != null) {
-                final ConfigurationSection section = file.getConfigurationSection("rules");
-
-                if (section != null) {
-                    section.getKeys(false).forEach(key -> {
-                        final List<String> rule = section.getStringList(key + ".lines");
-
-                        rules.put(Integer.parseInt(key), rule);
-                    });
-                }
-            }
-        }
-    }
-
-    public static void populateHelp() {
-        help.clear();
-
-        final CustomFile customFile = plugin.getFileManager().getFile("help.yml");
-
-        if (customFile != null) {
-            final YamlConfiguration file = customFile.getConfiguration();
-
-            if (file != null) {
-                final ConfigurationSection section = file.getConfigurationSection("help");
-
-                if (section != null) {
-                    section.getKeys(false).forEach(key -> {
-                        final List<String> rule = section.getStringList(key + ".lines");
-
-                        help.put(Integer.parseInt(key), rule);
-                    });
-                }
-            }
-        }
-    }
-
-    public static Map<Integer, List<String>> getRules() {
-        return Collections.unmodifiableMap(rules);
-    }
-
-    public static Map<Integer, List<String>> getHelp() {
-        return Collections.unmodifiableMap(help);
     }
 }

@@ -6,7 +6,7 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.api.AbstractCommand;
-import com.ryderbelserion.chatmanager.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.configs.impl.types.RuleKeys;
 import com.ryderbelserion.chatmanager.utils.MsgUtils;
 import com.ryderbelserion.vital.paper.api.commands.CommandData;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -24,7 +24,7 @@ public class CommandRules extends AbstractCommand {
 
         final CommandSender sender = data.getCommandSender();
 
-        final List<String> rules = ConfigManager.getRules().get(page);
+        final List<String> rules = this.rules.getProperty(RuleKeys.rules).getEntry().get(page);
 
         rules.forEach(line -> MsgUtils.sendMessage(sender, line, "{max}", String.valueOf(rules.size())));
     }
@@ -39,7 +39,7 @@ public class CommandRules extends AbstractCommand {
         final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("rules").requires(source -> source.getSender().hasPermission(getPermission()));
 
         final RequiredArgumentBuilder<CommandSourceStack, Integer> arg1 = argument("page", IntegerArgumentType.integer()).suggests((ctx, builder) -> {
-            ConfigManager.getRules().keySet().forEach(builder::suggest);
+            this.rules.getProperty(RuleKeys.rules).getEntry().keySet().forEach(builder::suggest);
 
             return builder.buildFuture();
         }).executes(context -> {
