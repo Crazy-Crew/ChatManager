@@ -67,7 +67,7 @@ public enum Permissions {
     reload_plugin("reload", "Access to /chatmanager reload", PermissionDefault.OP),
     rules("rules", "Access to /chatmanager rules", PermissionDefault.OP),
 
-    chat_radius("chatradius", "Access to /chatmanager radius <type>", PermissionDefault.OP),
+    chat_radius("chatradius", "Access to /chatmanager chatradius <type>", PermissionDefault.OP),
     toggle("toggle", "Access to /chatmanager toggle <type>", PermissionDefault.OP),
 
     reply("reply", "Reply to another player", PermissionDefault.TRUE),

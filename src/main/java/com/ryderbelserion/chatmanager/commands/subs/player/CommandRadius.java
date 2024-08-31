@@ -65,7 +65,7 @@ public class CommandRadius extends AbstractCommand {
 
     @Override
     public @NotNull final LiteralCommandNode<CommandSourceStack> literal() {
-        final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("spy").requires(source -> source.getSender().hasPermission(getPermission()));
+        final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("chatradius").requires(source -> source.getSender().hasPermission(getPermission()));
 
         final RequiredArgumentBuilder<CommandSourceStack, String> arg1 = argument("chat_type", StringArgumentType.string()).suggests((ctx, builder) -> {
             for (ChatType value : ChatType.values()) {
