@@ -133,6 +133,22 @@ public class MsgUtils {
         return config.getProperty(ConfigKeys.prefix);
     }
 
+    public static boolean isVanished(final Player target) {
+        boolean shouldReturn = false;
+
+        for (final IPlugin plugin : ChatUtils.getPlugins()) {
+            if (plugin.isEnabled()) {
+                if (plugin.isVanished(target.getUniqueId())) {
+                    shouldReturn = true;
+
+                    break;
+                }
+            }
+        }
+
+        return shouldReturn;
+    }
+
     public static void sendMessage(final CommandSender sender, final Player target, final String message) {
         final User user = userManager.getUser(target);
         final User receiver = userManager.getUser(sender);
@@ -246,8 +262,8 @@ public class MsgUtils {
             }
 
             // add reply data to player
-            receiver.replyPlayer = target.getUniqueId().toString();
-            user.replyPlayer = player.getUniqueId().toString();
+            receiver.replyPlayer = target.getName();
+            user.replyPlayer = player.getName();
 
             return;
         }
@@ -258,7 +274,7 @@ public class MsgUtils {
         MsgUtils.sendMessage(sender, senderFormat.replace("{receiver}", target.getName()));
         MsgUtils.sendMessage(target, receiverFormat.replace("{player}", sender.getName()));
 
-        receiver.replyPlayer = target.getUniqueId().toString();
+        receiver.replyPlayer = target.getName();
         user.replyPlayer = sender.getName();
     }
 }

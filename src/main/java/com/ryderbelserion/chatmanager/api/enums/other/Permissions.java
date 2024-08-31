@@ -60,6 +60,10 @@ public enum Permissions {
     SOCIAL_SPY("socialspy", "Ability to use social spy", PermissionDefault.OP),
     COMMAND_SPY("commandspy", "Ability to use command spy", PermissionDefault.OP),
 
+    bypass_toggle_mentions("bypass.toggle.mentions", "Ability to send private messages to players even if they have them turned off", PermissionDefault.OP),
+    bypass_vanish("bypass.vanish", "Ability to send private messages to players who are vanished", PermissionDefault.OP),
+    bypass_ignored("bypass.ignored", "Ability to send private messages to players even if they have ignored you", PermissionDefault.OP),
+
     reload_plugin("reload", "Access to /chatmanager reload", PermissionDefault.OP),
     rules("rules", "Access to /chatmanager rules", PermissionDefault.OP),
 

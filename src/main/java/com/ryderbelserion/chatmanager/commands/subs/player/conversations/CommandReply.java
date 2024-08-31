@@ -59,15 +59,11 @@ public class CommandReply extends AbstractCommand {
         final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("reply").requires(source -> source.getSender().hasPermission(getPermission()));
 
         final RequiredArgumentBuilder<CommandSourceStack, String> arg1 = argument("player", StringArgumentType.string()).suggests((ctx, builder) -> {
-            for (final Player player : this.server.getOnlinePlayers()) {
-                builder.suggest(player.getName());
-            }
+            final CommandSender sender = ctx.getSource().getSender();
 
-            if (this.config.getProperty(ConfigKeys.private_message_load_offline_players)) {
-                for (final OfflinePlayer offlinePlayer : this.server.getOfflinePlayers()) {
-                    builder.suggest(offlinePlayer.getName());
-                }
-            }
+            final User user = this.userManager.getUser(sender);
+
+            builder.suggest(user.replyPlayer);
 
             return builder.buildFuture();
         });

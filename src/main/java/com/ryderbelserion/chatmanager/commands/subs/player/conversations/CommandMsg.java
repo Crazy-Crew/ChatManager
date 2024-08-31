@@ -15,6 +15,7 @@ import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import static io.papermc.paper.command.brigadier.Commands.argument;
@@ -49,9 +50,19 @@ public class CommandMsg extends AbstractCommand {
     public @NotNull final LiteralCommandNode<CommandSourceStack> literal() {
         final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("msg").requires(source -> source.getSender().hasPermission(getPermission()));
 
+        final String bypass_toggle_mentions = Permissions.bypass_toggle_mentions.getNode();
+        final String bypass_ignored = Permissions.bypass_ignored.getNode();
+        final String bypass_vanish = Permissions.bypass_vanish.getNode();
+
         final RequiredArgumentBuilder<CommandSourceStack, String> arg1 = argument("player", StringArgumentType.string()).suggests((ctx, builder) -> {
+            final CommandSender sender = ctx.getSource().getSender();
+
+            final boolean isValid = sender.hasPermission(bypass_vanish) || sender.hasPermission(bypass_ignored) || sender.hasPermission(bypass_toggle_mentions);
+
             for (final Player player : this.server.getOnlinePlayers()) {
-                builder.suggest(player.getName());
+                if (MsgUtils.isVanished(player)) continue;
+
+                if (sender instanceof ConsoleCommandSender || isValid) builder.suggest(player.getName());
             }
 
             if (this.config.getProperty(ConfigKeys.private_message_load_offline_players)) {
