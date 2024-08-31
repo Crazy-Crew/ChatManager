@@ -54,10 +54,14 @@ public class UserManager {
         final UUID uuid = player.getUniqueId();
 
         for (final User key : this.users) {
-            if (uuid.equals(key.player.getUniqueId())) {
-                user = key;
+            final Player person = key.player;
 
-                break;
+            if (person != null) {
+                if (uuid.equals(person.getUniqueId())) {
+                    user = key;
+
+                    break;
+                }
             }
         }
 
