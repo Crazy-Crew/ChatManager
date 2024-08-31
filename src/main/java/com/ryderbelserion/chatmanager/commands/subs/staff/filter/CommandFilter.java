@@ -31,13 +31,16 @@ public class CommandFilter extends AbstractCommand {
     public @NotNull final LiteralCommandNode<CommandSourceStack> literal() {
         final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("filter").requires(source -> source.getSender().hasPermission(getPermission()));
 
-        return root.then(new CommandFilterAdd().registerPermission().literal()).then(new CommandFilterHelp().registerPermission().literal())
-                .then(new CommandFilterList().registerPermission().literal())
-                .then(new CommandFilterRemove().registerPermission().literal()).executes(context -> {
+        return root.executes(context -> {
                     execute(new CommandData(context));
 
                     return com.mojang.brigadier.Command.SINGLE_SUCCESS;
-                }).build();
+                })
+                .then(new CommandFilterAdd().registerPermission().literal())
+                .then(new CommandFilterHelp().registerPermission().literal())
+                .then(new CommandFilterList().registerPermission().literal())
+                .then(new CommandFilterRemove().registerPermission().literal())
+                .build();
     }
 
     @Override
