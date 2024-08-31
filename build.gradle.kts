@@ -22,8 +22,6 @@ val content: String = rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
 dependencies {
     paperweight.paperDevBundle(libs.versions.paper.get())
 
-    implementation(libs.triumph.cmds)
-
     implementation(libs.vital.paper)
 
     compileOnly(libs.placeholderapi)
@@ -64,8 +62,7 @@ tasks {
 
     shadowJar {
         listOf(
-            "com.ryderbelserion.vital",
-            "dev.triumphteam.cmd"
+            "com.ryderbelserion.vital"
         ).forEach {
             relocate(it, "libs.$it")
         }

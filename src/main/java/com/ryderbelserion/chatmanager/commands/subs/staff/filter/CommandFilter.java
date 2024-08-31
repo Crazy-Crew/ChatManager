@@ -1,14 +1,14 @@
-package com.ryderbelserion.chatmanager.commands.v2.subs.staff.filter;
+package com.ryderbelserion.chatmanager.commands.subs.staff.filter;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.chatmanager.api.AbstractCommand;
 import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
-import com.ryderbelserion.chatmanager.commands.v2.subs.staff.filter.subs.CommandFilterAdd;
-import com.ryderbelserion.chatmanager.commands.v2.subs.staff.filter.subs.CommandFilterHelp;
-import com.ryderbelserion.chatmanager.commands.v2.subs.staff.filter.subs.CommandFilterList;
-import com.ryderbelserion.chatmanager.commands.v2.subs.staff.filter.subs.CommandFilterRemove;
+import com.ryderbelserion.chatmanager.commands.subs.staff.filter.subs.CommandFilterAdd;
+import com.ryderbelserion.chatmanager.commands.subs.staff.filter.subs.CommandFilterHelp;
+import com.ryderbelserion.chatmanager.commands.subs.staff.filter.subs.CommandFilterList;
+import com.ryderbelserion.chatmanager.commands.subs.staff.filter.subs.CommandFilterRemove;
 import com.ryderbelserion.vital.paper.api.commands.Command;
 import com.ryderbelserion.vital.paper.api.commands.CommandData;
 import io.papermc.paper.command.brigadier.CommandSourceStack;

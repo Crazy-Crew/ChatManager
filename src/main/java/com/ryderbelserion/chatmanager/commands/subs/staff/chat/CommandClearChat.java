@@ -1,4 +1,4 @@
-package com.ryderbelserion.chatmanager.commands.v2.subs.staff.chat;
+package com.ryderbelserion.chatmanager.commands.subs.staff.chat;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;

@@ -1,43 +1,38 @@
-package com.ryderbelserion.chatmanager.commands.v2.subs.misc;
+package com.ryderbelserion.chatmanager.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import com.ryderbelserion.chatmanager.api.enums.other.Messages;
-import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.api.AbstractCommand;
-import com.ryderbelserion.chatmanager.configs.impl.types.ConfigKeys;
+import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
+import com.ryderbelserion.chatmanager.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.utils.MsgUtils;
 import com.ryderbelserion.vital.paper.api.commands.CommandData;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
+import java.util.List;
+import java.util.Map;
 
-public class CommandMotd extends AbstractCommand {
+public class BaseCommand extends AbstractCommand {
 
     @Override
     public void execute(final CommandData data) {
+        final Map<Integer, List<String>> help = ConfigManager.getHelp();
+
         final CommandSender sender = data.getCommandSender();
 
-        if (!this.config.getProperty(ConfigKeys.motd_toggle)) {
-            Messages.feature_disabled.sendMessage(sender);
-
-            return;
-        }
-
-        for (final String line : this.config.getProperty(ConfigKeys.motd_message)) {
-            MsgUtils.sendMessage(sender, line, "{player}", sender.getName());
-        }
+        help.get(1).forEach(line -> MsgUtils.sendMessage(sender, line, "{max}", String.valueOf(help.size())));
     }
 
     @Override
     public @NotNull final String getPermission() {
-        return Permissions.motd.getNode();
+        return Permissions.use.getNode();
     }
 
     @Override
     public @NotNull final LiteralCommandNode<CommandSourceStack> literal() {
-        final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("motd").requires(source -> source.getSender().hasPermission(getPermission()));
+        final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("chatmanager").requires(source -> source.getSender().hasPermission(getPermission()));
 
         return root.executes(context -> {
             execute(new CommandData(context));
@@ -48,7 +43,7 @@ public class CommandMotd extends AbstractCommand {
 
     @Override
     public @NotNull final AbstractCommand registerPermission() {
-        Permissions.motd.registerPermission();
+        Permissions.use.registerPermission();
 
         return this;
     }

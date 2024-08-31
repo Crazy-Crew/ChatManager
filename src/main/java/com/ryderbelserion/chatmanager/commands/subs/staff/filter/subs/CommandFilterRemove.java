@@ -1,4 +1,4 @@
-package com.ryderbelserion.chatmanager.commands.v2.subs.staff.filter.subs;
+package com.ryderbelserion.chatmanager.commands.subs.staff.filter.subs;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import static io.papermc.paper.command.brigadier.Commands.argument;
 
-public class CommandFilterAdd extends AbstractCommand {
+public class CommandFilterRemove extends AbstractCommand {
 
     @Override
     public void execute(final CommandData data) {
@@ -33,66 +33,66 @@ public class CommandFilterAdd extends AbstractCommand {
             case banned_commands -> {
                 final List<String> commands = CommandsConfig.banned_commands;
 
-                if (commands.contains(value)) {
-                    Messages.filter_value_exists.sendMessage(sender, new HashMap<>() {{
+                if (!commands.contains(value)) {
+                    Messages.filter_value_not_found.sendMessage(sender, new HashMap<>() {{
                         put("{value}", value);
-                        put("{type}", type.getPrettyName());
+                        put("{type}", FilterType.banned_commands.getPrettyName());
                     }});
 
                     return;
                 }
 
-                commands.add(value);
+                commands.remove(value);
 
                 ConfigManager.getCommandsConfig().save();
 
-                Messages.filter_value_added.sendMessage(sender, new HashMap<>() {{
+                Messages.filter_value_remove.sendMessage(sender, new HashMap<>() {{
                     put("{value}", value);
-                    put("{type}", type.getPrettyName());
+                    put("{type}", FilterType.banned_commands.getPrettyName());
                 }});
             }
 
             case banned_words -> {
                 final List<String> words = WordsConfig.banned_words;
 
-                if (words.contains(value)) {
-                    Messages.filter_value_exists.sendMessage(sender, new HashMap<>() {{
+                if (!words.contains(value)) {
+                    Messages.filter_value_not_found.sendMessage(sender, new HashMap<>() {{
                         put("{value}", value);
-                        put("{type}", type.getPrettyName());
+                        put("{type}", FilterType.banned_words.getPrettyName());
                     }});
 
                     return;
                 }
 
-                words.add(value);
+                words.remove(value);
 
                 ConfigManager.getWordsConfig().save();
 
-                Messages.filter_value_added.sendMessage(sender, new HashMap<>() {{
+                Messages.filter_value_remove.sendMessage(sender, new HashMap<>() {{
                     put("{value}", value);
-                    put("{type}", type.getPrettyName());
+                    put("{type}", FilterType.banned_words.getPrettyName());
                 }});
             }
 
             case allowed_words -> {
-                final List<String> words = WordsConfig.allowed_words;
+                final List<String> allowed_words = WordsConfig.allowed_words;
 
-                if (words.contains(value)) {
-                    Messages.filter_value_exists.sendMessage(sender, new HashMap<>() {{
+                if (!allowed_words.contains(value)) {
+                    Messages.filter_value_not_found.sendMessage(sender, new HashMap<>() {{
                         put("{value}", value);
-                        put("{type}", type.getPrettyName());
+                        put("{type}", FilterType.allowed_words.getPrettyName());
                     }});
 
                     return;
                 }
 
-                words.add(value);
+                allowed_words.remove(value);
 
                 ConfigManager.getWordsConfig().save();
 
-                Messages.filter_value_added.sendMessage(sender, new HashMap<>() {{
+                Messages.filter_value_remove.sendMessage(sender, new HashMap<>() {{
                     put("{value}", value);
-                    put("{type}", type.getPrettyName());
+                    put("{type}", FilterType.allowed_words.getPrettyName());
                 }});
             }
         }
@@ -100,12 +100,12 @@ public class CommandFilterAdd extends AbstractCommand {
 
     @Override
     public @NotNull final String getPermission() {
-        return Permissions.filter_add.getNode();
+        return Permissions.filter_remove.getNode();
     }
 
     @Override
     public @NotNull final LiteralCommandNode<CommandSourceStack> literal() {
-        final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("add").requires(source -> source.getSender().hasPermission(getPermission()));
+        final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("remove").requires(source -> source.getSender().hasPermission(getPermission()));
 
         final RequiredArgumentBuilder<CommandSourceStack, String> arg1 = argument("type", StringArgumentType.string()).suggests((ctx, builder) -> {
             for (FilterType value : FilterType.values()) {
@@ -136,7 +136,7 @@ public class CommandFilterAdd extends AbstractCommand {
 
     @Override
     public @NotNull final AbstractCommand registerPermission() {
-        Permissions.filter_add.registerPermission();
+        Permissions.filter_remove.registerPermission();
 
         return this;
     }
