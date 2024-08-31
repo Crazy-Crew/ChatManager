@@ -5,7 +5,7 @@ import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.configurationdata.CommentsConfiguration;
 import ch.jalu.configme.properties.ListProperty;
 import ch.jalu.configme.properties.Property;
-import com.ryderbelserion.chatmanager.configs.impl.v2.beans.GenericProperty;
+import com.ryderbelserion.chatmanager.configs.beans.GenericProperty;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

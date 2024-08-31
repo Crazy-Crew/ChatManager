@@ -15,5 +15,6 @@ public abstract class AbstractCommand extends Command {
 
     protected final SettingsManager config = ConfigManager.getConfig();
     protected final SettingsManager messages = ConfigManager.getMessages();
+    protected final SettingsManager rules = ConfigManager.getRules();
 
 }
