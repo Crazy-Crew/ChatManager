@@ -38,7 +38,7 @@ public class GenericProperty {
     @Comment("The command/message to allow in chat/signs/messages")
     private List<String> whitelist;
 
-    public GenericProperty(final boolean enabled, final boolean notify_staff, final boolean isLogging, final String sensitivity, final CommandProperty command, final List<String> whitelist) {
+    public final GenericProperty populate(final boolean enabled, final boolean notify_staff, final boolean isLogging, final String sensitivity, final CommandProperty command, final List<String> whitelist) {
         this.enabled = enabled;
         this.sensitivity = sensitivity;
         this.notify_staff = notify_staff;
@@ -46,6 +46,8 @@ public class GenericProperty {
 
         this.command = command;
         this.whitelist = whitelist;
+
+        return this;
     }
 
     public boolean isEnabled() {

@@ -41,7 +41,7 @@ public class MiscKeys implements SettingsHolder {
     public static final Property<String> plugin_reload = newProperty("Message.Reload", "{prefix}<green>Config has been reloaded.");
 
     @Comment("This is the message, for the /chatmanager help command!")
-    public static final Property<EntryProperty> help = newBeanProperty(EntryProperty.class, "misc.command-help", new EntryProperty(new HashMap<>() {{
+    public static final Property<EntryProperty> help = newBeanProperty(EntryProperty.class, "misc.command-help", new EntryProperty().populate(new HashMap<>() {{
         put("1", List.of(
                 "<bold><gold>━━━━━━━━━━━━━━━━━━━ <green>Help Page 1/{max} ━━━━━━━━━━━━━━━━━━━</gold></bold>",
                 "",

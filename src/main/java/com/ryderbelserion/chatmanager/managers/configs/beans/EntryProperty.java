@@ -7,8 +7,10 @@ public class EntryProperty {
 
     private Map<String, List<String>> entry;
 
-    public EntryProperty(Map<String, List<String>> entry) {
+    public final EntryProperty populate(Map<String, List<String>> entry) {
         this.entry = entry;
+
+        return this;
     }
 
     public void setEntry(Map<String, List<String>> help) {

@@ -11,7 +11,7 @@ import static ch.jalu.configme.properties.PropertyInitializer.newBeanProperty;
 public class RuleKeys implements SettingsHolder {
 
     @Comment("This is the message, for the /chatmanager rules command!")
-    public static final Property<EntryProperty> rules = newBeanProperty(EntryProperty.class, "rules", new EntryProperty(new HashMap<>() {{
+    public static final Property<EntryProperty> rules = newBeanProperty(EntryProperty.class, "rules", new EntryProperty().populate(new HashMap<>() {{
         put("1", List.of(
                 "<bold><gold>━━━━━━━━━━━━━━━━━━━ <green>Rules Page 1/{max} ━━━━━━━━━━━━━━━━━━━</gold></bold>",
                 "",

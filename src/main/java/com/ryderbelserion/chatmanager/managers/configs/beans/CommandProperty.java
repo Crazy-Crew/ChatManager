@@ -13,9 +13,11 @@ public class CommandProperty {
     @Comment("The commands that will be executed.")
     private List<String> values;
 
-    public CommandProperty(final boolean execute, final List<String> values) {
+    public final CommandProperty populate(final boolean execute, final List<String> values) {
         this.execute = execute;
         this.values = values;
+
+        return this;
     }
 
     public void setExecute(boolean execute) {

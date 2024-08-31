@@ -150,43 +150,53 @@ public class ConfigKeys implements SettingsHolder {
     public static final Property<Integer> clear_chat_lines = newProperty("features.chat.clear", 60);
 
     @Comment("Block certain commands in chat!")
-    public static final Property<GenericProperty> blocked_commands = newBeanProperty(GenericProperty.class, "features.blocked_commands", new GenericProperty(
+    public static final Property<GenericProperty> blocked_commands = newBeanProperty(GenericProperty.class, "features.blocked_commands", new GenericProperty().populate(
             false,
             false,
             false,
             "low",
-            new CommandProperty(false, List.of("kick {player} Please do not advertise in commands!")),
+            new CommandProperty().populate(false, List.of("kick {player} Please do not advertise in commands!")),
             List.of("/register", "/login")
     ));
 
     @Comment("Blocks advertising in chat!")
-    public static final Property<GenericProperty> block_advertising_chat = newBeanProperty(GenericProperty.class, "features.anti-advertising.chat", new GenericProperty(
+    public static final Property<GenericProperty> block_advertising_chat = newBeanProperty(GenericProperty.class, "features.anti-advertising.chat", new GenericProperty().populate(
             false,
             false,
             false,
             "low",
-            new CommandProperty(false, List.of("kick {player} Please do not advertise in chat!")),
+            new CommandProperty().populate(false, List.of("kick {player} Please do not advertise in chat!")),
             List.of("google.com")
     ));
 
     @Comment("Blocks advertising in signs!")
-    public static final Property<GenericProperty> block_advertising_signs = newBeanProperty(GenericProperty.class, "features.anti-advertising.signs", new GenericProperty(
+    public static final Property<GenericProperty> block_advertising_signs = newBeanProperty(GenericProperty.class, "features.anti-advertising.signs", new GenericProperty().populate(
             false,
             false,
             false,
             "low",
-            new CommandProperty(false, List.of("kick {player} Please do not advertise in signs!")),
+            new CommandProperty().populate(false, List.of("kick {player} Please do not advertise in signs!")),
             List.of("google.com")
     ));
 
     @Comment("Blocks advertising in commands!")
-    public static final Property<GenericProperty> block_advertising_commands = newBeanProperty(GenericProperty.class, "features.anti-advertising.commands", new GenericProperty(
+    public static final Property<GenericProperty> block_advertising_commands = newBeanProperty(GenericProperty.class, "features.anti-advertising.commands", new GenericProperty().populate(
             false,
             false,
             false,
             "low",
-            new CommandProperty(false, List.of("kick {player} Please do not advertise in commands!")),
+            new CommandProperty().populate(false, List.of("kick {player} Please do not advertise in commands!")),
             List.of("/report")
+    ));
+
+    @Comment("Blocks special characters in chat!")
+    public static final Property<GenericProperty> block_unicode_chat = newBeanProperty(GenericProperty.class, "features.anti-unicode.chat", new GenericProperty().populate(
+            false,
+            false,
+            false,
+            "low",
+            new CommandProperty().populate(false, List.of("kick {player} Please do not use special characters in chat.")),
+            List.of("«", "»")
     ));
 
     @Comment("The delay a player has to wait, before they can perform their next action. Set to -1 to disable!")
@@ -196,53 +206,45 @@ public class ConfigKeys implements SettingsHolder {
     public static final Property<Boolean> anti_spam_settings_block_repeated_messages = newProperty("features.anti-spam.settings.block.repeated_messages", false);
 
     @Comment("Blocks swearing in chat!")
-    public static final Property<FilterProperty> block_swears_chat = newBeanProperty(FilterProperty.class, "features.anti-swear.chat", new FilterProperty(
+    public static final Property<FilterProperty> block_swears_chat = newBeanProperty(FilterProperty.class, "features.anti-swear.chat", new FilterProperty().populate(
             false,
             false,
             false,
             false,
             "low",
-            new CommandProperty(false, List.of(
-                    "kick {player} Do not swear in chat",
-                    "warn {player} Do not swear in chat"
-            ))
+            new CommandProperty().populate(
+                    false, List.of(
+                            "kick {player} Do not swear in chat",
+                            "warn {player} Do not swear in chat"
+                    )
+            )
     ));
 
     @Comment("Blocks swearing in commands!")
-    public static final Property<FilterProperty> block_swears_commands = newBeanProperty(FilterProperty.class, "features.anti-swear.commands", new FilterProperty(
+    public static final Property<FilterProperty> block_swears_commands = newBeanProperty(FilterProperty.class, "features.anti-swear.commands", new FilterProperty().populate(
             false,
             false,
             false,
             false,
             "low",
-            new CommandProperty(false, List.of(
-                    "kick {player} Do not swear in commands",
-                    "warn {player} Do not swear in commands"
-            ))
+            new CommandProperty().populate(
+                    false, List.of(
+                            "kick {player} Do not swear in commands",
+                            "warn {player} Do not swear in commands"
+                    )
+            )
     ));
 
     @Comment("Blocks swearing on signs!")
-    public static final Property<FilterProperty> block_swears_signs = newBeanProperty(FilterProperty.class, "features.anti-swear.signs", new FilterProperty(
+    public static final Property<FilterProperty> block_swears_signs = newBeanProperty(FilterProperty.class, "features.anti-swear.signs", new FilterProperty().populate(
             false,
             false,
             false,
             false,
             "low",
-            new CommandProperty(false, List.of(
+            new CommandProperty().populate(false, List.of(
                     "kick {player} Do not swear in signs",
                     "warn {player} Do not swear in signs"
             ))
-    ));
-
-    @Comment("Blocks special characters in chat!")
-    public static final Property<GenericProperty> block_unicode = newBeanProperty(GenericProperty.class, "features.anti-unicode.chat", new GenericProperty(
-            false,
-            false,
-            false,
-            "low",
-            new CommandProperty(false, List.of(
-                    "kick {player} Please do not use special characters in chat."
-            )),
-            List.of("«", "»")
     ));
 }

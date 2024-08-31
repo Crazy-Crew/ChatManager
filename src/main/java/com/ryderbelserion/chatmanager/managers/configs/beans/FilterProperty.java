@@ -40,7 +40,7 @@ public class FilterProperty {
     @ExportName("is_blocking")
     private boolean isBlocking;
 
-    public FilterProperty(final boolean enabled, final boolean isBlocking, final boolean notify_staff, final boolean isLogging, final String sensitivity, final CommandProperty command) {
+    public final FilterProperty populate(final boolean enabled, final boolean isBlocking, final boolean notify_staff, final boolean isLogging, final String sensitivity, final CommandProperty command) {
         this.enabled = enabled;
         this.sensitivity = sensitivity;
         this.notify_staff = notify_staff;
@@ -49,6 +49,8 @@ public class FilterProperty {
         this.command = command;
 
         this.isBlocking = isBlocking;
+
+        return this;
     }
 
     public void setBlock(final boolean isBlocking) {
