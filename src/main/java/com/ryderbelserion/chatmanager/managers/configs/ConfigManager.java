@@ -1,23 +1,23 @@
-package com.ryderbelserion.chatmanager.configs;
+package com.ryderbelserion.chatmanager.managers.configs;
 
 import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.SettingsManagerBuilder;
 import ch.jalu.configme.resource.YamlFileResourceOptions;
 import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.api.enums.Files;
-import com.ryderbelserion.chatmanager.configs.impl.messages.commands.ChatKeys;
-import com.ryderbelserion.chatmanager.configs.impl.messages.ErrorKeys;
-import com.ryderbelserion.chatmanager.configs.impl.messages.MiscKeys;
-import com.ryderbelserion.chatmanager.configs.impl.messages.PlayerKeys;
-import com.ryderbelserion.chatmanager.configs.impl.messages.commands.SpyKeys;
-import com.ryderbelserion.chatmanager.configs.impl.messages.commands.ToggleKeys;
-import com.ryderbelserion.chatmanager.configs.impl.types.RuleKeys;
-import com.ryderbelserion.chatmanager.configs.impl.v2.ConfigKeys;
-import com.ryderbelserion.chatmanager.configs.impl.types.chat.SpamKeys;
-import com.ryderbelserion.chatmanager.configs.impl.types.chat.ChatRadiusKeys;
-import com.ryderbelserion.chatmanager.configs.persist.blacklist.CommandsConfig;
-import com.ryderbelserion.chatmanager.configs.persist.blacklist.WordsConfig;
-import com.ryderbelserion.chatmanager.configs.impl.types.MessageKeys;
+import com.ryderbelserion.chatmanager.managers.configs.impl.messages.commands.ChatKeys;
+import com.ryderbelserion.chatmanager.managers.configs.impl.messages.ErrorKeys;
+import com.ryderbelserion.chatmanager.managers.configs.impl.messages.MiscKeys;
+import com.ryderbelserion.chatmanager.managers.configs.impl.messages.PlayerKeys;
+import com.ryderbelserion.chatmanager.managers.configs.impl.messages.commands.SpyKeys;
+import com.ryderbelserion.chatmanager.managers.configs.impl.messages.commands.ToggleKeys;
+import com.ryderbelserion.chatmanager.managers.configs.impl.types.RuleKeys;
+import com.ryderbelserion.chatmanager.managers.configs.impl.v2.ConfigKeys;
+import com.ryderbelserion.chatmanager.managers.configs.impl.types.chat.SpamKeys;
+import com.ryderbelserion.chatmanager.managers.configs.impl.types.chat.ChatRadiusKeys;
+import com.ryderbelserion.chatmanager.managers.configs.persist.blacklist.CommandsConfig;
+import com.ryderbelserion.chatmanager.managers.configs.persist.blacklist.WordsConfig;
+import com.ryderbelserion.chatmanager.managers.configs.impl.types.MessageKeys;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 

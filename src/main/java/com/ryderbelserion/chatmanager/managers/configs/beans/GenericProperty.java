@@ -1,4 +1,4 @@
-package com.ryderbelserion.chatmanager.configs.beans;
+package com.ryderbelserion.chatmanager.managers.configs.beans;
 
 import ch.jalu.configme.Comment;
 import ch.jalu.configme.beanmapper.ExportName;

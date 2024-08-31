@@ -2,9 +2,8 @@ package com.ryderbelserion.chatmanager.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import com.ryderbelserion.chatmanager.api.AbstractCommand;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
-import com.ryderbelserion.chatmanager.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.managers.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.utils.MsgUtils;
 import com.ryderbelserion.vital.paper.api.commands.CommandData;
 import io.papermc.paper.command.brigadier.CommandSourceStack;

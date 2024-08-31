@@ -2,7 +2,7 @@ package com.ryderbelserion.chatmanager.commands.subs.staff.filter.subs;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import com.ryderbelserion.chatmanager.api.AbstractCommand;
+import com.ryderbelserion.chatmanager.commands.AbstractCommand;
 import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.vital.paper.api.commands.CommandData;

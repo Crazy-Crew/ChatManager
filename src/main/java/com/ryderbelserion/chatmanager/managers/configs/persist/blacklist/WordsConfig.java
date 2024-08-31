@@ -1,4 +1,4 @@
-package com.ryderbelserion.chatmanager.configs.persist.blacklist;
+package com.ryderbelserion.chatmanager.managers.configs.persist.blacklist;
 
 import com.google.gson.annotations.Expose;
 import com.ryderbelserion.chatmanager.api.enums.Files;

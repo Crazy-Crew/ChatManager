@@ -1,4 +1,4 @@
-package com.ryderbelserion.chatmanager.configs.impl.types;
+package com.ryderbelserion.chatmanager.managers.configs.impl.types;
 
 import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.properties.ListProperty;

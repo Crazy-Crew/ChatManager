@@ -1,10 +1,10 @@
-package com.ryderbelserion.chatmanager.configs.impl.messages;
+package com.ryderbelserion.chatmanager.managers.configs.impl.messages;
 
 import ch.jalu.configme.Comment;
 import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.configurationdata.CommentsConfiguration;
 import ch.jalu.configme.properties.Property;
-import com.ryderbelserion.chatmanager.configs.beans.EntryProperty;
+import com.ryderbelserion.chatmanager.managers.configs.beans.EntryProperty;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,9 +1,9 @@
-package com.ryderbelserion.chatmanager.api;
+package com.ryderbelserion.chatmanager.commands;
 
 import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.api.cache.UserManager;
-import com.ryderbelserion.chatmanager.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.managers.configs.ConfigManager;
 import com.ryderbelserion.vital.paper.api.commands.Command;
 import org.bukkit.Server;
 

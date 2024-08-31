@@ -1,4 +1,4 @@
-package com.ryderbelserion.chatmanager.configs.beans;
+package com.ryderbelserion.chatmanager.managers.configs.beans;
 
 import java.util.List;
 import java.util.Map;

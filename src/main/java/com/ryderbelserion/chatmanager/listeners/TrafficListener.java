@@ -2,8 +2,8 @@ package com.ryderbelserion.chatmanager.listeners;
 
 import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.ChatManager;
-import com.ryderbelserion.chatmanager.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.configs.impl.v2.ConfigKeys;
+import com.ryderbelserion.chatmanager.managers.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.managers.configs.impl.v2.ConfigKeys;
 import com.ryderbelserion.chatmanager.utils.MsgUtils;
 import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import org.bukkit.entity.Player;

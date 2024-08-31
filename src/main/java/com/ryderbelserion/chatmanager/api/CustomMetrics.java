@@ -2,7 +2,7 @@ package com.ryderbelserion.chatmanager.api;
 
 import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.ChatManager;
-import com.ryderbelserion.chatmanager.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.managers.configs.ConfigManager;
 import com.ryderbelserion.vital.paper.api.bStats;
 import org.bukkit.plugin.java.JavaPlugin;
 
