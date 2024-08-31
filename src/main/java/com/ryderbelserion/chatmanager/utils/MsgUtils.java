@@ -9,7 +9,7 @@ import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.api.events.MessageSendEvent;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.configs.impl.types.ConfigKeys;
+import com.ryderbelserion.chatmanager.configs.impl.v2.ConfigKeys;
 import com.ryderbelserion.vital.common.api.interfaces.IPlugin;
 import com.ryderbelserion.vital.paper.api.enums.Support;
 import com.ryderbelserion.vital.paper.util.AdvUtil;
@@ -130,7 +130,7 @@ public class MsgUtils {
      * @return the {@link String}
      */
     public static @NotNull String getPrefix() {
-        return config.getProperty(ConfigKeys.prefix);
+        return config.getProperty(ConfigKeys.command_prefix);
     }
 
     public static boolean isVanished(final Player target) {

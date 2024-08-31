@@ -41,9 +41,6 @@ public class ConfigKeys implements SettingsHolder {
                 """);
     }
 
-    @Comment("The prefix in front of the commands")
-    public static final Property<String> prefix = newProperty("root.prefix", "<aqua>[<gold>ChatManager<aqua>] <reset>");
-
     // Anti-Spam (Chat)
     @Comment("How many seconds does the player have to wait till they send their next message? Set to 0 to disable.")
     public static final Property<Integer> anti_spam_chat_delay = newProperty("Anti_Spam.Chat.Chat_Delay", 3);
@@ -217,12 +214,6 @@ public class ConfigKeys implements SettingsHolder {
             "&8&m--------------------------"
     ));
 
-    @Comment("Clear players chat when they join the server.")
-    public static final Property<Boolean> clear_chat_on_join = newProperty("Clear_Chat.Clear_On_Join", false);
-
-    @Comment("How many blank lines should be broadcasted in chat?")
-    public static final Property<Integer> clear_chat_broadcasted_lines = newProperty("Clear_Chat.Broadcasted_Lines", 60);
-
     @Comment({
             "This section allows you to enable or disable the use of color codes and format codes in chat.",
             "Each color code and format is permission based.",
@@ -270,58 +261,5 @@ public class ConfigKeys implements SettingsHolder {
     public static final Property<String> mentions_title_header = newProperty("Mentions.Title.Header", "<red>Mentioned");
 
     public static final Property<String> mentions_title_footer = newProperty("Mentions.Title.Footer", "&7You have been mentioned by {player}");
-
-    // Mute Chat
-    @Comment("Disable commands when chat is muted.")
-    public static final Property<Boolean> mute_chat_disable_commands = newProperty("Mute_Chat.Disable_Commands", false);
-
-    @Comment("Commands that cannot be executed when chat is muted if the boolean 'Disable_Commands' is set to true.")
-    public static final ListProperty<String> mute_chat_disabled_commands = newListProperty("Mute_Chat.Disabled_Commands", List.of(
-            "/message",
-            "/msg",
-            "/m",
-            "/tell",
-            "/t",
-            "/whisper",
-            "/w",
-            "/me",
-            "/reply",
-            "/r"
-    ));
-
-    // Private Messages
-    @Comment("Format for the sender's private message.")
-    public static final Property<String> private_messages_sender_format = newProperty("Private_Messages.Sender.Format", "&c&l(!) &f&l[&e&lYou &d-> &e{receiver}&f&l] &b{message}");
-
-    @Comment("Format for the receiver's private message.")
-    public static final Property<String> private_messages_receiver_format = newProperty("Private_Messages.Receiver.Format", "&c&l(!) &f&l[&e{player} &d-> &e&lYou&f&l] &b{message}");
-
-    @Comment("Allows offline players, to appear in tab completion for commands like /msg or /reply, This can be very intensive which is why it's false.")
-    public static final Property<Boolean> private_message_load_offline_players = newProperty("", false);
-
-    @Comment("The sound that's played to the receiver.")
-    public static final Property<Boolean> private_messages_sound_toggle = newProperty("Private_Messages.sound.toggle", false);
-
-    public static final Property<String> private_messages_sound_value = newProperty("Private_Messages.sound.value", "entity.player.levelup");
-
-    public static final Property<Double> private_messages_sound_pitch = newProperty("Private_Messages.sound.pitch", 1.0);
-
-    public static final Property<Double> private_messages_sound_volume = newProperty("Private_Messages.sound.volume", 1.0);
-
-    public static final Property<String> server_name = newProperty("Server_Name", "Server Name");
-
-    @Comment({
-            "=================================================================================================",
-            "Talk silently with staff without everyone else on the server seeing.",
-            "================================================================================================="
-    })
-    public static final Property<Boolean> staff_chat_toggle = newProperty("Staff_Chat.Enable", false);
-
-    public static final Property<String> staff_chat_format = newProperty("Staff_Chat.Format", "<yellow>[<aqua>StaffChat<yellow>] <green>{player} <gray>> <aqua>{message}");
-
-    @Comment("A boss bar will appear when entering staff chat to show its enabled.")
-    public static final Property<Boolean> staff_bossbar_toggle = newProperty("Staff_Chat.Boss_Bar.Toggle", false);
-
-    public static final Property<String> staff_bossbar_title = newProperty("Staff_Chat.Boss_Bar.Title", "<yellow>Staff Chat");
 
 }

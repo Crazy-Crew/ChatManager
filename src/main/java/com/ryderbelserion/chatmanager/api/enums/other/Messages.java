@@ -190,7 +190,7 @@ public enum Messages {
     }
 
     public String getMessage(@NotNull final CommandSender sender, @NotNull final Map<String, String> placeholders) {
-        return parse(sender, placeholders).replaceAll("\\{prefix}", this.config.getProperty(ConfigKeys.prefix));
+        return parse(sender, placeholders).replaceAll("\\{prefix}", MsgUtils.getPrefix());
     }
 
     public void sendMessage(final CommandSender sender, final String placeholder, final String replacement) {

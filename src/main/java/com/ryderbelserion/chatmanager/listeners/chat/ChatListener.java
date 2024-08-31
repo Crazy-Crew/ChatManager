@@ -8,7 +8,7 @@ import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.cache.UserManager;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
 import com.ryderbelserion.chatmanager.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.configs.impl.types.ConfigKeys;
+import com.ryderbelserion.chatmanager.configs.impl.v2.ConfigKeys;
 import com.ryderbelserion.chatmanager.configs.impl.v2.chat.ChatRadiusKeys;
 import com.ryderbelserion.chatmanager.configs.impl.v2.chat.SpamKeys;
 import io.papermc.paper.event.player.AsyncChatEvent;

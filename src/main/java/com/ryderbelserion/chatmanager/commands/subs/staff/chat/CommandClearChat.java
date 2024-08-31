@@ -7,7 +7,7 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.chatmanager.api.AbstractCommand;
 import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
-import com.ryderbelserion.chatmanager.configs.impl.types.ConfigKeys;
+import com.ryderbelserion.chatmanager.configs.impl.v2.ConfigKeys;
 import com.ryderbelserion.vital.paper.api.commands.CommandData;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
@@ -51,7 +51,7 @@ public class CommandClearChat extends AbstractCommand {
     public @NotNull final LiteralCommandNode<CommandSourceStack> literal() {
         final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("clearchat").requires(source -> source.getSender().hasPermission(getPermission()));
 
-        final RequiredArgumentBuilder<CommandSourceStack, Integer> arg1 = argument("amount", IntegerArgumentType.integer()).suggests((ctx, builder) -> suggestIntegers(builder, 1, this.config.getProperty(ConfigKeys.clear_chat_broadcasted_lines))).executes(context -> {
+        final RequiredArgumentBuilder<CommandSourceStack, Integer> arg1 = argument("amount", IntegerArgumentType.integer()).suggests((ctx, builder) -> suggestIntegers(builder, 1, this.config.getProperty(ConfigKeys.clear_chat_lines))).executes(context -> {
             execute(new CommandData(context));
 
             return com.mojang.brigadier.Command.SINGLE_SUCCESS;
