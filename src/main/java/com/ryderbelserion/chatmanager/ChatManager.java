@@ -98,7 +98,6 @@ public class ChatManager extends Vital {
             LiteralArgumentBuilder<CommandSourceStack> root = new BaseCommand().registerPermission().literal().createBuilder();
 
             List.of(
-                    new BaseCommand(),
                     new CommandFilter(),
 
                     new CommandReload(),
