@@ -12,7 +12,7 @@ public class RuleKeys implements SettingsHolder {
 
     @Comment("This is the message, for the /chatmanager rules command!")
     public static final Property<EntryProperty> rules = newBeanProperty(EntryProperty.class, "rules", new EntryProperty(new HashMap<>() {{
-        put(1, List.of(
+        put("1", List.of(
                 "<bold><gold>━━━━━━━━━━━━━━━━━━━ <green>Rules Page 1/{max} ━━━━━━━━━━━━━━━━━━━</gold></bold>",
                 "",
                 " <red>⤷ <green>No Hacking",
@@ -24,7 +24,7 @@ public class RuleKeys implements SettingsHolder {
                 "<bold><gold>━━━━━━━━━━━━━━━━━━━ <green>Rules Page 1/{max} ━━━━━━━━━━━━━━━━━━━</gold></bold>"
         ));
 
-        put(2, List.of(
+        put("2", List.of(
                 "<bold><gold>━━━━━━━━━━━━━━━━━━━ <green>Rules Page 2/{max} ━━━━━━━━━━━━━━━━━━━</gold></bold>",
                 "",
                 " <red>⤷ <green>No swearing anywhere at anytime!",
@@ -36,7 +36,7 @@ public class RuleKeys implements SettingsHolder {
                 "<bold><gold>━━━━━━━━━━━━━━━━━━━ <green>Rules Page 2/{max} ━━━━━━━━━━━━━━━━━━━</gold></bold>"
         ));
 
-        put(3, List.of(
+        put("3", List.of(
                 "<bold><gold>━━━━━━━━━━━━━━━━━━━ <green>Rules Page 3/{max} ━━━━━━━━━━━━━━━━━━━</gold></bold>",
                 "",
                 " <red>⤷ <green>Do not use any special characters in chat.",

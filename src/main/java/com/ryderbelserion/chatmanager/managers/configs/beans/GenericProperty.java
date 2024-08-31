@@ -25,7 +25,7 @@ public class GenericProperty {
 
     @Comment("The command section which handles the command to run.")
     @ExportName("command_property")
-    private CommandProperty commandProperty;
+    private CommandProperty command;
 
     @Comment({
             "This will log to console or a file, if set to true.",
@@ -33,25 +33,37 @@ public class GenericProperty {
             "Where it logs, depends on the configuration section."
     })
     @ExportName("is_logging")
-    private boolean logging;
+    private boolean isLogging;
 
     @Comment("The command/message to allow in chat/signs/messages")
     private List<String> whitelist;
 
-    public GenericProperty(final String type) {
-        this.enabled = false;
-        this.sensitivity = "low";
-        this.notify_staff = false;
-        this.commandProperty = new CommandProperty();
-        this.logging = false;
+    public GenericProperty(final boolean enabled, final boolean notify_staff, final boolean isLogging, final String sensitivity, final CommandProperty command, final List<String> whitelist) {
+        this.enabled = enabled;
+        this.sensitivity = sensitivity;
+        this.notify_staff = notify_staff;
+        this.isLogging = isLogging;
 
-        switch (type) {
-            case "block_advertising_chat", "block_advertising_signs" -> this.whitelist = List.of("google.com");
+        this.command = command;
+        this.whitelist = whitelist;
+    }
 
-            case "block_advertising_commands" -> this.whitelist = List.of("/report");
+    @Comment("Should messages/commands be blocked, if they contain swears or advertisements?")
+    @ExportName("is_blocking")
+    private boolean isBlocking;
 
-            case "blocked_commands" -> this.whitelist = List.of("/register", "/login");
-        }
+    public GenericProperty(final boolean enabled, final boolean isBlocking, final boolean notify_staff, final boolean isLogging, final String sensitivity, final CommandProperty command) {
+        this(enabled, notify_staff, isLogging, sensitivity, command, null);
+
+        this.isBlocking = isBlocking;
+    }
+
+    public void setBlock(final boolean isBlocking) {
+        this.isBlocking = isBlocking;
+    }
+
+    public boolean isBlocking() {
+        return this.isBlocking;
     }
 
     public boolean isEnabled() {
@@ -78,20 +90,20 @@ public class GenericProperty {
         this.notify_staff = notify;
     }
 
-    public void setCommandProperty(final CommandProperty commandProperty) {
-        this.commandProperty  = commandProperty;
+    public void setCommand(final CommandProperty command) {
+        this.command  = command;
     }
 
-    public CommandProperty getCommandProperty() {
-        return this.commandProperty;
+    public CommandProperty getCommand() {
+        return this.command;
     }
 
-    public void setLogging(final boolean logging) {
-        this.logging = logging;
+    public void setLogging(final boolean isLogging) {
+        this.isLogging = isLogging;
     }
 
     public boolean isLogging() {
-        return this.logging;
+        return this.isLogging;
     }
 
     public void setWhitelist(final List<String> whitelist) {

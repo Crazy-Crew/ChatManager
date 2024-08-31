@@ -5,7 +5,7 @@ import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.managers.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.managers.configs.impl.v2.ConfigKeys;
+import com.ryderbelserion.chatmanager.managers.configs.impl.types.ConfigKeys;
 import com.ryderbelserion.chatmanager.managers.configs.beans.CommandProperty;
 import com.ryderbelserion.chatmanager.managers.configs.beans.GenericProperty;
 import com.ryderbelserion.chatmanager.managers.configs.persist.blacklist.CommandsConfig;
@@ -80,18 +80,16 @@ public class FilterListener implements Listener {
     }
 
     private void execute(final GenericProperty property, final Player player) {
-        final CommandProperty commandProperty = property.getCommandProperty();
+        final CommandProperty command = property.getCommand();
 
-        if (!commandProperty.isExecute()) return;
-
-        final String command = commandProperty.getValue().replace("{player}", player.getName());
-
-        if (command.isEmpty()) return;
+        if (!command.isExecute()) return;
 
         final ConsoleCommandSender sender = this.plugin.getServer().getConsoleSender();
 
-        this.plugin.getServer().dispatchCommand(sender, command);
+        command.getValues().forEach(key -> {
+            if (key.isEmpty()) return;
 
-        //todo() dispatch multiple commands
+            this.plugin.getServer().dispatchCommand(sender, key.replace("{player}", player.getName()));
+        });
     }
 }

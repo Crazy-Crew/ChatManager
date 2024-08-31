@@ -25,9 +25,9 @@ public class CommandHelp extends AbstractCommand {
 
         final CommandSender sender = data.getCommandSender();
 
-        final Map<Integer, List<String>> help = this.messages.getProperty(MiscKeys.help).getEntry();
+        final Map<String, List<String>> help = this.messages.getProperty(MiscKeys.help).getEntry();
 
-        help.get(page).forEach(line -> MsgUtils.sendMessage(sender, line, "{max}", String.valueOf(help.size())));
+        help.get(String.valueOf(page)).forEach(line -> MsgUtils.sendMessage(sender, line, "{max}", String.valueOf(help.size())));
     }
 
     @Override

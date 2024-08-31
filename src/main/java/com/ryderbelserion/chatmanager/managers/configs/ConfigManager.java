@@ -12,12 +12,11 @@ import com.ryderbelserion.chatmanager.managers.configs.impl.messages.PlayerKeys;
 import com.ryderbelserion.chatmanager.managers.configs.impl.messages.commands.SpyKeys;
 import com.ryderbelserion.chatmanager.managers.configs.impl.messages.commands.ToggleKeys;
 import com.ryderbelserion.chatmanager.managers.configs.impl.types.RuleKeys;
-import com.ryderbelserion.chatmanager.managers.configs.impl.v2.ConfigKeys;
+import com.ryderbelserion.chatmanager.managers.configs.impl.types.ConfigKeys;
 import com.ryderbelserion.chatmanager.managers.configs.impl.types.chat.SpamKeys;
 import com.ryderbelserion.chatmanager.managers.configs.impl.types.chat.ChatRadiusKeys;
 import com.ryderbelserion.chatmanager.managers.configs.persist.blacklist.CommandsConfig;
 import com.ryderbelserion.chatmanager.managers.configs.persist.blacklist.WordsConfig;
-import com.ryderbelserion.chatmanager.managers.configs.impl.types.MessageKeys;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 
@@ -49,7 +48,7 @@ public class ConfigManager {
                 .useDefaultMigrationService()
                 // the order these are added in, is how they are applied to messages.yml
                 // SpyKeys, i.e. goes under commands like commands.spy, so similar sections should go together.
-                .configurationData(MiscKeys.class, PlayerKeys.class, ErrorKeys.class, ToggleKeys.class, SpyKeys.class, ChatKeys.class, MessageKeys.class)
+                .configurationData(MiscKeys.class, PlayerKeys.class, ErrorKeys.class, ToggleKeys.class, SpyKeys.class, ChatKeys.class)
                 .create();
 
         rules = SettingsManagerBuilder

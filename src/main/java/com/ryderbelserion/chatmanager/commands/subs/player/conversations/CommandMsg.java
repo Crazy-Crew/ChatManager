@@ -7,7 +7,7 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.chatmanager.commands.AbstractCommand;
 import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
-import com.ryderbelserion.chatmanager.managers.configs.impl.v2.ConfigKeys;
+import com.ryderbelserion.chatmanager.managers.configs.impl.types.ConfigKeys;
 import com.ryderbelserion.chatmanager.utils.MsgUtils;
 import com.ryderbelserion.vital.paper.api.builders.PlayerBuilder;
 import com.ryderbelserion.vital.paper.api.commands.CommandData;

@@ -38,9 +38,11 @@ public class MiscKeys implements SettingsHolder {
 
     public static final Property<String> feature_disabled = newProperty("misc.feature-disabled", "{prefix}<red>This feature is disabled.");
 
-    @Comment("This is the message, for the /lobbyplus help command!")
+    public static final Property<String> plugin_reload = newProperty("Message.Reload", "{prefix}<green>Config has been reloaded.");
+
+    @Comment("This is the message, for the /chatmanager help command!")
     public static final Property<EntryProperty> help = newBeanProperty(EntryProperty.class, "misc.command-help", new EntryProperty(new HashMap<>() {{
-        put(1, List.of(
+        put("1", List.of(
                 "<bold><gold>━━━━━━━━━━━━━━━━━━━ <green>Help Page 1/{max} ━━━━━━━━━━━━━━━━━━━</gold></bold>",
                 "",
                 " <gold>[] <white>= Required Arguments",
@@ -62,7 +64,7 @@ public class MiscKeys implements SettingsHolder {
                 "<bold><gold>━━━━━━━━━━━━━━━━━━━ <green>Help Page 1/{max} ━━━━━━━━━━━━━━━━━━━</gold></bold>"
         ));
 
-        put(2, List.of(
+        put("2", List.of(
                 "<bold><gold>━━━━━━━━━━━━━━━━━━━ <green>Help Page 2/{max} ━━━━━━━━━━━━━━━━━━━</gold></bold>",
                 "",
                 " <gold>[] <white>= Required Arguments",

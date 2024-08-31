@@ -4,6 +4,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.managers.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.managers.configs.impl.messages.MiscKeys;
 import com.ryderbelserion.chatmanager.utils.MsgUtils;
 import com.ryderbelserion.vital.paper.api.commands.CommandData;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -17,11 +18,11 @@ public class BaseCommand extends AbstractCommand {
 
     @Override
     public void execute(final CommandData data) {
-        final Map<Integer, List<String>> help = ConfigManager.getHelp();
+        final Map<String, List<String>> help = ConfigManager.getMessages().getProperty(MiscKeys.help).getEntry();
 
         final CommandSender sender = data.getCommandSender();
 
-        help.get(1).forEach(line -> MsgUtils.sendMessage(sender, line, "{max}", String.valueOf(help.size())));
+        help.get("1").forEach(line -> MsgUtils.sendMessage(sender, line, "{max}", String.valueOf(help.size())));
     }
 
     @Override

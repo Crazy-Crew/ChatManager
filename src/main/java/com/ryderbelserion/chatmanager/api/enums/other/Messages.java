@@ -10,7 +10,6 @@ import com.ryderbelserion.chatmanager.managers.configs.impl.messages.MiscKeys;
 import com.ryderbelserion.chatmanager.managers.configs.impl.messages.PlayerKeys;
 import com.ryderbelserion.chatmanager.managers.configs.impl.messages.commands.SpyKeys;
 import com.ryderbelserion.chatmanager.managers.configs.impl.messages.commands.ToggleKeys;
-import com.ryderbelserion.chatmanager.managers.configs.impl.types.MessageKeys;
 import com.ryderbelserion.chatmanager.utils.MsgUtils;
 import com.ryderbelserion.vital.common.utils.StringUtil;
 import org.bukkit.command.CommandSender;
@@ -37,7 +36,7 @@ public enum Messages {
     must_be_a_player(PlayerKeys.must_be_a_player),
     must_be_console_sender(PlayerKeys.must_be_console_sender),
     inventory_not_empty(PlayerKeys.inventory_not_empty),
-    plugin_reload(MessageKeys.plugin_reload),
+    plugin_reload(MiscKeys.plugin_reload),
 
     spy_toggle(SpyKeys.spy_toggle),
     spy_enabled(SpyKeys.spy_enabled),
@@ -65,84 +64,84 @@ public enum Messages {
     filter_command_help(ChatKeys.filter_command_help, true),
 
     // old keys
-    anti_advertising_chat_message(MessageKeys.anti_advertising_chat_message),
-    anti_advertising_chat_notify_staff(MessageKeys.anti_advertising_chat_notify_staff),
+    anti_advertising_chat_message(PlayerKeys.anti_advertising_chat_message),
+    anti_advertising_chat_notify_staff(PlayerKeys.anti_advertising_chat_notify_staff),
 
-    anti_advertising_commands_message(MessageKeys.anti_advertising_commands_message),
-    anti_advertising_commands_notify_staff(MessageKeys.anti_advertising_commands_notify_staff),
+    anti_advertising_commands_message(PlayerKeys.anti_advertising_commands_message),
+    anti_advertising_commands_notify_staff(PlayerKeys.anti_advertising_commands_notify_staff),
 
-    anti_advertising_signs_message(MessageKeys.anti_advertising_signs_message),
-    anti_advertising_signs_notify_staff(MessageKeys.anti_advertising_signs_notify_staff),
+    anti_advertising_signs_message(PlayerKeys.anti_advertising_signs_message),
+    anti_advertising_signs_notify_staff(PlayerKeys.anti_advertising_signs_notify_staff),
 
-    anti_bot_deny_chat_message(MessageKeys.anti_bot_deny_chat),
-    anti_bot_deny_command_message(MessageKeys.anti_bot_deny_command),
+    anti_bot_deny_chat_message(PlayerKeys.anti_bot_deny_chat),
+    anti_bot_deny_command_message(PlayerKeys.anti_bot_deny_command),
 
-    anti_caps_message_chat(MessageKeys.anti_caps_message_chat),
-    anti_caps_message_commands(MessageKeys.anti_caps_message_command),
+    anti_caps_message_chat(PlayerKeys.anti_caps_message_chat),
+    anti_caps_message_commands(PlayerKeys.anti_caps_message_command),
 
-    anti_spam_chat_repetitive_message(MessageKeys.anti_spam_chat_repeated_message),
-    anti_spam_chat_delay_message(MessageKeys.anti_spam_chat_delay_message),
+    anti_spam_chat_repetitive_message(PlayerKeys.anti_spam_chat_repeated_message),
+    anti_spam_chat_delay_message(PlayerKeys.anti_spam_chat_delay_message),
 
-    anti_spam_command_repetitive_message(MessageKeys.anti_spam_command_repeated_message),
-    anti_spam_command_delay_message(MessageKeys.anti_spam_command_delay_message),
+    anti_spam_command_repetitive_message(PlayerKeys.anti_spam_command_repeated_message),
+    anti_spam_command_delay_message(PlayerKeys.anti_spam_command_delay_message),
 
-    anti_swear_chat_message(MessageKeys.anti_swear_chat_message),
-    anti_swear_chat_notify_staff_format(MessageKeys.anti_swear_chat_notify_staff),
+    anti_swear_chat_message(PlayerKeys.anti_swear_chat_message),
+    anti_swear_chat_notify_staff_format(PlayerKeys.anti_swear_chat_notify_staff),
 
-    anti_swear_command_message(MessageKeys.anti_swear_commands_message),
-    anti_swear_command_notify_staff_format(MessageKeys.anti_swear_commands_notify_staff),
+    anti_swear_command_message(PlayerKeys.anti_swear_commands_message),
+    anti_swear_command_notify_staff_format(PlayerKeys.anti_swear_commands_notify_staff),
 
-    anti_swear_signs_message(MessageKeys.anti_swear_signs_message),
-    anti_swear_signs_notify_staff_format(MessageKeys.anti_swear_signs_notify_staff),
+    anti_swear_signs_message(PlayerKeys.anti_swear_signs_message),
+    anti_swear_signs_notify_staff_format(PlayerKeys.anti_swear_signs_notify_staff),
 
-    anti_swear_blacklisted_word_added(MessageKeys.blacklist_added),
-    anti_swear_blacklisted_word_exists(MessageKeys.blacklist_exists),
-    anti_swear_blacklisted_word_removed(MessageKeys.blacklist_removed),
-    anti_swear_blacklisted_word_not_found(MessageKeys.blacklist_not_found),
+    anti_swear_blacklisted_word_added(PlayerKeys.blacklist_added),
+    anti_swear_blacklisted_word_exists(PlayerKeys.blacklist_exists),
+    anti_swear_blacklisted_word_removed(PlayerKeys.blacklist_removed),
+    anti_swear_blacklisted_word_not_found(PlayerKeys.blacklist_not_found),
 
-    anti_swear_whitelisted_word_added(MessageKeys.whitelist_added),
-    anti_swear_whitelisted_word_exists(MessageKeys.whitelist_exists),
-    anti_swear_whitelisted_word_removed(MessageKeys.whitelist_removed),
-    anti_swear_whitelisted_word_not_found(MessageKeys.whitelist_not_found),
+    anti_swear_whitelisted_word_added(PlayerKeys.whitelist_added),
+    anti_swear_whitelisted_word_exists(PlayerKeys.whitelist_exists),
+    anti_swear_whitelisted_word_removed(PlayerKeys.whitelist_removed),
+    anti_swear_whitelisted_word_not_found(PlayerKeys.whitelist_not_found),
 
-    anti_unicode_message(MessageKeys.anti_unicode_message),
-    anti_unicode_notify_staff_format(MessageKeys.anti_unicode_notify_staff),
+    anti_unicode_message(PlayerKeys.anti_unicode_message),
+    anti_unicode_notify_staff_format(PlayerKeys.anti_unicode_notify_staff),
 
-    auto_broadcast_list(MessageKeys.auto_broadcast_list),
-    auto_broadcast_added(MessageKeys.auto_broadcast_added),
-    auto_broadcast_created(MessageKeys.auto_broadcast_created),
+    auto_broadcast_list(PlayerKeys.auto_broadcast_list),
+    auto_broadcast_added(PlayerKeys.auto_broadcast_added),
+    auto_broadcast_created(PlayerKeys.auto_broadcast_created),
 
-    chat_radius_local_chat_enabled(MessageKeys.chat_radius_local_chat_enabled),
-    chat_radius_local_chat_already_enabled(MessageKeys.chat_radius_local_chat_already_enabled),
+    chat_radius_local_chat_enabled(PlayerKeys.chat_radius_local_chat_enabled),
+    chat_radius_local_chat_already_enabled(PlayerKeys.chat_radius_local_chat_already_enabled),
 
-    chat_radius_global_chat_enabled(MessageKeys.chat_radius_global_chat_enabled),
-    chat_radius_global_chat_already_enabled(MessageKeys.chat_radius_global_chat_already_enabled),
+    chat_radius_global_chat_enabled(PlayerKeys.chat_radius_global_chat_enabled),
+    chat_radius_global_chat_already_enabled(PlayerKeys.chat_radius_global_chat_already_enabled),
 
-    chat_radius_world_chat_enabled(MessageKeys.chat_radius_world_chat_enabled),
-    chat_radius_world_chat_already_enabled(MessageKeys.chat_radius_world_chat_already_enabled),
+    chat_radius_world_chat_enabled(PlayerKeys.chat_radius_world_chat_enabled),
+    chat_radius_world_chat_already_enabled(PlayerKeys.chat_radius_world_chat_already_enabled),
 
-    chat_radius_spy_enabled(MessageKeys.chat_radius_spy_enabled),
-    chat_radius_spy_disabled(MessageKeys.chat_radius_spy_disabled),
+    chat_radius_spy_enabled(PlayerKeys.chat_radius_spy_enabled),
+    chat_radius_spy_disabled(PlayerKeys.chat_radius_spy_disabled),
 
-    clear_chat_staff_message(MessageKeys.clear_chat_staff_message),
-    clear_chat_broadcast_message(MessageKeys.clear_chat_broadcast_message, true),
+    clear_chat_staff_message(PlayerKeys.clear_chat_staff_message),
+    clear_chat_broadcast_message(PlayerKeys.clear_chat_broadcast_message, true),
 
-    mute_chat_denied_message(MessageKeys.mute_chat_denied_message),
-    mute_chat_broadcast_messages_enabled(MessageKeys.mute_chat_broadcast_enabled),
-    mute_chat_broadcast_messages_disabled(MessageKeys.mute_chat_broadcast_disabled),
-    mute_chat_blocked_commands_message(MessageKeys.mute_chat_blocked_commands_message),
+    mute_chat_denied_message(PlayerKeys.mute_chat_denied_message),
+    mute_chat_broadcast_messages_enabled(PlayerKeys.mute_chat_broadcast_enabled),
+    mute_chat_broadcast_messages_disabled(PlayerKeys.mute_chat_broadcast_disabled),
+    mute_chat_blocked_commands_message(PlayerKeys.mute_chat_blocked_commands_message),
 
-    per_world_chat_bypass_enabled(MessageKeys.per_world_chat_bypass_enabled),
-    per_world_chat_bypass_disabled(MessageKeys.per_world_chat_bypass_disabled),
+    per_world_chat_bypass_enabled(PlayerKeys.per_world_chat_bypass_enabled),
+    per_world_chat_bypass_disabled(PlayerKeys.per_world_chat_bypass_disabled),
 
-    private_message_recipient_not_found(MessageKeys.private_message_recipient_not_found),
-    private_message_toggled(MessageKeys.private_message_toggled),
-    private_message_ignored(MessageKeys.private_message_ignored),
-    private_message_self(MessageKeys.private_message_self),
-    private_message_afk(MessageKeys.private_message_afk),
+    private_message_recipient_not_found(PlayerKeys.private_message_recipient_not_found),
+    private_message_toggled(PlayerKeys.private_message_toggled),
+    private_message_ignored(PlayerKeys.private_message_ignored),
+    private_message_self(PlayerKeys.private_message_self),
+    private_message_afk(PlayerKeys.private_message_afk),
 
-    staff_chat_enabled(MessageKeys.staff_chat_enabled),
-    staff_chat_disabled(MessageKeys.staff_chat_disabled);
+    staff_chat_enabled(PlayerKeys.staff_chat_enabled),
+    staff_chat_disabled(PlayerKeys.staff_chat_disabled);
 
     private Property<String> property;
 

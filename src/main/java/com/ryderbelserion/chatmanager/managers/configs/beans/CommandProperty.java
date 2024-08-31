@@ -2,19 +2,20 @@ package com.ryderbelserion.chatmanager.managers.configs.beans;
 
 import ch.jalu.configme.Comment;
 import ch.jalu.configme.beanmapper.ExportName;
+import java.util.List;
 
 public class CommandProperty {
 
-    @Comment("Should we execute a command?")
+    @Comment("Should we execute commands?")
     @ExportName("is_enabled")
     private boolean execute;
 
-    @Comment("The command that will be executed.")
-    private String value;
+    @Comment("The commands that will be executed.")
+    private List<String> values;
 
-    public CommandProperty() {
-        this.execute = false;
-        this.value = "kick {player} Please do not advertise!";
+    public CommandProperty(final boolean execute, final List<String> values) {
+        this.execute = execute;
+        this.values = values;
     }
 
     public void setExecute(boolean execute) {
@@ -25,11 +26,11 @@ public class CommandProperty {
         return this.execute;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setValues(List<String> values) {
+        this.values = values;
     }
 
-    public String getValue() {
-        return this.value;
+    public List<String> getValues() {
+        return this.values;
     }
 }

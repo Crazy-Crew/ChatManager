@@ -5,7 +5,7 @@ import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.api.cache.UserManager;
 import com.ryderbelserion.chatmanager.api.cache.objects.User;
 import com.ryderbelserion.chatmanager.managers.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.managers.configs.impl.v2.ConfigKeys;
+import com.ryderbelserion.chatmanager.managers.configs.impl.types.ConfigKeys;
 import com.ryderbelserion.chatmanager.utils.MsgUtils;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.event.EventHandler;

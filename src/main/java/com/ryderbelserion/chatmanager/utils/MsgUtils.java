@@ -9,7 +9,7 @@ import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.api.events.MessageSendEvent;
 import com.ryderbelserion.chatmanager.managers.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.managers.configs.impl.v2.ConfigKeys;
+import com.ryderbelserion.chatmanager.managers.configs.impl.types.ConfigKeys;
 import com.ryderbelserion.vital.common.api.interfaces.IPlugin;
 import com.ryderbelserion.vital.paper.api.enums.Support;
 import com.ryderbelserion.vital.paper.util.AdvUtil;

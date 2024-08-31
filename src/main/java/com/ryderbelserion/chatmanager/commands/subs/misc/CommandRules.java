@@ -24,7 +24,7 @@ public class CommandRules extends AbstractCommand {
 
         final CommandSender sender = data.getCommandSender();
 
-        final List<String> rules = this.rules.getProperty(RuleKeys.rules).getEntry().get(page);
+        final List<String> rules = this.rules.getProperty(RuleKeys.rules).getEntry().get(String.valueOf(page));
 
         rules.forEach(line -> MsgUtils.sendMessage(sender, line, "{max}", String.valueOf(rules.size())));
     }

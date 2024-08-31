@@ -3,7 +3,7 @@ package com.ryderbelserion.chatmanager.listeners.staff.logs;
 import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.api.enums.Files;
 import com.ryderbelserion.chatmanager.managers.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.managers.configs.impl.v2.ConfigKeys;
+import com.ryderbelserion.chatmanager.managers.configs.impl.types.ConfigKeys;
 import com.ryderbelserion.chatmanager.utils.LogUtils;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;

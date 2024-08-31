@@ -5,17 +5,17 @@ import java.util.Map;
 
 public class EntryProperty {
 
-    private Map<Integer, List<String>> entry;
+    private Map<String, List<String>> entry;
 
-    public EntryProperty(Map<Integer, List<String>> entry) {
+    public EntryProperty(Map<String, List<String>> entry) {
         this.entry = entry;
     }
 
-    public void setEntry(Map<Integer, List<String>> help) {
+    public void setEntry(Map<String, List<String>> help) {
         this.entry = help;
     }
 
-    public Map<Integer, List<String>> getEntry() {
+    public Map<String, List<String>> getEntry() {
         return this.entry;
     }
 }

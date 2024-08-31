@@ -3,7 +3,7 @@ package com.ryderbelserion.chatmanager.api.cache.objects;
 import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.api.enums.chat.ChatType;
 import com.ryderbelserion.chatmanager.managers.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.managers.configs.impl.v2.ConfigKeys;
+import com.ryderbelserion.chatmanager.managers.configs.impl.types.ConfigKeys;
 import com.ryderbelserion.vital.paper.api.enums.Support;
 import com.ryderbelserion.vital.paper.util.AdvUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
