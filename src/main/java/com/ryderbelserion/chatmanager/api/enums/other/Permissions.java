@@ -85,6 +85,7 @@ public enum Permissions {
 
     motd("motd", "Access to /chatmanager motd", PermissionDefault.TRUE),
     help("help", "Access to /chatmanager help", PermissionDefault.TRUE),
+    list("list", "Access to /chatmanager list", PermissionDefault.TRUE),
     use("use", "Access to /chatmanager", PermissionDefault.TRUE);
 
     private final String node;
