@@ -6,9 +6,14 @@ import ch.jalu.configme.configurationdata.CommentsConfiguration;
 import ch.jalu.configme.properties.ListProperty;
 import ch.jalu.configme.properties.Property;
 import com.ryderbelserion.chatmanager.managers.configs.beans.CommandProperty;
+import com.ryderbelserion.chatmanager.managers.configs.beans.EntryProperty;
 import com.ryderbelserion.chatmanager.managers.configs.beans.FilterProperty;
 import com.ryderbelserion.chatmanager.managers.configs.beans.GenericProperty;
+import com.ryderbelserion.chatmanager.managers.configs.beans.groups.ChatProperty;
+import com.ryderbelserion.chatmanager.managers.configs.beans.groups.FormatProperty;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
 import java.util.List;
 import static ch.jalu.configme.properties.PropertyInitializer.newBeanProperty;
 import static ch.jalu.configme.properties.PropertyInitializer.newListProperty;
@@ -247,4 +252,36 @@ public class ConfigKeys implements SettingsHolder {
                     "warn {player} Do not swear in signs"
             ))
     ));
+
+    @Comment({
+            "How to use chat format: https://docs.crazycrew.us/docs/plugins/chatmanager/guides/chat/formatting",
+            "Available Placeholders: https://docs.crazycrew.us/docs/chatmanager/info/placeholders"
+    })
+    public static final Property<ChatProperty> chat_format = newBeanProperty(ChatProperty.class, "features.chat-format", new ChatProperty().populate(
+            false,
+            "%luckperms_prefix% <gray>{player} <blue>> <gray>{message}",
+            new HashMap<>() {{
+                put("default", "<dark_gray>[<gray>Default<dark_gray>] <gray>{player} <blue>> <gray>{message}");
+                put("vip", "<dark_gray>[<dark_purple>VIP<dark_gray>] <gray>{player} <blue>> <gray>{message}");
+                put("moderator", "<green>[<dark_aqua>Moderator<green>] <aqua>{player} <blue>> <yellow>{message}");
+                put("admin", "<dark_gray>[<red>Admin<dark_gray>] <dark_red>{player} <blue>> <green>{message}");
+                put("owner", "<aqua>[<gold>Owner<aqua>] {player} <blue>> <yellow>{message}");
+            }}
+    ));
+
+    @Comment({
+            "A list of groups which {groups} outputs in /chatmanager list",
+            "",
+            "Builder with a limit of 20 means only 20 with rank Builder appear in the category Staff."
+    })
+    public static final Property<FormatProperty> list = newBeanProperty(FormatProperty.class, "features.player.list", new FormatProperty().populate(new HashMap<>() {{
+        put("Admins", new HashMap<>() {{
+            put("Owner", 0);
+            put("Admin", 0);
+        }});
+
+        put("Staff", new HashMap<>() {{
+            put("Builders", 20);
+        }});
+    }}));
 }
