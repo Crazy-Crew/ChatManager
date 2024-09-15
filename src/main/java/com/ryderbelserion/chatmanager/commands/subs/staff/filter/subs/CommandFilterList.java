@@ -9,7 +9,7 @@ import com.ryderbelserion.chatmanager.api.enums.chat.FilterType;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.managers.configs.persist.blacklist.CommandsConfig;
 import com.ryderbelserion.chatmanager.managers.configs.persist.blacklist.WordsConfig;
-import com.ryderbelserion.vital.paper.api.commands.CommandData;
+import com.ryderbelserion.vital.paper.commands.context.PaperCommandInfo;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.command.CommandSender;
@@ -20,10 +20,10 @@ import static io.papermc.paper.command.brigadier.Commands.argument;
 public class CommandFilterList extends AbstractCommand {
 
     @Override
-    public void execute(final CommandData data) {
-        final CommandSender sender = data.getCommandSender();
+    public void execute(final PaperCommandInfo info) {
+        final CommandSender sender = info.getCommandSender();
 
-        final FilterType type = FilterType.valueOf(data.getStringArgument("type"));
+        final FilterType type = FilterType.valueOf(info.getStringArgument("type"));
 
         switch (type) {
             case banned_commands -> {
@@ -68,7 +68,7 @@ public class CommandFilterList extends AbstractCommand {
 
             return builder.buildFuture();
         }).executes(context -> {
-            execute(new CommandData(context));
+            execute(new PaperCommandInfo((context)));
 
             return com.mojang.brigadier.Command.SINGLE_SUCCESS;
         });

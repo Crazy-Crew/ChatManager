@@ -10,7 +10,7 @@ import com.ryderbelserion.chatmanager.managers.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.managers.BroadcastManager;
 import com.ryderbelserion.chatmanager.utils.LogUtils;
 import com.ryderbelserion.chatmanager.utils.TaskUtils;
-import com.ryderbelserion.vital.paper.api.commands.CommandData;
+import com.ryderbelserion.vital.paper.commands.context.PaperCommandInfo;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.entity.Player;
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 public class CommandReload extends AbstractCommand {
 
     @Override
-    public void execute(final CommandData data) {
+    public void execute(final PaperCommandInfo info) {
         this.plugin.getFileManager().reloadFiles();
 
         ConfigManager.refresh();
@@ -53,7 +53,7 @@ public class CommandReload extends AbstractCommand {
 
         TaskUtils.startMonitoringTask();
 
-        Messages.plugin_reload.sendMessage(data.getCommandSender());
+        Messages.plugin_reload.sendMessage(info.getCommandSender());
     }
 
     @Override
@@ -66,7 +66,7 @@ public class CommandReload extends AbstractCommand {
         final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("reload").requires(source -> source.getSender().hasPermission(getPermission()));
 
         return root.executes(context -> {
-            execute(new CommandData(context));
+            execute(new PaperCommandInfo((context)));
 
             return com.mojang.brigadier.Command.SINGLE_SUCCESS;
         }).build();

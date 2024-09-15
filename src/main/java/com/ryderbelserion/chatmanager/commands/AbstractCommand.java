@@ -4,10 +4,10 @@ import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.api.cache.UserManager;
 import com.ryderbelserion.chatmanager.managers.configs.ConfigManager;
-import com.ryderbelserion.vital.paper.api.commands.Command;
+import com.ryderbelserion.vital.paper.commands.PaperCommand;
 import org.bukkit.Server;
 
-public abstract class AbstractCommand extends Command {
+public abstract class AbstractCommand extends PaperCommand {
 
     protected final ChatManager plugin = ChatManager.get();
     protected final Server server = this.plugin.getServer();

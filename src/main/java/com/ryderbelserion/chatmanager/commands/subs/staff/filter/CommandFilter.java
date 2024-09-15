@@ -9,8 +9,7 @@ import com.ryderbelserion.chatmanager.commands.subs.staff.filter.subs.CommandFil
 import com.ryderbelserion.chatmanager.commands.subs.staff.filter.subs.CommandFilterHelp;
 import com.ryderbelserion.chatmanager.commands.subs.staff.filter.subs.CommandFilterList;
 import com.ryderbelserion.chatmanager.commands.subs.staff.filter.subs.CommandFilterRemove;
-import com.ryderbelserion.vital.paper.api.commands.Command;
-import com.ryderbelserion.vital.paper.api.commands.CommandData;
+import com.ryderbelserion.vital.paper.commands.context.PaperCommandInfo;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.jetbrains.annotations.NotNull;
@@ -18,8 +17,8 @@ import org.jetbrains.annotations.NotNull;
 public class CommandFilter extends AbstractCommand {
 
     @Override
-    public void execute(final CommandData data) {
-        Messages.filter_command_help.sendMessage(data.getCommandSender());
+    public void execute(final PaperCommandInfo info) {
+        Messages.filter_command_help.sendMessage(info.getCommandSender());
     }
 
     @Override
@@ -32,7 +31,7 @@ public class CommandFilter extends AbstractCommand {
         final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("filter").requires(source -> source.getSender().hasPermission(getPermission()));
 
         return root.executes(context -> {
-                    execute(new CommandData(context));
+                    execute(new PaperCommandInfo((context)));
 
                     return com.mojang.brigadier.Command.SINGLE_SUCCESS;
                 })
@@ -44,7 +43,7 @@ public class CommandFilter extends AbstractCommand {
     }
 
     @Override
-    public @NotNull final Command registerPermission() {
+    public @NotNull final AbstractCommand registerPermission() {
         Permissions.filter_add.registerPermission();
 
         return this;

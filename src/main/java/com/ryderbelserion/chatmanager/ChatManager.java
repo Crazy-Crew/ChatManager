@@ -31,7 +31,7 @@ import com.ryderbelserion.chatmanager.utils.TaskUtils;
 import com.ryderbelserion.chatmanager.utils.support.PlaceholderAPISupport;
 import com.ryderbelserion.chatmanager.utils.support.VaultSupport;
 import com.ryderbelserion.chatmanager.utils.support.generic.GenericVanish;
-import com.ryderbelserion.vital.common.managers.PluginManager;
+import com.ryderbelserion.vital.common.api.managers.PluginManager;
 import com.ryderbelserion.vital.paper.Vital;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
@@ -135,10 +135,5 @@ public class ChatManager extends Vital {
 
     public final UserManager getUserManager() {
         return this.userManager;
-    }
-
-    @Override
-    public final boolean isLegacy() {
-        return false;
     }
 }

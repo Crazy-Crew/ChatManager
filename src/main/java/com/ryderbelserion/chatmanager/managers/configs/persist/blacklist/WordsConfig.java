@@ -2,7 +2,7 @@ package com.ryderbelserion.chatmanager.managers.configs.persist.blacklist;
 
 import com.google.gson.annotations.Expose;
 import com.ryderbelserion.chatmanager.api.enums.Files;
-import com.ryderbelserion.vital.paper.api.files.json.Serializer;
+import com.ryderbelserion.vital.common.files.json.Serializer;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;

@@ -5,7 +5,7 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.chatmanager.commands.AbstractCommand;
 import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
-import com.ryderbelserion.vital.paper.api.commands.CommandData;
+import com.ryderbelserion.vital.paper.commands.context.PaperCommandInfo;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.jetbrains.annotations.NotNull;
@@ -13,8 +13,8 @@ import org.jetbrains.annotations.NotNull;
 public class CommandFilterHelp extends AbstractCommand {
 
     @Override
-    public void execute(final CommandData data) {
-        Messages.filter_command_help.sendMessage(data.getCommandSender());
+    public void execute(final PaperCommandInfo info) {
+        Messages.filter_command_help.sendMessage(info.getCommandSender());
     }
 
     @Override
@@ -27,7 +27,7 @@ public class CommandFilterHelp extends AbstractCommand {
         final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("help").requires(source -> source.getSender().hasPermission(getPermission()));
 
         return root.executes(context -> {
-            execute(new CommandData(context));
+            execute(new PaperCommandInfo((context)));
 
             return com.mojang.brigadier.Command.SINGLE_SUCCESS;
         }).build();

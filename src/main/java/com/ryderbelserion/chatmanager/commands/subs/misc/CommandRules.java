@@ -8,7 +8,7 @@ import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.commands.AbstractCommand;
 import com.ryderbelserion.chatmanager.managers.configs.impl.types.RuleKeys;
 import com.ryderbelserion.chatmanager.utils.MsgUtils;
-import com.ryderbelserion.vital.paper.api.commands.CommandData;
+import com.ryderbelserion.vital.paper.commands.context.PaperCommandInfo;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.command.CommandSender;
@@ -19,10 +19,10 @@ import static io.papermc.paper.command.brigadier.Commands.argument;
 public class CommandRules extends AbstractCommand {
 
     @Override
-    public void execute(final CommandData data) {
-        final int page = data.getIntegerArgument("page");
+    public void execute(final PaperCommandInfo info) {
+        final int page = info.getIntegerArgument("page");
 
-        final CommandSender sender = data.getCommandSender();
+        final CommandSender sender = info.getCommandSender();
 
         final List<String> rules = this.rules.getProperty(RuleKeys.rules).getEntry().get(String.valueOf(page));
 
@@ -43,7 +43,7 @@ public class CommandRules extends AbstractCommand {
 
             return builder.buildFuture();
         }).executes(context -> {
-            execute(new CommandData(context));
+            execute(new PaperCommandInfo((context)));
 
             return com.mojang.brigadier.Command.SINGLE_SUCCESS;
         });

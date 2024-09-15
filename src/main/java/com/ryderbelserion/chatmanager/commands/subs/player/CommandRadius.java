@@ -10,7 +10,7 @@ import com.ryderbelserion.chatmanager.api.enums.chat.ChatType;
 import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.managers.configs.impl.messages.commands.ChatKeys;
-import com.ryderbelserion.vital.paper.api.commands.CommandData;
+import com.ryderbelserion.vital.paper.commands.context.PaperCommandInfo;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.entity.Player;
@@ -21,15 +21,15 @@ import static io.papermc.paper.command.brigadier.Commands.argument;
 public class CommandRadius extends AbstractCommand {
 
     @Override
-    public void execute(final CommandData data) {
-        if (!data.isPlayer()) {
-            Messages.must_be_a_player.sendMessage(data.getCommandSender());
+    public void execute(final PaperCommandInfo info) {
+        if (!info.isPlayer()) {
+            Messages.must_be_a_player.sendMessage(info.getCommandSender());
 
             return;
         }
 
-        final Player player = data.getPlayer();
-        final String value = data.getStringArgument("chat_type");
+        final Player player = info.getPlayer();
+        final String value = info.getStringArgument("chat_type");
 
         if (value.equalsIgnoreCase("help")) {
             Messages.chatradius_help.sendMessage(player);
@@ -74,7 +74,7 @@ public class CommandRadius extends AbstractCommand {
 
             return builder.buildFuture();
         }).executes(context -> {
-            execute(new CommandData(context));
+            execute(new PaperCommandInfo((context)));
 
             return com.mojang.brigadier.Command.SINGLE_SUCCESS;
         });

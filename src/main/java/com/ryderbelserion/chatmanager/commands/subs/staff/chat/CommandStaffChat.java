@@ -11,7 +11,7 @@ import com.ryderbelserion.chatmanager.api.enums.other.Messages;
 import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.managers.configs.impl.types.ConfigKeys;
 import com.ryderbelserion.chatmanager.utils.MsgUtils;
-import com.ryderbelserion.vital.paper.api.commands.CommandData;
+import com.ryderbelserion.vital.paper.commands.context.PaperCommandInfo;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.command.CommandSender;
@@ -22,8 +22,8 @@ import static io.papermc.paper.command.brigadier.Commands.argument;
 public class CommandStaffChat extends AbstractCommand {
 
     @Override
-    public void execute(final CommandData data) {
-        final CommandSender sender = data.getCommandSender();
+    public void execute(final PaperCommandInfo info) {
+        final CommandSender sender = info.getCommandSender();
 
         if (!this.config.getProperty(ConfigKeys.staff_chat_toggle)) {
             Messages.feature_disabled.sendMessage(sender);
@@ -31,7 +31,7 @@ public class CommandStaffChat extends AbstractCommand {
             return;
         }
 
-        final String message = data.getStringArgument("message");
+        final String message = info.getStringArgument("message");
 
         if (sender instanceof Player player) {
             final User user = this.userManager.getUser(player);
@@ -56,7 +56,7 @@ public class CommandStaffChat extends AbstractCommand {
 
             user.isStaffChat = true;
 
-            if (this.config.getProperty(ConfigKeys.staff_bossbar_toggle) && !this.plugin.isLegacy()) {
+            if (this.config.getProperty(ConfigKeys.staff_bossbar_toggle)) {
                 user.showBossBar();
             }
 
@@ -77,13 +77,13 @@ public class CommandStaffChat extends AbstractCommand {
     public @NotNull final LiteralCommandNode<CommandSourceStack> literal() {
         final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("staffchat").requires(source -> source.getSender().hasPermission(getPermission()))
                 .executes(context -> {
-                    execute(new CommandData(context));
+                    execute(new PaperCommandInfo((context)));
 
                     return Command.SINGLE_SUCCESS;
                 });
 
         final RequiredArgumentBuilder<CommandSourceStack, String> arg1 = argument("message", StringArgumentType.string()).suggests((ctx, builder) -> builder.buildFuture()).executes(context -> {
-            execute(new CommandData(context));
+            execute(new PaperCommandInfo((context)));
 
             return Command.SINGLE_SUCCESS;
         });

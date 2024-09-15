@@ -10,7 +10,7 @@ import com.ryderbelserion.chatmanager.api.enums.other.Permissions;
 import com.ryderbelserion.chatmanager.managers.configs.impl.types.ConfigKeys;
 import com.ryderbelserion.chatmanager.utils.MsgUtils;
 import com.ryderbelserion.vital.paper.api.builders.PlayerBuilder;
-import com.ryderbelserion.vital.paper.api.commands.CommandData;
+import com.ryderbelserion.vital.paper.commands.context.PaperCommandInfo;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.OfflinePlayer;
@@ -23,10 +23,10 @@ import static io.papermc.paper.command.brigadier.Commands.argument;
 public class CommandMsg extends AbstractCommand {
 
     @Override
-    public void execute(final CommandData data) {
-        final CommandSender sender = data.getCommandSender();
+    public void execute(final PaperCommandInfo info) {
+        final CommandSender sender = info.getCommandSender();
 
-        final String playerName = data.getStringArgument("player");
+        final String playerName = info.getStringArgument("player");
 
         final PlayerBuilder builder = new PlayerBuilder(playerName);
 
@@ -38,7 +38,7 @@ public class CommandMsg extends AbstractCommand {
 
         final Player target = builder.getPlayer();
 
-        MsgUtils.sendMessage(sender, target, data.getStringArgument("message"));
+        MsgUtils.sendMessage(sender, target, info.getStringArgument("message"));
     }
 
     @Override
@@ -75,7 +75,7 @@ public class CommandMsg extends AbstractCommand {
         });
 
         final RequiredArgumentBuilder<CommandSourceStack, String> arg2 = argument("message", StringArgumentType.string()).suggests((ctx, builder) -> builder.suggest("<message>").buildFuture()).executes(context -> {
-            execute(new CommandData(context));
+            execute(new PaperCommandInfo((context)));
 
             return com.mojang.brigadier.Command.SINGLE_SUCCESS;
         });
