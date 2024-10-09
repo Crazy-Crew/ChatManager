@@ -24,6 +24,11 @@ public class CommandLists implements CommandExecutor {
 		if (cmd.getName().equalsIgnoreCase("list")) {
 			if (sender.hasPermission(Permissions.COMMAND_LISTS_PLAYERS.getNode())) {
 				if (args.length == 0) {
+					List<String> playerList = config.getStringList("Lists.Player_List");
+					if (playerList.isEmpty()) {
+						return true;
+					}
+					
 					StringBuilder str = new StringBuilder();
 
 					for (Player players : this.plugin.getServer().getOnlinePlayers()) {
@@ -36,11 +41,11 @@ public class CommandLists implements CommandExecutor {
 					final String max = String.valueOf(this.plugin.getServer().getMaxPlayers());
 
 					if (sender instanceof Player player) {
-						for (String list : config.getStringList("Lists.Player_List")) {
+						for (String list : playerList) {
 							Methods.sendMessage(player, Methods.placeholders(false, player, list.replace("{players}", str.toString())).replace("{server_online}", online).replace("{server_max_players}", max), true);
 						}
 					} else {
-						for (String list : config.getStringList("Lists.Player_List")) {
+						for (String list : playerList) {
 							Methods.sendMessage(sender, list.replace("{players}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max), true);
 						}
 					}
@@ -55,6 +60,11 @@ public class CommandLists implements CommandExecutor {
 		if (cmd.getName().equalsIgnoreCase("staff")) {
 			if (sender.hasPermission(Permissions.COMMAND_LISTS_STAFF.getNode())) {
 				if (args.length == 0) {
+					List<String> staffList = config.getStringList("Lists.Staff_List");
+					if (staffList.isEmpty()) {
+						return true;
+					}
+
 					StringBuilder str = new StringBuilder();
 
 					for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
@@ -69,11 +79,11 @@ public class CommandLists implements CommandExecutor {
 					final String max = String.valueOf(this.plugin.getServer().getMaxPlayers());
 
 					if (sender instanceof Player player) {
-						for (String list : config.getStringList("Lists.Staff_List")) {
+						for (String list : staffList) {
 							Methods.sendMessage(player, Methods.placeholders(false, player, list.replace("{staff}", str.toString())).replace("{server_online}", online).replace("{server_max_players}", max), true);
 						}
 					} else {
-						for (String list : config.getStringList("Lists.Staff_List")) {
+						for (String list : staffList) {
 							Methods.sendMessage(sender, list.replace("{staff}", str.toString()).replace("{server_online}", online).replace("{server_max_players}", max), true);
 						}
 					}
