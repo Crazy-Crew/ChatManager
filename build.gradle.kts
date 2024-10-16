@@ -1,144 +1,52 @@
-import java.awt.Color
-
 plugins {
-    alias(libs.plugins.paperweight)
-    alias(libs.plugins.shadowJar)
-    alias(libs.plugins.runPaper)
-    alias(libs.plugins.minotaur)
-
-    `paper-plugin`
-}
-
-base {
-    archivesName.set(rootProject.name)
+    `maven-publish`
+    `java-library`
 }
 
 val buildNumber: String? = System.getenv("BUILD_NUMBER")
 
-rootProject.version = if (buildNumber != null) "${libs.versions.minecraft.get()}-$buildNumber" else "3.13"
+rootProject.version = if (buildNumber != null) "${libs.versions.minecraft.get()}-$buildNumber" else "4.0.2"
 
-val isBeta = true
-
-val content: String = rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
-
-val releaseUpdate = Color(27, 217, 106)
-val betaUpdate = Color(255, 163, 71)
-
-val color = if (isBeta) betaUpdate else releaseUpdate
-
-dependencies {
-    paperweight.paperDevBundle(libs.versions.paper.get())
-
-    implementation(libs.vital.paper)
-
-    implementation(libs.metrics)
-
-    compileOnly(libs.placeholder.api)
-
-    compileOnly(libs.vault) {
-        exclude("org.bukkit", "bukkit")
-    }
-
-    compileOnly(libs.essentials) {
-        exclude("org.spigotmc", "spigot-api")
-        exclude("org.bstats", "bstats-bukkit")
-    }
+subprojects.filter { it.name != "api" }.forEach {
+    it.project.version = rootProject.version
 }
 
-tasks {
-    runServer {
-        jvmArgs("-Dnet.kyori.ansi.colorLevel=truecolor")
+subprojects {
+    apply(plugin = "maven-publish")
+    apply(plugin = "java-library")
 
-        defaultCharacterEncoding = Charsets.UTF_8.name()
+    group = "me.h1dd3nxn1nja.chatmanager"
+    description = "The kitchen sink of Chat Management!"
 
-        minecraftVersion(libs.versions.minecraft.get())
+    repositories {
+        maven("https://repo.codemc.io/repository/maven-public")
+
+        maven("https://repo.crazycrew.us/libraries")
+        maven("https://repo.crazycrew.us/releases")
+
+        maven("https://jitpack.io")
+
+        mavenCentral()
     }
 
-    assemble {
-        dependsOn(reobfJar)
-
-        doLast {
-            copy {
-                from(reobfJar.get())
-                into(rootProject.projectDir.resolve("jars"))
-            }
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(21))
         }
     }
 
-    shadowJar {
-        listOf(
-            "com.ryderbelserion",
-            "org.bstats"
-        ).forEach {
-            relocate(it, "libs.$it")
+    tasks {
+        compileJava {
+            options.encoding = Charsets.UTF_8.name()
+            options.release.set(21)
         }
-    }
 
-    processResources {
-        val properties = hashMapOf(
-            "name" to rootProject.name,
-            "version" to rootProject.version,
-            "group" to rootProject.group,
-            "description" to rootProject.description,
-            "apiVersion" to libs.versions.minecraft.get(),
-            "authors" to providers.gradleProperty("authors").get(),
-            "website" to providers.gradleProperty("website").get()
-        )
-
-        inputs.properties(properties)
-
-        filesMatching("plugin.yml") {
-            expand(properties)
+        javadoc {
+            options.encoding = Charsets.UTF_8.name()
         }
-    }
 
-    modrinth {
-        token.set(System.getenv("MODRINTH_TOKEN"))
-
-        projectId.set(rootProject.name.lowercase())
-
-        versionType.set(if (isBeta) "beta" else "release")
-
-        versionName.set("${rootProject.name} ${rootProject.version}")
-        versionNumber.set(rootProject.version as String)
-
-        changelog.set(content)
-
-        uploadFile.set(rootProject.projectDir.resolve("jars/${rootProject.name}-${rootProject.version}.jar"))
-
-        syncBodyFrom.set(rootProject.file("README.md").readText(Charsets.UTF_8))
-
-        gameVersions.set(listOf(libs.versions.minecraft.get()))
-
-        loaders.addAll(listOf("paper", "folia", "purpur"))
-
-        autoAddDependsOn.set(false)
-        detectLoaders.set(false)
-    }
-
-    webhook {
-        this.username("Ryder Belserion")
-
-        this.content("<@&888222546573537280>")
-
-        this.embeds {
-            this.embed {
-                this.color(color)
-
-                this.title("A new version of ChatManager is ready!")
-
-                this.fields {
-                    this.field(
-                        "Version ${libs.versions.minecraft.get()} build ${rootProject.version}",
-                        "Click [here](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${rootProject.version}) to download!"
-                    )
-
-                    this.field(
-                        "Changelog",
-                        rootProject.file("DISCORD.md").readText(Charsets.UTF_8)
-                    )
-                }
-            }
+        processResources {
+            filteringCharset = Charsets.UTF_8.name()
         }
     }
 }
