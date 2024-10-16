@@ -1,0 +1,104 @@
+name: '${name}'
+main: '${group}.${name}'
+
+authors:
+  - h1dd3nxn1nja
+  - ryderbelserion
+
+version: '${version}'
+api-version: '${apiVersion}'
+description: '${description}'
+website: '${website}'
+
+folia-supported: true
+
+softdepend:
+ - PlaceholderAPI
+ - Vault
+ - Essentials
+ - SuperVanish
+
+commands:
+    ChatManager:
+        description: Main command for the plugin chat manager.
+        usage: /<command> <help|reload|debug|preview>
+        aliases: [cm]
+    Announcement:
+        description: Announce a message to the entire server.
+        usage: /<command> <message>
+        aliases: [announce]
+    AntiSwear:
+        description: Shows a list of commands for the anti-swear feature.
+        usage: /<command> <help|add|remove|list>
+        aliases: [as]
+    AutoBroadcast:
+        description: Shows a list of commands for the auto broadcast feature.
+        usage: /<command> <help|add|create|list>
+        aliases: [ab]
+    BannedCommands:
+        description: Shows a list of commands for the banned commands feature.
+        usage: /<command> <help|add|remove|list>
+        aliases: [bcmd]
+    Broadcast:
+        usage: /<command> <message>
+        aliases: [bc]
+        description: Broadcast a message to the entire server.
+    ChatRadius:
+        description: Chat radius command.
+        usage: /<command> <help|local|global|world|spy>
+        aliases: [cr]
+    ClearChat:
+        description: Clears chat for everyone on the server.
+        usage: /<command>
+        aliases: [cc]
+    CommandSpy:
+        description: See what commands every player types on the server.
+        usage: /<command>
+        aliases: [cspy,cmdspy]
+    List:
+        description: Shows a list of all the players online.
+        usage: /<command>
+    Message:
+        description: Sends a private message to the specified player.
+        usage: /<command> <player> <message>
+        aliases: [m,w,pm,msg,whisper,tell,privatemessage]
+    MuteChat:
+        description: Mutes the server chat preventing players from talking in chat.
+        usage: /<command> [-s]
+        aliases: [mc]
+    PerWorldChat:
+        description: Allow players to see what you type in chat in every world.
+        usage: /<command> <bypass>
+        aliases: [pwc]
+    Ping:
+        description: Shows your current ping, or other players ping.
+        usage: /<command> <player>
+    Reply:
+        description: Quickly reply to the last player to message you.
+        usage: /<command> <message>
+        aliases: [r]
+    Rules:
+        description: Shows a list of the server rules
+        usage: /<command>
+    SocialSpy:
+        description: Spy on players and see what they message to other players.
+        usage: /<command>
+    Staff:
+        description: Shows a list of all the staff members online.
+        usage: /<command>
+    StaffChat:
+        description: Talk secretly to other staff members online.
+        usage: /<command> {message}
+        aliases: [stchat,schat,sc]
+    ToggleChat:
+        description: Blocks a player from receiving chat messages.
+        usage: /<command>
+    ToggleMentions:
+        description: Blocks players from receiving mention notifications.
+    TogglePM:
+        description: Blocks players from sending private messages to you.
+        usage: /<command>
+    Warning:
+        description: Sends a warning message to the entire server.
+        usage: /<command> <message>
+        aliases: [alert]
