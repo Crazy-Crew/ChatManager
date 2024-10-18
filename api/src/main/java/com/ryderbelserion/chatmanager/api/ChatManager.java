@@ -3,6 +3,7 @@ package com.ryderbelserion.chatmanager.api;
 import com.ryderbelserion.chatmanager.api.users.UserManager;
 import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.NotNull;
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -29,5 +30,12 @@ public interface ChatManager {
      * @return the parsed string
      */
     @NotNull String parse(@NotNull final Audience audience, @NotNull final String value, @NotNull final Map<String, String> placeholders);
+
+    /**
+     * Get the data folder.
+     *
+     * @return {@link File}
+     */
+    File getDataFolder();
 
 }

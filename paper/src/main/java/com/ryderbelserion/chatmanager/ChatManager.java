@@ -12,6 +12,7 @@ import net.kyori.adventure.identity.Identity;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import java.io.File;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -74,6 +75,11 @@ public class ChatManager extends AbstractChatPlugin {
     @Override
     public @NotNull final PluginLogger getLogger() {
         return this.logger;
+    }
+
+    @Override
+    public @NotNull final File getDataFolder() {
+        return this.plugin.getDataFolder();
     }
 
     public @NotNull final ChatManagerPaper getPlugin() {
