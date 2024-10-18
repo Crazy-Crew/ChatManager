@@ -75,7 +75,7 @@ public class ChatManagerPaper extends AbstractChatPlugin {
     protected void registerListeners() {
         final PluginManager pluginManager = this.server.getPluginManager();
 
-        pluginManager.registerEvents(new ChatListener(), this.plugin);
+        pluginManager.registerEvents(new ChatListener(this), this.plugin);
     }
 
     @Override
