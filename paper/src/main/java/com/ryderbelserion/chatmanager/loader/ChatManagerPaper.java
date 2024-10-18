@@ -9,6 +9,7 @@ public class ChatManagerPaper extends Vital {
 
     public ChatManagerPaper() {
         this.chatManager = new ChatManager(this);
+        this.chatManager.enable();
     }
 
     @Override
