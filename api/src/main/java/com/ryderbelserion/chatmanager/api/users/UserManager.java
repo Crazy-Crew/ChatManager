@@ -11,4 +11,6 @@ public abstract class UserManager {
 
     public abstract User getUser(@NotNull final UUID uuid);
 
+    public abstract void addUser(@NotNull final UUID uuid);
+
 }
