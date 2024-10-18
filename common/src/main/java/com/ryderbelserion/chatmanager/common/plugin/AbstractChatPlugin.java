@@ -8,18 +8,23 @@ import com.ryderbelserion.chatmanager.common.plugin.logger.PluginLogger;
 public abstract class AbstractChatPlugin implements ChatManager {
 
     public final void enable() {
-        // register the api's singleton.
-        ChatManagerProvider.register(this);
+        registerListeners(); // register listeners
+
+        ChatManagerProvider.register(this); // register the api's singleton
     }
 
-    public abstract void onLoad();
+    protected abstract void onLoad();
 
-    public abstract void onEnable();
+    protected abstract void onEnable();
 
-    public abstract void onDisable();
+    protected abstract void onDisable();
 
-    public abstract PluginLogger getLogger();
+    protected abstract void registerPlatformAPI(final ChatManager api);
 
-    public abstract SettingsManager getConfig();
+    protected abstract void registerListeners();
+
+    protected abstract PluginLogger getLogger();
+
+    protected abstract SettingsManager getConfig();
 
 }
