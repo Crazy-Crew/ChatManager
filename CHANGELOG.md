@@ -10,3 +10,4 @@
 
 ### Changes:
 - PlaceholderAPI was not parsing placeholders in the broadcast/autobroadcast features.
+- Bumped version, because I messed up semver.
