@@ -1,14 +1,17 @@
-package com.ryderbelserion.chatmanager.common.config;
+package com.ryderbelserion.chatmanager.common.managers.configs;
 
 import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.SettingsManagerBuilder;
 import ch.jalu.configme.resource.YamlFileResourceOptions;
-import com.ryderbelserion.chatmanager.common.config.impl.ConfigKeys;
+import com.ryderbelserion.chatmanager.common.managers.configs.config.ConfigKeys;
+import com.ryderbelserion.chatmanager.common.managers.configs.locale.RootKeys;
 import java.io.File;
 
 public class ConfigManager {
 
     private SettingsManager config;
+
+    private SettingsManager locale;
 
     public void load(final File dataFolder) {
         YamlFileResourceOptions builder = YamlFileResourceOptions.builder().indentationSize(2).build();
@@ -18,13 +21,25 @@ public class ConfigManager {
                 .useDefaultMigrationService()
                 .configurationData(ConfigKeys.class)
                 .create();
+
+        this.locale = SettingsManagerBuilder
+                .withYamlFile(new File(dataFolder, "messages.yml"), builder)
+                .useDefaultMigrationService()
+                .configurationData(RootKeys.class)
+                .create();
     }
 
     public void reload() {
         this.config.reload();
+
+        this.locale.reload();
     }
 
     public final SettingsManager getConfig() {
         return this.config;
+    }
+
+    public final SettingsManager getLocale() {
+        return this.locale;
     }
 }

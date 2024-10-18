@@ -3,7 +3,7 @@ package com.ryderbelserion.chatmanager.listeners.chat;
 import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.ChatManagerPaper;
 import com.ryderbelserion.chatmanager.api.renderers.ChatRender;
-import com.ryderbelserion.chatmanager.common.config.impl.ConfigKeys;
+import com.ryderbelserion.chatmanager.common.managers.configs.config.ConfigKeys;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

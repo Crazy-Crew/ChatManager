@@ -1,5 +1,6 @@
 package com.ryderbelserion.chatmanager.api;
 
+import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.api.users.UserManager;
 import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.NotNull;
@@ -37,5 +38,19 @@ public interface ChatManager {
      * @return {@link File}
      */
     File getDataFolder();
+
+    /**
+     * Gets the config.yml
+     *
+     * @return {@link SettingsManager}
+     */
+    SettingsManager getConfig();
+
+    /**
+     * Gets the messages.yml
+     *
+     * @return {@link SettingsManager}
+     */
+    SettingsManager getLocale();
 
 }

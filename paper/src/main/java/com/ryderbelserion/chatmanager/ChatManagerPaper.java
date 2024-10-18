@@ -1,9 +1,12 @@
 package com.ryderbelserion.chatmanager;
 
 import ch.jalu.configme.SettingsManager;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.ryderbelserion.chatmanager.api.ChatManager;
 import com.ryderbelserion.chatmanager.api.users.UserManager;
-import com.ryderbelserion.chatmanager.common.config.ConfigManager;
+import com.ryderbelserion.chatmanager.commands.BaseCommand;
+import com.ryderbelserion.chatmanager.commands.subs.CommandReload;
+import com.ryderbelserion.chatmanager.common.managers.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.common.plugin.AbstractChatPlugin;
 import com.ryderbelserion.chatmanager.common.plugin.logger.AbstractLogger;
 import com.ryderbelserion.chatmanager.common.plugin.logger.PluginLogger;
@@ -11,6 +14,8 @@ import com.ryderbelserion.chatmanager.listeners.chat.ChatListener;
 import com.ryderbelserion.chatmanager.loader.ChatManagerPlugin;
 import com.ryderbelserion.chatmanager.api.users.PaperUserManager;
 import com.ryderbelserion.chatmanager.utils.MiscUtils;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 import org.bukkit.Server;
@@ -19,6 +24,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicePriority;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -79,6 +85,19 @@ public class ChatManagerPaper extends AbstractChatPlugin {
     }
 
     @Override
+    protected void registerCommands() {
+        this.plugin.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> { //todo consider cloud framework 2.0, instead of doing all this.
+            LiteralArgumentBuilder<CommandSourceStack> root = new BaseCommand(this).registerPermission().literal().createBuilder();
+
+            List.of(
+                    new CommandReload(this)
+            ).forEach(command -> root.then(command.registerPermission().literal()));
+
+            event.registrar().register(root.build(), "the base command for ChatManager");
+        });
+    }
+
+    @Override
     public @NotNull final String parse(@NotNull final Audience audience, @NotNull final String value, @NotNull final Map<String, String> placeholders) {
         @NotNull final Optional<UUID> uuid = audience.get(Identity.UUID);
 
@@ -102,6 +121,11 @@ public class ChatManagerPaper extends AbstractChatPlugin {
     }
 
     @Override
+    public @NotNull final SettingsManager getLocale() {
+        return this.configManager.getLocale();
+    }
+
+    @Override
     public @NotNull final PluginLogger getLogger() {
         return this.logger;
     }
@@ -113,5 +137,9 @@ public class ChatManagerPaper extends AbstractChatPlugin {
 
     public @NotNull final ChatManagerPlugin getPlugin() {
         return this.plugin;
+    }
+
+    public @NotNull final ConfigManager getConfigManager() {
+        return this.configManager;
     }
 }

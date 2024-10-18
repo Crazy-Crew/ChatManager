@@ -1,6 +1,5 @@
 package com.ryderbelserion.chatmanager.common.plugin;
 
-import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.ChatManagerProvider;
 import com.ryderbelserion.chatmanager.api.ChatManager;
 import com.ryderbelserion.chatmanager.common.plugin.logger.PluginLogger;
@@ -8,6 +7,8 @@ import com.ryderbelserion.chatmanager.common.plugin.logger.PluginLogger;
 public abstract class AbstractChatPlugin implements ChatManager {
 
     public final void enable() {
+        registerCommands(); // register commands
+
         registerListeners(); // register listeners
 
         ChatManagerProvider.register(this); // register the api's singleton
@@ -23,8 +24,8 @@ public abstract class AbstractChatPlugin implements ChatManager {
 
     protected abstract void registerListeners();
 
-    protected abstract PluginLogger getLogger();
+    protected abstract void registerCommands();
 
-    protected abstract SettingsManager getConfig();
+    protected abstract PluginLogger getLogger();
 
 }
