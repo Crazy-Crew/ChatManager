@@ -23,6 +23,8 @@ shadow = "8.3.0"
 triumph-cmd = "2.0.0-ALPHA-10"
 jetbrains = "24.1.0"
 adventure = "4.17.0"
+cloud-release = "2.0.0"
+cloud-beta = "2.0.0-beta.10"
 gson = "2.10.1"
 jalu = "1.4.1"
 
@@ -45,6 +47,10 @@ kyori-logger = { module = "net.kyori:adventure-text-logger-slf4j", version.ref =
 kyori-text = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
 kyori-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 
+# Cloud API
+cloud-extras = { module = "org.incendo:cloud-minecraft-extras", version.ref = "cloud-beta" }
+cloud-paper = { module = "org.incendo:cloud-paper", version.ref = "cloud-beta" }
+
 # Bukkit Plugins API
 placeholderapi = { group = "me.clip", name = "placeholderapi", version = "2.11.5" }
 essentials = { group = "net.essentialsx", name = "EssentialsX", version = "2.20.1" }
@@ -63,3 +69,6 @@ shared = ["placeholderapi", "essentials", "vault"]
 
 # Adventure API
 adventure = ["kyori-api", "kyori-text", "kyori-logger"]
+
+# Cloud Paper API
+cloud-paper = ["cloud-extras", "cloud-paper"]

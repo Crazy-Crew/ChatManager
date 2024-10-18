@@ -14,13 +14,15 @@ repositories {
 dependencies {
     implementation(project(":common"))
 
-    implementation(libs.vital.paper)
+    //compileOnly(libs.bundles.cloud.paper)
 
     compileOnly(libs.bundles.shared) {
         exclude("org.spigotmc", "spigot-api")
         exclude("org.bstats", "bstats-bukkit")
         exclude("org.bukkit", "bukkit")
     }
+
+    compileOnly(libs.vital.paper)
 
     compileOnly(libs.paper)
 }
@@ -49,11 +51,11 @@ tasks {
         archiveBaseName.set(rootProject.name)
         archiveClassifier.set("")
 
-        listOf(
-            "com.ryderbelserion.vital"
-        ).forEach {
-            relocate(it, "libs.$it")
-        }
+        //listOf(
+        //    "com.ryderbelserion.vital"
+        //).forEach {
+        //    relocate(it, "libs.$it")
+        //}
     }
 
     processResources {
