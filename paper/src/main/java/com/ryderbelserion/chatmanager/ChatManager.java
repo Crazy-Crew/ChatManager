@@ -1,6 +1,8 @@
 package com.ryderbelserion.chatmanager;
 
+import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.api.users.UserManager;
+import com.ryderbelserion.chatmanager.common.config.ConfigManager;
 import com.ryderbelserion.chatmanager.common.plugin.AbstractChatPlugin;
 import com.ryderbelserion.chatmanager.common.plugin.logger.AbstractLogger;
 import com.ryderbelserion.chatmanager.common.plugin.logger.PluginLogger;
@@ -27,6 +29,8 @@ public class ChatManager extends AbstractChatPlugin {
     private final long startTime;
     private final Server server;
 
+    private final ConfigManager configManager;
+
     public ChatManager(final ChatManagerPaper plugin) {
         this.startTime = System.nanoTime();
 
@@ -34,11 +38,13 @@ public class ChatManager extends AbstractChatPlugin {
         this.server = plugin.getServer();
 
         this.logger = new AbstractLogger(this.plugin.getComponentLogger());
+
+        this.configManager = new ConfigManager();
     }
 
     @Override
     public void onLoad() {
-
+        this.configManager.load();
     }
 
     @Override
@@ -70,6 +76,11 @@ public class ChatManager extends AbstractChatPlugin {
     @Override
     public @NotNull final UserManager getUserManager() {
         return this.userManager;
+    }
+
+    @Override
+    public @NotNull final SettingsManager getConfig() {
+        return this.configManager.getConfig();
     }
 
     @Override
