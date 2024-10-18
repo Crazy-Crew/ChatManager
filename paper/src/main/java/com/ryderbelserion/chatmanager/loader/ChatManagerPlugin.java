@@ -1,15 +1,14 @@
 package com.ryderbelserion.chatmanager.loader;
 
-import com.ryderbelserion.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.ChatManagerPaper;
 import com.ryderbelserion.vital.paper.Vital;
 
-public class ChatManagerPaper extends Vital {
+public class ChatManagerPlugin extends Vital {
 
-    private final ChatManager chatManager;
+    private final ChatManagerPaper chatManager;
 
-    public ChatManagerPaper() {
-        this.chatManager = new ChatManager(this);
-        this.chatManager.enable();
+    public ChatManagerPlugin() {
+        this.chatManager = new ChatManagerPaper(this);
     }
 
     @Override
