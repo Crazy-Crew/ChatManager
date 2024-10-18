@@ -64,7 +64,7 @@ tasks {
         inputs.properties("description" to project.description)
         inputs.properties("website" to "https://modrinth.com/plugin/chatmanager")
 
-        filesMatching("plugin.yml") {
+        filesMatching("paper-plugin.yml") {
             expand(inputs.properties)
         }
     }
