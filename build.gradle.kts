@@ -15,7 +15,7 @@ subprojects {
     apply(plugin = "maven-publish")
     apply(plugin = "java-library")
 
-    group = "me.h1dd3nxn1nja.chatmanager"
+    group = "com.ryderbelserion.chatmanager"
     description = "The kitchen sink of Chat Management!"
 
     repositories {

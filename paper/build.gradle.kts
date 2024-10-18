@@ -12,17 +12,14 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":common"))
+
     implementation(libs.vital.paper)
 
-    compileOnly(libs.placeholder.api)
-
-    compileOnly(libs.vault) {
-        exclude("org.bukkit", "bukkit")
-    }
-
-    compileOnly(libs.essentials) {
+    compileOnly(libs.bundles.shared) {
         exclude("org.spigotmc", "spigot-api")
         exclude("org.bstats", "bstats-bukkit")
+        exclude("org.bukkit", "bukkit")
     }
 
     compileOnly(libs.paper)

@@ -1,3 +1,3 @@
 rootProject.name = "ChatManager"
 
-include("publish", "paper")
+include("publish", "paper", "common", "api")
