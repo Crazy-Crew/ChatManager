@@ -1,9 +1,9 @@
 package com.ryderbelserion.chatmanager.api.users;
 
-import com.ryderbelserion.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.ChatManagerPaper;
 import com.ryderbelserion.chatmanager.api.users.objects.PaperUser;
 import com.ryderbelserion.chatmanager.api.users.objects.User;
-import com.ryderbelserion.chatmanager.loader.ChatManagerPaper;
+import com.ryderbelserion.chatmanager.loader.ChatManagerPlugin;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.Server;
 import org.jetbrains.annotations.NotNull;
@@ -13,11 +13,11 @@ import java.util.UUID;
 
 public class PaperUserManager extends UserManager {
 
-    private final ChatManagerPaper plugin;
+    private final ChatManagerPlugin plugin;
 
     private final Server server;
 
-    public PaperUserManager(ChatManager chatManager) {
+    public PaperUserManager(ChatManagerPaper chatManager) {
         this.plugin = chatManager.getPlugin();
         this.server = this.plugin.getServer();
     }
