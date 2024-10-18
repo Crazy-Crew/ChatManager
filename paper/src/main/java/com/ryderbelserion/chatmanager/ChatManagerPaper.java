@@ -38,8 +38,6 @@ public class ChatManagerPaper extends AbstractChatPlugin {
     public ChatManagerPaper(final ChatManagerPlugin plugin) {
         this.startTime = System.nanoTime(); // measure start time
 
-        super.enable(); // enable api
-
         this.plugin = plugin;
         this.server = plugin.getServer();
 
@@ -50,12 +48,14 @@ public class ChatManagerPaper extends AbstractChatPlugin {
 
     @Override
     public void onLoad() {
-        this.configManager.load();
+        this.configManager.load(getDataFolder());
     }
 
     @Override
     public void onEnable() {
         this.userManager = new PaperUserManager(this);
+
+        super.enable(); // enable api
 
         getLogger().info("Done ({})!", String.format(Locale.ROOT, "%.3fs", (double) (System.nanoTime() - this.startTime) / 1.0E9D));
     }
