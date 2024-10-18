@@ -21,6 +21,6 @@ public class ChatListener implements Listener {
     public void onPlayerChat(AsyncChatEvent event) {
         if (!this.config.getProperty(ConfigKeys.chat_format_toggle)) return;
 
-        event.renderer(new ChatRender(event.getPlayer(), this.config.getProperty(ConfigKeys.chat_format_default), event.message()));
+        event.renderer(new ChatRender(event.getPlayer(), this.config.getProperty(ConfigKeys.chat_format_default), event.signedMessage()));
     }
 }

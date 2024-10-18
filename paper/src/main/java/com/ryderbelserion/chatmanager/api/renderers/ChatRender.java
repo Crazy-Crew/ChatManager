@@ -1,9 +1,9 @@
 package com.ryderbelserion.chatmanager.api.renderers;
 
 import com.ryderbelserion.chatmanager.ChatManagerProvider;
-import com.ryderbelserion.chatmanager.api.ChatManager;
 import io.papermc.paper.chat.ChatRenderer;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.chat.SignedMessage;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
@@ -12,14 +12,13 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 public class ChatRender implements ChatRenderer {
 
-    private final ChatManager chatManager = ChatManagerProvider.get();
-
     private final Component renderedMessage;
 
-    public ChatRender(final Player player, final String format, final Component message) {
+    public ChatRender(final Player player, final String format, final SignedMessage message) {
         final Collection<TagResolver> resolvers = new ArrayList<>();
 
         resolvers.add(StandardTags.defaults());
@@ -27,7 +26,10 @@ public class ChatRender implements ChatRenderer {
         this.renderedMessage = MiniMessage.builder()
                 .tags(TagResolver.builder().resolvers(resolvers).build())
                 .build()
-                .deserialize(format);
+                .deserialize(ChatManagerProvider.get().parse(player, format, new HashMap<>() {{
+                    put("{player}", player.getName());
+                    put("{message}", message.message());
+                }}));
     }
 
     @Override
