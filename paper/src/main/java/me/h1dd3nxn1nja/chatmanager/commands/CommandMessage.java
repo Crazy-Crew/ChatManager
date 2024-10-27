@@ -188,13 +188,17 @@ public class CommandMessage implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        Methods.sendMessage(player, Methods.placeholders(false, target, config.getString("Private_Messages.Sender.Format", "&c&l(!) &f&l[&e&lYou &d-> &e{receiver}&f&l] &b")
+		final String sender_format = config.getString("Private_Messages.Sender.Format", "&c&l(!) &f&l[&e&lYou &d-> &e{receiver}&f&l] &b")
 				.replace("{receiver}", target.getName())
-				.replace("{receiver_displayname}", target.getDisplayName()) + message), true);
+				.replace("{receiver_displayname}", target.getDisplayName());
 
-		Methods.sendMessage(target, Methods.placeholders(false, player, config.getString("Private_Messages.Receiver.Format", "&c&l(!) &f&l[&e{player} &d-> &e&lYou&f&l] &b")
+		final String receiver_format = config.getString("Private_Messages.Receiver.Format", "&c&l(!) &f&l[&e{player} &d-> &e&lYou&f&l] &b")
 				.replace("{receiver}", target.getName())
-				.replace("{receiver_displayname}", player.getDisplayName()) + message), true);
+				.replace("{receiver_displayname}", player.getDisplayName());
+
+        Methods.sendMessage(player, "", Methods.placeholders(false, target, sender_format) + message, true, false, false);
+
+		Methods.sendMessage(target, "", Methods.placeholders(false, target, receiver_format) + message, true, false, false);
 
 		Methods.playSound(target, config, "Private_Messages.sound");
 
