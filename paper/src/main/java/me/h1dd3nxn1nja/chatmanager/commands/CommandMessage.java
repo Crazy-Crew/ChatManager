@@ -198,7 +198,7 @@ public class CommandMessage implements CommandExecutor, TabCompleter {
 
         Methods.sendMessage(player, "", Methods.placeholders(false, target, sender_format) + message, true, false, false);
 
-		Methods.sendMessage(target, "", Methods.placeholders(false, target, receiver_format) + message, true, false, false);
+		Methods.sendMessage(target, "", Methods.placeholders(false, player, receiver_format) + message, true, false, false);
 
 		Methods.playSound(target, config, "Private_Messages.sound");
 
