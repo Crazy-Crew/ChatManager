@@ -1,9 +1,9 @@
 package com.ryderbelserion.chatmanager.loader;
 
 import com.ryderbelserion.chatmanager.ChatManagerPaper;
-import com.ryderbelserion.vital.paper.Vital;
+import org.bukkit.plugin.java.JavaPlugin;
 
-public class ChatManagerPlugin extends Vital {
+public class ChatManagerPlugin extends JavaPlugin {
 
     private final ChatManagerPaper chatManager;
 

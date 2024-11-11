@@ -14,6 +14,7 @@ import com.ryderbelserion.chatmanager.listeners.chat.ChatListener;
 import com.ryderbelserion.chatmanager.loader.ChatManagerPlugin;
 import com.ryderbelserion.chatmanager.api.users.PaperUserManager;
 import com.ryderbelserion.chatmanager.utils.MiscUtils;
+import com.ryderbelserion.vital.paper.VitalPaper;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import net.kyori.adventure.audience.Audience;
@@ -41,6 +42,8 @@ public class ChatManagerPaper extends AbstractChatPlugin {
 
     private final ConfigManager configManager;
 
+    private final VitalPaper vital;
+
     public ChatManagerPaper(final ChatManagerPlugin plugin) {
         this.startTime = System.nanoTime(); // measure start time
 
@@ -50,6 +53,8 @@ public class ChatManagerPaper extends AbstractChatPlugin {
         this.logger = new AbstractLogger(this.plugin.getComponentLogger());
 
         this.configManager = new ConfigManager();
+
+        this.vital = new VitalPaper(this.plugin);
     }
 
     @Override
@@ -68,6 +73,10 @@ public class ChatManagerPaper extends AbstractChatPlugin {
 
     @Override
     public void onDisable() {
+        if (this.vital != null) {
+            this.vital.stop();
+        }
+
         this.server.getGlobalRegionScheduler().cancelTasks(this.plugin);
         this.server.getAsyncScheduler().cancelTasks(this.plugin);
     }
@@ -141,5 +150,9 @@ public class ChatManagerPaper extends AbstractChatPlugin {
 
     public @NotNull final ConfigManager getConfigManager() {
         return this.configManager;
+    }
+
+    public @NotNull final VitalPaper getVital() {
+        return this.vital;
     }
 }

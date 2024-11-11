@@ -6,6 +6,7 @@ import com.ryderbelserion.chatmanager.ChatManagerPaper;
 import com.ryderbelserion.chatmanager.common.enums.Messages;
 import com.ryderbelserion.chatmanager.common.managers.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.loader.ChatManagerPlugin;
+import com.ryderbelserion.vital.paper.VitalPaper;
 import com.ryderbelserion.vital.paper.commands.PaperCommand;
 import com.ryderbelserion.vital.paper.commands.context.PaperCommandInfo;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -20,12 +21,15 @@ import org.jetbrains.annotations.NotNull;
 public class CommandReload extends PaperCommand {
 
     private final ConfigManager configManager;
+    private final VitalPaper vital;
     private final Server server;
 
     public CommandReload(final ChatManagerPaper chatManager) {
         this.configManager = chatManager.getConfigManager();
 
         final ChatManagerPlugin plugin = chatManager.getPlugin();
+
+        this.vital = chatManager.getVital();
 
         this.server = plugin.getServer();
     }
@@ -35,6 +39,8 @@ public class CommandReload extends PaperCommand {
         final CommandSender sender = info.getCommandSender();
 
         this.configManager.reload();
+
+        this.vital.reload();
 
         Messages.reload_plugin.sendMessage(sender);
     }
@@ -59,10 +65,12 @@ public class CommandReload extends PaperCommand {
     public @NotNull final PaperCommand registerPermission() {
         final PluginManager pluginManager = this.server.getPluginManager();
 
-        final Permission permission = pluginManager.getPermission(getPermission());
+        final String node = getPermission();
+
+        final Permission permission = pluginManager.getPermission(node);
 
         if (permission == null) {
-            pluginManager.addPermission(new Permission(getPermission(), PermissionDefault.OP));
+            pluginManager.addPermission(new Permission(node, PermissionDefault.OP));
         }
 
         return this;
