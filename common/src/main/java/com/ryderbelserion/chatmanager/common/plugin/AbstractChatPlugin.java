@@ -13,6 +13,8 @@ public abstract class AbstractChatPlugin implements ChatManager {
         registerListeners(); // register listeners
 
         ChatManagerProvider.register(this); // register the api's singleton
+
+        registerPlatformAPI(this); // register platform api
     }
 
     protected abstract void onLoad();
