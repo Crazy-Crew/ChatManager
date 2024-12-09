@@ -22,10 +22,10 @@ public class BaseCommand extends PaperCommand { //todo consider cloud framework 
     private final ConfigManager configManager;
     private final Server server;
 
-    public BaseCommand(final ChatManagerPaper chatManager) {
-        this.configManager = chatManager.getConfigManager();
+    public BaseCommand(final ChatManagerPaper instance) {
+        this.configManager = instance.getConfigManager();
 
-        final ChatManagerPlugin plugin = chatManager.getPlugin();
+        final ChatManagerPlugin plugin = instance.getPlugin();
 
         this.server = plugin.getServer();
     }

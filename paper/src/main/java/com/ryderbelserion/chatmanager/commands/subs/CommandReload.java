@@ -24,12 +24,12 @@ public class CommandReload extends PaperCommand {
     private final VitalPaper vital;
     private final Server server;
 
-    public CommandReload(final ChatManagerPaper chatManager) {
-        this.configManager = chatManager.getConfigManager();
+    public CommandReload(final ChatManagerPaper instance) {
+        this.configManager = instance.getConfigManager();
 
-        final ChatManagerPlugin plugin = chatManager.getPlugin();
+        final ChatManagerPlugin plugin = instance.getPlugin();
 
-        this.vital = chatManager.getVital();
+        this.vital = instance.getVital();
 
         this.server = plugin.getServer();
     }
