@@ -117,6 +117,11 @@ public class ChatManagerPaper extends AbstractChatPlugin {
     }
 
     @Override
+    public @NotNull final SettingsManager getChat() {
+        return this.configManager.getChat();
+    }
+
+    @Override
     public @NotNull final File getDataFolder() {
         return this.plugin.getDataFolder();
     }

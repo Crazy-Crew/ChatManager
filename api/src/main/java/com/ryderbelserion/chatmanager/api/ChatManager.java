@@ -53,4 +53,11 @@ public interface ChatManager {
      */
     SettingsManager getLocale();
 
+    /**
+     * Gets the chat.yml
+     *
+     * @return {@link SettingsManager}
+     */
+    SettingsManager getChat();
+
 }
