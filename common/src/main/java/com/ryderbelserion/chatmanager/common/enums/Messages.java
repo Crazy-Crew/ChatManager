@@ -66,27 +66,27 @@ public enum Messages {
     }
 
     public void sendMessage(final Audience sender, final String placeholder, final String replacement) {
-        final MessageState msgState = this.config.getProperty(ConfigKeys.message_state);
+        final Action action = this.config.getProperty(ConfigKeys.message_action);
 
-        switch (msgState) {
+        switch (action) {
             case send_message -> sendRichMessage(sender, placeholder, replacement);
             case send_actionbar -> sendActionBar(sender, placeholder, replacement);
         }
     }
 
     public void sendMessage(final Audience sender, final Map<String, String> placeholders) {
-        final MessageState msgState = this.config.getProperty(ConfigKeys.message_state);
+        final Action action = this.config.getProperty(ConfigKeys.message_action);
 
-        switch (msgState) {
+        switch (action) {
             case send_message -> sendRichMessage(sender, placeholders);
             case send_actionbar -> sendActionBar(sender, placeholders);
         }
     }
 
     public void sendMessage(final Audience sender) {
-        final MessageState msgState = this.config.getProperty(ConfigKeys.message_state);
+        final Action action = this.config.getProperty(ConfigKeys.message_action);
 
-        switch (msgState) {
+        switch (action) {
             case send_message -> sendRichMessage(sender);
             case send_actionbar -> sendActionBar(sender);
         }

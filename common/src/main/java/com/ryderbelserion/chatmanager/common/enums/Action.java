@@ -1,13 +1,13 @@
 package com.ryderbelserion.chatmanager.common.enums;
 
-public enum MessageState {
+public enum Action {
 
     send_message("send_message"),
     send_actionbar("send_actionbar");
 
     private final String name;
 
-    MessageState(String name) {
+    Action(String name) {
         this.name = name;
     }
 

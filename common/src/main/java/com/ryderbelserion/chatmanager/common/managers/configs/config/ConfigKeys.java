@@ -4,7 +4,7 @@ import ch.jalu.configme.Comment;
 import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.configurationdata.CommentsConfiguration;
 import ch.jalu.configme.properties.Property;
-import com.ryderbelserion.chatmanager.common.enums.MessageState;
+import com.ryderbelserion.chatmanager.common.enums.Action;
 
 import static ch.jalu.configme.properties.PropertyInitializer.newBeanProperty;
 import static ch.jalu.configme.properties.PropertyInitializer.newProperty;
@@ -36,7 +36,7 @@ public class ConfigKeys implements SettingsHolder {
             "send_actionbar -> sends messages in actionbar.",
             ""
     })
-    public static final Property<MessageState> message_state = newBeanProperty(MessageState.class, "root.message-state", MessageState.send_message);
+    public static final Property<Action> message_action = newBeanProperty(Action.class, "root.message-action", Action.send_message);
 
     @Comment("Should default chat formatting be enabled?")
     public static final Property<Boolean> chat_format_toggle = newProperty("chat.format.toggle", false);
