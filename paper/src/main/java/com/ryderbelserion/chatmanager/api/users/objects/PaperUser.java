@@ -1,41 +1,45 @@
 package com.ryderbelserion.chatmanager.api.users.objects;
 
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 import java.util.Locale;
 import java.util.UUID;
 
 public class PaperUser extends User {
 
-    private final Player player;
+    private final Audience audience;
+    private final UUID uniqueId;
+    private final String name;
 
-    public PaperUser(final Player player) {
-        this.player = player;
+    public PaperUser(final Audience audience, final UUID uniqueId, final String name) {
+        this.audience = audience;
+        this.uniqueId = uniqueId;
+        this.name = name;
     }
 
     @Override
-    public @NotNull final Component getDisplayName() {
-        return this.player.displayName();
+    public Component getDisplayName() {
+        return this.audience.getOrDefault(Identity.DISPLAY_NAME, Component.text(getName()));
     }
 
     @Override
-    public @NotNull final Player getAudience() {
-        return this.player;
+    public Locale getLocale() {
+        return this.audience.getOrDefault(Identity.LOCALE, Locale.ENGLISH);
     }
 
     @Override
-    public @NotNull final Locale getLocale() {
-        return this.player.locale();
+    public UUID getUUID() {
+        return this.uniqueId;
     }
 
     @Override
-    public @NotNull final String getName() {
-        return this.player.getName();
+    public String getName() {
+        return this.name;
     }
 
     @Override
-    public @NotNull final UUID getUUID() {
-        return this.player.getUniqueId();
+    public Audience getAudience() {
+        return this.audience;
     }
 }

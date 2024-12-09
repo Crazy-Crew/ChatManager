@@ -6,7 +6,6 @@ import com.ryderbelserion.vital.utils.Methods;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -20,14 +19,21 @@ public abstract class User {
 
     public abstract Audience getAudience();
 
-    public abstract @NotNull Locale getLocale();
+    public abstract Locale getLocale();
 
     public abstract String getName();
 
-    public abstract @NotNull UUID getUUID();
+    public abstract UUID getUUID();
 
     public BossBar bossBar = null;
 
+    /**
+     * Show the boss bar for {@link User}.
+     *
+     * @param title the title of the bossbar
+     * @param placeholders the placeholders to replace in the title
+     * @return {@link User}
+     */
     public final User showBossBar(final String title, final Map<String, String> placeholders) {
         if (title.isEmpty()) return this;
 
@@ -50,10 +56,21 @@ public abstract class User {
         return this;
     }
 
+    /**
+     * Show the boss bar for {@link User}.
+     *
+     * @param title the title of the bossbar
+     * @return {@link User}
+     */
     public final User showBossBar(final String title) {
         return showBossBar(title, new HashMap<>());
     }
 
+    /**
+     * Hide the boss bar for {@link User}.
+     *
+     * @return {@link User}
+     */
     public final User hideBossBar() {
         final Audience audience = getAudience();
 

@@ -2,10 +2,9 @@ package com.ryderbelserion.chatmanager.api.users;
 
 import com.ryderbelserion.chatmanager.ChatManagerPaper;
 import com.ryderbelserion.chatmanager.api.users.objects.PaperUser;
-import com.ryderbelserion.chatmanager.api.users.objects.User;
-import com.ryderbelserion.chatmanager.loader.ChatManagerPlugin;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.Server;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,13 +12,10 @@ import java.util.UUID;
 
 public class PaperUserManager extends UserManager {
 
-    private final ChatManagerPlugin plugin;
-
     private final Server server;
 
-    public PaperUserManager(ChatManagerPaper chatManager) {
-        this.plugin = chatManager.getPlugin();
-        this.server = this.plugin.getServer();
+    public PaperUserManager(ChatManagerPaper instance) {
+        this.server = instance.getPlugin().getServer();
     }
 
     private final Map<UUID, PaperUser> users = new HashMap<>();
@@ -30,12 +26,16 @@ public class PaperUserManager extends UserManager {
     }
 
     @Override
-    public @NotNull final User getUser(@NotNull final UUID uuid) {
+    public @NotNull final PaperUser getUser(@NotNull final UUID uuid) {
         return this.users.get(uuid);
     }
 
     @Override
     public void addUser(@NotNull final UUID uuid) {
-        this.users.putIfAbsent(uuid, new PaperUser(this.server.getPlayer(uuid)));
+        final Player player = this.server.getPlayer(uuid);
+
+        if (player == null) return;
+
+        this.users.putIfAbsent(uuid, new PaperUser(player, uuid, player.getName()));
     }
 }
