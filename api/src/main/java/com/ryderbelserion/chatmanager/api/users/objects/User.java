@@ -2,7 +2,7 @@ package com.ryderbelserion.chatmanager.api.users.objects;
 
 import com.ryderbelserion.chatmanager.ChatManagerProvider;
 import com.ryderbelserion.chatmanager.api.ChatManager;
-import com.ryderbelserion.vital.common.util.AdvUtil;
+import com.ryderbelserion.vital.utils.Methods;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
@@ -38,7 +38,7 @@ public abstract class User {
         BossBar bar = null;
 
         if (this.bossBar == null) {
-            final Component display = AdvUtil.parse(this.api.parse(audience, title, placeholders));
+            final Component display = Methods.parse(this.api.parse(audience, title, placeholders));
 
             this.bossBar = BossBar.bossBar(display, 0, BossBar.Color.PURPLE, BossBar.Overlay.NOTCHED_12);
         } else {

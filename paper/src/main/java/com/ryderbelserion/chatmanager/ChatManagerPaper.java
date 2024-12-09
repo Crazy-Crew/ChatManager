@@ -8,19 +8,14 @@ import com.ryderbelserion.chatmanager.commands.BaseCommand;
 import com.ryderbelserion.chatmanager.commands.subs.CommandReload;
 import com.ryderbelserion.chatmanager.common.managers.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.common.plugin.AbstractChatPlugin;
-import com.ryderbelserion.chatmanager.common.plugin.logger.AbstractLogger;
-import com.ryderbelserion.chatmanager.common.plugin.logger.PluginLogger;
 import com.ryderbelserion.chatmanager.listeners.chat.ChatListener;
 import com.ryderbelserion.chatmanager.loader.ChatManagerPlugin;
 import com.ryderbelserion.chatmanager.api.users.PaperUserManager;
-import com.ryderbelserion.chatmanager.utils.MiscUtils;
 import com.ryderbelserion.vital.paper.VitalPaper;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.identity.Identity;
 import org.bukkit.Server;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicePriority;
 import org.jetbrains.annotations.NotNull;
@@ -28,15 +23,12 @@ import java.io.File;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
 
 public class ChatManagerPaper extends AbstractChatPlugin {
 
     private PaperUserManager userManager;
 
     private final ChatManagerPlugin plugin;
-    private final PluginLogger logger;
     private final long startTime;
     private final Server server;
 
@@ -49,8 +41,6 @@ public class ChatManagerPaper extends AbstractChatPlugin {
 
         this.plugin = plugin;
         this.server = plugin.getServer();
-
-        this.logger = new AbstractLogger(this.plugin.getComponentLogger());
 
         this.configManager = new ConfigManager();
 
@@ -108,15 +98,7 @@ public class ChatManagerPaper extends AbstractChatPlugin {
 
     @Override
     public @NotNull final String parse(@NotNull final Audience audience, @NotNull final String value, @NotNull final Map<String, String> placeholders) {
-        @NotNull final Optional<UUID> uuid = audience.get(Identity.UUID);
-
-        if (uuid.isPresent()) {
-            final Player player = this.server.getPlayer(uuid.get());
-
-            return MiscUtils.populatePlaceholders(player, value, placeholders);
-        }
-
-        return "";
+        return this.vital.placeholders(audience, value, placeholders);
     }
 
     @Override
@@ -132,11 +114,6 @@ public class ChatManagerPaper extends AbstractChatPlugin {
     @Override
     public @NotNull final SettingsManager getLocale() {
         return this.configManager.getLocale();
-    }
-
-    @Override
-    public @NotNull final PluginLogger getLogger() {
-        return this.logger;
     }
 
     @Override

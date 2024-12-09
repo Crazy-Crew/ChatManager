@@ -6,8 +6,7 @@ import com.ryderbelserion.chatmanager.ChatManagerProvider;
 import com.ryderbelserion.chatmanager.api.ChatManager;
 import com.ryderbelserion.chatmanager.common.managers.configs.config.ConfigKeys;
 import com.ryderbelserion.chatmanager.common.managers.configs.locale.RootKeys;
-import com.ryderbelserion.vital.common.util.AdvUtil;
-import com.ryderbelserion.vital.common.util.StringUtil;
+import com.ryderbelserion.vital.utils.Methods;
 import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
@@ -98,7 +97,7 @@ public enum Messages {
 
         if (msg.isEmpty() || msg.isBlank()) return;
 
-        sender.sendActionBar(AdvUtil.parse(msg));
+        sender.sendActionBar(Methods.parse(msg));
     }
 
     public void sendActionBar(final Audience sender, final Map<String, String> placeholders) {
@@ -106,7 +105,7 @@ public enum Messages {
 
         if (msg.isEmpty() || msg.isBlank()) return;
 
-        sender.sendActionBar(AdvUtil.parse(msg));
+        sender.sendActionBar(Methods.parse(msg));
     }
 
     public void sendActionBar(final Audience sender) {
@@ -114,7 +113,7 @@ public enum Messages {
 
         if (msg.isEmpty() || msg.isBlank()) return;
 
-        sender.sendActionBar(AdvUtil.parse(msg));
+        sender.sendActionBar(Methods.parse(msg));
     }
 
     public void sendRichMessage(final Audience sender, final String placeholder, final String replacement) {
@@ -122,7 +121,7 @@ public enum Messages {
 
         if (msg.isEmpty() || msg.isBlank()) return;
 
-        sender.sendMessage(AdvUtil.parse(msg));
+        sender.sendMessage(Methods.parse(msg));
     }
 
     public void sendRichMessage(final Audience sender, final Map<String, String> placeholders) {
@@ -130,7 +129,7 @@ public enum Messages {
 
         if (msg.isEmpty() || msg.isBlank()) return;
 
-        sender.sendMessage(AdvUtil.parse(msg));
+        sender.sendMessage(Methods.parse(msg));
     }
 
     public void sendRichMessage(final Audience sender) {
@@ -138,24 +137,24 @@ public enum Messages {
 
         if (msg.isEmpty() || msg.isBlank()) return;
 
-        sender.sendMessage(AdvUtil.parse(msg));
+        sender.sendMessage(Methods.parse(msg));
     }
 
     public void migrate() {
         if (this.isList) {
-            this.messages.setProperty(this.properties, AdvUtil.convert(this.messages.getProperty(this.properties), true));
+            this.messages.setProperty(this.properties, Methods.convert(this.messages.getProperty(this.properties), true));
 
             return;
         }
 
-        this.messages.setProperty(this.property, AdvUtil.convert(this.messages.getProperty(this.property), true));
+        this.messages.setProperty(this.property, Methods.convert(this.messages.getProperty(this.property), true));
     }
 
     private @NotNull String parse(@NotNull final Audience sender, @NotNull final Map<String, String> placeholders) {
         String message;
 
         if (isList()) {
-            message = StringUtil.chomp(StringUtil.convertList(getList()));
+            message = Methods.convertList(getList());
         } else {
             message = getString();
         }

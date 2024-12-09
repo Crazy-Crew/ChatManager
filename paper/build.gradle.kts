@@ -14,7 +14,7 @@ repositories {
 dependencies {
     implementation(project(":common"))
 
-    implementation(libs.vital.paper)
+    compileOnly(libs.vital.paper)
 
     //compileOnly(libs.bundles.cloud.paper)
 
@@ -51,11 +51,12 @@ tasks {
         archiveBaseName.set(rootProject.name)
         archiveClassifier.set("")
 
-        listOf(
-            "com.ryderbelserion.vital"
+        /*listOf(
+            "com.ryderbelserion.vital",
+            "ch.jalu"
         ).forEach {
             relocate(it, "libs.$it")
-        }
+        }*/
     }
 
     processResources {

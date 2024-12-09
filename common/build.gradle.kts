@@ -1,9 +1,11 @@
 dependencies {
     compileOnly(libs.bundles.adventure)
 
-    compileOnly(libs.vital.common)
-
     compileOnly(libs.jetbrains)
+
+    compileOnly(libs.vital.api)
+
+    compileOnlyApi(libs.jalu)
 
     api(project(":api"))
 }

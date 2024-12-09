@@ -1,6 +1,6 @@
 package com.ryderbelserion.chatmanager.api.exceptions;
 
-import com.ryderbelserion.vital.common.util.StringUtil;
+import com.ryderbelserion.vital.utils.Methods;
 import java.util.List;
 
 public final class UnavailableException extends IllegalStateException {
@@ -15,6 +15,6 @@ public final class UnavailableException extends IllegalStateException {
     );
 
     public UnavailableException() {
-        super(StringUtil.convertList(message));
+        super(Methods.convertList(message));
     }
 }
