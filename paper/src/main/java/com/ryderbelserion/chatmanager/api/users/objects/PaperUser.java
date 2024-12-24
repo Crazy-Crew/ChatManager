@@ -9,13 +9,9 @@ import java.util.UUID;
 public class PaperUser extends User {
 
     private final Audience audience;
-    private final UUID uniqueId;
-    private final String name;
 
-    public PaperUser(final Audience audience, final UUID uniqueId, final String name) {
+    public PaperUser(final Audience audience) {
         this.audience = audience;
-        this.uniqueId = uniqueId;
-        this.name = name;
     }
 
     @Override
@@ -30,12 +26,12 @@ public class PaperUser extends User {
 
     @Override
     public UUID getUUID() {
-        return this.uniqueId;
+        return this.audience.getOrDefault(Identity.UUID, null);
     }
 
     @Override
     public String getName() {
-        return this.name;
+        return this.audience.getOrDefault(Identity.NAME, "N/A");
     }
 
     @Override

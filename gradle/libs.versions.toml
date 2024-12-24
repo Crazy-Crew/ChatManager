@@ -20,6 +20,7 @@ kyori-text = { module = "net.kyori:adventure-text-minimessage", version.ref = "a
 kyori-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 
 # Cloud API
+cloud-annotations = { module = "org.incendo:cloud-annotations", version.ref = "cloud-release" }
 cloud-extras = { module = "org.incendo:cloud-minecraft-extras", version.ref = "cloud-beta" }
 cloud-paper = { module = "org.incendo:cloud-paper", version.ref = "cloud-beta" }
 

@@ -2,7 +2,7 @@ package com.ryderbelserion.chatmanager.api.users.objects;
 
 import com.ryderbelserion.chatmanager.ChatManagerProvider;
 import com.ryderbelserion.chatmanager.api.ChatManager;
-import com.ryderbelserion.vital.utils.Methods;
+import com.ryderbelserion.util.Methods;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;

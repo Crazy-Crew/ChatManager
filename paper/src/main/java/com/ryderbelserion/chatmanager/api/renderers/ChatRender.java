@@ -1,6 +1,6 @@
 package com.ryderbelserion.chatmanager.api.renderers;
 
-import com.ryderbelserion.chatmanager.ChatManagerProvider;
+import com.ryderbelserion.FusionProvider;
 import io.papermc.paper.chat.ChatRenderer;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.chat.SignedMessage;
@@ -26,7 +26,7 @@ public class ChatRender implements ChatRenderer {
         this.renderedMessage = MiniMessage.builder()
                 .tags(TagResolver.builder().resolvers(resolvers).build())
                 .build()
-                .deserialize(ChatManagerProvider.get().parse(player, format, new HashMap<>() {{
+                .deserialize(FusionProvider.get().placeholders(player, format, new HashMap<>() {{
                     put("{player}", player.getName());
                     put("{message}", message.message());
                 }}));

@@ -2,11 +2,11 @@ package com.ryderbelserion.chatmanager.common.enums;
 
 import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.properties.Property;
-import com.ryderbelserion.chatmanager.ChatManagerProvider;
-import com.ryderbelserion.chatmanager.api.ChatManager;
+import com.ryderbelserion.FusionProvider;
+import com.ryderbelserion.chatmanager.common.managers.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.common.managers.configs.config.ConfigKeys;
 import com.ryderbelserion.chatmanager.common.managers.configs.locale.RootKeys;
-import com.ryderbelserion.vital.utils.Methods;
+import com.ryderbelserion.util.Methods;
 import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
@@ -31,11 +31,9 @@ public enum Messages {
         this.isList = isList;
     }
 
-    private final ChatManager plugin = ChatManagerProvider.get();
+    private final SettingsManager config = ConfigManager.getConfig();
 
-    private final SettingsManager config = this.plugin.getConfig();
-
-    private final SettingsManager messages = this.plugin.getLocale();
+    private final SettingsManager messages = ConfigManager.getLocale();
 
     private boolean isList() {
         return this.isList;
@@ -95,7 +93,7 @@ public enum Messages {
     public void sendActionBar(final Audience sender, final String placeholder, final String replacement) {
         final String msg = getMessage(sender, placeholder, replacement);
 
-        if (msg.isEmpty() || msg.isBlank()) return;
+        if (msg.isBlank()) return;
 
         sender.sendActionBar(Methods.parse(msg));
     }
@@ -103,7 +101,7 @@ public enum Messages {
     public void sendActionBar(final Audience sender, final Map<String, String> placeholders) {
         final String msg = getMessage(sender, placeholders);
 
-        if (msg.isEmpty() || msg.isBlank()) return;
+        if (msg.isBlank()) return;
 
         sender.sendActionBar(Methods.parse(msg));
     }
@@ -111,7 +109,7 @@ public enum Messages {
     public void sendActionBar(final Audience sender) {
         final String msg = getMessage(sender);
 
-        if (msg.isEmpty() || msg.isBlank()) return;
+        if (msg.isBlank()) return;
 
         sender.sendActionBar(Methods.parse(msg));
     }
@@ -119,7 +117,7 @@ public enum Messages {
     public void sendRichMessage(final Audience sender, final String placeholder, final String replacement) {
         final String msg = getMessage(sender, placeholder, replacement);
 
-        if (msg.isEmpty() || msg.isBlank()) return;
+        if (msg.isBlank()) return;
 
         sender.sendMessage(Methods.parse(msg));
     }
@@ -127,7 +125,7 @@ public enum Messages {
     public void sendRichMessage(final Audience sender, final Map<String, String> placeholders) {
         final String msg = getMessage(sender, placeholders);
 
-        if (msg.isEmpty() || msg.isBlank()) return;
+        if (msg.isBlank()) return;
 
         sender.sendMessage(Methods.parse(msg));
     }
@@ -135,7 +133,7 @@ public enum Messages {
     public void sendRichMessage(final Audience sender) {
         final String msg = getMessage(sender);
 
-        if (msg.isEmpty() || msg.isBlank()) return;
+        if (msg.isBlank()) return;
 
         sender.sendMessage(Methods.parse(msg));
     }
@@ -154,11 +152,11 @@ public enum Messages {
         String message;
 
         if (isList()) {
-            message = Methods.convertList(getList());
+            message = Methods.toString(getList());
         } else {
             message = getString();
         }
 
-        return this.plugin.parse(sender, message, placeholders);
+        return FusionProvider.get().placeholders(sender, message, placeholders);
     }
 }

@@ -36,6 +36,6 @@ public class PaperUserManager extends UserManager {
 
         if (player == null) return;
 
-        this.users.putIfAbsent(uuid, new PaperUser(player, uuid, player.getName()));
+        this.users.putIfAbsent(uuid, new PaperUser(player));
     }
 }

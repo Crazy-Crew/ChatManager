@@ -1,28 +1,19 @@
 package com.ryderbelserion.chatmanager;
 
-import ch.jalu.configme.SettingsManager;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.ryderbelserion.FusionApi;
 import com.ryderbelserion.chatmanager.api.ChatManager;
 import com.ryderbelserion.chatmanager.api.users.UserManager;
-import com.ryderbelserion.chatmanager.commands.BaseCommand;
-import com.ryderbelserion.chatmanager.commands.subs.CommandReload;
 import com.ryderbelserion.chatmanager.common.managers.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.common.plugin.AbstractChatPlugin;
 import com.ryderbelserion.chatmanager.listeners.chat.ChatListener;
 import com.ryderbelserion.chatmanager.loader.ChatManagerPlugin;
 import com.ryderbelserion.chatmanager.api.users.PaperUserManager;
-import com.ryderbelserion.vital.paper.VitalPaper;
-import io.papermc.paper.command.brigadier.CommandSourceStack;
-import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
-import net.kyori.adventure.audience.Audience;
 import org.bukkit.Server;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicePriority;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class ChatManagerPaper extends AbstractChatPlugin {
 
@@ -32,24 +23,20 @@ public class ChatManagerPaper extends AbstractChatPlugin {
     private final long startTime;
     private final Server server;
 
-    private final ConfigManager configManager;
-
-    private final VitalPaper vital;
+    private final FusionApi fusionApi = FusionApi.get();
 
     public ChatManagerPaper(final ChatManagerPlugin plugin) {
-        this.startTime = System.nanoTime(); // measure start time
+        this.startTime = System.nanoTime();
 
         this.plugin = plugin;
         this.server = plugin.getServer();
-
-        this.configManager = new ConfigManager();
-
-        this.vital = new VitalPaper(this.plugin);
     }
 
     @Override
     public void onLoad() {
-        this.configManager.load(getDataFolder());
+        this.fusionApi.enable(this.plugin);
+
+        ConfigManager.load();
     }
 
     @Override
@@ -63,8 +50,8 @@ public class ChatManagerPaper extends AbstractChatPlugin {
 
     @Override
     public void onDisable() {
-        if (this.vital != null) {
-            this.vital.stop();
+        if (this.fusionApi != null) {
+            this.fusionApi.disable();
         }
 
         this.server.getGlobalRegionScheduler().cancelTasks(this.plugin);
@@ -80,12 +67,12 @@ public class ChatManagerPaper extends AbstractChatPlugin {
     protected void registerListeners() {
         final PluginManager pluginManager = this.server.getPluginManager();
 
-        pluginManager.registerEvents(new ChatListener(this), this.plugin);
+        pluginManager.registerEvents(new ChatListener(), this.plugin);
     }
 
     @Override
     protected void registerCommands() {
-        this.plugin.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> { //todo consider cloud framework 2.0, instead of doing all this.
+        /*this.plugin.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             LiteralArgumentBuilder<CommandSourceStack> root = new BaseCommand(this).registerPermission().literal().createBuilder();
 
             List.of(
@@ -93,32 +80,12 @@ public class ChatManagerPaper extends AbstractChatPlugin {
             ).forEach(command -> root.then(command.registerPermission().literal()));
 
             event.registrar().register(root.build(), "the base command for ChatManager");
-        });
-    }
-
-    @Override
-    public @NotNull final String parse(@NotNull final Audience audience, @NotNull final String value, @NotNull final Map<String, String> placeholders) {
-        return this.vital.placeholders(audience, value, placeholders);
+        });*/
     }
 
     @Override
     public @NotNull final UserManager getUserManager() {
         return this.userManager;
-    }
-
-    @Override
-    public @NotNull final SettingsManager getConfig() {
-        return this.configManager.getConfig();
-    }
-
-    @Override
-    public @NotNull final SettingsManager getLocale() {
-        return this.configManager.getLocale();
-    }
-
-    @Override
-    public @NotNull final SettingsManager getChat() {
-        return this.configManager.getChat();
     }
 
     @Override
@@ -128,13 +95,5 @@ public class ChatManagerPaper extends AbstractChatPlugin {
 
     public @NotNull final ChatManagerPlugin getPlugin() {
         return this.plugin;
-    }
-
-    public @NotNull final ConfigManager getConfigManager() {
-        return this.configManager;
-    }
-
-    public @NotNull final VitalPaper getVital() {
-        return this.vital;
     }
 }

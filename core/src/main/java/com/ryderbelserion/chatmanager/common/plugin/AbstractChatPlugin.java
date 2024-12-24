@@ -1,8 +1,8 @@
 package com.ryderbelserion.chatmanager.common.plugin;
 
+import com.ryderbelserion.FusionProvider;
 import com.ryderbelserion.chatmanager.ChatManagerProvider;
 import com.ryderbelserion.chatmanager.api.ChatManager;
-import com.ryderbelserion.vital.VitalProvider;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 
 public abstract class AbstractChatPlugin implements ChatManager {
@@ -30,6 +30,6 @@ public abstract class AbstractChatPlugin implements ChatManager {
     protected abstract void registerCommands();
 
     protected ComponentLogger getLogger() {
-        return VitalProvider.get().getLogger();
+        return FusionProvider.get().getLogger();
     }
 }

@@ -12,22 +12,11 @@ public class ChatManagerLoader implements PluginLoader {
 
     @Override
     public void classloader(@NotNull PluginClasspathBuilder classpathBuilder) {
-        //classpathBuilder.addLibrary(new JarLibrary(Path.of("dependency.jar")));
-
         MavenLibraryResolver resolver = new MavenLibraryResolver();
-
-        //final String incendo_version = "2.0.0-beta.10";
-
-        //resolver.addDependency(new Dependency(new DefaultArtifact("org.incendo:cloud-minecraft-extras:" + incendo_version), null));
-        //resolver.addDependency(new Dependency(new DefaultArtifact("org.incendo:cloud-paper:" + incendo_version), null));
-
-        resolver.addDependency(new Dependency(new DefaultArtifact("com.ryderbelserion.vital:paper:0.2.0"), null));
 
         resolver.addDependency(new Dependency(new DefaultArtifact("ch.jalu:configme:1.4.1"), null));
 
         resolver.addRepository(new RemoteRepository.Builder("paper", "default", "https://repo.papermc.io/repository/maven-public").build());
-
-        resolver.addRepository(new RemoteRepository.Builder("ryderbelserion", "default", "https://repo.ryderbelserion.com/releases").build());
 
         classpathBuilder.addLibrary(resolver);
     }

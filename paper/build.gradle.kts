@@ -14,7 +14,9 @@ dependencies {
 
     implementation(libs.fusion.paper)
 
-    //compileOnly(libs.bundles.cloud.paper)
+    compileOnly(libs.bundles.cloud.paper)
+
+    compileOnly(libs.cloud.annotations)
 
     compileOnly(libs.bundles.shared) {
         exclude("org.spigotmc", "spigot-api")
