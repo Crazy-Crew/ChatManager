@@ -1,9 +1,13 @@
+plugins {
+    id("chatmanager.base")
+}
+
 dependencies {
     compileOnly(libs.bundles.adventure)
 
-    compileOnly(libs.jetbrains)
+    compileOnly(libs.fusion.core)
 
-    compileOnly(libs.vital.api)
+    compileOnly(libs.jetbrains)
 
     compileOnlyApi(libs.jalu)
 

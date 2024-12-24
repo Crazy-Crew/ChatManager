@@ -1,20 +1,18 @@
 plugins {
+    id("chatmanager.base")
+
     alias(libs.plugins.runPaper)
     alias(libs.plugins.shadow)
 }
 
 repositories {
-    maven("https://papermc.io/repo/repository/maven-public/")
-
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-
-    maven("https://repo.essentialsx.net/releases")
 }
 
 dependencies {
-    implementation(project(":common"))
+    implementation(project(":core"))
 
-    compileOnly(libs.vital.paper)
+    implementation(libs.fusion.paper)
 
     //compileOnly(libs.bundles.cloud.paper)
 
