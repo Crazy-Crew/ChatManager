@@ -1,2 +1,3 @@
-- Fixed an issue with Essentials Support throwing an NPE with /message
-- Updated to 1.21.4
+- Fixed an issue with Essentials Support throwing an NPE with /message.
+- Only send a message if the message isn't blank/empty.
+- Updated to 1.21.4.

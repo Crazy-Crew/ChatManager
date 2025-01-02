@@ -212,11 +212,19 @@ public enum Messages {
     }
 
     public void sendMessage(final CommandSender sender, final String placeholder, final String replacement) {
-        sender.sendMessage(getMessage(sender, placeholder, replacement));
+        final String message = getMessage(sender, placeholder, replacement);
+
+        if (message.isBlank()) return;
+
+        sender.sendMessage(message);
     }
 
     public void sendMessage(final CommandSender sender, final Map<String, String> placeholders) {
-        sender.sendMessage(getMessage(sender, placeholders));
+        final String message = getMessage(sender, placeholders);
+
+        if (message.isBlank()) return;
+
+        sender.sendMessage(message);
     }
 
     public void sendMessage(final CommandSender sender) {
