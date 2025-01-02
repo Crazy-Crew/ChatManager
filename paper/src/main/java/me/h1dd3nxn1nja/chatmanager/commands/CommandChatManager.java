@@ -49,7 +49,7 @@ public class CommandChatManager implements CommandExecutor {
 							}
 						}
 
-						this.plugin.getFileManager().init();
+						this.plugin.getFileManager().reloadFiles().init();
 
 						Files.CONFIG.reload();
 						Files.MESSAGES.reload();
