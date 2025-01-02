@@ -1,2 +1,2 @@
-### Fixes:
-- Used the correct player for receiving a message with /message
+- Fixed an issue with Essentials Support throwing an NPE with /message
+- Updated to 1.21.4
