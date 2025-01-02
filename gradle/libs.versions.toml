@@ -18,7 +18,10 @@ essentials = { group = "net.essentialsx", name = "EssentialsX", version.ref = "e
 fusion-paper = { module = "com.ryderbelserion.fusion:fusion-paper", version.ref = "fusion" }
 fusion-core = { module = "com.ryderbelserion.fusion:fusion-core", version.ref = "fusion" }
 
-vault-unlocked = { group = "net.milkbowl.vault", name = "VaultUnlockedAPI", version.ref = "unlocked" }
+# bStats API
+metrics = { module = "org.bstats:bstats-bukkit", version.ref = "bStats" }
+
+# Vault API
 vault = { group = "com.github.MilkBowl", name = "VaultAPI", version.ref = "vault" }
 
 [versions]
@@ -42,6 +45,8 @@ essentials = "2.20.1"
 # Fusion API
 fusion = "0.6.1"
 
+# bStats API
+bStats = "3.1.0"
+
 # Vault API
-unlocked = "2.9"
 vault = "1.7.1"

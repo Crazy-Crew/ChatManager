@@ -16,7 +16,11 @@ repositories {
 dependencies {
     implementation(libs.fusion.paper)
 
-    compileOnly(libs.placeholder.api)
+    implementation(libs.metrics)
+
+    compileOnly(libs.placeholder.api) {
+        exclude("org.bstats", "bstats-bukkit")
+    }
 
     compileOnly(libs.vault) {
         exclude("org.bukkit", "bukkit")
@@ -55,7 +59,8 @@ tasks {
         archiveClassifier.set("")
 
         listOf(
-            "com.ryderbelserion.fusion"
+            "com.ryderbelserion.fusion",
+            "org.bstats"
         ).forEach {
             relocate(it, "libs.$it")
         }

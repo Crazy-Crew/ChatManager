@@ -1,9 +1,9 @@
 package com.ryderbelserion.chatmanager.api;
 
 import com.ryderbelserion.chatmanager.enums.Files;
-import me.clip.placeholderapi.metrics.bukkit.Metrics;
-import me.clip.placeholderapi.metrics.charts.SimplePie;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class CustomMetrics {
