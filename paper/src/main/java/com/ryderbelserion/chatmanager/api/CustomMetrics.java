@@ -1,15 +1,19 @@
 package com.ryderbelserion.chatmanager.api;
 
 import com.ryderbelserion.chatmanager.enums.Files;
-import com.ryderbelserion.vital.paper.api.bStats;
+import me.clip.placeholderapi.metrics.bukkit.Metrics;
+import me.clip.placeholderapi.metrics.charts.SimplePie;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
-public class CustomMetrics extends bStats {
+public class CustomMetrics {
+
+    private final ChatManager plugin = ChatManager.get();
+
+    private final Metrics metrics;
 
     public CustomMetrics() {
-        super(JavaPlugin.getPlugin(ChatManager.class), 3291);
+        this.metrics = new Metrics(this.plugin, 3291);
     }
 
     public void start() {
@@ -20,5 +24,13 @@ public class CustomMetrics extends bStats {
         addCustomChart(new SimplePie("chat_radius", () -> config.getString("Chat_Radius.Enable")));
 
         addCustomChart(new SimplePie("per_world_chat", () -> config.getString("Per_World_Chat.Enable")));
+    }
+
+    public void addCustomChart(final SimplePie pie) {
+        this.metrics.addCustomChart(pie);
+    }
+
+    public void close() {
+        this.metrics.shutdown();
     }
 }

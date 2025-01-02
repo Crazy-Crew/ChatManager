@@ -1,4 +1,6 @@
 plugins {
+    id("chat.base")
+
     alias(libs.plugins.minotaur)
     alias(libs.plugins.hangar)
 }

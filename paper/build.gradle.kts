@@ -1,4 +1,6 @@
 plugins {
+    id("chat.base")
+
     alias(libs.plugins.runPaper)
     alias(libs.plugins.shadow)
 }
@@ -12,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.vital.paper)
+    implementation(libs.fusion.paper)
 
     compileOnly(libs.placeholder.api)
 
@@ -53,7 +55,7 @@ tasks {
         archiveClassifier.set("")
 
         listOf(
-            "com.ryderbelserion.vital"
+            "com.ryderbelserion.fusion"
         ).forEach {
             relocate(it, "libs.$it")
         }

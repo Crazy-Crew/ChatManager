@@ -1,6 +1,6 @@
 package com.ryderbelserion.chatmanager.plugins;
 
-import com.ryderbelserion.vital.common.api.interfaces.IPlugin;
+import com.ryderbelserion.core.api.support.interfaces.Plugin;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
@@ -9,7 +9,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public class VaultSupport implements IPlugin {
+public class VaultSupport implements Plugin {
 
     private static final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
@@ -22,13 +22,15 @@ public class VaultSupport implements IPlugin {
     private static Chat chat;
 
     @Override
-    public void init() {
+    public Plugin init() {
         if (!isEnabled()) {
-            return;
+            return this;
         }
 
         setupChat();
         setupPermissions();
+
+        return this;
     }
 
     @Override

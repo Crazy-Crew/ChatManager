@@ -2,9 +2,10 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import com.ryderbelserion.vital.common.api.interfaces.IPlugin;
-import com.ryderbelserion.vital.common.api.managers.PluginManager;
-import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
+import com.ryderbelserion.core.api.support.PluginManager;
+import com.ryderbelserion.core.api.support.interfaces.Plugin;
+import com.ryderbelserion.paper.enums.Scheduler;
+import com.ryderbelserion.paper.util.scheduler.FoliaScheduler;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -28,7 +29,7 @@ public class ListenerPlayerJoin implements Listener {
         if (player.hasPlayedBefore()) return;
 
         if (PluginManager.isEnabled("GenericVanish")) {
-            final IPlugin plugin = PluginManager.getPlugin("GenericVanish");
+            final Plugin plugin = PluginManager.getPlugin("GenericVanish");
 
             if (plugin != null && plugin.isVanished(player.getUniqueId())) {
                 return;
@@ -71,7 +72,7 @@ public class ListenerPlayerJoin implements Listener {
         if (!player.hasPlayedBefore()) return;
 
         if (PluginManager.isEnabled("GenericVanish")) {
-            final IPlugin plugin = PluginManager.getPlugin("GenericVanish");
+            final Plugin plugin = PluginManager.getPlugin("GenericVanish");
 
             if (plugin != null && plugin.isVanished(player.getUniqueId())) {
                 return;
@@ -91,12 +92,12 @@ public class ListenerPlayerJoin implements Listener {
                 if (event.getJoinMessage() != null) {
                     event.setJoinMessage(null);
 
-                    new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
+                    new FoliaScheduler(Scheduler.async_scheduler) {
                         @Override
                         public void run() {
                             plugin.getServer().broadcastMessage(Methods.placeholders(false, player, Methods.color(message)));
                         }
-                    }.run(this.plugin);
+                    }.run();
                 }
             } else {
                 event.setJoinMessage(Methods.placeholders(false, player, Methods.color(message)));
@@ -140,12 +141,12 @@ public class ListenerPlayerJoin implements Listener {
                             if (event.getJoinMessage() != null) {
                                 event.setJoinMessage(null);
 
-                                new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
+                                new FoliaScheduler(Scheduler.async_scheduler) {
                                     @Override
                                     public void run() {
                                         plugin.getServer().broadcastMessage(Methods.placeholders(false, player, Methods.color(joinMessage)));
                                     }
-                                }.run(this.plugin);
+                                }.run();
                             }
                         } else {
                             event.setJoinMessage(Methods.placeholders(false, player, Methods.color(joinMessage)));
@@ -181,7 +182,7 @@ public class ListenerPlayerJoin implements Listener {
         Player player = event.getPlayer();
 
         if (PluginManager.isEnabled("GenericVanish")) {
-            final IPlugin plugin = PluginManager.getPlugin("GenericVanish");
+            final Plugin plugin = PluginManager.getPlugin("GenericVanish");
 
             if (plugin != null && plugin.isVanished(player.getUniqueId())) {
                 return;
@@ -251,14 +252,14 @@ public class ListenerPlayerJoin implements Listener {
         }
 
         if (config.getBoolean("MOTD.Enable", false)) {
-            new FoliaRunnable(this.plugin.getServer().getGlobalRegionScheduler()) {
+            new FoliaScheduler(Scheduler.global_scheduler) {
                 @Override
                 public void run() {
                     for (String motd : config.getStringList("MOTD.Message")) {
                         Methods.sendMessage(player, motd, false);
                     }
                 }
-            }.runDelayed(this.plugin, 20L * delay);
+            }.runDelayed(20L * delay);
         }
     }
 }

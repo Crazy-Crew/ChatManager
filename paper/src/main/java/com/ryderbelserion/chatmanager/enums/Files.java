@@ -1,6 +1,7 @@
 package com.ryderbelserion.chatmanager.enums;
 
-import com.ryderbelserion.vital.paper.api.files.FileManager;
+import com.ryderbelserion.core.api.enums.FileType;
+import com.ryderbelserion.paper.files.FileManager;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -38,7 +39,7 @@ public enum Files {
     }
 
     public final YamlConfiguration getConfiguration() {
-        return this.fileManager.getFile(this.fileName).getConfiguration();
+        return this.fileManager.getFile(this.fileName, FileType.YAML).getConfiguration();
     }
 
     public void save() {

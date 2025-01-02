@@ -2,7 +2,8 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
-import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
+import com.ryderbelserion.paper.enums.Scheduler;
+import com.ryderbelserion.paper.util.scheduler.FoliaScheduler;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -102,7 +103,7 @@ public class ListenerAntiAdvertising implements Listener {
 				String command = config.getString("Anti_Advertising.Chat.Executed_Command").replace("{player}", player.getName());
 				List<String> commands = config.getStringList("Anti_Advertising.Chat.Executed_Command");
 
-				new FoliaRunnable(this.plugin.getServer().getGlobalRegionScheduler()) {
+				new FoliaScheduler(Scheduler.global_scheduler) {
 					@Override
 					public void run() {
 						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
@@ -111,7 +112,7 @@ public class ListenerAntiAdvertising implements Listener {
 							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 						}
 					}
-				}.run(this.plugin);
+				}.run();
 			}
 		}
 
@@ -205,7 +206,7 @@ public class ListenerAntiAdvertising implements Listener {
 				String command = config.getString("Anti_Advertising.Commands.Executed_Command").replace("{player}", player.getName());
 				List<String> commands = config.getStringList("Anti_Advertising.Commands.Executed_Command");
 
-				new FoliaRunnable(this.plugin.getServer().getGlobalRegionScheduler()) {
+				new FoliaScheduler(Scheduler.global_scheduler) {
 					@Override
 					public void run() {
 						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
@@ -214,7 +215,7 @@ public class ListenerAntiAdvertising implements Listener {
 							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 						}
 					}
-				}.run(this.plugin);
+				}.run();
 			}
 		}
 
@@ -309,7 +310,7 @@ public class ListenerAntiAdvertising implements Listener {
 				String command = config.getString("Anti_Advertising.Signs.Executed_Command").replace("{player}", player.getName());
 				List<String> commands = config.getStringList("Anti_Advertising.Signs.Executed_Command");
 
-				new FoliaRunnable(this.plugin.getServer().getGlobalRegionScheduler()) {
+				new FoliaScheduler(Scheduler.global_scheduler) {
 					@Override
 					public void run() {
 						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
@@ -318,7 +319,7 @@ public class ListenerAntiAdvertising implements Listener {
 							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 						}
 					}
-				}.run(this.plugin);
+				}.run();
 			}
 		}
 

@@ -4,7 +4,7 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.ryderbelserion.chatmanager.enums.Files;
-import com.ryderbelserion.vital.common.api.managers.PluginManager;
+import com.ryderbelserion.core.api.support.PluginManager;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;

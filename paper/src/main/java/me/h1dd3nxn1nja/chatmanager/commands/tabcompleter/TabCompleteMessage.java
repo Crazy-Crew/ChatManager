@@ -1,7 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.commands.tabcompleter;
 
-import com.ryderbelserion.vital.common.api.interfaces.IPlugin;
-import com.ryderbelserion.vital.common.api.managers.PluginManager;
+import com.ryderbelserion.core.api.support.PluginManager;
+import com.ryderbelserion.core.api.support.interfaces.Plugin;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.support.PluginHandler;
@@ -44,7 +44,7 @@ public class TabCompleteMessage implements TabCompleter {
             if (!hasPermission && PluginSupport.ESSENTIALS.isPluginEnabled() && this.essentialsSupport.isIgnored(player3.getUniqueId(), player2.getUniqueId())) continue;
 
             if (!hasPermission2) {
-				final IPlugin genericVanish = PluginManager.getPlugin("GenericVanish");
+				final Plugin genericVanish = PluginManager.getPlugin("GenericVanish");
 
                 if (genericVanish != null && genericVanish.isEnabled() && genericVanish.isVanished(player3.getUniqueId())) {
                     continue;

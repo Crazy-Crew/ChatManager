@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.UUID;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
-import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
+import com.ryderbelserion.paper.enums.Scheduler;
+import com.ryderbelserion.paper.util.scheduler.FoliaScheduler;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -77,7 +78,7 @@ public class ListenerAntiSpam implements Listener {
 
 		this.plugin.api().getChatCooldowns().addUser(uuid, delay);
 
-		this.plugin.api().getCooldownTask().addUser(uuid, new FoliaRunnable(this.plugin.getServer().getRegionScheduler(), player.getLocation()) {
+		this.plugin.api().getCooldownTask().addUser(uuid, new FoliaScheduler(player.getLocation()) {
 
 			@Override
 			public void run() {
@@ -92,7 +93,7 @@ public class ListenerAntiSpam implements Listener {
 					cancel();
 				}
 			}
-		}.runAtFixedRate(this.plugin, 20L, 20L));
+		}.runAtFixedRate(20L, 20L));
 	}
 
 	@EventHandler(ignoreCancelled = true)
@@ -147,7 +148,7 @@ public class ListenerAntiSpam implements Listener {
 
 					this.plugin.api().getCmdCooldowns().addUser(uuid, delay);
 
-					this.plugin.api().getCooldownTask().addUser(uuid, new FoliaRunnable(this.plugin.getServer().getRegionScheduler(), player.getLocation()) {
+					this.plugin.api().getCooldownTask().addUser(uuid, new FoliaScheduler(player.getLocation()) {
 
 						@Override
 						public void run() {
@@ -162,7 +163,7 @@ public class ListenerAntiSpam implements Listener {
 								cancel();
 							}
 						}
-					}.runAtFixedRate(this.plugin, 20L, 20L));
+					}.runAtFixedRate(20L, 20L));
 				}
 			}
 		}

@@ -1,11 +1,11 @@
 package com.ryderbelserion.chatmanager.plugins.papi;
 
-import com.ryderbelserion.vital.common.api.interfaces.IPlugin;
+import com.ryderbelserion.core.api.support.interfaces.Plugin;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public class PlaceholderAPISupport implements IPlugin {
+public class PlaceholderAPISupport implements Plugin {
 
     private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
@@ -17,11 +17,13 @@ public class PlaceholderAPISupport implements IPlugin {
     private PlaceholderAPIExpansion expansion;
 
     @Override
-    public void init() {
+    public Plugin init() {
         if (isEnabled()) {
             this.expansion = new PlaceholderAPIExpansion();
             this.expansion.register();
         }
+
+        return this;
     }
 
     @Override

@@ -6,8 +6,10 @@ import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.plugins.papi.PlaceholderAPISupport;
 import com.ryderbelserion.chatmanager.plugins.VanishSupport;
 import com.ryderbelserion.chatmanager.plugins.VaultSupport;
-import com.ryderbelserion.vital.common.api.managers.PluginManager;
-import com.ryderbelserion.vital.paper.Vital;
+import com.ryderbelserion.core.api.enums.FileType;
+import com.ryderbelserion.core.api.support.PluginManager;
+import com.ryderbelserion.paper.FusionApi;
+import com.ryderbelserion.paper.files.FileManager;
 import me.h1dd3nxn1nja.chatmanager.commands.*;
 import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.*;
 import com.ryderbelserion.chatmanager.enums.Permissions;
@@ -25,24 +27,28 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Arrays;
 import java.util.List;
 
-public class ChatManager extends Vital {
+public class ChatManager extends JavaPlugin {
 
     public static ChatManager get() {
         return JavaPlugin.getPlugin(ChatManager.class);
     }
 
+    private final FusionApi fusion = FusionApi.get();
+
     private ApiLoader api;
 
     private PluginHandler pluginHandler;
 
+    @Override
     public void onEnable() {
-        getFileManager().addFile("config.yml")
+        this.fusion.enable(this);
+
+        this.fusion.getFileManager().addFile("config.yml")
                 .addFile("Messages.yml")
                 .addFile("bannedwords.yml")
                 .addFile("AutoBroadcast.yml")
                 .addFile("bannedcommands.yml")
-                .addFolder("Logs")
-                .init();
+                .addFolder("Logs", FileType.NONE);
 
         List.of(
                 new VaultSupport(),
@@ -70,6 +76,7 @@ public class ChatManager extends Vital {
         registerPermissions();
     }
 
+    @Override
     public void onDisable() {
         getServer().getGlobalRegionScheduler().cancelTasks(this);
         getServer().getAsyncScheduler().cancelTasks(this);
@@ -171,6 +178,7 @@ public class ChatManager extends Vital {
 
     public void setupChatRadius() {
         FileConfiguration config = Files.CONFIG.getConfiguration();
+
         if (config.getBoolean("Chat_Radius.Enable")) {
             for (Player all : getServer().getOnlinePlayers()) {
                 if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Local")) {
@@ -212,5 +220,9 @@ public class ChatManager extends Vital {
 
             getServer().getPluginManager().addPermission(newPermission);
         });
+    }
+
+    public FileManager getFileManager() {
+        return this.fusion.getFileManager();
     }
 }

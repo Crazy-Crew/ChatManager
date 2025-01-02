@@ -3,7 +3,8 @@ package me.h1dd3nxn1nja.chatmanager.managers;
 import java.util.ArrayList;
 import java.util.List;
 import com.ryderbelserion.chatmanager.enums.Files;
-import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
+import com.ryderbelserion.paper.enums.Scheduler;
+import com.ryderbelserion.paper.util.scheduler.FoliaScheduler;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -24,7 +25,7 @@ public class AutoBroadcastManager {
 		int interval = autobroadcast.getInt("Auto_Broadcast.Global_Messages.Interval", 30);
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Global_Messages.Messages");
 
-		new FoliaRunnable(plugin.getServer().getGlobalRegionScheduler()) {
+		new FoliaScheduler(Scheduler.global_scheduler) {
 			int line = 0;
 
 			@Override
@@ -47,7 +48,7 @@ public class AutoBroadcastManager {
 
 				if (line >= messages.size()) line = 0;
 			}
-		}.runAtFixedRate(plugin, 0L, 20L * interval);
+		}.runAtFixedRate(0L, 20L * interval);
 	}
 	
 	public static void perWorldMessages() {
@@ -64,7 +65,7 @@ public class AutoBroadcastManager {
 			worlds.add(w);
 		}
 
-		new FoliaRunnable(plugin.getServer().getGlobalRegionScheduler()) {
+		new FoliaScheduler(Scheduler.global_scheduler) {
 
 			@Override
 			public void run() {
@@ -94,7 +95,7 @@ public class AutoBroadcastManager {
 					}
 				}
 			}
-		}.runAtFixedRate(plugin, 0L, 20L * interval);
+		}.runAtFixedRate(0L, 20L * interval);
 	}
 	
 	public static void actionbarMessages() {
@@ -104,7 +105,7 @@ public class AutoBroadcastManager {
 		int interval = autobroadcast.getInt("Auto_Broadcast.Actionbar_Messages.Interval", 60);
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Actionbar_Messages.Messages");
 
-		new FoliaRunnable(plugin.getServer().getGlobalRegionScheduler()) {
+		new FoliaScheduler(Scheduler.global_scheduler) {
 			int line = 0;
 
 			@Override
@@ -121,7 +122,7 @@ public class AutoBroadcastManager {
 
 				if (line >= messages.size() ) line = 0;
 			}
-		}.runAtFixedRate(plugin, 0L, 20L * interval);
+		}.runAtFixedRate(0L, 20L * interval);
 	}
 	
 	public static void titleMessages() {
@@ -130,7 +131,7 @@ public class AutoBroadcastManager {
 		int interval = autobroadcast.getInt("Auto_Broadcast.Title_Messages.Interval", 60);
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Title_Messages.Messages");
 
-		new FoliaRunnable(plugin.getServer().getGlobalRegionScheduler()) {
+		new FoliaScheduler(Scheduler.global_scheduler) {
 			int line = 0;
 
 			@Override
@@ -149,7 +150,7 @@ public class AutoBroadcastManager {
 
 				if (line >= messages.size() ) line = 0;
 			}
-		}.runAtFixedRate(plugin, 0L, 20L * interval);
+		}.runAtFixedRate(0L, 20L * interval);
 	}
 	
 	public static void bossBarMessages() {
@@ -159,7 +160,7 @@ public class AutoBroadcastManager {
 		int time = autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Bar_Time", 10);
 		List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Bossbar_Messages.Messages");
 
-		new FoliaRunnable(plugin.getServer().getGlobalRegionScheduler()) {
+		new FoliaScheduler(Scheduler.global_scheduler) {
 			int line = 0;
 
 			@Override
@@ -183,7 +184,7 @@ public class AutoBroadcastManager {
 
 				if (line >= messages.size() ) line = 0;
 			}
-		}.runAtFixedRate(plugin, 0L, 20L * interval);
+		}.runAtFixedRate(0L, 20L * interval);
 	}
 	
 	private static List<World> getWorld() {

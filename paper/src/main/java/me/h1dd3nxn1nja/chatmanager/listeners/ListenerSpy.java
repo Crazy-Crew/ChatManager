@@ -21,7 +21,7 @@ public class ListenerSpy implements Listener {
 	@EventHandler(ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
-		FileConfiguration messages = Files.MESSAGES.getConfiguration();
+		//FileConfiguration messages = Files.MESSAGES.getConfiguration();
 
 		List<String> blacklist = config.getStringList("Command_Spy.Blacklist_Commands");
 

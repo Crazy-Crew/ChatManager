@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
+
+import com.ryderbelserion.paper.enums.Scheduler;
+import com.ryderbelserion.paper.util.scheduler.FoliaScheduler;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
@@ -148,12 +150,12 @@ public class BossBarUtil {
 
 		playerBars.put(player.getUniqueId(), this);
 
-		new FoliaRunnable(this.plugin.getServer().getGlobalRegionScheduler()) {
+		new FoliaScheduler(Scheduler.global_scheduler) {
 			@Override
 			public void run() {
 				if (playerBars.containsKey(player.getUniqueId())) playerBars.get(player.getUniqueId()).bar.removePlayer(player);
 			}
-		}.runDelayed(this.plugin, 20L * time);
+		}.runDelayed(20L * time);
 
 		return this;
 	}
@@ -184,7 +186,7 @@ public class BossBarUtil {
 
 		this.bossBars.put(player.getUniqueId(), bossBar);
 
-		new FoliaRunnable(this.plugin.getServer().getGlobalRegionScheduler()) {
+		new FoliaScheduler(Scheduler.global_scheduler) {
 			int i = 1;
 			int ticksRan = 0;
 
@@ -205,7 +207,7 @@ public class BossBarUtil {
 					bossBars.remove(player.getUniqueId());
 				}
 			}
-		}.runAtFixedRate(this.plugin, 1, 1);
+		}.runAtFixedRate(1, 1);
 
 		return this;
 	}

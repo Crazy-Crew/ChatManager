@@ -1,8 +1,8 @@
 package com.ryderbelserion.chatmanager.enums;
 
-import com.ryderbelserion.vital.paper.api.enums.Support;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -196,7 +196,7 @@ public enum Messages {
             message = message.replaceAll("\\{prefix}", Methods.getPrefix()).replaceAll( "\\{Prefix}", Methods.getPrefix());
 
             if (sender instanceof Player player) {
-                if (Support.placeholder_api.isEnabled()) {
+                if (PluginSupport.PLACEHOLDERAPI.isPluginEnabled()) {
                     message = PlaceholderAPI.setPlaceholders(player, message);
                 }
             }
