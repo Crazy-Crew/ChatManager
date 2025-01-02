@@ -2,8 +2,8 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.api.chat.UserRepliedData;
 import com.ryderbelserion.chatmanager.enums.Messages;
-import com.ryderbelserion.vital.common.api.interfaces.IPlugin;
-import com.ryderbelserion.vital.common.api.managers.PluginManager;
+import com.ryderbelserion.core.api.support.PluginManager;
+import com.ryderbelserion.core.api.support.interfaces.Plugin;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -180,7 +180,7 @@ public class CommandMessage implements CommandExecutor, TabCompleter {
 
 		if (essentialsCheck(player, target)) return true;
 
-		final IPlugin genericVanish = PluginManager.getPlugin("GenericVanish");
+		final Plugin genericVanish = PluginManager.getPlugin("GenericVanish");
 
         if (genericVanish != null && genericVanish.isEnabled() && genericVanish.isVanished(player.getUniqueId()) && !player.hasPermission(Permissions.BYPASS_VANISH.getNode())) {
             Messages.PLAYER_NOT_FOUND.sendMessage(player, "{target}", args[0]);
@@ -228,7 +228,7 @@ public class CommandMessage implements CommandExecutor, TabCompleter {
 	private final EssentialsSupport essentialsSupport = this.plugin.getPluginManager().getEssentialsSupport();
 
 	private boolean essentialsCheck(Player player, Player target) {
-		if (PluginSupport.ESSENTIALS.isPluginEnabled()) {
+		if (PluginSupport.ESSENTIALS.isPluginEnabled() && this.essentialsSupport != null) {
 			if (this.essentialsSupport.getUser(target.getUniqueId()).isAfk() && (!player.hasPermission(Permissions.BYPASS_AFK.getNode()))) {
 				Messages.PRIVATE_MESSAGE_AFK.sendMessage(player, "{target}", target.getName());
 
