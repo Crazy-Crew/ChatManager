@@ -43,11 +43,11 @@ public class ChatManager extends JavaPlugin {
     public void onEnable() {
         this.fusion.enable(this);
 
-        this.fusion.getFileManager().addFile("config.yml")
-                .addFile("Messages.yml")
-                .addFile("bannedwords.yml")
-                .addFile("AutoBroadcast.yml")
-                .addFile("bannedcommands.yml")
+        this.fusion.getFileManager().addFile("config.yml", FileType.YAML)
+                .addFile("Messages.yml", FileType.YAML)
+                .addFile("bannedwords.yml", FileType.YAML)
+                .addFile("AutoBroadcast.yml", FileType.YAML)
+                .addFile("bannedcommands.yml", FileType.YAML)
                 .addFolder("Logs", FileType.NONE);
 
         List.of(
