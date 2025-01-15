@@ -43,7 +43,7 @@ public class CommandSpy implements CommandExecutor {
 
 					return true;
 				} else {
-					Methods.sendMessage(player, "&cCommand Usage: &7/commandspy", true);
+					Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/commandspy");
 				}
 			} else {
 				Messages.NO_PERMISSION.sendMessage(player);
@@ -69,7 +69,7 @@ public class CommandSpy implements CommandExecutor {
 
 					return true;
 				} else {
-					Methods.sendMessage(player, "&cCommand Usage: &7/socialspy", true);
+					Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/socialspy");
 				}
 			} else {
 				Messages.NO_PERMISSION.sendMessage(player);

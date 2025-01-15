@@ -39,7 +39,7 @@ public class CommandClearChat implements CommandExecutor {
 						}
 					}
 				} else {
-					Methods.sendMessage(sender, "&cCommand Usage: &7/clearchat", true);
+					Messages.INVALID_USAGE.sendMessage(sender, "{usage}", "/clearchat");
 				}
 			} else {
 				Messages.NO_PERMISSION.sendMessage(sender);

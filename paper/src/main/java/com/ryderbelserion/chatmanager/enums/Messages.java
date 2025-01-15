@@ -18,6 +18,7 @@ public enum Messages {
     NO_PERMISSION("Message.No_Permission", "{prefix}&cYou don't have the permissions to do this."),
     PLAYER_NOT_FOUND("Message.Player-Not-Found", "{prefix}&7The player &c{target} &7cannot be found."),
     PLUGIN_RELOAD("Message.Reload", "{prefix}&aConfig has been reloaded."),
+    INVALID_USAGE("Message.Invalid_Usage", "{prefix}&cThis is not a valid usage of the command, Correct usage &e{usage}."),
 
     ANTI_ADVERTISING_CHAT_MESSAGE("Anti_Advertising.Chat.Message", "{prefix}&cAdvertising is not allowed in chat. Staff has been notified."),
     ANTI_ADVERTISING_CHAT_NOTIFY_STAFF("Anti_Advertising.Chat.Notify_Staff_Format", "&7[Anti-Advertise Chat] &f{player}: &7{message}"),

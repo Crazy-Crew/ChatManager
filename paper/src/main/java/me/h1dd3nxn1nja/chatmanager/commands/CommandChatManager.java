@@ -63,7 +63,7 @@ public class CommandChatManager implements CommandExecutor {
 
 						Messages.PLUGIN_RELOAD.sendMessage(sender);
 					} else {
-						Methods.sendMessage(sender, "&cCommand Usage: &7/chatmanager reload", true);
+						Messages.INVALID_USAGE.sendMessage(sender, "{usage}", "/chatmanager reload");
 					}
 				} else {
 					Messages.NO_PERMISSION.sendMessage(sender);
@@ -98,9 +98,8 @@ public class CommandChatManager implements CommandExecutor {
 
 							Debug.debugAutoBroadcast();
 							Debug.debugConfig();
-							Debug.debugMessages();
 						} else {
-							Methods.sendMessage(sender, "&cCommand Usage: &7/chatmanager debug all", true);
+							Messages.INVALID_USAGE.sendMessage(sender, "{usage}", "/chatmanager debug all");
 						}
 					} else {
 						Messages.NO_PERMISSION.sendMessage(sender);
@@ -114,7 +113,7 @@ public class CommandChatManager implements CommandExecutor {
 
 							Debug.debugAutoBroadcast();
 						} else {
-							Methods.sendMessage(sender, "&cCommand Usage: &7/chatmanager debug autobroadcast", true);
+							Messages.INVALID_USAGE.sendMessage(sender, "{usage}", "/chatmanager debug autobroadcast");
 						}
 					} else {
 						Messages.NO_PERMISSION.sendMessage(sender);
@@ -128,21 +127,7 @@ public class CommandChatManager implements CommandExecutor {
 
 							Debug.debugConfig();
 						} else {
-							Methods.sendMessage(sender, "&cCommand Usage: &7/chatmanager debug config", true);
-						}
-					} else {
-						Messages.NO_PERMISSION.sendMessage(sender);
-					}
-				}
-
-				if (args[1].equalsIgnoreCase("messages")) {
-					if (sender.hasPermission(Permissions.COMMAND_DEBUG.getNode())) {
-						if (args.length == 2) {
-							Methods.sendMessage(sender, "&7Debugging config, Please go to your console to see the debug log.", true);
-
-							Debug.debugMessages();
-						} else {
-							Methods.sendMessage(sender, "&cCommand Usage: &7/chatmanager debug messages", true);
+							Messages.INVALID_USAGE.sendMessage(sender, "{usage}", "/chatmanager debug config");
 						}
 					} else {
 						Messages.NO_PERMISSION.sendMessage(sender);

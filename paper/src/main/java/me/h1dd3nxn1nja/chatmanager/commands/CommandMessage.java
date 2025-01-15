@@ -50,7 +50,7 @@ public class CommandMessage implements CommandExecutor, TabCompleter {
 				}
 
 				if (args.length < 1) {
-					Methods.sendMessage(player, "&cCommand Usage: &7/message <player> <message>", true);
+					Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/message <player> <message>");
 
 					return true;
 				}
@@ -132,7 +132,7 @@ public class CommandMessage implements CommandExecutor, TabCompleter {
 
 					if (handleMessage(args, player, message, target)) return true;
 				} else {
-					Methods.sendMessage(player, "&cCommand Usage: &7/reply <message>", true);
+					Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/reply <message>");
 				}
 			} else {
 				Messages.NO_PERMISSION.sendMessage(player);
@@ -159,7 +159,7 @@ public class CommandMessage implements CommandExecutor, TabCompleter {
 
 					return true;
 				} else {
-					Methods.sendMessage(player, "&cCommand Usage: &7/togglepm", true);
+					Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/togglepm");
 				}
 			} else {
 				Messages.NO_PERMISSION.sendMessage(player);

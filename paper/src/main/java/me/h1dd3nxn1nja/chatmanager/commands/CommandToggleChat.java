@@ -47,7 +47,7 @@ public class CommandToggleChat implements CommandExecutor {
 			return true;
 		}
 
-		Methods.sendMessage(player, "&cCommand Usage: &7/togglechat", true);
+		Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/togglechat");
 
 		return true;
 	}

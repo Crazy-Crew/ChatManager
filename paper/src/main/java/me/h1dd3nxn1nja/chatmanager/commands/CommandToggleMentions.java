@@ -47,7 +47,7 @@ public class CommandToggleMentions implements CommandExecutor {
 			return true;
 		}
 
-		Methods.sendMessage(player, "&cCommand Usage: &7/toggleMentions", true);
+		Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/togglementions");
 
 		return true;
 	}

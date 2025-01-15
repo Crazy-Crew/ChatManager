@@ -70,7 +70,7 @@ public class CommandMuteChat implements CommandExecutor {
 							}
 						}
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/mutechat [-s]", true);
+						Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/mutechat [-s]");
 					}
 				} else {
 					Messages.NO_PERMISSION.sendMessage(player);

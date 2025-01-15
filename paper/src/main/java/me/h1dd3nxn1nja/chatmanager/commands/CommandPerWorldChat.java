@@ -30,7 +30,7 @@ public class CommandPerWorldChat implements CommandExecutor {
 		if (cmd.getName().equalsIgnoreCase("perworldchat")) {
 			if (player.hasPermission(Permissions.COMMAND_PERWORLDCHAT.getNode())) {
 				if (args.length == 0) {
-					Methods.sendMessage(player, "&cCommand Usage: &7/perworldchat bypass", true);
+					Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/perworldchat bypass");
 
 					return true;
 				}
@@ -57,7 +57,7 @@ public class CommandPerWorldChat implements CommandExecutor {
 							Methods.sendMessage(player, "&4Error: &cPer-world chat is currently disabled and you cannot execute that command at this time.", true);
 						}
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/perworldchat bypass", true);
+						Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/perworldchat bypass");
 					}
 				} else {
 					Messages.NO_PERMISSION.sendMessage(player);

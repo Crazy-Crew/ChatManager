@@ -29,7 +29,7 @@ public class CommandRules implements CommandExecutor {
 						Methods.sendMessage(sender, rules, true);
 					}
 				} else {
-					Methods.sendMessage(sender, "&cCommand Usage: &7/rules <page>", true);
+					Messages.INVALID_USAGE.sendMessage(sender, "{usage}", "/rules <page>");
 				}
 			} else {
 				Messages.NO_PERMISSION.sendMessage(sender);

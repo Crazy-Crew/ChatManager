@@ -59,7 +59,7 @@ public class CommandBroadcast implements CommandExecutor {
 						} catch (IllegalArgumentException ignored) {}
 					}
 				} else {
-					Methods.sendMessage(sender, "&cCommand Usage: &7/Broadcast <message>", true);
+					Messages.INVALID_USAGE.sendMessage(sender, "{usage}", "/broadcast <message>");
 				}
 			} else {
 				Messages.NO_PERMISSION.sendMessage(sender);
@@ -71,7 +71,7 @@ public class CommandBroadcast implements CommandExecutor {
 				if (args.length != 0) {
 					sendBroadcast(sender, args, announcementSound, announcementVolume, announcementPitch, announcement);
 				} else {
-					Methods.sendMessage(sender, "&cCommand Usage: &7/Announcement <message>", true);
+					Messages.INVALID_USAGE.sendMessage(sender, "{usage}", "/announcement <message>");
 				}
 			} else {
 				Messages.NO_PERMISSION.sendMessage(sender);
@@ -83,7 +83,7 @@ public class CommandBroadcast implements CommandExecutor {
 				if (args.length != 0) {
 					sendBroadcast(sender, args, warningSound, warningVolume, warningPitch, warning);
 				} else {
-					Methods.sendMessage(sender, "&cCommand Usage: &7/Warning <message>", true);
+					Messages.INVALID_USAGE.sendMessage(sender, "{usage}", "/warning <message>");
 				}
 			} else {
 				Messages.NO_PERMISSION.sendMessage(sender);

@@ -77,7 +77,7 @@ public class CommandAntiSwear implements CommandExecutor {
 				}
 
 				if (args.length == 1) {
-					Methods.sendMessage(player, "&cCommand Usage: &7/antiswear add <blacklist|whitelist> <word>", true);
+					Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/antiswear add <blacklist|whitelist> <word>");
 
 					return true;
 				}
@@ -100,7 +100,7 @@ public class CommandAntiSwear implements CommandExecutor {
 								Messages.ANTI_SWEAR_BLACKLISTED_WORD_EXISTS.sendMessage(player, "{word}", args[2]);
 							}
 						} else {
-							Methods.sendMessage(player, "&cCommand Usage: &7/antiswear add blacklist <word>", true);
+							Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/antiswear add blacklist <word>");
 						}
 					} else {
 						Messages.NO_PERMISSION.sendMessage(player);
@@ -123,7 +123,7 @@ public class CommandAntiSwear implements CommandExecutor {
 								Messages.ANTI_SWEAR_WHITELISTED_WORD_EXISTS.sendMessage(player, "{word}", args[2]);
 							}
 						} else {
-							Methods.sendMessage(player, "&cCommand Usage: &7/antiswear add whitelist <word>", true);
+							Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/antiswear add whitelist <word>");
 						}
 					} else {
 						Messages.NO_PERMISSION.sendMessage(player);
@@ -139,7 +139,7 @@ public class CommandAntiSwear implements CommandExecutor {
 				}
 
 				if (args.length == 1) {
-					Methods.sendMessage(player, "&cCommand Usage: &7/antiswear remove <blacklist|whitelist> <word>", true);
+					Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/antiswear remove <blacklist|whitelist> <word>");
 
 					return true;
 				}
@@ -162,7 +162,7 @@ public class CommandAntiSwear implements CommandExecutor {
 								Messages.ANTI_SWEAR_BLACKLISTED_WORD_NOT_FOUND.sendMessage(player, "{word}", args[2]);
 							}
 						} else {
-							Methods.sendMessage(player,"&cCommand Usage: &7/antiswear remove blacklist <word>", true);
+							Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/antiswear remove blacklist <word>");
 						}
 					} else {
 						Messages.NO_PERMISSION.sendMessage(player);
@@ -185,7 +185,7 @@ public class CommandAntiSwear implements CommandExecutor {
 								Messages.ANTI_SWEAR_WHITELISTED_WORD_NOT_FOUND.sendMessage(player, "{word}", args[2]);
 							}
 						} else {
-							Methods.sendMessage(player,"&cCommand Usage: &7/antiswear remove whitelist <word>", true);
+							Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/antiswear remove whitelist <word>");
 						}
 					} else {
 						Messages.NO_PERMISSION.sendMessage(player);
@@ -210,7 +210,7 @@ public class CommandAntiSwear implements CommandExecutor {
 
 						return true;
 					} else {
-						Methods.sendMessage(player,"&cCommand Usage: &7/antiswear list", true);
+						Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/antiswear list");
 					}
 				} else {
 					Messages.NO_PERMISSION.sendMessage(player);

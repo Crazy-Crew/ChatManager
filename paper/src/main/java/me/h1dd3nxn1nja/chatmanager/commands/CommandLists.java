@@ -52,7 +52,7 @@ public class CommandLists implements CommandExecutor {
 						}
 					}
 				} else {
-					Methods.sendMessage(sender, "&cCommand Usage: &7/list", true);
+					Messages.INVALID_USAGE.sendMessage(sender, "{usage}", "/list");
 				}
 			} else {
 				Messages.NO_PERMISSION.sendMessage(sender);
@@ -90,7 +90,7 @@ public class CommandLists implements CommandExecutor {
 						}
 					}
 				} else {
-					Methods.sendMessage(sender, "&cCommand Usage: &7/staff", true);
+					Messages.INVALID_USAGE.sendMessage(sender, "{usage}", "/staff");
 				}
 			} else {
 				Messages.NO_PERMISSION.sendMessage(sender);

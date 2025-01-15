@@ -93,7 +93,7 @@ public class CommandRadius implements CommandExecutor, TabCompleter {
 
 						Messages.CHAT_RADIUS_LOCAL_CHAT_ENABLED.sendMessage(player);
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/chatradius local", true);
+						Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/chatradius local");
 					}
 				} else {
 					Messages.NO_PERMISSION.sendMessage(player);
@@ -117,7 +117,7 @@ public class CommandRadius implements CommandExecutor, TabCompleter {
 
 						Messages.CHAT_RADIUS_GLOBAL_CHAT_ENABLED.sendMessage(player);
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/chatradius global", true);
+						Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/chatradius global");
 					}
 				} else {
 					Messages.NO_PERMISSION.sendMessage(player);
@@ -141,7 +141,7 @@ public class CommandRadius implements CommandExecutor, TabCompleter {
 
 						Messages.CHAT_RADIUS_WORLD_CHAT_ENABLED.sendMessage(player);
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/chatradius world", true);
+						Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/chatradius world");
 					}
 				} else {
 					Messages.NO_PERMISSION.sendMessage(player);
@@ -165,7 +165,7 @@ public class CommandRadius implements CommandExecutor, TabCompleter {
 
 						Messages.CHAT_RADIUS_SPY_ENABLED.sendMessage(player);
 					} else {
-						Methods.sendMessage(player, ("&cCommand Usage: &7/chatradius spy"), true);
+						Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/chatradius spy");
 					}
 				} else {
 					Messages.NO_PERMISSION.sendMessage(player);

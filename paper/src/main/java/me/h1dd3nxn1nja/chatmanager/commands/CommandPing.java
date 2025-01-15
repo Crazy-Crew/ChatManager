@@ -45,7 +45,7 @@ public class CommandPing implements CommandExecutor {
 			}
 
 			if (args.length >= 2) {
-				Methods.sendMessage(player, "&cCommand Usage: &7/ping [player]", true);
+				Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/ping [player]");
 
 				return true;
 			}

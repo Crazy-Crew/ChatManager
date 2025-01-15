@@ -85,7 +85,7 @@ public class CommandBannedCommands implements CommandExecutor {
 							Messages.BANNED_COMMANDS_EXISTS.sendMessage(player, "{command}", args[1]);
 						}
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/bannedcommands add <command>", true);
+						Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/bannedcommands add <command>");
 					}
 				} else {
 					Messages.NO_PERMISSION.sendMessage(player);
@@ -108,7 +108,7 @@ public class CommandBannedCommands implements CommandExecutor {
 							Messages.BANNED_COMMANDS_NOT_FOUND.sendMessage(player, "{command}", args[1]);
 						}
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/bannedcommands remove <command>", true);
+						Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/bannedcommands remove <command>");
 					}
 				} else {
 					Messages.NO_PERMISSION.sendMessage(player);
@@ -125,7 +125,7 @@ public class CommandBannedCommands implements CommandExecutor {
 
 						player.sendMessage(" ");
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/bannedcommands list", true);
+						Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/bannedcommands list");
 					}
 				} else {
 					Messages.NO_PERMISSION.sendMessage(player);

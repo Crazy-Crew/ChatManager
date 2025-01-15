@@ -53,7 +53,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("list")) {
 				if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_LIST.getNode())) {
 					if (args.length == 1) {
-						Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast list [Global|World|Actionbar|Title|Bossbar] [World]", true);
+						Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/autobroadcast list [Global|World|Actionbar|Title|Bossbar] [World]");
 
 						return true;
 					}
@@ -82,7 +82,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 
 							Methods.sendMessage(player, "", true);
 						} else {
-							Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast list global", true);
+							Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/autobroadcast list global");
 						}
 					} else {
 						Messages.NO_PERMISSION.sendMessage(player);
@@ -106,7 +106,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 
 							Methods.sendMessage(player, "", true);
 						} else {
-							Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast list actionbar", true);
+							Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/autobroadcast list actionbar");
 						}
 					} else {
 						Messages.NO_PERMISSION.sendMessage(player);
@@ -126,7 +126,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 
 							Methods.sendMessage(player, "", true);
 						} else {
-							Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast list title", true);
+							Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/autobroadcast list title");
 						}
 					} else {
 						Messages.NO_PERMISSION.sendMessage(player);
@@ -146,7 +146,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 
 							Methods.sendMessage(player, "", true);
 						} else {
-							Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast list bossbar", true);
+							Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/autobroadcast list bossbar");
 						}
 					} else {
 						Messages.NO_PERMISSION.sendMessage(player);
@@ -179,7 +179,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 								}
 							}
 						} else {
-							Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast list world <world>", true);
+							Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/autobroadcast list world <world>");
 						}
 					} else {
 						Messages.NO_PERMISSION.sendMessage(player);
@@ -190,7 +190,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("add")) {
 				if (player.hasPermission(Permissions.COMMAND_AUTOBROADCAST_ADD.getNode())) {
 					if (args.length == 1) {
-						Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast add [Global|World|Actionbar|Title|Bossbar] <world> <message>", true);
+						Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/autobroadcast add [Global|World|Actionbar|Title|Bossbar] <world> <message>");
 						return true;
 					}
 				} else {
@@ -223,7 +223,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 
 							return true;
 						} else {
-							Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast add global <message>", true);
+							Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/autobroadcast add global <message>");
 						}
 					} else {
 						Messages.NO_PERMISSION.sendMessage(player);
@@ -256,7 +256,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 
 						return true;
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast add actionbar <message.", true);
+						Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/autobroadcast add actionbar <message>");
 					}
 				} else {
 					Messages.NO_PERMISSION.sendMessage(player);
@@ -288,7 +288,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 
 						return true;
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast add title <message>", true);
+						Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/autobroadcast add title <message>");
 					}
 				} else {
 					Messages.NO_PERMISSION.sendMessage(player);
@@ -320,7 +320,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 
 						return true;
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/butobroadcast add bossbar <message>", true);
+						Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/autobroadcast add bossbar <message>");
 					}
 				} else {
 					Messages.NO_PERMISSION.sendMessage(player);
@@ -366,7 +366,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 							}
 						}
 					} else {
-						Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast add world <world> <message>", true);
+						Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/autobroadcast add world <message>");
 					}
 				} else {
 					Messages.NO_PERMISSION.sendMessage(player);
@@ -399,7 +399,7 @@ public class CommandAutoBroadcast implements CommandExecutor {
 
 					return true;
 				} else {
-					Methods.sendMessage(player, "&cCommand Usage: &7/autobroadcast create <world> <message>", true);
+					Messages.INVALID_USAGE.sendMessage(player, "{usage}", "/autobroadcast create <world> <message>");
 				}
 			} else {
 				Messages.NO_PERMISSION.sendMessage(player);
