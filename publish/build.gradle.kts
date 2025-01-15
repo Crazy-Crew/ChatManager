@@ -1,5 +1,5 @@
 plugins {
-    id("chat.base")
+    id("root-plugin")
 
     alias(libs.plugins.minotaur)
     alias(libs.plugins.hangar)

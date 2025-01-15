@@ -1,13 +1,17 @@
 plugins {
-    id("chat.base")
+    id("paper-plugin")
 
     alias(libs.plugins.runPaper)
     alias(libs.plugins.shadow)
+
+    `maven-publish`
 }
 
-repositories {
-    maven("https://papermc.io/repo/repository/maven-public/")
+project.group = "${rootProject.group}.paper"
+project.version = rootProject.version
+project.description = "The kitchen sink of Chat Management!"
 
+repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 
     maven("https://repo.essentialsx.net/releases")
@@ -30,8 +34,19 @@ dependencies {
         exclude("org.spigotmc", "spigot-api")
         exclude("org.bstats", "bstats-bukkit")
     }
+}
 
-    compileOnly(libs.paper)
+publishing {
+    repositories {
+        maven {
+            url = uri("https://repo.crazycrew.us/releases/")
+
+            credentials {
+                this.username = System.getenv("gradle_username")
+                this.password = System.getenv("gradle_password")
+            }
+        }
+    }
 }
 
 tasks {
