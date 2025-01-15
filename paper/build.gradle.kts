@@ -14,7 +14,7 @@ project.description = "The kitchen sink of Chat Management!"
 repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 
-    maven("https://repo.essentialsx.net/releases")
+    maven("https://repo.essentialsx.net/releases/")
 }
 
 dependencies {
@@ -87,7 +87,7 @@ tasks {
         inputs.properties("group" to project.group)
         inputs.properties("apiVersion" to libs.versions.minecraft.get())
         inputs.properties("description" to project.description)
-        inputs.properties("website" to "https://modrinth.com/plugin/chatmanager")
+        inputs.properties("website" to rootProject.properties["website"].toString())
 
         filesMatching("plugin.yml") {
             expand(inputs.properties)

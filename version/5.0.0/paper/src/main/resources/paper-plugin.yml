@@ -1,0 +1,16 @@
+name: '${name}'
+main: '${group}.${name}'
+
+version: '${version}'
+api-version: '${apiVersion}'
+description: '${description}'
+website: '${website}'
+
+folia-supported: true
+
+dependencies:
+  server:
+    PlaceholderAPI:
+     load: BEFORE
+     required: false
+     join-classpath: true
