@@ -20,7 +20,7 @@
 Message:
   Prefix: "&b[&6ChatManager&b] &r"
   No_Permission: "{prefix}&cYou don't have the permissions to do this."
-  Player_Not_Found: "{prefix}&7The player &c{target} &7cannot be found."
+  Player-Not-Found: "{prefix}&7The player &c{target} &7cannot be found."
   Reload: "{prefix}&aConfig has been reloaded."
   Invalid_Usage: "{prefix}&cThis is not a valid usage of the command, Correct usage &e{usage}."
 
