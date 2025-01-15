@@ -1,12 +1,10 @@
-.gradle
+### Intellij
+.kotlin
 .idea
 
-paper/build
-paper/.gradle
-paper/run
+### Gradle
+.gradle
+build/
+run/
 
-publish/build
-
-build
-
-jars
+jars/
