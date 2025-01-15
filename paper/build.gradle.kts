@@ -7,7 +7,7 @@ plugins {
     `maven-publish`
 }
 
-project.group = "${rootProject.group}.paper"
+project.group = "${rootProject.group}"
 project.version = rootProject.version
 project.description = "The kitchen sink of Chat Management!"
 
