@@ -3,6 +3,7 @@ package me.h1dd3nxn1nja.chatmanager;
 import com.ryderbelserion.chatmanager.ApiLoader;
 import com.ryderbelserion.chatmanager.api.CustomMetrics;
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.plugins.papi.PlaceholderAPISupport;
 import com.ryderbelserion.chatmanager.plugins.VanishSupport;
 import com.ryderbelserion.chatmanager.plugins.VaultSupport;
@@ -49,6 +50,8 @@ public class ChatManager extends JavaPlugin {
                 .addFile("AutoBroadcast.yml", FileType.YAML)
                 .addFile("bannedcommands.yml", FileType.YAML)
                 .addFolder("Logs", FileType.NONE);
+
+        Messages.addMissingMessages();
 
         List.of(
                 new VaultSupport(),

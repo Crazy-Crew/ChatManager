@@ -4,6 +4,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -142,6 +143,25 @@ public enum Messages {
     Messages(String path, List<String> defaultListMessage) {
         this.path = path;
         this.defaultListMessage = defaultListMessage;
+    }
+
+    public static void addMissingMessages() {
+        FileConfiguration messages = Files.MESSAGES.getConfiguration();
+        boolean saveFile = false;
+
+        for (Messages message : values()) {
+            if (!messages.contains(message.getPath())) {
+                saveFile = true;
+
+                if (message.getDefaultMessage() != null) {
+                    messages.set(message.getPath(), message.getDefaultMessage());
+                } else {
+                    messages.set(message.getPath(), message.getDefaultListMessage());
+                }
+            }
+        }
+
+        if (saveFile) Files.MESSAGES.save();
     }
 
     public static String convertList(final List<String> list) {
