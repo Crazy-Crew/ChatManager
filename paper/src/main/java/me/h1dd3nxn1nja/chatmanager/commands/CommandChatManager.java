@@ -52,6 +52,9 @@ public class CommandChatManager implements CommandExecutor {
 						this.plugin.getFileManager().reloadFiles().init();
 
 						Files.CONFIG.reload();
+
+						Messages.addMissingMessages();
+
 						Files.MESSAGES.reload();
 						Files.BANNED_COMMANDS.reload();
 						Files.BANNED_WORDS.reload();
