@@ -15,9 +15,9 @@ repositories {
 dependencies {
     implementation(project(":chatmanager-core"))
 
-    compileOnly(libs.bundles.cloud.paper)
+    implementation(libs.fusion.paper)
 
-    compileOnly(libs.fusion.paper)
+    compileOnly(libs.bundles.cloud.paper)
 }
 
 tasks {
@@ -28,6 +28,12 @@ tasks {
     shadowJar {
         archiveBaseName.set(project.name + "-" + rootProject.version)
         archiveClassifier.set("")
+
+        listOf(
+            "com.ryderbelserion.fusion"
+        ).forEach {
+            relocate(it, "libs.$it")
+        }
 
         doLast {
             copy {

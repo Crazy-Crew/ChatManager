@@ -29,9 +29,9 @@ public class ChatKeys implements SettingsHolder {
     @Comment({
             "The default format, if no per group formats are found.",
             "",
-            "A list of available placeholders: {player}",
+            "A list of available placeholders: <player>, <message>",
             "PlaceholderAPI is also fully supported."
     })
-    public static final Property<String> chat_format_default = newProperty("chat.format.default", "%luckperms_prefix% {player} <gold>-> <reset>{message}");
+    public static final Property<String> chat_format_default = newProperty("chat.format.default", "%luckperms_prefix% <player> <gold>-> <reset><message>");
 
 }

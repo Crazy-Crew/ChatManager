@@ -1,0 +1,14 @@
+# Support: https://discord.gg/SekseczrWz
+# Github: https://github.com/Crazy-Crew
+# 
+# Issues: https://github.com/Crazy-Crew/ChatManager/issues
+# Features: https://github.com/Crazy-Crew/ChatManager/issues
+root:
+  # The prefix that appears in front of commands!
+  prefix: "<blue>[<gold>ChatManager<blue>] <reset>"
+  # This option will tell the plugin to send all messages as action bars or messages in chat.
+  # 
+  # send_message -> sends messages in chat.
+  # send_actionbar -> sends messages in actionbar.
+  # 
+  message-action: "send_message"

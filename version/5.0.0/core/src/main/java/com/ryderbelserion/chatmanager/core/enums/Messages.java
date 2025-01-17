@@ -8,6 +8,7 @@ import com.ryderbelserion.chatmanager.core.managers.configs.locale.RootKeys;
 import com.ryderbelserion.core.FusionProvider;
 import com.ryderbelserion.core.util.Methods;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.List;
@@ -47,11 +48,11 @@ public enum Messages {
         return this.messages.getProperty(this.properties);
     }
 
-    public String getMessage(@NotNull final Audience sender) {
+    public Component getMessage(@NotNull final Audience sender) {
         return getMessage(sender, new HashMap<>());
     }
 
-    public String getMessage(@NotNull final Audience sender, @NotNull final String placeholder, @NotNull final String replacement) {
+    public Component getMessage(@NotNull final Audience sender, @NotNull final String placeholder, @NotNull final String replacement) {
         Map<String, String> placeholders = new HashMap<>() {{
             put(placeholder, replacement);
         }};
@@ -59,8 +60,10 @@ public enum Messages {
         return getMessage(sender, placeholders);
     }
 
-    public String getMessage(@NotNull final Audience sender, @NotNull final Map<String, String> placeholders) {
-        return parse(sender, placeholders).replaceAll("\\{prefix}", this.config.getProperty(ConfigKeys.command_prefix));
+    public Component getMessage(@NotNull final Audience sender, @NotNull final Map<String, String> placeholders) {
+        placeholders.putIfAbsent("prefix", this.config.getProperty(ConfigKeys.command_prefix));
+        
+        return parse(sender, placeholders);
     }
 
     public void sendMessage(final Audience sender, final String placeholder, final String replacement) {
@@ -91,51 +94,51 @@ public enum Messages {
     }
 
     public void sendActionBar(final Audience sender, final String placeholder, final String replacement) {
-        final String msg = getMessage(sender, placeholder, replacement);
+        final Component component = getMessage(sender, placeholder, replacement);
 
-        if (msg.isBlank()) return;
+        if (component.equals(Component.empty())) return;
 
-        sender.sendActionBar(Methods.parse(msg));
+        sender.sendActionBar(component);
     }
 
     public void sendActionBar(final Audience sender, final Map<String, String> placeholders) {
-        final String msg = getMessage(sender, placeholders);
+        final Component component = getMessage(sender, placeholders);
 
-        if (msg.isBlank()) return;
+        if (component.equals(Component.empty())) return;
 
-        sender.sendActionBar(Methods.parse(msg));
+        sender.sendActionBar(component);
     }
 
     public void sendActionBar(final Audience sender) {
-        final String msg = getMessage(sender);
+        final Component component = getMessage(sender);
 
-        if (msg.isBlank()) return;
+        if (component.equals(Component.empty())) return;
 
-        sender.sendActionBar(Methods.parse(msg));
+        sender.sendActionBar(component);
     }
 
     public void sendRichMessage(final Audience sender, final String placeholder, final String replacement) {
-        final String msg = getMessage(sender, placeholder, replacement);
+        final Component component = getMessage(sender, placeholder, replacement);
 
-        if (msg.isBlank()) return;
+        if (component.equals(Component.empty())) return;
 
-        sender.sendMessage(Methods.parse(msg));
+        sender.sendMessage(component);
     }
 
     public void sendRichMessage(final Audience sender, final Map<String, String> placeholders) {
-        final String msg = getMessage(sender, placeholders);
+        final Component component = getMessage(sender, placeholders);
 
-        if (msg.isBlank()) return;
+        if (component.equals(Component.empty())) return;
 
-        sender.sendMessage(Methods.parse(msg));
+        sender.sendMessage(component);
     }
 
     public void sendRichMessage(final Audience sender) {
-        final String msg = getMessage(sender);
+        final Component component = getMessage(sender);
 
-        if (msg.isBlank()) return;
+        if (component.equals(Component.empty())) return;
 
-        sender.sendMessage(Methods.parse(msg));
+        sender.sendMessage(component);
     }
 
     public void migrate() {
@@ -148,7 +151,7 @@ public enum Messages {
         this.messages.setProperty(this.property, Methods.convert(this.messages.getProperty(this.property), true));
     }
 
-    private @NotNull String parse(@NotNull final Audience sender, @NotNull final Map<String, String> placeholders) {
+    private @NotNull Component parse(@NotNull final Audience sender, @NotNull final Map<String, String> placeholders) {
         String message;
 
         if (isList()) {

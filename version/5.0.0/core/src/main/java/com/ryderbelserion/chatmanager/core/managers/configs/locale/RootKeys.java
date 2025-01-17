@@ -8,6 +8,6 @@ public class RootKeys implements SettingsHolder {
 
     protected RootKeys() {}
 
-    public static final Property<String> reload_plugin = newProperty("root.reload-plugin", "{prefix}<green>Config has been reloaded.");
+    public static final Property<String> reload_plugin = newProperty("root.reload-plugin", "<prefix><green>Config has been reloaded.");
 
 }
