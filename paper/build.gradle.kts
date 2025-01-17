@@ -1,15 +1,15 @@
 plugins {
-    id("paper-plugin")
-
     alias(libs.plugins.runPaper)
     alias(libs.plugins.shadow)
 
-    `maven-publish`
+    id("paper-plugin")
 }
 
-project.group = "${rootProject.group}"
-project.version = rootProject.version
+project.group = "me.h1dd3nxn1nja.chatmanager.paper"
 project.description = "The kitchen sink of Chat Management!"
+
+val buildNumber: String? = System.getenv("BUILD_NUMBER")
+project.version = if (buildNumber != null) "${libs.versions.minecraft.get()}-$buildNumber-4.0.3" else "4.0.3"
 
 repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
@@ -36,37 +36,9 @@ dependencies {
     }
 }
 
-publishing {
-    repositories {
-        maven {
-            url = uri("https://repo.crazycrew.us/releases/")
-
-            credentials {
-                this.username = System.getenv("gradle_username")
-                this.password = System.getenv("gradle_password")
-            }
-        }
-    }
-}
-
 tasks {
-    runServer {
-        jvmArgs("-Dnet.kyori.ansi.colorLevel=truecolor")
-
-        defaultCharacterEncoding = Charsets.UTF_8.name()
-
-        minecraftVersion(libs.versions.minecraft.get())
-    }
-
     assemble {
         dependsOn(shadowJar)
-
-        doLast {
-            copy {
-                from(shadowJar.get())
-                into(rootProject.projectDir.resolve("jars"))
-            }
-        }
     }
 
     shadowJar {
@@ -78,6 +50,13 @@ tasks {
             "org.bstats"
         ).forEach {
             relocate(it, "libs.$it")
+        }
+
+        doLast {
+            copy {
+                from(shadowJar.get())
+                into(rootProject.projectDir.resolve("jars"))
+            }
         }
     }
 
@@ -92,5 +71,13 @@ tasks {
         filesMatching("plugin.yml") {
             expand(inputs.properties)
         }
+    }
+
+    runServer {
+        jvmArgs("-Dnet.kyori.ansi.colorLevel=truecolor")
+
+        defaultCharacterEncoding = Charsets.UTF_8.name()
+
+        minecraftVersion(libs.versions.minecraft.get())
     }
 }

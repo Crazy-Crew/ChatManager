@@ -1,5 +1,6 @@
 name: '${name}'
 main: '${group}.${name}'
+loader: '${group}.loader.ChatManagerLoader'
 
 version: '${version}'
 api-version: '${apiVersion}'

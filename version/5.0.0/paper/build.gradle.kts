@@ -1,27 +1,33 @@
 plugins {
-    id("paper-plugin")
-
     alias(libs.plugins.runPaper)
     alias(libs.plugins.shadow)
+
+    id("paper-plugin")
 }
 
-val buildNumber: String? = System.getenv("BUILD_NUMBER")
-
-project.group = "com.ryderbelserion.chatmanager.paper"
-project.version = if (buildNumber != null) "${libs.versions.minecraft.get()}-$buildNumber-5.0.0" else "5.0.0"
-project.description = "The modern version of ChatManager written from the ground up!"
+project.description = "Paper based version of ChatManager"
+project.group = "${rootProject.group}.paper"
 
 repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 }
 
 dependencies {
+    implementation(project(":chatmanager-core"))
 
+    compileOnly(libs.bundles.cloud.paper)
+
+    compileOnly(libs.fusion.paper)
 }
 
 tasks {
     assemble {
         dependsOn(shadowJar)
+    }
+
+    shadowJar {
+        archiveBaseName.set(project.name + "-" + rootProject.version)
+        archiveClassifier.set("")
 
         doLast {
             copy {
@@ -31,21 +37,9 @@ tasks {
         }
     }
 
-    shadowJar {
-        archiveBaseName.set(rootProject.name)
-        archiveClassifier.set("")
-
-        listOf(
-            "com.ryderbelserion.fusion",
-            "org.bstats"
-        ).forEach {
-            relocate(it, "libs.$it")
-        }
-    }
-
     processResources {
         inputs.properties("name" to rootProject.name)
-        inputs.properties("version" to project.version)
+        inputs.properties("version" to rootProject.version)
         inputs.properties("group" to project.group)
         inputs.properties("apiVersion" to libs.versions.minecraft.get())
         inputs.properties("description" to project.description)

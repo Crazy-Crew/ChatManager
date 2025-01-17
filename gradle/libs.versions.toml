@@ -5,16 +5,14 @@ minotaur = { id = "com.modrinth.minotaur", version.ref = "minotaur" }
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
 
 [libraries]
-# Velocity API
-velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
-
 # Paper API
 paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
 
+# Plugin API
 placeholder-api = { group = "me.clip", name = "placeholderapi", version.ref = "placeholderapi" }
 essentials = { group = "net.essentialsx", name = "EssentialsX", version.ref = "essentials" }
 
-# Fusion Core API
+# Fusion API
 fusion-paper = { module = "com.ryderbelserion.fusion:fusion-paper", version.ref = "fusion" }
 fusion-core = { module = "com.ryderbelserion.fusion:fusion-core", version.ref = "fusion" }
 
@@ -24,10 +22,22 @@ metrics = { module = "org.bstats:bstats-bukkit", version.ref = "bStats" }
 # Vault API
 vault = { group = "com.github.MilkBowl", name = "VaultAPI", version.ref = "vault" }
 
+# Cloud API
+cloud-annotations = { module = "org.incendo:cloud-annotations", version.ref = "cloud-release" }
+cloud-extras = { module = "org.incendo:cloud-minecraft-extras", version.ref = "cloud-beta" }
+cloud-paper = { module = "org.incendo:cloud-paper", version.ref = "cloud-beta" }
+
+# Kyori API
+kyori-logger = { module = "net.kyori:adventure-text-logger-slf4j", version.ref = "adventure" }
+kyori-text = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
+kyori-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
+
+# Other API
+jalu = { module = "ch.jalu:configme", version.ref = "jalu" }
+
 [versions]
 # Paper API
 paper = "1.21.4-R0.1-SNAPSHOT"
-velocity = "3.3.0-SNAPSHOT"
 minecraft = "1.21.4"
 
 # Gradle Plugins
@@ -36,6 +46,10 @@ runPaper = "2.3.1"
 minotaur = "2.8.7"
 hangar = "0.1.2"
 
+# Cloud API
+cloud-beta = "2.0.0-beta.10"
+cloud-release = "2.0.0"
+
 # Placeholder API
 placeholderapi = "2.11.6"
 
@@ -43,10 +57,26 @@ placeholderapi = "2.11.6"
 essentials = "2.20.1"
 
 # Fusion API
-fusion = "0.6.1"
+fusion = "0.6.3"
 
 # bStats API
 bStats = "3.1.0"
 
 # Vault API
 vault = "1.7.1"
+
+# Kyori API
+adventure = "4.18.0"
+
+# Other API
+jalu = "1.4.1"
+
+[bundles]
+# Shared API
+shared = ["placeholder-api", "vault"]
+
+# Adventure API
+adventure = ["kyori-api", "kyori-text", "kyori-logger"]
+
+# Cloud Paper API
+cloud-paper = ["cloud-annotations", "cloud-extras", "cloud-paper"]

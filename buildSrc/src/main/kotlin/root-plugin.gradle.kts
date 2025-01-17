@@ -5,6 +5,8 @@ val libs = the<LibrariesForLibs>()
 
 plugins {
     `java-library`
+
+    `maven-publish`
 }
 
 repositories {
@@ -26,6 +28,19 @@ java {
 }
 
 tasks {
+    publishing {
+        repositories {
+            maven {
+                url = uri("https://repo.crazycrew.us/releases/")
+
+                credentials {
+                    this.username = System.getenv("gradle_username")
+                    this.password = System.getenv("gradle_password")
+                }
+            }
+        }
+    }
+
     compileJava {
         options.encoding = Charsets.UTF_8.name()
         options.release.set(21)
