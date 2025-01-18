@@ -9,7 +9,7 @@ project.group = "me.h1dd3nxn1nja.chatmanager.paper"
 project.description = "The kitchen sink of Chat Management!"
 
 val buildNumber: String? = System.getenv("BUILD_NUMBER")
-project.version = if (buildNumber != null) "${libs.versions.minecraft.get()}-$buildNumber-4.0.3" else "4.0.3"
+project.version = if (buildNumber != null) "${libs.versions.minecraft.get()}-$buildNumber" else "4.0.3"
 
 repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
