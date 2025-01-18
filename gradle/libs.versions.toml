@@ -10,14 +10,10 @@ paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
 
 # Plugin API
 placeholder-api = { group = "me.clip", name = "placeholderapi", version.ref = "placeholderapi" }
-essentials = { group = "net.essentialsx", name = "EssentialsX", version.ref = "essentials" }
 
 # Fusion API
 fusion-paper = { module = "com.ryderbelserion.fusion:fusion-paper", version.ref = "fusion" }
 fusion-core = { module = "com.ryderbelserion.fusion:fusion-core", version.ref = "fusion" }
-
-# bStats API
-metrics = { module = "org.bstats:bstats-bukkit", version.ref = "bStats" }
 
 # Vault API
 vault = { group = "com.github.MilkBowl", name = "VaultAPI", version.ref = "vault" }
@@ -53,14 +49,8 @@ cloud-release = "2.0.0"
 # Placeholder API
 placeholderapi = "2.11.6"
 
-# Essentials API
-essentials = "2.20.1"
-
 # Fusion API
 fusion = "0.7.0"
-
-# bStats API
-bStats = "3.1.0"
 
 # Vault API
 vault = "1.7.1"
@@ -73,7 +63,7 @@ jalu = "1.4.1"
 
 [bundles]
 # Shared API
-shared = ["placeholder-api", "vault"]
+shared = ["placeholder-api"]
 
 # Adventure API
 adventure = ["kyori-api", "kyori-text", "kyori-logger"]

@@ -5,35 +5,21 @@ plugins {
     id("paper-plugin")
 }
 
-project.group = "me.h1dd3nxn1nja.chatmanager.paper"
-project.description = "The kitchen sink of Chat Management!"
-
-val buildNumber: String? = System.getenv("BUILD_NUMBER")
-project.version = if (buildNumber != null) "${libs.versions.minecraft.get()}-$buildNumber" else "4.0.3"
+project.description = "Paper based version of ChatManager"
+project.group = "${rootProject.group}.paper"
 
 repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-
-    maven("https://repo.essentialsx.net/releases/")
 }
 
 dependencies {
+    implementation(project(":chatmanager-core"))
+
     implementation(libs.fusion.paper)
 
-    implementation(libs.metrics)
+    compileOnly(libs.bundles.cloud.paper)
 
-    compileOnly(libs.placeholder.api) {
-        exclude("org.bstats", "bstats-bukkit")
-    }
-
-    compileOnly(libs.vault) {
-        exclude("org.bukkit", "bukkit")
-    }
-
-    compileOnly(libs.essentials) {
-        exclude("org.spigotmc", "spigot-api")
-        exclude("org.bstats", "bstats-bukkit")
-    }
+    compileOnly(libs.bundles.shared)
 }
 
 tasks {
@@ -42,12 +28,11 @@ tasks {
     }
 
     shadowJar {
-        archiveBaseName.set(rootProject.name)
+        archiveBaseName.set(project.name + "-" + rootProject.version)
         archiveClassifier.set("")
 
         listOf(
-            "com.ryderbelserion.fusion",
-            "org.bstats"
+            "com.ryderbelserion.fusion"
         ).forEach {
             relocate(it, "libs.$it")
         }
@@ -62,13 +47,13 @@ tasks {
 
     processResources {
         inputs.properties("name" to rootProject.name)
-        inputs.properties("version" to project.version)
+        inputs.properties("version" to rootProject.version)
         inputs.properties("group" to project.group)
         inputs.properties("apiVersion" to libs.versions.minecraft.get())
         inputs.properties("description" to project.description)
         inputs.properties("website" to rootProject.properties["website"].toString())
 
-        filesMatching("plugin.yml") {
+        filesMatching("paper-plugin.yml") {
             expand(inputs.properties)
         }
     }
