@@ -8,11 +8,16 @@ import com.ryderbelserion.chatmanager.core.managers.configs.config.chat.ChatKeys
 import com.ryderbelserion.chatmanager.core.managers.configs.locale.RootKeys;
 import com.ryderbelserion.core.FusionLayout;
 import com.ryderbelserion.core.FusionProvider;
+import com.ryderbelserion.core.util.FileMethods;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ConfigManager {
 
     private static final FusionLayout layout = FusionProvider.get();
+
+    private static final Map<String, SettingsManager> locales = new HashMap<>();
 
     private static SettingsManager config;
 
@@ -31,11 +36,31 @@ public class ConfigManager {
                 .configurationData(ConfigKeys.class)
                 .create();
 
-        locale = SettingsManagerBuilder
-                .withYamlFile(new File(dataFolder, "messages.yml"), builder)
+        final File localeFolder = new File(dataFolder, "locale");
+
+        locales.put("en-US.yml", SettingsManagerBuilder
+                .withYamlFile(new File(localeFolder, "en-US.yml"), builder)
                 .useDefaultMigrationService()
                 .configurationData(RootKeys.class)
-                .create();
+                .create());
+
+        FileMethods.extracts(ConfigManager.class, String.format("/%s/", localeFolder.getName()), localeFolder.toPath(), false);
+
+        final File[] contents = localeFolder.listFiles();
+
+        if (contents != null) {
+            for (final File file : contents) {
+                final String name = file.getName();
+
+                if (file.isDirectory() || !name.endsWith(".yml") || locales.containsKey(name)) return;
+
+                locales.put(name, SettingsManagerBuilder
+                        .withYamlFile(file, builder)
+                        .useDefaultMigrationService()
+                        .configurationData(RootKeys.class)
+                        .create());
+            }
+        }
 
         chat = SettingsManagerBuilder
                 .withYamlFile(new File(dataFolder, "chat.yml"), builder)
@@ -47,7 +72,7 @@ public class ConfigManager {
     public static void reload() {
         config.reload();
 
-        locale.reload();
+        locales.forEach((name, settingsManager) -> settingsManager.reload());
 
         chat.reload();
     }
@@ -56,8 +81,8 @@ public class ConfigManager {
         return config;
     }
 
-    public static SettingsManager getLocale() {
-        return locale;
+    public static SettingsManager getLocale(final String locale) {
+        return locales.getOrDefault(locale, locales.get("en-US.yml"));
     }
 
     public static SettingsManager getChat() {

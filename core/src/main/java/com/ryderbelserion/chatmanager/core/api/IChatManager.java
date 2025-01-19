@@ -1,7 +1,5 @@
 package com.ryderbelserion.chatmanager.core.api;
 
-import com.ryderbelserion.core.files.FileManager;
-
 public interface IChatManager {
 
     void start();
@@ -10,7 +8,7 @@ public interface IChatManager {
 
     void stop();
 
-    FileManager getManager();
+    //FileManager getManager();
 
     UserManager getUserManager();
 

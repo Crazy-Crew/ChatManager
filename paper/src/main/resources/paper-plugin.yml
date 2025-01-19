@@ -1,5 +1,5 @@
 name: '${name}'
-main: '${group}.ChatManagerPaper'
+main: '${group}.ChatManagerPlugin'
 loader: '${group}.loader.ChatManagerLoader'
 
 version: '${version}'

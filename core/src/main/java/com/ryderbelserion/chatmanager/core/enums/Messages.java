@@ -1,21 +1,25 @@
-package com.ryderbelserion.chatmanager.core.enums.keys;
+package com.ryderbelserion.chatmanager.core.enums;
 
-import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.properties.Property;
-import com.ryderbelserion.chatmanager.core.enums.Action;
-import com.ryderbelserion.chatmanager.core.managers.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.core.managers.configs.config.ConfigKeys;
+import com.ryderbelserion.chatmanager.core.ChatProvider;
+import com.ryderbelserion.chatmanager.core.api.IChatManager;
+import com.ryderbelserion.chatmanager.core.api.UserManager;
+import com.ryderbelserion.chatmanager.core.enums.other.Action;
+import com.ryderbelserion.chatmanager.core.enums.other.Files;
 import com.ryderbelserion.chatmanager.core.managers.configs.locale.RootKeys;
+import com.ryderbelserion.chatmanager.core.objects.User;
 import com.ryderbelserion.core.FusionProvider;
+import com.ryderbelserion.core.files.types.YamlCustomFile;
 import com.ryderbelserion.core.util.Methods;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public enum Locale {
+public enum Messages {
 
     reload_plugin(RootKeys.reload_plugin);
 
@@ -24,29 +28,39 @@ public enum Locale {
     private Property<List<String>> properties;
     private boolean isList = false;
 
-    Locale(@NotNull final Property<String> property) {
+    Messages(@NotNull final Property<String> property) {
         this.property = property;
     }
 
-    Locale(@NotNull final Property<List<String>> properties, final boolean isList) {
+    Messages(@NotNull final Property<List<String>> properties, final boolean isList) {
         this.properties = properties;
         this.isList = isList;
     }
 
-    private final SettingsManager config = ConfigManager.getConfig();
+    private static final IChatManager provider = ChatProvider.getChatManager();
 
-    private final SettingsManager messages = ConfigManager.getLocale();
+    private static final UserManager userManager = provider.getUserManager();
 
-    private boolean isList() {
-        return this.isList;
+    private final YamlCustomFile config = Files.config.getCustomFile();
+
+    public String getString(final Audience audience) {
+        final @Nullable User user = userManager.getUser(audience);
+
+        if (user == null) {
+            throw new NullPointerException("User was not found in the cache when trying to send a message!");
+        }
+
+        return user.getLocale().getProperty(this.property);
     }
 
-    public String getString() {
-        return this.messages.getProperty(this.property);
-    }
+    public List<String> getList(final Audience audience) {
+        final @Nullable User user = userManager.getUser(audience);
 
-    public List<String> getList() {
-        return this.messages.getProperty(this.properties);
+        if (user == null) {
+            throw new NullPointerException("User was not found in the cache when trying to send a message!");
+        }
+
+        return user.getLocale().getProperty(this.properties);
     }
 
     public Component getMessage(@NotNull final Audience sender) {
@@ -62,13 +76,13 @@ public enum Locale {
     }
 
     public Component getMessage(@NotNull final Audience sender, @NotNull final Map<String, String> placeholders) {
-        placeholders.putIfAbsent("prefix", this.config.getProperty(ConfigKeys.command_prefix));
-        
+        placeholders.putIfAbsent("prefix", this.config.getStringValue("root", "prefix"));
+
         return parse(sender, placeholders);
     }
 
     public void sendMessage(final Audience sender, final String placeholder, final String replacement) {
-        final Action action = this.config.getProperty(ConfigKeys.message_action);
+        final Action action = Action.getAction(this.config.getStringValueWithDefault("send_message", "root", "message-action"));
 
         switch (action) {
             case send_message -> sendRichMessage(sender, placeholder, replacement);
@@ -77,7 +91,7 @@ public enum Locale {
     }
 
     public void sendMessage(final Audience sender, final Map<String, String> placeholders) {
-        final Action action = this.config.getProperty(ConfigKeys.message_action);
+        final Action action = Action.getAction(this.config.getStringValueWithDefault("send_message", "root", "message-action"));
 
         switch (action) {
             case send_message -> sendRichMessage(sender, placeholders);
@@ -86,7 +100,7 @@ public enum Locale {
     }
 
     public void sendMessage(final Audience sender) {
-        final Action action = this.config.getProperty(ConfigKeys.message_action);
+        final Action action = Action.getAction(this.config.getStringValueWithDefault("send_message", "root", "message-action"));
 
         switch (action) {
             case send_message -> sendRichMessage(sender);
@@ -142,25 +156,19 @@ public enum Locale {
         sender.sendMessage(component);
     }
 
-    public void migrate() {
-        if (this.isList) {
-            this.messages.setProperty(this.properties, Methods.convert(this.messages.getProperty(this.properties), true));
-
-            return;
-        }
-
-        this.messages.setProperty(this.property, Methods.convert(this.messages.getProperty(this.property), true));
+    public final boolean isList() {
+        return this.isList;
     }
 
-    private @NotNull Component parse(@NotNull final Audience sender, @NotNull final Map<String, String> placeholders) {
+    private Component parse(final Audience audience, final Map<String, String> placeholders) {
         String message;
 
-        if (isList()) {
-            message = Methods.toString(getList());
+        if (this.isList) {
+            message = Methods.toString(getList(audience));
         } else {
-            message = getString();
+            message = this.getString(audience);
         }
 
-        return FusionProvider.get().placeholders(sender, message, placeholders);
+        return FusionProvider.get().placeholders(audience, message, placeholders);
     }
 }

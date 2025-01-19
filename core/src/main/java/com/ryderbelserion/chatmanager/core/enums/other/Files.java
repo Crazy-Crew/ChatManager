@@ -1,4 +1,4 @@
-package com.ryderbelserion.chatmanager.core.enums.keys;
+package com.ryderbelserion.chatmanager.core.enums.other;
 
 import com.ryderbelserion.core.FusionLayout;
 import com.ryderbelserion.core.FusionProvider;

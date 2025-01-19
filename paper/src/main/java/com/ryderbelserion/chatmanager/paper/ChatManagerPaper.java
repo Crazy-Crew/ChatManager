@@ -2,12 +2,10 @@ package com.ryderbelserion.chatmanager.paper;
 
 import com.ryderbelserion.chatmanager.core.ChatProvider;
 import com.ryderbelserion.chatmanager.core.api.IChatManager;
+import com.ryderbelserion.chatmanager.core.managers.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.paper.api.PaperUserManager;
 import com.ryderbelserion.chatmanager.paper.listeners.CoreListener;
 import com.ryderbelserion.chatmanager.paper.listeners.chat.ChatListener;
-import com.ryderbelserion.core.api.enums.FileType;
-import com.ryderbelserion.core.files.FileManager;
-import com.ryderbelserion.paper.Fusion;
 import com.ryderbelserion.paper.FusionApi;
 import org.bukkit.Server;
 import org.bukkit.plugin.PluginManager;
@@ -26,17 +24,13 @@ public class ChatManagerPaper implements IChatManager {
 
     private final FusionApi api = FusionApi.get();
 
-    private final Fusion fusion = this.api.getFusion();
-
-    private final FileManager fileManager = this.fusion.getFileManager();
-
     private PaperUserManager userManager;
 
     @Override
     public void start() {
         this.api.enable(this.plugin);
 
-        this.fileManager.addFile("config.yml", FileType.YAML).addFile("chat.yml", FileType.YAML).addFolder("locale", FileType.YAML);
+        ConfigManager.load();
 
         this.userManager = new PaperUserManager();
 
@@ -56,7 +50,7 @@ public class ChatManagerPaper implements IChatManager {
 
     @Override
     public void refresh() {
-        this.fileManager.reloadFiles();
+        ConfigManager.reload();
     }
 
     @Override
@@ -65,15 +59,8 @@ public class ChatManagerPaper implements IChatManager {
             this.api.disable();
         }
 
-        this.fileManager.purge();
-
         this.server.getGlobalRegionScheduler().cancelTasks(this.plugin);
         this.server.getAsyncScheduler().cancelTasks(this.plugin);
-    }
-
-    @Override
-    public FileManager getManager() {
-        return this.fileManager;
     }
 
     @Override

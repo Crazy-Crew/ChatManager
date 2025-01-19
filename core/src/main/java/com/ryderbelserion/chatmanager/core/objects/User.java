@@ -1,10 +1,12 @@
 package com.ryderbelserion.chatmanager.core.objects;
 
+import ch.jalu.configme.SettingsManager;
+import com.ryderbelserion.chatmanager.core.managers.configs.ConfigManager;
 import com.ryderbelserion.core.FusionLayout;
 import com.ryderbelserion.core.FusionProvider;
-import com.ryderbelserion.core.api.enums.FileType;
-import com.ryderbelserion.core.files.types.YamlCustomFile;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.identity.Identity;
+import java.util.Locale;
 
 public class User {
 
@@ -16,9 +18,13 @@ public class User {
 
     public User(final Audience audience) {
         this.audience = audience;
+
+        setLocale(this.audience.getOrDefault(Identity.LOCALE, Locale.ENGLISH).getCountry());
     }
 
     public void setLocale(String locale) {
+        this.layout.getLogger().warn("{}", locale);
+
         this.locale = locale;
     }
 
@@ -26,7 +32,7 @@ public class User {
         return this.audience;
     }
 
-    public YamlCustomFile getLocale() {
-        return (YamlCustomFile) this.layout.getFileManager().getFile(this.locale + ".yml", FileType.YAML);
+    public SettingsManager getLocale() {
+        return ConfigManager.getLocale(this.locale + ".yml");
     }
 }
