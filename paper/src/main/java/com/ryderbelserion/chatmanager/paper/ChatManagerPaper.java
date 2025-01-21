@@ -6,6 +6,7 @@ import com.ryderbelserion.chatmanager.core.managers.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.paper.api.PaperUserManager;
 import com.ryderbelserion.chatmanager.paper.listeners.CoreListener;
 import com.ryderbelserion.chatmanager.paper.listeners.chat.ChatListener;
+import com.ryderbelserion.core.api.enums.FileType;
 import com.ryderbelserion.paper.FusionApi;
 import org.bukkit.Server;
 import org.bukkit.plugin.PluginManager;
@@ -29,6 +30,8 @@ public class ChatManagerPaper implements IChatManager {
     @Override
     public void start() {
         this.api.enable(this.plugin);
+
+        this.api.getFileManager().addFolder("locale", FileType.NONE);
 
         ConfigManager.load();
 

@@ -8,7 +8,6 @@ import com.ryderbelserion.chatmanager.core.managers.configs.config.chat.ChatKeys
 import com.ryderbelserion.chatmanager.core.managers.configs.locale.RootKeys;
 import com.ryderbelserion.core.FusionLayout;
 import com.ryderbelserion.core.FusionProvider;
-import com.ryderbelserion.core.util.FileMethods;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,8 +19,6 @@ public class ConfigManager {
     private static final Map<String, SettingsManager> locales = new HashMap<>();
 
     private static SettingsManager config;
-
-    private static SettingsManager locale;
 
     private static SettingsManager chat;
 
@@ -43,8 +40,6 @@ public class ConfigManager {
                 .useDefaultMigrationService()
                 .configurationData(RootKeys.class)
                 .create());
-
-        FileMethods.extracts(ConfigManager.class, String.format("/%s/", localeFolder.getName()), localeFolder.toPath(), false);
 
         final File[] contents = localeFolder.listFiles();
 
