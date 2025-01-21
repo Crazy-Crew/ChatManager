@@ -6,6 +6,7 @@ plugins {
 }
 
 project.description = "Paper based version of ChatManager"
+project.version = rootProject.version
 project.group = "${rootProject.group}.paper"
 
 repositories {
@@ -15,11 +16,11 @@ repositories {
 dependencies {
     implementation(project(":chatmanager-core"))
 
-    implementation(libs.fusion.paper)
-
     compileOnly(libs.bundles.cloud.paper)
 
     compileOnly(libs.bundles.shared)
+
+    implementation(libs.fusion.paper)
 }
 
 tasks {
@@ -28,7 +29,7 @@ tasks {
     }
 
     shadowJar {
-        archiveBaseName.set(project.name + "-" + rootProject.version)
+        archiveBaseName.set(rootProject.name)
         archiveClassifier.set("")
 
         listOf(

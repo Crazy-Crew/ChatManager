@@ -50,7 +50,7 @@ cloud-release = "2.0.0"
 placeholderapi = "2.11.6"
 
 # Fusion API
-fusion = "0.7.0"
+fusion = "0.7.1"
 
 # Vault API
 vault = "1.7.1"

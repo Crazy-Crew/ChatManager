@@ -11,6 +11,7 @@ import com.ryderbelserion.paper.FusionApi;
 import org.bukkit.Server;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicePriority;
+
 import java.util.List;
 
 public class ChatManagerPaper implements IChatManager {
@@ -31,10 +32,12 @@ public class ChatManagerPaper implements IChatManager {
     public void start() {
         this.api.enable(this.plugin);
 
-        this.api.getFileManager().addFolder("locale", FileType.NONE);
+        this.api.getFusion().getFileManager().addFolder("locale", FileType.NONE);
 
+        // load configuration
         ConfigManager.load();
 
+        // create user manager
         this.userManager = new PaperUserManager();
 
         // register api method #1 for internal use or platform independent use where we don't have a service provider.
