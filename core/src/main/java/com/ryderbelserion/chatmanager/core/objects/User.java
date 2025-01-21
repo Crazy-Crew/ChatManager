@@ -19,13 +19,15 @@ public class User {
     public User(final Audience audience) {
         this.audience = audience;
 
-        setLocale(this.audience.getOrDefault(Identity.LOCALE, Locale.ENGLISH).getCountry());
+        setLocale(this.audience.getOrDefault(Identity.LOCALE, Locale.ENGLISH));
     }
 
-    public void setLocale(String locale) {
-        this.layout.getLogger().warn("{}", locale);
+    public void setLocale(final Locale locale) {
+        this.locale = locale.getLanguage() + "-" + locale.getCountry();
 
-        this.locale = locale;
+        if (this.layout.isVerbose()) {
+            this.layout.getLogger().warn("Country: {}, Language: {}", locale.getCountry(), locale.getLanguage());
+        }
     }
 
     public final Audience getAudience() {
