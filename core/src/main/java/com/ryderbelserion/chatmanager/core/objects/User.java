@@ -23,18 +23,21 @@ public class User {
     }
 
     public void setLocale(final Locale locale) {
-        this.locale = locale.getLanguage() + "-" + locale.getCountry();
+        final String country = locale.getCountry();
+        final String language = locale.getLanguage();
+
+        this.locale = language + "-" + country;
 
         if (this.layout.isVerbose()) {
-            this.layout.getLogger().warn("Country: {}, Language: {}", locale.getCountry(), locale.getLanguage());
+            this.layout.getLogger().warn("Country: {}, Language: {}", country, language);
         }
-    }
-
-    public final Audience getAudience() {
-        return this.audience;
     }
 
     public SettingsManager getLocale() {
         return ConfigManager.getLocale(this.locale + ".yml");
+    }
+
+    public final Audience getAudience() {
+        return this.audience;
     }
 }

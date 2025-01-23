@@ -6,12 +6,12 @@ import com.ryderbelserion.chatmanager.core.managers.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.paper.api.PaperUserManager;
 import com.ryderbelserion.chatmanager.paper.listeners.CoreListener;
 import com.ryderbelserion.chatmanager.paper.listeners.chat.ChatListener;
-import com.ryderbelserion.core.api.enums.FileType;
+import com.ryderbelserion.core.util.FileUtils;
 import com.ryderbelserion.paper.FusionApi;
 import org.bukkit.Server;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicePriority;
-
+import java.io.File;
 import java.util.List;
 
 public class ChatManagerPaper implements IChatManager {
@@ -30,9 +30,11 @@ public class ChatManagerPaper implements IChatManager {
 
     @Override
     public void start() {
+        // enable fusion api
         this.api.enable(this.plugin);
 
-        this.api.getFusion().getFileManager().addFolder("locale", FileType.NONE);
+        // extract locale folder
+        FileUtils.extracts("/locale/", new File(this.plugin.getDataFolder(), "locale").toPath(), false);
 
         // load configuration
         ConfigManager.load();

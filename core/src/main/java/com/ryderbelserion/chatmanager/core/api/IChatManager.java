@@ -10,6 +10,6 @@ public interface IChatManager {
 
     //FileManager getManager();
 
-    UserManager getUserManager();
+    IUserManager getUserManager();
 
 }

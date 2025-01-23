@@ -4,7 +4,7 @@ import com.ryderbelserion.chatmanager.core.objects.User;
 import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.Nullable;
 
-public interface UserManager {
+public interface IUserManager {
 
     void addUser(final Audience audience);
 

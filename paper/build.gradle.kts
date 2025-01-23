@@ -16,11 +16,11 @@ repositories {
 dependencies {
     implementation(project(":chatmanager-core"))
 
+    implementation(libs.fusion.paper)
+
     compileOnly(libs.bundles.cloud.paper)
 
     compileOnly(libs.bundles.shared)
-
-    implementation(libs.fusion.paper)
 }
 
 tasks {

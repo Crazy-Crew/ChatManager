@@ -3,14 +3,14 @@ package com.ryderbelserion.chatmanager.core.enums;
 import ch.jalu.configme.properties.Property;
 import com.ryderbelserion.chatmanager.core.ChatProvider;
 import com.ryderbelserion.chatmanager.core.api.IChatManager;
-import com.ryderbelserion.chatmanager.core.api.UserManager;
+import com.ryderbelserion.chatmanager.core.api.IUserManager;
 import com.ryderbelserion.chatmanager.core.enums.other.Action;
 import com.ryderbelserion.chatmanager.core.enums.other.Files;
 import com.ryderbelserion.chatmanager.core.managers.configs.locale.RootKeys;
 import com.ryderbelserion.chatmanager.core.objects.User;
 import com.ryderbelserion.core.FusionProvider;
 import com.ryderbelserion.core.files.types.YamlCustomFile;
-import com.ryderbelserion.core.util.Methods;
+import com.ryderbelserion.core.util.StringUtils;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -39,7 +39,7 @@ public enum Messages {
 
     private static final IChatManager provider = ChatProvider.getChatManager();
 
-    private static final UserManager userManager = provider.getUserManager();
+    private static final IUserManager userManager = provider.getUserManager();
 
     private final YamlCustomFile config = Files.config.getCustomFile();
 
@@ -164,9 +164,9 @@ public enum Messages {
         String message;
 
         if (this.isList) {
-            message = Methods.toString(getList(audience));
+            message = StringUtils.toString(getList(audience));
         } else {
-            message = this.getString(audience);
+            message = getString(audience);
         }
 
         return FusionProvider.get().placeholders(audience, message, placeholders);
