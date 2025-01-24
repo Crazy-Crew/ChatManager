@@ -47,7 +47,7 @@ public class ConfigManager {
             for (final File file : contents) {
                 final String name = file.getName();
 
-                if (file.isDirectory() || !name.endsWith(".yml") || locales.containsKey(name)) return;
+                if (file.isDirectory() || !name.endsWith(".yml") || locales.containsKey(name)) continue;
 
                 locales.put(name, SettingsManagerBuilder
                         .withYamlFile(file, builder)
@@ -78,6 +78,10 @@ public class ConfigManager {
 
     public static SettingsManager getLocale(final String locale) {
         return locales.getOrDefault(locale, locales.get("en-US.yml"));
+    }
+
+    public static SettingsManager getLocale() {
+        return getLocale("en-US.yml");
     }
 
     public static SettingsManager getChat() {

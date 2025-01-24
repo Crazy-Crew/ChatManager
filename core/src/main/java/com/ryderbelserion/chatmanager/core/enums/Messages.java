@@ -1,15 +1,16 @@
 package com.ryderbelserion.chatmanager.core.enums;
 
+import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.properties.Property;
 import com.ryderbelserion.chatmanager.core.ChatProvider;
 import com.ryderbelserion.chatmanager.core.api.IChatManager;
 import com.ryderbelserion.chatmanager.core.api.IUserManager;
 import com.ryderbelserion.chatmanager.core.enums.other.Action;
-import com.ryderbelserion.chatmanager.core.enums.other.Files;
+import com.ryderbelserion.chatmanager.core.managers.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.core.managers.configs.config.ConfigKeys;
 import com.ryderbelserion.chatmanager.core.managers.configs.locale.RootKeys;
 import com.ryderbelserion.chatmanager.core.objects.User;
 import com.ryderbelserion.core.FusionProvider;
-import com.ryderbelserion.core.files.types.YamlCustomFile;
 import com.ryderbelserion.core.util.StringUtils;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -41,13 +42,15 @@ public enum Messages {
 
     private static final IUserManager userManager = provider.getUserManager();
 
-    private final YamlCustomFile config = Files.config.getCustomFile();
+    private final SettingsManager config = ConfigManager.getConfig();
+
+    private final SettingsManager locale = ConfigManager.getLocale();
 
     public String getString(final Audience audience) {
         final @Nullable User user = userManager.getUser(audience);
 
         if (user == null) {
-            throw new NullPointerException("User was not found in the cache when trying to send a message!");
+            return this.locale.getProperty(this.property);
         }
 
         return user.getLocale().getProperty(this.property);
@@ -57,7 +60,7 @@ public enum Messages {
         final @Nullable User user = userManager.getUser(audience);
 
         if (user == null) {
-            throw new NullPointerException("User was not found in the cache when trying to send a message!");
+            return this.locale.getProperty(this.properties);
         }
 
         return user.getLocale().getProperty(this.properties);
@@ -76,13 +79,13 @@ public enum Messages {
     }
 
     public Component getMessage(@NotNull final Audience sender, @NotNull final Map<String, String> placeholders) {
-        placeholders.putIfAbsent("prefix", this.config.getStringValue("root", "prefix"));
+        placeholders.putIfAbsent("prefix", this.config.getProperty(ConfigKeys.command_prefix));
 
         return parse(sender, placeholders);
     }
 
     public void sendMessage(final Audience sender, final String placeholder, final String replacement) {
-        final Action action = Action.getAction(this.config.getStringValueWithDefault("send_message", "root", "message-action"));
+        final Action action = this.config.getProperty(ConfigKeys.message_action);
 
         switch (action) {
             case send_message -> sendRichMessage(sender, placeholder, replacement);
@@ -91,7 +94,7 @@ public enum Messages {
     }
 
     public void sendMessage(final Audience sender, final Map<String, String> placeholders) {
-        final Action action = Action.getAction(this.config.getStringValueWithDefault("send_message", "root", "message-action"));
+        final Action action = this.config.getProperty(ConfigKeys.message_action);
 
         switch (action) {
             case send_message -> sendRichMessage(sender, placeholders);
@@ -100,7 +103,7 @@ public enum Messages {
     }
 
     public void sendMessage(final Audience sender) {
-        final Action action = Action.getAction(this.config.getStringValueWithDefault("send_message", "root", "message-action"));
+        final Action action = this.config.getProperty(ConfigKeys.message_action);
 
         switch (action) {
             case send_message -> sendRichMessage(sender);
