@@ -22,7 +22,8 @@ import java.util.Map;
 
 public enum Messages {
 
-    reload_plugin(RootKeys.reload_plugin);
+    reload_plugin(RootKeys.reload_plugin),
+    motd(RootKeys.motd, true);
 
     private Property<String> property;
 

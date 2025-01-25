@@ -37,4 +37,15 @@ public class ConfigKeys implements SettingsHolder {
     })
     public static final Property<Action> message_action = newBeanProperty(Action.class, "root.message-action", Action.send_message);
 
+    @Comment({
+            "Should the motd be sent when a player joins?",
+            "",
+            "If you wish to customize the motd output, you must go to the locale folder",
+            "You can customize the motd for each language."
+    })
+    public static final Property<Boolean> motd_toggle = newProperty("features.motd.toggle", false);
+
+    @Comment("How long should we wait until the motd is displayed after logging in?")
+    public static final Property<Integer> motd_delay = newProperty("features.motd.delay", 0);
+
 }
