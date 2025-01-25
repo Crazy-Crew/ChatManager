@@ -8,7 +8,6 @@ import org.incendo.cloud.annotations.Command;
 import org.incendo.cloud.annotations.Permission;
 import org.jetbrains.annotations.NotNull;
 
-@Command("chatmanager")
 public class ReloadFeature extends BaseFeature {
 
     @Override
