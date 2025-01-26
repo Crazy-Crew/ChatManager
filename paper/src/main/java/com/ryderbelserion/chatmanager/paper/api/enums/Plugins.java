@@ -5,14 +5,11 @@ import org.eclipse.aether.graph.Dependency;
 
 public enum Plugins {
 
-    fusion_paper("com.ryderbelserion.fusion", "fusion-paper", "0.7.2"),
-    fusion_core("com.ryderbelserion.fusion", "fusion-core", "0.7.2"),
-
     cloud_extras("org.incendo", "cloud-minecraft-extras", "2.0.0-beta.10"),
     cloud_annotations("org.incendo", "cloud-annotations", "2.0.0"),
     cloud_paper("org.incendo", "cloud-paper", "2.0.0-beta.10"),
 
-    configme("ch.jalu", "configme", "1.4.1");
+    configme("ch.jalu", "configme", "1.4.2");
 
     private final String group;
     private final String id;

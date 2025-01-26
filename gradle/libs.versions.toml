@@ -50,7 +50,7 @@ cloud-release = "2.0.0"
 placeholderapi = "2.11.6"
 
 # Fusion API
-fusion = "0.8.0"
+fusion = "0.8.3"
 
 # Vault API
 vault = "1.7.1"
@@ -59,7 +59,7 @@ vault = "1.7.1"
 adventure = "4.18.0"
 
 # Other API
-jalu = "1.4.1"
+jalu = "1.4.2"
 
 [bundles]
 # Shared API
