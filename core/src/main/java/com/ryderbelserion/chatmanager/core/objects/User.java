@@ -33,6 +33,10 @@ public class User {
         }
     }
 
+    public String getLocaleType() {
+        return this.locale;
+    }
+
     public SettingsManager getLocale() {
         return ConfigManager.getLocale(this.locale + ".yml");
     }

@@ -15,6 +15,8 @@ public class ChatManagerLoader implements PluginLoader {
 
         resolver.addRepository(new RemoteRepository.Builder("paper", "default", "https://repo.papermc.io/repository/maven-public").build());
 
+        resolver.addRepository(new RemoteRepository.Builder("crazycrewReleases", "default", "https://repo.crazycrew.us/releases/").build());
+
         // Add configme
         resolver.addDependency(Plugins.configme.asDependency());
 

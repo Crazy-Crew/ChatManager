@@ -7,8 +7,19 @@ root:
   # The prefix that appears in front of commands!
   prefix: "<blue>[<gold>ChatManager<blue>] <reset>"
   # This option will tell the plugin to send all messages as action bars or messages in chat.
-  # 
+  #
   # send_message -> sends messages in chat.
   # send_actionbar -> sends messages in actionbar.
-  # 
+  #
   message-action: "send_message"
+# Settings for individual features.
+features:
+  # The motd settings.
+  motd:
+    # Should the motd be sent when a player joins?
+    #
+    # If you wish to customize the motd output, you must go to the locale folder
+    # You can customize the motd for each language.
+    toggle: false
+    # How long should we wait until the motd is displayed after logging in?
+    delay: 0

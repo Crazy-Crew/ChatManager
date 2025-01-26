@@ -23,6 +23,10 @@ public class ConfigKeys implements SettingsHolder {
         };
 
         conf.setComment("root", header);
+
+        conf.setComment("features", "Settings for individual features.");
+
+        conf.setComment("features.motd", "The motd settings.");
     }
 
     @Comment("The prefix that appears in front of commands!")
