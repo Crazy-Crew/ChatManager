@@ -6,6 +6,7 @@ import com.ryderbelserion.chatmanager.core.managers.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.paper.api.PaperUserManager;
 import com.ryderbelserion.chatmanager.paper.commands.AnnotationManager;
 import com.ryderbelserion.chatmanager.paper.listeners.CoreListener;
+import com.ryderbelserion.chatmanager.paper.listeners.TrafficListener;
 import com.ryderbelserion.chatmanager.paper.listeners.chat.ChatListener;
 import com.ryderbelserion.core.util.FileUtils;
 import com.ryderbelserion.paper.FusionApi;
@@ -61,6 +62,8 @@ public class ChatManagerPaper implements IChatManager {
         final PluginManager pluginManager = this.server.getPluginManager();
 
         List.of(
+                new TrafficListener(),
+
                 new ChatListener(),
                 new CoreListener()
         ).forEach(event -> pluginManager.registerEvents(event, this.plugin));
