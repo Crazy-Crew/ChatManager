@@ -1,6 +1,7 @@
 package com.ryderbelserion.chatmanager.paper.commands;
 
 import com.ryderbelserion.chatmanager.paper.ChatManagerPlugin;
+import com.ryderbelserion.chatmanager.paper.commands.features.MotdFeature;
 import com.ryderbelserion.chatmanager.paper.commands.features.ReloadFeature;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.incendo.cloud.annotations.AnnotationParser;
@@ -9,7 +10,9 @@ import java.util.List;
 public class AnnotationManager {
 
     private static final List<AnnotationFeature> features = List.of(
-            new ReloadFeature()
+            new ReloadFeature(),
+
+            new MotdFeature()
     );
 
     private final AnnotationParser<CommandSourceStack> parser;
