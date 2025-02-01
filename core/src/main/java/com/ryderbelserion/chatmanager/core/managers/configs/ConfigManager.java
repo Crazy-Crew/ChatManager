@@ -8,12 +8,9 @@ import com.ryderbelserion.chatmanager.core.managers.configs.config.chat.ChatKeys
 import com.ryderbelserion.chatmanager.core.managers.configs.locale.RootKeys;
 import com.ryderbelserion.core.FusionLayout;
 import com.ryderbelserion.core.FusionProvider;
-import com.ryderbelserion.core.api.enums.FileType;
 import com.ryderbelserion.core.util.FileUtils;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ConfigManager {
@@ -54,13 +51,7 @@ public class ConfigManager {
                 .configurationData(ChatKeys.class)
                 .create();
 
-        final File localeFolder = new File(dataFolder, "locale");
-
-        if (localeFolder.mkdirs()) {
-            layout.getFileManager().addFolder("locale", FileType.NONE);
-        }
-
-        loadLocale(localeFolder);
+        createLocaleFolder();
     }
 
     public static void reload() {
@@ -70,37 +61,41 @@ public class ConfigManager {
 
         chat.reload();
 
-        final File localeFolder = new File(layout.getDataFolder(), "locale");
+        createLocaleFolder();
 
-        if (localeFolder.mkdirs()) {
-            layout.getFileManager().addFolder("locale", FileType.NONE);
+        /*final List<String> brokenLocales = new ArrayList<>();
 
-            loadLocale(localeFolder);
-        } else {
-            final List<String> brokenLocales = new ArrayList<>();
+        locales.forEach((name, settingsManager) -> {
+            final File localeFile = new File(localeFolder, name);
 
-            locales.forEach((name, settingsManager) -> {
-                final File localeFile = new File(localeFolder, name);
+            if (localeFile.exists()) {
+                settingsManager.reload();
+            } else {
+                brokenLocales.add(name);
+            }
+        });
 
-                if (localeFile.exists()) {
-                    settingsManager.reload();
-                } else {
-                    brokenLocales.add(name);
-                }
-            });
-
-            brokenLocales.forEach(locales::remove);
-        }
+        brokenLocales.forEach(locales::remove);*/
     }
 
-    private static void loadLocale(File localeFolder) {
+    private static void createLocaleFolder() {
+        final File localeFolder = new File(layout.getDataFolder(), "locale");
+
+        FileUtils.extracts("/locale/", localeFolder.toPath(), false);
+
         final File[] contents = localeFolder.listFiles();
 
         if (contents != null) {
             for (final File file : contents) {
                 final String name = file.getName();
 
-                if (file.isDirectory() || !name.endsWith(".yml") || locales.containsKey(name)) continue;
+                if (file.isDirectory() || !name.endsWith(".yml")) continue;
+
+                if (locales.containsKey(name)) {
+                    locales.get(name).reload();
+
+                    continue;
+                }
 
                 locales.put(name, SettingsManagerBuilder
                         .withYamlFile(file, builder)
