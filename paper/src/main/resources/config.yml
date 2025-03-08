@@ -125,7 +125,7 @@ Anti_Spam:
       - "/spawn"
 
 #=================================================================================================#
-# Prevent players from swearing in chat, comamnds, and signs.
+# Prevent players from swearing in chat, commands, and signs.
 #=================================================================================================#
 Anti_Swear:
   Chat:
