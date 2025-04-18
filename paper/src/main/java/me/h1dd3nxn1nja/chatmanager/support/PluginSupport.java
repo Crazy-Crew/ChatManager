@@ -1,6 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.support;
 
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManagerMercurioMC;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,7 +13,7 @@ public enum PluginSupport {
     private final String name;
 
     @NotNull
-    private final ChatManager plugin = ChatManager.get();
+    private final ChatManagerMercurioMC plugin = ChatManagerMercurioMC.get();
 
     PluginSupport(String name) {
         this.name = name;

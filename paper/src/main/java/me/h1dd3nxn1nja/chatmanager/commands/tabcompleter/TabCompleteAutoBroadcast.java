@@ -7,13 +7,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.util.StringUtil;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManagerMercurioMC;
 import org.jetbrains.annotations.NotNull;
 
 public class TabCompleteAutoBroadcast implements TabCompleter {
 
 	@NotNull
-	private final ChatManager plugin = ChatManager.get();
+	private final ChatManagerMercurioMC plugin = ChatManagerMercurioMC.get();
 	
 	@Override
 	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String commandLabel, String[] args) {

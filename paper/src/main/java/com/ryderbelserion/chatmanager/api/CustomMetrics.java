@@ -1,14 +1,14 @@
 package com.ryderbelserion.chatmanager.api;
 
 import com.ryderbelserion.chatmanager.enums.Files;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManagerMercurioMC;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class CustomMetrics {
 
-    private final ChatManager plugin = ChatManager.get();
+    private final ChatManagerMercurioMC plugin = ChatManagerMercurioMC.get();
 
     private final Metrics metrics;
 

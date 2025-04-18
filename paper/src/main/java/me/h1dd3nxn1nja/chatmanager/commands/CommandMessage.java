@@ -4,7 +4,7 @@ import com.ryderbelserion.chatmanager.api.chat.UserRepliedData;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.core.api.support.PluginManager;
 import com.ryderbelserion.core.api.support.interfaces.Plugin;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManagerMercurioMC;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
@@ -29,7 +29,7 @@ import java.util.UUID;
 public class CommandMessage implements CommandExecutor, TabCompleter {
 
 	@NotNull
-	private final ChatManager plugin = ChatManager.get();
+	private final ChatManagerMercurioMC plugin = ChatManagerMercurioMC.get();
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {

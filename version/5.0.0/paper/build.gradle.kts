@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":chatmanager-core"))
+    implementation(project(":chatmanagermercuriomc-core"))
 
     implementation(libs.fusion.paper)
 

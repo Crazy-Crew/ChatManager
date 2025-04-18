@@ -5,7 +5,7 @@ import java.util.List;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.paper.enums.Scheduler;
 import com.ryderbelserion.paper.util.scheduler.FoliaScheduler;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManagerMercurioMC;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -14,7 +14,7 @@ import me.h1dd3nxn1nja.chatmanager.utils.World;
 
 public class AutoBroadcastManager {
 
-	private static final ChatManager plugin = ChatManager.get();
+	private static final ChatManagerMercurioMC plugin = ChatManagerMercurioMC.get();
 
 	private static final List<World> worlds = new ArrayList<>();
 	

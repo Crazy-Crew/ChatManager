@@ -3,7 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import java.util.Set;
 import java.util.UUID;
 import com.ryderbelserion.chatmanager.enums.Files;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManagerMercurioMC;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.ChatColor;
@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 public class ListenerRadius implements Listener {
 
 	@NotNull
-	private final ChatManager plugin = ChatManager.get();
+	private final ChatManagerMercurioMC plugin = ChatManagerMercurioMC.get();
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {

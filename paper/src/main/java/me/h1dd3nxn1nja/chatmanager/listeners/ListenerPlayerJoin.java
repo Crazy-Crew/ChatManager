@@ -6,7 +6,7 @@ import com.ryderbelserion.core.api.support.PluginManager;
 import com.ryderbelserion.core.api.support.interfaces.Plugin;
 import com.ryderbelserion.paper.enums.Scheduler;
 import com.ryderbelserion.paper.util.scheduler.FoliaScheduler;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManagerMercurioMC;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 public class ListenerPlayerJoin implements Listener {
 
     @NotNull
-    private final ChatManager plugin = ChatManager.get();
+    private final ChatManagerMercurioMC plugin = ChatManagerMercurioMC.get();
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void firstJoinMessage(PlayerJoinEvent event) {

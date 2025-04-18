@@ -1,14 +1,14 @@
 package me.h1dd3nxn1nja.chatmanager.utils;
 
 import com.ryderbelserion.chatmanager.enums.Files;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManagerMercurioMC;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 public class Debug {
 
 	@NotNull
-	private static final ChatManager plugin = ChatManager.get();
+	private static final ChatManagerMercurioMC plugin = ChatManagerMercurioMC.get();
 
 	public static void debugAutoBroadcast() {
 		FileConfiguration autobroadcast = Files.AUTO_BROADCAST.getConfiguration();

@@ -2,7 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManagerMercurioMC;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ListenerSpy implements Listener {
 
 	@NotNull
-	private final ChatManager plugin = ChatManager.get();
+	private final ChatManagerMercurioMC plugin = ChatManagerMercurioMC.get();
 
 	@EventHandler(ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {

@@ -1,7 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManagerMercurioMC;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 public class ListenerMentions implements Listener {
 
 	@NotNull
-	private final ChatManager plugin = ChatManager.get();
+	private final ChatManagerMercurioMC plugin = ChatManagerMercurioMC.get();
 
 	@NotNull
 	private final EssentialsSupport essentialsSupport = this.plugin.getPluginManager().getEssentialsSupport();

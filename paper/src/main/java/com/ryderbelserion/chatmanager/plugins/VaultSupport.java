@@ -1,7 +1,7 @@
 package com.ryderbelserion.chatmanager.plugins;
 
 import com.ryderbelserion.core.api.support.interfaces.Plugin;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManagerMercurioMC;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.entity.Player;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class VaultSupport implements Plugin {
 
-    private static final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+    private static final ChatManagerMercurioMC plugin = JavaPlugin.getPlugin(ChatManagerMercurioMC.class);
 
     @Override
     public final boolean isEnabled() {

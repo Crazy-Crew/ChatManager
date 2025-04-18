@@ -28,10 +28,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Arrays;
 import java.util.List;
 
-public class ChatManager extends JavaPlugin {
+public class ChatManagerMercurioMC extends JavaPlugin {
 
-    public static ChatManager get() {
-        return JavaPlugin.getPlugin(ChatManager.class);
+    public static ChatManagerMercurioMC get() {
+        return JavaPlugin.getPlugin(ChatManagerMercurioMC.class);
     }
 
     private final FusionApi fusion = FusionApi.get();

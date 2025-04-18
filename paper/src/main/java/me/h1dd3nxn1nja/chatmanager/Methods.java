@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public class Methods {
 
 	@NotNull
-	private static final ChatManager plugin = ChatManager.get();
+	private static final ChatManagerMercurioMC plugin = ChatManagerMercurioMC.get();
 
 	public static void playSound(FileConfiguration config, String path) {
 		String sound = config.getString(path + ".value");

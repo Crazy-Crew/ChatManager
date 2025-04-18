@@ -1,13 +1,13 @@
 package com.ryderbelserion.chatmanager.plugins.papi;
 
 import com.ryderbelserion.core.api.support.interfaces.Plugin;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManagerMercurioMC;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class PlaceholderAPISupport implements Plugin {
 
-    private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+    private final ChatManagerMercurioMC plugin = JavaPlugin.getPlugin(ChatManagerMercurioMC.class);
 
     @Override
     public boolean isEnabled() {

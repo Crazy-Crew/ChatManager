@@ -2,9 +2,8 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManagerMercurioMC;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public class CommandClearChat implements CommandExecutor {
 
 	@NotNull
-	private final ChatManager plugin = ChatManager.get();
+	private final ChatManagerMercurioMC plugin = ChatManagerMercurioMC.get();
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {

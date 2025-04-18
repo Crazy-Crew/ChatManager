@@ -50,7 +50,7 @@ commands:
     ClearChat:
         description: Clears chat for everyone on the server.
         usage: /<command>
-        aliases: [cc]
+        aliases: [cchat]
     CommandSpy:
         description: See what commands every player types on the server.
         usage: /<command>

@@ -4,7 +4,7 @@ import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.paper.enums.Scheduler;
 import com.ryderbelserion.paper.util.scheduler.FoliaScheduler;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManagerMercurioMC;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 public class ListenerAntiUnicode implements Listener {
 
 	@NotNull
-	private final ChatManager plugin = ChatManager.get();
+	private final ChatManagerMercurioMC plugin = ChatManagerMercurioMC.get();
 
 	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {

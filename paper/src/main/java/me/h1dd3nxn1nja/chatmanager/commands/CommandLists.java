@@ -2,7 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManagerMercurioMC;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.command.Command;
@@ -17,7 +17,7 @@ import java.util.List;
 
 public class CommandLists implements CommandExecutor {
 
-	private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+	private final ChatManagerMercurioMC plugin = JavaPlugin.getPlugin(ChatManagerMercurioMC.class);
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {

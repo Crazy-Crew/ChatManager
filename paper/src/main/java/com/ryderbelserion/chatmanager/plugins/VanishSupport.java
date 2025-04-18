@@ -1,7 +1,7 @@
 package com.ryderbelserion.chatmanager.plugins;
 
 import com.ryderbelserion.core.api.support.interfaces.Plugin;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManagerMercurioMC;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class VanishSupport implements Plugin {
 
-    private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+    private final ChatManagerMercurioMC plugin = JavaPlugin.getPlugin(ChatManagerMercurioMC.class);
 
     @Override
     public final boolean isEnabled() {

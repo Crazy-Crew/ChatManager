@@ -2,7 +2,7 @@ package com.ryderbelserion.chatmanager.plugins.papi;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManagerMercurioMC;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
 
 public class PlaceholderAPIExpansion extends PlaceholderExpansion {
 
-    private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+    private final ChatManagerMercurioMC plugin = JavaPlugin.getPlugin(ChatManagerMercurioMC.class);
 
     @Override
     public @Nullable String onRequest(OfflinePlayer player, @NotNull String identifier) {

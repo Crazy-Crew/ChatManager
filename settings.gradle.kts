@@ -1,4 +1,4 @@
-rootProject.name = "ChatManager"
+rootProject.name = "ChatManagerMercurioMC"
 
 listOf(
     "version/5.0.0/paper" to "paper",

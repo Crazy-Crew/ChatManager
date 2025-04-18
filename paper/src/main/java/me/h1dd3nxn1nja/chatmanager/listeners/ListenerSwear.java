@@ -4,7 +4,7 @@ import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.paper.enums.Scheduler;
 import com.ryderbelserion.paper.util.scheduler.FoliaScheduler;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManagerMercurioMC;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -28,7 +28,7 @@ public class ListenerSwear implements Listener {
 	//TODO() Add a way so that chat manager highlights the swear word in the notify feature.
 
 	@NotNull
-	private final ChatManager plugin = ChatManager.get();
+	private final ChatManagerMercurioMC plugin = ChatManagerMercurioMC.get();
 
 	@EventHandler(ignoreCancelled = true)
 	public void onSwear(AsyncPlayerChatEvent event) {

@@ -1,6 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.ChatManagerMercurioMC;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,7 +11,7 @@ import java.util.Set;
 public class ListenerToggleChat implements Listener {
 
 	@NotNull
-	private final ChatManager plugin = ChatManager.get();
+	private final ChatManagerMercurioMC plugin = ChatManagerMercurioMC.get();
 
 	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
