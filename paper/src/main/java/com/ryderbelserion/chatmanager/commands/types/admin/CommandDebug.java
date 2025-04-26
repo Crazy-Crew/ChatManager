@@ -1,7 +1,7 @@
 package com.ryderbelserion.chatmanager.commands.types.admin;
 
 import com.ryderbelserion.chatmanager.commands.AnnotationFeature;
-import com.ryderbelserion.chatmanager.enums.DebugType;
+import com.ryderbelserion.chatmanager.enums.commands.DebugType;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.utils.Debug;

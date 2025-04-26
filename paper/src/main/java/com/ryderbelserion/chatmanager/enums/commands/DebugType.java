@@ -1,4 +1,4 @@
-package com.ryderbelserion.chatmanager.enums;
+package com.ryderbelserion.chatmanager.enums.commands;
 
 public enum DebugType {
 
