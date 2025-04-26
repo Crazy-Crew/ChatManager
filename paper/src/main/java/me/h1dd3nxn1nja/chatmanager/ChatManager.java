@@ -45,10 +45,6 @@ public class ChatManager extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        new BaseCommand(PaperCommandManager.builder()
-                .executionCoordinator(ExecutionCoordinator.simpleCoordinator())
-                .buildOnEnable(this));
-
         this.fusion.enable(this);
 
         this.fusion.getFileManager().addFile("config.yml", FileType.YAML)
@@ -78,12 +74,13 @@ public class ChatManager extends JavaPlugin {
         this.pluginHandler = new PluginHandler();
         this.pluginHandler.load();
 
-        //registerCommands();
         registerEvents();
         check();
         setupChatRadius();
 
-        //registerPermissions();
+        new BaseCommand(PaperCommandManager.builder()
+                .executionCoordinator(ExecutionCoordinator.simpleCoordinator())
+                .buildOnEnable(this));
     }
 
     @Override
@@ -130,8 +127,6 @@ public class ChatManager extends JavaPlugin {
         registerCommand(getCommand("StaffChat"), new CommandStaffChat(), new CommandStaffChat());
 
         registerCommand(getCommand("ChatRadius"), new CommandRadius(), new CommandRadius());
-
-        registerCommand(getCommand("ChatManager"), new TabCompleteChatManager(), new CommandChatManager());
 
         CommandSpy commandSpy = new CommandSpy();
 
