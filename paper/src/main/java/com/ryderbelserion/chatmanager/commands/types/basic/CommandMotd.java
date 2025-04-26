@@ -23,7 +23,7 @@ public class CommandMotd extends AnnotationFeature {
     @Default
     @Permission(value = "chatmanager.use", mode = Permission.Mode.ANY_OF)
     public void root(final CommandSender sender) {
-        Methods.sendMessage(sender, "&7This server is using the plugin &cChatManager &7version " + plugin.getDescription().getVersion() + " by &cH1DD3NxN1NJA.", true);
+        Methods.sendMessage(sender, "&7This server is using the plugin &cChatManager &7version " + this.plugin.getPluginMeta().getVersion() + " by &cH1DD3NxN1NJA.", true);
         Methods.sendMessage(sender, "&7Commands: &c/chatmanager help", true);
     }
 
