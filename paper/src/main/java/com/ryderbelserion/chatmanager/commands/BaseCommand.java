@@ -3,28 +3,33 @@ package com.ryderbelserion.chatmanager.commands;
 import com.ryderbelserion.chatmanager.commands.types.basic.CommandMotd;
 import com.ryderbelserion.chatmanager.commands.types.basic.CommandRules;
 import com.ryderbelserion.chatmanager.commands.types.chat.CommandMuteChat;
+import com.ryderbelserion.chatmanager.commands.types.toggles.CommandToggleChat;
+import com.ryderbelserion.chatmanager.commands.types.toggles.CommandToggleMentions;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.incendo.cloud.annotations.AnnotationParser;
 import org.incendo.cloud.injection.ParameterInjectorRegistry;
 import org.incendo.cloud.paper.PaperCommandManager;
+import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.List;
 
 public class BaseCommand {
 
     private static final List<AnnotationFeature> features = Arrays.asList(
-            new CommandRules(),
-            new CommandMotd(),
+            new CommandToggleMentions(),
+            new CommandToggleChat(),
 
-            new CommandMuteChat()
+            new CommandMuteChat(),
+
+            new CommandRules(),
+            new CommandMotd()
     );
 
     private final AnnotationParser<CommandSourceStack> parser;
 
-    public BaseCommand(final @NonNull PaperCommandManager<CommandSourceStack> manager) {
+    public BaseCommand(@NotNull final PaperCommandManager<CommandSourceStack> manager) {
         final ParameterInjectorRegistry<CommandSourceStack> injector = manager.parameterInjectorRegistry();
 
         injector.registerInjector(CommandSender.class, (context, accessor) -> context.sender().getSender());

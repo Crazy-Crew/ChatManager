@@ -141,10 +141,6 @@ public class ChatManager extends JavaPlugin {
         registerCommand(getCommand("PerWorldChat"), null, new CommandPerWorldChat());
 
         registerCommand(getCommand("Ping"), null, new CommandPing());
-
-        registerCommand(getCommand("ToggleChat"), null, new CommandToggleChat());
-
-        registerCommand(getCommand("ToggleMentions"), null, new CommandToggleMentions());
     }
 
     private void registerCommand(PluginCommand pluginCommand, TabCompleter tabCompleter, CommandExecutor commandExecutor) {
