@@ -68,10 +68,12 @@ tasks {
         inputs.properties("description" to project.description)
         inputs.properties("website" to rootProject.properties["website"].toString())
 
-        filesMatching("plugin.yml") {
+        filesMatching("paper-plugin.yml") {
             expand(inputs.properties)
         }
     }
+
+    runPaper.folia.registerTask()
 
     runServer {
         jvmArgs("-Dnet.kyori.ansi.colorLevel=truecolor")
