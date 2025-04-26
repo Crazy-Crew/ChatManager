@@ -45,7 +45,7 @@ public class ChatManager extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        new BaseCommand(this, PaperCommandManager.builder()
+        new BaseCommand(PaperCommandManager.builder()
                 .executionCoordinator(ExecutionCoordinator.simpleCoordinator())
                 .buildOnEnable(this));
 

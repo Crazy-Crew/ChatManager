@@ -3,7 +3,6 @@ package com.ryderbelserion.chatmanager.commands.types.basic;
 import com.ryderbelserion.chatmanager.commands.AnnotationFeature;
 import com.ryderbelserion.chatmanager.enums.Files;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -13,10 +12,10 @@ import org.incendo.cloud.annotations.CommandDescription;
 import org.incendo.cloud.annotations.Permission;
 import org.jetbrains.annotations.NotNull;
 
-public class CommandMotd implements AnnotationFeature {
+public class CommandMotd extends AnnotationFeature {
 
     @Override
-    public void registerFeature(@NotNull final ChatManager plugin, @NotNull final AnnotationParser<CommandSourceStack> parser) {
+    public void registerFeature(@NotNull final AnnotationParser<CommandSourceStack> parser) {
         parser.parse(this);
     }
 

@@ -5,8 +5,10 @@ import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.incendo.cloud.annotations.AnnotationParser;
 import org.jetbrains.annotations.NotNull;
 
-public interface AnnotationFeature {
+public abstract class AnnotationFeature {
 
-    void registerFeature(@NotNull final ChatManager plugin, @NotNull final AnnotationParser<CommandSourceStack> parser);
+    protected final ChatManager plugin = ChatManager.get();
+
+    public abstract void registerFeature(@NotNull final AnnotationParser<CommandSourceStack> parser);
 
 }
