@@ -1,8 +1,10 @@
 package com.ryderbelserion.chatmanager.enums;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
+import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -250,6 +252,16 @@ public enum Messages {
 
     public void sendMessage(final CommandSender sender) {
         sender.sendMessage(getMessage(sender));
+    }
+
+    private final ChatManager plugin = ChatManager.get();
+    private final Server server = this.plugin.getServer();
+
+    public void broadcast(final CommandSender sender) {
+        this.server.broadcastMessage(getMessage(sender, new HashMap<>() {{
+            put("{player}", sender.getName());
+            put("{prefix}", Methods.getPrefix());
+        }}));
     }
 
     private boolean exists() {
