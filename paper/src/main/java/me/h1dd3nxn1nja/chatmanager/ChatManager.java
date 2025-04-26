@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager;
 
 import com.ryderbelserion.chatmanager.ApiLoader;
 import com.ryderbelserion.chatmanager.api.CustomMetrics;
+import com.ryderbelserion.chatmanager.commands.BaseCommand;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.plugins.papi.PlaceholderAPISupport;
@@ -25,6 +26,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.incendo.cloud.execution.ExecutionCoordinator;
+import org.incendo.cloud.paper.PaperCommandManager;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,6 +45,10 @@ public class ChatManager extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        new BaseCommand(this, PaperCommandManager.builder()
+                .executionCoordinator(ExecutionCoordinator.simpleCoordinator())
+                .buildOnEnable(this));
+
         this.fusion.enable(this);
 
         this.fusion.getFileManager().addFile("config.yml", FileType.YAML)

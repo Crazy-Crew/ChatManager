@@ -5,7 +5,7 @@ plugins {
     id("paper-plugin")
 }
 
-project.group = "me.h1dd3nxn1nja.chatmanager.paper"
+project.group = "me.h1dd3nxn1nja.chatmanager"
 project.description = "The kitchen sink of Chat Management!"
 
 val buildNumber: String? = System.getenv("BUILD_NUMBER")
@@ -18,6 +18,8 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.bundles.cloud.paper)
+
     implementation(libs.fusion.paper)
 
     implementation(libs.metrics)
@@ -47,6 +49,7 @@ tasks {
 
         listOf(
             "com.ryderbelserion.fusion",
+            "org.incendo",
             "org.bstats"
         ).forEach {
             relocate(it, "libs.$it")
