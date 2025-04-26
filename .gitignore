@@ -1,10 +1,19 @@
 ### Intellij
-.kotlin
-.idea
+.kotlin/
+.idea/
+!.idea/icon.png
 
 ### Gradle
 .gradle
 build/
-run/
 
+### Servers
+run/
+!paper/run/config
+!paper/run/bukkit.yml
+!paper/run/eula.txt
+!paper/run/server.properties
+!paper/run/spigot.yml
+
+### Output
 jars/
