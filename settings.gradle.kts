@@ -8,7 +8,7 @@ listOf(
 
     "publish" to "publish",
 
-    "paper" to "current",
+    "paper" to "paper",
 ).forEach(::includeProject)
 
 fun includeProject(pair: Pair<String, String>): Unit = includeProject(pair.first, pair.second)
