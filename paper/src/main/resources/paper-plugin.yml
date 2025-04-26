@@ -8,6 +8,8 @@ website: '${website}'
 
 folia-supported: true
 
+authors: [ h1dd3nxn1nja, ryderbelserion ]
+
 dependencies:
   server:
     PlaceholderAPI:
