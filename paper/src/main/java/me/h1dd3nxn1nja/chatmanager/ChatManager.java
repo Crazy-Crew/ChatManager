@@ -78,12 +78,12 @@ public class ChatManager extends JavaPlugin {
         this.pluginHandler = new PluginHandler();
         this.pluginHandler.load();
 
-        registerCommands();
+        //registerCommands();
         registerEvents();
         check();
         setupChatRadius();
 
-        registerPermissions();
+        //registerPermissions();
     }
 
     @Override
@@ -144,8 +144,6 @@ public class ChatManager extends JavaPlugin {
 
         registerCommand(getCommand("Ping"), null, new CommandPing());
 
-        registerCommand(getCommand("Rules"), null, new CommandRules());
-
         registerCommand(getCommand("ToggleChat"), null, new CommandToggleChat());
 
         registerCommand(getCommand("ToggleMentions"), null, new CommandToggleMentions());
@@ -174,7 +172,6 @@ public class ChatManager extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ListenerRadius(), this);
         getServer().getPluginManager().registerEvents(new ListenerGrammar(), this);
         getServer().getPluginManager().registerEvents(new ListenerLogs(), this);
-        getServer().getPluginManager().registerEvents(new CommandMOTD(), this);
 
         getServer().getPluginManager().registerEvents(new ListenerMentions(), this);
         getServer().getPluginManager().registerEvents(new ListenerMuteChat(), this);
