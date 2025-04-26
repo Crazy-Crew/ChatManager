@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.incendo.cloud.annotations.AnnotationParser;
 import org.incendo.cloud.annotations.Command;
 import org.incendo.cloud.annotations.CommandDescription;
+import org.incendo.cloud.annotations.Default;
 import org.incendo.cloud.annotations.Permission;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,6 +18,13 @@ public class CommandMotd extends AnnotationFeature {
     @Override
     public void registerFeature(@NotNull final AnnotationParser<CommandSourceStack> parser) {
         parser.parse(this);
+    }
+
+    @Default
+    @Permission(value = "chatmanager.use", mode = Permission.Mode.ANY_OF)
+    public void root(final CommandSender sender) {
+        Methods.sendMessage(sender, "&7This server is using the plugin &cChatManager &7version " + plugin.getDescription().getVersion() + " by &cH1DD3NxN1NJA.", true);
+        Methods.sendMessage(sender, "&7Commands: &c/chatmanager help", true);
     }
 
     @Command("chatmanager motd")
