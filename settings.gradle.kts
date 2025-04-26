@@ -1,10 +1,10 @@
 rootProject.name = "ChatManager"
 
 listOf(
-    "version/5.0.0/paper" to "paper",
-    "version/5.0.0/core" to "core",
+    //"version/5.0.0/paper" to "paper",
+    //"version/5.0.0/core" to "core",
 
-    "version/5.0.0" to "5.0.0",
+    //"version/5.0.0" to "5.0.0",
 
     "publish" to "publish",
 
