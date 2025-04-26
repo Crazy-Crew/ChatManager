@@ -138,8 +138,6 @@ public class ChatManager extends JavaPlugin {
         registerCommand(getCommand("CommandSpy"), null, commandSpy);
         registerCommand(getCommand("SocialSpy"), null, commandSpy);
 
-        registerCommand(getCommand("MuteChat"), null, new CommandMuteChat());
-
         registerCommand(getCommand("PerWorldChat"), null, new CommandPerWorldChat());
 
         registerCommand(getCommand("Ping"), null, new CommandPing());

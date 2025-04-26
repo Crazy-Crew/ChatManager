@@ -2,6 +2,7 @@ package com.ryderbelserion.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.commands.types.basic.CommandMotd;
 import com.ryderbelserion.chatmanager.commands.types.basic.CommandRules;
+import com.ryderbelserion.chatmanager.commands.types.chat.CommandMuteChat;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -16,7 +17,9 @@ public class BaseCommand {
 
     private static final List<AnnotationFeature> features = Arrays.asList(
             new CommandRules(),
-            new CommandMotd()
+            new CommandMotd(),
+
+            new CommandMuteChat()
     );
 
     private final AnnotationParser<CommandSourceStack> parser;
