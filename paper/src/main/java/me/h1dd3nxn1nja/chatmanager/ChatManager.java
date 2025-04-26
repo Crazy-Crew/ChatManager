@@ -123,8 +123,6 @@ public class ChatManager extends JavaPlugin {
         registerCommand(getCommand("Message"), new TabCompleteMessage(), commandMessage);
 
         registerCommand(getCommand("StaffChat"), new CommandStaffChat(), new CommandStaffChat());
-
-        registerCommand(getCommand("Ping"), null, new CommandPing());
     }
 
     private void registerCommand(PluginCommand pluginCommand, TabCompleter tabCompleter, CommandExecutor commandExecutor) {
