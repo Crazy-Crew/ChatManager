@@ -1,5 +1,6 @@
 package com.ryderbelserion.chatmanager.commands;
 
+import com.ryderbelserion.chatmanager.commands.types.admin.CommandReload;
 import com.ryderbelserion.chatmanager.commands.types.basic.CommandMotd;
 import com.ryderbelserion.chatmanager.commands.types.basic.CommandRules;
 import com.ryderbelserion.chatmanager.commands.types.chat.CommandMuteChat;
@@ -23,6 +24,7 @@ public class BaseCommand {
 
             new CommandMuteChat(),
 
+            new CommandReload(),
             new CommandRules(),
             new CommandMotd()
     );
