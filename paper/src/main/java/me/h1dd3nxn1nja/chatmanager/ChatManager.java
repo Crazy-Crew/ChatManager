@@ -124,8 +124,6 @@ public class ChatManager extends JavaPlugin {
 
         registerCommand(getCommand("StaffChat"), new CommandStaffChat(), new CommandStaffChat());
 
-        registerCommand(getCommand("ChatRadius"), new CommandRadius(), new CommandRadius());
-
         registerCommand(getCommand("Ping"), null, new CommandPing());
     }
 

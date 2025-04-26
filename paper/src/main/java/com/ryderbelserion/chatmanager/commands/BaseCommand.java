@@ -8,6 +8,7 @@ import com.ryderbelserion.chatmanager.commands.types.basic.CommandMotd;
 import com.ryderbelserion.chatmanager.commands.types.basic.CommandRules;
 import com.ryderbelserion.chatmanager.commands.types.chat.CommandClearChat;
 import com.ryderbelserion.chatmanager.commands.types.chat.CommandMuteChat;
+import com.ryderbelserion.chatmanager.commands.types.chat.CommandRadius;
 import com.ryderbelserion.chatmanager.commands.types.toggles.CommandPerWorldChat;
 import com.ryderbelserion.chatmanager.commands.types.toggles.CommandToggleChat;
 import com.ryderbelserion.chatmanager.commands.types.toggles.CommandToggleMentions;
@@ -30,6 +31,7 @@ public class BaseCommand {
 
             new CommandClearChat(),
             new CommandMuteChat(),
+            new CommandRadius(),
             new CommandSpy(),
 
             new CommandReload(),
