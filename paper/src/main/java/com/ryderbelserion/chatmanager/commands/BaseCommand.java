@@ -7,6 +7,7 @@ import com.ryderbelserion.chatmanager.commands.types.basic.CommandMotd;
 import com.ryderbelserion.chatmanager.commands.types.basic.CommandRules;
 import com.ryderbelserion.chatmanager.commands.types.chat.CommandClearChat;
 import com.ryderbelserion.chatmanager.commands.types.chat.CommandMuteChat;
+import com.ryderbelserion.chatmanager.commands.types.toggles.CommandPerWorldChat;
 import com.ryderbelserion.chatmanager.commands.types.toggles.CommandToggleChat;
 import com.ryderbelserion.chatmanager.commands.types.toggles.CommandToggleMentions;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -23,6 +24,7 @@ public class BaseCommand {
 
     private static final List<AnnotationFeature> features = Arrays.asList(
             new CommandToggleMentions(),
+            new CommandPerWorldChat(),
             new CommandToggleChat(),
 
             new CommandClearChat(),
