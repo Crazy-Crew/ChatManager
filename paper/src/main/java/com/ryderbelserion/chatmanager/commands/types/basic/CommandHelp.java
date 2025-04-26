@@ -47,8 +47,8 @@ public class CommandHelp extends AnnotationFeature {
                 .toList();
     }
 
-    @Command("chatmanager help <type>")
-    @CommandDescription("Help menu")
+    @Command("chatmanager help <query>")
+    @CommandDescription("Shows the player the help menu!")
     public void help(@NotNull final CommandSourceStack sender, final @Argument(value = "query", suggestions = "help_queries") @Greedy @Nullable String query) {
         this.help.queryCommands(query == null ? "" : query, sender);
     }
