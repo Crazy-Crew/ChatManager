@@ -257,11 +257,23 @@ public enum Messages {
     private final ChatManager plugin = ChatManager.get();
     private final Server server = this.plugin.getServer();
 
-    public void broadcast(final CommandSender sender) {
-        this.server.broadcastMessage(getMessage(sender, new HashMap<>() {{
+    public void broadcast(final CommandSender sender, final String permission) {
+        final String message = getMessage(sender, new HashMap<>() {{
             put("{player}", sender.getName());
             put("{prefix}", Methods.getPrefix());
-        }}));
+        }});
+
+        if (permission.isBlank()) {
+            this.server.broadcastMessage(message);
+
+            return;
+        }
+
+        this.server.broadcast(message, permission);
+    }
+
+    public void broadcast(final CommandSender sender) {
+        broadcast(sender, "");
     }
 
     private boolean exists() {
