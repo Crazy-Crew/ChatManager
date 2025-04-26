@@ -2,6 +2,7 @@ package com.ryderbelserion.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.commands.types.admin.CommandDebug;
 import com.ryderbelserion.chatmanager.commands.types.admin.CommandReload;
+import com.ryderbelserion.chatmanager.commands.types.basic.CommandHelp;
 import com.ryderbelserion.chatmanager.commands.types.basic.CommandMotd;
 import com.ryderbelserion.chatmanager.commands.types.basic.CommandRules;
 import com.ryderbelserion.chatmanager.commands.types.chat.CommandMuteChat;
@@ -29,7 +30,9 @@ public class BaseCommand {
             new CommandDebug(),
 
             new CommandRules(),
-            new CommandMotd()
+            new CommandMotd(),
+
+            new CommandHelp()
     );
 
     private final AnnotationParser<CommandSourceStack> parser;
