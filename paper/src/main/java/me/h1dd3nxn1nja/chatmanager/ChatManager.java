@@ -126,11 +126,6 @@ public class ChatManager extends JavaPlugin {
 
         registerCommand(getCommand("ChatRadius"), new CommandRadius(), new CommandRadius());
 
-        CommandSpy commandSpy = new CommandSpy();
-
-        registerCommand(getCommand("CommandSpy"), null, commandSpy);
-        registerCommand(getCommand("SocialSpy"), null, commandSpy);
-
         registerCommand(getCommand("Ping"), null, new CommandPing());
     }
 
