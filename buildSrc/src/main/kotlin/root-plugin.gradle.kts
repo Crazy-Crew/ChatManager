@@ -43,6 +43,7 @@ tasks {
 
     compileJava {
         options.encoding = Charsets.UTF_8.name()
+        options.compilerArgs.add("-parameters")
         options.release.set(21)
     }
 
