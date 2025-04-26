@@ -6,7 +6,6 @@ import com.ryderbelserion.chatmanager.enums.Permissions;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.incendo.cloud.annotations.AnnotationParser;
 import org.incendo.cloud.annotations.Command;
 import org.incendo.cloud.annotations.CommandDescription;
@@ -25,9 +24,9 @@ public class CommandMuteChat extends AnnotationFeature {
     @CommandDescription("Allows the sender to mutechat!")
     @Permission(value = "chatmanager.mutechat", mode = Permission.Mode.ANY_OF)
     public void mutechat(final CommandSender sender, @Flag(value = "silent", aliases = {"s"}, permission = "mutechat.silent") boolean isSilent) {
-        final boolean isMuted = Methods.isMuted();
-
         Methods.setMuted();
+
+        final boolean isMuted = Methods.isMuted();
 
         if (!isSilent) {
             if (isMuted) {
@@ -40,19 +39,11 @@ public class CommandMuteChat extends AnnotationFeature {
         }
 
         if (isMuted) {
-            for (final Player player : this.plugin.getServer().getOnlinePlayers()) {
-                if (player.hasPermission(Permissions.BYPASS_MUTE_CHAT.getNode())) {
-                    Messages.MUTE_CHAT_BROADCAST_MESSAGES_ENABLED.sendMessage(player, "{player}", sender.getName());
-                }
-            }
+            Messages.MUTE_CHAT_BROADCAST_MESSAGES_ENABLED.broadcast(sender, Permissions.BYPASS_MUTE_CHAT.getNode());
 
             return;
         }
 
-        for (final Player player : this.plugin.getServer().getOnlinePlayers()) {
-            if (player.hasPermission(Permissions.BYPASS_MUTE_CHAT.getNode())) {
-                Messages.MUTE_CHAT_BROADCAST_MESSAGES_DISABLED.sendMessage(player, "{player}", sender.getName());
-            }
-        }
+        Messages.MUTE_CHAT_BROADCAST_MESSAGES_DISABLED.broadcast(sender, Permissions.BYPASS_MUTE_CHAT.getNode());
     }
 }
