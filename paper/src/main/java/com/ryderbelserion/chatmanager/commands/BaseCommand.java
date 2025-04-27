@@ -1,5 +1,7 @@
 package com.ryderbelserion.chatmanager.commands;
 
+import com.ryderbelserion.chatmanager.commands.types.admin.CommandAntiSwear;
+import com.ryderbelserion.chatmanager.commands.types.admin.CommandBannedCommands;
 import com.ryderbelserion.chatmanager.commands.types.admin.CommandDebug;
 import com.ryderbelserion.chatmanager.commands.types.admin.CommandReload;
 import com.ryderbelserion.chatmanager.commands.types.admin.CommandSpy;
@@ -32,10 +34,12 @@ public class BaseCommand {
             new CommandPerWorldChat(),
             new CommandToggleChat(),
 
-            new CommandStaff(),
+            new CommandBannedCommands(),
+            new CommandAntiSwear(),
             new CommandClearChat(),
             new CommandMuteChat(),
             new CommandRadius(),
+            new CommandStaff(),
             new CommandSpy(),
 
             new CommandReload(),
