@@ -26,7 +26,7 @@ public class CommandToggleChat extends AnnotationFeature {
     }
 
     @Command("chatmanager togglechat")
-    @CommandDescription("Allows the sender to togglechat!")
+    @CommandDescription("Allows the sender to toggle chat!")
     @Permission(value = "chatmanager.togglechat", mode = Permission.Mode.ANY_OF)
     public void togglechat(final Player player, @Flag(value = "silent", aliases = {"s"}, permission = "togglechat.silent") boolean isSilent) {
         final UUID uuid = player.getUniqueId();

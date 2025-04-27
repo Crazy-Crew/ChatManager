@@ -36,7 +36,7 @@ public class CommandSpy extends AnnotationFeature {
     }
 
     @Command(value = "chatmanager spy <type>", requiredSender = Player.class)
-    @CommandDescription("Access the ability to spy on commands/messages")
+    @CommandDescription("Access the ability to spy on commands/messages!")
     @Permission(value = "chatmanager.spy", mode = Permission.Mode.ANY_OF)
     public void debug(final Player player, @Argument("type") final @NotNull SpyType type) {
         final UUID uuid = player.getUniqueId();

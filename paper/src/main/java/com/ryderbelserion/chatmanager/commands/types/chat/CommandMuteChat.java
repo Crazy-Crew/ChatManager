@@ -21,7 +21,7 @@ public class CommandMuteChat extends AnnotationFeature {
     }
 
     @Command("chatmanager mutechat")
-    @CommandDescription("Allows the sender to mutechat!")
+    @CommandDescription("Allows the sender to mute chat!")
     @Permission(value = "chatmanager.mutechat", mode = Permission.Mode.ANY_OF)
     public void mutechat(final CommandSender sender, @Flag(value = "silent", aliases = {"s"}, permission = "mutechat.silent") boolean isSilent) {
         Methods.setMuted();

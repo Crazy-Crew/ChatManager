@@ -12,7 +12,6 @@ import org.incendo.cloud.annotations.CommandDescription;
 import org.incendo.cloud.annotations.Flag;
 import org.incendo.cloud.annotations.Permission;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.UUID;
 
 public class CommandToggleMentions extends AnnotationFeature {
