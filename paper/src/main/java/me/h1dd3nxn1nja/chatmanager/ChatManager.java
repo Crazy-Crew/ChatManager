@@ -107,11 +107,6 @@ public class ChatManager extends JavaPlugin {
 
         registerCommand(getCommand("AutoBroadcast"), new TabCompleteAutoBroadcast(), new CommandAutoBroadcast());
 
-        CommandLists listsCommand = new CommandLists();
-
-        registerCommand(getCommand("List"), null, listsCommand);
-        registerCommand(getCommand("Staff"), null, listsCommand);
-
         registerCommand(getCommand("BannedCommands"), new TabCompleteBannedCommands(), new CommandBannedCommands());
 
         registerCommand(getCommand("AntiSwear"), new TabCompleteAntiSwear(), new CommandAntiSwear());

@@ -4,13 +4,14 @@ import com.ryderbelserion.chatmanager.commands.types.admin.CommandDebug;
 import com.ryderbelserion.chatmanager.commands.types.admin.CommandReload;
 import com.ryderbelserion.chatmanager.commands.types.admin.CommandSpy;
 import com.ryderbelserion.chatmanager.commands.types.basic.CommandHelp;
+import com.ryderbelserion.chatmanager.commands.types.basic.CommandList;
 import com.ryderbelserion.chatmanager.commands.types.basic.CommandMotd;
 import com.ryderbelserion.chatmanager.commands.types.basic.CommandPing;
 import com.ryderbelserion.chatmanager.commands.types.basic.CommandRules;
 import com.ryderbelserion.chatmanager.commands.types.chat.CommandClearChat;
 import com.ryderbelserion.chatmanager.commands.types.chat.CommandMuteChat;
 import com.ryderbelserion.chatmanager.commands.types.chat.CommandRadius;
-import com.ryderbelserion.chatmanager.commands.types.chat.CommandStaffChat;
+import com.ryderbelserion.chatmanager.commands.types.admin.CommandStaff;
 import com.ryderbelserion.chatmanager.commands.types.toggles.CommandPerWorldChat;
 import com.ryderbelserion.chatmanager.commands.types.toggles.CommandToggleChat;
 import com.ryderbelserion.chatmanager.commands.types.toggles.CommandToggleMentions;
@@ -31,7 +32,7 @@ public class BaseCommand {
             new CommandPerWorldChat(),
             new CommandToggleChat(),
 
-            new CommandStaffChat(),
+            new CommandStaff(),
             new CommandClearChat(),
             new CommandMuteChat(),
             new CommandRadius(),
@@ -43,6 +44,7 @@ public class BaseCommand {
             new CommandRules(),
             new CommandPing(),
             new CommandMotd(),
+            new CommandList(),
 
             new CommandHelp()
     );
