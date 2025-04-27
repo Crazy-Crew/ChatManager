@@ -1,4 +1,4 @@
-package com.ryderbelserion.chatmanager.commands.types.chat;
+package com.ryderbelserion.chatmanager.commands.types.admin;
 
 import com.ryderbelserion.chatmanager.ApiLoader;
 import com.ryderbelserion.chatmanager.api.chat.StaffChatData;
@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
-public class CommandStaffChat extends AnnotationFeature {
+public class CommandStaff extends AnnotationFeature {
 
     private final ApiLoader api = this.plugin.api();
 
