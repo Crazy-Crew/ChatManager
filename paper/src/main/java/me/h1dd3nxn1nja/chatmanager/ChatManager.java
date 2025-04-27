@@ -121,8 +121,6 @@ public class ChatManager extends JavaPlugin {
         registerCommand(getCommand("Reply"), commandMessage, commandMessage);
         registerCommand(getCommand("TogglePM"), commandMessage, commandMessage);
         registerCommand(getCommand("Message"), new TabCompleteMessage(), commandMessage);
-
-        registerCommand(getCommand("StaffChat"), new CommandStaffChat(), new CommandStaffChat());
     }
 
     private void registerCommand(PluginCommand pluginCommand, TabCompleter tabCompleter, CommandExecutor commandExecutor) {
