@@ -12,16 +12,11 @@ import com.ryderbelserion.core.api.enums.FileType;
 import com.ryderbelserion.core.api.support.PluginManager;
 import com.ryderbelserion.paper.FusionApi;
 import com.ryderbelserion.paper.files.FileManager;
-import me.h1dd3nxn1nja.chatmanager.commands.*;
-import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.*;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.listeners.*;
 import me.h1dd3nxn1nja.chatmanager.managers.AutoBroadcastManager;
 import me.h1dd3nxn1nja.chatmanager.support.PluginHandler;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
@@ -95,22 +90,6 @@ public class ChatManager extends JavaPlugin {
 
             BossBarUtil bossBar = new BossBarUtil();
             bossBar.removeAllBossBars(player);
-        }
-    }
-
-    public void registerCommands() {
-        CommandMessage commandMessage = new CommandMessage();
-
-        registerCommand(getCommand("Reply"), commandMessage, commandMessage);
-        registerCommand(getCommand("TogglePM"), commandMessage, commandMessage);
-        registerCommand(getCommand("Message"), new TabCompleteMessage(), commandMessage);
-    }
-
-    private void registerCommand(PluginCommand pluginCommand, TabCompleter tabCompleter, CommandExecutor commandExecutor) {
-        if (pluginCommand != null) {
-            pluginCommand.setExecutor(commandExecutor);
-
-            if (tabCompleter != null) pluginCommand.setTabCompleter(tabCompleter);
         }
     }
 

@@ -21,6 +21,10 @@ public class UserRepliedData {
         return replies.containsKey(uuid);
     }
 
+    public boolean containsValue(UUID uuid) {
+        return replies.containsValue(uuid);
+    }
+
     public UUID getUser(UUID uuid) {
         return replies.get(uuid);
     }
