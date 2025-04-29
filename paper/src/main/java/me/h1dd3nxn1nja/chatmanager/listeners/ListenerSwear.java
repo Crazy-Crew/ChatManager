@@ -117,7 +117,7 @@ public class ListenerSwear implements Listener {
 							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 						}
 					}
-				}.run();
+				}.runNow();
 			}
 		}
 
@@ -372,6 +372,6 @@ public class ListenerSwear implements Listener {
 					plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 				}
 			}
-		}.run();
+		}.runNow();
 	}
 }

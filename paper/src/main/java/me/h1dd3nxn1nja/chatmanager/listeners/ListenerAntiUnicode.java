@@ -80,7 +80,7 @@ public class ListenerAntiUnicode implements Listener {
 							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
 						}
 					}
-				}.run();
+				}.runNow();
 			}
 		}
 	}

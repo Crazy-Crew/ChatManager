@@ -97,7 +97,7 @@ public class ListenerPlayerJoin implements Listener {
                         public void run() {
                             plugin.getServer().broadcastMessage(Methods.placeholders(false, player, Methods.color(message)));
                         }
-                    }.run();
+                    }.runNow();
                 }
             } else {
                 event.setJoinMessage(Methods.placeholders(false, player, Methods.color(message)));
@@ -146,7 +146,7 @@ public class ListenerPlayerJoin implements Listener {
                                     public void run() {
                                         plugin.getServer().broadcastMessage(Methods.placeholders(false, player, Methods.color(joinMessage)));
                                     }
-                                }.run();
+                                }.runNow();
                             }
                         } else {
                             event.setJoinMessage(Methods.placeholders(false, player, Methods.color(joinMessage)));
