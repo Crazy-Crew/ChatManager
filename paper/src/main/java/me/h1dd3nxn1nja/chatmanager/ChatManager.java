@@ -99,8 +99,6 @@ public class ChatManager extends JavaPlugin {
     }
 
     public void registerCommands() {
-        registerCommand(getCommand("AutoBroadcast"), new TabCompleteAutoBroadcast(), new CommandAutoBroadcast());
-
         CommandMessage commandMessage = new CommandMessage();
 
         registerCommand(getCommand("Reply"), commandMessage, commandMessage);
