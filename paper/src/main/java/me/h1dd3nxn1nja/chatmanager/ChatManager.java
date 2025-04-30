@@ -12,6 +12,7 @@ import com.ryderbelserion.chatmanager.commands.BaseCommand;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.listeners.TrafficListener;
+import com.ryderbelserion.chatmanager.managers.ServerManager;
 import com.ryderbelserion.chatmanager.managers.UserManager;
 import com.ryderbelserion.chatmanager.plugins.papi.PlaceholderAPISupport;
 import com.ryderbelserion.chatmanager.plugins.VanishSupport;
@@ -52,7 +53,9 @@ public class ChatManager extends JavaPlugin {
     private PluginExtension pluginExtension;
     private LegacyFileManager fileManager;
 
+    private ServerManager serverManager;
     private UserManager userManager;
+
     @Override
     public void onEnable() {
         this.fusion = new FusionPaper(getComponentLogger(), getDataPath());
@@ -68,7 +71,7 @@ public class ChatManager extends JavaPlugin {
 
         Messages.addMissingMessages();
 
-        this.pluginExtension = this.fusion.getPluginExtension();
+        this.serverManager = new ServerManager();
         this.userManager = new UserManager();
 
         List.of(
@@ -210,6 +213,11 @@ public class ChatManager extends JavaPlugin {
     public LegacyFileManager getFileManager() {
         return this.fileManager;
     }
+
+    public ServerManager getServerManager() {
+        return this.serverManager;
+    }
+
     public UserManager getUserManager() {
         return this.userManager;
     }
