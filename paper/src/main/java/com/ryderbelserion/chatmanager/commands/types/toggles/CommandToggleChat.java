@@ -1,9 +1,9 @@
 package com.ryderbelserion.chatmanager.commands.types.toggles;
 
-import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.api.cmds.ToggleChatData;
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.commands.AnnotationFeature;
 import com.ryderbelserion.chatmanager.enums.Messages;
+import com.ryderbelserion.chatmanager.enums.core.PlayerState;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.annotations.AnnotationParser;
@@ -12,13 +12,9 @@ import org.incendo.cloud.annotations.CommandDescription;
 import org.incendo.cloud.annotations.Flag;
 import org.incendo.cloud.annotations.Permission;
 import org.jetbrains.annotations.NotNull;
-import java.util.UUID;
+import java.util.Optional;
 
 public class CommandToggleChat extends AnnotationFeature {
-
-    private final ApiLoader api = this.plugin.api();
-
-    private final ToggleChatData data = this.api.getToggleChatData();
 
     @Override
     public void registerFeature(@NotNull final AnnotationParser<CommandSourceStack> parser) {
@@ -29,24 +25,22 @@ public class CommandToggleChat extends AnnotationFeature {
     @CommandDescription("Allows the sender to toggle chat!")
     @Permission(value = "chatmanager.togglechat", mode = Permission.Mode.ANY_OF)
     public void togglechat(final Player player, @Flag(value = "silent", aliases = {"s"}, permission = "togglechat.silent") boolean isSilent) {
-        final UUID uuid = player.getUniqueId();
+        final Optional<PaperUser> user = this.userManager.getUser(player);
 
-        final boolean hasUser = this.data.containsUser(uuid);
+        if (user.isEmpty()) return;
 
-        if (hasUser) {
-            this.data.removeUser(uuid);
+        final PaperUser output = user.get();
 
-            if (!isSilent) {
-                Messages.TOGGLE_CHAT_DISABLED.sendMessage(player);
-            }
+        if (output.hasState(PlayerState.CHAT)) {
+            output.removeState(PlayerState.CHAT);
+
+            if (!isSilent) Messages.TOGGLE_CHAT_ENABLED.sendMessage(player);
 
             return;
         }
 
-        this.data.addUser(uuid);
+        output.addState(PlayerState.CHAT);
 
-        if (!isSilent) {
-            Messages.TOGGLE_CHAT_ENABLED.sendMessage(player);
-        }
+        if (!isSilent) Messages.TOGGLE_CHAT_DISABLED.sendMessage(player);
     }
 }

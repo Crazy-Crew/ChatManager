@@ -1,10 +1,11 @@
 package com.ryderbelserion.chatmanager.commands.types.chat;
 
+import com.ryderbelserion.chatmanager.api.objects.PaperServer;
 import com.ryderbelserion.chatmanager.commands.AnnotationFeature;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import com.ryderbelserion.chatmanager.enums.core.ServerState;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
-import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.command.CommandSender;
 import org.incendo.cloud.annotations.AnnotationParser;
 import org.incendo.cloud.annotations.Command;
@@ -24,25 +25,19 @@ public class CommandMuteChat extends AnnotationFeature {
     @CommandDescription("Allows the sender to mute chat!")
     @Permission(value = "chatmanager.mutechat", mode = Permission.Mode.ANY_OF)
     public void mutechat(final CommandSender sender, @Flag(value = "silent", aliases = {"s"}, permission = "mutechat.silent") boolean isSilent) {
-        Methods.setMuted();
+        final PaperServer server = this.serverManager.getServer();
 
-        final boolean isMuted = Methods.isMuted();
+        if (server.hasState(ServerState.MUTED)) {
+            server.removeState(ServerState.MUTED);
 
-        if (!isSilent) {
-            if (isMuted) {
-                Messages.MUTE_CHAT_BROADCAST_MESSAGES_ENABLED.broadcast(sender);
-            } else {
-                Messages.MUTE_CHAT_BROADCAST_MESSAGES_DISABLED.broadcast(sender);
+            if (!isSilent) {
+                Messages.MUTE_CHAT_BROADCAST_MESSAGES_ENABLED.broadcast(sender, Permissions.BYPASS_MUTE_CHAT.getNode());
             }
 
             return;
         }
 
-        if (isMuted) {
-            Messages.MUTE_CHAT_BROADCAST_MESSAGES_ENABLED.broadcast(sender, Permissions.BYPASS_MUTE_CHAT.getNode());
-
-            return;
-        }
+        server.addState(ServerState.MUTED);
 
         Messages.MUTE_CHAT_BROADCAST_MESSAGES_DISABLED.broadcast(sender, Permissions.BYPASS_MUTE_CHAT.getNode());
     }
