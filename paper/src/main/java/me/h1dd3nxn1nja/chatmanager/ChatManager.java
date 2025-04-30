@@ -136,7 +136,6 @@ public class ChatManager extends JavaPlugin {
         pluginManager.registerEvents(new ListenerCaps(), this);
 
         pluginManager.registerEvents(new ListenerChatFormat(), this);
-        pluginManager.registerEvents(new ListenerGrammar(), this);
         pluginManager.registerEvents(new ListenerRadius(), this);
         pluginManager.registerEvents(new ListenerLogs(), this);
 

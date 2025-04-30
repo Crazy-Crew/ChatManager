@@ -575,17 +575,6 @@ public class Debug {
 		if (!config.contains("Formatted_Messages.Enable"))
 			plugin.getLogger().warning("Missing the section Formatted_Messages.Enable in the config.yml file.");
 
-		//Grammar
-
-		if (!config.contains("Grammar.Enable"))
-			plugin.getLogger().warning("Missing the section Grammar.Enable in the config.yml file.");
-
-		if (!config.contains("Grammar.Min_Message_Length"))
-			plugin.getLogger().warning("Missing the section Grammar.Min_Message_Length in the config.yml file.");
-
-		if (!config.contains("Grammar.Autocorrect.Enable"))
-			plugin.getLogger().warning("Missing the section Grammar.Autocorrect.Enable in the config.yml file.");
-
 		//Lists
 
 		if (!config.contains("Lists.Staff_List"))
