@@ -11,6 +11,8 @@ import com.ryderbelserion.chatmanager.api.cooldowns.CooldownTask;
 import com.ryderbelserion.chatmanager.commands.BaseCommand;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
+import com.ryderbelserion.chatmanager.listeners.TrafficListener;
+import com.ryderbelserion.chatmanager.managers.UserManager;
 import com.ryderbelserion.chatmanager.plugins.papi.PlaceholderAPISupport;
 import com.ryderbelserion.chatmanager.plugins.VanishSupport;
 import com.ryderbelserion.chatmanager.plugins.VaultSupport;
@@ -50,6 +52,7 @@ public class ChatManager extends JavaPlugin {
     private PluginExtension pluginExtension;
     private LegacyFileManager fileManager;
 
+    private UserManager userManager;
     @Override
     public void onEnable() {
         this.fusion = new FusionPaper(getComponentLogger(), getDataPath());
@@ -66,6 +69,7 @@ public class ChatManager extends JavaPlugin {
         Messages.addMissingMessages();
 
         this.pluginExtension = this.fusion.getPluginExtension();
+        this.userManager = new UserManager();
 
         List.of(
                 new VaultSupport(),
@@ -117,6 +121,9 @@ public class ChatManager extends JavaPlugin {
 
     public void registerEvents() {
         final org.bukkit.plugin.@NotNull PluginManager pluginManager = getServer().getPluginManager();
+        final PluginManager pluginManager = getServer().getPluginManager();
+
+        pluginManager.registerEvents(new TrafficListener(), this); // register cache listener
 
         pluginManager.registerEvents(new ListenerColor(), this);
 
@@ -202,5 +209,8 @@ public class ChatManager extends JavaPlugin {
 
     public LegacyFileManager getFileManager() {
         return this.fileManager;
+    }
+    public UserManager getUserManager() {
+        return this.userManager;
     }
 }
