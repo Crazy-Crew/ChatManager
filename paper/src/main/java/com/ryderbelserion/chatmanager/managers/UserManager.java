@@ -13,7 +13,11 @@ public class UserManager {
     private final Map<UUID, PaperUser> users = new HashMap<>();
 
     public void addUser(@NotNull final Player player) {
-        this.users.put(player.getUniqueId(), new PaperUser(player));
+        final PaperUser user = new PaperUser(player);
+
+        user.setLocale(player.locale());
+
+        this.users.put(player.getUniqueId(), user);
     }
 
     public void removeUser(@NotNull final Player player) {
