@@ -9,6 +9,7 @@ import com.ryderbelserion.chatmanager.commands.types.basic.CommandMotd;
 import com.ryderbelserion.chatmanager.commands.types.basic.CommandPing;
 import com.ryderbelserion.chatmanager.commands.types.basic.CommandRules;
 import com.ryderbelserion.chatmanager.commands.types.chat.CommandClearChat;
+import com.ryderbelserion.chatmanager.commands.types.chat.CommandMsg;
 import com.ryderbelserion.chatmanager.commands.types.chat.CommandMuteChat;
 import com.ryderbelserion.chatmanager.commands.types.chat.CommandRadius;
 import com.ryderbelserion.chatmanager.commands.types.admin.CommandStaff;
@@ -38,6 +39,7 @@ public class BaseCommand {
             new CommandRadius(),
             new CommandStaff(),
             new CommandSpy(),
+            new CommandMsg(),
 
             new CommandReload(),
 

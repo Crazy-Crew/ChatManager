@@ -58,10 +58,11 @@ public class ChatManager extends JavaPlugin {
     public void onEnable() {
         final FusionPaper fusion = new FusionPaper(getComponentLogger(), getDataPath());
 
+        fusion.enable(this);
+
         this.legacyFileManager = fusion.getLegacyFileManager();
 
         this.legacyFileManager.addFile("config.yml", FileType.YAML)
-                .addFile("Messages.yml", FileType.YAML)
                 .addFile("bannedwords.yml", FileType.YAML)
                 .addFile("AutoBroadcast.yml", FileType.YAML)
                 .addFile("bannedcommands.yml", FileType.YAML)

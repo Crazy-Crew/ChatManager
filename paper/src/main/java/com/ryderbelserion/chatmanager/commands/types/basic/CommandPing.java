@@ -21,7 +21,7 @@ public class CommandPing extends AnnotationFeature {
         parser.parse(this);
     }
 
-    @Command("chatmanager ping <player>")
+    @Command("chatmanager ping -p")
     @CommandDescription("Allows the player to view their ping or other players ping!")
     @Permission(value = "chatmanager.ping", mode = Permission.Mode.ANY_OF)
     public void ping(final CommandSender sender, @Flag(value = "player", aliases = {"p"}, permission = "chatmanager.ping.others", description = "View the ping of another player!") @Nullable Player target) {

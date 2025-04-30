@@ -32,8 +32,8 @@ public class CommandList extends AnnotationFeature {
     @Command("chatmanager staff")
     @CommandDescription("Shows a list of online staff!")
     @Permission(value = "chatmanager.staff", mode = Permission.Mode.ANY_OF)
-    public void staff(final CommandSender sender, @Argument("type") final ListType type) {
-        list(sender, type);
+    public void staff(final CommandSender sender) {
+        list(sender, ListType.STAFF_LIST);
     }
 
     @Command("chatmanager list <type>")

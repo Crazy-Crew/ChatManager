@@ -275,7 +275,7 @@ public class RootKeys implements SettingsHolder {
 
     public static final Property<String> toggle_mentions_disabled = newProperty("Toggle_Mentions.Disabled", "{prefix}&7Toggle mentions has been &cdisabled&7, you will start receiving mention messages.");
 
-    public static final Property<String> toggle_pm_enabled = newProperty("Toggle_PM.Enabled", "{prefix}&aTogglePM has been enabled.");
+    public static final Property<String> toggle_pm_enabled = newProperty("TogglePM.Enabled", "{prefix}&aTogglePM has been enabled.");
 
-    public static final Property<String> toggle_pm_disabled = newProperty("Toggle_PM.Disabled", "{prefix}&cTogglePM has been disabled.");
+    public static final Property<String> toggle_pm_disabled = newProperty("TogglePM.Disabled", "{prefix}&cTogglePM has been disabled.");
 }
