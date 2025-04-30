@@ -30,10 +30,10 @@ import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.incendo.cloud.execution.ExecutionCoordinator;
 import org.incendo.cloud.paper.PaperCommandManager;
-import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -44,12 +44,9 @@ public class ChatManager extends JavaPlugin {
         return JavaPlugin.getPlugin(ChatManager.class);
     }
 
-    private FusionPaper fusion = null;
-
     private ApiLoader api;
 
     private PluginHandler pluginHandler;
-
     private PluginExtension pluginExtension;
     private LegacyFileManager fileManager;
 
@@ -58,9 +55,9 @@ public class ChatManager extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.fusion = new FusionPaper(getComponentLogger(), getDataPath());
+        final FusionPaper fusion = new FusionPaper(getComponentLogger(), getDataPath());
 
-        this.fileManager = this.fusion.getLegacyFileManager();
+        this.fileManager = fusion.getLegacyFileManager();
 
         this.fileManager.addFile("config.yml", FileType.YAML)
                 .addFile("Messages.yml", FileType.YAML)
@@ -73,6 +70,8 @@ public class ChatManager extends JavaPlugin {
 
         this.serverManager = new ServerManager();
         this.userManager = new UserManager();
+
+        this.pluginExtension = fusion.getPluginExtension();
 
         List.of(
                 new VaultSupport(),
