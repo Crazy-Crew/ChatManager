@@ -2,6 +2,12 @@ package me.h1dd3nxn1nja.chatmanager;
 
 import com.ryderbelserion.chatmanager.ApiLoader;
 import com.ryderbelserion.chatmanager.api.CustomMetrics;
+import com.ryderbelserion.chatmanager.api.chat.GlobalChatData;
+import com.ryderbelserion.chatmanager.api.chat.LocalChatData;
+import com.ryderbelserion.chatmanager.api.chat.WorldChatData;
+import com.ryderbelserion.chatmanager.api.cooldowns.ChatCooldowns;
+import com.ryderbelserion.chatmanager.api.cooldowns.CmdCooldowns;
+import com.ryderbelserion.chatmanager.api.cooldowns.CooldownTask;
 import com.ryderbelserion.chatmanager.commands.BaseCommand;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
@@ -17,14 +23,17 @@ import me.h1dd3nxn1nja.chatmanager.listeners.*;
 import me.h1dd3nxn1nja.chatmanager.managers.AutoBroadcastManager;
 import me.h1dd3nxn1nja.chatmanager.support.PluginHandler;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
+import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.incendo.cloud.execution.ExecutionCoordinator;
 import org.incendo.cloud.paper.PaperCommandManager;
+import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class ChatManager extends JavaPlugin {
 
@@ -80,13 +89,21 @@ public class ChatManager extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getServer().getGlobalRegionScheduler().cancelTasks(this);
-        getServer().getAsyncScheduler().cancelTasks(this);
+        final Server server = getServer();
 
-        for (Player player : getServer().getOnlinePlayers()) {
-            this.api.getChatCooldowns().removeUser(player.getUniqueId());
-            this.api.getCooldownTask().removeUser(player.getUniqueId());
-            this.api.getCmdCooldowns().removeUser(player.getUniqueId());
+        server.getGlobalRegionScheduler().cancelTasks(this);
+        server.getAsyncScheduler().cancelTasks(this);
+
+        final ChatCooldowns cooldowns = this.api.getChatCooldowns();
+        final CooldownTask tasks = this.api.getCooldownTask();
+        final CmdCooldowns cmd = this.api.getCmdCooldowns();
+
+        for (final Player player : server.getOnlinePlayers()) {
+            final UUID uuid = player.getUniqueId();
+
+            cooldowns.removeUser(uuid);
+            tasks.removeUser(uuid);
+            cmd.removeUser(uuid);
 
             BossBarUtil bossBar = new BossBarUtil();
             bossBar.removeAllBossBars(player);
@@ -94,42 +111,50 @@ public class ChatManager extends JavaPlugin {
     }
 
     public void registerEvents() {
-        getServer().getPluginManager().registerEvents(new ListenerColor(), this);
+        final org.bukkit.plugin.@NotNull PluginManager pluginManager = getServer().getPluginManager();
 
-        getServer().getPluginManager().registerEvents(new ListenerAntiAdvertising(), this);
-        getServer().getPluginManager().registerEvents(new ListenerAntiBot(), this);
-        getServer().getPluginManager().registerEvents(new ListenerAntiSpam(), this);
+        pluginManager.registerEvents(new ListenerColor(), this);
 
-        getServer().getPluginManager().registerEvents(new ListenerAntiUnicode(), this);
-        getServer().getPluginManager().registerEvents(new ListenerBannedCommand(), this);
-        getServer().getPluginManager().registerEvents(new ListenerCaps(), this);
+        pluginManager.registerEvents(new ListenerAntiAdvertising(), this);
+        pluginManager.registerEvents(new ListenerAntiBot(), this);
+        pluginManager.registerEvents(new ListenerAntiSpam(), this);
 
-        getServer().getPluginManager().registerEvents(new ListenerChatFormat(), this);
-        getServer().getPluginManager().registerEvents(new ListenerRadius(), this);
-        getServer().getPluginManager().registerEvents(new ListenerGrammar(), this);
-        getServer().getPluginManager().registerEvents(new ListenerLogs(), this);
+        pluginManager.registerEvents(new ListenerAntiUnicode(), this);
+        pluginManager.registerEvents(new ListenerBannedCommand(), this);
+        pluginManager.registerEvents(new ListenerCaps(), this);
 
-        getServer().getPluginManager().registerEvents(new ListenerMentions(), this);
-        getServer().getPluginManager().registerEvents(new ListenerMuteChat(), this);
-        getServer().getPluginManager().registerEvents(new ListenerPerWorldChat(), this);
-        getServer().getPluginManager().registerEvents(new ListenerPlayerJoin(), this);
-        getServer().getPluginManager().registerEvents(new ListenerSpy(), this);
-        getServer().getPluginManager().registerEvents(new ListenerStaffChat(), this);
-        getServer().getPluginManager().registerEvents(new ListenerSwear(), this);
-        getServer().getPluginManager().registerEvents(new ListenerToggleChat(), this);
+        pluginManager.registerEvents(new ListenerChatFormat(), this);
+        pluginManager.registerEvents(new ListenerRadius(), this);
+        pluginManager.registerEvents(new ListenerGrammar(), this);
+        pluginManager.registerEvents(new ListenerLogs(), this);
+
+        pluginManager.registerEvents(new ListenerMentions(), this);
+        pluginManager.registerEvents(new ListenerMuteChat(), this);
+        pluginManager.registerEvents(new ListenerPerWorldChat(), this);
+        pluginManager.registerEvents(new ListenerPlayerJoin(), this);
+        pluginManager.registerEvents(new ListenerSpy(), this);
+        pluginManager.registerEvents(new ListenerStaffChat(), this);
+        pluginManager.registerEvents(new ListenerSwear(), this);
+        pluginManager.registerEvents(new ListenerToggleChat(), this);
     }
 
     public void setupChatRadius() {
         FileConfiguration config = Files.CONFIG.getConfiguration();
 
         if (config.getBoolean("Chat_Radius.Enable")) {
-            for (Player all : getServer().getOnlinePlayers()) {
+            final LocalChatData local = this.api.getLocalChatData();
+            final GlobalChatData global = this.api.getGlobalChatData();
+            final WorldChatData world = this.api.getWorldChatData();
+
+            for (final Player player : getServer().getOnlinePlayers()) {
+                final UUID uuid = player.getUniqueId();
+
                 if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Local")) {
-                    this.api.getLocalChatData().addUser(all.getUniqueId());
+                    local.addUser(uuid);
                 } else if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Global")) {
-                    this.api.getGlobalChatData().addUser(all.getUniqueId());
+                    global.addUser(uuid);
                 } else if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("World")) {
-                    this.api.getWorldChatData().addUser(all.getUniqueId());
+                    world.addUser(uuid);
                 }
             }
         }
