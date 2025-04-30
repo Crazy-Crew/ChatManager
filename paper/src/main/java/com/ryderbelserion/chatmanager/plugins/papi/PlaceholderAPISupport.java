@@ -17,7 +17,7 @@ public class PlaceholderAPISupport implements IPlugin {
     private PlaceholderAPIExpansion expansion;
 
     @Override
-    public IPlugin init() {
+    public @NotNull IPlugin init() {
         if (isEnabled()) {
             this.expansion = new PlaceholderAPIExpansion();
             this.expansion.register();
