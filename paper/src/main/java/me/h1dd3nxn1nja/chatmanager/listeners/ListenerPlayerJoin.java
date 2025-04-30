@@ -28,13 +28,13 @@ public class ListenerPlayerJoin implements Listener {
 
         if (player.hasPlayedBefore()) return;
 
-        if (this.extension.isEnabled("GenericVanish")) {
+        /*if (this.extension.isEnabled("GenericVanish")) { //todo() bad code
             final IPlugin plugin = this.extension.getPlugin("GenericVanish");
 
             if (plugin != null && plugin.isVanished(player.getUniqueId())) {
                 return;
             }
-        }
+        }*/
 
         FileConfiguration config = Files.CONFIG.getConfiguration();
 
@@ -71,13 +71,13 @@ public class ListenerPlayerJoin implements Listener {
 
         if (!player.hasPlayedBefore()) return;
 
-        if (this.extension.isEnabled("GenericVanish")) {
+        /*if (this.extension.isEnabled("GenericVanish")) { //todo() bad code
             final IPlugin plugin = this.extension.getPlugin("GenericVanish");
 
             if (plugin != null && plugin.isVanished(player.getUniqueId())) {
                 return;
             }
-        }
+        }*/
 
         FileConfiguration config = Files.CONFIG.getConfiguration();
 
@@ -181,13 +181,13 @@ public class ListenerPlayerJoin implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        if (this.extension.isEnabled("GenericVanish")) {
+        /*if (this.extension.isEnabled("GenericVanish")) { //todo() bad code
             final IPlugin plugin = this.extension.getPlugin("GenericVanish");
 
             if (plugin != null && plugin.isVanished(player.getUniqueId())) {
                 return;
             }
-        }
+        }*/
 
         FileConfiguration config = Files.CONFIG.getConfiguration();
 

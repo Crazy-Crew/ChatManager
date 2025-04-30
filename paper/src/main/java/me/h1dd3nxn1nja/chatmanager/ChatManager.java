@@ -15,7 +15,6 @@ import com.ryderbelserion.chatmanager.listeners.TrafficListener;
 import com.ryderbelserion.chatmanager.managers.ServerManager;
 import com.ryderbelserion.chatmanager.managers.UserManager;
 import com.ryderbelserion.chatmanager.plugins.papi.PlaceholderAPISupport;
-import com.ryderbelserion.chatmanager.plugins.VanishSupport;
 import com.ryderbelserion.chatmanager.plugins.VaultSupport;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import com.ryderbelserion.fusion.core.managers.PluginExtension;
@@ -74,9 +73,8 @@ public class ChatManager extends JavaPlugin {
         this.pluginExtension = fusion.getPluginExtension();
 
         List.of(
-                new VaultSupport(),
-                new VanishSupport(),
-                new PlaceholderAPISupport()
+                new PlaceholderAPISupport(),
+                new VaultSupport()
         ).forEach(this.pluginExtension::registerPlugin);
 
         new CustomMetrics().start();
