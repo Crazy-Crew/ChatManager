@@ -14,39 +14,49 @@ public class PlaceholderAPIExpansion extends PlaceholderExpansion {
 
     private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
+
+    private final ServerManager serverManager = this.plugin.getServerManager();
+
+    private final UserManager userManager = this.plugin.getUserManager();
+
     @Override
-    public @Nullable String onRequest(OfflinePlayer player, @NotNull String identifier) {
-        if (player.isOnline()) {
-            FileConfiguration config = Files.CONFIG.getConfiguration();
-            String lower = identifier.toLowerCase();
+    public @Nullable String onRequest(@NotNull final OfflinePlayer player, @NotNull final String identifier) {
+        if (!player.isOnline()) return "N/A";
 
-            switch (lower) {
-                case "radius": //Returns which chat radius channel the player is in.
-                    if (this.plugin.api().getLocalChatData().containsUser(player.getUniqueId())) {
-                        return config.getString("Chat_Radius.Local_Chat.Prefix");
-                    } else if (this.plugin.api().getGlobalChatData().containsUser(player.getUniqueId())) {
-                        return config.getString("Chat_Radius.Global_Chat.Prefix");
-                    } else if (this.plugin.api().getWorldChatData().containsUser(player.getUniqueId())) {
-                        return config.getString("Chat_Radius.World_Chat.Prefix");
-                    }
-                case "toggle_pm": // Returns if the toggle pm is enabled/disabled for a player.
-                    return this.plugin.api().getToggleMessageData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
-                case "toggle_chat": // Returns if the toggle chat is enabled/disabled for a player.
-                    return this.plugin.api().getToggleChatData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
-                case "command_spy": // Returns if the command spy is enabled/disabled for a player.
-                    return this.plugin.api().getCommandSpyData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
-                case "social_spy": // Returns if the social spy is enabled/disabled for a player.
-                    return this.plugin.api().getSocialSpyData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
-                case "staff_chat": // Returns if the staff chat is enabled/disabled for a player.
-                    return this.plugin.api().getStaffChatData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
-                case "mute_chat": // Returns if mute chat is enabled/disabled.
-                    return Methods.isMuted() ? "Enabled" : "Disabled";
-                default:
-                    return "";
+        final UUID uuid = player.getUniqueId();
+
+        final Optional<PaperUser> user = this.userManager.getUser(uuid);
+
+        if (user.isEmpty()) return "N/A";
+
+        final PaperUser output = user.get();
+
+        return switch (identifier.toLowerCase()) {
+            case "direct_messages" -> !output.hasState(PlayerState.DIRECT_MESSAGES) ? "Enabled" : "Disabled";
+            case "command_spy" -> output.hasState(PlayerState.COMMAND_SPY) ? "Enabled" : "Disabled";
+            case "social_spy" -> output.hasState(PlayerState.SOCIAL_SPY) ? "Enabled" : "Disabled";
+            case "staff_chat" -> output.hasState(PlayerState.STAFF_CHAT) ? "Enabled" : "Disabled";
+            case "mute_chat" -> {
+                final PaperServer server = this.serverManager.getServer();
+
+                yield server.hasState(ServerState.MUTED) ? "Enabled" : "Disabled";
             }
-        }
+            case "radius" -> {
+                final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-        return "";
+                if (this.plugin.api().getLocalChatData().containsUser(player.getUniqueId())) {
+                    yield config.getString("Chat_Radius.Local_Chat.Prefix", "Local chat section not found in config.yml");
+                } else if (this.plugin.api().getGlobalChatData().containsUser(player.getUniqueId())) {
+                    yield config.getString("Chat_Radius.Global_Chat.Prefix", "Global chat section not found in config.yml");
+                } else if (this.plugin.api().getWorldChatData().containsUser(player.getUniqueId())) {
+                    yield config.getString("Chat_Radius.World_Chat.Prefix", "World chat section not found in config.yml");
+                }
+
+                yield "N/A";
+            }
+            case "chat" -> !output.hasState(PlayerState.CHAT) ? "Enabled" : "Disabled";
+            default -> "N/A";
+        };
     }
 
     @Override
