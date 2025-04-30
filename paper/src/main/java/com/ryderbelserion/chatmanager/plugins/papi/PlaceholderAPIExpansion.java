@@ -1,19 +1,28 @@
 package com.ryderbelserion.chatmanager.plugins.papi;
 
+import com.ryderbelserion.chatmanager.api.objects.PaperServer;
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.enums.core.PlayerState;
+import com.ryderbelserion.chatmanager.enums.core.ServerState;
+import com.ryderbelserion.chatmanager.managers.ServerManager;
+import com.ryderbelserion.chatmanager.managers.UserManager;
+import io.papermc.paper.plugin.configuration.PluginMeta;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
+import java.util.Optional;
+import java.util.UUID;
 
 public class PlaceholderAPIExpansion extends PlaceholderExpansion {
 
     private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
+    private final PluginMeta pluginMeta = this.plugin.getPluginMeta();
 
     private final ServerManager serverManager = this.plugin.getServerManager();
 
@@ -61,18 +70,18 @@ public class PlaceholderAPIExpansion extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getIdentifier() {
-        return this.plugin.getName().toLowerCase();
+        return this.pluginMeta.getName();
     }
 
     @Override
     public @NotNull String getAuthor() {
-        return this.plugin.getDescription().getAuthors().toString();
+        return this.pluginMeta.getAuthors().toString();
     }
 
 
     @Override
     public @NotNull String getVersion() {
-        return this.plugin.getDescription().getVersion();
+        return this.pluginMeta.getVersion();
     }
 
     @Override
