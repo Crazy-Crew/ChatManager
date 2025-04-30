@@ -8,6 +8,7 @@ import com.ryderbelserion.chatmanager.api.cooldowns.CooldownTask;
 import com.ryderbelserion.chatmanager.commands.AnnotationFeature;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
+import com.ryderbelserion.chatmanager.managers.ConfigManager;
 import com.ryderbelserion.fusion.paper.files.LegacyFileManager;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -36,7 +37,7 @@ public class CommandReload extends AnnotationFeature {
 
     private final StaffChatData data = this.api.getStaffChatData();
 
-    private final LegacyFileManager fileManager = this.plugin.getFileManager();
+    private final LegacyFileManager fileManager = this.plugin.getLegacyFileManager();
 
     @Override
     public void registerFeature(@NotNull final AnnotationParser<CommandSourceStack> parser) {
@@ -76,6 +77,8 @@ public class CommandReload extends AnnotationFeature {
         Files.BANNED_COMMANDS.reload();
         Files.BANNED_WORDS.reload();
         Files.AUTO_BROADCAST.reload();
+
+        ConfigManager.reload();
 
         this.server.getGlobalRegionScheduler().cancelTasks(this.plugin);
         this.server.getAsyncScheduler().cancelTasks(this.plugin);

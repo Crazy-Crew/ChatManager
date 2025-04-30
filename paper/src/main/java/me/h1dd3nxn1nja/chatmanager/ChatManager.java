@@ -12,12 +12,14 @@ import com.ryderbelserion.chatmanager.commands.BaseCommand;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.listeners.TrafficListener;
+import com.ryderbelserion.chatmanager.managers.ConfigManager;
 import com.ryderbelserion.chatmanager.managers.ServerManager;
 import com.ryderbelserion.chatmanager.managers.UserManager;
 import com.ryderbelserion.chatmanager.plugins.papi.PlaceholderAPISupport;
 import com.ryderbelserion.chatmanager.plugins.VaultSupport;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import com.ryderbelserion.fusion.core.managers.PluginExtension;
+import com.ryderbelserion.fusion.core.managers.files.FileManager;
 import com.ryderbelserion.fusion.core.managers.files.FileType;
 import com.ryderbelserion.fusion.paper.FusionPaper;
 import com.ryderbelserion.fusion.paper.files.LegacyFileManager;
@@ -47,7 +49,8 @@ public class ChatManager extends JavaPlugin {
 
     private PluginHandler pluginHandler;
     private PluginExtension pluginExtension;
-    private LegacyFileManager fileManager;
+    private LegacyFileManager legacyFileManager;
+    private FileManager fileManager;
 
     private ServerManager serverManager;
     private UserManager userManager;
@@ -56,14 +59,18 @@ public class ChatManager extends JavaPlugin {
     public void onEnable() {
         final FusionPaper fusion = new FusionPaper(getComponentLogger(), getDataPath());
 
-        this.fileManager = fusion.getLegacyFileManager();
+        this.legacyFileManager = fusion.getLegacyFileManager();
 
-        this.fileManager.addFile("config.yml", FileType.YAML)
+        this.legacyFileManager.addFile("config.yml", FileType.YAML)
                 .addFile("Messages.yml", FileType.YAML)
                 .addFile("bannedwords.yml", FileType.YAML)
                 .addFile("AutoBroadcast.yml", FileType.YAML)
                 .addFile("bannedcommands.yml", FileType.YAML)
                 .addFolder("Logs", FileType.NONE);
+
+        this.fileManager = fusion.getFileManager();
+
+        ConfigManager.load();
 
         Messages.addMissingMessages();
 
@@ -200,11 +207,15 @@ public class ChatManager extends JavaPlugin {
         });
     }
 
+    public LegacyFileManager getLegacyFileManager() {
+        return this.legacyFileManager;
+    }
+
     public PluginExtension getPluginExtension() {
         return pluginExtension;
     }
 
-    public LegacyFileManager getFileManager() {
+    public FileManager getFileManager() {
         return this.fileManager;
     }
 

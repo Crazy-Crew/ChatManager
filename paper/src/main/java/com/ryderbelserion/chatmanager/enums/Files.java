@@ -18,7 +18,7 @@ public enum Files {
 
     private final ChatManager plugin = ChatManager.get();
 
-    private final LegacyFileManager fileManager = plugin.getFileManager();
+    private final LegacyFileManager fileManager = plugin.getLegacyFileManager();
 
     /**
      * A constructor to build a file
