@@ -1,7 +1,6 @@
 package com.ryderbelserion.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.commands.types.admin.CommandBroadcast;
-import com.ryderbelserion.chatmanager.commands.types.admin.CommandDebug;
 import com.ryderbelserion.chatmanager.commands.types.admin.CommandReload;
 import com.ryderbelserion.chatmanager.commands.types.admin.CommandSpy;
 import com.ryderbelserion.chatmanager.commands.types.basic.CommandHelp;
@@ -41,7 +40,6 @@ public class BaseCommand {
             new CommandSpy(),
 
             new CommandReload(),
-            new CommandDebug(),
 
             new CommandRules(),
             new CommandPing(),

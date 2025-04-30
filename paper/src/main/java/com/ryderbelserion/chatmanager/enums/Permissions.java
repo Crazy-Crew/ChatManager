@@ -105,7 +105,6 @@ public enum Permissions {
     COMMAND_CHATRADIUS_WORLD("chatradius.world", "Ability to use world chat radius", PermissionDefault.OP),
     COMMAND_CHATRADIUS_SPY("chatradius.spy", "Ability to spy on chat radius messages", PermissionDefault.OP),
     COMMAND_CLEARCHAT("clearchat", "Ability to use the command /clearchat", PermissionDefault.OP),
-    COMMAND_DEBUG("debug", "Permission to debug the plugin.", PermissionDefault.OP),
     COMMAND_LISTS_PLAYERS("lists.players", "Ability to use /list", PermissionDefault.OP),
     COMMAND_STAFF("staff", "Ability to do something", PermissionDefault.OP),
     COMMAND_LISTS_STAFF("lists.staff", "Ability to use /staff", PermissionDefault.OP),
@@ -166,7 +165,6 @@ public enum Permissions {
         put("chatmanager.chatradius.all", true);
         put("chatmanager.clearchat", true);
         put("chatmanager.commandspy", true);
-        put("chatmanager.debug", true);
         put("chatmanager.lists.players", true);
         put("chatmanager.lists.staff", true);
         put("chatmanager.message", true);
