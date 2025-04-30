@@ -18,13 +18,16 @@ public class Methods {
 	private static final ChatManager plugin = ChatManager.get();
 
 	public static void playSound(FileConfiguration config, String path) {
-		String sound = config.getString(path + ".value");
-		boolean isEnabled = config.contains(path + ".toggle") && config.getBoolean(path + ".toggle");
-		double volume = config.contains(path + ".volume") ? config.getDouble(path + ".volume") : 1.0;
-		double pitch = config.contains(path + ".pitch") ? config.getDouble(path + ".pitch") : 1.0;
+		String sound = config.getString(path + ".value", "");
+
+		if (sound.isEmpty()) return;
+
+		boolean isEnabled = config.getBoolean(path + ".toggle", false);
+		double volume = config.getDouble(path + ".volume", 1.0);
+		double pitch = config.getDouble(path + ".pitch", 1.0);
 
 		if (isEnabled) {
-			for (Player online : plugin.getServer().getOnlinePlayers()) {
+			for (final Player online : plugin.getServer().getOnlinePlayers()) {
 				try {
 					online.playSound(online.getLocation(), Sound.valueOf(sound), (float) volume, (float) pitch);
 				} catch (IllegalArgumentException ignored) {}
@@ -33,10 +36,13 @@ public class Methods {
 	}
 
 	public static void playSound(Player player, FileConfiguration config, String path) {
-		String sound = config.getString(path + ".value");
-		boolean isEnabled = config.contains(path + ".toggle") && config.getBoolean(path + ".toggle");
-		double volume = config.contains(path + ".volume") ? config.getDouble(path + ".volume") : 1.0;
-		double pitch = config.contains(path + ".pitch") ? config.getDouble(path + ".pitch") : 1.0;
+		String sound = config.getString(path + ".value", "");
+
+		if (sound.isEmpty()) return;
+
+		boolean isEnabled = config.getBoolean(path + ".toggle", false);
+		double volume = config.getDouble(path + ".volume", 1.0);
+		double pitch = config.getDouble(path + ".pitch", 1.0);
 
 		if (isEnabled) {
 			player.playSound(player.getLocation(), Sound.valueOf(sound), (float) volume, (float) pitch);

@@ -183,7 +183,7 @@ public class ListenerAntiAdvertising implements Listener {
 
 		Messages.ANTI_ADVERTISING_COMMANDS_MESSAGE.sendMessage(player);
 
-		if (config.getBoolean("Anti_Advertising.Commands.Notify_Staff")) {
+		if (config.getBoolean("Anti_Advertising.Commands.Notify_Staff", false)) {
 			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission(Permissions.NOTIFY_ANTI_ADVERTISING.getNode())) {
 					Messages.ANTI_ADVERTISING_COMMANDS_NOTIFY_STAFF.sendMessage(staff, new HashMap<>() {{
@@ -262,7 +262,7 @@ public class ListenerAntiAdvertising implements Listener {
 
 			String str = "[" + time + "] [Sign] " + playerName + ": Line: " + line + " Text: " + message.replaceAll("§", "&");
 
-			if (config.getBoolean("Anti_Advertising.Signs.Increase_Sensitivity")) {
+			if (config.getBoolean("Anti_Advertising.Signs.Increase_Sensitivity", false)) {
 				Matcher firstMatchIncrease = firstPattern.matcher(message.toLowerCase().replaceAll("\\s+", ""));
 				Matcher secondMatchIncrease = secondPattern.matcher(message.toLowerCase().replaceAll("\\s+", ""));
 
@@ -287,7 +287,7 @@ public class ListenerAntiAdvertising implements Listener {
 
 		Messages.ANTI_ADVERTISING_SIGNS_MESSAGE.sendMessage(player);
 
-		if (config.getBoolean("Anti_Advertising.Signs.Notify_Staff")) {
+		if (config.getBoolean("Anti_Advertising.Signs.Notify_Staff", false)) {
 			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission(Permissions.NOTIFY_ANTI_ADVERTISING.getNode())) {
 					Messages.ANTI_ADVERTISING_SIGNS_NOTIFY_STAFF.sendMessage(staff, new HashMap<>() {{

@@ -32,7 +32,7 @@ public class AutoBroadcastManager {
 			public void run() {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Global_Messages.Enable", false)) {
 					for (Player player : plugin.getServer().getOnlinePlayers()) {
-						if (autobroadcast.getBoolean("Auto_Broadcast.Global_Messages.Header_And_Footer")) {
+						if (autobroadcast.getBoolean("Auto_Broadcast.Global_Messages.Header_And_Footer", false)) {
 							Methods.sendMessage(player, prefix, autobroadcast.getString("Auto_Broadcast.Global_Messages.Header"), false);
 							Methods.sendMessage(player, prefix, messages.get(line).replace("{prefix}", prefix).replace("\\n", "\n"), false);
 							Methods.sendMessage(player, prefix, autobroadcast.getString("Auto_Broadcast.Global_Messages.Footer"), false);

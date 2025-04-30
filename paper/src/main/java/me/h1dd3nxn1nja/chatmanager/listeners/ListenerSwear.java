@@ -48,7 +48,7 @@ public class ListenerSwear implements Listener {
 
 		if (player.hasPermission(Permissions.BYPASS_ANTI_SWEAR.getNode())) return;
 
-		if (config.getBoolean("Anti_Swear.Chat.Increase_Sensitivity")) {
+		if (config.getBoolean("Anti_Swear.Chat.Increase_Sensitivity", false)) {
 			for (String blockedWord : blockedWordsList) {
 				for (String allowed : whitelisted) {
 					if (event.getMessage().contains(allowed.toLowerCase())) return;
@@ -66,7 +66,7 @@ public class ListenerSwear implements Listener {
 			}
 		}
 
-		if (!config.getBoolean("Anti_Swear.Chat.Increase_Sensitivity")) {
+		if (!config.getBoolean("Anti_Swear.Chat.Increase_Sensitivity", false)) {
 			for (String blockedWord : blockedWordsList) {
 				for (String allowed : whitelisted) {
 					if (event.getMessage().contains(allowed.toLowerCase())) return;
@@ -219,7 +219,7 @@ public class ListenerSwear implements Listener {
 	}
 
 	private void commandSwearCheck(FileConfiguration config, Player player, String message, Date time) {
-		if (config.getBoolean("Anti_Swear.Commands.Log_Swearing")) {
+		if (config.getBoolean("Anti_Swear.Commands.Log_Swearing", false)) {
 			try {
 				FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Swears.txt"), true);
 				BufferedWriter bw = new BufferedWriter(fw);
@@ -254,9 +254,9 @@ public class ListenerSwear implements Listener {
 		List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
 		List<String> blockedWordsList = bannedWords.getStringList("Banned-Words");
 
-		if (config.getBoolean("Anti_Swear.Signs.Enable")) {
+		if (config.getBoolean("Anti_Swear.Signs.Enable", false)) {
 			if (!player.hasPermission(Permissions.BYPASS_ANTI_SWEAR.getNode())) {
-				if (config.getBoolean("Anti_Swear.Signs.Increase_Sensitivity")) {
+				if (config.getBoolean("Anti_Swear.Signs.Increase_Sensitivity", false)) {
 					for (int line = 0; line < 4; line++) {
 						String message = event.getLine(line);
 						assert message != null;

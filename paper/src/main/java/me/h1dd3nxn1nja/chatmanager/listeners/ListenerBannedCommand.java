@@ -76,7 +76,7 @@ public class ListenerBannedCommand implements Listener {
 	public void notifyStaff(Player player, String message) {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		if (!config.getBoolean("Banned_Commands.Notify_Staff")) return;
+		if (!config.getBoolean("Banned_Commands.Notify_Staff", false)) return;
 
 		for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 			if (staff.hasPermission(Permissions.NOTIFY_BANNED_COMMANDS.getNode())) {
@@ -106,8 +106,10 @@ public class ListenerBannedCommand implements Listener {
 
 		if (!config.contains("Banned_Commands.Executed_Command")) return;
 
-		String command = config.getString("Banned_Commands.Executed_Command").replace("{player}", player.getName());
+		String command = config.getString("Banned_Commands.Executed_Command", "").replace("{player}", player.getName());
 		List<String> commands = config.getStringList("Banned_Commands.Executed_Command");
+
+		if (command.isEmpty() || commands.isEmpty()) return;
 
 		new FoliaScheduler(Scheduler.global_scheduler) {
 			@Override
