@@ -241,7 +241,7 @@ public enum Messages {
             }
         }
 
-        return message;
+        return Methods.color(message);
     }
 
     public void broadcast(final CommandSender sender, final String permission) {
