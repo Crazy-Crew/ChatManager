@@ -36,6 +36,8 @@ dependencies {
         exclude("org.spigotmc", "spigot-api")
         exclude("org.bstats", "bstats-bukkit")
     }
+
+    compileOnly(libs.configurate.yaml)
 }
 
 tasks {

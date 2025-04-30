@@ -1,0 +1,192 @@
+#=================================================================================================#
+#                         			ChatManager - Español
+#=================================================================================================#
+#    Si necesitas soporte para el plugin, sientete libre de entrar al servidor de discord
+#
+#    Discord Link: https://discord.gg/badbones-s-live-chat-182615261403283459
+#=================================================================================================#
+# Traducción por imSKJOL.
+# Información:
+#   Los mensajes con color son soportados con el caracter "&". Ejemplo: '&6Hola'
+#    - Para ver una lista de los códigos de colores haz /Colors dentro del cliente.
+#    - Para ver una lista de los formatos de chat haz /Formats dentro del cliente.
+#
+#=================================================================================================#
+Message:
+  Prefix: "&b[&6ChatManager&b]&r"
+  No_Permission: "&c¡No tienes permiso para hacer esto!"
+  Player_Not_Found: "&7No se puede encontrar al usuario &c{target}"
+  Reload: "&aLa configuración ha sido recargada con éxito."
+
+#=================================================================================================#
+# Anti-Advertising Messages - Mensajes anti-publicidad
+#=================================================================================================#
+Anti_Advertising:
+  Chat:
+    Message: "&cLa publicidad no está permitida en el chat. El admin ha sido notificado."
+    Notify_Staff_Format: "&7[Anti-Advertise Chat] &f{player}: &7{message}"
+  Commands:
+    Message: "&cLa publicidad no está permitida en los comandos. El admin ha sido notificado."
+    Notify_Staff_Format: "&7[Anti-Advertise Commands] &f{player}: &7{message}"
+  Signs:
+    Message: "&cLa publicidad no está permitida en los carteles. El admin ha sido notificado."
+    Notify_Staff_Format: "&7[Anti-Advertise Signs] &f{player}: &7{message}"
+
+#=================================================================================================#
+# Anti-Bot Messages - Mensajes anti-Bot
+#=================================================================================================#
+Anti_Bot:
+  Deny_Chat_Message: "&cDebes moverte un bloque antes de hablar en el chat."
+  Deny_Command_Message: "&cDebes moverte un bloque antes de ejecutar los comandos."
+
+#=================================================================================================#
+# Anti-Caps Message - Mensajes Anti-Mayúsculas
+#=================================================================================================#
+Anti_Caps:
+  Message_Chat: "&cPor favor, no utilice mayúsculas en el chat."
+  Message_Commands: "&cPor favor, no utilice mayúsculas en los comandos."
+
+#=================================================================================================#
+# Anti-Spam Messages - Mensajes Anti-Spam
+#=================================================================================================#
+Anti_Spam:
+  Chat:
+    Repetitive_Message: "&cPor favor, no repitas el mensaje."
+    Delay_Message: "&7Por favor, espera &c{Time} segundos &7antes de enviar otro mensaje."
+  Command:
+    Repetitive_Message: "&cPor favor, no repitas el comando."
+    Delay_Message: "&7Por favor, espera &c{Time} segundos &7antes de enviar otro comando."
+
+#=================================================================================================#
+# Anti-Swear Messages - Mensajes Anti-Insultos
+#=================================================================================================#
+Anti_Swear:
+  Chat:
+    Message: "&cPor favor, no insultes en el chat."
+    Notify_Staff_Format: "&7[Anti-Swear Chat] &f{player}: &7{message}"
+  Commands:
+    Message: "&cPor favor, no insultes en los comandos."
+    Notify_Staff_Format: "&7[Anti-Swear Commands] &f{player}: &7{message}"
+  Signs:
+    Message: "&cPor favor, no insultes en los carteles."
+    Notify_Staff_Format: "&7[Anti-Swear Signs] &f{player}: &7{message}"
+
+#=================================================================================================#
+# Anti-Unicode Messages - Mensajes Anti-Unicode
+#=================================================================================================#
+Anti_Unicode:
+  Message: "&cPor favor, no utilice caracteres especiales en el chat."
+  Notify_Staff_Format: "&7[Anti-Unicode] &f{player}: &7{message}"
+
+#=================================================================================================#
+# Banned Commands Messages - Mensajes de comandos baneados
+#=================================================================================================#
+Banned_Commands:
+  Message: "&8[&e!&8] &cNo tienes permiso para usar el comando &7/{command}&c."
+  Notify_Staff_Format: "&7[Blocked-Cmd] &f{player}: &7{command}"
+
+#=================================================================================================#
+# Chat Radius Messages - Mensajes del Chat Radius
+#=================================================================================================#
+Chat_Radius:
+  Local_Chat:
+    Enabled: "&7Has entrado al chat &9local&7."
+    Already_Enabled: "&c¡Ya estás en el chat &9local&c!"
+  Global_Chat:
+    Enabled: "&7Has entrado al chat &2global&7."
+    Already_Enabled: "&c¡Ya estás en el chat &2global&c!"
+  World_Chat:
+    Enabled: "&7Has entrado al chat de este &3mundo&7."
+    Already_Enabled: "&c¡Ya estás en el chat de este &3mundo&c!"
+  Spy:
+    Enabled: "&7Chat Radius spy &2habilitado&7."
+    Disabled: "&7Chat Radius spy &edeshabilitado&7."
+
+#=================================================================================================#
+# Clear Chat Messages - Mensajes de limpieza de chat
+#=================================================================================================#
+Clear_Chat:
+  Staff_Message: "&eEl chat ha sido limpiado por {player}."
+  Broadcast_Message:
+    - "&f*&c&m--------------------------------------------&f*"
+    - "&eEl chat ha sido limpiado por {player}"
+    - "&f*&c&m--------------------------------------------&f*"
+
+#=================================================================================================#
+# Command Spy Messages - Mensajes del comando Spy
+#=================================================================================================#
+Command_Spy:
+  Format: "&7[Command-Spy] {player}: &b{command}"
+  Enabled: "&aEl comando Spy ha sido habilitado."
+  Disabled: "&cEl comando Spy ha sido deshabilitado."
+
+#=================================================================================================#
+# Mute Chat Messages - Mensajes del Chat Muteado
+#=================================================================================================#
+Mute_Chat:
+  Denied_Message: "&cNo puedes hablar en el chat en este momento."
+  Broadcast_Messages:
+    Enabled: "&aEl chat ha sido habilitado por {player}."
+    Disabled: "&cEl chat ha sido deshabilitado por {player}."
+  Blocked_Commands:
+    Message: "&cNo está permitido utilizar ese comando mientras el chat está silenciado."
+
+#=================================================================================================#
+# Per-World Chat Messages - Mensajes de Chat Per-World
+#=================================================================================================#
+Per_World_Chat:
+  Bypass_Enabled: "&aLa omisión de chat por mundo ha sido habilitada."
+  Bypass_Disabled: "&cLa omisión de chat por mundo ha sido deshabilitada."
+
+#=================================================================================================#
+# Ping Messages - Mensajes del Ping
+#=================================================================================================#
+Ping:
+  Players_Ping: "&7Tu ping actual es de &c{ping} ms."
+  Targets_Ping: "&7{target} tiene un ping de &c{ping} ms."
+
+#=================================================================================================#
+# Private Message Messages - Mensajes de los mensajes privados
+#=================================================================================================#
+Private_Message:
+  Recipient_Not_Found: "&cNo tienes a quién responder."
+  Toggled: "&cEse jugador no puede recibir mensajes en este momento."
+  Ignored: "&c{target} &7está actualmente ignorandote y no puede recibir ningún mensaje tuyo."
+  Self: "&cNo puedes enviarte mensajes privados a ti mismo."
+  AFK: "&c{target} &7está afk."
+
+#=================================================================================================#
+# Social Spy Messages - Mensajes del Social Spy
+#=================================================================================================#
+Social_Spy:
+  Format: "&b&l(*)&bSpy &f&l[&e{player} &d-> &e{receiver}&f&l] &b{message}"
+  Enabled: "&aSocial Spy ha sido habilitado."
+  Disabled: "&cSocial Spy ha sido deshabilitado."
+
+#=================================================================================================#
+# Staff Chat Messages - Mensajes del Chat del Staff
+#=================================================================================================#
+Staff_Chat:
+  Enabled: "&aHas entrado al chat del Staff."
+  Disabled: "&cHas salido del chat del Staff."
+
+#=================================================================================================#
+# Toggle Chat Messages - Mensajes del Chat alternado
+#=================================================================================================#
+Toggle_Chat:
+  Enabled: "&aToggle chat ha sido habilitado, ahora no recibirás mensajes."
+  Disabled: "&cToggle chat ha sido deshabilitado, ahora recibirás mensajes."
+
+#=================================================================================================#
+# Toggle Mentions Messages - Mensajes de las menciones alternadas
+#=================================================================================================#
+Toggle_Mentions:
+  Enabled: "&7Toggle mentions ha sido &ahabilitado&7, ahora no recibirás menciones."
+  Disabled: "&7Toggle mentions ha sido &cdeshabilitado&7, ahora recibirás menciones."
+
+#=================================================================================================#
+# TogglePM Messages - Mensajes del TogglePM (mensajes privados)
+#=================================================================================================#
+TogglePM:
+  Enabled: "&aTogglePM ha sido habilitado."
+  Disabled: "&cTogglePM ha sido deshabilitado."

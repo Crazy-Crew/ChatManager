@@ -3,13 +3,18 @@ package me.h1dd3nxn1nja.chatmanager;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import ch.jalu.configme.SettingsManager;
+import com.ryderbelserion.chatmanager.api.configs.locale.RootKeys;
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.managers.ConfigManager;
 import com.ryderbelserion.fusion.core.managers.PluginExtension;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.jetbrains.annotations.Nullable;
 
 public class Methods {
 
@@ -272,9 +277,13 @@ public class Methods {
 
 		return org.bukkit.ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
 	}
-	
+
+	public static String getPrefix(@Nullable final CommandSender sender) {
+		return color(ConfigManager.getLocale(sender).getProperty(RootKeys.message_prefix));
+	}
+
 	public static String getPrefix() {
-		return color(Files.MESSAGES.getConfiguration().getString("Message.Prefix"));
+		return getPrefix(null);
 	}
 	
 	public static void tellConsole(String message, boolean prefix) {

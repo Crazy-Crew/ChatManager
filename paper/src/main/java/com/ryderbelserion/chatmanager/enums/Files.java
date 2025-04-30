@@ -8,7 +8,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 public enum Files {
 
     CONFIG("config.yml"),
-    MESSAGES("Messages.yml"),
     BANNED_WORDS("bannedwords.yml"),
     BANNED_COMMANDS("bannedcommands.yml"),
     AUTO_BROADCAST("AutoBroadcast.yml");

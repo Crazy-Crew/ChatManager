@@ -71,9 +71,6 @@ public class CommandReload extends AnnotationFeature {
 
         Files.CONFIG.reload();
 
-        Messages.addMissingMessages();
-
-        Files.MESSAGES.reload();
         Files.BANNED_COMMANDS.reload();
         Files.BANNED_WORDS.reload();
         Files.AUTO_BROADCAST.reload();

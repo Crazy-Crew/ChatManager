@@ -10,7 +10,6 @@ import com.ryderbelserion.chatmanager.api.cooldowns.CmdCooldowns;
 import com.ryderbelserion.chatmanager.api.cooldowns.CooldownTask;
 import com.ryderbelserion.chatmanager.commands.BaseCommand;
 import com.ryderbelserion.chatmanager.enums.Files;
-import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.listeners.TrafficListener;
 import com.ryderbelserion.chatmanager.managers.ConfigManager;
 import com.ryderbelserion.chatmanager.managers.ServerManager;
@@ -71,8 +70,6 @@ public class ChatManager extends JavaPlugin {
         this.fileManager = fusion.getFileManager();
 
         ConfigManager.load();
-
-        Messages.addMissingMessages();
 
         this.serverManager = new ServerManager();
         this.userManager = new UserManager();
@@ -195,6 +192,8 @@ public class ChatManager extends JavaPlugin {
     }
 
     private void registerPermissions() {
+        final PluginManager pluginManager = getServer().getPluginManager();
+
         Arrays.stream(Permissions.values()).toList().forEach(permission -> {
             Permission newPermission = new Permission(
                     permission.getNode(),
@@ -203,7 +202,7 @@ public class ChatManager extends JavaPlugin {
                     permission.getChildren()
             );
 
-            getServer().getPluginManager().addPermission(newPermission);
+            pluginManager.addPermission(newPermission);
         });
     }
 
