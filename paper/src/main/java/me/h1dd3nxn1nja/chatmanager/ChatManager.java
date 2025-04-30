@@ -122,34 +122,32 @@ public class ChatManager extends JavaPlugin {
     }
 
     public void registerEvents() {
-        final org.bukkit.plugin.@NotNull PluginManager pluginManager = getServer().getPluginManager();
         final PluginManager pluginManager = getServer().getPluginManager();
 
         pluginManager.registerEvents(new TrafficListener(), this); // register cache listener
+        pluginManager.registerEvents(new ChatListener(), this); // register chat listener
 
         pluginManager.registerEvents(new ListenerColor(), this);
 
         pluginManager.registerEvents(new ListenerAntiAdvertising(), this);
-        pluginManager.registerEvents(new ListenerAntiBot(), this);
         pluginManager.registerEvents(new ListenerAntiSpam(), this);
+        pluginManager.registerEvents(new ListenerAntiBot(), this);
 
-        pluginManager.registerEvents(new ListenerAntiUnicode(), this);
         pluginManager.registerEvents(new ListenerBannedCommand(), this);
+        pluginManager.registerEvents(new ListenerAntiUnicode(), this);
         pluginManager.registerEvents(new ListenerCaps(), this);
 
         pluginManager.registerEvents(new ListenerChatFormat(), this);
-        pluginManager.registerEvents(new ListenerRadius(), this);
         pluginManager.registerEvents(new ListenerGrammar(), this);
+        pluginManager.registerEvents(new ListenerRadius(), this);
         pluginManager.registerEvents(new ListenerLogs(), this);
 
-        pluginManager.registerEvents(new ListenerMentions(), this);
-        pluginManager.registerEvents(new ListenerMuteChat(), this);
         pluginManager.registerEvents(new ListenerPerWorldChat(), this);
         pluginManager.registerEvents(new ListenerPlayerJoin(), this);
-        pluginManager.registerEvents(new ListenerSpy(), this);
         pluginManager.registerEvents(new ListenerStaffChat(), this);
+        pluginManager.registerEvents(new ListenerMentions(), this);
         pluginManager.registerEvents(new ListenerSwear(), this);
-        pluginManager.registerEvents(new ListenerToggleChat(), this);
+        pluginManager.registerEvents(new ListenerSpy(), this);
     }
 
     public void setupChatRadius() {
