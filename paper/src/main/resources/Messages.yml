@@ -76,16 +76,6 @@ Anti_Swear:
   Signs:
     Message: "{prefix}&cPlease do not curse on signs."
     Notify_Staff_Format: "&7[Anti-Swear Signs] &f{player}: &7{message}"
-  Blacklisted_Word:
-    Added: "{prefix}&7You added the word &c{word} &7to the anti swears blacklist."
-    Exists: "{prefix}&7The word &c{word} &7is already added to the anti swears blacklist."
-    Removed: "{prefix}&7You removed the word &c{word} &7from the anti swears blacklist."
-    Not_Found: "{prefix}&7The word &c{word} &7is not in the anti swears blacklist."
-  Whitelisted_Word:
-    Added: "{prefix}&7You added the word &c{word} &7to the anti swears whitelist."
-    Exists: "{prefix}&7The word &c{word} &7is already added to the anti swears whitelist."
-    Removed: "{prefix}&7You removed the word &c{word} &7from the anti swears whitelist."
-    Not_Found: "{prefix}&7The word &c{word} &7is not in the anti swears whitelist."
     
 #=================================================================================================#
 # Anti-Unicode Messages
@@ -93,24 +83,12 @@ Anti_Swear:
 Anti_Unicode:
   Message: "{prefix}&cPlease do not use special characters in chat."
   Notify_Staff_Format: "&7[Anti-Unicode] &f{player}: &7{message}"
-    
-#=================================================================================================#
-# Auto-Broadcast Messages
-#=================================================================================================#
-Auto_Broadcast:
-  List: "&c{section}'s &7auto-broadcast messages:"
-  Added: "{prefix}&r{message} &7has been added to the &c{section} &7messages&7!"
-  Created: "{prefix}&7Created the world &c'%world%' &7with the message &r{message}&7."
   
 #=================================================================================================#
 # Banned Commands Messages
 #=================================================================================================#
 Banned_Commands:
   Message: "{prefix}&cYou do not have permission to use the command &7/{command}&c."
-  Command_Added: "{prefix}&7You added the command &c{command} &7to the list of banned commands."
-  Command_Exists: "{prefix}&7The command &c{command} &7is already added to the list of banned commands."
-  Command_Removed: "{prefix}&7You removed the command &c{command} &7from the list of banned commands."
-  Command_Not_Found: "{prefix}&7The command &c{command} &7is not in the list of banned commands."
   Notify_Staff_Format: "&7[Blocked-Cmd] &f{player}: &7{command}"
   
 #=================================================================================================#
