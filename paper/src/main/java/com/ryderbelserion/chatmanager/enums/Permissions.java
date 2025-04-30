@@ -97,18 +97,6 @@ public enum Permissions {
     MENTION("mention", "Ability to send mention notifications to players", PermissionDefault.OP),
     RECEIVE_MENTION("mention.receive", "Ability to receive mention notifications", PermissionDefault.OP),
     MENTION_EVERYONE("mention.everyone", "Send everyone mention notifications", PermissionDefault.OP),
-    COMMAND_ANTISWEAR_HELP("antiswear.help", "Permission to view all the commands for the anti swear.", PermissionDefault.OP),
-    COMMAND_ANTISWEAR_ADD("antiswear.add", "Permission to add a word to the bannedwords.yml file.", PermissionDefault.OP),
-    COMMAND_ANTISWEAR_LIST("antiswear.list", "Permission to view a list of all the banned words.", PermissionDefault.OP),
-    COMMAND_ANTISWEAR_REMOVE("antiswear.remove", "Permission to remove a word from the bannedwords.yml file.", PermissionDefault.OP),
-    COMMAND_AUTOBROADCAST_HELP("autobroadcast.help", "Permission to view all the commands for auto broadcast.", PermissionDefault.OP),
-    COMMAND_AUTOBROADCAST_LIST("autobroadcast.list", "Permission to view a list of all the auto broadcasts in a world.", PermissionDefault.OP),
-    COMMAND_AUTOBROADCAST_ADD("autobroadcast.add", "Permission to add new auto broadcast messages to the game.", PermissionDefault.OP),
-    COMMAND_AUTOBROADCAST_CREATE("autobroadcast.create", "Permission to create new auto broadcast world to the game.", PermissionDefault.OP),
-    COMMAND_BANNEDCOMMANDS_HELP("bannedcommands.help", "Permission to view all the commands for banned commands.", PermissionDefault.OP),
-    COMMAND_BANNEDCOMMANDS_ADD("bannedcommands.add", "Permission to add a command to the bannedcommands.yml file.", PermissionDefault.OP),
-    COMMAND_BANNEDCOMMANDS_LIST("bannedcommands.list", "Permission to view a list of all the banned commands.", PermissionDefault.OP),
-    COMMAND_BANNEDCOMMANDS_REMOVE("bannedcommands.remove", "Permission to remove a command from the bannedcommands.yml file.", PermissionDefault.OP),
     COMMAND_ANNOUNCEMENT("announcement", "Ability to use /announcement", PermissionDefault.OP),
     COMMAND_BROADCAST("broadcast", "Ability to use /broadcast", PermissionDefault.OP),
     COMMAND_CHATRADIUS("chatradius", "Ability to use chat radius", PermissionDefault.OP),
@@ -137,7 +125,6 @@ public enum Permissions {
     TOGGLE_STAFF_CHAT("staffchat", "Ability to use the command /staffchat", PermissionDefault.OP),
     SOCIAL_SPY("socialspy", "Ability to use social spy", PermissionDefault.OP),
     COMMAND_SPY("commandspy", "Ability to use command spy", PermissionDefault.OP),
-    TOGGLE_PM("toggle.pm", "Ability to use the command /togglepm", PermissionDefault.OP),
     COMMAND_CHATRADIUS_ALL("chatradius.all", "Permission for all radius commands", PermissionDefault.FALSE, new HashMap<>() {{
         put("chatmanager.chatradius", true);
         put("chatmanager.chatradius.spy", true);
@@ -174,18 +161,6 @@ public enum Permissions {
         put("chatmanager.bypass.vanish", true);
     }}),
     COMMANDS_ALL("commands.all", "Gives all commands", PermissionDefault.FALSE, new HashMap<>() {{
-        put("chatmanager.antiswear.help", true);
-        put("chatmanager.antiswear.add", true);
-        put("chatmanager.antiswear.list", true);
-        put("chatmanager.antiswear.remove", true);
-        put("chatmanager.autobroadcast.help", true);
-        put("chatmanager.autobroadcast.add", true);
-        put("chatmanager.autobroadcast.create", true);
-        put("chatmanager.autobroadcast.list", true);
-        put("chatmanager.bannedcommands.help", true);
-        put("chatmanager.bannedcommands.add", true);
-        put("chatmanager.bannedcommands.list", true);
-        put("chatmanager.bannedcommands.remove", true);
         put("chatmanager.announcement", true);
         put("chatmanager.broadcast", true);
         put("chatmanager.chatradius.all", true);
