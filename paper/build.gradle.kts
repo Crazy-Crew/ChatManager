@@ -5,7 +5,7 @@ plugins {
     id("paper-plugin")
 }
 
-project.group = "me.h1dd3nxn1nja.chatmanager.paper"
+project.group = "me.h1dd3nxn1nja.chatmanager"
 project.description = "The kitchen sink of Chat Management!"
 
 val buildNumber: String? = System.getenv("BUILD_NUMBER")
