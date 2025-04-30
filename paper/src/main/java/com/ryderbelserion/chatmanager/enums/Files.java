@@ -1,7 +1,7 @@
 package com.ryderbelserion.chatmanager.enums;
 
-import com.ryderbelserion.core.api.enums.FileType;
-import com.ryderbelserion.paper.files.FileManager;
+import com.ryderbelserion.fusion.core.managers.files.FileType;
+import com.ryderbelserion.fusion.paper.files.LegacyFileManager;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -18,7 +18,7 @@ public enum Files {
 
     private final ChatManager plugin = ChatManager.get();
 
-    private final FileManager fileManager = plugin.getFileManager();
+    private final LegacyFileManager fileManager = plugin.getFileManager();
 
     /**
      * A constructor to build a file

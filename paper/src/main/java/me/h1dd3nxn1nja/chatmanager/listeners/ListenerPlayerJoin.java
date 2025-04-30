@@ -2,10 +2,10 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import com.ryderbelserion.core.api.support.PluginManager;
-import com.ryderbelserion.core.api.support.interfaces.Plugin;
-import com.ryderbelserion.paper.enums.Scheduler;
-import com.ryderbelserion.paper.util.scheduler.FoliaScheduler;
+import com.ryderbelserion.fusion.core.api.interfaces.IPlugin;
+import com.ryderbelserion.fusion.core.managers.PluginExtension;
+import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
+import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,12 +15,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.jetbrains.annotations.NotNull;
 
 public class ListenerPlayerJoin implements Listener {
 
-    @NotNull
     private final ChatManager plugin = ChatManager.get();
+
+    private final PluginExtension extension = this.plugin.getPluginExtension();
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void firstJoinMessage(PlayerJoinEvent event) {
@@ -28,8 +28,8 @@ public class ListenerPlayerJoin implements Listener {
 
         if (player.hasPlayedBefore()) return;
 
-        if (PluginManager.isEnabled("GenericVanish")) {
-            final Plugin plugin = PluginManager.getPlugin("GenericVanish");
+        if (this.extension.isEnabled("GenericVanish")) {
+            final IPlugin plugin = this.extension.getPlugin("GenericVanish");
 
             if (plugin != null && plugin.isVanished(player.getUniqueId())) {
                 return;
@@ -71,8 +71,8 @@ public class ListenerPlayerJoin implements Listener {
 
         if (!player.hasPlayedBefore()) return;
 
-        if (PluginManager.isEnabled("GenericVanish")) {
-            final Plugin plugin = PluginManager.getPlugin("GenericVanish");
+        if (this.extension.isEnabled("GenericVanish")) {
+            final IPlugin plugin = this.extension.getPlugin("GenericVanish");
 
             if (plugin != null && plugin.isVanished(player.getUniqueId())) {
                 return;
@@ -181,8 +181,8 @@ public class ListenerPlayerJoin implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        if (PluginManager.isEnabled("GenericVanish")) {
-            final Plugin plugin = PluginManager.getPlugin("GenericVanish");
+        if (this.extension.isEnabled("GenericVanish")) {
+            final IPlugin plugin = this.extension.getPlugin("GenericVanish");
 
             if (plugin != null && plugin.isVanished(player.getUniqueId())) {
                 return;

@@ -4,18 +4,18 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.ryderbelserion.chatmanager.enums.Files;
-import com.ryderbelserion.core.api.support.PluginManager;
+import com.ryderbelserion.fusion.core.managers.PluginExtension;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import me.clip.placeholderapi.PlaceholderAPI;
-import org.jetbrains.annotations.NotNull;
 
 public class Methods {
 
-	@NotNull
 	private static final ChatManager plugin = ChatManager.get();
+
+	private static final PluginExtension extension = plugin.getPluginExtension();
 
 	public static void playSound(FileConfiguration config, String path) {
 		String sound = config.getString(path + ".value", "");
@@ -351,7 +351,7 @@ public class Methods {
 		}
 
 		if (sender instanceof Player player) {
-			if (parsePapi && PluginManager.isEnabled("PlaceholderAPI")) {
+			if (parsePapi && extension.isEnabled("PlaceholderAPI")) {
 				clonedMessage = PlaceholderAPI.setPlaceholders(player, clonedMessage);
 			}
 

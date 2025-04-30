@@ -8,7 +8,7 @@ import com.ryderbelserion.chatmanager.api.cooldowns.CooldownTask;
 import com.ryderbelserion.chatmanager.commands.AnnotationFeature;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
-import com.ryderbelserion.paper.files.FileManager;
+import com.ryderbelserion.fusion.paper.files.LegacyFileManager;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
@@ -36,7 +36,7 @@ public class CommandReload extends AnnotationFeature {
 
     private final StaffChatData data = this.api.getStaffChatData();
 
-    private final FileManager fileManager = this.plugin.getFileManager();
+    private final LegacyFileManager fileManager = this.plugin.getFileManager();
 
     @Override
     public void registerFeature(@NotNull final AnnotationParser<CommandSourceStack> parser) {

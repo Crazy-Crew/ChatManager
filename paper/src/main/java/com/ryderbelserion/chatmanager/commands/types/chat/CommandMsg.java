@@ -7,8 +7,8 @@ import com.ryderbelserion.chatmanager.commands.AnnotationFeature;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import com.ryderbelserion.core.api.support.PluginManager;
-import com.ryderbelserion.core.api.support.interfaces.Plugin;
+import com.ryderbelserion.fusion.core.api.interfaces.IPlugin;
+import com.ryderbelserion.fusion.core.managers.PluginExtension;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
@@ -22,13 +22,14 @@ import org.incendo.cloud.annotations.Command;
 import org.incendo.cloud.annotations.CommandDescription;
 import org.incendo.cloud.annotations.Permission;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.UUID;
 
 public class CommandMsg extends AnnotationFeature {
 
     private final ApiLoader api = this.plugin.api();
+
+    private final PluginExtension extension = this.plugin.getPluginExtension();
 
     private final ToggleMessageData messageData = this.api.getToggleMessageData();
 
@@ -108,7 +109,7 @@ public class CommandMsg extends AnnotationFeature {
 
         if (essentialsCheck(sender, player)) return;
 
-        final Plugin genericVanish = PluginManager.getPlugin("GenericVanish");
+        final IPlugin genericVanish = this.extension.getPlugin("GenericVanish");
 
         if (genericVanish != null && genericVanish.isEnabled() && genericVanish.isVanished(sender.getUniqueId()) && !sender.hasPermission(Permissions.BYPASS_VANISH.getNode())) {
             Messages.PLAYER_NOT_FOUND.sendMessage(sender, "{target}", player.getName());
