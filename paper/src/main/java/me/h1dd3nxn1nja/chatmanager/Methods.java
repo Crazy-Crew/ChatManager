@@ -276,20 +276,6 @@ public class Methods {
 	public static String getPrefix() {
 		return color(Files.MESSAGES.getConfiguration().getString("Message.Prefix"));
 	}
-
-	public static String getPrefix(String msg) {
-		return getPrefix() + color(msg);
-	}
-
-	private static boolean isMuted;
-
-	public static boolean isMuted() {
-	    return isMuted;
-	}
-
-	public static void setMuted() {
-		isMuted = !isMuted;
-	}
 	
 	public static void tellConsole(String message, boolean prefix) {
 		sendMessage(plugin.getServer().getConsoleSender(), message, prefix);
