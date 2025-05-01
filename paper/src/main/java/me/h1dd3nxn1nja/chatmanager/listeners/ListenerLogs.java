@@ -2,6 +2,8 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,18 +23,20 @@ public class ListenerLogs implements Listener {
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
 
+	private final File dataFolder = this.plugin.getDataFolder();
+
 	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
-		FileConfiguration config = Files.CONFIG.getConfiguration();
-
-		String playerName = event.getPlayer().getName();
-		String message = event.getMessage();
-		Date time = Calendar.getInstance().getTime();
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (!config.getBoolean("Logs.Log_Chat", false)) return;
 
+		final String playerName = event.getPlayer().getName();
+		final String message = event.getMessage();
+		final Date time = Calendar.getInstance().getTime();
+
 		try {
-			FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Chat.txt"), true);
+			FileWriter fw = new FileWriter(new File(new File(this.dataFolder, "Logs"), "Chat.txt"), true);
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write("[" + time + "] " + playerName + ": " + message.replaceAll("§", "&"));
 			bw.newLine();
@@ -45,24 +49,24 @@ public class ListenerLogs implements Listener {
 	
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
-		FileConfiguration config = Files.CONFIG.getConfiguration();
-
-		List<String> blacklist = config.getStringList("Logs.Blacklist_Commands");
-
-		String playerName = event.getPlayer().getName();
-		String message = event.getMessage();
-		Date time = Calendar.getInstance().getTime();
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (!config.getBoolean("Logs.Log_Commands", false)) return;
 
-		for (String command : blacklist) {
-			if (event.getMessage().toLowerCase().startsWith(command)) return;
+		final List<String> blacklist = config.getStringList("Logs.Blacklist_Commands");
+
+		final String playerName = event.getPlayer().getName();
+		final String message = event.getMessage();
+		final Date time = Calendar.getInstance().getTime();
+
+		for (final String command : blacklist) {
+			if (message.toLowerCase().startsWith(command)) return;
 		}
 
 		if ((message.equals("/")) || (message.equals("//"))) return;
 
 		try {
-			FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Commands.txt"), true);
+			FileWriter fw = new FileWriter(new File(new File(this.dataFolder, "Logs"), "Commands.txt"), true);
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write("[" + time + "] " + playerName + ": " + message.replaceAll("§", "&"));
 			bw.newLine();
@@ -75,22 +79,27 @@ public class ListenerLogs implements Listener {
 	
 	@EventHandler(ignoreCancelled = true)
 	public void onSignChange(SignChangeEvent event) {
-		FileConfiguration config = Files.CONFIG.getConfiguration();
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		String playerName = event.getPlayer().getName();
-		Date time = Calendar.getInstance().getTime();
+		if (!config.getBoolean("Logs.Log_Signs", false)) return;
+
+		final String playerName = event.getPlayer().getName();
+		final Date time = Calendar.getInstance().getTime();
+
+		final Block block = event.getBlock();
+		final Location location = block.getLocation();
 
 		for (int line = 0; line < 4; line++) {
-			String message = event.getLine(line);
+			final String message = event.getLine(line);
 
-			int X = event.getBlock().getLocation().getBlockX();
-			int Y = event.getBlock().getLocation().getBlockY();
-			int Z = event.getBlock().getLocation().getBlockZ();
+			if (message == null) continue;
 
-			if (!config.getBoolean("Logs.Log_Signs", false)) return;
+			int X = location.getBlockX();
+			int Y = location.getBlockY();
+			int Z = location.getBlockZ();
 
 			try {
-				FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Signs.txt"), true);
+				FileWriter fw = new FileWriter(new File(new File(this.dataFolder, "Logs"), "Signs.txt"), true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write("[" + time + "] " + playerName + " | Location: X: " + X + " Y: " + Y + " Z: " + Z + " | Line: " + line + " | " + message.replaceAll("§", "&"));
 				bw.newLine();

@@ -29,18 +29,20 @@ public class ListenerBannedCommand implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
-		FileConfiguration config = Files.CONFIG.getConfiguration();
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		Player player = event.getPlayer();
+		final Player player = event.getPlayer();
 
-		List<String> cmd = Files.BANNED_COMMANDS.getConfiguration().getStringList("Banned-Commands");
+		final List<String> cmd = Files.BANNED_COMMANDS.getConfiguration().getStringList("Banned-Commands");
+
+		final String message = event.getMessage();
 
 		if (!config.getBoolean("Banned_Commands.Enable", false)) return;
 
 		if (!player.hasPermission(Permissions.BYPASS_BANNED_COMMANDS.getNode())) {
 			if (!config.getBoolean("Banned_Commands.Increase_Sensitivity", false)) {
-				for (String command : cmd) {
-					if (event.getMessage().toLowerCase().equals("/" + command)) {
+				for (final String command : cmd) {
+					if (message.toLowerCase().equals("/" + command)) {
 						event.setCancelled(true);
 
 						Messages.BANNED_COMMANDS_MESSAGE.sendMessage(player, "{command}", command);
@@ -52,8 +54,8 @@ public class ListenerBannedCommand implements Listener {
 					}
 				}
 			} else {
-				for (String command : cmd) {
-					if (event.getMessage().toLowerCase().contains("/" + command)) {
+				for (final String command : cmd) {
+					if (message.toLowerCase().contains("/" + command)) {
 						event.setCancelled(true);
 
 						notifyStaff(player, command);
@@ -66,25 +68,25 @@ public class ListenerBannedCommand implements Listener {
 		}
 
 		if (!player.hasPermission(Permissions.BYPASS_COLON_COMMANDS.getNode())) {
-			if (event.getMessage().split(" ")[0].contains(":")) {
+			if (message.split(" ")[0].contains(":")) {
 				event.setCancelled(true);
 
-				Messages.BANNED_COMMANDS_MESSAGE.sendMessage(player, "{command}", event.getMessage().replaceAll("/", ""));
+				Messages.BANNED_COMMANDS_MESSAGE.sendMessage(player, "{command}", message.replaceAll("/", ""));
 
-				notifyStaff(player, event.getMessage().replace("/", ""));
-				tellConsole(player, event.getMessage().replace("/", ""));
+				notifyStaff(player, message.replace("/", ""));
+				tellConsole(player, message.replace("/", ""));
 
 				executeCommand(player);
 			}
 		}
 	}
 
-	public void notifyStaff(Player player, String message) {
-		FileConfiguration config = Files.CONFIG.getConfiguration();
+	public void notifyStaff(final Player player, final String message) {
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (!config.getBoolean("Banned_Commands.Notify_Staff", false)) return;
 
-		for (Player staff : this.server.getOnlinePlayers()) {
+		for (final Player staff : this.server.getOnlinePlayers()) {
 			if (staff.hasPermission(Permissions.NOTIFY_BANNED_COMMANDS.getNode())) {
 				Messages.BANNED_COMMANDS_MESSAGE.sendMessage(staff, new HashMap<>() {{
 					put("{player}", player.getName());
@@ -94,8 +96,8 @@ public class ListenerBannedCommand implements Listener {
 		}
 	}
 
-	public void tellConsole(Player player, String message) {
-		FileConfiguration config = Files.CONFIG.getConfiguration();
+	public void tellConsole(final Player player, final String message) {
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (!config.getBoolean("Banned_Commands.Notify_Staff", false)) return;
 

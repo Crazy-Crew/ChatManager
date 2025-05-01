@@ -20,10 +20,10 @@ public class ListenerColor implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onColorChat(AsyncPlayerChatEvent event) {
-		FileConfiguration config = Files.CONFIG.getConfiguration();
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		Player player = event.getPlayer();
-		String message = event.getMessage();
+		final Player player = event.getPlayer();
+		final String message = event.getMessage();
 
 		if (!config.getBoolean("Formatted_Messages.Enable", false)) return;
 
@@ -32,7 +32,7 @@ public class ListenerColor implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onSignChange(SignChangeEvent event) {
-		Player player = event.getPlayer();
+		final Player player = event.getPlayer();
 
 		for (int index = 0; index < event.getLines().length; index++) {
 			String line = event.getLine(index);
@@ -46,7 +46,7 @@ public class ListenerColor implements Listener {
 	}
 	
 	private char getColorCharacter() {
-		String characterString = "&";
+		final String characterString = "&";
 		
 		char[] charArray = characterString.toCharArray();
 
@@ -85,8 +85,8 @@ public class ListenerColor implements Listener {
 		}};
 	}
 	
-	private String formatChat(Player player, String msg) {
-		char colorChar = getColorCharacter();
+	private String formatChat(final Player player, String msg) {
+		final char colorChar = getColorCharacter();
 
 		if (player.hasPermission(Permissions.FORMATTING_ALL.getNode())) {
 			return Methods.color(msg);
@@ -111,15 +111,15 @@ public class ListenerColor implements Listener {
 
 		return msg;
 	}
-	
+
 	private String replaceColors(Player player, String msg) {
-		char character = getColorCharacter();
+		final char character = getColorCharacter();
 
 		for (Map.Entry<String, String> entry : colors().entrySet()) {
-			String node = entry.getKey();
+			final String node = entry.getKey();
 
 			if (player.hasPermission(node)) {
-				String symbol = entry.getValue().toUpperCase();
+				final String symbol = entry.getValue().toUpperCase();
 
 				msg = replaceSpecificSymbol(character, symbol + entry.getValue(), msg);
 			}
@@ -128,14 +128,14 @@ public class ListenerColor implements Listener {
 		return msg;
 	}
 
-	private String replaceFormats(Player player, String msg) {
-		char character = getColorCharacter();
+	private String replaceFormats(final Player player, String msg) {
+		final char character = getColorCharacter();
 
 		for (Map.Entry<String, String> entry : map().entrySet()) {
-			String node = entry.getKey();
+			final String node = entry.getKey();
 
 			if (player.hasPermission(node)) {
-				String symbol = entry.getValue().toUpperCase();
+				final String symbol = entry.getValue().toUpperCase();
 
 				msg = replaceSpecificSymbol(character, symbol + entry.getValue(), msg);
 			}
@@ -144,24 +144,24 @@ public class ListenerColor implements Listener {
 		return msg;
 	}
 
-	private String replaceColor(char character, String msg) {
-        String values = "0123456789AaBbCcDdEeFf";
+	private String replaceColor(final char character, final String msg) {
+        final String values = "0123456789AaBbCcDdEeFf";
 
         return replaceSpecificSymbol(character, values, msg);
     }
 
-    private String replaceFormat(char character, String msg) {
-        String values = "KkLlMmNnOoRr";
+    private String replaceFormat(final char character, final String msg) {
+        final String values = "KkLlMmNnOoRr";
 
         return replaceSpecificSymbol(character, values, msg);
     }
     
-    private String replaceSpecificSymbol(char colorChar, String values, String msg) {
-		char[] charArray = msg.toCharArray();
+    private String replaceSpecificSymbol(final char colorChar, final String values, final String msg) {
+		final char[] charArray = msg.toCharArray();
 
 		for (int i = 0; i < (charArray.length - 1); i++) {
-			boolean hasColor1 = (colorChar == charArray[i]);
-			boolean hasColor2 = (values.indexOf(charArray[i + 1]) > -1);
+			final boolean hasColor1 = (colorChar == charArray[i]);
+			final boolean hasColor2 = (values.indexOf(charArray[i + 1]) > -1);
 
 			if (hasColor1 && hasColor2) {
 				charArray[i] = ChatColor.COLOR_CHAR;
