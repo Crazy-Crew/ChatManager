@@ -13,7 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.Collection;
 
 public class ListenerMentions implements Listener {

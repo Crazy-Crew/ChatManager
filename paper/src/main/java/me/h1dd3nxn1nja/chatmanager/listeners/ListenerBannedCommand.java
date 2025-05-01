@@ -2,8 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
-import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
-import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
+import com.ryderbelserion.chatmanager.utils.DispatchUtils;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -15,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.jetbrains.annotations.NotNull;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -105,27 +105,14 @@ public class ListenerBannedCommand implements Listener {
 		}}), false);
 	}
 
-	public void executeCommand(Player player) {
-		FileConfiguration config = Files.CONFIG.getConfiguration();
+	public void executeCommand(final Player player) {
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (!config.getBoolean("Banned_Commands.Execute_Command", false)) return;
 
-		if (!config.contains("Banned_Commands.Executed_Command")) return;
-
-		String command = config.getString("Banned_Commands.Executed_Command", "").replace("{player}", player.getName());
-		List<String> commands = config.getStringList("Banned_Commands.Executed_Command");
-
-		if (command.isEmpty() || commands.isEmpty()) return;
-
-		new FoliaScheduler(Scheduler.global_scheduler) {
-			@Override
-			public void run() {
-				server.dispatchCommand(console, command);
-
-				for (String cmd : commands) {
-					server.dispatchCommand(console, cmd.replace("{player}", player.getName()));
-				}
-			}
-		}.run();
+		DispatchUtils.dispatchCommand(player, new ArrayList<>() {{
+			addAll(config.getStringList("Banned_Commands.Executed_Command"));
+			add(config.getString("Banned_Commands.Executed_Command", ""));
+		}});
 	}
 }

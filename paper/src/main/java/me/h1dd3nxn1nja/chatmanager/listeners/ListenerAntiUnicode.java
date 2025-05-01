@@ -2,8 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
-import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
-import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
+import com.ryderbelserion.chatmanager.utils.DispatchUtils;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -15,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.jetbrains.annotations.NotNull;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -73,21 +73,10 @@ public class ListenerAntiUnicode implements Listener {
 		}
 
 		if (config.getBoolean("Anti_Unicode.Execute_Command", false)) {
-			if (config.contains("Anti_Unicode.Executed_Command")) {
-				String command = config.getString("Anti_Unicode.Executed_Command").replace("{player}", player.getName());
-				List<String> commands = config.getStringList("Anti_Unicode.Executed_Command");
-
-				new FoliaScheduler(Scheduler.global_scheduler) {
-					@Override
-					public void run() {
-						server.dispatchCommand(console, command);
-
-						for (String cmd : commands) {
-							server.dispatchCommand(console, cmd.replace("{player}", player.getName()));
-						}
-					}
-				}.run();
-			}
+			DispatchUtils.dispatchCommand(player, new ArrayList<>() {{
+				addAll(config.getStringList("Anti_Unicode.Executed_Command"));
+				add(config.getString("Anti_Unicode.Executed_Command", ""));
+			}});
 		}
 	}
 }

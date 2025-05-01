@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
+import com.ryderbelserion.chatmanager.utils.DispatchUtils;
 import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
 import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -110,21 +112,10 @@ public class ListenerSwear implements Listener {
 		}
 
 		if (config.getBoolean("Anti_Swear.Chat.Execute_Command", false)) {
-			if (config.contains("Anti_Swear.Chat.Executed_Command")) {
-				String command = config.getString("Anti_Swear.Chat.Executed_Command").replace("{player}", player.getName());
-				List<String> commands = config.getStringList("Anti_Swear.Chat.Executed_Command");
-
-				new FoliaScheduler(Scheduler.global_scheduler) {
-					@Override
-					public void run() {
-						server.dispatchCommand(console, command);
-
-						for (String cmd : commands) {
-							server.dispatchCommand(console, cmd.replace("{player}", player.getName()));
-						}
-					}
-				}.run();
-			}
+			DispatchUtils.dispatchCommand(player, new ArrayList<>() {{
+				addAll(config.getStringList("Anti_Swear.Chat.Executed_Command"));
+				add(config.getString("Anti_Swear.Chat.Executed_Command", ""));
+			}});
 		}
 
 		return true;
@@ -209,7 +200,7 @@ public class ListenerSwear implements Listener {
 	}
 
 	private void checkOnlineStaff(Player player, String message) {
-		for (Player staff : plugin.getServer().getOnlinePlayers()) {
+		for (Player staff : this.server.getOnlinePlayers()) {
 			if (staff.hasPermission(Permissions.NOTIFY_ANTI_SWEAR.getNode())) {
 				Messages.ANTI_SWEAR_CHAT_NOTIFY_STAFF_FORMAT.sendMessage(staff, new HashMap<>() {{
 					put("{player}", player.getName());
@@ -218,7 +209,7 @@ public class ListenerSwear implements Listener {
 			}
 		}
 
-		Methods.tellConsole(Messages.ANTI_SWEAR_CHAT_NOTIFY_STAFF_FORMAT.getMessage(this.plugin.getServer().getConsoleSender(), new HashMap<>() {{
+		Methods.tellConsole(Messages.ANTI_SWEAR_CHAT_NOTIFY_STAFF_FORMAT.getMessage(this.console, new HashMap<>() {{
 			put("{player}", player.getName());
 			put("{message}", message);
 		}}), false);
@@ -239,13 +230,10 @@ public class ListenerSwear implements Listener {
 		}
 
 		if (config.getBoolean("Anti_Swear.Commands.Execute_Command", false)) {
-			if (config.contains("Anti_Swear.Commands.Executed_Command")) {
-				String command = config.getString("Anti_Swear.Commands.Executed_Command").replace("{player}", player.getName());
-
-				List<String> commands = config.getStringList("Anti_Swear.Commands.Executed_Command");
-
-				dispatchCommandRunnable(player, command, commands);
-			}
+			DispatchUtils.dispatchCommand(player, new ArrayList<>() {{
+				addAll(config.getStringList("Anti_Swear.Commands.Executed_Command"));
+				add(config.getString("Anti_Swear.Commands.Executed_Command", ""));
+			}});
 		}
 	}
 
@@ -359,25 +347,10 @@ public class ListenerSwear implements Listener {
 		}
 
 		if (config.getBoolean("Anti_Swear.Signs.Execute_Command", false)) {
-			if (config.contains("Anti_Swear.Signs.Executed_Command")) {
-				String command = config.getString("Anti_Swear.Signs.Executed_Command").replace("{player}", player.getName());
-				List<String> commands = config.getStringList("Anti_Swear.Signs.Executed_Command");
-
-				dispatchCommandRunnable(player, command, commands);
-			}
+			DispatchUtils.dispatchCommand(player, new ArrayList<>() {{
+				addAll(config.getStringList("Anti_Swear.Signs.Executed_Command"));
+				add(config.getString("Anti_Swear.Signs.Executed_Command", ""));
+			}});
 		}
-	}
-
-	private void dispatchCommandRunnable(Player player, String command, List<String> commands) {
-		new FoliaScheduler(Scheduler.global_scheduler) {
-			@Override
-			public void run() {
-				server.dispatchCommand(console, command);
-
-				for (String cmd : commands) {
-					server.dispatchCommand(console, cmd.replace("{player}", player.getName()));
-				}
-			}
-		}.run();
 	}
 }
