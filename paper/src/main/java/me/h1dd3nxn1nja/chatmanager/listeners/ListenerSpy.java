@@ -4,6 +4,7 @@ import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,6 +18,8 @@ public class ListenerSpy implements Listener {
 
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
+
+	private final Server server = this.plugin.getServer();
 
 	@EventHandler(ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
@@ -33,7 +36,7 @@ public class ListenerSpy implements Listener {
 				if (message.toLowerCase().startsWith(command)) return;
 			}
 
-			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
+			for (Player staff : this.server.getOnlinePlayers()) {
 
 				boolean isValid = this.plugin.api().getCommandSpyData().containsUser(staff.getUniqueId());
 

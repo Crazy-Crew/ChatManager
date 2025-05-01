@@ -136,7 +136,7 @@ public class CommandMsg extends AnnotationFeature {
         data.addUser(sender.getUniqueId(), player.getUniqueId());
         data.addUser(player.getUniqueId(), sender.getUniqueId());
 
-        for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
+        for (Player staff : this.server.getOnlinePlayers()) {
             if ((staff != sender) && (staff != player)) {
                 if ((!sender.hasPermission(Permissions.BYPASS_SOCIAL_SPY.getNode())) && (!player.hasPermission(Permissions.BYPASS_SOCIAL_SPY.getNode()))) {
                     boolean contains = this.plugin.api().getSocialSpyData().containsUser(staff.getUniqueId());

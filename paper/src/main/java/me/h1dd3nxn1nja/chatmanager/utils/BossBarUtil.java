@@ -4,22 +4,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
 import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import org.bukkit.Server;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import org.jetbrains.annotations.NotNull;
 
 public class BossBarUtil {
 
-	@NotNull
 	private final ChatManager plugin = ChatManager.get();
+
+	private final Server server = this.plugin.getServer();
 
 	private String title;
 	private BarColor color;
@@ -37,21 +37,21 @@ public class BossBarUtil {
 		this.title = Methods.color("&bStaff Chat");
 		this.color = BarColor.PINK;
 		this.style = BarStyle.SOLID;
-		this.bar = org.bukkit.Bukkit.getServer().createBossBar(title, color, style);
+		this.bar = this.server.createBossBar(title, color, style);
 	}
 
 	public BossBarUtil(String title, BarColor color, BarStyle style) {
 		this.title = Methods.color(title);
 		this.color = color;
 		this.style = style;
-		this.bar = plugin.getServer().createBossBar(this.title, color, style);
+		this.bar = this.server.createBossBar(this.title, color, style);
 	}
 
 	public BossBarUtil(String title) {
 		this.title = Methods.color(title);
 		this.color = BarColor.PINK;
 		this.style = BarStyle.SOLID;
-		this.staffBar = plugin.getServer().createBossBar(this.title, color, style);
+		this.staffBar = this.server.createBossBar(this.title, color, style);
 	}
 
 	public String getTitle() {
@@ -181,7 +181,7 @@ public class BossBarUtil {
 	}
 
 	public BossBarUtil setBossBarAnimation(Player player, List<String> titles, int time) {
-		BossBar bossBar = this.plugin.getServer().createBossBar(titles.getFirst(), color, BarStyle.SOLID, BarFlag.CREATE_FOG);
+		BossBar bossBar = this.server.createBossBar(titles.getFirst(), color, BarStyle.SOLID, BarFlag.CREATE_FOG);
 		bossBar.addPlayer(player);
 
 		this.bossBars.put(player.getUniqueId(), bossBar);

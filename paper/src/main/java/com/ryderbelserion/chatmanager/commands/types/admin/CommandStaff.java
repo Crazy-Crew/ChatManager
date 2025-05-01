@@ -9,7 +9,6 @@ import com.ryderbelserion.chatmanager.enums.Permissions;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
-import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -45,8 +44,6 @@ public class CommandStaff extends AnnotationFeature {
             return;
         }
 
-        final Server server = this.plugin.getServer();
-
         if (sender instanceof Player player) {
             if (arg == null) {
                 final UUID uuid = player.getUniqueId();
@@ -79,7 +76,7 @@ public class CommandStaff extends AnnotationFeature {
                 return;
             }
 
-            for (final Player staff : server.getOnlinePlayers()) {
+            for (final Player staff : this.server.getOnlinePlayers()) {
                 if (Permissions.TOGGLE_STAFF_CHAT.hasPermission(staff)) {
                     Methods.sendMessage(staff, config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}").replace("{player}", player.getName()).replace("{message}", arg));
                 }
@@ -92,7 +89,7 @@ public class CommandStaff extends AnnotationFeature {
 
         if (arg == null) return;
 
-        for (final Player staff : server.getOnlinePlayers()) {
+        for (final Player staff : this.server.getOnlinePlayers()) {
             if (staff.hasPermission(Permissions.TOGGLE_STAFF_CHAT.getNode())) {
                 Methods.sendMessage(staff, config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}").replace("{player}", sender.getName()).replace("{message}", arg), true);
             }

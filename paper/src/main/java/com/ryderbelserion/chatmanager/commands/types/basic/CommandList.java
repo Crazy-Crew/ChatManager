@@ -7,7 +7,6 @@ import com.ryderbelserion.chatmanager.enums.Permissions;
 import com.ryderbelserion.chatmanager.enums.commands.ListType;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -21,8 +20,6 @@ import java.util.Collection;
 import java.util.List;
 
 public class CommandList extends AnnotationFeature {
-
-    private final Server server = this.plugin.getServer();
 
     @Override
     public void registerFeature(@NotNull final AnnotationParser<CommandSourceStack> parser) {

@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.UUID;
 import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,6 +17,8 @@ public class ListenerPerWorldChat implements Listener {
 
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
+
+	private final Server server = this.plugin.getServer();
 
 	@EventHandler
 	public void onWorldChat(AsyncPlayerChatEvent event) {
@@ -39,7 +42,7 @@ public class ListenerPerWorldChat implements Listener {
 				if (group.contains(world)) playerGroup = group;
 			}
 
-			for (Player player2 : this.plugin.getServer().getOnlinePlayers()) {
+			for (Player player2 : this.server.getOnlinePlayers()) {
 				String world2 = player2.getWorld().getName();
 				if (playerGroup != null) {
 					if (!playerGroup.contains(world2)) {

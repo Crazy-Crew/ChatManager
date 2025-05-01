@@ -7,6 +7,8 @@ import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import org.bukkit.Server;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,6 +33,10 @@ public class ListenerAntiAdvertising implements Listener {
 
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
+
+	private final Server server = this.plugin.getServer();
+
+	private final ConsoleCommandSender console = this.server.getConsoleSender();
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
@@ -81,7 +87,7 @@ public class ListenerAntiAdvertising implements Listener {
 		Messages.ANTI_ADVERTISING_CHAT_MESSAGE.sendMessage(player);
 
 		if (config.getBoolean("Anti_Advertising.Chat.Notify_Staff", false)) {
-			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
+			for (Player staff : this.server.getOnlinePlayers()) {
 				if (staff.hasPermission(Permissions.NOTIFY_ANTI_ADVERTISING.getNode())) {
 					Messages.ANTI_ADVERTISING_CHAT_NOTIFY_STAFF.sendMessage(staff, new HashMap<>() {{
 						put("{player}", player.getName());
@@ -90,7 +96,7 @@ public class ListenerAntiAdvertising implements Listener {
 				}
 			}
 
-			String msg = Messages.ANTI_ADVERTISING_CHAT_NOTIFY_STAFF.getMessage(this.plugin.getServer().getConsoleSender(), new HashMap<>() {{
+			String msg = Messages.ANTI_ADVERTISING_CHAT_NOTIFY_STAFF.getMessage(this.console, new HashMap<>() {{
 				put("{player}", player.getName());
 				put("{message}", message);
 			}});
@@ -106,10 +112,10 @@ public class ListenerAntiAdvertising implements Listener {
 				new FoliaScheduler(Scheduler.global_scheduler) {
 					@Override
 					public void run() {
-						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+						server.dispatchCommand(console, command);
 
 						for (String cmd : commands) {
-							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
+							server.dispatchCommand(console, cmd.replace("{player}", player.getName()));
 						}
 					}
 				}.run();
@@ -184,7 +190,7 @@ public class ListenerAntiAdvertising implements Listener {
 		Messages.ANTI_ADVERTISING_COMMANDS_MESSAGE.sendMessage(player);
 
 		if (config.getBoolean("Anti_Advertising.Commands.Notify_Staff", false)) {
-			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
+			for (Player staff : this.server.getOnlinePlayers()) {
 				if (staff.hasPermission(Permissions.NOTIFY_ANTI_ADVERTISING.getNode())) {
 					Messages.ANTI_ADVERTISING_COMMANDS_NOTIFY_STAFF.sendMessage(staff, new HashMap<>() {{
 						put("{player}", player.getName());
@@ -193,7 +199,7 @@ public class ListenerAntiAdvertising implements Listener {
 				}
 			}
 
-			String msg = Messages.ANTI_ADVERTISING_COMMANDS_NOTIFY_STAFF.getMessage(this.plugin.getServer().getConsoleSender(), new HashMap<>() {{
+			String msg = Messages.ANTI_ADVERTISING_COMMANDS_NOTIFY_STAFF.getMessage(console, new HashMap<>() {{
 				put("{player}", player.getName());
 				put("{message}", message);
 			}});
@@ -209,10 +215,10 @@ public class ListenerAntiAdvertising implements Listener {
 				new FoliaScheduler(Scheduler.global_scheduler) {
 					@Override
 					public void run() {
-						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+						server.dispatchCommand(console, command);
 
 						for (String cmd : commands) {
-							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
+							server.dispatchCommand(console, cmd.replace("{player}", player.getName()));
 						}
 					}
 				}.run();
@@ -288,7 +294,7 @@ public class ListenerAntiAdvertising implements Listener {
 		Messages.ANTI_ADVERTISING_SIGNS_MESSAGE.sendMessage(player);
 
 		if (config.getBoolean("Anti_Advertising.Signs.Notify_Staff", false)) {
-			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
+			for (Player staff : this.server.getOnlinePlayers()) {
 				if (staff.hasPermission(Permissions.NOTIFY_ANTI_ADVERTISING.getNode())) {
 					Messages.ANTI_ADVERTISING_SIGNS_NOTIFY_STAFF.sendMessage(staff, new HashMap<>() {{
 						put("{player}", player.getName());
@@ -297,7 +303,7 @@ public class ListenerAntiAdvertising implements Listener {
 				}
 			}
 
-			String msg = Messages.ANTI_ADVERTISING_SIGNS_NOTIFY_STAFF.getMessage(this.plugin.getServer().getConsoleSender(), new HashMap<>() {{
+			String msg = Messages.ANTI_ADVERTISING_SIGNS_NOTIFY_STAFF.getMessage(console, new HashMap<>() {{
 				put("{player}", player.getName());
 				put("{message}", message);
 			}});
@@ -313,10 +319,10 @@ public class ListenerAntiAdvertising implements Listener {
 				new FoliaScheduler(Scheduler.global_scheduler) {
 					@Override
 					public void run() {
-						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+						server.dispatchCommand(console, command);
 
 						for (String cmd : commands) {
-							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
+							server.dispatchCommand(console, cmd.replace("{player}", player.getName()));
 						}
 					}
 				}.run();

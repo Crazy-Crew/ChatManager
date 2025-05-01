@@ -5,6 +5,7 @@ import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
+import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,10 +14,14 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
+
 public class ListenerMentions implements Listener {
 
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
+
+	private final Server server = this.plugin.getServer();
 
 	@NotNull
 	private final EssentialsSupport essentialsSupport = this.plugin.getPluginManager().getEssentialsSupport();
@@ -33,8 +38,10 @@ public class ListenerMentions implements Listener {
 		if (!config.getBoolean("Mentions.Enable", false)) return;
 
 		String message = event.getMessage();
+		
+		final Collection<? extends Player> players = this.server.getOnlinePlayers();
 
-		this.plugin.getServer().getOnlinePlayers().forEach(target -> {
+		players.forEach(target -> {
 			if (!player.hasPermission(Permissions.MENTION.getNode()) || !target.hasPermission(Permissions.RECEIVE_MENTION.getNode())) return;
 
 			if (!event.getMessage().contains(tagSymbol + target.getName())) return;
@@ -70,7 +77,7 @@ public class ListenerMentions implements Listener {
 		});
 
 		if (event.getMessage().toLowerCase().contains(tagSymbol + "everyone")) {
-			this.plugin.getServer().getOnlinePlayers().forEach(target -> {
+			players.forEach(target -> {
 				// We don't need to ping ourselves.
 				if (player.getUniqueId() == target.getUniqueId()) return;
 

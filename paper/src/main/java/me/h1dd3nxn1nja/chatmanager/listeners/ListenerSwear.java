@@ -7,6 +7,8 @@ import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import org.bukkit.Server;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,6 +31,10 @@ public class ListenerSwear implements Listener {
 
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
+
+	private final Server server = this.plugin.getServer();
+
+	private final ConsoleCommandSender console = this.server.getConsoleSender();
 
 	@EventHandler(ignoreCancelled = true)
 	public void onSwear(AsyncPlayerChatEvent event) {
@@ -111,10 +117,10 @@ public class ListenerSwear implements Listener {
 				new FoliaScheduler(Scheduler.global_scheduler) {
 					@Override
 					public void run() {
-						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+						server.dispatchCommand(console, command);
 
 						for (String cmd : commands) {
-							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
+							server.dispatchCommand(console, cmd.replace("{player}", player.getName()));
 						}
 					}
 				}.run();
@@ -366,10 +372,10 @@ public class ListenerSwear implements Listener {
 		new FoliaScheduler(Scheduler.global_scheduler) {
 			@Override
 			public void run() {
-				plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+				server.dispatchCommand(console, command);
 
 				for (String cmd : commands) {
-					plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
+					server.dispatchCommand(console, cmd.replace("{player}", player.getName()));
 				}
 			}
 		}.run();

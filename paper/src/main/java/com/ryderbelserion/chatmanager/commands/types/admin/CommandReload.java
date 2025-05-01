@@ -13,7 +13,6 @@ import com.ryderbelserion.fusion.paper.files.LegacyFileManager;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
-import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -24,8 +23,6 @@ import org.incendo.cloud.annotations.Permission;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandReload extends AnnotationFeature {
-
-    private final Server server = this.plugin.getServer();
 
     private final ApiLoader api = this.plugin.api();
 

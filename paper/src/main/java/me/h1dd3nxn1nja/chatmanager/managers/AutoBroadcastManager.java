@@ -7,6 +7,7 @@ import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
 import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
@@ -15,6 +16,8 @@ import me.h1dd3nxn1nja.chatmanager.utils.World;
 public class AutoBroadcastManager {
 
 	private static final ChatManager plugin = ChatManager.get();
+
+	private static final Server server = plugin.getServer();
 
 	private static final List<World> worlds = new ArrayList<>();
 	
@@ -31,7 +34,7 @@ public class AutoBroadcastManager {
 			@Override
 			public void run() {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Global_Messages.Enable", false)) {
-					for (Player player : plugin.getServer().getOnlinePlayers()) {
+					for (Player player : server.getOnlinePlayers()) {
 						if (autobroadcast.getBoolean("Auto_Broadcast.Global_Messages.Header_And_Footer", false)) {
 							Methods.sendMessage(player, prefix, autobroadcast.getString("Auto_Broadcast.Global_Messages.Header"), false);
 							Methods.sendMessage(player, prefix, messages.get(line).replace("{prefix}", prefix).replace("\\n", "\n"), false);
@@ -71,7 +74,7 @@ public class AutoBroadcastManager {
 			public void run() {
 				for (World world : getWorld()) {
 					if (autobroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Enable", false)) {
-						for (Player player : plugin.getServer().getOnlinePlayers()) {
+						for (Player player : server.getOnlinePlayers()) {
 							if (player.getWorld().getName().equals(world.getName())) {
 								if (autobroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Header_And_Footer", false)) {
 									Methods.sendMessage(player, prefix, autobroadcast.getString("Auto_Broadcast.Per_World_Messages.Header", "&7*&7&m--------------------------------&7*"), false);
@@ -111,7 +114,7 @@ public class AutoBroadcastManager {
 			@Override
 			public void run() {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable", false)) {
-					for (Player player : plugin.getServer().getOnlinePlayers()) {
+					for (Player player : server.getOnlinePlayers()) {
 						player.sendActionBar(Methods.placeholders(true, player, messages.get(line).replace("{prefix}", prefix).replace("{Prefix}", prefix)));
 
 						Methods.playSound(player, autobroadcast, "Auto_Broadcast.Actionbar_Messages.sound");
@@ -137,7 +140,7 @@ public class AutoBroadcastManager {
 			@Override
 			public void run() {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Title_Messages.Enable", false)) {
-					for (Player player : plugin.getServer().getOnlinePlayers()) {
+					for (Player player : server.getOnlinePlayers()) {
 						String title = Methods.placeholders(true, player, autobroadcast.getString("Auto_Broadcast.Title_Messages.Title"));
 
 						player.sendTitle(title, Methods.placeholders(true, player, messages.get(line)), 40, 20, 40);
@@ -166,7 +169,7 @@ public class AutoBroadcastManager {
 			@Override
 			public void run() {
 				if (autobroadcast.getBoolean("Auto_Broadcast.Bossbar_Messages.Enable", false)) {
-					for (Player player : plugin.getServer().getOnlinePlayers()) {
+					for (Player player : server.getOnlinePlayers()) {
 						BossBarUtil bossBar = new BossBarUtil(Methods.placeholders(true, player, messages.get(line)), org.bukkit.boss.BarColor.PINK, org.bukkit.boss.BarStyle.SOLID);
 
 						if (autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Bar_Time") == -1) {

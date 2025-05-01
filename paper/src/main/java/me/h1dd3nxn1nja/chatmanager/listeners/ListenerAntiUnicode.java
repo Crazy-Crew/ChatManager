@@ -7,6 +7,8 @@ import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import org.bukkit.Server;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,6 +25,10 @@ public class ListenerAntiUnicode implements Listener {
 
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
+
+	private final Server server = this.plugin.getServer();
+
+	private final ConsoleCommandSender console = this.server.getConsoleSender();
 
 	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
@@ -51,7 +57,7 @@ public class ListenerAntiUnicode implements Listener {
 		Messages.ANTI_UNICODE_MESSAGE.sendMessage(player);
 
 		if (config.getBoolean("Anti_Unicode.Notify_Staff", false)) {
-			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
+			for (Player staff : this.server.getOnlinePlayers()) {
 				if (staff.hasPermission(Permissions.NOTIFY_ANTI_UNICODE.getNode())) {
 					Messages.ANTI_UNICODE_NOTIFY_STAFF_FORMAT.sendMessage(staff, new HashMap<>() {{
 						put("{player}", player.getName());
@@ -60,7 +66,7 @@ public class ListenerAntiUnicode implements Listener {
 				}
 			}
 
-			Methods.tellConsole(Messages.ANTI_UNICODE_NOTIFY_STAFF_FORMAT.getMessage(this.plugin.getServer().getConsoleSender(), new HashMap<>() {{
+			Methods.tellConsole(Messages.ANTI_UNICODE_NOTIFY_STAFF_FORMAT.getMessage(this.console, new HashMap<>() {{
 				put("{player}", player.getName());
 				put("{message}", message);
 			}}), false);
@@ -74,10 +80,10 @@ public class ListenerAntiUnicode implements Listener {
 				new FoliaScheduler(Scheduler.global_scheduler) {
 					@Override
 					public void run() {
-						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+						server.dispatchCommand(console, command);
 
 						for (String cmd : commands) {
-							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
+							server.dispatchCommand(console, cmd.replace("{player}", player.getName()));
 						}
 					}
 				}.run();

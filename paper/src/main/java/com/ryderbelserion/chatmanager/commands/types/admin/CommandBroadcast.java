@@ -53,7 +53,7 @@ public class CommandBroadcast extends AnnotationFeature {
             case ANNOUNCEMENT -> sendBroadcast(sender, message, announcementSound, announcementVolume, announcementPitch, announcement);
 
             case BROADCAST -> {
-                for (final Player online : this.plugin.getServer().getOnlinePlayers()) {
+                for (final Player online : this.server.getOnlinePlayers()) {
                     Methods.sendMessage(online, message, true);
 
                     try {
@@ -68,7 +68,7 @@ public class CommandBroadcast extends AnnotationFeature {
 
     private void sendBroadcast(@NotNull CommandSender sender, String msg, String sound, int volume, int pitch, List<String> warning) {
         for (final String announce : warning) {
-            for (final Player online : this.plugin.getServer().getOnlinePlayers()) {
+            for (final Player online : this.server.getOnlinePlayers()) {
                 if (sender instanceof Player player) {
                     online.sendMessage(Methods.placeholders(false, player, announce.replace("{player}", player.getName())).replace("{message}", msg).replace("\\n", "\n"));
                 }

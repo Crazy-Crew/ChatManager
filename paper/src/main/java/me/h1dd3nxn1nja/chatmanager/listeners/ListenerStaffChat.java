@@ -4,6 +4,7 @@ import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,6 +17,8 @@ public class ListenerStaffChat implements Listener {
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
 
+	private final Server server = this.plugin.getServer();
+
 	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
@@ -27,7 +30,7 @@ public class ListenerStaffChat implements Listener {
 
 		event.setCancelled(true);
 
-		for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
+		for (Player staff : this.server.getOnlinePlayers()) {
 			if (staff.hasPermission(Permissions.TOGGLE_STAFF_CHAT.getNode())) {
 				Methods.sendMessage(staff, config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}").replace("{player}", player.getName()).replace("{message}", message));
 			}

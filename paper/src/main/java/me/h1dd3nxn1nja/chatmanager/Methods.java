@@ -3,12 +3,11 @@ package me.h1dd3nxn1nja.chatmanager;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.api.configs.locale.RootKeys;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.managers.ConfigManager;
 import com.ryderbelserion.fusion.core.managers.PluginExtension;
+import org.bukkit.Server;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -19,6 +18,8 @@ import org.jetbrains.annotations.Nullable;
 public class Methods {
 
 	private static final ChatManager plugin = ChatManager.get();
+
+	private static final Server server = plugin.getServer();
 
 	private static final PluginExtension extension = plugin.getPluginExtension();
 
@@ -32,7 +33,7 @@ public class Methods {
 		double pitch = config.getDouble(path + ".pitch", 1.0);
 
 		if (isEnabled) {
-			for (final Player online : plugin.getServer().getOnlinePlayers()) {
+			for (final Player online : server.getOnlinePlayers()) {
 				try {
 					online.playSound(online.getLocation(), Sound.valueOf(sound), (float) volume, (float) pitch);
 				} catch (IllegalArgumentException ignored) {}
@@ -287,12 +288,12 @@ public class Methods {
 	}
 	
 	public static void tellConsole(String message, boolean prefix) {
-		sendMessage(plugin.getServer().getConsoleSender(), message, prefix);
+		sendMessage(server.getConsoleSender(), message, prefix);
 	}
 	
 	public static boolean inRange(UUID uuid, UUID receiver, int radius) {
-		Player player = plugin.getServer().getPlayer(uuid);
-		Player other = plugin.getServer().getPlayer(receiver);
+		Player player = server.getPlayer(uuid);
+		Player other = server.getPlayer(receiver);
 
 		if (other.getLocation().getWorld().equals(player.getLocation().getWorld())) {
 			return other.getLocation().distanceSquared(player.getLocation()) <= radius * radius;
@@ -302,8 +303,8 @@ public class Methods {
 	}
 	
 	public static boolean inWorld(UUID uuid, UUID receiver) {
-		Player player = plugin.getServer().getPlayer(uuid);
-		Player other = plugin.getServer().getPlayer(receiver);
+		Player player = server.getPlayer(uuid);
+		Player other = server.getPlayer(receiver);
 
 		return other.getLocation().getWorld().equals(player.getLocation().getWorld());
 	}
@@ -335,7 +336,7 @@ public class Methods {
 	public static void broadcast(Player player, String message) {
 		if (message == null || message.isEmpty()) return;
 
-		plugin.getServer().broadcastMessage(placeholders(getPrefix().isEmpty(), player, color(message)));
+		server.broadcastMessage(placeholders(getPrefix().isEmpty(), player, color(message)));
 	}
 
 	public static String placeholders(final boolean isStaffChat, final boolean ignorePrefix, final boolean parsePapi, final String prefix, final CommandSender sender, final String message) {

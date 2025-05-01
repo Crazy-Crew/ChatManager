@@ -7,6 +7,7 @@ import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.ChatColor;
+import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,6 +20,8 @@ public class ListenerRadius implements Listener {
 
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
+
+	private final Server server = this.plugin.getServer();
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
@@ -81,7 +84,7 @@ public class ListenerRadius implements Listener {
 		if (this.plugin.api().getLocalChatData().containsUser(uuid)) {
 			recipients.clear();
 
-			for (Player receiver : this.plugin.getServer().getOnlinePlayers()) {
+			for (Player receiver : this.server.getOnlinePlayers()) {
 				if (Methods.inRange(uuid, receiver.getUniqueId(), radius)) {
 					recipients.add(player);
 					recipients.add(receiver);
@@ -94,7 +97,7 @@ public class ListenerRadius implements Listener {
 		if (this.plugin.api().getWorldChatData().containsUser(uuid)) {
 			recipients.clear();
 
-			for (Player receiver : this.plugin.getServer().getOnlinePlayers()) {
+			for (Player receiver : this.server.getOnlinePlayers()) {
 				if (Methods.inWorld(uuid, receiver.getUniqueId())) {
 					recipients.add(player);
 					recipients.add(receiver);

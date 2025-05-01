@@ -7,6 +7,8 @@ import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import org.bukkit.Server;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,6 +22,10 @@ public class ListenerBannedCommand implements Listener {
 
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
+
+	private final Server server = this.plugin.getServer();
+
+	private final ConsoleCommandSender console = this.server.getConsoleSender();
 
 	@EventHandler(ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
@@ -78,7 +84,7 @@ public class ListenerBannedCommand implements Listener {
 
 		if (!config.getBoolean("Banned_Commands.Notify_Staff", false)) return;
 
-		for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
+		for (Player staff : this.server.getOnlinePlayers()) {
 			if (staff.hasPermission(Permissions.NOTIFY_BANNED_COMMANDS.getNode())) {
 				Messages.BANNED_COMMANDS_MESSAGE.sendMessage(staff, new HashMap<>() {{
 					put("{player}", player.getName());
@@ -93,7 +99,7 @@ public class ListenerBannedCommand implements Listener {
 
 		if (!config.getBoolean("Banned_Commands.Notify_Staff", false)) return;
 
-		Methods.tellConsole(Messages.BANNED_COMMANDS_MESSAGE.getMessage(this.plugin.getServer().getConsoleSender(), new HashMap<>() {{
+		Methods.tellConsole(Messages.BANNED_COMMANDS_MESSAGE.getMessage(this.console, new HashMap<>() {{
 			put("{player}", player.getName());
 			put("{command}", message);
 		}}), false);
@@ -114,10 +120,10 @@ public class ListenerBannedCommand implements Listener {
 		new FoliaScheduler(Scheduler.global_scheduler) {
 			@Override
 			public void run() {
-				plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+				server.dispatchCommand(console, command);
 
 				for (String cmd : commands) {
-					plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
+					server.dispatchCommand(console, cmd.replace("{player}", player.getName()));
 				}
 			}
 		}.run();

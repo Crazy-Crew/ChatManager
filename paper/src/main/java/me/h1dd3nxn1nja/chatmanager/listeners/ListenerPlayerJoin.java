@@ -2,12 +2,12 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import com.ryderbelserion.fusion.core.api.interfaces.IPlugin;
 import com.ryderbelserion.fusion.core.managers.PluginExtension;
 import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
 import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,6 +21,8 @@ public class ListenerPlayerJoin implements Listener {
     private final ChatManager plugin = ChatManager.get();
 
     private final PluginExtension extension = this.plugin.getPluginExtension();
+
+    private final Server server = this.plugin.getServer();
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void firstJoinMessage(PlayerJoinEvent event) {
@@ -95,7 +97,7 @@ public class ListenerPlayerJoin implements Listener {
                     new FoliaScheduler(Scheduler.async_scheduler) {
                         @Override
                         public void run() {
-                            plugin.getServer().broadcastMessage(Methods.placeholders(false, player, Methods.color(message)));
+                            server.broadcastMessage(Methods.placeholders(false, player, Methods.color(message)));
                         }
                     }.run();
                 }
@@ -144,7 +146,7 @@ public class ListenerPlayerJoin implements Listener {
                                 new FoliaScheduler(Scheduler.async_scheduler) {
                                     @Override
                                     public void run() {
-                                        plugin.getServer().broadcastMessage(Methods.placeholders(false, player, Methods.color(joinMessage)));
+                                        server.broadcastMessage(Methods.placeholders(false, player, Methods.color(joinMessage)));
                                     }
                                 }.run();
                             }
