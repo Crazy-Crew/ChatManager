@@ -1,13 +1,19 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
+import com.ryderbelserion.chatmanager.ApiLoader;
+import com.ryderbelserion.chatmanager.api.chat.GlobalChatData;
+import com.ryderbelserion.chatmanager.api.chat.LocalChatData;
+import com.ryderbelserion.chatmanager.api.chat.SpyChatData;
+import com.ryderbelserion.chatmanager.api.chat.WorldChatData;
+import com.ryderbelserion.chatmanager.api.cmds.CommandSpyData;
+import com.ryderbelserion.chatmanager.api.cmds.SocialSpyData;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import com.ryderbelserion.fusion.core.managers.PluginExtension;
 import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
 import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
-import org.bukkit.Server;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,14 +21,25 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import java.util.UUID;
 
 public class ListenerPlayerJoin implements Listener {
 
     private final ChatManager plugin = ChatManager.get();
 
-    private final PluginExtension extension = this.plugin.getPluginExtension();
+    private final ApiLoader api = this.plugin.api();
 
-    private final Server server = this.plugin.getServer();
+    private final LocalChatData localChatData = this.api.getLocalChatData();
+
+    private final GlobalChatData globalChatData = this.api.getGlobalChatData();
+
+    private final WorldChatData worldChatData = this.api.getWorldChatData();
+
+    private final SpyChatData spyChatData = this.api.getSpyChatData();
+
+    private final SocialSpyData socialSpyData = this.api.getSocialSpyData();
+
+    private final CommandSpyData commandSpyData = this.api.getCommandSpyData();
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void firstJoinMessage(PlayerJoinEvent event) {
@@ -69,7 +86,7 @@ public class ListenerPlayerJoin implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void joinMessage(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
+        final Player player = event.getPlayer();
 
         if (!player.hasPlayedBefore()) return;
 
@@ -81,99 +98,64 @@ public class ListenerPlayerJoin implements Listener {
             }
         }*/
 
-        FileConfiguration config = Files.CONFIG.getConfiguration();
+        final FileConfiguration config = Files.CONFIG.getConfiguration();
 
         if ((config.getBoolean("Messages.Join_Quit_Messages.Join_Message.Enable", false)) && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable", false))) {
-            String message = config.getString("Messages.Join_Quit_Messages.Join_Message.Message", "&b{player} &ajoined the server");
-            boolean isAsync = config.getBoolean("Messages.Async", false);
+            final String message = config.getString("Messages.Join_Quit_Messages.Join_Message.Message", "&b{player} &ajoined the server");
 
-            String path = "Messages.Join_Quit_Messages.Join_Message.sound";
-            boolean isEnabled = config.contains(path + ".toggle", false) && config.getBoolean(path + ".toggle", false);
+            final String path = "Messages.Join_Quit_Messages.Join_Message.sound";
+            final boolean isEnabled = config.contains(path + ".toggle", false) && config.getBoolean(path + ".toggle", false);
 
-            if (isAsync) {
-                if (event.getJoinMessage() != null) {
-                    event.setJoinMessage(null);
-
-                    new FoliaScheduler(Scheduler.async_scheduler) {
-                        @Override
-                        public void run() {
-                            server.broadcastMessage(Methods.placeholders(false, player, Methods.color(message)));
-                        }
-                    }.run();
-                }
-            } else {
-                event.setJoinMessage(Methods.placeholders(false, player, Methods.color(message)));
-            }
+            event.setJoinMessage(Methods.placeholders(false, player, Methods.color(message)));
 
             if (isEnabled) Methods.playSound(config, path);
         }
 
         if ((config.getBoolean("Messages.Join_Quit_Messages.Actionbar_Message.Enable", false)) && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable", false))) {
-            String message = config.getString("Messages.Join_Quit_Messages.Actionbar_Message.Message", "&eWelcome back to &b{server_name} %luckperms_prefix% {player}&e!");
+            final String message = config.getString("Messages.Join_Quit_Messages.Actionbar_Message.Message", "&eWelcome back to &b{server_name} %luckperms_prefix% {player}&e!");
 
             player.sendActionBar(Methods.placeholders(false, player, Methods.color(message)));
         }
 
         if ((config.getBoolean("Messages.Join_Quit_Messages.Title_Message.Enable", false)) && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable", false))) {
-            int fadeIn = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_In", 40);
-            int stay = config.getInt("Messages.Join_Quit_Messages.Title_Message.Stay", 20);
-            int fadeOut = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_Out", 40);
-            String header = config.getString("Messages.Join_Quit_Messages.Title_Message.Message.Header", "&eWelcome Back");
-            String footer = config.getString("Messages.Join_Quit_Messages.Title_Message.Message.Footer", "&b{player} to {server_name}");
+            final int fadeIn = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_In", 40);
+            final int stay = config.getInt("Messages.Join_Quit_Messages.Title_Message.Stay", 20);
+            final int fadeOut = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_Out", 40);
+            final String header = config.getString("Messages.Join_Quit_Messages.Title_Message.Message.Header", "&eWelcome Back");
+            final String footer = config.getString("Messages.Join_Quit_Messages.Title_Message.Message.Footer", "&b{player} to {server_name}");
 
             player.sendTitle(Methods.placeholders(false, player, Methods.color(header)), Methods.placeholders(false, player, Methods.color(footer)), fadeIn, stay, fadeOut);
         }
 
         if (config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable", false)) {
-            for (String key : config.getConfigurationSection("Messages.Join_Quit_Messages.Group_Messages").getKeys(false)) {
-                String permission = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Permission");
-                String joinMessage = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Join_Message");
-                String actionbarMessage = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Actionbar");
-                String titleHeader = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Title.Header");
-                String titleFooter = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Title.Footer");
-                int fadeIn = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_In", 40);
-                int stay = config.getInt("Messages.Join_Quit_Messages.Title_Message.Stay", 20);
-                int fadeOut = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_Out", 40);
+            final ConfigurationSection section = config.getConfigurationSection("Messages.Join_Quit_Messages.Group_Messages");
 
-                if (permission != null && player.hasPermission(permission)) {
-                    if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Join_Message")) {
-                        boolean isAsync = config.getBoolean("Messages.Async", false);
+            if (section == null) return;
 
-                        if (isAsync) {
-                            if (event.getJoinMessage() != null) {
-                                event.setJoinMessage(null);
+            for (final String key : section.getKeys(false)) {
+                final String permission = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Permission", "");
+                final String joinMessage = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Join_Message", "");
+                final String actionbarMessage = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Actionbar", "");
+                final String titleHeader = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Title.Header", "");
+                final String titleFooter = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Title.Footer", "");
+                final int fadeIn = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_In", 40);
+                final int stay = config.getInt("Messages.Join_Quit_Messages.Title_Message.Stay", 20);
+                final int fadeOut = config.getInt("Messages.Join_Quit_Messages.Title_Message.Fade_Out", 40);
 
-                                new FoliaScheduler(Scheduler.async_scheduler) {
-                                    @Override
-                                    public void run() {
-                                        server.broadcastMessage(Methods.placeholders(false, player, Methods.color(joinMessage)));
-                                    }
-                                }.run();
-                            }
-                        } else {
-                            event.setJoinMessage(Methods.placeholders(false, player, Methods.color(joinMessage)));
-                        }
+                if (!permission.isEmpty() && player.hasPermission(permission)) {
+                    if (!joinMessage.isEmpty()) {
+                        event.setJoinMessage(Methods.placeholders(false, player, Methods.color(joinMessage)));
                     }
 
-                    if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Actionbar")) {
-                        try {
-                            player.sendActionBar(Methods.placeholders(false, player, Methods.color(actionbarMessage)));
-                        } catch (NullPointerException ex) {
-                            ex.printStackTrace();
-                        }
+                    if (!actionbarMessage.isEmpty()) {
+                        player.sendActionBar(Methods.placeholders(false, player, Methods.color(actionbarMessage)));
                     }
 
-                    if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Title")) {
-                        try {
-                            player.sendTitle(Methods.placeholders(false, player, Methods.color(titleHeader)), Methods.placeholders(false, player, Methods.color(titleFooter)), fadeIn, stay, fadeOut);
-                        } catch (NullPointerException ex) {
-                            ex.printStackTrace();
-                        }
+                    if (!titleHeader.isEmpty() && !titleFooter.isEmpty()) {
+                        player.sendTitle(Methods.placeholders(false, player, Methods.color(titleHeader)), Methods.placeholders(false, player, Methods.color(titleFooter)), fadeIn, stay, fadeOut);
                     }
 
-                    String path = "Messages.Join_Quit_Messages.Group_Messages." + key + ".sound";
-
-                    Methods.playSound(config, path);
+                    Methods.playSound(config, "Messages.Join_Quit_Messages.Group_Messages." + key + ".sound");
                 }
             }
         }
@@ -181,7 +163,7 @@ public class ListenerPlayerJoin implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerQuit(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
+        final Player player = event.getPlayer();
 
         /*if (this.extension.isEnabled("GenericVanish")) { //todo() bad code
             final IPlugin plugin = this.extension.getPlugin("GenericVanish");
@@ -191,26 +173,21 @@ public class ListenerPlayerJoin implements Listener {
             }
         }*/
 
-        FileConfiguration config = Files.CONFIG.getConfiguration();
+        final FileConfiguration config = Files.CONFIG.getConfiguration();
 
         if ((config.getBoolean("Messages.Join_Quit_Messages.Quit_Message.Enable", false)) && !(config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable", false))) {
-            String message = config.getString("Messages.Join_Quit_Messages.Quit_Message.Message", "&b{player} &cleft the server");
-            event.setQuitMessage(Methods.placeholders(false, player, Methods.color(message)));
+            event.setQuitMessage(Methods.placeholders(false, player, Methods.color(config.getString("Messages.Join_Quit_Messages.Quit_Message.Message", "&b{player} &cleft the server"))));
 
-            String path = "Messages.Join_Quit_Messages.Quit_Message.sound";
-
-            Methods.playSound(config, path);
+            Methods.playSound(config, "Messages.Join_Quit_Messages.Quit_Message.sound");
         }
 
         if (config.getBoolean("Messages.Join_Quit_Messages.Group_Messages.Enable", false)) {
-            for (String key : config.getConfigurationSection("Messages.Join_Quit_Messages.Group_Messages").getKeys(false)) {
-                String permission = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Permission");
-                String quitMessage = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Quit_Message");
+            for (final String key : config.getConfigurationSection("Messages.Join_Quit_Messages.Group_Messages").getKeys(false)) {
+                final String permission = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Permission", "");
+                final String quitMessage = config.getString("Messages.Join_Quit_Messages.Group_Messages." + key + ".Quit_Message", "");
 
-                if (permission != null && player.hasPermission(permission)) {
-                    if (config.contains("Messages.Join_Quit_Messages.Group_Messages." + key + ".Quit_Message")) {
-                        event.setQuitMessage(Methods.placeholders(false, player, Methods.color(quitMessage)));
-                    }
+                if (!permission.isEmpty() && !quitMessage.isEmpty() && player.hasPermission(permission)) {
+                    event.setQuitMessage(Methods.placeholders(false, player, Methods.color(quitMessage)));
                 }
             }
         }
@@ -218,12 +195,13 @@ public class ListenerPlayerJoin implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
+        final Player player = event.getPlayer();
+        final UUID uuid = player.getUniqueId();
 
-        FileConfiguration config = Files.CONFIG.getConfiguration();
+        final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-        int lines = config.getInt("Clear_Chat.Broadcasted_Lines", 300);
-        int delay = config.getInt("MOTD.Delay", 2);
+        final int lines = config.getInt("Clear_Chat.Broadcasted_Lines", 300);
+        final int delay = config.getInt("MOTD.Delay", 2);
 
         if (config.getBoolean("Clear_Chat.Clear_On_Join", false)) {
             if (player.hasPermission(Permissions.BYPASS_CLEAR_CHAT_ON_JOIN.getNode())) return;
@@ -234,30 +212,32 @@ public class ListenerPlayerJoin implements Listener {
         }
 
         if (config.getBoolean("Social_Spy.Enable_On_Join", false)) {
-            if (player.hasPermission(Permissions.SOCIAL_SPY.getNode())) this.plugin.api().getSocialSpyData().addUser(player.getUniqueId());
+            if (player.hasPermission(Permissions.SOCIAL_SPY.getNode())) this.socialSpyData.addUser(uuid);
         }
 
         if (config.getBoolean("Command_Spy.Enable_On_Join", false)) {
-            if (player.hasPermission(Permissions.COMMAND_SPY.getNode())) this.plugin.api().getCommandSpyData().addUser(player.getUniqueId());
+            if (player.hasPermission(Permissions.COMMAND_SPY.getNode())) this.commandSpyData.addUser(uuid);
         }
 
         if (config.getBoolean("Chat_Radius.Enable", false)) {
-            if (config.getString("Chat_Radius.Default_Channel", "Global").equalsIgnoreCase("Local")) this.plugin.api().getLocalChatData().addUser(player.getUniqueId());
-            if (config.getString("Chat_Radius.Default_Channel", "Global").equalsIgnoreCase("Global")) this.plugin.api().getGlobalChatData().addUser(player.getUniqueId());
-            if (config.getString("Chat_Radius.Default_Channel", "Global").equalsIgnoreCase("World")) this.plugin.api().getWorldChatData().addUser(player.getUniqueId());
+            switch (config.getString("Chat_Radius.Default_Channel", "global").toLowerCase()) {
+                case "global" -> this.globalChatData.addUser(uuid);
+                case "local" -> this.localChatData.addUser(uuid);
+                case "world" -> this.worldChatData.addUser(uuid);
+            }
         }
 
         if (config.getBoolean("Chat_Radius.Enable", false)) {
             if (!config.getBoolean("Chat_Radius.Enable_Spy_On_Join", false)) return;
 
-            if (player.hasPermission(Permissions.COMMAND_CHATRADIUS_SPY.getNode())) plugin.api().getSpyChatData().addUser(player.getUniqueId());
+            if (player.hasPermission(Permissions.COMMAND_CHATRADIUS_SPY.getNode())) this.spyChatData.addUser(uuid);
         }
 
         if (config.getBoolean("MOTD.Enable", false)) {
             new FoliaScheduler(Scheduler.global_scheduler) {
                 @Override
                 public void run() {
-                    for (String motd : config.getStringList("MOTD.Message")) {
+                    for (final String motd : config.getStringList("MOTD.Message")) {
                         Methods.sendMessage(player, motd, false);
                     }
                 }
