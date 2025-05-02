@@ -1,5 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
+import com.ryderbelserion.chatmanager.ApiLoader;
+import com.ryderbelserion.chatmanager.api.chat.StaffChatData;
 import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
@@ -19,23 +21,29 @@ public class ListenerStaffChat implements Listener {
 
 	private final Server server = this.plugin.getServer();
 
+	private final ApiLoader api = this.plugin.api();
+
+	private final StaffChatData data = this.api.getStaffChatData();
+
 	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
-		Player player = event.getPlayer();
-		String message = event.getMessage();
+		final Player player = event.getPlayer();
+		final String message = event.getMessage();
 
-		FileConfiguration config = Files.CONFIG.getConfiguration();
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		if (!this.plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
+		final String name = player.getName();
+
+		if (!this.data.containsUser(player.getUniqueId())) return;
 
 		event.setCancelled(true);
 
-		for (Player staff : this.server.getOnlinePlayers()) {
+		for (final Player staff : this.server.getOnlinePlayers()) {
 			if (staff.hasPermission(Permissions.TOGGLE_STAFF_CHAT.getNode())) {
-				Methods.sendMessage(staff, config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}").replace("{player}", player.getName()).replace("{message}", message));
+				Methods.sendMessage(staff, config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}").replace("{player}", name).replace("{message}", message));
 			}
 		}
 
-		Methods.tellConsole(config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}").replace("{player}", player.getName()).replace("{message}", message), false);
+		Methods.tellConsole(config.getString("Staff_Chat.Format", "&e[&bStaffChat&e] &a{player} &7> &b{message}").replace("{player}", name).replace("{message}", message), false);
 	}
 }

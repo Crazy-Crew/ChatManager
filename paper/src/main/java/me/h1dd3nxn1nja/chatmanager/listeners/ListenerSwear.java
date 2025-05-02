@@ -1,11 +1,17 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
+import com.ryderbelserion.chatmanager.ApiLoader;
+import com.ryderbelserion.chatmanager.api.chat.StaffChatData;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.utils.DispatchUtils;
+import com.ryderbelserion.fusion.core.utils.AdvUtils;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -13,9 +19,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -32,73 +39,218 @@ public class ListenerSwear implements Listener {
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
 
+	private final File dataFolder = this.plugin.getDataFolder();
+
 	private final Server server = this.plugin.getServer();
 
 	private final ConsoleCommandSender console = this.server.getConsoleSender();
 
+	private final ApiLoader api = this.plugin.api();
+
+	private final StaffChatData data = this.api.getStaffChatData();
+
 	@EventHandler(ignoreCancelled = true)
-	public void onSwear(AsyncPlayerChatEvent event) {
-		Player player = event.getPlayer();
-		String message = event.getMessage();
-		Date time = Calendar.getInstance().getTime();
+	public void onSwear(AsyncChatEvent event) {
+		final Player player = event.getPlayer();
+		final String message = event.signedMessage().message();
 
-		FileConfiguration bannedWords = Files.BANNED_WORDS.getConfiguration();
-		FileConfiguration config = Files.CONFIG.getConfiguration();
+		final FileConfiguration bannedWords = Files.BANNED_WORDS.getConfiguration();
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
-		List<String> blockedWordsList = bannedWords.getStringList("Banned-Words");
-		String sensitiveMessage = event.getMessage().toLowerCase().replaceAll("[^a-zA-Z0-9 ]", "").replaceAll("\\s+", "");
-		String curseMessage = event.getMessage().toLowerCase();
+		if (this.data.containsUser(player.getUniqueId()) || !config.getBoolean("Anti_Swear.Chat.Enable", false)) return;
 
-		if (this.plugin.api().getStaffChatData().containsUser(player.getUniqueId()) || !config.getBoolean("Anti_Swear.Chat.Enable")) return;
+		final List<String> words = bannedWords.getStringList("Banned-Words");
 
-		if (player.hasPermission(Permissions.BYPASS_ANTI_SWEAR.getNode())) return;
+		if (words.isEmpty() || player.hasPermission(Permissions.BYPASS_ANTI_SWEAR.getNode())) return;
+
+		final List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
+		final String curseMessage = message.toLowerCase();
+
+		final Date time = Calendar.getInstance().getTime();
 
 		if (config.getBoolean("Anti_Swear.Chat.Increase_Sensitivity", false)) {
-			for (String blockedWord : blockedWordsList) {
-				for (String allowed : whitelisted) {
-					if (event.getMessage().contains(allowed.toLowerCase())) return;
-				}
+			final String sensitiveMessage = message.toLowerCase().replaceAll("[^a-zA-Z0-9 ]", "").replaceAll("\\s+", "");
 
-				if (curseMessageContains(player, message, time, sensitiveMessage, blockedWord)) {
-					Messages.ANTI_SWEAR_CHAT_MESSAGE.sendMessage(player);
+			validateChat(event, player, message, config, words, whitelisted, time, sensitiveMessage);
 
-					if (config.getBoolean("Anti_Swear.Chat.Block_Message", false)) event.setCancelled(true);
-
-					if (config.getBoolean("Anti_Swear.Chat.Notify_Staff", false)) checkOnlineStaff(player, message);
-
-					return;
-				}
-			}
+			return;
 		}
 
-		if (!config.getBoolean("Anti_Swear.Chat.Increase_Sensitivity", false)) {
-			for (String blockedWord : blockedWordsList) {
-				for (String allowed : whitelisted) {
-					if (event.getMessage().contains(allowed.toLowerCase())) return;
+		validateChat(event, player, message, config, words, whitelisted, time, curseMessage);
+	}
+
+	public void validateChat(@NotNull final AsyncChatEvent event, @NotNull final Player player, @NotNull final String message, @NotNull final FileConfiguration config, @NotNull final List<String> words, @NotNull final List<String> whitelisted, @NotNull final Date time, @NotNull final String sensitiveMessage) {
+		for (final String word : words) {
+			for (final String allowed : whitelisted) {
+				if (message.contains(allowed.toLowerCase())) return;
+			}
+
+			if (logChatSwearing(player, message, time, sensitiveMessage, word)) {
+				Messages.ANTI_SWEAR_CHAT_MESSAGE.sendMessage(player);
+
+				if (config.getBoolean("Anti_Swear.Chat.Block_Message", false)) event.setCancelled(true);
+
+				notifyStaff(player, config.getBoolean("Anti_Swear.Chat.Notify_Staff", false), message, Messages.ANTI_SWEAR_CHAT_NOTIFY_STAFF_FORMAT, Permissions.NOTIFY_ANTI_SWEAR);
+
+				return;
+			}
+		}
+	}
+
+	@EventHandler(ignoreCancelled = true)
+	public void onSwearCommand(PlayerCommandPreprocessEvent event) {
+		final Player player = event.getPlayer();
+		final String message = event.getMessage();
+		final Date time = Calendar.getInstance().getTime();
+
+		final FileConfiguration bannedWords = Files.BANNED_WORDS.getConfiguration();
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
+
+		final List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
+		final List<String> whitelistedCommands = config.getStringList("Anti_Swear.Commands.Whitelisted_Commands");
+		final List<String> blockedWordsList = bannedWords.getStringList("Banned-Words");
+		final String sensitiveMessage = message.toLowerCase().replaceAll("[^a-zA-Z0-9 ]", "").replaceAll("\\s+", "");
+		final String curseMessage = message.toLowerCase();
+
+		if (!config.getBoolean("Anti_Swear.Commands.Enable", false) || Permissions.BYPASS_ANTI_SWEAR.hasPermission(player)) return;
+
+		if (config.getBoolean("Anti_Swear.Commands.Increase_Sensitivity", false)) {
+			for (final String word : blockedWordsList) {
+				for (final String allowed : whitelisted) {
+					if (message.contains(allowed.toLowerCase())) return;
 				}
-				
-				if (curseMessageContains(player, message, time, curseMessage, blockedWord)) {
-					Messages.ANTI_SWEAR_CHAT_MESSAGE.sendMessage(player);
 
-					if (config.getBoolean("Anti_Swear.Chat.Block_Message", false)) event.setCancelled(true);
+				if (sensitiveMessage.contains(word)) {
+					Messages.ANTI_SWEAR_COMMAND_MESSAGE.sendMessage(player);
 
-					if (config.getBoolean("Anti_Swear.Chat.Notify_Staff", false)) checkOnlineStaff(player, message);
+					if (config.getBoolean("Anti_Swear.Commands.Block_Command", false)) event.setCancelled(true);
 
-					return;
+					notifyStaff(player, config.getBoolean("Anti_Swear.Commands.Notify_Staff", false), message, Messages.ANTI_SWEAR_COMMAND_NOTIFY_STAFF_FORMAT, Permissions.NOTIFY_ANTI_SWEAR);
+
+					logCommandSwearing(config, player, message, time);
+
+					for (final String command : whitelistedCommands) {
+						if (message.toLowerCase().startsWith(command)) return;
+					}
+				}
+			}
+
+			return;
+		}
+
+		for (final String word : blockedWordsList) {
+			if (curseMessage.contains(word)) {
+				Messages.ANTI_SWEAR_COMMAND_MESSAGE.sendMessage(player);
+
+				if (config.getBoolean("Anti_Swear.Commands.Block_Command", false)) event.setCancelled(true);
+
+				notifyStaff(player, config.getBoolean("Anti_Swear.Commands.Notify_Staff", false), message, Messages.ANTI_SWEAR_CHAT_NOTIFY_STAFF_FORMAT, Permissions.NOTIFY_ANTI_SWEAR);
+
+				logCommandSwearing(config, player, message, time);
+
+				for (final String command : whitelistedCommands) {
+					if (message.toLowerCase().startsWith(command)) return;
 				}
 			}
 		}
 	}
 
-	private boolean curseMessageContains(Player player, String message, Date time, String curseMessage, String blockedWords) {
-		if (!curseMessage.contains(blockedWords)) return false;
+	@EventHandler(ignoreCancelled = true)
+	public void onSwearSign(SignChangeEvent event) {
+		final Player player = event.getPlayer();
+		final Date time = Calendar.getInstance().getTime();
 
-		FileConfiguration config = Files.CONFIG.getConfiguration();
+		final FileConfiguration bannedWords = Files.BANNED_WORDS.getConfiguration();
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
+
+		final List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
+		final List<String> words = bannedWords.getStringList("Banned-Words");
+
+		if (words.isEmpty()) return;
+
+		if (!config.getBoolean("Anti_Swear.Signs.Enable", false) || player.hasPermission(Permissions.BYPASS_ANTI_SWEAR.getNode())) return;
+
+		if (config.getBoolean("Anti_Swear.Signs.Increase_Sensitivity", false)) {
+			for (int line = 0; line < 4; line++) {
+				final Component component = event.line(line);
+
+				if (component == null || component.equals(Component.empty())) continue;
+
+				final String message = PlainTextComponentSerializer.plainText().serialize(component);
+
+				if (message.isEmpty()) return;
+
+				final String curseMessage = message.toLowerCase().replaceAll("[^a-zA-Z0-9 ]", "").replaceAll("\\s+", "");
+
+				for (final String word : words) {
+					for (final String allowed : whitelisted) {
+						if (message.contains(allowed.toLowerCase())) return;
+					}
+
+					if (curseMessage.contains(word)) {
+						Messages.ANTI_SWEAR_SIGNS_MESSAGE.sendMessage(player);
+
+						if (config.getBoolean("Anti_Swear.Signs.Block_Sign", false)) event.setCancelled(true);
+
+						notifyStaff(player, config.getBoolean("Anti_Swear.Signs.Notify_Staff", false), message, Messages.ANTI_SWEAR_SIGNS_NOTIFY_STAFF_FORMAT, Permissions.NOTIFY_ANTI_SWEAR);
+
+						logSignSwearing(config, player, time, line, message);
+					}
+				}
+			}
+
+			return;
+		}
+
+		for (int line = 0; line < 4; line++) {
+			final Component component = event.line(line);
+
+			if (component == null || component.equals(Component.empty())) continue;
+
+			final String message = PlainTextComponentSerializer.plainText().serialize(component);
+
+			if (message.isEmpty()) return;
+
+			for (final String curseMessages : message.toLowerCase().split(" ")) {
+				if (Permissions.BYPASS_ANTI_SWEAR.hasPermission(player) || !words.contains(curseMessages)) continue;
+
+				Messages.ANTI_SWEAR_SIGNS_MESSAGE.sendMessage(player);
+
+				if (config.getBoolean("Anti_Swear.Signs.Block_Sign", false)) event.setCancelled(true);
+
+				notifyStaff(player, config.getBoolean("Anti_Swear.Signs.Notify_Staff", false), message, Messages.ANTI_SWEAR_SIGNS_NOTIFY_STAFF_FORMAT, Permissions.NOTIFY_ANTI_SWEAR);
+
+				logSignSwearing(config, player, time, line, message);
+			}
+		}
+	}
+
+	private void notifyStaff(@NotNull final Player target, final boolean notify, @NotNull final String value, @NotNull final Messages message, @NotNull final Permissions permission) {
+		if (!notify) return;
+
+		for (final Player player : this.server.getOnlinePlayers()) {
+			if (!permission.hasPermission(player)) continue;
+
+			message.sendMessage(player, new HashMap<>() {{
+				put("{player}", target.getName());
+				put("{message}", value);
+			}});
+		}
+
+		Methods.tellConsole(message.getMessage(this.console, new HashMap<>() {{
+			put("{player}", target.getName());
+			put("{message}", value);
+		}}), false);
+	}
+
+	private boolean logChatSwearing(@NotNull final Player player, @NotNull final String message, @NotNull final Date time, @NotNull final String value, @NotNull final String word) {
+		if (!value.contains(word)) return false;
+
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (config.getBoolean("Anti_Swear.Chat.Log_Swearing", false)) {
 			try {
-				FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Swears.txt"), true);
+				FileWriter fw = new FileWriter(new File(new File(this.dataFolder, "Logs"), "Swears.txt"), true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write("[" + time + "] [Chat] " + player.getName() + ": " + message.replaceAll("§", "&"));
 				bw.newLine();
@@ -119,104 +271,10 @@ public class ListenerSwear implements Listener {
 		return true;
 	}
 
-	@EventHandler(ignoreCancelled = true)
-	public void onSwearCommand(PlayerCommandPreprocessEvent event) {
-		Player player = event.getPlayer();
-		String message = event.getMessage();
-		Date time = Calendar.getInstance().getTime();
-
-		FileConfiguration bannedWords = Files.BANNED_WORDS.getConfiguration();
-		FileConfiguration config = Files.CONFIG.getConfiguration();
-
-		List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
-		List<String> whitelistedCommands = config.getStringList("Anti_Swear.Commands.Whitelisted_Commands");
-		List<String> blockedWordsList = bannedWords.getStringList("Banned-Words");
-		String sensitiveMessage = event.getMessage().toLowerCase().replaceAll("[^a-zA-Z0-9 ]", "").replaceAll("\\s+", "");
-		String curseMessage = event.getMessage().toLowerCase();
-
-		if (config.getBoolean("Anti_Swear.Commands.Enable", false)) {
-			if (!player.hasPermission(Permissions.BYPASS_ANTI_SWEAR.getNode())) {
-				if (config.getBoolean("Anti_Swear.Commands.Increase_Sensitivity", false)) {
-					for (String blockedWords : blockedWordsList) {
-						for (String allowed : whitelisted) {
-							if (event.getMessage().contains(allowed.toLowerCase())) return;
-						}
-
-						if (sensitiveMessage.contains(blockedWords)) {
-							Messages.ANTI_SWEAR_COMMAND_MESSAGE.sendMessage(player);
-
-							if (config.getBoolean("Anti_Swear.Commands.Block_Command", false)) event.setCancelled(true);
-
-							if (config.getBoolean("Anti_Swear.Commands.Notify_Staff", false)) {
-								for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
-									if (staff.hasPermission(Permissions.NOTIFY_ANTI_SWEAR.getNode())) {
-										Messages.ANTI_SWEAR_COMMAND_NOTIFY_STAFF_FORMAT.sendMessage(staff, new HashMap<>() {{
-											put("{player}", player.getName());
-											put("{message}", message);
-										}});
-									}
-								}
-
-								Methods.tellConsole(Messages.ANTI_SWEAR_COMMAND_NOTIFY_STAFF_FORMAT.getMessage(this.plugin.getServer().getConsoleSender(), new HashMap<>() {{
-									put("{player}", player.getName());
-									put("{message}", message);
-								}}), false);
-
-								commandSwearCheck(config, player, message, time);
-							}
-
-							for (String command : whitelistedCommands) {
-								if (message.toLowerCase().startsWith(command)) return;
-							}
-						}
-					}
-
-					if (!config.getBoolean("Anti_Swear.Commands.Increase_Sensitivity", false)) {
-						for (String blockedWords : blockedWordsList) {
-							if (curseMessage.contains(blockedWords)) {
-								Messages.ANTI_SWEAR_COMMAND_MESSAGE.sendMessage(player);
-
-								if (config.getBoolean("Anti_Swear.Commands.Block_Command", false)) event.setCancelled(true);
-
-								if (config.getBoolean("Anti_Swear.Commands.Notify_Staff", false)) {
-									checkOnlineStaff(player, message);
-
-									commandSwearCheck(config, player, message, time);
-
-									break;
-								}
-
-								for (String command : whitelistedCommands) {
-									if (message.toLowerCase().startsWith(command)) return;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	private void checkOnlineStaff(Player player, String message) {
-		for (Player staff : this.server.getOnlinePlayers()) {
-			if (staff.hasPermission(Permissions.NOTIFY_ANTI_SWEAR.getNode())) {
-				Messages.ANTI_SWEAR_CHAT_NOTIFY_STAFF_FORMAT.sendMessage(staff, new HashMap<>() {{
-					put("{player}", player.getName());
-					put("{message}", message);
-				}});
-			}
-		}
-
-		Methods.tellConsole(Messages.ANTI_SWEAR_CHAT_NOTIFY_STAFF_FORMAT.getMessage(this.console, new HashMap<>() {{
-			put("{player}", player.getName());
-			put("{message}", message);
-		}}), false);
-	}
-
-	private void commandSwearCheck(FileConfiguration config, Player player, String message, Date time) {
+	private void logCommandSwearing(@NotNull final FileConfiguration config, @NotNull final Player player, @NotNull final String message, @NotNull final Date time) {
 		if (config.getBoolean("Anti_Swear.Commands.Log_Swearing", false)) {
 			try {
-				FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Swears.txt"), true);
+				FileWriter fw = new FileWriter(new File(new File(this.dataFolder, "Logs"), "Swears.txt"), true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write("[" + time + "] [Command] " + player.getName() + ": " + message.replaceAll("§", "&"));
 				bw.newLine();
@@ -235,105 +293,10 @@ public class ListenerSwear implements Listener {
 		}
 	}
 
-	@EventHandler(ignoreCancelled = true)
-	public void onSwearSign(SignChangeEvent event) {
-		Player player = event.getPlayer();
-		Date time = Calendar.getInstance().getTime();
-
-		FileConfiguration bannedWords = Files.BANNED_WORDS.getConfiguration();
-		FileConfiguration config = Files.CONFIG.getConfiguration();
-
-		List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
-		List<String> blockedWordsList = bannedWords.getStringList("Banned-Words");
-
-		if (config.getBoolean("Anti_Swear.Signs.Enable", false)) {
-			if (!player.hasPermission(Permissions.BYPASS_ANTI_SWEAR.getNode())) {
-				if (config.getBoolean("Anti_Swear.Signs.Increase_Sensitivity", false)) {
-					for (int line = 0; line < 4; line++) {
-						String message = event.getLine(line);
-						assert message != null;
-						String curseMessage = message.toLowerCase().replaceAll("[^a-zA-Z0-9 ]", "").replaceAll("\\s+", "");
-
-						for (String blockedWords : blockedWordsList) {
-							for (String allowed : whitelisted) {
-								if (message.contains(allowed.toLowerCase())) return;
-							}
-
-							if (curseMessage.contains(blockedWords)) {
-								Messages.ANTI_SWEAR_SIGNS_MESSAGE.sendMessage(player);
-
-								if (config.getBoolean("Anti_Swear.Signs.Block_Sign", false)) event.setCancelled(true);
-
-								if (config.getBoolean("Anti_Swear.Signs.Notify_Staff", false)) {
-									if (config.getBoolean("Anti_Swear.Signs.Notify_Staff")) {
-										for (Player staff : plugin.getServer().getOnlinePlayers()) {
-											if (staff.hasPermission(Permissions.NOTIFY_ANTI_SWEAR.getNode())) {
-												Messages.ANTI_SWEAR_SIGNS_NOTIFY_STAFF_FORMAT.sendMessage(staff, new HashMap<>() {{
-													put("{player}", player.getName());
-													put("{message}", message);
-												}});
-											}
-										}
-									}
-
-									Methods.tellConsole(Messages.ANTI_SWEAR_SIGNS_NOTIFY_STAFF_FORMAT.getMessage(this.plugin.getServer().getConsoleSender(), new HashMap<>() {{
-										put("{player}", player.getName());
-										put("{message}", message);
-									}}), false);
-
-									checkSwear(config, player, time, line, message);
-								}
-							}
-						}
-					}
-
-					if (!config.getBoolean("Anti_Swear.Signs.Increase_Sensitivity", false)) {
-						for (int line = 0; line < 4; line++) {
-							String message = event.getLine(line);
-
-							assert message != null;
-							for (String curseMessages : message.toLowerCase().split(" ")) {
-								if (!player.hasPermission(Permissions.BYPASS_ANTI_SWEAR.getNode())) {
-									if (bannedWords.getStringList("Banned-Words").contains(curseMessages)) {
-										Messages.ANTI_SWEAR_SIGNS_MESSAGE.sendMessage(player);
-
-										if (config.getBoolean("Anti_Swear.Signs.Block_Sign", false)) event.setCancelled(true);
-
-										if (config.getBoolean("Anti_Swear.Signs.Notify_Staff", false)) {
-											if (config.getBoolean("Anti_Swear.Signs.Notify_Staff")) {
-												for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
-													if (staff.hasPermission(Permissions.NOTIFY_ANTI_SWEAR.getNode())) {
-														Messages.ANTI_SWEAR_SIGNS_NOTIFY_STAFF_FORMAT.sendMessage(staff, new HashMap<>() {{
-															put("{player}", player.getName());
-															put("{message}", message);
-														}});
-													}
-												}
-											}
-
-											Methods.tellConsole(Messages.ANTI_SWEAR_SIGNS_NOTIFY_STAFF_FORMAT.getMessage(this.plugin.getServer().getConsoleSender(), new HashMap<>() {{
-												put("{player}", player.getName());
-												put("{message}", message);
-											}}), false);
-
-											checkSwear(config, player, time, line, message);
-
-											break;
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	private void checkSwear(FileConfiguration config, Player player, Date time, int line, String message) {
+	private void logSignSwearing(@NotNull final FileConfiguration config, @NotNull final Player player, @NotNull final Date time, final int line, @NotNull final String message) {
 		if (config.getBoolean("Anti_Swear.Signs.Log_Swearing", false)) {
 			try {
-				FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Swears.txt"), true);
+				FileWriter fw = new FileWriter(new File(new File(this.dataFolder, "Logs"), "Swears.txt"), true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write("[" + time + "] [Sign] " + player.getName() + ": Line: " + line + " Text: " + message.replaceAll("§", "&"));
 				bw.newLine();
