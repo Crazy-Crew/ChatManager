@@ -1,6 +1,7 @@
 package com.ryderbelserion.chatmanager.api.objects;
 
 import ch.jalu.configme.SettingsManager;
+import com.ryderbelserion.chatmanager.enums.commands.RadiusType;
 import com.ryderbelserion.chatmanager.enums.core.PlayerState;
 import com.ryderbelserion.chatmanager.managers.ConfigManager;
 import com.ryderbelserion.fusion.core.FusionCore;
@@ -15,6 +16,8 @@ public class PaperUser {
     private final FusionCore layout = FusionCore.Provider.get();
 
     private final List<PlayerState> states = new ArrayList<>();
+
+    private RadiusType radius = RadiusType.GLOBAL_CHAT;
 
     private final Audience audience;
 
@@ -34,6 +37,14 @@ public class PaperUser {
 
     public boolean hasState(@NotNull final PlayerState state) {
         return this.states.contains(state);
+    }
+
+    public void setRadius(@NotNull final RadiusType radius) {
+        this.radius = radius;
+    }
+
+    public RadiusType getRadius() {
+        return this.radius;
     }
 
     public SettingsManager locale() {
