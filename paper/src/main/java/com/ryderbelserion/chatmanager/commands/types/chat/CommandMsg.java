@@ -64,7 +64,7 @@ public class CommandMsg extends AnnotationFeature {
             return;
         }
 
-        handleMessage(message, sender, player);
+        perform(message, sender, player);
     }
 
     @Command(value = "chatmanager reply <message>", requiredSender = Player.class)
@@ -95,10 +95,10 @@ public class CommandMsg extends AnnotationFeature {
             return;
         }
 
-        handleMessage(message, sender, player);
+        perform(message, sender, player);
     }
 
-    private void handleMessage(final String arg, final Player sender, final Player player) {
+    private void perform(final String arg, final Player sender, final Player player) {
         final FileConfiguration config = Files.CONFIG.getConfiguration();
 
         if (arg.isEmpty()) {
