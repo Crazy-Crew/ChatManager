@@ -1,5 +1,6 @@
 package com.ryderbelserion.chatmanager.api.configs.locale;
 
+import ch.jalu.configme.Comment;
 import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.configurationdata.CommentsConfiguration;
 import ch.jalu.configme.properties.Property;
@@ -201,21 +202,13 @@ public class RootKeys implements SettingsHolder {
 
     public static final Property<String> banned_commands_notify_staff = newProperty("Banned_Commands.Notify_Staff_Format", "&7[Blocked-Cmd] &f{player}: &7{command}");
 
-    public static final Property<String> chat_radius_local_chat_enabled = newProperty("Chat_Radius.Local_Chat.Enabled", "{prefix}&7You've entered &cLocal Chat&7! Do &c/ChatRadius global &7or &c/ChatRadius world &7to leave Local Chat!");
+    @Comment("A list of available placeholders: {chat-type}")
+    public static final Property<String> chat_radius_already_enabled = newProperty("Chat_Radius.Already-Enabled", "{prefix}&7You are already in &c{chat-type}. &7Change this by typing /chatmanager chatradius <Local/Global/World>");
 
-    public static final Property<String> chat_radius_local_chat_already_enabled = newProperty("Chat_Radius.Local_Chat.Already_Enabled", "{prefix}&7You are already in local chat.");
+    @Comment("A list of available placeholders: {chat-type}")
+    public static final Property<String> chat_radius_enabled = newProperty("Chat_Radius.Enabled", "{prefix}&7You have enabled &c{chat-type}, You can leave this by typing /chatmanager chatradius <Local/Global/World>");
 
-    public static final Property<String> chat_radius_global_chat_enabled = newProperty("Chat_Radius.Global_Chat.Enabled", "{prefix}&7You've entered &cGlobal Chat&7! Do &c/ChatRadius local &7or &c/ChatRadius world &7to leave global Chat!");
-
-    public static final Property<String> chat_radius_global_chat_already_enabled = newProperty("Chat_Radius.Global_Chat.Already_Enabled", "{prefix}&7You are already in global chat.");
-
-    public static final Property<String> chat_radius_world_chat_enabled = newProperty("Chat_Radius.World_Chat.Enabled", "{prefix}&7You've entered &cWorld Chat&7! Do &c/ChatRadius local &7or &c/ChatRadius global &7to leave world Chat!");
-
-    public static final Property<String> chat_radius_world_chat_already_enabled = newProperty("Chat_Radius.World_Chat.Already_Enabled", "{prefix}&7You are already in world chat.");
-
-    public static final Property<String> chat_radius_spy_enabled = newProperty("Chat_Radius.Spy.Enabled", "{prefix}&7Chat Radius spy has been &aEnabled.");
-
-    public static final Property<String> chat_radius_spy_disabled = newProperty("Chat_Radius.Spy.Disabled", "{prefix}&7Chat Radius spy has been &cDisabled.");
+    public static final Property<String> chat_radius_disabled = newProperty("Chat_Radius.Disabled", "{prefix}&7You have disabled &c{chat-type}. &7You have been set back to Global Chat!");
 
     public static final Property<String> clear_chat_staff_message = newProperty("Clear_Chat.Staff_Message", "{prefix}&eChat has been cleared by {player}.");
 

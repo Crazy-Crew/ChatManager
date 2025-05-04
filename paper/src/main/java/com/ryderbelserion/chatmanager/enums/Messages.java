@@ -60,17 +60,9 @@ public enum Messages {
     ANTI_UNICODE_MESSAGE(RootKeys.anti_unicode_message),
     ANTI_UNICODE_NOTIFY_STAFF_FORMAT(RootKeys.anti_unicode_notify_staff),
 
-    CHAT_RADIUS_LOCAL_CHAT_ENABLED(RootKeys.chat_radius_local_chat_enabled),
-    CHAT_RADIUS_LOCAL_CHAT_ALREADY_ENABLED(RootKeys.chat_radius_local_chat_already_enabled),
-
-    CHAT_RADIUS_GLOBAL_CHAT_ENABLED(RootKeys.chat_radius_global_chat_enabled),
-    CHAT_RADIUS_GLOBAL_CHAT_ALREADY_ENABLED(RootKeys.chat_radius_global_chat_already_enabled),
-
-    CHAT_RADIUS_WORLD_CHAT_ENABLED(RootKeys.chat_radius_world_chat_enabled),
-    CHAT_RADIUS_WORLD_CHAT_ALREADY_ENABLED(RootKeys.chat_radius_world_chat_already_enabled),
-
-    CHAT_RADIUS_SPY_ENABLED(RootKeys.chat_radius_spy_enabled),
-    CHAT_RADIUS_SPY_DISABLED(RootKeys.chat_radius_spy_disabled),
+    CHAT_RADIUS_ALREADY_ENABLED(RootKeys.chat_radius_already_enabled),
+    CHAT_RADIUS_ENABLED(RootKeys.chat_radius_enabled),
+    CHAT_RADIUS_DISABLED(RootKeys.chat_radius_disabled),
 
     CLEAR_CHAT_STAFF_MESSAGE(RootKeys.clear_chat_staff_message),
     CLEAR_CHAT_BROADCAST_MESSAGE(RootKeys.clear_chat_broadcast_message, true),
