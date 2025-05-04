@@ -5,10 +5,9 @@ import org.bukkit.entity.Player;
 
 public enum RadiusType {
 
-    LOCAL_CHAT("local_chat", Permissions.COMMAND_CHATRADIUS_LOCAL),
-    GLOBAL_CHAT("global_chat", Permissions.COMMAND_CHATRADIUS_GLOBAL),
-    WORLD_CHAT("world_chat", Permissions.COMMAND_CHATRADIUS_WORLD),
-    SPY_CHAT("spy_chat", Permissions.COMMAND_CHATRADIUS_SPY);
+    LOCAL_CHAT("Local Chat", Permissions.COMMAND_CHATRADIUS_LOCAL),
+    GLOBAL_CHAT("Global Chat", Permissions.COMMAND_CHATRADIUS_GLOBAL),
+    WORLD_CHAT("World Chat", Permissions.COMMAND_CHATRADIUS_WORLD);
 
     private final Permissions node;
     private final String type;
