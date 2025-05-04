@@ -1,10 +1,6 @@
 package com.ryderbelserion.chatmanager.commands.types.chat;
 
-import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.api.chat.GlobalChatData;
-import com.ryderbelserion.chatmanager.api.chat.LocalChatData;
-import com.ryderbelserion.chatmanager.api.chat.SpyChatData;
-import com.ryderbelserion.chatmanager.api.chat.WorldChatData;
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.commands.AnnotationFeature;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
@@ -19,19 +15,10 @@ import org.incendo.cloud.annotations.Command;
 import org.incendo.cloud.annotations.CommandDescription;
 import org.incendo.cloud.annotations.Permission;
 import org.jetbrains.annotations.NotNull;
+import java.util.Optional;
 import java.util.UUID;
 
 public class CommandRadius extends AnnotationFeature {
-
-    private final ApiLoader api = this.plugin.api();
-
-    private final LocalChatData local = this.api.getLocalChatData();
-
-    private final GlobalChatData global = this.api.getGlobalChatData();
-
-    private final WorldChatData world = this.api.getWorldChatData();
-
-    private final SpyChatData spy = this.api.getSpyChatData();
 
     @Override
     public void registerFeature(@NotNull final AnnotationParser<CommandSourceStack> parser) {
@@ -58,62 +45,24 @@ public class CommandRadius extends AnnotationFeature {
             return;
         }
 
-        switch (type) {
-            case GLOBAL_CHAT -> {
-                if (this.global.containsUser(uuid)) {
-                    Messages.CHAT_RADIUS_GLOBAL_CHAT_ALREADY_ENABLED.sendMessage(player);
+        final Optional<PaperUser> user = this.userManager.getUser(uuid);
 
-                    return;
-                }
+        if (user.isEmpty()) return;
 
-                this.local.removeUser(uuid);
-                this.world.removeUser(uuid);
-                this.global.addUser(uuid);
+        final PaperUser output = user.get();
 
-                Messages.CHAT_RADIUS_GLOBAL_CHAT_ENABLED.sendMessage(player);
-            }
+        final RadiusType current = output.getRadius();
 
-            case WORLD_CHAT -> {
-                if (this.world.containsUser(uuid)) {
-                    Messages.CHAT_RADIUS_WORLD_CHAT_ALREADY_ENABLED.sendMessage(player);
+        if (current == type) {
+            Messages.CHAT_RADIUS_DISABLED.sendMessage(player, "{chat-type}", current.getType());
 
-                    return;
-                }
+            output.setRadius(RadiusType.GLOBAL_CHAT);
 
-                this.global.removeUser(uuid);
-                this.local.removeUser(uuid);
-                this.world.addUser(uuid);
-
-                Messages.CHAT_RADIUS_WORLD_CHAT_ENABLED.sendMessage(player);
-            }
-
-            case LOCAL_CHAT -> {
-                if (this.local.containsUser(uuid)) {
-                    Messages.CHAT_RADIUS_LOCAL_CHAT_ALREADY_ENABLED.sendMessage(player);
-
-                    return;
-                }
-
-                this.global.removeUser(uuid);
-                this.world.removeUser(uuid);
-                this.local.addUser(uuid);
-
-                Messages.CHAT_RADIUS_LOCAL_CHAT_ENABLED.sendMessage(player);
-            }
-
-            case SPY_CHAT -> {
-                if (this.spy.containsUser(uuid)) {
-                    this.spy.removeUser(uuid);
-
-                    Messages.CHAT_RADIUS_SPY_DISABLED.sendMessage(player);
-
-                    return;
-                }
-
-                this.spy.addUser(uuid);
-
-                Messages.CHAT_RADIUS_SPY_ENABLED.sendMessage(player);
-            }
+            return;
         }
+
+        output.setRadius(type);
+
+        Messages.CHAT_RADIUS_ENABLED.sendMessage(player, "{chat-type}", current.getType());
     }
 }
