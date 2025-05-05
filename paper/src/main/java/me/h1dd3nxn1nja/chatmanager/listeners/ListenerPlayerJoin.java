@@ -1,17 +1,13 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.api.chat.GlobalChatData;
-import com.ryderbelserion.chatmanager.api.chat.LocalChatData;
-import com.ryderbelserion.chatmanager.api.chat.SpyChatData;
-import com.ryderbelserion.chatmanager.api.chat.WorldChatData;
-import com.ryderbelserion.chatmanager.api.cmds.CommandSpyData;
-import com.ryderbelserion.chatmanager.api.cmds.SocialSpyData;
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import com.ryderbelserion.chatmanager.enums.commands.RadiusType;
+import com.ryderbelserion.chatmanager.enums.core.PlayerState;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
 import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
 import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -25,25 +21,9 @@ import java.util.UUID;
 
 public class ListenerPlayerJoin implements Listener {
 
-    private final ChatManager plugin = ChatManager.get();
-
-    private final ApiLoader api = this.plugin.api();
-
-    private final LocalChatData localChatData = this.api.getLocalChatData();
-
-    private final GlobalChatData globalChatData = this.api.getGlobalChatData();
-
-    private final WorldChatData worldChatData = this.api.getWorldChatData();
-
-    private final SpyChatData spyChatData = this.api.getSpyChatData();
-
-    private final SocialSpyData socialSpyData = this.api.getSocialSpyData();
-
-    private final CommandSpyData commandSpyData = this.api.getCommandSpyData();
-
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void firstJoinMessage(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
+        final Player player = event.getPlayer();
 
         if (player.hasPlayedBefore()) return;
 
@@ -55,7 +35,7 @@ public class ListenerPlayerJoin implements Listener {
             }
         }*/
 
-        FileConfiguration config = Files.CONFIG.getConfiguration();
+        final FileConfiguration config = Files.CONFIG.getConfiguration();
 
         if (config.getBoolean("Messages.First_Join.Welcome_Message.Enable", false)) {
             String message = config.getString("Messages.First_Join.Welcome_Message.First_Join_Message", "&eWelcome to &b{server_name} %luckperms_prefix% {player}&e!");
@@ -211,28 +191,6 @@ public class ListenerPlayerJoin implements Listener {
             }
         }
 
-        if (config.getBoolean("Social_Spy.Enable_On_Join", false)) {
-            if (player.hasPermission(Permissions.SOCIAL_SPY.getNode())) this.socialSpyData.addUser(uuid);
-        }
-
-        if (config.getBoolean("Command_Spy.Enable_On_Join", false)) {
-            if (player.hasPermission(Permissions.COMMAND_SPY.getNode())) this.commandSpyData.addUser(uuid);
-        }
-
-        if (config.getBoolean("Chat_Radius.Enable", false)) {
-            switch (config.getString("Chat_Radius.Default_Channel", "global").toLowerCase()) {
-                case "global" -> this.globalChatData.addUser(uuid);
-                case "local" -> this.localChatData.addUser(uuid);
-                case "world" -> this.worldChatData.addUser(uuid);
-            }
-        }
-
-        if (config.getBoolean("Chat_Radius.Enable", false)) {
-            if (!config.getBoolean("Chat_Radius.Enable_Spy_On_Join", false)) return;
-
-            if (player.hasPermission(Permissions.COMMAND_CHATRADIUS_SPY.getNode())) this.spyChatData.addUser(uuid);
-        }
-
         if (config.getBoolean("MOTD.Enable", false)) {
             new FoliaScheduler(Scheduler.global_scheduler) {
                 @Override
@@ -242,6 +200,20 @@ public class ListenerPlayerJoin implements Listener {
                     }
                 }
             }.runDelayed(20L * delay);
+        }
+
+        final PaperUser user = UserUtils.getUser(uuid);
+
+        if (config.getBoolean("Social_Spy.Enable_On_Join", false) && Permissions.SOCIAL_SPY.hasPermission(player)) {
+            user.addState(PlayerState.SOCIAL_SPY);
+        }
+
+        if (config.getBoolean("Command_Spy.Enable_On_Join", false) && Permissions.COMMAND_SPY.hasPermission(player)) {
+            user.addState(PlayerState.COMMAND_SPY);
+        }
+
+        if (config.getBoolean("Chat_Radius.Enable", false)) {
+            user.setRadius(RadiusType.getType(config.getString("Chat_Radius.Default_Channel", "global")));
         }
     }
 }

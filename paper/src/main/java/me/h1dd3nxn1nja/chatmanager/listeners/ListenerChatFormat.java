@@ -1,12 +1,9 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.api.chat.GlobalChatData;
-import com.ryderbelserion.chatmanager.api.chat.LocalChatData;
-import com.ryderbelserion.chatmanager.api.chat.WorldChatData;
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.plugins.VaultSupport;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -14,21 +11,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.jetbrains.annotations.NotNull;
-import java.util.UUID;
 
 public class ListenerChatFormat implements Listener {
-
-	@NotNull
-	private final ChatManager plugin = ChatManager.get();
-
-	private final ApiLoader api = this.plugin.api();
-
-	private final GlobalChatData global = this.api.getGlobalChatData();
-
-	private final LocalChatData local = this.api.getLocalChatData();
-
-	private final WorldChatData world = this.api.getWorldChatData();
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onChatFormat(AsyncPlayerChatEvent event) {
@@ -49,7 +33,7 @@ public class ListenerChatFormat implements Listener {
 			format = config.getString("Chat_Format.Default_Format", "%luckperms_prefix% &7{player} &9> #32a87d{message}");
 		}
 
-		format = setupChatRadius(player, format);
+		format = setupChatRadius(player, format, config);
 		format = Methods.placeholders(false, player, Methods.color(format));
 		format = format.replace("{message}", message);
 		format = format.replaceAll("%", "%%");
@@ -58,18 +42,17 @@ public class ListenerChatFormat implements Listener {
 		event.setMessage(message);
 	}
 
-	public String setupChatRadius(final Player player, final String message) {
-		final FileConfiguration config = Files.CONFIG.getConfiguration();
-
+	private String setupChatRadius(final Player player, final String message, final FileConfiguration config) {
 		String placeholders = message;
 
-		final UUID uuid = player.getUniqueId();
+		final PaperUser user = UserUtils.getUser(player);
 
 		if (config.getBoolean("Chat_Radius.Enable", false)) {
-			if (this.global.containsUser(uuid)) placeholders = placeholders.replace("{radius}", config.getString("Chat_Radius.Global_Chat.Prefix", "&7[&bGlobal&7]"));
-
-			if (this.local.containsUser(uuid)) placeholders = placeholders.replace("{radius}", config.getString("Chat_Radius.Local_Chat.Prefix", "&7[&cLocal&7]"));
-			if (this.world.containsUser(uuid)) placeholders = placeholders.replace("{radius}", config.getString("Chat_Radius.World_Chat.Prefix", "&7[&dWorld&7]"));
+			switch (user.getRadius()) {
+				case GLOBAL_CHAT -> placeholders = placeholders.replace("{radius}", config.getString("Chat_Radius.Global_Chat.Prefix", "&7[&bGlobal&7]"));
+				case LOCAL_CHAT -> placeholders = placeholders.replace("{radius}", config.getString("Chat_Radius.Local_Chat.Prefix", "&7[&cLocal&7]"));
+				case WORLD_CHAT -> placeholders = placeholders.replace("{radius}", config.getString("Chat_Radius.World_Chat.Prefix", "&7[&dWorld&7]"));
+			}
 		} else {
 			placeholders = placeholders.replace("{radius}", "");
 		}

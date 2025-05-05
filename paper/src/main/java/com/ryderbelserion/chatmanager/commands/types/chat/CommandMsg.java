@@ -2,11 +2,13 @@ package com.ryderbelserion.chatmanager.commands.types.chat;
 
 import com.ryderbelserion.chatmanager.ApiLoader;
 import com.ryderbelserion.chatmanager.api.chat.UserRepliedData;
-import com.ryderbelserion.chatmanager.api.cmds.ToggleMessageData;
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.commands.AnnotationFeature;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import com.ryderbelserion.chatmanager.enums.core.PlayerState;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
 import com.ryderbelserion.fusion.core.api.interfaces.IPlugin;
 import com.ryderbelserion.fusion.core.managers.PluginExtension;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -31,8 +33,6 @@ public class CommandMsg extends AnnotationFeature {
 
     private final PluginExtension extension = this.plugin.getPluginExtension();
 
-    private final ToggleMessageData messageData = this.api.getToggleMessageData();
-
     private final UserRepliedData userRepliedData = this.api.getUserRepliedData();
 
     @Override
@@ -52,13 +52,14 @@ public class CommandMsg extends AnnotationFeature {
             return;
         }
 
-        if (!sender.canSee(player) && !player.hasPermission(Permissions.BYPASS_SPECTATOR.getNode()) || player.getGameMode().equals(GameMode.SPECTATOR) && !player.hasPermission(Permissions.BYPASS_VANISH.getNode())) {
+        if (!sender.canSee(player) && !Permissions.BYPASS_SPECTATOR.hasPermission(sender) || player.getGameMode().equals(GameMode.SPECTATOR) && !Permissions.BYPASS_VANISH.hasPermission(sender)) { //todo() wtf
             Messages.PLAYER_NOT_FOUND.sendMessage(player, "{target}", player.getName());
-
             return;
         }
 
-        if (this.messageData.containsUser(uuid) && !player.hasPermission(Permissions.BYPASS_TOGGLE_PM.getNode())) {
+        final PaperUser user = UserUtils.getUser(uuid);
+
+        if (user.hasState(PlayerState.DIRECT_MESSAGES) && !sender.hasPermission(Permissions.BYPASS_TOGGLE_PM.getNode())) {
             Messages.PRIVATE_MESSAGE_TOGGLED.sendMessage(sender);
 
             return;
@@ -133,23 +134,28 @@ public class CommandMsg extends AnnotationFeature {
 
         final UserRepliedData data = this.plugin.api().getUserRepliedData();
 
-        data.addUser(sender.getUniqueId(), player.getUniqueId());
-        data.addUser(player.getUniqueId(), sender.getUniqueId());
+        final UUID player_uuid = player.getUniqueId();
+        final UUID sender_uuid = sender.getUniqueId();
 
-        for (Player staff : this.server.getOnlinePlayers()) {
-            if ((staff != sender) && (staff != player)) {
-                if ((!sender.hasPermission(Permissions.BYPASS_SOCIAL_SPY.getNode())) && (!player.hasPermission(Permissions.BYPASS_SOCIAL_SPY.getNode()))) {
-                    boolean contains = this.plugin.api().getSocialSpyData().containsUser(staff.getUniqueId());
+        data.addUser(sender_uuid, player_uuid);
+        data.addUser(player_uuid, sender_uuid);
 
-                    if (contains) {
-                        Messages.SOCIAL_SPY_FORMAT.sendMessage(staff, new HashMap<>() {{
-                            put("{player}", sender.getName());
-                            put("{receiver", player.getName());
-                            put("{message}", arg);
-                        }});
-                    }
-                }
-            }
+        for (final Player target : this.server.getOnlinePlayers()) {
+            final UUID id = target.getUniqueId();
+
+            if (id.equals(sender_uuid) || id.equals(player_uuid)) continue;
+
+            if (Permissions.BYPASS_SOCIAL_SPY.hasPermission(sender) || Permissions.BYPASS_SOCIAL_SPY.hasPermission(player)) continue;
+
+            final PaperUser user = UserUtils.getUser(id);
+
+            if (!user.hasState(PlayerState.SOCIAL_SPY)) continue;
+
+            Messages.SOCIAL_SPY_FORMAT.sendMessage(target, new HashMap<>() {{
+                put("{player}", sender.getName());
+                put("{receiver", player.getName());
+                put("{message}", arg);
+            }});
         }
     }
 

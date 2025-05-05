@@ -78,8 +78,9 @@ public class CommandBroadcast extends AnnotationFeature {
                 } catch (IllegalArgumentException ignored) {}
             }
 
-            if (sender instanceof ConsoleCommandSender)
+            if (sender instanceof ConsoleCommandSender) {
                 Methods.broadcast(null, announce.replace("{player}", sender.getName()).replace("{message}", msg).replace("\\n", "\n"));
+            }
         }
     }
 }

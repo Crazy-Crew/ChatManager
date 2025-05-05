@@ -1,11 +1,11 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.api.chat.StaffChatData;
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
+import com.ryderbelserion.chatmanager.enums.core.PlayerState;
 import com.ryderbelserion.chatmanager.utils.DispatchUtils;
-import com.ryderbelserion.fusion.core.utils.AdvUtils;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
@@ -21,7 +21,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -44,23 +43,21 @@ public class ListenerSwear implements Listener {
 
 	private final ConsoleCommandSender console = this.server.getConsoleSender();
 
-	private final ApiLoader api = this.plugin.api();
-
-	private final StaffChatData data = this.api.getStaffChatData();
-
 	@EventHandler(ignoreCancelled = true)
 	public void onSwear(AsyncChatEvent event) {
 		final Player player = event.getPlayer();
+		final PaperUser user = UserUtils.getUser(player);
+
 		final String message = event.signedMessage().message();
 
 		final FileConfiguration bannedWords = Files.BANNED_WORDS.getConfiguration();
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		if (this.data.containsUser(player.getUniqueId()) || !config.getBoolean("Anti_Swear.Chat.Enable", false)) return;
+		if (user.hasState(PlayerState.STAFF_CHAT) || !config.getBoolean("Anti_Swear.Chat.Enable", false)) return;
 
 		final List<String> words = bannedWords.getStringList("Banned-Words");
 
-		if (words.isEmpty() || player.hasPermission(Permissions.BYPASS_ANTI_SWEAR.getNode())) return;
+		if (words.isEmpty() || Permissions.BYPASS_ANTI_SWEAR.hasPermission(player)) return;
 
 		final List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
 		final String curseMessage = message.toLowerCase();

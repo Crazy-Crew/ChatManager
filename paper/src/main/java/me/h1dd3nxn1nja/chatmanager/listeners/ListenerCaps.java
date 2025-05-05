@@ -1,10 +1,10 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.api.chat.StaffChatData;
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.enums.core.PlayerState;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -12,16 +12,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.jetbrains.annotations.NotNull;
 
 public class ListenerCaps implements Listener {
-
-	@NotNull
-	private final ChatManager plugin = ChatManager.get();
-
-	private final ApiLoader api = this.plugin.api();
-
-	private final StaffChatData data = this.api.getStaffChatData();
 
 	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
@@ -30,7 +22,9 @@ public class ListenerCaps implements Listener {
 		final Player player = event.getPlayer();
 		final String message = event.getMessage();
 
-		if (!config.getBoolean("Anti_Caps.Enable", false) || this.data.containsUser(player.getUniqueId())) return;
+		final PaperUser user = UserUtils.getUser(player);
+
+		if (!config.getBoolean("Anti_Caps.Enable", false) || user.hasState(PlayerState.STAFF_CHAT)) return;
 
 		if (player.hasPermission(Permissions.BYPASS_CAPS.getNode())) return;
 
@@ -65,7 +59,9 @@ public class ListenerCaps implements Listener {
 		final Player player = event.getPlayer();
 		final String message = event.getMessage();
 
-		if (!config.getBoolean("Anti_Caps.Enable", false) && !config.getBoolean("Anti_Caps.Enable_In_Commands", false) || this.data.containsUser(player.getUniqueId())) return;
+		final PaperUser user = UserUtils.getUser(player);
+
+		if (!config.getBoolean("Anti_Caps.Enable", false) && !config.getBoolean("Anti_Caps.Enable_In_Commands", false) || user.hasState(PlayerState.STAFF_CHAT)) return;
 
 		if (player.hasPermission(Permissions.BYPASS_CAPS.getNode())) return;
 

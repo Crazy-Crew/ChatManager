@@ -5,6 +5,7 @@ import com.ryderbelserion.chatmanager.commands.AnnotationFeature;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.commands.RadiusType;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -15,8 +16,6 @@ import org.incendo.cloud.annotations.Command;
 import org.incendo.cloud.annotations.CommandDescription;
 import org.incendo.cloud.annotations.Permission;
 import org.jetbrains.annotations.NotNull;
-import java.util.Optional;
-import java.util.UUID;
 
 public class CommandRadius extends AnnotationFeature {
 
@@ -29,8 +28,6 @@ public class CommandRadius extends AnnotationFeature {
     @CommandDescription("Access the ability to enter different chat modes.")
     @Permission(value = "chatmanager.chatradius", mode = Permission.Mode.ANY_OF)
     public void chatradius(final Player player, @Argument("type") final @NotNull RadiusType type) {
-        final UUID uuid = player.getUniqueId();
-
         if (!type.hasPermission(player)) {
             Messages.NO_PERMISSION.sendMessage(player);
 
@@ -45,23 +42,19 @@ public class CommandRadius extends AnnotationFeature {
             return;
         }
 
-        final Optional<PaperUser> user = this.userManager.getUser(uuid);
+        final PaperUser user = UserUtils.getUser(player);
 
-        if (user.isEmpty()) return;
-
-        final PaperUser output = user.get();
-
-        final RadiusType current = output.getRadius();
+        final RadiusType current = user.getRadius();
 
         if (current == type) {
             Messages.CHAT_RADIUS_DISABLED.sendMessage(player, "{chat-type}", current.getType());
 
-            output.setRadius(RadiusType.GLOBAL_CHAT);
+            user.setRadius(RadiusType.GLOBAL_CHAT);
 
             return;
         }
 
-        output.setRadius(type);
+        user.setRadius(type);
 
         Messages.CHAT_RADIUS_ENABLED.sendMessage(player, "{chat-type}", current.getType());
     }

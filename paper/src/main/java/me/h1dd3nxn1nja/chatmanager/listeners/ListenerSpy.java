@@ -1,9 +1,10 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.api.cmds.CommandSpyData;
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
+import com.ryderbelserion.chatmanager.enums.core.PlayerState;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import org.bukkit.Server;
@@ -23,10 +24,6 @@ public class ListenerSpy implements Listener {
 
 	private final Server server = this.plugin.getServer();
 
-	private final ApiLoader api = this.plugin.api();
-
-	private final CommandSpyData data = this.api.getCommandSpyData();
-
 	@EventHandler(ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
@@ -34,23 +31,32 @@ public class ListenerSpy implements Listener {
 		final List<String> blacklist = config.getStringList("Command_Spy.Blacklist_Commands");
 
 		final Player player = event.getPlayer();
+
+		if (Permissions.BYPASS_COMMAND_SPY.hasPermission(player)) return;
+
 		final String message = event.getMessage();
 
-		if (!player.hasPermission(Permissions.BYPASS_COMMAND_SPY.getNode())) {
-			for (final String command : blacklist) {
-				if (message.toLowerCase().startsWith(command)) return;
+		boolean hasMatch = false;
+
+		for (final String command : blacklist) {
+			if (message.toLowerCase().startsWith(command)) {
+				hasMatch = true;
+
+				break;
 			}
+		}
 
-			for (final Player staff : this.server.getOnlinePlayers()) {
-				boolean isValid = this.data.containsUser(staff.getUniqueId());
+		if (hasMatch) return;
 
-				if (!isValid || !staff.hasPermission(Permissions.COMMAND_SPY.getNode())) return;
+		for (final Player target : this.server.getOnlinePlayers()) {
+			final PaperUser user = UserUtils.getUser(target.getUniqueId());
 
-				Messages.COMMAND_SPY_FORMAT.sendMessage(staff, new HashMap<>() {{
-					put("{player}", player.getName());
-					put("{command}", message);
-				}});
-			}
+			if (user.hasState(PlayerState.COMMAND_SPY) || !Permissions.COMMAND_SPY.hasPermission(target)) continue;
+
+			Messages.COMMAND_SPY_FORMAT.sendMessage(target, new HashMap<>() {{
+				put("{player}", player.getName());
+				put("{command}", message);
+			}});
 		}
 	}
 }

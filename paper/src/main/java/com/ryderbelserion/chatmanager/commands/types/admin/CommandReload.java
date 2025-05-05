@@ -5,10 +5,14 @@ import com.ryderbelserion.chatmanager.api.chat.StaffChatData;
 import com.ryderbelserion.chatmanager.api.cooldowns.ChatCooldowns;
 import com.ryderbelserion.chatmanager.api.cooldowns.CmdCooldowns;
 import com.ryderbelserion.chatmanager.api.cooldowns.CooldownTask;
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.commands.AnnotationFeature;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
+import com.ryderbelserion.chatmanager.enums.Permissions;
+import com.ryderbelserion.chatmanager.enums.core.PlayerState;
 import com.ryderbelserion.chatmanager.managers.ConfigManager;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
 import com.ryderbelserion.fusion.paper.files.LegacyFileManager;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -31,8 +35,6 @@ public class CommandReload extends AnnotationFeature {
     private final ChatCooldowns chat = this.api.getChatCooldowns();
 
     private final CmdCooldowns cmd = this.api.getCmdCooldowns();
-
-    private final StaffChatData data = this.api.getStaffChatData();
 
     private final LegacyFileManager fileManager = this.plugin.getLegacyFileManager();
 
@@ -58,9 +60,13 @@ public class CommandReload extends AnnotationFeature {
 
             final BossBarUtil bossBarStaff = new BossBarUtil(Methods.placeholders(true, player, Methods.color(config.getString("Staff_Chat.Boss_Bar.Title", "&eStaff Chat"))));
 
-            if (this.data.containsUser(player.getUniqueId()) && player.hasPermission("chatmanager.staffchat")) {
+            final PaperUser user = UserUtils.getUser(player);
+
+            if (user.hasState(PlayerState.STAFF_CHAT) && Permissions.TOGGLE_STAFF_CHAT.hasPermission(player)) {
                 bossBarStaff.removeStaffBossBar(player);
                 bossBarStaff.setStaffBossBar(player);
+            } else {
+                bossBarStaff.removeStaffBossBar(player);
             }
         }
 

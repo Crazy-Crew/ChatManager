@@ -3,22 +3,25 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import java.util.List;
 import java.util.UUID;
 import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.api.chat.StaffChatData;
 import com.ryderbelserion.chatmanager.api.chat.logging.PreviousCmdData;
 import com.ryderbelserion.chatmanager.api.chat.logging.PreviousMsgData;
 import com.ryderbelserion.chatmanager.api.cooldowns.ChatCooldowns;
 import com.ryderbelserion.chatmanager.api.cooldowns.CmdCooldowns;
 import com.ryderbelserion.chatmanager.api.cooldowns.CooldownTask;
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
+import com.ryderbelserion.chatmanager.enums.core.PlayerState;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
 import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,8 +31,6 @@ public class ListenerAntiSpam implements Listener {
 	private final ChatManager plugin = ChatManager.get();
 
 	private final ApiLoader api = this.plugin.api();
-
-	private final StaffChatData staffChatData = this.api.getStaffChatData();
 
 	private final PreviousMsgData msgData = this.api.getPreviousMsgData();
 
@@ -42,15 +43,15 @@ public class ListenerAntiSpam implements Listener {
 	private final ChatCooldowns chatCooldowns = this.api.getChatCooldowns();
 
 	@EventHandler(ignoreCancelled = true)
-	public void antiSpamChat(AsyncPlayerChatEvent event) {
+	public void antiSpamChat(AsyncChatEvent event) {
 		final Player player = event.getPlayer();
-		final String message = event.getMessage();
+		final String message = event.signedMessage().message();
 
 		final UUID uuid = player.getUniqueId();
 
-		final boolean isValid = this.staffChatData.containsUser(uuid);
+		final PaperUser user = UserUtils.getUser(uuid);
 
-		if (isValid) return;
+		if (user.hasState(PlayerState.STAFF_CHAT)) return;
 
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
@@ -72,13 +73,13 @@ public class ListenerAntiSpam implements Listener {
 	}
 
 	@EventHandler(ignoreCancelled = true)
-	public void onChatCoolDown(AsyncPlayerChatEvent event) {
+	public void onChatCoolDown(AsyncChatEvent event) {
 		final Player player = event.getPlayer();
 		final UUID uuid = player.getUniqueId();
 
-		final boolean isValid = this.staffChatData.containsUser(uuid);
+		final PaperUser user = UserUtils.getUser(uuid);
 
-		if (isValid) return;
+		if (user.hasState(PlayerState.STAFF_CHAT)) return;
 
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
 

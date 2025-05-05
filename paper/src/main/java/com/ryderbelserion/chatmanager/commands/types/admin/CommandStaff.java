@@ -1,11 +1,12 @@
 package com.ryderbelserion.chatmanager.commands.types.admin;
 
-import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.api.chat.StaffChatData;
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.commands.AnnotationFeature;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import com.ryderbelserion.chatmanager.enums.core.PlayerState;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
@@ -19,13 +20,8 @@ import org.incendo.cloud.annotations.CommandDescription;
 import org.incendo.cloud.annotations.Permission;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import java.util.UUID;
 
 public class CommandStaff extends AnnotationFeature {
-
-    private final ApiLoader api = this.plugin.api();
-
-    private final StaffChatData data = this.api.getStaffChatData();
 
     @Override
     public void registerFeature(@NotNull final AnnotationParser<CommandSourceStack> parser) {
@@ -45,13 +41,11 @@ public class CommandStaff extends AnnotationFeature {
         }
 
         if (sender instanceof Player player) {
+            final PaperUser user = UserUtils.getUser(player);
+
             if (arg == null) {
-                final UUID uuid = player.getUniqueId();
-
-                final boolean isValid = this.data.containsUser(uuid);
-
-                if (isValid) {
-                    this.data.removeUser(uuid);
+                if (user.hasState(PlayerState.STAFF_CHAT)) {
+                    user.removeState(PlayerState.STAFF_CHAT);
 
                     final BossBarUtil bossBar = new BossBarUtil(Methods.placeholders(true, player, Methods.color(config.getString("Staff_Chat.Boss_Bar.Title", "&eStaff Chat"))));
                     bossBar.removeStaffBossBar(player);
@@ -61,7 +55,7 @@ public class CommandStaff extends AnnotationFeature {
                     return;
                 }
 
-                this.data.addUser(uuid);
+                user.addState(PlayerState.STAFF_CHAT);
 
                 boolean isBossBarEnabled = config.getBoolean("Staff_Chat.Boss_Bar.Enable", false);
 

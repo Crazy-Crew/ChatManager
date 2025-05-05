@@ -26,11 +26,11 @@ public class UserManager {
         //todo() anything we need to.
     }
 
-    public Optional<PaperUser> getUser(@NotNull final UUID uuid) {
-        return Optional.ofNullable(this.users.get(uuid));
+    public @NotNull Optional<PaperUser> getUser(@NotNull final UUID uuid) {
+        return this.users.get(uuid) == null ? Optional.empty() : Optional.of(this.users.get(uuid));
     }
 
-    public Optional<PaperUser> getUser(@NotNull final Player player) {
-        return Optional.of(this.users.get(player.getUniqueId()));
+    public @NotNull Optional<PaperUser> getUser(@NotNull final Player player) {
+        return getUser(player.getUniqueId());
     }
 }

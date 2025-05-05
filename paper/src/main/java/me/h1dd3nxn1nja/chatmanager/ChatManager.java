@@ -2,14 +2,13 @@ package me.h1dd3nxn1nja.chatmanager;
 
 import com.ryderbelserion.chatmanager.ApiLoader;
 import com.ryderbelserion.chatmanager.api.CustomMetrics;
-import com.ryderbelserion.chatmanager.api.chat.GlobalChatData;
-import com.ryderbelserion.chatmanager.api.chat.LocalChatData;
-import com.ryderbelserion.chatmanager.api.chat.WorldChatData;
 import com.ryderbelserion.chatmanager.api.cooldowns.ChatCooldowns;
 import com.ryderbelserion.chatmanager.api.cooldowns.CmdCooldowns;
 import com.ryderbelserion.chatmanager.api.cooldowns.CooldownTask;
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.commands.BaseCommand;
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.enums.commands.RadiusType;
 import com.ryderbelserion.chatmanager.listeners.TrafficListener;
 import com.ryderbelserion.chatmanager.managers.ConfigManager;
 import com.ryderbelserion.chatmanager.managers.ServerManager;
@@ -17,6 +16,7 @@ import com.ryderbelserion.chatmanager.managers.UserManager;
 import com.ryderbelserion.chatmanager.plugins.papi.PlaceholderAPISupport;
 import com.ryderbelserion.chatmanager.plugins.VaultSupport;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
 import com.ryderbelserion.fusion.core.managers.PluginExtension;
 import com.ryderbelserion.fusion.core.managers.files.FileManager;
 import com.ryderbelserion.fusion.core.managers.files.FileType;
@@ -36,6 +36,7 @@ import org.incendo.cloud.execution.ExecutionCoordinator;
 import org.incendo.cloud.paper.PaperCommandManager;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class ChatManager extends JavaPlugin {
@@ -94,7 +95,18 @@ public class ChatManager extends JavaPlugin {
 
         registerEvents();
         check();
-        setupChatRadius();
+
+        final FileConfiguration config = Files.CONFIG.getConfiguration();
+
+        if (config.getBoolean("Chat_Radius.Enable", false)) {
+            final String radius = config.getString("Chat_Radius.Default_Channel", "");
+
+            for (final Player player : getServer().getOnlinePlayers()) {
+                final PaperUser user = UserUtils.getUser(player);
+
+                user.setRadius(RadiusType.getType(radius));
+            }
+        }
 
         new BaseCommand(PaperCommandManager.builder()
                 .executionCoordinator(ExecutionCoordinator.simpleCoordinator())
@@ -150,28 +162,6 @@ public class ChatManager extends JavaPlugin {
         pluginManager.registerEvents(new ListenerMentions(), this);
         pluginManager.registerEvents(new ListenerSwear(), this);
         pluginManager.registerEvents(new ListenerSpy(), this);
-    }
-
-    public void setupChatRadius() {
-        FileConfiguration config = Files.CONFIG.getConfiguration();
-
-        if (config.getBoolean("Chat_Radius.Enable", false)) {
-            final LocalChatData local = this.api.getLocalChatData();
-            final GlobalChatData global = this.api.getGlobalChatData();
-            final WorldChatData world = this.api.getWorldChatData();
-
-            for (final Player player : getServer().getOnlinePlayers()) {
-                final UUID uuid = player.getUniqueId();
-
-                if (config.getString("Chat_Radius.Default_Channel", "").equalsIgnoreCase("Local")) {
-                    local.addUser(uuid);
-                } else if (config.getString("Chat_Radius.Default_Channel", "").equalsIgnoreCase("Global")) {
-                    global.addUser(uuid);
-                } else if (config.getString("Chat_Radius.Default_Channel", "").equalsIgnoreCase("World")) {
-                    world.addUser(uuid);
-                }
-            }
-        }
     }
 
     public void check() {

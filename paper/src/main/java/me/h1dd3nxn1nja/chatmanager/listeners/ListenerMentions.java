@@ -1,9 +1,9 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.api.cmds.ToggleChatData;
-import com.ryderbelserion.chatmanager.api.cmds.ToggleMentionsData;
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.enums.core.PlayerState;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
@@ -26,12 +26,6 @@ public class ListenerMentions implements Listener {
 
 	private final Server server = this.plugin.getServer();
 
-	private final ApiLoader api = this.plugin.api();
-
-	private final ToggleChatData toggleChatData = this.api.getToggleChatData();
-
-	private final ToggleMentionsData toggleMentionsData = this.api.getToggleMentionsData();
-
 	@NotNull
 	private final EssentialsSupport essentialsSupport = this.plugin.getPluginManager().getEssentialsSupport();
 
@@ -51,6 +45,8 @@ public class ListenerMentions implements Listener {
 		final Collection<? extends Player> players = this.server.getOnlinePlayers();
 
 		final UUID playerId = player.getUniqueId();
+
+		final PaperUser user = UserUtils.getUser(playerId);
 
 		final boolean isMentionsEnabled = config.getBoolean("Mentions.Title.Enable", false);
 
@@ -81,7 +77,7 @@ public class ListenerMentions implements Listener {
 				if (player.getUniqueId() == uuid) return;
 
 				if (player.hasPermission(Permissions.MENTION_EVERYONE.getNode()) && target.hasPermission(Permissions.RECEIVE_MENTION.getNode())) {
-					if (!this.toggleMentionsData.containsUser(uuid)) {
+					if (!user.hasState(PlayerState.DIRECT_MESSAGES)) {
 						Methods.playSound(target, config, "Mentions.sound");
 					}
 
@@ -108,22 +104,24 @@ public class ListenerMentions implements Listener {
 
 		final UUID targetId = target.getUniqueId();
 
-		if (this.toggleMentionsData.containsUser(targetId) || this.toggleChatData.containsUser(targetId)) return;
+		final PaperUser targetUser = UserUtils.getUser(targetId);
+
+		if (targetUser.hasState(PlayerState.DIRECT_MESSAGES) || targetUser.hasState(PlayerState.CHAT)) {
+			return;
+		}
 
 		if (PluginSupport.ESSENTIALS.isPluginEnabled()) {
-			if (this.essentialsSupport.isIgnored(targetId, playerId) || this.essentialsSupport.isMuted(playerId))
-				return;
+			if (this.essentialsSupport.isIgnored(targetId, playerId) || this.essentialsSupport.isMuted(playerId)) return;
 		}
 
 		if (!player.hasPermission(Permissions.MENTION.getNode()) || !target.hasPermission(Permissions.RECEIVE_MENTION.getNode()))
 			return;
 
 		if (config.getBoolean("Chat_Radius.Enable", false)) {
-			if ((!Methods.inRange(targetId, playerId, config.getInt("Chat_Radius.Block_Distance", 250))) || (!Methods.inWorld(targetId, playerId)))
-				return;
+			if ((!Methods.inRange(targetId, playerId, config.getInt("Chat_Radius.Block_Distance", 250))) || (!Methods.inWorld(targetId, playerId))) return;
 		}
 
-		if (!this.toggleMentionsData.containsUser(targetId)) {
+		if (!targetUser.hasState(PlayerState.DIRECT_MESSAGES)) {
 			Methods.playSound(target, config, "Mentions.sound");
 		}
 

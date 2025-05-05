@@ -1,14 +1,16 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.jetbrains.annotations.NotNull;
 import java.io.BufferedWriter;
@@ -26,13 +28,13 @@ public class ListenerLogs implements Listener {
 	private final File dataFolder = this.plugin.getDataFolder();
 
 	@EventHandler(ignoreCancelled = true)
-	public void onChat(AsyncPlayerChatEvent event) {
+	public void onChat(AsyncChatEvent event) {
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (!config.getBoolean("Logs.Log_Chat", false)) return;
 
 		final String playerName = event.getPlayer().getName();
-		final String message = event.getMessage();
+		final String message = event.signedMessage().message();
 		final Date time = Calendar.getInstance().getTime();
 
 		try {
@@ -90,9 +92,11 @@ public class ListenerLogs implements Listener {
 		final Location location = block.getLocation();
 
 		for (int line = 0; line < 4; line++) {
-			final String message = event.getLine(line);
+			final Component component = event.line(line);
 
-			if (message == null) continue;
+			if (component == null) continue;
+
+			final String message = PlainTextComponentSerializer.plainText().serialize(component);
 
 			int X = location.getBlockX();
 			int Y = location.getBlockY();
@@ -101,7 +105,7 @@ public class ListenerLogs implements Listener {
 			try {
 				FileWriter fw = new FileWriter(new File(new File(this.dataFolder, "Logs"), "Signs.txt"), true);
 				BufferedWriter bw = new BufferedWriter(fw);
-				bw.write("[" + time + "] " + playerName + " | Location: X: " + X + " Y: " + Y + " Z: " + Z + " | Line: " + line + " | " + message.replaceAll("§", "&"));
+				bw.write("[" + time + "] " + playerName + " | Location: X: " + X + " Y: " + Y + " Z: " + Z + " | Line: " + line + " | " + message);
 				bw.newLine();
 				fw.flush();
 				bw.close();

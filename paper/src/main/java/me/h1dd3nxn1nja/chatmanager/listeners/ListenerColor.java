@@ -15,7 +15,6 @@ import net.md_5.bungee.api.ChatColor;
 import java.util.HashMap;
 import java.util.Map;
 
-@SuppressWarnings("deprecation")
 public class ListenerColor implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)

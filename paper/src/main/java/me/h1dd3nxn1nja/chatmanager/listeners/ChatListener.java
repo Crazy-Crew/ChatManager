@@ -8,7 +8,7 @@ import com.ryderbelserion.chatmanager.enums.Permissions;
 import com.ryderbelserion.chatmanager.enums.core.PlayerState;
 import com.ryderbelserion.chatmanager.enums.core.ServerState;
 import com.ryderbelserion.chatmanager.managers.ServerManager;
-import com.ryderbelserion.chatmanager.managers.UserManager;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -16,13 +16,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import java.util.Optional;
 
 public class ChatListener implements Listener {
 
 	private final ChatManager plugin = ChatManager.get();
-
-	private final UserManager userManager = this.plugin.getUserManager();
 
 	private final ServerManager serverManager = this.plugin.getServerManager();
 
@@ -68,13 +65,9 @@ public class ChatListener implements Listener {
 	public void chat(AsyncChatEvent event) {
 		final Player player = event.getPlayer();
 
-		final Optional<PaperUser> user = this.userManager.getUser(event.getPlayer());
+		final PaperUser user = UserUtils.getUser(player);
 
-		if (user.isEmpty()) return;
-
-		final PaperUser output = user.get();
-
-		if (!output.hasState(PlayerState.CHAT)) return;
+		if (!user.hasState(PlayerState.CHAT)) return;
 
 		event.viewers().remove(player);
 	}

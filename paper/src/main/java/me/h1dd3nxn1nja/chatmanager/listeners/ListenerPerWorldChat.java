@@ -3,10 +3,11 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.api.chat.PerWorldChatData;
-import com.ryderbelserion.chatmanager.api.chat.StaffChatData;
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.enums.commands.RadiusType;
+import com.ryderbelserion.chatmanager.enums.core.PlayerState;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import net.kyori.adventure.audience.Audience;
@@ -26,23 +27,18 @@ public class ListenerPerWorldChat implements Listener {
 
 	private final Server server = this.plugin.getServer();
 
-	private final ApiLoader api = this.plugin.api();
-
-	private final StaffChatData staffData = this.api.getStaffChatData();
-
-	private final PerWorldChatData worldData = this.api.getPerWorldChatData();
-
 	@EventHandler(ignoreCancelled = true)
 	public void onWorldChat(AsyncChatEvent event) {
 		final Player player = event.getPlayer();
-		final UUID uuid = player.getUniqueId();
 		final World world = player.getWorld();
 		final UUID id = world.getUID();
 		final Set<Audience> recipients = event.viewers();
 
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		if (!config.getBoolean("Per_World_Chat.Enable", false) || this.staffData.containsUser(uuid) || this.worldData.containsUser(uuid)) return;
+		final PaperUser user = UserUtils.getUser(player);
+
+		if (!config.getBoolean("Per_World_Chat.Enable", false) || user.hasState(PlayerState.STAFF_CHAT) || user.getRadius() == RadiusType.WORLD_CHAT) return;
 		if (config.getBoolean("Per_World_Chat.Group_Worlds.Enable", false)) return;
 
 		recipients.removeIf(target -> {
@@ -50,10 +46,7 @@ public class ListenerPerWorldChat implements Listener {
 				return false;
 			}
 
-			final UUID player_uuid = instance.getUniqueId();
-			final UUID world_uuid = instance.getWorld().getUID();
-
-			return !this.worldData.containsUser(player_uuid) && id.equals(world_uuid);
+			return UserUtils.getUser(instance.getUniqueId()).getRadius() != RadiusType.WORLD_CHAT && id.equals(instance.getWorld().getUID());
 		});
 	}
 
@@ -85,10 +78,11 @@ public class ListenerPerWorldChat implements Listener {
 		}
 
 		for (final Player target : this.server.getOnlinePlayers()) {
-			final UUID targetUUID = target.getUniqueId();
 			final String targetWorld = target.getWorld().getName();
 
-			if (this.worldData.containsUser(targetUUID)) continue;
+			final PaperUser user = UserUtils.getUser(target.getUniqueId());
+
+			if (user.getRadius() == RadiusType.WORLD_CHAT) continue;
 
 			if (playerGroup != null && !playerGroup.contains(targetWorld)) {
 				recipients.remove(target);

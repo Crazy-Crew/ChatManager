@@ -1,10 +1,11 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.api.misc.AntiBotData;
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import com.ryderbelserion.chatmanager.enums.core.PlayerState;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -12,59 +13,46 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
-import org.jetbrains.annotations.NotNull;
 
 public class ListenerAntiBot implements Listener {
-
-	@NotNull
-	private final ChatManager plugin = ChatManager.get();
-
-	private final ApiLoader api = this.plugin.api();
-
-	private final AntiBotData data = this.api.getAntiBotData();
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 
-		final FileConfiguration config = Files.CONFIG.getConfiguration();
-
-		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved", false) || player.hasPermission(Permissions.BYPASS_ANTI_BOT.getNode())) return;
-
-		this.data.addUser(player.getUniqueId());
-	}
-
-	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-	public void onLeave(PlayerQuitEvent event) {
-		final Player player = event.getPlayer();
+		final PaperUser user = UserUtils.getUser(player);
 
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved", false) || player.hasPermission(Permissions.BYPASS_ANTI_BOT.getNode())) return;
+		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved", false) || Permissions.BYPASS_ANTI_BOT.hasPermission(player)) return;
 
-		this.data.removeUser(player.getUniqueId());
+		user.addState(PlayerState.FLAGGED);
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onMove(PlayerMoveEvent event) {
 		final Player player = event.getPlayer();
 
+		final PaperUser user = UserUtils.getUser(player);
+
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved", false) || player.hasPermission(Permissions.BYPASS_ANTI_BOT.getNode())) return;
+		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved", false) || Permissions.BYPASS_ANTI_BOT.hasPermission(player)) return;
 
-		this.data.removeUser(player.getUniqueId());
+		user.removeState(PlayerState.FLAGGED);
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-	public void onChat(AsyncPlayerChatEvent event) {
+	public void onChat(AsyncChatEvent event) {
 		final Player player = event.getPlayer();
+
+		final PaperUser user = UserUtils.getUser(player);
 
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved", false) || player.hasPermission(Permissions.BYPASS_ANTI_BOT.getNode())) return;
+		if (!config.getBoolean("Anti_Bot.Block_Chat_Until_Moved", false) || Permissions.BYPASS_ANTI_BOT.hasPermission(player)) return;
 
-		if (!this.data.containsUser(player.getUniqueId())) return;
+		if (!user.hasState(PlayerState.FLAGGED)) return;
 
 		event.setCancelled(true);
 
@@ -75,11 +63,13 @@ public class ListenerAntiBot implements Listener {
 	public void onCommand(PlayerCommandPreprocessEvent event) {
 		final Player player = event.getPlayer();
 
+		final PaperUser user = UserUtils.getUser(player);
+
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		if (!config.getBoolean("Anti_Bot.Block_Commands_Until_Moved", false) || player.hasPermission(Permissions.BYPASS_ANTI_BOT.getNode())) return;
+		if (!config.getBoolean("Anti_Bot.Block_Commands_Until_Moved", false) || Permissions.BYPASS_ANTI_BOT.hasPermission(player)) return;
 
-		if (!this.data.containsUser(player.getUniqueId())) return;
+		if (!user.hasState(PlayerState.FLAGGED)) return;
 
 		event.setCancelled(true);
 

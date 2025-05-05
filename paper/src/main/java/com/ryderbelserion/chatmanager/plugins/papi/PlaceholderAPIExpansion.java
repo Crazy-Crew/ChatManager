@@ -53,12 +53,18 @@ public class PlaceholderAPIExpansion extends PlaceholderExpansion {
             case "radius" -> {
                 final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-                if (this.plugin.api().getLocalChatData().containsUser(player.getUniqueId())) {
-                    yield config.getString("Chat_Radius.Local_Chat.Prefix", "Local chat section not found in config.yml");
-                } else if (this.plugin.api().getGlobalChatData().containsUser(player.getUniqueId())) {
-                    yield config.getString("Chat_Radius.Global_Chat.Prefix", "Global chat section not found in config.yml");
-                } else if (this.plugin.api().getWorldChatData().containsUser(player.getUniqueId())) {
-                    yield config.getString("Chat_Radius.World_Chat.Prefix", "World chat section not found in config.yml");
+                switch (output.getRadius()) {
+                    case GLOBAL_CHAT -> {
+                        yield config.getString("Chat_Radius.Global_Chat.Prefix", "N/A");
+                    }
+
+                    case WORLD_CHAT -> {
+                        yield config.getString("Chat_Radius.World_Chat.Prefix", "N/A");
+                    }
+
+                    case LOCAL_CHAT -> {
+                        yield config.getString("Chat_Radius.Local_Chat.Prefix", "N/A");
+                    }
                 }
 
                 yield "N/A";

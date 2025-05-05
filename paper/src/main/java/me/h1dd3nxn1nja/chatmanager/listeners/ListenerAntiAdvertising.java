@@ -1,13 +1,17 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.api.chat.StaffChatData;
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
+import com.ryderbelserion.chatmanager.enums.core.PlayerState;
 import com.ryderbelserion.chatmanager.utils.DispatchUtils;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -16,7 +20,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.jetbrains.annotations.NotNull;
 import java.io.BufferedWriter;
@@ -31,7 +34,6 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@SuppressWarnings("ALL")
 public class ListenerAntiAdvertising implements Listener {
 
 	@NotNull
@@ -43,12 +45,8 @@ public class ListenerAntiAdvertising implements Listener {
 
 	private final ConsoleCommandSender console = this.server.getConsoleSender();
 
-	private final ApiLoader api = this.plugin.api();
-
-	private final StaffChatData staffChatData = this.api.getStaffChatData();
-
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-	public void onChat(AsyncPlayerChatEvent event) {
+	public void onChat(AsyncChatEvent event) {
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (!config.getBoolean("Anti_Advertising.Chat.Enable", false)) return;
@@ -56,12 +54,12 @@ public class ListenerAntiAdvertising implements Listener {
 		final Player player = event.getPlayer();
 		final UUID uuid = player.getUniqueId();
 
-		final boolean isValid = this.staffChatData.containsUser(uuid);
+		final PaperUser user = UserUtils.getUser(uuid);
 
-		if (isValid && player.hasPermission(Permissions.BYPASS_ANTI_ADVERTISING.getNode())) return;
+		if (user.hasState(PlayerState.STAFF_CHAT) || Permissions.BYPASS_ANTI_ADVERTISING.hasPermission(player)) return;
 
 		final String playerName = player.getName();
-		final String message = event.getMessage();
+		final String message = event.signedMessage().message();
 		final Date time = Calendar.getInstance().getTime();
 
 		final List<String> whitelisted = config.getStringList("Anti_Advertising.Whitelist");
@@ -88,7 +86,7 @@ public class ListenerAntiAdvertising implements Listener {
 		match(event, player, playerName, message, time, firstMatch, secondMatch);
 	}
 
-	private void match(final AsyncPlayerChatEvent event, final Player player, final String playerName, final String message, final Date time, final Matcher firstMatch, final Matcher secondMatch) {
+	private void match(final AsyncChatEvent event, final Player player, final String playerName, final String message, final Date time, final Matcher firstMatch, final Matcher secondMatch) {
 		if (!firstMatch.find() || !secondMatch.find()) return;
 
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
@@ -138,14 +136,14 @@ public class ListenerAntiAdvertising implements Listener {
 	public void onCommand(PlayerCommandPreprocessEvent event) {
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
+		if (!config.getBoolean("Anti_Advertising.Commands.Enable", false)) return;
+
 		final Player player = event.getPlayer();
 		final UUID uuid = player.getUniqueId();
 
-		if (!config.getBoolean("Anti_Advertising.Commands.Enable", false)) return;
+		final PaperUser user = UserUtils.getUser(uuid);
 
-		boolean isValid = this.staffChatData.containsUser(uuid);
-
-		if (isValid && player.hasPermission(Permissions.BYPASS_ANTI_ADVERTISING.getNode())) return;
+		if (user.hasState(PlayerState.STAFF_CHAT) || Permissions.BYPASS_ANTI_ADVERTISING.hasPermission(player)) return;
 
 		final String playerName = player.getName();
 		final String message = event.getMessage();
@@ -215,7 +213,7 @@ public class ListenerAntiAdvertising implements Listener {
 		if (!config.getBoolean("Anti_Advertising.Commands.Log_Advertisers", false)) return;
 
 		try {
-			FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Advertisements.txt"), true);
+			FileWriter fw = new FileWriter(new File(new File(this.dataFolder, "Logs"), "Advertisements.txt"), true);
 			BufferedWriter bw2 = new BufferedWriter(fw);
 			bw2.write("[" + time + "] [Command] " + playerName + ": " + message.replaceAll("§", "&"));
 			bw2.newLine();
@@ -234,6 +232,9 @@ public class ListenerAntiAdvertising implements Listener {
 
 		final Player player = event.getPlayer();
 		final UUID uuid = player.getUniqueId();
+
+		final PaperUser user = UserUtils.getUser(uuid);
+
 		final String playerName = player.getName();
 		final Date time = Calendar.getInstance().getTime();
 
@@ -243,16 +244,16 @@ public class ListenerAntiAdvertising implements Listener {
 		final Pattern secondPattern = Pattern.compile("[a-zA-Z0-9\\-.]+(\\.|d[o0]t|\\(d[o0]t\\)|-|,)+(com|org|net|co|uk|sk|biz|mobi|xxx|io|ts|adv|de|eu|noip|gs|au|pl|cz|ru)");
 
 		for (int line = 0; line < 4; line++) {
-			final String message = event.getLine(line);
+			final Component component = event.line(line);
 
-			final boolean isValid = this.staffChatData.containsUser(uuid);
+			if (component == null) continue;
 
-			if (!isValid && !player.hasPermission(Permissions.BYPASS_ANTI_ADVERTISING.getNode())) continue;
+			final String message = PlainTextComponentSerializer.plainText().serialize(component);
+
+			if (user.hasState(PlayerState.STAFF_CHAT) || Permissions.BYPASS_ANTI_ADVERTISING.hasPermission(player)) continue;
 
 			for (final String allowed : whitelisted) {
-				assert message != null;
-
-				if (message.toLowerCase().contains(allowed)) return;
+                if (message.toLowerCase().contains(allowed)) return;
 			}
 
 			final String str = "[" + time + "] [Sign] " + playerName + ": Line: " + line + " Text: " + message.replaceAll("§", "&");
@@ -307,7 +308,7 @@ public class ListenerAntiAdvertising implements Listener {
 
 		if (config.getBoolean("Anti_Advertising.Signs.Log_Advertisers", false)) {
 			try {
-				FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Advertisements.txt"), true);
+				FileWriter fw = new FileWriter(new File(new File(this.dataFolder, "Logs"), "Advertisements.txt"), true);
 				BufferedWriter bw2 = new BufferedWriter(fw);
 				bw2.write(str);
 				bw2.newLine();
