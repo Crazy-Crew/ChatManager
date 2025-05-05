@@ -323,8 +323,6 @@ Chat_Radius:
     Override_Symbol: "$"
   # The maximum distance players will receive the senders messages.
   Block_Distance: 250
-  # Enable chat radius spy on join.
-  Enable_Spy_On_Join: false
 
 #=================================================================================================#
 # Clear Chat
