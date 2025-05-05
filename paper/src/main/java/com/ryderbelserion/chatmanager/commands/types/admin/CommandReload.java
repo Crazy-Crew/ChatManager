@@ -1,7 +1,6 @@
 package com.ryderbelserion.chatmanager.commands.types.admin;
 
 import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.api.chat.StaffChatData;
 import com.ryderbelserion.chatmanager.api.cooldowns.ChatCooldowns;
 import com.ryderbelserion.chatmanager.api.cooldowns.CmdCooldowns;
 import com.ryderbelserion.chatmanager.api.cooldowns.CooldownTask;
