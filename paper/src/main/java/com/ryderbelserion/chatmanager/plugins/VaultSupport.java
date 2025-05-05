@@ -22,7 +22,7 @@ public class VaultSupport implements IPlugin {
     private static Chat chat;
 
     @Override
-    public IPlugin init() {
+    public @NotNull IPlugin init() {
         if (!isEnabled()) {
             return this;
         }
@@ -38,19 +38,19 @@ public class VaultSupport implements IPlugin {
         return "Vault";
     }
 
-    public static String getPlayerPrefix(Player player) {
+    public static String getPlayerPrefix(final Player player) {
         if (chat.getPlayerPrefix(player) == null) return "";
 
         return chat.getPlayerPrefix(player);
     }
 
-    public static String getPlayerSuffix(Player player) {
+    public static String getPlayerSuffix(final Player player) {
         if (chat.getPlayerSuffix(player) == null) return "";
 
         return chat.getPlayerSuffix(player);
     }
 
-    public static String getPlayerGroup(Player player) {
+    public static String getPlayerGroup(final Player player) {
         if (chat.getPrimaryGroup(player) == null) return "";
 
         return chat.getPrimaryGroup(player);
