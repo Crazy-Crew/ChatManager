@@ -32,34 +32,16 @@ public class CommandSpy extends AnnotationFeature {
 
         final PaperUser user = UserUtils.getUser(player);
 
-        switch (type) { //todo() create signal message to remove switch statement
-            case COMMAND_SPY -> {
-                if (user.hasState(type)) {
-                    user.removeState(type);
+        if (user.hasState(type)) {
+            user.removeState(type);
 
-                    Messages.COMMAND_SPY_DISABLED.sendMessage(player);
+            Messages.SPY_DISABLED.sendMessage(player, "{spy-type}", type.getName());
 
-                    return;
-                }
-
-                user.addState(type);
-
-                Messages.COMMAND_SPY_ENABLED.sendMessage(player);
-            }
-
-            case SOCIAL_SPY -> {
-                if (user.hasState(type)) {
-                    user.removeState(type);
-
-                    Messages.SOCIAL_SPY_DISABLED.sendMessage(player);
-
-                    return;
-                }
-
-                user.addState(type);
-
-                Messages.SOCIAL_SPY_ENABLED.sendMessage(player);
-            }
+            return;
         }
+
+        user.addState(type);
+
+        Messages.SPY_ENABLED.sendMessage(player, "{spy-type}", type.getName());
     }
 }

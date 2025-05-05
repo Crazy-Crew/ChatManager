@@ -71,8 +71,10 @@ public enum Messages {
     BANNED_COMMANDS_NOTIFY_STAFF(RootKeys.banned_commands_notify_staff),
 
     COMMAND_SPY_FORMAT(RootKeys.command_spy_format),
-    COMMAND_SPY_ENABLED(RootKeys.command_spy_enabled),
-    COMMAND_SPY_DISABLED(RootKeys.command_spy_disabled),
+    SOCIAL_SPY_FORMAT(RootKeys.social_spy_format),
+
+    SPY_ENABLED(RootKeys.spy_enabled),
+    SPY_DISABLED(RootKeys.spy_disabled),
 
     MUTE_CHAT_DENIED_MESSAGE(RootKeys.mute_chat_denied_message),
     MUTE_CHAT_BROADCAST_MESSAGES_ENABLED(RootKeys.mute_chat_broadcast_message_enabled),
@@ -90,10 +92,6 @@ public enum Messages {
     PRIVATE_MESSAGE_IGNORED(RootKeys.private_message_ignored),
     PRIVATE_MESSAGE_SELF(RootKeys.private_message_self),
     PRIVATE_MESSAGE_AFK(RootKeys.private_message_afk),
-
-    SOCIAL_SPY_FORMAT(RootKeys.social_spy_format),
-    SOCIAL_SPY_ENABLED(RootKeys.social_spy_enabled),
-    SOCIAL_SPY_DISABLED(RootKeys.social_spy_disabled),
 
     STAFF_CHAT_ENABLED(RootKeys.staff_chat_enabled),
     STAFF_CHAT_DISABLED(RootKeys.staff_chat_disabled),

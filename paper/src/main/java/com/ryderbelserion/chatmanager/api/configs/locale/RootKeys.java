@@ -220,9 +220,13 @@ public class RootKeys implements SettingsHolder {
 
     public static final Property<String> command_spy_format = newProperty("Command_Spy.Format", "&7[Command-Spy] {player}: &b{command}");
 
-    public static final Property<String> command_spy_enabled = newProperty("Command_Spy.Enabled", "{prefix}&aCommand Spy has been enabled.");
+    public static final Property<String> social_spy_format = newProperty("Social_Spy.Format", "&b&l(*)&bSpy &f&l[&e{player} &d-> &e{receiver}&f&l] &b{message}");
 
-    public static final Property<String> command_spy_disabled = newProperty("Command_Spy.Disabled", "{prefix}&cCommand Spy has been disabled.");
+    @Comment("A list of available placeholders: {spy-type}")
+    public static final Property<String> spy_enabled = newProperty("Spy.Enabled", "{prefix}&c{spy-type} has been enabled.");
+
+    @Comment("A list of available placeholders: {spy-type}")
+    public static final Property<String> spy_disabled = newProperty("Spy.Disabled", "{prefix}&c{spy-type} has been disabled.");
 
     public static final Property<String> mute_chat_denied_message = newProperty("Mute_Chat.Denied_Message", "{prefix}&cYou are not able to talk in chat right now.");
 
@@ -249,12 +253,6 @@ public class RootKeys implements SettingsHolder {
     public static final Property<String> private_message_self = newProperty("Private_Message.Self", "{prefix}&cYou cannot message yourself.");
 
     public static final Property<String> private_message_afk = newProperty("Private_Message.Afk", "{prefix}&c{target} &7is currently afk.");
-
-    public static final Property<String> social_spy_format = newProperty("Social_Spy.Format", "&b&l(*)&bSpy &f&l[&e{player} &d-> &e{receiver}&f&l] &b{message}");
-
-    public static final Property<String> social_spy_enabled = newProperty("Social_Spy.Enabled", "{prefix}&aSocial Spy has been enabled.");
-
-    public static final Property<String> social_spy_disabled = newProperty("Social_Spy.Disabled", "{prefix}&cSocial Spy has been disabled.");
 
     public static final Property<String> staff_chat_enabled = newProperty("Staff_Chat.Enabled", "{prefix}&aStaff chat has been enabled.");
 
