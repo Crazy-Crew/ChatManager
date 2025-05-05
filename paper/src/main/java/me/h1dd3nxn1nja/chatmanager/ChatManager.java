@@ -1,10 +1,6 @@
 package me.h1dd3nxn1nja.chatmanager;
 
-import com.ryderbelserion.chatmanager.ApiLoader;
 import com.ryderbelserion.chatmanager.api.CustomMetrics;
-import com.ryderbelserion.chatmanager.api.cooldowns.ChatCooldowns;
-import com.ryderbelserion.chatmanager.api.cooldowns.CmdCooldowns;
-import com.ryderbelserion.chatmanager.api.cooldowns.CooldownTask;
 import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.commands.BaseCommand;
 import com.ryderbelserion.chatmanager.enums.Files;
@@ -36,15 +32,12 @@ import org.incendo.cloud.execution.ExecutionCoordinator;
 import org.incendo.cloud.paper.PaperCommandManager;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 public class ChatManager extends JavaPlugin {
 
     public static ChatManager get() {
         return JavaPlugin.getPlugin(ChatManager.class);
     }
-
-    private ApiLoader api;
 
     private PluginHandler pluginHandler;
     private PluginExtension pluginExtension;
@@ -84,9 +77,6 @@ public class ChatManager extends JavaPlugin {
 
         new CustomMetrics().start();
 
-        this.api = new ApiLoader();
-        this.api.load();
-
         Methods.convert();
 
         this.pluginHandler = new PluginHandler();
@@ -119,16 +109,10 @@ public class ChatManager extends JavaPlugin {
         server.getGlobalRegionScheduler().cancelTasks(this);
         server.getAsyncScheduler().cancelTasks(this);
 
-        final ChatCooldowns cooldowns = this.api.getChatCooldowns();
-        final CooldownTask tasks = this.api.getCooldownTask();
-        final CmdCooldowns cmd = this.api.getCmdCooldowns();
-
         for (final Player player : server.getOnlinePlayers()) {
-            final UUID uuid = player.getUniqueId();
+            final PaperUser user = UserUtils.getUser(player);
 
-            cooldowns.removeUser(uuid);
-            tasks.removeUser(uuid);
-            cmd.removeUser(uuid);
+            user.purge();
 
             BossBarUtil bossBar = new BossBarUtil();
             bossBar.removeAllBossBars(player);
@@ -164,17 +148,13 @@ public class ChatManager extends JavaPlugin {
     }
 
     public void check() {
-        FileConfiguration autoBroadcast = Files.AUTO_BROADCAST.getConfiguration();
+        final FileConfiguration autoBroadcast = Files.AUTO_BROADCAST.getConfiguration();
 
         if (autoBroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable", false)) AutoBroadcastManager.actionbarMessages();
         if (autoBroadcast.getBoolean("Auto_Broadcast.Global_Messages.Enable", false)) AutoBroadcastManager.globalMessages();
         if (autoBroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Enable", false)) AutoBroadcastManager.perWorldMessages();
         if (autoBroadcast.getBoolean("Auto_Broadcast.Title_Messages.Enable", false)) AutoBroadcastManager.titleMessages();
         if (autoBroadcast.getBoolean("Auto_Broadcast.Bossbar_Messages.Enable", false)) AutoBroadcastManager.bossBarMessages();
-    }
-
-    public ApiLoader api() {
-        return this.api;
     }
 
     public PluginHandler getPluginManager() {

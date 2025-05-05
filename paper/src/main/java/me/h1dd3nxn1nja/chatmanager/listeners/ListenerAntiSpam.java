@@ -2,45 +2,20 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import java.util.List;
 import java.util.UUID;
-import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.api.chat.logging.PreviousCmdData;
-import com.ryderbelserion.chatmanager.api.chat.logging.PreviousMsgData;
-import com.ryderbelserion.chatmanager.api.cooldowns.ChatCooldowns;
-import com.ryderbelserion.chatmanager.api.cooldowns.CmdCooldowns;
-import com.ryderbelserion.chatmanager.api.cooldowns.CooldownTask;
 import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.core.PlayerState;
 import com.ryderbelserion.chatmanager.utils.UserUtils;
-import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
 import io.papermc.paper.event.player.AsyncChatEvent;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.jetbrains.annotations.NotNull;
 
 public class ListenerAntiSpam implements Listener {
-
-	@NotNull
-	private final ChatManager plugin = ChatManager.get();
-
-	private final ApiLoader api = this.plugin.api();
-
-	private final PreviousMsgData msgData = this.api.getPreviousMsgData();
-
-	private final CmdCooldowns cmdCooldowns = this.api.getCmdCooldowns();
-
-	private final CooldownTask tasks = this.api.getCooldownTask();
-
-	private final PreviousCmdData cmdData = this.api.getPreviousCmdData();
-
-	private final ChatCooldowns chatCooldowns = this.api.getChatCooldowns();
 
 	@EventHandler(ignoreCancelled = true)
 	public void antiSpamChat(AsyncChatEvent event) {
@@ -55,21 +30,19 @@ public class ListenerAntiSpam implements Listener {
 
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		if (config.getBoolean("Anti_Spam.Chat.Block_Repetitive_Messages", false)) {
-			if (Permissions.BYPASS_DUPE_CHAT.hasPermission(player)) return;
+		if (!config.getBoolean("Anti_Spam.Chat.Block_Repetitive_Messages", false) || Permissions.BYPASS_DUPE_CHAT.hasPermission(player)) return;
 
-			if (this.msgData.containsUser(uuid) && !this.chatCooldowns.containsUser(uuid)) {
-				String msg = this.msgData.getMessage(uuid);
+		if (user.hasSpam("chat") && !user.hasDelay("chat")) {
+			if (message.equalsIgnoreCase(user.getSpam("chat"))) {
+				Messages.ANTI_SPAM_CHAT_REPETITIVE_MESSAGE.sendMessage(player);
 
-				if (message.equalsIgnoreCase(msg)) {
-					Messages.ANTI_SPAM_CHAT_REPETITIVE_MESSAGE.sendMessage(player);
+				event.setCancelled(true);
 
-					event.setCancelled(true);
-				}
+				return;
 			}
-
-			this.msgData.addUser(uuid, message);
 		}
+
+		user.addSpam("chat", message);
 	}
 
 	@EventHandler(ignoreCancelled = true)
@@ -87,106 +60,106 @@ public class ListenerAntiSpam implements Listener {
 
 		if (delay == 0 || Permissions.BYPASS_CHAT_DELAY.hasPermission(player)) return;
 
-		if (this.chatCooldowns.containsUser(uuid)) {
-			final int time = this.chatCooldowns.getTime(uuid);
-
-			Messages.ANTI_SPAM_CHAT_DELAY_MESSAGE.sendMessage(player, "{Time}", String.valueOf(time));
+		if (user.hasDelay("chat")) {
+			Messages.ANTI_SPAM_CHAT_DELAY_MESSAGE.sendMessage(player, "{Time}", String.valueOf(user.getDelay("chat")));
 
 			event.setCancelled(true);
 
 			return;
 		}
 
-		this.chatCooldowns.addUser(uuid, delay);
+		user.addDelay("chat", delay);
 
-		this.tasks.addUser(uuid, new FoliaScheduler(player.getLocation()) {
+		user.runTaskInterval(player.getLocation(), 20, 20, (task) -> {
+			final int time = user.getDelay("chat");
 
-			@Override
-			public void run() {
-				final int time = chatCooldowns.getTime(uuid);
+			user.addDelay("chat", time - 1);
 
-				chatCooldowns.subtract(uuid);
-
-				if (time == 0) {
-					chatCooldowns.removeUser(uuid);
-					tasks.removeUser(uuid);
-
-					cancel();
-				}
+			if (time == 0) {
+				user.removeDelay("chat");
+				user.stopTask();
 			}
-		}.runAtFixedRate(20L, 20L));
+		});
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onSpamCommand(PlayerCommandPreprocessEvent event) {
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		if (config.getBoolean("Anti_Spam.Command.Block_Repetitive_Commands", false)) {
-			final Player player = event.getPlayer();
-			final String command = event.getMessage();
+		if (!config.getBoolean("Anti_Spam.Command.Block_Repetitive_Commands", false)) return;
 
-			final UUID uuid = player.getUniqueId();
+		final Player player = event.getPlayer();
+		final String message = event.getMessage();
 
-			final List<String> whitelistedCommands = config.getStringList("Anti_Spam.Command.Whitelist");
+		final UUID uuid = player.getUniqueId();
 
-			if (!Permissions.BYPASS_DUPE_COMMAND.hasPermission(player)) {
-				for (final String commands : whitelistedCommands) {
-					if (command.contains(commands)) {
-						this.cmdData.removeUser(uuid);
+		final PaperUser user = UserUtils.getUser(uuid);
 
-						return;
-					}
-				}
+		final List<String> whitelistedCommands = config.getStringList("Anti_Spam.Command.Whitelist");
 
-				if (this.cmdData.containsUser(uuid) && !cmdCooldowns.containsUser(uuid)) {
-					String cmd = this.cmdData.getMessage(uuid);
+		if (!Permissions.BYPASS_DUPE_COMMAND.hasPermission(player)) {
+			boolean hasMatch = false;
 
-					if (command.equalsIgnoreCase(cmd)) {
-						Messages.ANTI_SPAM_COMMAND_REPETITIVE_MESSAGE.sendMessage(player);
+			for (final String command : whitelistedCommands) {
+				if (!message.contains(command)) continue;
 
-						event.setCancelled(true);
-					}
-				}
+				hasMatch = true;
 
-				this.cmdData.addUser(uuid, command);
+				break;
 			}
 
-			int delay = config.getInt("Anti_Spam.Command.Chat_Delay", 3);
+			if (hasMatch) {
+				user.removeSpam("command");
 
-			if (delay != 0) {
-				if (!Permissions.BYPASS_COMMAND_DELAY.hasPermission(player)) {
-					if (this.cmdCooldowns.containsUser(uuid)) {
-						Messages.ANTI_SPAM_COMMAND_DELAY_MESSAGE.sendMessage(player, "{Time}", String.valueOf(this.cmdCooldowns.getTime(uuid)));
+				return;
+			}
 
-						event.setCancelled(true);
+			if (user.hasSpam("command") && !user.hasDelay("command")) {
+				if (message.equalsIgnoreCase(user.getSpam("command"))) {
+					Messages.ANTI_SPAM_COMMAND_REPETITIVE_MESSAGE.sendMessage(player);
 
-						return;
-					}
+					event.setCancelled(true);
 
-					for (final String commands : whitelistedCommands) {
-						if (command.contains(commands)) return;
-					}
-
-					this.cmdCooldowns.addUser(uuid, delay);
-
-					this.tasks.addUser(uuid, new FoliaScheduler(player.getLocation()) {
-
-						@Override
-						public void run() {
-							int time = cmdCooldowns.getTime(uuid);
-
-							cmdCooldowns.subtract(uuid);
-
-							if (time == 0) {
-								cmdCooldowns.removeUser(uuid);
-								tasks.removeUser(uuid);
-
-								cancel();
-							}
-						}
-					}.runAtFixedRate(20L, 20L));
+					return;
 				}
 			}
+
+			user.addSpam("command", message);
 		}
+
+		int delay = config.getInt("Anti_Spam.Command.Chat_Delay", 3);
+
+		if (delay == 0 || Permissions.BYPASS_COMMAND_DELAY.hasPermission(player)) return;
+
+		if (user.hasDelay("command")) {
+			Messages.ANTI_SPAM_COMMAND_DELAY_MESSAGE.sendMessage(player, "{Time}", String.valueOf(user.getDelay("command")));
+
+			event.setCancelled(true);
+
+			return;
+		}
+
+		boolean hasMatch = false;
+
+		for (final String command : whitelistedCommands) {
+			if (!message.contains(command)) continue;
+
+			hasMatch = true;
+		}
+
+		if (hasMatch) return;
+
+		user.addDelay("command", delay);
+
+		user.runTaskInterval(player.getLocation(), 20, 20, (task) -> {
+			final int time = user.getDelay("command");
+
+			user.addDelay("command", time - 1);
+
+			if (time == 0) {
+				user.removeDelay("command");
+				user.stopTask();
+			}
+		});
 	}
 }

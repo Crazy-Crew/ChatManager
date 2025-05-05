@@ -1,9 +1,5 @@
 package com.ryderbelserion.chatmanager.commands.types.admin;
 
-import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.api.cooldowns.ChatCooldowns;
-import com.ryderbelserion.chatmanager.api.cooldowns.CmdCooldowns;
-import com.ryderbelserion.chatmanager.api.cooldowns.CooldownTask;
 import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.commands.AnnotationFeature;
 import com.ryderbelserion.chatmanager.enums.Files;
@@ -27,14 +23,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class CommandReload extends AnnotationFeature {
 
-    private final ApiLoader api = this.plugin.api();
-
-    private final CooldownTask task = this.api.getCooldownTask();
-
-    private final ChatCooldowns chat = this.api.getChatCooldowns();
-
-    private final CmdCooldowns cmd = this.api.getCmdCooldowns();
-
     private final LegacyFileManager fileManager = this.plugin.getLegacyFileManager();
 
     @Override
@@ -49,10 +37,6 @@ public class CommandReload extends AnnotationFeature {
         final FileConfiguration config = Files.CONFIG.getConfiguration();
 
         for (final Player player : this.server.getOnlinePlayers()) {
-            this.chat.removeUser(player.getUniqueId());
-            this.task.removeUser(player.getUniqueId());
-            this.cmd.removeUser(player.getUniqueId());
-
             final BossBarUtil bossBar = new BossBarUtil();
 
             bossBar.removeAllBossBars(player);
@@ -60,6 +44,8 @@ public class CommandReload extends AnnotationFeature {
             final BossBarUtil bossBarStaff = new BossBarUtil(Methods.placeholders(true, player, Methods.color(config.getString("Staff_Chat.Boss_Bar.Title", "&eStaff Chat"))));
 
             final PaperUser user = UserUtils.getUser(player);
+
+            user.purge();
 
             if (user.hasState(PlayerState.STAFF_CHAT) && Permissions.TOGGLE_STAFF_CHAT.hasPermission(player)) {
                 bossBarStaff.removeStaffBossBar(player);

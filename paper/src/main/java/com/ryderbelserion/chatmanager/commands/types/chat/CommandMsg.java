@@ -1,7 +1,5 @@
 package com.ryderbelserion.chatmanager.commands.types.chat;
 
-import com.ryderbelserion.chatmanager.ApiLoader;
-import com.ryderbelserion.chatmanager.api.chat.UserRepliedData;
 import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.commands.AnnotationFeature;
 import com.ryderbelserion.chatmanager.enums.Files;
@@ -9,7 +7,6 @@ import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import com.ryderbelserion.chatmanager.enums.core.PlayerState;
 import com.ryderbelserion.chatmanager.utils.UserUtils;
-import com.ryderbelserion.fusion.core.api.interfaces.IPlugin;
 import com.ryderbelserion.fusion.core.managers.PluginExtension;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -29,11 +26,7 @@ import java.util.UUID;
 
 public class CommandMsg extends AnnotationFeature {
 
-    private final ApiLoader api = this.plugin.api();
-
     private final PluginExtension extension = this.plugin.getPluginExtension();
-
-    private final UserRepliedData userRepliedData = this.api.getUserRepliedData();
 
     @Override
     public void registerFeature(@NotNull final AnnotationParser<CommandSourceStack> parser) {
@@ -65,7 +58,7 @@ public class CommandMsg extends AnnotationFeature {
             return;
         }
 
-        perform(message, sender, player);
+        perform(message, user, player);
     }
 
     @Command(value = "chatmanager reply <message>", requiredSender = Player.class)
@@ -74,15 +67,15 @@ public class CommandMsg extends AnnotationFeature {
     public void reply(final Player sender, @Argument("message") final String message) {
         final UUID uuid = sender.getUniqueId();
 
-        if (!this.userRepliedData.containsUser(uuid)) {
+        final PaperUser user = UserUtils.getUser(uuid);
+
+        if (!user.hasLastReply()) {
             Messages.PRIVATE_MESSAGE_RECIPIENT_NOT_FOUND.sendMessage(sender);
 
             return;
         }
 
-        final UUID target = this.userRepliedData.getUser(uuid);
-
-        final Player player = this.plugin.getServer().getPlayer(target);
+        final Player player = this.plugin.getServer().getPlayer(user.getLastReply());
 
         if (player == null) {
             Messages.PRIVATE_MESSAGE_RECIPIENT_NOT_FOUND.sendMessage(sender);
@@ -96,10 +89,12 @@ public class CommandMsg extends AnnotationFeature {
             return;
         }
 
-        perform(message, sender, player);
+        perform(message, user, player);
     }
 
-    private void perform(final String arg, final Player sender, final Player player) {
+    private void perform(final String arg, final PaperUser user, final Player player) {
+        final Player sender = (Player) user.getAudience();
+
         final FileConfiguration config = Files.CONFIG.getConfiguration();
 
         if (arg.isEmpty()) {
@@ -110,13 +105,13 @@ public class CommandMsg extends AnnotationFeature {
 
         if (essentialsCheck(sender, player)) return;
 
-        final IPlugin genericVanish = this.extension.getPlugin("GenericVanish");
+        /*final IPlugin genericVanish = this.extension.getPlugin("GenericVanish"); //todo() redo
 
         if (genericVanish != null && genericVanish.isEnabled() && genericVanish.isVanished(sender.getUniqueId()) && !sender.hasPermission(Permissions.BYPASS_VANISH.getNode())) {
             Messages.PLAYER_NOT_FOUND.sendMessage(sender, "{target}", player.getName());
 
             return;
-        }
+        }*/
 
         final String sender_format = config.getString("Private_Messages.Sender.Format", "&c&l(!) &f&l[&e&lYou &d-> &e{receiver}&f&l] &b")
                 .replace("{receiver}", player.getName())
@@ -132,13 +127,14 @@ public class CommandMsg extends AnnotationFeature {
 
         Methods.playSound(player, config, "Private_Messages.sound");
 
-        final UserRepliedData data = this.plugin.api().getUserRepliedData();
-
         final UUID player_uuid = player.getUniqueId();
         final UUID sender_uuid = sender.getUniqueId();
 
-        data.addUser(sender_uuid, player_uuid);
-        data.addUser(player_uuid, sender_uuid);
+        user.setLastReply(player_uuid);
+
+        final PaperUser player_target = UserUtils.getUser(player_uuid);
+
+        player_target.setLastReply(sender_uuid);
 
         for (final Player target : this.server.getOnlinePlayers()) {
             final UUID id = target.getUniqueId();
@@ -147,9 +143,9 @@ public class CommandMsg extends AnnotationFeature {
 
             if (Permissions.BYPASS_SOCIAL_SPY.hasPermission(sender) || Permissions.BYPASS_SOCIAL_SPY.hasPermission(player)) continue;
 
-            final PaperUser user = UserUtils.getUser(id);
+            final PaperUser target_user = UserUtils.getUser(id);
 
-            if (!user.hasState(PlayerState.SOCIAL_SPY)) continue;
+            if (!target_user.hasState(PlayerState.SOCIAL_SPY)) continue;
 
             Messages.SOCIAL_SPY_FORMAT.sendMessage(target, new HashMap<>() {{
                 put("{player}", sender.getName());
