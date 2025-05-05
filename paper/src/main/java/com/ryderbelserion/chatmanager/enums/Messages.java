@@ -133,7 +133,7 @@ public enum Messages {
         if (sender instanceof Player player) {
             final Optional<PaperUser> user = this.userManager.getUser(player.getUniqueId());
 
-            return user.map(paperUser -> paperUser.locale().getProperty(this.property)).orElseGet(() -> this.locale.getProperty(this.property));
+            return user.map(output -> output.locale().getProperty(this.property)).orElseGet(() -> this.locale.getProperty(this.property));
         }
 
         return this.locale.getProperty(this.property);
