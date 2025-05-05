@@ -103,7 +103,6 @@ public enum Permissions {
     COMMAND_CHATRADIUS_LOCAL("chatradius.local", "Ability to local chat radius", PermissionDefault.OP),
     COMMAND_CHATRADIUS_GLOBAL("chatradius.global", "Ability to use global chat radius", PermissionDefault.OP),
     COMMAND_CHATRADIUS_WORLD("chatradius.world", "Ability to use world chat radius", PermissionDefault.OP),
-    COMMAND_CHATRADIUS_SPY("chatradius.spy", "Ability to spy on chat radius messages", PermissionDefault.OP),
     COMMAND_CLEARCHAT("clearchat", "Ability to use the command /clearchat", PermissionDefault.OP),
     COMMAND_LISTS_PLAYERS("lists.players", "Ability to use /list", PermissionDefault.OP),
     COMMAND_STAFF("staff", "Ability to do something", PermissionDefault.OP),
