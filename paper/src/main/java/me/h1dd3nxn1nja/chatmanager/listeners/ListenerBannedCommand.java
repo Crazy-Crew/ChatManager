@@ -39,7 +39,7 @@ public class ListenerBannedCommand implements Listener {
 
 		if (!config.getBoolean("Banned_Commands.Enable", false)) return;
 
-		if (!player.hasPermission(Permissions.BYPASS_BANNED_COMMANDS.getNode())) {
+		if (!Permissions.BYPASS_BANNED_COMMANDS.hasPermission(player)) {
 			if (!config.getBoolean("Banned_Commands.Increase_Sensitivity", false)) {
 				for (final String command : cmd) {
 					if (message.toLowerCase().equals("/" + command)) {
@@ -67,7 +67,7 @@ public class ListenerBannedCommand implements Listener {
 			}
 		}
 
-		if (!player.hasPermission(Permissions.BYPASS_COLON_COMMANDS.getNode())) {
+		if (!Permissions.BYPASS_COLON_COMMANDS.hasPermission(player)) {
 			if (message.split(" ")[0].contains(":")) {
 				event.setCancelled(true);
 

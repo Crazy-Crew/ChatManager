@@ -42,8 +42,8 @@ public class CommandClearChat extends AnnotationFeature {
         int lines = config.getInt("Clear_Chat.Broadcasted_Lines", 300);
 
         for (final Player player : players) {
-            if (player.hasPermission(Permissions.BYPASS_CLEAR_CHAT.getNode())) {
-                Messages.CLEAR_CHAT_STAFF_MESSAGE.sendMessage(sender, "{player}", sender.getName());
+            if (Permissions.BYPASS_CLEAR_CHAT.hasPermission(player)) {
+                Messages.CLEAR_CHAT_STAFF_MESSAGE.sendMessage(player, "{player}", sender.getName());
 
                 continue;
             }

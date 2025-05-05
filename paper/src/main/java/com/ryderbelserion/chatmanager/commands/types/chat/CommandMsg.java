@@ -90,7 +90,7 @@ public class CommandMsg extends AnnotationFeature {
             return;
         }
 
-        if (!sender.canSee(player) && !player.hasPermission(Permissions.BYPASS_SPECTATOR.getNode()) || player.getGameMode().equals(GameMode.SPECTATOR) && !player.hasPermission(Permissions.BYPASS_VANISH.getNode())) {
+        if (!sender.canSee(player) && !Permissions.BYPASS_SPECTATOR.hasPermission(player) || player.getGameMode().equals(GameMode.SPECTATOR) && !Permissions.BYPASS_VANISH.hasPermission(player)) { //todo() wtf
             Messages.PLAYER_NOT_FOUND.sendMessage(player, "{target}", player.getName());
 
             return;

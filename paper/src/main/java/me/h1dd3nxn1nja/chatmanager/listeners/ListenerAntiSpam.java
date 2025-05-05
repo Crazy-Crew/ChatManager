@@ -56,7 +56,7 @@ public class ListenerAntiSpam implements Listener {
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (config.getBoolean("Anti_Spam.Chat.Block_Repetitive_Messages", false)) {
-			if (player.hasPermission(Permissions.BYPASS_DUPE_CHAT.getNode())) return;
+			if (Permissions.BYPASS_DUPE_CHAT.hasPermission(player)) return;
 
 			if (this.msgData.containsUser(uuid) && !this.chatCooldowns.containsUser(uuid)) {
 				String msg = this.msgData.getMessage(uuid);
@@ -85,7 +85,7 @@ public class ListenerAntiSpam implements Listener {
 
 		final int delay = config.getInt("Anti_Spam.Chat.Chat_Delay", 3);
 
-		if (delay == 0 || player.hasPermission(Permissions.BYPASS_CHAT_DELAY.getNode())) return;
+		if (delay == 0 || Permissions.BYPASS_CHAT_DELAY.hasPermission(player)) return;
 
 		if (this.chatCooldowns.containsUser(uuid)) {
 			final int time = this.chatCooldowns.getTime(uuid);
@@ -129,7 +129,7 @@ public class ListenerAntiSpam implements Listener {
 
 			final List<String> whitelistedCommands = config.getStringList("Anti_Spam.Command.Whitelist");
 
-			if (!player.hasPermission(Permissions.BYPASS_DUPE_COMMAND.getNode())) {
+			if (!Permissions.BYPASS_DUPE_COMMAND.hasPermission(player)) {
 				for (final String commands : whitelistedCommands) {
 					if (command.contains(commands)) {
 						this.cmdData.removeUser(uuid);
@@ -154,7 +154,7 @@ public class ListenerAntiSpam implements Listener {
 			int delay = config.getInt("Anti_Spam.Command.Chat_Delay", 3);
 
 			if (delay != 0) {
-				if (!player.hasPermission(Permissions.BYPASS_COMMAND_DELAY.getNode())) {
+				if (!Permissions.BYPASS_COMMAND_DELAY.hasPermission(player)) {
 					if (this.cmdCooldowns.containsUser(uuid)) {
 						Messages.ANTI_SPAM_COMMAND_DELAY_MESSAGE.sendMessage(player, "{Time}", String.valueOf(this.cmdCooldowns.getTime(uuid)));
 

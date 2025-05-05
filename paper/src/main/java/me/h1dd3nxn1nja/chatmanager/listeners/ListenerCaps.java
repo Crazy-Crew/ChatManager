@@ -26,7 +26,7 @@ public class ListenerCaps implements Listener {
 
 		if (!config.getBoolean("Anti_Caps.Enable", false) || user.hasState(PlayerState.STAFF_CHAT)) return;
 
-		if (player.hasPermission(Permissions.BYPASS_CAPS.getNode())) return;
+		if (Permissions.BYPASS_CAPS.hasPermission(player)) return;
 
 		int upperChar = 0;
 		int lowerChar = 0;
@@ -63,7 +63,7 @@ public class ListenerCaps implements Listener {
 
 		if (!config.getBoolean("Anti_Caps.Enable", false) && !config.getBoolean("Anti_Caps.Enable_In_Commands", false) || user.hasState(PlayerState.STAFF_CHAT)) return;
 
-		if (player.hasPermission(Permissions.BYPASS_CAPS.getNode())) return;
+		if (Permissions.BYPASS_CAPS.hasPermission(player)) return;
 
 		int upperChar = 0;
 		int lowerChar = 0;

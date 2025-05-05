@@ -184,7 +184,7 @@ public class ListenerPlayerJoin implements Listener {
         final int delay = config.getInt("MOTD.Delay", 2);
 
         if (config.getBoolean("Clear_Chat.Clear_On_Join", false)) {
-            if (player.hasPermission(Permissions.BYPASS_CLEAR_CHAT_ON_JOIN.getNode())) return;
+            if (Permissions.BYPASS_CLEAR_CHAT_ON_JOIN.hasPermission(player)) return;
 
             for (int i = 0; i < lines; i++) {
                 player.sendMessage("");

@@ -45,7 +45,7 @@ public class ListenerAntiUnicode implements Listener {
 
 		if (!config.getBoolean("Anti_Unicode.Enable", false) || user.hasState(PlayerState.STAFF_CHAT)) return;
 
-		if (player.hasPermission(Permissions.BYPASS_ANTI_UNICODE.getNode())) return;
+		if (Permissions.BYPASS_ANTI_UNICODE.hasPermission(player)) return;
 
 		final List<String> whitelisted = config.getStringList("Anti_Unicode.Whitelist");
 

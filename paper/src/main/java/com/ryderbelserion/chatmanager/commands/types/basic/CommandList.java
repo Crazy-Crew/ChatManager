@@ -69,10 +69,10 @@ public class CommandList extends AnnotationFeature {
             }
 
             case STAFF_LIST -> {
-                final String staff_node = Permissions.COMMAND_STAFF.getNode();
+                final Permissions staff_node = Permissions.COMMAND_STAFF;
 
                 for (final Player player : players) {
-                    if (!player.hasPermission(staff_node) || !player.isOp()) continue;
+                    if (!staff_node.hasPermission(player) || !player.isOp()) continue;
 
                     if (!builder.isEmpty()) builder.append(", ");
 

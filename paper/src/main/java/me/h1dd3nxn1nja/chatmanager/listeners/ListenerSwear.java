@@ -164,7 +164,7 @@ public class ListenerSwear implements Listener {
 
 		if (words.isEmpty()) return;
 
-		if (!config.getBoolean("Anti_Swear.Signs.Enable", false) || player.hasPermission(Permissions.BYPASS_ANTI_SWEAR.getNode())) return;
+		if (!config.getBoolean("Anti_Swear.Signs.Enable", false) || Permissions.BYPASS_ANTI_SWEAR.hasPermission(player)) return;
 
 		if (config.getBoolean("Anti_Swear.Signs.Increase_Sensitivity", false)) {
 			for (int line = 0; line < 4; line++) {

@@ -36,9 +36,9 @@ public class ListenerColor implements Listener {
 		for (int index = 0; index < event.getLines().length; index++) {
 			String line = event.getLine(index);
 
-			if (player.hasPermission(Permissions.SIGN_COLOR_ALL.getNode())) line = Format.formatStringColor(line);
+			if (Permissions.SIGN_COLOR_ALL.hasPermission(player)) line = Format.formatStringColor(line);
 
-			if (player.hasPermission(Permissions.SIGN_FORMAT_ALL.getNode())) line = Format.formatString(line);
+			if (Permissions.SIGN_FORMAT_ALL.hasPermission(player)) line = Format.formatString(line);
 
 			event.setLine(index, line);
 		}
@@ -87,19 +87,19 @@ public class ListenerColor implements Listener {
 	private String formatChat(final Player player, String msg) {
 		final char colorChar = getColorCharacter();
 
-		if (player.hasPermission(Permissions.FORMATTING_ALL.getNode())) {
+		if (Permissions.FORMATTING_ALL.hasPermission(player)) {
 			return Methods.color(msg);
 		}
 
 		boolean ignoreColorCheck = false, ignoreFormatCheck = false;
 
-		if (player.hasPermission(Permissions.CHAT_COLOR_ALL.getNode())) {
+		if (Permissions.CHAT_COLOR_ALL.hasPermission(player)) {
 			msg = replaceColor(colorChar, msg);
 
 			ignoreColorCheck = true;
 		}
 
-		if (player.hasPermission(Permissions.CHAT_FORMAT_ALL.getNode())) {
+		if (Permissions.CHAT_FORMAT_ALL.hasPermission(player)) {
 			msg = replaceFormat(colorChar, msg);
 
 			ignoreFormatCheck = true;

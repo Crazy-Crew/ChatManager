@@ -74,9 +74,9 @@ public class ListenerMentions implements Listener {
 				final UUID uuid = target.getUniqueId();
 
 				// We don't need to ping ourselves.
-				if (player.getUniqueId() == uuid) return;
+				if (player.getUniqueId().equals(uuid)) return;
 
-				if (player.hasPermission(Permissions.MENTION_EVERYONE.getNode()) && target.hasPermission(Permissions.RECEIVE_MENTION.getNode())) {
+				if (Permissions.MENTION_EVERYONE.hasPermission(player) && Permissions.RECEIVE_MENTION.hasPermission(target)) {
 					if (!user.hasState(PlayerState.DIRECT_MESSAGES)) {
 						Methods.playSound(target, config, "Mentions.sound");
 					}
@@ -114,7 +114,7 @@ public class ListenerMentions implements Listener {
 			if (this.essentialsSupport.isIgnored(targetId, playerId) || this.essentialsSupport.isMuted(playerId)) return;
 		}
 
-		if (!player.hasPermission(Permissions.MENTION.getNode()) || !target.hasPermission(Permissions.RECEIVE_MENTION.getNode()))
+		if (!Permissions.MENTION.hasPermission(player) || !Permissions.RECEIVE_MENTION.hasPermission(target))
 			return;
 
 		if (config.getBoolean("Chat_Radius.Enable", false)) {
