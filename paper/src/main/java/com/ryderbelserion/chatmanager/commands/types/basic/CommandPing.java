@@ -13,6 +13,7 @@ import org.incendo.cloud.annotations.Flag;
 import org.incendo.cloud.annotations.Permission;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import java.util.HashMap;
 
 public class CommandPing extends AnnotationFeature {
 
@@ -21,18 +22,21 @@ public class CommandPing extends AnnotationFeature {
         parser.parse(this);
     }
 
-    @Command("chatmanager ping -p")
+    @Command("chatmanager ping")
     @CommandDescription("Allows the player to view their ping or other players ping!")
     @Permission(value = "chatmanager.ping", mode = Permission.Mode.ANY_OF)
-    public void ping(final CommandSender sender, @Flag(value = "player", aliases = {"p"}, permission = "chatmanager.ping.others", description = "View the ping of another player!") @Nullable Player target) {
+    public void ping(final CommandSender sender, @Flag(value = "p", permission = "chatmanager.ping.others", description = "View the ping of another player!") @Nullable final Player target) {
         if (target != null) {
-            Messages.PING_TARGETS_PING.sendMessage(target, "{target}", target.getName());
+            Messages.PING_TARGETS_PING.sendMessage(sender, new HashMap<>() {{
+                put("{target}", target.getName());
+                put("{ping}", String.valueOf(target.getPing()));
+            }});
 
             return;
         }
 
         if (sender instanceof Player player) {
-            Messages.PING_PLAYERS_PING.sendMessage(player);
+            Messages.PING_PLAYERS_PING.sendMessage(player, "{ping}", String.valueOf(player.getPing()));
 
             return;
         }
