@@ -13,7 +13,9 @@ import org.incendo.cloud.annotations.Argument;
 import org.incendo.cloud.annotations.Command;
 import org.incendo.cloud.annotations.CommandDescription;
 import org.incendo.cloud.annotations.Permission;
+import org.incendo.cloud.annotations.suggestion.Suggestions;
 import org.jetbrains.annotations.NotNull;
+import java.util.stream.Stream;
 
 public class CommandSpy extends AnnotationFeature {
 
@@ -43,5 +45,10 @@ public class CommandSpy extends AnnotationFeature {
         user.addState(type);
 
         Messages.SPY_ENABLED.sendMessage(player, "{spy-type}", type.getName());
+    }
+
+    @Suggestions("spy-suggestions")
+    public @NotNull Stream<@NotNull PlayerState> suggestions() {
+        return Stream.of(PlayerState.COMMAND_SPY, PlayerState.SOCIAL_SPY);
     }
 }
