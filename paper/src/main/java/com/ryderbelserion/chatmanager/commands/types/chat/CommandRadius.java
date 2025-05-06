@@ -47,7 +47,7 @@ public class CommandRadius extends AnnotationFeature {
         final RadiusType current = user.getRadius();
 
         if (current == type) {
-            Messages.CHAT_RADIUS_DISABLED.sendMessage(player, "{chat-type}", current.getType());
+            Messages.CHAT_RADIUS_DISABLED.sendMessage(player, "{chat-type}", current.getPrettyType());
 
             user.setRadius(RadiusType.GLOBAL_CHAT);
 
@@ -56,6 +56,6 @@ public class CommandRadius extends AnnotationFeature {
 
         user.setRadius(type);
 
-        Messages.CHAT_RADIUS_ENABLED.sendMessage(player, "{chat-type}", current.getType());
+        Messages.CHAT_RADIUS_ENABLED.sendMessage(player, "{chat-type}", current.getPrettyType());
     }
 }
