@@ -76,7 +76,7 @@ public class ListenerBannedCommand implements Listener {
 	public void notifyStaff(Player player, String message) {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		if (!config.getBoolean("Banned_Commands.Notify_Staff")) return;
+		if (!config.getBoolean("Banned_Commands.Notify_Staff", false)) return;
 
 		for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
 			if (staff.hasPermission(Permissions.NOTIFY_BANNED_COMMANDS.getNode())) {

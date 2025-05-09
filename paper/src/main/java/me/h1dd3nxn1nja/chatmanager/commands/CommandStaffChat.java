@@ -66,7 +66,7 @@ public class CommandStaffChat implements CommandExecutor, TabCompleter {
 							return true;
 						}
 					} else {
-						if (config.getBoolean("Staff_Chat.Enable")) {
+						if (config.getBoolean("Staff_Chat.Enable", false)) {
 							StringBuilder message = new StringBuilder();
 
 							for (String arg : args) {

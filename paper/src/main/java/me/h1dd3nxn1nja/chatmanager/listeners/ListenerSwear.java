@@ -48,7 +48,7 @@ public class ListenerSwear implements Listener {
 
 		if (player.hasPermission(Permissions.BYPASS_ANTI_SWEAR.getNode())) return;
 
-		if (config.getBoolean("Anti_Swear.Chat.Increase_Sensitivity")) {
+		if (config.getBoolean("Anti_Swear.Chat.Increase_Sensitivity", false)) {
 			for (String blockedWord : blockedWordsList) {
 				for (String allowed : whitelisted) {
 					if (event.getMessage().contains(allowed.toLowerCase())) return;
@@ -66,7 +66,7 @@ public class ListenerSwear implements Listener {
 			}
 		}
 
-		if (!config.getBoolean("Anti_Swear.Chat.Increase_Sensitivity")) {
+		if (!config.getBoolean("Anti_Swear.Chat.Increase_Sensitivity", false)) {
 			for (String blockedWord : blockedWordsList) {
 				for (String allowed : whitelisted) {
 					if (event.getMessage().contains(allowed.toLowerCase())) return;

@@ -194,13 +194,13 @@ public class ChatManager extends JavaPlugin {
     public void setupChatRadius() {
         FileConfiguration config = Files.CONFIG.getConfiguration();
 
-        if (config.getBoolean("Chat_Radius.Enable")) {
+        if (config.getBoolean("Chat_Radius.Enable", false)) {
             for (Player all : getServer().getOnlinePlayers()) {
-                if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Local")) {
+                if (config.getString("Chat_Radius.Default_Channel", "").equalsIgnoreCase("Local")) {
                     this.api.getLocalChatData().addUser(all.getUniqueId());
-                } else if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Global")) {
+                } else if (config.getString("Chat_Radius.Default_Channel", "").equalsIgnoreCase("Global")) {
                     this.api.getGlobalChatData().addUser(all.getUniqueId());
-                } else if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("World")) {
+                } else if (config.getString("Chat_Radius.Default_Channel", "").equalsIgnoreCase("World")) {
                     this.api.getWorldChatData().addUser(all.getUniqueId());
                 }
             }
@@ -209,11 +209,11 @@ public class ChatManager extends JavaPlugin {
 
     public void check() {
         FileConfiguration autoBroadcast = Files.AUTO_BROADCAST.getConfiguration();
-        if (autoBroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) AutoBroadcastManager.actionbarMessages();
-        if (autoBroadcast.getBoolean("Auto_Broadcast.Global_Messages.Enable")) AutoBroadcastManager.globalMessages();
-        if (autoBroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Enable")) AutoBroadcastManager.perWorldMessages();
-        if (autoBroadcast.getBoolean("Auto_Broadcast.Title_Messages.Enable")) AutoBroadcastManager.titleMessages();
-        if (autoBroadcast.getBoolean("Auto_Broadcast.Bossbar_Messages.Enable")) AutoBroadcastManager.bossBarMessages();
+        if (autoBroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable", false)) AutoBroadcastManager.actionbarMessages();
+        if (autoBroadcast.getBoolean("Auto_Broadcast.Global_Messages.Enable", false)) AutoBroadcastManager.globalMessages();
+        if (autoBroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Enable", false)) AutoBroadcastManager.perWorldMessages();
+        if (autoBroadcast.getBoolean("Auto_Broadcast.Title_Messages.Enable", false)) AutoBroadcastManager.titleMessages();
+        if (autoBroadcast.getBoolean("Auto_Broadcast.Bossbar_Messages.Enable", false)) AutoBroadcastManager.bossBarMessages();
     }
 
     public PluginExtension getPluginExtension() {

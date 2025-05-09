@@ -34,9 +34,9 @@ public class ListenerRadius implements Listener {
 		String globalOverrideChar = config.getString("Chat_Radius.Global_Chat.Override_Symbol", "!");
 		String worldOverrideChar = config.getString("Chat_Radius.World_Chat.Override_Symbol", "$");
 
-		int radius = config.getInt("Chat_Radius.Block_Distance");
+		int radius = config.getInt("Chat_Radius.Block_Distance", 250);
 
-		if (!config.getBoolean("Chat_Radius.Enable") || this.plugin.api().getStaffChatData().containsUser(uuid)) return;
+		if (!config.getBoolean("Chat_Radius.Enable", false) || this.plugin.api().getStaffChatData().containsUser(uuid)) return;
 
 		if (player.hasPermission(Permissions.CHAT_RADIUS_GLOBAL_OVERRIDE.getNode())) {
 			if (!globalOverrideChar.isEmpty()) {

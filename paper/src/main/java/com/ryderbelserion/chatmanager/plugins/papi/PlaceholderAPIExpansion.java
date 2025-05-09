@@ -26,11 +26,11 @@ public class PlaceholderAPIExpansion extends PlaceholderExpansion {
             switch (lower) {
                 case "radius": //Returns which chat radius channel the player is in.
                     if (this.plugin.api().getLocalChatData().containsUser(player.getUniqueId())) {
-                        return config.getString("Chat_Radius.Local_Chat.Prefix");
+                        return config.getString("Chat_Radius.Local_Chat.Prefix", "N/A");
                     } else if (this.plugin.api().getGlobalChatData().containsUser(player.getUniqueId())) {
-                        return config.getString("Chat_Radius.Global_Chat.Prefix");
+                        return config.getString("Chat_Radius.Global_Chat.Prefix", "N/A");
                     } else if (this.plugin.api().getWorldChatData().containsUser(player.getUniqueId())) {
-                        return config.getString("Chat_Radius.World_Chat.Prefix");
+                        return config.getString("Chat_Radius.World_Chat.Prefix", "N/A");
                     }
                 case "toggle_pm": // Returns if the toggle pm is enabled/disabled for a player.
                     return this.plugin.api().getToggleMessageData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
