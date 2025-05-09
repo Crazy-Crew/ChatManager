@@ -133,7 +133,6 @@ public class ListenerSwear implements Listener {
 		FileConfiguration bannedWords = Files.BANNED_WORDS.getConfiguration();
 		FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
 		List<String> whitelistedCommands = config.getStringList("Anti_Swear.Commands.Whitelisted_Commands");
 		List<String> blockedWordsList = bannedWords.getStringList("Banned-Words");
 		String sensitiveMessage = event.getMessage().toLowerCase().replaceAll("[^a-zA-Z0-9 ]", "").replaceAll("\\s+", "");
@@ -143,8 +142,8 @@ public class ListenerSwear implements Listener {
 			if (!player.hasPermission(Permissions.BYPASS_ANTI_SWEAR.getNode())) {
 				if (config.getBoolean("Anti_Swear.Commands.Increase_Sensitivity", false)) {
 					for (String blockedWords : blockedWordsList) {
-						for (String allowed : whitelisted) {
-							if (event.getMessage().contains(allowed.toLowerCase())) return;
+						for (String command : whitelistedCommands) {
+							if (message.toLowerCase().startsWith(command)) return;
 						}
 
 						if (sensitiveMessage.contains(blockedWords)) {
@@ -166,18 +165,18 @@ public class ListenerSwear implements Listener {
 									put("{player}", player.getName());
 									put("{message}", message);
 								}}), false);
-
-								commandSwearCheck(config, player, message, time);
 							}
 
-							for (String command : whitelistedCommands) {
-								if (message.toLowerCase().startsWith(command)) return;
-							}
+							commandSwearCheck(config, player, message, time);
 						}
 					}
 
 					if (!config.getBoolean("Anti_Swear.Commands.Increase_Sensitivity", false)) {
 						for (String blockedWords : blockedWordsList) {
+							for (String command : whitelistedCommands) {
+								if (message.toLowerCase().startsWith(command)) return;
+							}
+
 							if (curseMessage.contains(blockedWords)) {
 								Messages.ANTI_SWEAR_COMMAND_MESSAGE.sendMessage(player);
 
@@ -185,15 +184,9 @@ public class ListenerSwear implements Listener {
 
 								if (config.getBoolean("Anti_Swear.Commands.Notify_Staff", false)) {
 									checkOnlineStaff(player, message);
-
-									commandSwearCheck(config, player, message, time);
-
-									break;
 								}
 
-								for (String command : whitelistedCommands) {
-									if (message.toLowerCase().startsWith(command)) return;
-								}
+								commandSwearCheck(config, player, message, time);
 							}
 						}
 					}
@@ -288,9 +281,9 @@ public class ListenerSwear implements Listener {
 										put("{player}", player.getName());
 										put("{message}", message);
 									}}), false);
-
-									checkSwear(config, player, time, line, message);
 								}
+
+								checkSwear(config, player, time, line, message);
 							}
 						}
 					}
@@ -323,11 +316,9 @@ public class ListenerSwear implements Listener {
 												put("{player}", player.getName());
 												put("{message}", message);
 											}}), false);
-
-											checkSwear(config, player, time, line, message);
-
-											break;
 										}
+
+										checkSwear(config, player, time, line, message);
 									}
 								}
 							}
