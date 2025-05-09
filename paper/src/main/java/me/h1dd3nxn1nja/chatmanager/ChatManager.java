@@ -4,11 +4,11 @@ import com.ryderbelserion.chatmanager.ApiLoader;
 import com.ryderbelserion.chatmanager.api.CustomMetrics;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
+import com.ryderbelserion.chatmanager.managers.ServerManager;
 import com.ryderbelserion.chatmanager.plugins.papi.PlaceholderAPISupport;
 import com.ryderbelserion.chatmanager.plugins.VanishSupport;
 import com.ryderbelserion.chatmanager.plugins.VaultSupport;
 import com.ryderbelserion.fusion.core.managers.PluginExtension;
-import com.ryderbelserion.fusion.core.managers.files.FileManager;
 import com.ryderbelserion.fusion.core.managers.files.FileType;
 import com.ryderbelserion.fusion.paper.FusionPaper;
 import com.ryderbelserion.fusion.paper.files.LegacyFileManager;
@@ -25,6 +25,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +39,7 @@ public class ChatManager extends JavaPlugin {
     private PluginHandler pluginHandler;
     private PluginExtension pluginExtension;
     private LegacyFileManager legacyFileManager;
+    private ServerManager serverManager;
 
     private ApiLoader api;
 
@@ -57,6 +59,8 @@ public class ChatManager extends JavaPlugin {
                 .addFolder("Logs", FileType.NONE);
 
         Messages.addMissingMessages();
+
+        this.serverManager = new ServerManager();
 
         this.pluginExtension = fusion.getPluginExtension();
 
@@ -158,30 +162,33 @@ public class ChatManager extends JavaPlugin {
     }
 
     public void registerEvents() {
-        getServer().getPluginManager().registerEvents(new ListenerColor(), this);
+        final PluginManager pluginManager = getServer().getPluginManager();
 
-        getServer().getPluginManager().registerEvents(new ListenerAntiAdvertising(), this);
-        getServer().getPluginManager().registerEvents(new ListenerAntiBot(), this);
-        getServer().getPluginManager().registerEvents(new ListenerAntiSpam(), this);
+        pluginManager.registerEvents(new ChatListener(), this); // register chat listener
+        
+        pluginManager.registerEvents(new ListenerColor(), this);
 
-        getServer().getPluginManager().registerEvents(new ListenerAntiUnicode(), this);
-        getServer().getPluginManager().registerEvents(new ListenerBannedCommand(), this);
-        getServer().getPluginManager().registerEvents(new ListenerCaps(), this);
+        pluginManager.registerEvents(new ListenerAntiAdvertising(), this);
+        pluginManager.registerEvents(new ListenerAntiBot(), this);
+        pluginManager.registerEvents(new ListenerAntiSpam(), this);
 
-        getServer().getPluginManager().registerEvents(new ListenerChatFormat(), this);
-        getServer().getPluginManager().registerEvents(new ListenerRadius(), this);
-        getServer().getPluginManager().registerEvents(new ListenerGrammar(), this);
-        getServer().getPluginManager().registerEvents(new ListenerLogs(), this);
-        getServer().getPluginManager().registerEvents(new CommandMOTD(), this);
+        pluginManager.registerEvents(new ListenerAntiUnicode(), this);
+        pluginManager.registerEvents(new ListenerBannedCommand(), this);
+        pluginManager.registerEvents(new ListenerCaps(), this);
 
-        getServer().getPluginManager().registerEvents(new ListenerMentions(), this);
-        getServer().getPluginManager().registerEvents(new ListenerMuteChat(), this);
-        getServer().getPluginManager().registerEvents(new ListenerPerWorldChat(), this);
-        getServer().getPluginManager().registerEvents(new ListenerPlayerJoin(), this);
-        getServer().getPluginManager().registerEvents(new ListenerSpy(), this);
-        getServer().getPluginManager().registerEvents(new ListenerStaffChat(), this);
-        getServer().getPluginManager().registerEvents(new ListenerSwear(), this);
-        getServer().getPluginManager().registerEvents(new ListenerToggleChat(), this);
+        pluginManager.registerEvents(new ListenerChatFormat(), this);
+        pluginManager.registerEvents(new ListenerRadius(), this);
+        pluginManager.registerEvents(new ListenerGrammar(), this);
+        pluginManager.registerEvents(new ListenerLogs(), this);
+        pluginManager.registerEvents(new CommandMOTD(), this);
+
+        pluginManager.registerEvents(new ListenerMentions(), this);
+        pluginManager.registerEvents(new ListenerPerWorldChat(), this);
+        pluginManager.registerEvents(new ListenerPlayerJoin(), this);
+        pluginManager.registerEvents(new ListenerSpy(), this);
+        pluginManager.registerEvents(new ListenerStaffChat(), this);
+        pluginManager.registerEvents(new ListenerSwear(), this);
+        pluginManager.registerEvents(new ListenerToggleChat(), this);
     }
 
     public void setupChatRadius() {
@@ -209,19 +216,25 @@ public class ChatManager extends JavaPlugin {
         if (autoBroadcast.getBoolean("Auto_Broadcast.Bossbar_Messages.Enable")) AutoBroadcastManager.bossBarMessages();
     }
 
-    public ApiLoader api() {
-        return this.api;
+    public PluginExtension getPluginExtension() {
+        return this.pluginExtension;
+    }
+
+    public ServerManager getServerManager() {
+        return this.serverManager;
     }
 
     public PluginHandler getPluginManager() {
         return this.pluginHandler;
     }
-
-    public PluginExtension getPluginExtension() {
-        return this.pluginExtension;
+    
+    public ApiLoader api() {
+        return this.api;
     }
 
     private void registerPermissions() {
+        final PluginManager pluginManager = getServer().getPluginManager();
+
         Arrays.stream(Permissions.values()).toList().forEach(permission -> {
             Permission newPermission = new Permission(
                     permission.getNode(),
@@ -230,7 +243,7 @@ public class ChatManager extends JavaPlugin {
                     permission.getChildren()
             );
 
-            getServer().getPluginManager().addPermission(newPermission);
+            pluginManager.addPermission(newPermission);
         });
     }
 
