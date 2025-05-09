@@ -1,9 +1,10 @@
 package com.ryderbelserion.chatmanager.plugins.papi;
 
 import com.ryderbelserion.chatmanager.enums.Files;
+import com.ryderbelserion.chatmanager.enums.core.ServerState;
+import com.ryderbelserion.chatmanager.managers.ServerManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,6 +14,8 @@ import javax.annotation.Nullable;
 public class PlaceholderAPIExpansion extends PlaceholderExpansion {
 
     private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+
+    private final ServerManager serverManager = this.plugin.getServerManager();
 
     @Override
     public @Nullable String onRequest(OfflinePlayer player, @NotNull String identifier) {
@@ -39,8 +42,9 @@ public class PlaceholderAPIExpansion extends PlaceholderExpansion {
                     return this.plugin.api().getSocialSpyData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
                 case "staff_chat": // Returns if the staff chat is enabled/disabled for a player.
                     return this.plugin.api().getStaffChatData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
-                case "mute_chat": // Returns if mute chat is enabled/disabled.
-                    return Methods.isMuted() ? "Enabled" : "Disabled";
+                case "mute_chat": {
+                    return this.serverManager.getServer().hasState(ServerState.MUTED) ? "Enabled" : "Disabled";
+                }
                 default:
                     return "";
             }
