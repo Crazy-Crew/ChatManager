@@ -32,13 +32,17 @@ kyori-logger = { module = "net.kyori:adventure-text-logger-slf4j", version.ref =
 kyori-text = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
 kyori-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 
+# Configurate API
+configurate-jackson = { module = "org.spongepowered:configurate-jackson", version.ref = "configurate" }
+configurate-yaml = { module = "org.spongepowered:configurate-yaml", version.ref = "configurate" }
+
 # Other API
 jalu = { module = "ch.jalu:configme", version.ref = "jalu" }
 
 [versions]
 # Paper API
-paper = "1.21.4-R0.1-SNAPSHOT"
-minecraft = "1.21.4"
+paper = "1.21.5-R0.1-SNAPSHOT"
+minecraft = "1.21.5"
 
 # Gradle Plugins
 shadow = "9.0.0-beta4"
@@ -56,8 +60,11 @@ placeholderapi = "2.11.6"
 # Essentials API
 essentials = "2.20.1"
 
+# Configurate API
+configurate = "4.2.0"
+
 # Fusion API
-fusion = "0.7.0"
+fusion = "1.6.0"
 
 # bStats API
 bStats = "3.1.0"

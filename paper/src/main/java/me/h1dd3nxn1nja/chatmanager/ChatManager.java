@@ -7,10 +7,11 @@ import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.plugins.papi.PlaceholderAPISupport;
 import com.ryderbelserion.chatmanager.plugins.VanishSupport;
 import com.ryderbelserion.chatmanager.plugins.VaultSupport;
-import com.ryderbelserion.core.api.enums.FileType;
-import com.ryderbelserion.core.api.support.PluginManager;
-import com.ryderbelserion.paper.FusionApi;
-import com.ryderbelserion.paper.files.FileManager;
+import com.ryderbelserion.fusion.core.managers.PluginExtension;
+import com.ryderbelserion.fusion.core.managers.files.FileManager;
+import com.ryderbelserion.fusion.core.managers.files.FileType;
+import com.ryderbelserion.fusion.paper.FusionPaper;
+import com.ryderbelserion.fusion.paper.files.LegacyFileManager;
 import me.h1dd3nxn1nja.chatmanager.commands.*;
 import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.*;
 import com.ryderbelserion.chatmanager.enums.Permissions;
@@ -34,17 +35,21 @@ public class ChatManager extends JavaPlugin {
         return JavaPlugin.getPlugin(ChatManager.class);
     }
 
-    private final FusionApi fusion = FusionApi.get();
+    private PluginHandler pluginHandler;
+    private PluginExtension pluginExtension;
+    private LegacyFileManager legacyFileManager;
 
     private ApiLoader api;
 
-    private PluginHandler pluginHandler;
-
     @Override
     public void onEnable() {
-        this.fusion.enable(this);
+        final FusionPaper fusion = new FusionPaper(getComponentLogger(), getDataPath());
 
-        this.fusion.getFileManager().addFile("config.yml", FileType.YAML)
+        fusion.enable(this);
+
+        this.legacyFileManager = fusion.getLegacyFileManager();
+
+        this.legacyFileManager.addFile("config.yml", FileType.YAML)
                 .addFile("Messages.yml", FileType.YAML)
                 .addFile("bannedwords.yml", FileType.YAML)
                 .addFile("AutoBroadcast.yml", FileType.YAML)
@@ -53,13 +58,13 @@ public class ChatManager extends JavaPlugin {
 
         Messages.addMissingMessages();
 
+        this.pluginExtension = fusion.getPluginExtension();
+
         List.of(
                 new VaultSupport(),
                 new VanishSupport(),
                 new PlaceholderAPISupport()
-        ).forEach(PluginManager::registerPlugin);
-
-        PluginManager.printPlugins();
+        ).forEach(this.pluginExtension::registerPlugin);
 
         new CustomMetrics().start();
 
@@ -212,6 +217,10 @@ public class ChatManager extends JavaPlugin {
         return this.pluginHandler;
     }
 
+    public PluginExtension getPluginExtension() {
+        return this.pluginExtension;
+    }
+
     private void registerPermissions() {
         Arrays.stream(Permissions.values()).toList().forEach(permission -> {
             Permission newPermission = new Permission(
@@ -225,7 +234,7 @@ public class ChatManager extends JavaPlugin {
         });
     }
 
-    public FileManager getFileManager() {
-        return this.fusion.getFileManager();
+    public LegacyFileManager getFileManager() {
+        return this.legacyFileManager;
     }
 }

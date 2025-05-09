@@ -2,8 +2,8 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.api.chat.UserRepliedData;
 import com.ryderbelserion.chatmanager.enums.Messages;
-import com.ryderbelserion.core.api.support.PluginManager;
-import com.ryderbelserion.core.api.support.interfaces.Plugin;
+import com.ryderbelserion.fusion.core.api.interfaces.IPlugin;
+import com.ryderbelserion.fusion.core.managers.PluginExtension;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
@@ -30,6 +30,8 @@ public class CommandMessage implements CommandExecutor, TabCompleter {
 
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
+
+	private final PluginExtension extension = this.plugin.getPluginExtension();
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -180,7 +182,7 @@ public class CommandMessage implements CommandExecutor, TabCompleter {
 
 		if (essentialsCheck(player, target)) return true;
 
-		final Plugin genericVanish = PluginManager.getPlugin("GenericVanish");
+		final IPlugin genericVanish = this.extension.getPlugin("GenericVanish");
 
         if (genericVanish != null && genericVanish.isEnabled() && genericVanish.isVanished(player.getUniqueId()) && !player.hasPermission(Permissions.BYPASS_VANISH.getNode())) {
             Messages.PLAYER_NOT_FOUND.sendMessage(player, "{target}", args[0]);

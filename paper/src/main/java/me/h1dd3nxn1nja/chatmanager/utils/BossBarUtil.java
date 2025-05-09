@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.ryderbelserion.paper.enums.Scheduler;
-import com.ryderbelserion.paper.util.scheduler.FoliaScheduler;
+import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
+import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
