@@ -1,14 +1,9 @@
 rootProject.name = "ChatManager"
 
 listOf(
-    "version/5.0.0/paper" to "paper",
-    "version/5.0.0/core" to "core",
-
-    "version/5.0.0" to "5.0.0",
-
     "publish" to "publish",
 
-    "paper" to "current",
+    "paper" to "paper",
 ).forEach(::includeProject)
 
 fun includeProject(pair: Pair<String, String>): Unit = includeProject(pair.first, pair.second)
