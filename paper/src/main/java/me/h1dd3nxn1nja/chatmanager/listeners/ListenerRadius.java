@@ -1,106 +1,112 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
-import java.util.Set;
-import java.util.UUID;
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.enums.Files;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import com.ryderbelserion.chatmanager.enums.commands.RadiusType;
+import com.ryderbelserion.chatmanager.enums.core.PlayerState;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
+import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.ChatColor;
+import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.jetbrains.annotations.NotNull;
+import java.util.Set;
+import java.util.UUID;
 
 public class ListenerRadius implements Listener {
 
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
 
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void onPlayerChat(AsyncPlayerChatEvent event) {
-		Player player = event.getPlayer();
-		String message = event.getMessage();
-		Set<Player> recipients = event.getRecipients();
+	private final Server server = this.plugin.getServer();
 
-		UUID uuid = player.getUniqueId();
+	@EventHandler(ignoreCancelled = true)
+	public void onRadius(AsyncPlayerChatEvent event) {
+		final Player player = event.getPlayer();
+		final UUID uuid = player.getUniqueId();
+		final PaperUser user = UserUtils.getUser(uuid);
 
-		FileConfiguration config = Files.CONFIG.getConfiguration();
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		String localOverrideChar = config.getString("Chat_Radius.Local_Chat.Override_Symbol", "#");
-		String globalOverrideChar = config.getString("Chat_Radius.Global_Chat.Override_Symbol", "!");
-		String worldOverrideChar = config.getString("Chat_Radius.World_Chat.Override_Symbol", "$");
+		if (user.hasState(PlayerState.STAFF_CHAT) || !config.getBoolean("Chat_Radius.Enable", false)) return;
 
-		int radius = config.getInt("Chat_Radius.Block_Distance");
+		final Set<Player> recipients = event.getRecipients();
+		final String message = event.getMessage();
+		final String stripped = ChatColor.stripColor(message);
 
-		if (!config.getBoolean("Chat_Radius.Enable") || this.plugin.api().getStaffChatData().containsUser(uuid)) return;
+		final String globalSymbol = config.getString("Chat_Radius.Global_Chat.Override_Symbol", "!");
 
-		if (player.hasPermission(Permissions.CHAT_RADIUS_GLOBAL_OVERRIDE.getNode())) {
-			if (!globalOverrideChar.isEmpty()) {
-				if (ChatColor.stripColor(message).charAt(0) == globalOverrideChar.charAt(0)) {
-					this.plugin.api().getWorldChatData().removeUser(uuid);
-					this.plugin.api().getLocalChatData().removeUser(uuid);
-					this.plugin.api().getGlobalChatData().addUser(uuid);
+		if (!globalSymbol.isEmpty() && Permissions.CHAT_RADIUS_GLOBAL_OVERRIDE.hasPermission(player)) {
+			if (stripped.charAt(0) != globalSymbol.charAt(0)) {
+				user.setRadius(RadiusType.GLOBAL_CHAT);
 
-					return;
-				}
+				event.setMessage(message.replace(globalSymbol, ""));
+
+				return;
 			}
 		}
 
-		if (player.hasPermission(Permissions.CHAT_RADIUS_LOCAL_OVERRIDE.getNode())) {
-			if (!localOverrideChar.isEmpty()) {
-				if (ChatColor.stripColor(message).charAt(0) == localOverrideChar.charAt(0)) {
-					this.plugin.api().getWorldChatData().removeUser(uuid);
-					this.plugin.api().getGlobalChatData().removeUser(uuid);
-					this.plugin.api().getLocalChatData().addUser(uuid);
+		final String worldSymbol = config.getString("Chat_Radius.World_Chat.Override_Symbol", "$");
 
-					event.setMessage(message.replace(localOverrideChar, ""));
+		if (!worldSymbol.isEmpty() && Permissions.CHAT_RADIUS_WORLD_OVERRIDE.hasPermission(player)) {
+			if (stripped.charAt(0) != worldSymbol.charAt(0)) {
+				user.setRadius(RadiusType.WORLD_CHAT);
 
-					return;
-				}
+				event.setMessage(message.replace(worldSymbol, ""));
+
+				return;
 			}
 		}
 
-		if (player.hasPermission(Permissions.CHAT_RADIUS_WORLD_OVERRIDE.getNode())) {
-			if (!worldOverrideChar.isEmpty()) {
-				if (ChatColor.stripColor(message).charAt(0) == worldOverrideChar.charAt(0)) {
-					this.plugin.api().getGlobalChatData().removeUser(uuid);
-					this.plugin.api().getLocalChatData().removeUser(uuid);
-					this.plugin.api().getWorldChatData().addUser(uuid);
+		final String localSymbol = config.getString("Chat_Radius.Local_Chat.Override_Symbol", "#");
 
-					event.setMessage(message.replace(worldOverrideChar, ""));
+		if (!localSymbol.isEmpty() && Permissions.CHAT_RADIUS_LOCAL_OVERRIDE.hasPermission(player)) {
+			if (stripped.charAt(0) != localSymbol.charAt(0)) {
+				user.setRadius(RadiusType.LOCAL_CHAT);
 
-					return;
-				}
+				event.setMessage(message.replace(localSymbol, ""));
+
+				return;
 			}
 		}
 
-		if (this.plugin.api().getLocalChatData().containsUser(uuid)) {
-			recipients.clear();
+		final RadiusType type = user.getRadius();
 
-			for (Player receiver : this.plugin.getServer().getOnlinePlayers()) {
-				if (Methods.inRange(uuid, receiver.getUniqueId(), radius)) {
-					recipients.add(player);
-					recipients.add(receiver);
+		final boolean isSpying = user.hasState(PlayerState.SOCIAL_SPY);
+
+		switch (type) {
+			case WORLD_CHAT -> {
+				recipients.clear();
+
+				int radius = config.getInt("Chat_Radius.Block_Distance", 250);
+
+				for (final Player target : this.server.getOnlinePlayers()) {
+					if (Methods.inRange(uuid, target.getUniqueId(), radius)) {
+						recipients.add(player);
+						recipients.add(target);
+					}
+
+					if (isSpying) recipients.add(target);
 				}
-
-				if (plugin.api().getSpyChatData().containsUser(receiver.getUniqueId())) recipients.add(receiver);
 			}
-		}
 
-		if (this.plugin.api().getWorldChatData().containsUser(uuid)) {
-			recipients.clear();
+			case LOCAL_CHAT -> {
+				recipients.clear();
 
-			for (Player receiver : this.plugin.getServer().getOnlinePlayers()) {
-				if (Methods.inWorld(uuid, receiver.getUniqueId())) {
-					recipients.add(player);
-					recipients.add(receiver);
+				for (final Player target : this.server.getOnlinePlayers()) {
+					if (Methods.inWorld(uuid, target.getUniqueId())) {
+						recipients.add(player);
+						recipients.add(target);
+					}
+
+					if (isSpying) recipients.add(target);
 				}
-
-				if (this.plugin.api().getSpyChatData().containsUser(receiver.getUniqueId())) recipients.add(receiver);
 			}
 		}
 	}

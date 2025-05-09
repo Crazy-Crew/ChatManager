@@ -1,30 +1,35 @@
 package me.h1dd3nxn1nja.chatmanager;
 
-import com.ryderbelserion.chatmanager.ApiLoader;
 import com.ryderbelserion.chatmanager.api.CustomMetrics;
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
+import com.ryderbelserion.chatmanager.commands.BaseCommand;
 import com.ryderbelserion.chatmanager.enums.Files;
-import com.ryderbelserion.chatmanager.enums.Messages;
+import com.ryderbelserion.chatmanager.enums.commands.RadiusType;
+import com.ryderbelserion.chatmanager.listeners.TrafficListener;
+import com.ryderbelserion.chatmanager.managers.ConfigManager;
+import com.ryderbelserion.chatmanager.managers.ServerManager;
+import com.ryderbelserion.chatmanager.managers.UserManager;
 import com.ryderbelserion.chatmanager.plugins.papi.PlaceholderAPISupport;
-import com.ryderbelserion.chatmanager.plugins.VanishSupport;
 import com.ryderbelserion.chatmanager.plugins.VaultSupport;
-import com.ryderbelserion.core.api.enums.FileType;
-import com.ryderbelserion.core.api.support.PluginManager;
-import com.ryderbelserion.paper.FusionApi;
-import com.ryderbelserion.paper.files.FileManager;
-import me.h1dd3nxn1nja.chatmanager.commands.*;
-import me.h1dd3nxn1nja.chatmanager.commands.tabcompleter.*;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
+import com.ryderbelserion.fusion.core.managers.PluginExtension;
+import com.ryderbelserion.fusion.core.managers.files.FileManager;
+import com.ryderbelserion.fusion.core.managers.files.FileType;
+import com.ryderbelserion.fusion.paper.FusionPaper;
+import com.ryderbelserion.fusion.paper.files.LegacyFileManager;
 import me.h1dd3nxn1nja.chatmanager.listeners.*;
 import me.h1dd3nxn1nja.chatmanager.managers.AutoBroadcastManager;
 import me.h1dd3nxn1nja.chatmanager.support.PluginHandler;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.incendo.cloud.execution.ExecutionCoordinator;
+import org.incendo.cloud.paper.PaperCommandManager;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,178 +39,122 @@ public class ChatManager extends JavaPlugin {
         return JavaPlugin.getPlugin(ChatManager.class);
     }
 
-    private final FusionApi fusion = FusionApi.get();
-
-    private ApiLoader api;
-
     private PluginHandler pluginHandler;
+    private PluginExtension pluginExtension;
+    private LegacyFileManager legacyFileManager;
+    private FileManager fileManager;
+
+    private ServerManager serverManager;
+    private UserManager userManager;
 
     @Override
     public void onEnable() {
-        this.fusion.enable(this);
+        final FusionPaper fusion = new FusionPaper(getComponentLogger(), getDataPath());
 
-        this.fusion.getFileManager().addFile("config.yml", FileType.YAML)
-                .addFile("Messages.yml", FileType.YAML)
+        fusion.enable(this);
+
+        this.legacyFileManager = fusion.getLegacyFileManager();
+
+        this.legacyFileManager.addFile("config.yml", FileType.YAML)
                 .addFile("bannedwords.yml", FileType.YAML)
                 .addFile("AutoBroadcast.yml", FileType.YAML)
                 .addFile("bannedcommands.yml", FileType.YAML)
                 .addFolder("Logs", FileType.NONE);
 
-        Messages.addMissingMessages();
+        this.fileManager = fusion.getFileManager();
+
+        ConfigManager.load();
+
+        this.serverManager = new ServerManager();
+        this.userManager = new UserManager();
+
+        this.pluginExtension = fusion.getPluginExtension();
 
         List.of(
-                new VaultSupport(),
-                new VanishSupport(),
-                new PlaceholderAPISupport()
-        ).forEach(PluginManager::registerPlugin);
-
-        PluginManager.printPlugins();
+                new PlaceholderAPISupport(),
+                new VaultSupport()
+        ).forEach(this.pluginExtension::registerPlugin);
 
         new CustomMetrics().start();
-
-        this.api = new ApiLoader();
-        this.api.load();
 
         Methods.convert();
 
         this.pluginHandler = new PluginHandler();
         this.pluginHandler.load();
 
-        registerCommands();
         registerEvents();
         check();
-        setupChatRadius();
 
-        registerPermissions();
+        final FileConfiguration config = Files.CONFIG.getConfiguration();
+
+        if (config.getBoolean("Chat_Radius.Enable", false)) {
+            final String radius = config.getString("Chat_Radius.Default_Channel", "");
+
+            for (final Player player : getServer().getOnlinePlayers()) {
+                final PaperUser user = UserUtils.getUser(player);
+
+                user.setRadius(RadiusType.getType(radius));
+            }
+        }
+
+        new BaseCommand(PaperCommandManager.builder()
+                .executionCoordinator(ExecutionCoordinator.simpleCoordinator())
+                .buildOnEnable(this));
     }
 
     @Override
     public void onDisable() {
-        getServer().getGlobalRegionScheduler().cancelTasks(this);
-        getServer().getAsyncScheduler().cancelTasks(this);
+        final Server server = getServer();
 
-        for (Player player : getServer().getOnlinePlayers()) {
-            this.api.getChatCooldowns().removeUser(player.getUniqueId());
-            this.api.getCooldownTask().removeUser(player.getUniqueId());
-            this.api.getCmdCooldowns().removeUser(player.getUniqueId());
+        server.getGlobalRegionScheduler().cancelTasks(this);
+        server.getAsyncScheduler().cancelTasks(this);
+
+        for (final Player player : server.getOnlinePlayers()) {
+            final PaperUser user = UserUtils.getUser(player);
+
+            user.purge();
 
             BossBarUtil bossBar = new BossBarUtil();
             bossBar.removeAllBossBars(player);
         }
     }
 
-    public void registerCommands() {
-        CommandBroadcast broadCastCommand = new CommandBroadcast();
-
-        registerCommand(getCommand("Announcement"), null, broadCastCommand);
-        registerCommand(getCommand("Warning"), null, broadCastCommand);
-        registerCommand(getCommand("Broadcast"), null, broadCastCommand);
-
-        registerCommand(getCommand("AutoBroadcast"), new TabCompleteAutoBroadcast(), new CommandAutoBroadcast());
-
-        CommandLists listsCommand = new CommandLists();
-
-        registerCommand(getCommand("List"), null, listsCommand);
-        registerCommand(getCommand("Staff"), null, listsCommand);
-
-        registerCommand(getCommand("ClearChat"), null, new CommandClearChat());
-
-        registerCommand(getCommand("BannedCommands"), new TabCompleteBannedCommands(), new CommandBannedCommands());
-
-        registerCommand(getCommand("AntiSwear"), new TabCompleteAntiSwear(), new CommandAntiSwear());
-
-        CommandMessage commandMessage = new CommandMessage();
-
-        registerCommand(getCommand("Reply"), commandMessage, commandMessage);
-        registerCommand(getCommand("TogglePM"), commandMessage, commandMessage);
-        registerCommand(getCommand("Message"), new TabCompleteMessage(), commandMessage);
-
-        registerCommand(getCommand("StaffChat"), new CommandStaffChat(), new CommandStaffChat());
-
-        registerCommand(getCommand("ChatRadius"), new CommandRadius(), new CommandRadius());
-
-        registerCommand(getCommand("ChatManager"), new TabCompleteChatManager(), new CommandChatManager());
-
-        CommandSpy commandSpy = new CommandSpy();
-
-        registerCommand(getCommand("CommandSpy"), null, commandSpy);
-        registerCommand(getCommand("SocialSpy"), null, commandSpy);
-
-        registerCommand(getCommand("MuteChat"), null, new CommandMuteChat());
-
-        registerCommand(getCommand("PerWorldChat"), null, new CommandPerWorldChat());
-
-        registerCommand(getCommand("Ping"), null, new CommandPing());
-
-        registerCommand(getCommand("Rules"), null, new CommandRules());
-
-        registerCommand(getCommand("ToggleChat"), null, new CommandToggleChat());
-
-        registerCommand(getCommand("ToggleMentions"), null, new CommandToggleMentions());
-    }
-
-    private void registerCommand(PluginCommand pluginCommand, TabCompleter tabCompleter, CommandExecutor commandExecutor) {
-        if (pluginCommand != null) {
-            pluginCommand.setExecutor(commandExecutor);
-
-            if (tabCompleter != null) pluginCommand.setTabCompleter(tabCompleter);
-        }
-    }
-
     public void registerEvents() {
-        getServer().getPluginManager().registerEvents(new ListenerColor(), this);
+        final PluginManager pluginManager = getServer().getPluginManager();
 
-        getServer().getPluginManager().registerEvents(new ListenerAntiAdvertising(), this);
-        getServer().getPluginManager().registerEvents(new ListenerAntiBot(), this);
-        getServer().getPluginManager().registerEvents(new ListenerAntiSpam(), this);
+        pluginManager.registerEvents(new TrafficListener(), this); // register cache listener
+        pluginManager.registerEvents(new ChatListener(), this); // register chat listener
 
-        getServer().getPluginManager().registerEvents(new ListenerAntiUnicode(), this);
-        getServer().getPluginManager().registerEvents(new ListenerBannedCommand(), this);
-        getServer().getPluginManager().registerEvents(new ListenerCaps(), this);
+        pluginManager.registerEvents(new ListenerColor(), this);
 
-        getServer().getPluginManager().registerEvents(new ListenerChatFormat(), this);
-        getServer().getPluginManager().registerEvents(new ListenerRadius(), this);
-        getServer().getPluginManager().registerEvents(new ListenerGrammar(), this);
-        getServer().getPluginManager().registerEvents(new ListenerLogs(), this);
-        getServer().getPluginManager().registerEvents(new CommandMOTD(), this);
+        pluginManager.registerEvents(new ListenerAntiAdvertising(), this);
+        pluginManager.registerEvents(new ListenerAntiSpam(), this);
+        pluginManager.registerEvents(new ListenerAntiBot(), this);
 
-        getServer().getPluginManager().registerEvents(new ListenerMentions(), this);
-        getServer().getPluginManager().registerEvents(new ListenerMuteChat(), this);
-        getServer().getPluginManager().registerEvents(new ListenerPerWorldChat(), this);
-        getServer().getPluginManager().registerEvents(new ListenerPlayerJoin(), this);
-        getServer().getPluginManager().registerEvents(new ListenerSpy(), this);
-        getServer().getPluginManager().registerEvents(new ListenerStaffChat(), this);
-        getServer().getPluginManager().registerEvents(new ListenerSwear(), this);
-        getServer().getPluginManager().registerEvents(new ListenerToggleChat(), this);
-    }
+        pluginManager.registerEvents(new ListenerBannedCommand(), this);
+        pluginManager.registerEvents(new ListenerAntiUnicode(), this);
+        pluginManager.registerEvents(new ListenerCaps(), this);
 
-    public void setupChatRadius() {
-        FileConfiguration config = Files.CONFIG.getConfiguration();
+        pluginManager.registerEvents(new ListenerChatFormat(), this);
+        pluginManager.registerEvents(new ListenerRadius(), this);
+        pluginManager.registerEvents(new ListenerLogs(), this);
 
-        if (config.getBoolean("Chat_Radius.Enable")) {
-            for (Player all : getServer().getOnlinePlayers()) {
-                if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Local")) {
-                    this.api.getLocalChatData().addUser(all.getUniqueId());
-                } else if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("Global")) {
-                    this.api.getGlobalChatData().addUser(all.getUniqueId());
-                } else if (config.getString("Chat_Radius.Default_Channel").equalsIgnoreCase("World")) {
-                    this.api.getWorldChatData().addUser(all.getUniqueId());
-                }
-            }
-        }
+        pluginManager.registerEvents(new ListenerPerWorldChat(), this);
+        pluginManager.registerEvents(new ListenerPlayerJoin(), this);
+        pluginManager.registerEvents(new ListenerStaffChat(), this);
+        pluginManager.registerEvents(new ListenerMentions(), this);
+        pluginManager.registerEvents(new ListenerSwear(), this);
+        pluginManager.registerEvents(new ListenerSpy(), this);
     }
 
     public void check() {
-        FileConfiguration autoBroadcast = Files.AUTO_BROADCAST.getConfiguration();
-        if (autoBroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable")) AutoBroadcastManager.actionbarMessages();
-        if (autoBroadcast.getBoolean("Auto_Broadcast.Global_Messages.Enable")) AutoBroadcastManager.globalMessages();
-        if (autoBroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Enable")) AutoBroadcastManager.perWorldMessages();
-        if (autoBroadcast.getBoolean("Auto_Broadcast.Title_Messages.Enable")) AutoBroadcastManager.titleMessages();
-        if (autoBroadcast.getBoolean("Auto_Broadcast.Bossbar_Messages.Enable")) AutoBroadcastManager.bossBarMessages();
-    }
+        final FileConfiguration autoBroadcast = Files.AUTO_BROADCAST.getConfiguration();
 
-    public ApiLoader api() {
-        return this.api;
+        if (autoBroadcast.getBoolean("Auto_Broadcast.Actionbar_Messages.Enable", false)) AutoBroadcastManager.actionbarMessages();
+        if (autoBroadcast.getBoolean("Auto_Broadcast.Global_Messages.Enable", false)) AutoBroadcastManager.globalMessages();
+        if (autoBroadcast.getBoolean("Auto_Broadcast.Per_World_Messages.Enable", false)) AutoBroadcastManager.perWorldMessages();
+        if (autoBroadcast.getBoolean("Auto_Broadcast.Title_Messages.Enable", false)) AutoBroadcastManager.titleMessages();
+        if (autoBroadcast.getBoolean("Auto_Broadcast.Bossbar_Messages.Enable", false)) AutoBroadcastManager.bossBarMessages();
     }
 
     public PluginHandler getPluginManager() {
@@ -213,6 +162,8 @@ public class ChatManager extends JavaPlugin {
     }
 
     private void registerPermissions() {
+        final PluginManager pluginManager = getServer().getPluginManager();
+
         Arrays.stream(Permissions.values()).toList().forEach(permission -> {
             Permission newPermission = new Permission(
                     permission.getNode(),
@@ -221,11 +172,27 @@ public class ChatManager extends JavaPlugin {
                     permission.getChildren()
             );
 
-            getServer().getPluginManager().addPermission(newPermission);
+            pluginManager.addPermission(newPermission);
         });
     }
 
+    public LegacyFileManager getLegacyFileManager() {
+        return this.legacyFileManager;
+    }
+
+    public PluginExtension getPluginExtension() {
+        return pluginExtension;
+    }
+
     public FileManager getFileManager() {
-        return this.fusion.getFileManager();
+        return this.fileManager;
+    }
+
+    public ServerManager getServerManager() {
+        return this.serverManager;
+    }
+
+    public UserManager getUserManager() {
+        return this.userManager;
     }
 }

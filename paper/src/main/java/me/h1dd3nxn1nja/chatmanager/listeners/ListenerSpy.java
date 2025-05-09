@@ -1,9 +1,13 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
+import com.ryderbelserion.chatmanager.enums.core.PlayerState;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,32 +22,41 @@ public class ListenerSpy implements Listener {
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
 
+	private final Server server = this.plugin.getServer();
+
 	@EventHandler(ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
-		FileConfiguration config = Files.CONFIG.getConfiguration();
-		//FileConfiguration messages = Files.MESSAGES.getConfiguration();
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		List<String> blacklist = config.getStringList("Command_Spy.Blacklist_Commands");
+		final List<String> blacklist = config.getStringList("Command_Spy.Blacklist_Commands");
 
-		Player player = event.getPlayer();
-		String message = event.getMessage();
+		final Player player = event.getPlayer();
 
-		if (!player.hasPermission(Permissions.BYPASS_COMMAND_SPY.getNode())) {
-			for (String command : blacklist) {
-				if (message.toLowerCase().startsWith(command)) return;
+		if (Permissions.BYPASS_COMMAND_SPY.hasPermission(player)) return;
+
+		final String message = event.getMessage();
+
+		boolean hasMatch = false;
+
+		for (final String command : blacklist) {
+			if (message.toLowerCase().startsWith(command)) {
+				hasMatch = true;
+
+				break;
 			}
+		}
 
-			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
+		if (hasMatch) return;
 
-				boolean isValid = this.plugin.api().getCommandSpyData().containsUser(staff.getUniqueId());
+		for (final Player target : this.server.getOnlinePlayers()) {
+			final PaperUser user = UserUtils.getUser(target.getUniqueId());
 
-				if (!isValid || !staff.hasPermission(Permissions.COMMAND_SPY.getNode())) return;
+			if (user.hasState(PlayerState.COMMAND_SPY) || !Permissions.COMMAND_SPY.hasPermission(target)) continue;
 
-				Messages.COMMAND_SPY_FORMAT.sendMessage(staff, new HashMap<>() {{
-					put("{player}", player.getName());
-					put("{command}", message);
-				}});
-			}
+			Messages.COMMAND_SPY_FORMAT.sendMessage(target, new HashMap<>() {{
+				put("{player}", player.getName());
+				put("{command}", message);
+			}});
 		}
 	}
 }

@@ -3,28 +3,37 @@ package me.h1dd3nxn1nja.chatmanager;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import com.ryderbelserion.chatmanager.api.configs.locale.RootKeys;
 import com.ryderbelserion.chatmanager.enums.Files;
-import com.ryderbelserion.core.api.support.PluginManager;
+import com.ryderbelserion.chatmanager.managers.ConfigManager;
+import com.ryderbelserion.fusion.core.managers.PluginExtension;
+import org.bukkit.Server;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import me.clip.placeholderapi.PlaceholderAPI;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class Methods {
 
-	@NotNull
 	private static final ChatManager plugin = ChatManager.get();
 
+	private static final Server server = plugin.getServer();
+
+	private static final PluginExtension extension = plugin.getPluginExtension();
+
 	public static void playSound(FileConfiguration config, String path) {
-		String sound = config.getString(path + ".value");
-		boolean isEnabled = config.contains(path + ".toggle") && config.getBoolean(path + ".toggle");
-		double volume = config.contains(path + ".volume") ? config.getDouble(path + ".volume") : 1.0;
-		double pitch = config.contains(path + ".pitch") ? config.getDouble(path + ".pitch") : 1.0;
+		String sound = config.getString(path + ".value", "");
+
+		if (sound.isEmpty()) return;
+
+		boolean isEnabled = config.getBoolean(path + ".toggle", false);
+		double volume = config.getDouble(path + ".volume", 1.0);
+		double pitch = config.getDouble(path + ".pitch", 1.0);
 
 		if (isEnabled) {
-			for (Player online : plugin.getServer().getOnlinePlayers()) {
+			for (final Player online : server.getOnlinePlayers()) {
 				try {
 					online.playSound(online.getLocation(), Sound.valueOf(sound), (float) volume, (float) pitch);
 				} catch (IllegalArgumentException ignored) {}
@@ -33,10 +42,13 @@ public class Methods {
 	}
 
 	public static void playSound(Player player, FileConfiguration config, String path) {
-		String sound = config.getString(path + ".value");
-		boolean isEnabled = config.contains(path + ".toggle") && config.getBoolean(path + ".toggle");
-		double volume = config.contains(path + ".volume") ? config.getDouble(path + ".volume") : 1.0;
-		double pitch = config.contains(path + ".pitch") ? config.getDouble(path + ".pitch") : 1.0;
+		String sound = config.getString(path + ".value", "");
+
+		if (sound.isEmpty()) return;
+
+		boolean isEnabled = config.getBoolean(path + ".toggle", false);
+		double volume = config.getDouble(path + ".volume", 1.0);
+		double pitch = config.getDouble(path + ".pitch", 1.0);
 
 		if (isEnabled) {
 			player.playSound(player.getLocation(), Sound.valueOf(sound), (float) volume, (float) pitch);
@@ -266,32 +278,22 @@ public class Methods {
 
 		return org.bukkit.ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
 	}
-	
+
+	public static String getPrefix(@Nullable final CommandSender sender) {
+		return color(ConfigManager.getLocale(sender).getProperty(RootKeys.message_prefix));
+	}
+
 	public static String getPrefix() {
-		return color(Files.MESSAGES.getConfiguration().getString("Message.Prefix"));
-	}
-
-	public static String getPrefix(String msg) {
-		return getPrefix() + color(msg);
-	}
-
-	private static boolean isMuted;
-
-	public static boolean isMuted() {
-	    return isMuted;
-	}
-
-	public static void setMuted() {
-		isMuted = !isMuted;
+		return getPrefix(null);
 	}
 	
 	public static void tellConsole(String message, boolean prefix) {
-		sendMessage(plugin.getServer().getConsoleSender(), message, prefix);
+		sendMessage(server.getConsoleSender(), message, prefix);
 	}
 	
 	public static boolean inRange(UUID uuid, UUID receiver, int radius) {
-		Player player = plugin.getServer().getPlayer(uuid);
-		Player other = plugin.getServer().getPlayer(receiver);
+		Player player = server.getPlayer(uuid);
+		Player other = server.getPlayer(receiver);
 
 		if (other.getLocation().getWorld().equals(player.getLocation().getWorld())) {
 			return other.getLocation().distanceSquared(player.getLocation()) <= radius * radius;
@@ -301,8 +303,8 @@ public class Methods {
 	}
 	
 	public static boolean inWorld(UUID uuid, UUID receiver) {
-		Player player = plugin.getServer().getPlayer(uuid);
-		Player other = plugin.getServer().getPlayer(receiver);
+		Player player = server.getPlayer(uuid);
+		Player other = server.getPlayer(receiver);
 
 		return other.getLocation().getWorld().equals(player.getLocation().getWorld());
 	}
@@ -334,7 +336,7 @@ public class Methods {
 	public static void broadcast(Player player, String message) {
 		if (message == null || message.isEmpty()) return;
 
-		plugin.getServer().broadcastMessage(placeholders(getPrefix().isEmpty(), player, color(message)));
+		server.broadcastMessage(placeholders(getPrefix().isEmpty(), player, color(message)));
 	}
 
 	public static String placeholders(final boolean isStaffChat, final boolean ignorePrefix, final boolean parsePapi, final String prefix, final CommandSender sender, final String message) {
@@ -345,7 +347,7 @@ public class Methods {
 		}
 
 		if (sender instanceof Player player) {
-			if (parsePapi && PluginManager.isEnabled("PlaceholderAPI")) {
+			if (parsePapi && extension.isEnabled("PlaceholderAPI")) {
 				clonedMessage = PlaceholderAPI.setPlaceholders(player, clonedMessage);
 			}
 

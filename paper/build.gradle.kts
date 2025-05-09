@@ -20,6 +20,8 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.bundles.cloud.paper)
+
     implementation(libs.fusion.paper)
 
     implementation(libs.metrics)
@@ -36,6 +38,8 @@ dependencies {
         exclude("org.spigotmc", "spigot-api")
         exclude("org.bstats", "bstats-bukkit")
     }
+
+    compileOnly(libs.configurate.yaml)
 }
 
 tasks {
@@ -49,6 +53,7 @@ tasks {
 
         listOf(
             "com.ryderbelserion.fusion",
+            "org.incendo",
             "org.bstats"
         ).forEach {
             relocate(it, "libs.$it")
@@ -70,10 +75,12 @@ tasks {
         inputs.properties("description" to project.description)
         inputs.properties("website" to rootProject.properties["website"].toString())
 
-        filesMatching("plugin.yml") {
+        filesMatching("paper-plugin.yml") {
             expand(inputs.properties)
         }
     }
+
+    runPaper.folia.registerTask()
 
     runServer {
         jvmArgs("-Dnet.kyori.ansi.colorLevel=truecolor")

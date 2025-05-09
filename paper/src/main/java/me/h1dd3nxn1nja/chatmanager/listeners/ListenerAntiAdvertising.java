@@ -1,87 +1,102 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
+import com.ryderbelserion.chatmanager.api.objects.PaperUser;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
-import com.ryderbelserion.paper.enums.Scheduler;
-import com.ryderbelserion.paper.util.scheduler.FoliaScheduler;
+import com.ryderbelserion.chatmanager.enums.core.PlayerState;
+import com.ryderbelserion.chatmanager.utils.DispatchUtils;
+import com.ryderbelserion.chatmanager.utils.UserUtils;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.Server;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.jetbrains.annotations.NotNull;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@SuppressWarnings("ALL")
 public class ListenerAntiAdvertising implements Listener {
 
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
 
+	private final Server server = this.plugin.getServer();
+
+	private final File dataFolder = this.plugin.getDataFolder();
+
+	private final ConsoleCommandSender console = this.server.getConsoleSender();
+
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-	public void onChat(AsyncPlayerChatEvent event) {
-		FileConfiguration config = Files.CONFIG.getConfiguration();
-
-		Player player = event.getPlayer();
-		String playerName = event.getPlayer().getName();
-		String message = event.getMessage();
-		Date time = Calendar.getInstance().getTime();
-
-		List<String> whitelisted = config.getStringList("Anti_Advertising.Whitelist");
-
-		Pattern firstPattern = Pattern.compile("[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[0o]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}");
-		Pattern secondPattern = Pattern.compile("[a-zA-Z0-9\\-.]+(\\.|d[o0]t|\\(d[o0]t\\)|-|,)+(com|org|net|co|uk|sk|biz|mobi|xxx|io|ts|adv|de|eu|noip|gs|au|pl|cz|ru)");
-
-		Matcher firstMatchIncrease = firstPattern.matcher(event.getMessage().toLowerCase().replaceAll("\\s+", ""));
-		Matcher secondMatchIncrease = secondPattern.matcher(event.getMessage().toLowerCase().replaceAll("\\s+", ""));
-
-		Matcher firstMatch = firstPattern.matcher(event.getMessage().toLowerCase());
-		Matcher secondMatch = secondPattern.matcher(event.getMessage().toLowerCase());
+	public void onChat(AsyncChatEvent event) {
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (!config.getBoolean("Anti_Advertising.Chat.Enable", false)) return;
 
-		boolean isValid = this.plugin.api().getStaffChatData().containsUser(player.getUniqueId());
+		final Player player = event.getPlayer();
+		final UUID uuid = player.getUniqueId();
 
-		if (isValid && player.hasPermission(Permissions.BYPASS_ANTI_ADVERTISING.getNode())) return;
+		final PaperUser user = UserUtils.getUser(uuid);
 
-		for (String allowed : whitelisted) {
-			if (event.getMessage().contains(allowed.toLowerCase())) return;
+		if (user.hasState(PlayerState.STAFF_CHAT) || Permissions.BYPASS_ANTI_ADVERTISING.hasPermission(player)) return;
+
+		final String playerName = player.getName();
+		final String message = event.signedMessage().message();
+		final Date time = Calendar.getInstance().getTime();
+
+		final List<String> whitelisted = config.getStringList("Anti_Advertising.Whitelist");
+
+		final Pattern firstPattern = Pattern.compile("[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[0o]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}");
+		final Pattern secondPattern = Pattern.compile("[a-zA-Z0-9\\-.]+(\\.|d[o0]t|\\(d[o0]t\\)|-|,)+(com|org|net|co|uk|sk|biz|mobi|xxx|io|ts|adv|de|eu|noip|gs|au|pl|cz|ru)");
+
+		final Matcher firstMatchIncrease = firstPattern.matcher(message.replaceAll("\\s+", ""));
+		final Matcher secondMatchIncrease = secondPattern.matcher(message.replaceAll("\\s+", ""));
+
+		final Matcher firstMatch = firstPattern.matcher(message);
+		final Matcher secondMatch = secondPattern.matcher(message);
+
+		for (final String allowed : whitelisted) {
+			if (message.contains(allowed.toLowerCase())) return;
 		}
 
 		if (config.getBoolean("Anti_Advertising.Chat.Increase_Sensitivity", false)) {
-			chatMatch(event, player, playerName, message, time, firstMatchIncrease, secondMatchIncrease);
+			match(event, player, playerName, message, time, firstMatchIncrease, secondMatchIncrease);
 
 			return;
 		}
 
-		chatMatch(event, player, playerName, message, time, firstMatch, secondMatch);
+		match(event, player, playerName, message, time, firstMatch, secondMatch);
 	}
 
-	private void chatMatch(AsyncPlayerChatEvent event, Player player, String playerName, String message, Date time, Matcher firstMatch, Matcher secondMatch) {
+	private void match(final AsyncChatEvent event, final Player player, final String playerName, final String message, final Date time, final Matcher firstMatch, final Matcher secondMatch) {
 		if (!firstMatch.find() || !secondMatch.find()) return;
 
-		FileConfiguration config = Files.CONFIG.getConfiguration();
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		event.setCancelled(true);
 
 		Messages.ANTI_ADVERTISING_CHAT_MESSAGE.sendMessage(player);
 
 		if (config.getBoolean("Anti_Advertising.Chat.Notify_Staff", false)) {
-			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
+			for (final Player staff : this.server.getOnlinePlayers()) {
 				if (staff.hasPermission(Permissions.NOTIFY_ANTI_ADVERTISING.getNode())) {
 					Messages.ANTI_ADVERTISING_CHAT_NOTIFY_STAFF.sendMessage(staff, new HashMap<>() {{
 						put("{player}", player.getName());
@@ -90,36 +105,23 @@ public class ListenerAntiAdvertising implements Listener {
 				}
 			}
 
-			String msg = Messages.ANTI_ADVERTISING_CHAT_NOTIFY_STAFF.getMessage(this.plugin.getServer().getConsoleSender(), new HashMap<>() {{
+			Methods.tellConsole(Messages.ANTI_ADVERTISING_CHAT_NOTIFY_STAFF.getMessage(this.console, new HashMap<>() {{
 				put("{player}", player.getName());
 				put("{message}", message);
-			}});
-
-			Methods.tellConsole(msg, false);
+			}}), false);
 		}
 
 		if (config.getBoolean("Anti_Advertising.Chat.Execute_Command", false)) {
-			if (config.contains("Anti_Advertising.Chat.Executed_Command")) {
-				String command = config.getString("Anti_Advertising.Chat.Executed_Command").replace("{player}", player.getName());
-				List<String> commands = config.getStringList("Anti_Advertising.Chat.Executed_Command");
-
-				new FoliaScheduler(Scheduler.global_scheduler) {
-					@Override
-					public void run() {
-						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
-
-						for (String cmd : commands) {
-							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
-						}
-					}
-				}.runNow();
-			}
+			DispatchUtils.dispatchCommand(player, new ArrayList<>() {{
+				addAll(config.getStringList("Anti_Advertising.Chat.Executed_Command"));
+				add(config.getString("Anti_Advertising.Chat.Executed_Command", ""));
+			}});
 		}
 
 		if (!config.getBoolean("Anti_Advertising.Chat.Log_Advertisers", false)) return;
 
 		try {
-			FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Advertisements.txt"), true);
+			FileWriter fw = new FileWriter(new File(new File(this.dataFolder, "Logs"), "Advertisements.txt"), true);
 			BufferedWriter bw2 = new BufferedWriter(fw);
 			bw2.write("[" + time + "] [Chat] " + playerName + ": " + message.replaceAll("§", "&"));
 			bw2.newLine();
@@ -132,37 +134,39 @@ public class ListenerAntiAdvertising implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
-		FileConfiguration config = Files.CONFIG.getConfiguration();
-
-		Player player = event.getPlayer();
-		String playerName = event.getPlayer().getName();
-		String message = event.getMessage();
-		Date time = Calendar.getInstance().getTime();
-
-		List<String> whitelisted = config.getStringList("Anti_Advertising.Whitelist");
-		List<String> whitelist = config.getStringList("Anti_Advertising.Commands.Whitelist");
-
-		Pattern firstPattern = Pattern.compile("[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[0o]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}");
-		Pattern secondPattern = Pattern.compile("[a-zA-Z0-9\\-.]+(\\.|d[o0]t|\\(d[o0]t\\)|-|,)+(com|org|net|co|uk|sk|biz|mobi|xxx|io|ts|adv|de|eu|noip|gs|au|pl|cz|ru)");
-
-		Matcher firstMatchIncrease = firstPattern.matcher(event.getMessage().toLowerCase().replaceAll("\\s+", ""));
-		Matcher secondMatchIncrease = secondPattern.matcher(event.getMessage().toLowerCase().replaceAll("\\s+", ""));
-
-		Matcher firstMatch = firstPattern.matcher(event.getMessage().toLowerCase());
-		Matcher secondMatch = secondPattern.matcher(event.getMessage().toLowerCase());
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (!config.getBoolean("Anti_Advertising.Commands.Enable", false)) return;
 
-		boolean isValid = this.plugin.api().getStaffChatData().containsUser(player.getUniqueId());
+		final Player player = event.getPlayer();
+		final UUID uuid = player.getUniqueId();
 
-		if (isValid && player.hasPermission(Permissions.BYPASS_ANTI_ADVERTISING.getNode())) return;
+		final PaperUser user = UserUtils.getUser(uuid);
 
-		for (String allowed : whitelisted) {
-			if (event.getMessage().contains(allowed.toLowerCase())) return;
+		if (user.hasState(PlayerState.STAFF_CHAT) || Permissions.BYPASS_ANTI_ADVERTISING.hasPermission(player)) return;
+
+		final String playerName = player.getName();
+		final String message = event.getMessage();
+		final Date time = Calendar.getInstance().getTime();
+
+		final List<String> whitelisted = config.getStringList("Anti_Advertising.Whitelist");
+		final List<String> whitelist = config.getStringList("Anti_Advertising.Commands.Whitelist");
+
+		final Pattern firstPattern = Pattern.compile("[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[0o]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}");
+		final Pattern secondPattern = Pattern.compile("[a-zA-Z0-9\\-.]+(\\.|d[o0]t|\\(d[o0]t\\)|-|,)+(com|org|net|co|uk|sk|biz|mobi|xxx|io|ts|adv|de|eu|noip|gs|au|pl|cz|ru)");
+
+		final Matcher firstMatchIncrease = firstPattern.matcher(message.toLowerCase().replaceAll("\\s+", ""));
+		final Matcher secondMatchIncrease = secondPattern.matcher(message.toLowerCase().replaceAll("\\s+", ""));
+
+		final Matcher firstMatch = firstPattern.matcher(message.toLowerCase());
+		final Matcher secondMatch = secondPattern.matcher(message.toLowerCase());
+
+		for (final String allowed : whitelisted) {
+			if (message.contains(allowed.toLowerCase())) return;
 		}
 
-		for (String allowed : whitelist) {
-			if (event.getMessage().toLowerCase().contains(allowed)) return;
+		for (final String allowed : whitelist) {
+			if (message.toLowerCase().contains(allowed)) return;
 		}
 
 		if (config.getBoolean("Anti_Advertising.Commands.Increase_Sensitivity", false)) {
@@ -174,17 +178,17 @@ public class ListenerAntiAdvertising implements Listener {
 		increasedSensitivity(event, player, playerName, message, time, firstMatch, secondMatch);
 	}
 
-	private void increasedSensitivity(PlayerCommandPreprocessEvent event, Player player, String playerName, String message, Date time, Matcher firstMatch, Matcher secondMatch) {
+	private void increasedSensitivity(final PlayerCommandPreprocessEvent event, final Player player, final String playerName, final String message, final Date time, final Matcher firstMatch, final Matcher secondMatch) {
 		if (!firstMatch.find() || !secondMatch.find()) return;
 
-		FileConfiguration config = Files.CONFIG.getConfiguration();
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		event.setCancelled(true);
 
 		Messages.ANTI_ADVERTISING_COMMANDS_MESSAGE.sendMessage(player);
 
-		if (config.getBoolean("Anti_Advertising.Commands.Notify_Staff")) {
-			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
+		if (config.getBoolean("Anti_Advertising.Commands.Notify_Staff", false)) {
+			for (final Player staff : this.server.getOnlinePlayers()) {
 				if (staff.hasPermission(Permissions.NOTIFY_ANTI_ADVERTISING.getNode())) {
 					Messages.ANTI_ADVERTISING_COMMANDS_NOTIFY_STAFF.sendMessage(staff, new HashMap<>() {{
 						put("{player}", player.getName());
@@ -193,36 +197,23 @@ public class ListenerAntiAdvertising implements Listener {
 				}
 			}
 
-			String msg = Messages.ANTI_ADVERTISING_COMMANDS_NOTIFY_STAFF.getMessage(this.plugin.getServer().getConsoleSender(), new HashMap<>() {{
+			Methods.tellConsole(Messages.ANTI_ADVERTISING_COMMANDS_NOTIFY_STAFF.getMessage(console, new HashMap<>() {{
 				put("{player}", player.getName());
 				put("{message}", message);
-			}});
-
-			Methods.tellConsole(msg, false);
+			}}), false);
 		}
 
 		if (config.getBoolean("Anti_Advertising.Commands.Execute_Command", false)) {
-			if (config.contains("Anti_Advertising.Commands.Executed_Command")) {
-				String command = config.getString("Anti_Advertising.Commands.Executed_Command").replace("{player}", player.getName());
-				List<String> commands = config.getStringList("Anti_Advertising.Commands.Executed_Command");
-
-				new FoliaScheduler(Scheduler.global_scheduler) {
-					@Override
-					public void run() {
-						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
-
-						for (String cmd : commands) {
-							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
-						}
-					}
-				}.runNow();
-			}
+			DispatchUtils.dispatchCommand(player, new ArrayList<>() {{
+				addAll(config.getStringList("Anti_Advertising.Commands.Executed_Command"));
+				add(config.getString("Anti_Advertising.Commands.Executed_Command", ""));
+			}});
 		}
 
 		if (!config.getBoolean("Anti_Advertising.Commands.Log_Advertisers", false)) return;
 
 		try {
-			FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Advertisements.txt"), true);
+			FileWriter fw = new FileWriter(new File(new File(this.dataFolder, "Logs"), "Advertisements.txt"), true);
 			BufferedWriter bw2 = new BufferedWriter(fw);
 			bw2.write("[" + time + "] [Command] " + playerName + ": " + message.replaceAll("§", "&"));
 			bw2.newLine();
@@ -235,60 +226,65 @@ public class ListenerAntiAdvertising implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onSign(SignChangeEvent event) {
-		FileConfiguration config = Files.CONFIG.getConfiguration();
-
-		Player player = event.getPlayer();
-		String playerName = event.getPlayer().getName();
-		Date time = Calendar.getInstance().getTime();
-
-		List<String> whitelisted = config.getStringList("Anti_Advertising.Whitelist");
-
-		Pattern firstPattern = Pattern.compile("[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[0o]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}");
-		Pattern secondPattern = Pattern.compile("[a-zA-Z0-9\\-.]+(\\.|d[o0]t|\\(d[o0]t\\)|-|,)+(com|org|net|co|uk|sk|biz|mobi|xxx|io|ts|adv|de|eu|noip|gs|au|pl|cz|ru)");
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (!config.getBoolean("Anti_Advertising.Signs.Enable", false)) return;
 
+		final Player player = event.getPlayer();
+		final UUID uuid = player.getUniqueId();
+
+		final PaperUser user = UserUtils.getUser(uuid);
+
+		final String playerName = player.getName();
+		final Date time = Calendar.getInstance().getTime();
+
+		final List<String> whitelisted = config.getStringList("Anti_Advertising.Whitelist");
+
+		final Pattern firstPattern = Pattern.compile("[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[o0]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}(\\.|d[o0]t|\\(d[0o]t\\)|-|,|(\\W|\\d|_)*\\s)+[0-9]{1,3}");
+		final Pattern secondPattern = Pattern.compile("[a-zA-Z0-9\\-.]+(\\.|d[o0]t|\\(d[o0]t\\)|-|,)+(com|org|net|co|uk|sk|biz|mobi|xxx|io|ts|adv|de|eu|noip|gs|au|pl|cz|ru)");
+
 		for (int line = 0; line < 4; line++) {
-			String message = event.getLine(line);
+			final Component component = event.line(line);
 
-			boolean isValid = plugin.api().getStaffChatData().containsUser(player.getUniqueId());
+			if (component == null) continue;
 
-			if (!isValid && !player.hasPermission(Permissions.BYPASS_ANTI_ADVERTISING.getNode())) continue;
+			final String message = PlainTextComponentSerializer.plainText().serialize(component);
 
-			for (String allowed : whitelisted) {
-				assert message != null;
-				if (message.toLowerCase().contains(allowed)) return;
+			if (user.hasState(PlayerState.STAFF_CHAT) || Permissions.BYPASS_ANTI_ADVERTISING.hasPermission(player)) continue;
+
+			for (final String allowed : whitelisted) {
+                if (message.toLowerCase().contains(allowed)) return;
 			}
 
-			String str = "[" + time + "] [Sign] " + playerName + ": Line: " + line + " Text: " + message.replaceAll("§", "&");
+			final String str = "[" + time + "] [Sign] " + playerName + ": Line: " + line + " Text: " + message.replaceAll("§", "&");
 
-			if (config.getBoolean("Anti_Advertising.Signs.Increase_Sensitivity")) {
-				Matcher firstMatchIncrease = firstPattern.matcher(message.toLowerCase().replaceAll("\\s+", ""));
-				Matcher secondMatchIncrease = secondPattern.matcher(message.toLowerCase().replaceAll("\\s+", ""));
+			if (config.getBoolean("Anti_Advertising.Signs.Increase_Sensitivity", false)) {
+				final Matcher firstMatchIncrease = firstPattern.matcher(message.toLowerCase().replaceAll("\\s+", ""));
+				final Matcher secondMatchIncrease = secondPattern.matcher(message.toLowerCase().replaceAll("\\s+", ""));
 
 				if (findMatches(event, player, message, str, firstMatchIncrease, secondMatchIncrease)) return;
 
 				return;
 			}
 
-			Matcher firstMatch = firstPattern.matcher(message.toLowerCase());
-			Matcher secondMatch = secondPattern.matcher(message.toLowerCase());
+			final Matcher firstMatch = firstPattern.matcher(message.toLowerCase());
+			final Matcher secondMatch = secondPattern.matcher(message.toLowerCase());
 
 			if (findMatches(event, player, message, str, firstMatch, secondMatch)) return;
 		}
 	}
 
-	private boolean findMatches(SignChangeEvent event, Player player, String message, String str, Matcher firstMatch, Matcher secondMatch) {
+	private boolean findMatches(final SignChangeEvent event, final Player player, final String message, final String str, final Matcher firstMatch, final Matcher secondMatch) {
 		if (!firstMatch.find() || !secondMatch.find()) return false;
 
-		FileConfiguration config = Files.CONFIG.getConfiguration();
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		event.setCancelled(true);
 
 		Messages.ANTI_ADVERTISING_SIGNS_MESSAGE.sendMessage(player);
 
-		if (config.getBoolean("Anti_Advertising.Signs.Notify_Staff")) {
-			for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
+		if (config.getBoolean("Anti_Advertising.Signs.Notify_Staff", false)) {
+			for (final Player staff : this.server.getOnlinePlayers()) {
 				if (staff.hasPermission(Permissions.NOTIFY_ANTI_ADVERTISING.getNode())) {
 					Messages.ANTI_ADVERTISING_SIGNS_NOTIFY_STAFF.sendMessage(staff, new HashMap<>() {{
 						put("{player}", player.getName());
@@ -297,35 +293,22 @@ public class ListenerAntiAdvertising implements Listener {
 				}
 			}
 
-			String msg = Messages.ANTI_ADVERTISING_SIGNS_NOTIFY_STAFF.getMessage(this.plugin.getServer().getConsoleSender(), new HashMap<>() {{
+			Methods.tellConsole(Messages.ANTI_ADVERTISING_SIGNS_NOTIFY_STAFF.getMessage(console, new HashMap<>() {{
 				put("{player}", player.getName());
 				put("{message}", message);
-			}});
-
-			Methods.tellConsole(msg, false);
+			}}), false);
 		}
 
 		if (config.getBoolean("Anti_Advertising.Signs.Execute_Command", false)) {
-			if (config.contains("Anti_Advertising.Signs.Executed_Command")) {
-				String command = config.getString("Anti_Advertising.Signs.Executed_Command").replace("{player}", player.getName());
-				List<String> commands = config.getStringList("Anti_Advertising.Signs.Executed_Command");
-
-				new FoliaScheduler(Scheduler.global_scheduler) {
-					@Override
-					public void run() {
-						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
-
-						for (String cmd : commands) {
-							plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
-						}
-					}
-				}.runNow();
-			}
+			DispatchUtils.dispatchCommand(player, new ArrayList<>() {{
+				addAll(config.getStringList("Anti_Advertising.Signs.Executed_Command"));
+				add(config.getString("Anti_Advertising.Signs.Executed_Command", ""));
+			}});
 		}
 
 		if (config.getBoolean("Anti_Advertising.Signs.Log_Advertisers", false)) {
 			try {
-				FileWriter fw = new FileWriter(new File(new File(this.plugin.getDataFolder(), "Logs"), "Advertisements.txt"), true);
+				FileWriter fw = new FileWriter(new File(new File(this.dataFolder, "Logs"), "Advertisements.txt"), true);
 				BufferedWriter bw2 = new BufferedWriter(fw);
 				bw2.write(str);
 				bw2.newLine();

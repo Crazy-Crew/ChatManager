@@ -1,6 +1,6 @@
 package com.ryderbelserion.chatmanager.plugins;
 
-import com.ryderbelserion.core.api.support.interfaces.Plugin;
+import com.ryderbelserion.fusion.core.api.interfaces.IPlugin;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
@@ -9,7 +9,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public class VaultSupport implements Plugin {
+public class VaultSupport implements IPlugin {
 
     private static final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
@@ -22,7 +22,7 @@ public class VaultSupport implements Plugin {
     private static Chat chat;
 
     @Override
-    public Plugin init() {
+    public @NotNull IPlugin init() {
         if (!isEnabled()) {
             return this;
         }
@@ -38,19 +38,19 @@ public class VaultSupport implements Plugin {
         return "Vault";
     }
 
-    public static String getPlayerPrefix(Player player) {
+    public static String getPlayerPrefix(final Player player) {
         if (chat.getPlayerPrefix(player) == null) return "";
 
         return chat.getPlayerPrefix(player);
     }
 
-    public static String getPlayerSuffix(Player player) {
+    public static String getPlayerSuffix(final Player player) {
         if (chat.getPlayerSuffix(player) == null) return "";
 
         return chat.getPlayerSuffix(player);
     }
 
-    public static String getPlayerGroup(Player player) {
+    public static String getPlayerGroup(final Player player) {
         if (chat.getPrimaryGroup(player) == null) return "";
 
         return chat.getPrimaryGroup(player);

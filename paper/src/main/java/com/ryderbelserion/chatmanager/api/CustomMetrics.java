@@ -17,13 +17,13 @@ public class CustomMetrics {
     }
 
     public void start() {
-        FileConfiguration config = Files.CONFIG.getConfiguration();
+        final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-        addCustomChart(new SimplePie("chat_format", () -> config.getString("Chat_Format.Enable")));
+        addCustomChart(new SimplePie("chat_format", () -> config.getString("Chat_Format.Enable", "N/A")));
 
-        addCustomChart(new SimplePie("chat_radius", () -> config.getString("Chat_Radius.Enable")));
+        addCustomChart(new SimplePie("chat_radius", () -> config.getString("Chat_Radius.Enable", "false")));
 
-        addCustomChart(new SimplePie("per_world_chat", () -> config.getString("Per_World_Chat.Enable")));
+        addCustomChart(new SimplePie("per_world_chat", () -> config.getString("Per_World_Chat.Enable", "false")));
     }
 
     public void addCustomChart(final SimplePie pie) {

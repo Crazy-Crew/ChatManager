@@ -323,8 +323,6 @@ Chat_Radius:
     Override_Symbol: "$"
   # The maximum distance players will receive the senders messages.
   Block_Distance: 250
-  # Enable chat radius spy on join.
-  Enable_Spy_On_Join: false
 
 #=================================================================================================#
 # Clear Chat
@@ -357,17 +355,6 @@ Command_Spy:
 #=================================================================================================#
 Formatted_Messages:
   Enable: false
-
-#=================================================================================================#
-# Correct player's grammar.
-#=================================================================================================#
-Grammar:
-  Enable: false
-  # The minimum size the players message has to be for grammar to work.
-  Min_Message_Length: 5
-  # Correct words from "i" to "I", "dont" to "don't", and many more pre-set words!
-  Autocorrect:
-    Enable: true
 
 #=================================================================================================#
 # Staff and Player List:
