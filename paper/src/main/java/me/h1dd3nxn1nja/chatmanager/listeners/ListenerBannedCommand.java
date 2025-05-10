@@ -102,13 +102,13 @@ public class ListenerBannedCommand extends Global implements Listener {
 
 		if (!config.contains("Banned_Commands.Executed_Command")) return;
 
-		final String command = config.getString("Banned_Commands.Executed_Command").replace("{player}", player.getName());
+		final String command = config.getString("Banned_Commands.Executed_Command", "").replace("{player}", player.getName());
 		final List<String> commands = config.getStringList("Banned_Commands.Executed_Command");
 
 		new FoliaScheduler(Scheduler.global_scheduler) {
 			@Override
 			public void run() {
-				server.dispatchCommand(sender, command);
+				if (!command.isEmpty()) server.dispatchCommand(sender, command);
 
 				for (final String cmd : commands) {
 					server.dispatchCommand(sender, cmd.replace("{player}", player.getName()));

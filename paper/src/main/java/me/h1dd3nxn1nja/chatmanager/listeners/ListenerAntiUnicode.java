@@ -63,13 +63,13 @@ public class ListenerAntiUnicode extends Global implements Listener {
 
 		if (config.getBoolean("Anti_Unicode.Execute_Command", false)) {
 			if (config.contains("Anti_Unicode.Executed_Command")) {
-				final String command = config.getString("Anti_Unicode.Executed_Command").replace("{player}", player.getName());
+				final String command = config.getString("Anti_Unicode.Executed_Command", "").replace("{player}", player.getName());
 				final List<String> commands = config.getStringList("Anti_Unicode.Executed_Command");
 
 				new FoliaScheduler(Scheduler.global_scheduler) {
 					@Override
 					public void run() {
-						server.dispatchCommand(sender, command);
+						if (!command.isEmpty()) server.dispatchCommand(sender, command);
 
 						for (final String cmd : commands) {
 							server.dispatchCommand(sender, cmd.replace("{player}", player.getName()));
