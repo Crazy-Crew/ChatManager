@@ -5,13 +5,9 @@ plugins {
     id("paper-plugin")
 }
 
-project.group = "me.h1dd3nxn1nja.chatmanager"
+project.group = "${rootProject.group}"
+project.version = rootProject.version
 project.description = "The kitchen sink of Chat Management!"
-
-val buildNumber: String? = System.getenv("BUILD_NUMBER")
-val isPublishing: String? = System.getenv("IS_PUBLISHING")
-
-project.version = if (buildNumber != null && isPublishing == null) "${libs.versions.minecraft.get()}-$buildNumber" else "4.0.5"
 
 repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
@@ -74,6 +70,8 @@ tasks {
             expand(inputs.properties)
         }
     }
+
+    runPaper.folia.registerTask()
 
     runServer {
         jvmArgs("-Dnet.kyori.ansi.colorLevel=truecolor")

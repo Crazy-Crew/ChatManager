@@ -5,9 +5,9 @@ plugins {
     alias(libs.plugins.hangar)
 }
 
-val content: String = rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
+val content: String = rootProject.file("changelog.md").readText(Charsets.UTF_8)
 
-val isBeta = false
+val isBeta = System.getenv("BETA") != null
 val pluginName = rootProject.name
 val mcVersion = libs.versions.minecraft.get()
 
@@ -30,7 +30,7 @@ tasks {
 
         loaders.addAll(listOf("purpur", "paper", "folia"))
 
-        syncBodyFrom.set(rootProject.file("README.md").readText(Charsets.UTF_8))
+        syncBodyFrom.set(rootProject.file("description.md").readText(Charsets.UTF_8))
 
         autoAddDependsOn.set(false)
         detectLoaders.set(false)
