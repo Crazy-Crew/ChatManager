@@ -2,20 +2,20 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.support.Global;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ListenerStaffChat extends Global implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
-	public void onChat(AsyncPlayerChatEvent event) {
+	public void onChat(AsyncChatEvent event) {
 		final Player player = event.getPlayer();
-		final String message = event.getMessage();
+		final String message = event.signedMessage().message();
 
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
 

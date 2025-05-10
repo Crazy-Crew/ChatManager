@@ -1,15 +1,14 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.h1dd3nxn1nja.chatmanager.support.Global;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -20,11 +19,11 @@ import java.util.List;
 public class ListenerLogs extends Global implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
-	public void onChat(AsyncPlayerChatEvent event) {
+	public void onChat(AsyncChatEvent event) {
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		final String playerName = event.getPlayer().getName();
-		final String message = event.getMessage();
+		final String message = event.signedMessage().message();
 		final Date time = Calendar.getInstance().getTime();
 
 		if (!config.getBoolean("Logs.Log_Chat", false)) return;

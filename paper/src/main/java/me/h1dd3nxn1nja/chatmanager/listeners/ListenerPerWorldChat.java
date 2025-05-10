@@ -1,13 +1,13 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.h1dd3nxn1nja.chatmanager.support.Global;
+import net.kyori.adventure.audience.Audience;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -15,12 +15,12 @@ import java.util.UUID;
 public class ListenerPerWorldChat extends Global implements Listener {
 
 	@EventHandler
-	public void onWorldChat(AsyncPlayerChatEvent event) {
+	public void onWorldChat(AsyncChatEvent event) {
 		final Player player = event.getPlayer();
 		final UUID uuid = player.getUniqueId();
 		final String world = player.getWorld().getName();
 		final UUID worldUID = event.getPlayer().getWorld().getUID();
-		final Set<Player> recipients = event.getRecipients();
+		final Set<Audience> recipients = event.viewers();
 
 		List<String> playerGroup = null;
 
@@ -54,6 +54,10 @@ public class ListenerPerWorldChat extends Global implements Listener {
 			return;
 		}
 
-		recipients.removeIf(players -> !worldUID.equals(players.getWorld().getUID()) && !this.perWorldChatData.containsUser(players.getUniqueId()));
+		recipients.removeIf(audience -> {
+			if (!(audience instanceof Player players)) return false;
+
+			return !worldUID.equals(players.getWorld().getUID()) && !this.perWorldChatData.containsUser(players.getUniqueId());
+		});
 	}
 }

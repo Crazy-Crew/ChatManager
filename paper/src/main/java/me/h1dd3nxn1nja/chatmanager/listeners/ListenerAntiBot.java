@@ -3,13 +3,13 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.h1dd3nxn1nja.chatmanager.support.Global;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -51,7 +51,7 @@ public class ListenerAntiBot extends Global implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-	public void onChat(AsyncPlayerChatEvent event) {
+	public void onChat(AsyncChatEvent event) {
 		final Player player = event.getPlayer();
 
 		final FileConfiguration config = Files.CONFIG.getConfiguration();

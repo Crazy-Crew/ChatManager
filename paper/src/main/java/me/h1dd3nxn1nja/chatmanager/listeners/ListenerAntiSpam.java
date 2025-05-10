@@ -4,23 +4,22 @@ import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.h1dd3nxn1nja.chatmanager.support.Global;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-
 import java.util.List;
 import java.util.UUID;
 
 public class ListenerAntiSpam extends Global implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
-	public void antiSpamChat(AsyncPlayerChatEvent event) {
+	public void antiSpamChat(AsyncChatEvent event) {
 		final Player player = event.getPlayer();
-		final String message = event.getMessage();
+		final String message = event.signedMessage().message();
 
 		final UUID uuid = player.getUniqueId();
 
@@ -34,7 +33,7 @@ public class ListenerAntiSpam extends Global implements Listener {
 			if (player.hasPermission(Permissions.BYPASS_DUPE_CHAT.getNode())) return;
 
 			if (this.previousMsgData.containsUser(uuid) && !this.chatCooldowns.containsUser(uuid)) {
-				final String msg = this.previousMsgData.getMessage(player.getUniqueId());
+				final String msg = this.previousMsgData.getMessage(uuid);
 
 				if (message.equalsIgnoreCase(msg)) {
 					Messages.ANTI_SPAM_CHAT_REPETITIVE_MESSAGE.sendMessage(player);
@@ -48,7 +47,7 @@ public class ListenerAntiSpam extends Global implements Listener {
 	}
 
 	@EventHandler(ignoreCancelled = true)
-	public void onChatCoolDown(AsyncPlayerChatEvent event) {
+	public void onChatCoolDown(AsyncChatEvent event) {
 		final Player player = event.getPlayer();
 		final UUID uuid = player.getUniqueId();
 

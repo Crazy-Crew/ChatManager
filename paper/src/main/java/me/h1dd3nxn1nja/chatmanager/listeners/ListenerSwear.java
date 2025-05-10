@@ -5,6 +5,7 @@ import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
 import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.support.Global;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,9 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -28,9 +27,9 @@ public class ListenerSwear extends Global implements Listener {
 	//TODO() Add a way so that chat manager highlights the swear word in the notify feature.
 
 	@EventHandler(ignoreCancelled = true)
-	public void onSwear(AsyncPlayerChatEvent event) {
+	public void onSwear(AsyncChatEvent event) {
 		final Player player = event.getPlayer();
-		final String message = event.getMessage();
+		final String message = event.signedMessage().message();
 		final Date time = Calendar.getInstance().getTime();
 
 		final FileConfiguration bannedWords = Files.BANNED_WORDS.getConfiguration();
@@ -38,8 +37,8 @@ public class ListenerSwear extends Global implements Listener {
 
 		final List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
 		final List<String> blockedWordsList = bannedWords.getStringList("Banned-Words");
-		final String sensitiveMessage = event.getMessage().toLowerCase().replaceAll("[^a-zA-Z0-9 ]", "").replaceAll("\\s+", "");
-		final String curseMessage = event.getMessage().toLowerCase();
+		final String sensitiveMessage = message.toLowerCase().replaceAll("[^a-zA-Z0-9 ]", "").replaceAll("\\s+", "");
+		final String curseMessage = message.toLowerCase();
 
 		if (this.staffChatData.containsUser(player.getUniqueId()) || !config.getBoolean("Anti_Swear.Chat.Enable", false)) return;
 
@@ -48,7 +47,7 @@ public class ListenerSwear extends Global implements Listener {
 		if (config.getBoolean("Anti_Swear.Chat.Increase_Sensitivity", false)) {
 			for (final String blockedWord : blockedWordsList) {
 				for (String allowed : whitelisted) {
-					if (event.getMessage().contains(allowed.toLowerCase())) return;
+					if (message.contains(allowed.toLowerCase())) return;
 				}
 
 				if (curseMessageContains(player, message, time, sensitiveMessage, blockedWord)) {
@@ -66,7 +65,7 @@ public class ListenerSwear extends Global implements Listener {
 		if (!config.getBoolean("Anti_Swear.Chat.Increase_Sensitivity", false)) {
 			for (final String blockedWord : blockedWordsList) {
 				for (final String allowed : whitelisted) {
-					if (event.getMessage().contains(allowed.toLowerCase())) return;
+					if (message.contains(allowed.toLowerCase())) return;
 				}
 				
 				if (curseMessageContains(player, message, time, curseMessage, blockedWord)) {

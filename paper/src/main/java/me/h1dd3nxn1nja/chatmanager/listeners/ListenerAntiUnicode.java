@@ -5,40 +5,38 @@ import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
 import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.support.Global;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@SuppressWarnings("deprecation")
 public class ListenerAntiUnicode extends Global implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
-	public void onChat(AsyncPlayerChatEvent event) {
+	public void onChat(AsyncChatEvent event) {
 		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		final Player player = event.getPlayer();
-		final String message = event.getMessage();
+		final String message = event.signedMessage().message();
 
 		final List<String> whitelisted = config.getStringList("Anti_Unicode.Whitelist");
 
 		final Pattern pattern = Pattern.compile("^[A-Za-z0-9-~!@#$%^&*()<>_+=-{}|';:.,\\[\"\"]|';:.,/?><_.]+$");
-		final Matcher matcher = pattern.matcher(event.getMessage().toLowerCase().replaceAll("\\s+", ""));
+		final Matcher matcher = pattern.matcher(message.toLowerCase().replaceAll("\\s+", ""));
 
 		if (!config.getBoolean("Anti_Unicode.Enable", false) || this.staffChatData.containsUser(player.getUniqueId())) return;
 
 		if (player.hasPermission(Permissions.BYPASS_ANTI_UNICODE.getNode())) return;
 
 		for (final String allowed : whitelisted) {
-			if (event.getMessage().contains(allowed)) return;
+			if (message.contains(allowed)) return;
 		}
 
 		if (matcher.find()) return;
