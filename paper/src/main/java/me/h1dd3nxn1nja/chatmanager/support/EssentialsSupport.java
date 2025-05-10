@@ -2,6 +2,7 @@ package me.h1dd3nxn1nja.chatmanager.support;
 
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
+
 import java.util.UUID;
 
 public class EssentialsSupport {
@@ -12,7 +13,7 @@ public class EssentialsSupport {
 		if (PluginSupport.ESSENTIALS.isPluginEnabled()) this.essentials = (Essentials) PluginSupport.ESSENTIALS.getPlugin();
 	}
 
-	public boolean isPlayerAFK(UUID uuid) {
+	public boolean isPlayerAFK(final UUID uuid) {
 		if (isEssentialsReady()) return false;
 
 		User user = getUser(uuid);
@@ -20,7 +21,7 @@ public class EssentialsSupport {
 		return user != null && user.isAfk();
 	}
 	
-	public boolean isIgnored(UUID uuid, UUID uuid2) {
+	public boolean isIgnored(final UUID uuid, final UUID uuid2) {
 		if (isEssentialsReady()) return false;
 
 		User user = this.essentials.getUser(uuid);
@@ -32,7 +33,7 @@ public class EssentialsSupport {
         return user2 != null && user.isIgnoredPlayer(user2);
 	}
 	
-	public String getPlayerNickname(UUID uuid) {
+	public String getPlayerNickname(final UUID uuid) {
 		if (isEssentialsReady()) return "Essentials is not enabled.";
 
 		User user = this.essentials.getUser(uuid);
@@ -44,7 +45,7 @@ public class EssentialsSupport {
 		return user.getName();
 	}
 	
-	public String getPlayerBalance(UUID uuid) {
+	public String getPlayerBalance(final UUID uuid) {
 		if (isEssentialsReady()) return "0";
 
 		User user = this.essentials.getUser(uuid);
@@ -58,7 +59,7 @@ public class EssentialsSupport {
 		return money;
 	}
 	
-	public boolean isMuted(UUID uuid) {
+	public boolean isMuted(final UUID uuid) {
 		if (isEssentialsReady()) return false;
 
 		User user = this.essentials.getUser(uuid);
@@ -68,7 +69,7 @@ public class EssentialsSupport {
 		return user.isMuted();
 	}
 
-	public User getUser(UUID uuid) {
+	public User getUser(final UUID uuid) {
 		return this.essentials.getUser(uuid);
 	}
 

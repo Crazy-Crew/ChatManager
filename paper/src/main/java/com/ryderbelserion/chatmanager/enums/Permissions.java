@@ -2,6 +2,7 @@ package com.ryderbelserion.chatmanager.enums;
 
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
+
 import java.util.HashMap;
 
 public enum Permissions {

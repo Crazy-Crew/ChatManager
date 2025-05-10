@@ -15,7 +15,7 @@ public enum PluginSupport {
     @NotNull
     private final ChatManager plugin = ChatManager.get();
 
-    PluginSupport(String name) {
+    PluginSupport(final String name) {
         this.name = name;
     }
 

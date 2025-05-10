@@ -1,19 +1,18 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.enums.Messages;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.support.Global;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class CommandToggleChat implements CommandExecutor {
+import java.util.UUID;
 
-	@NotNull
-	private final ChatManager plugin = ChatManager.get();
+public class CommandToggleChat extends Global implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -31,16 +30,18 @@ public class CommandToggleChat implements CommandExecutor {
 			return true;
 		}
 
+		final UUID uuid = player.getUniqueId();
+
 		if (args.length == 0) {
-			if (this.plugin.api().getToggleChatData().containsUser(player.getUniqueId())) {
-				this.plugin.api().getToggleChatData().removeUser(player.getUniqueId());
+			if (this.toggleChatData.containsUser(uuid)) {
+				this.toggleChatData.removeUser(uuid);
 
 				Messages.TOGGLE_CHAT_DISABLED.sendMessage(player);
 
 				return true;
 			}
 
-			this.plugin.api().getToggleChatData().addUser(player.getUniqueId());
+			this.toggleChatData.addUser(uuid);
 
 			Messages.TOGGLE_CHAT_ENABLED.sendMessage(player);
 

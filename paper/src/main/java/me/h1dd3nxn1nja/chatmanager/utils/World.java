@@ -8,7 +8,7 @@ public class World {
 	private final List<String> messages;
 	private int index;
 
-	public World(String name, List<String> messages, int index) {
+	public World(final String name, final List<String> messages, final int index) {
 		this.name = name;
 		this.messages = messages;
 		this.index = index;

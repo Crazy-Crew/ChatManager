@@ -1,8 +1,8 @@
 package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
+import me.h1dd3nxn1nja.chatmanager.support.Global;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -10,25 +10,21 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.jetbrains.annotations.NotNull;
 
-public class ListenerGrammar implements Listener {
-
-	@NotNull
-	private final ChatManager plugin = ChatManager.get();
+public class ListenerGrammar extends Global implements Listener {
 
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void grammarCheck(AsyncPlayerChatEvent event) {
-		FileConfiguration config = Files.CONFIG.getConfiguration();
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		Player player = event.getPlayer();
+		final Player player = event.getPlayer();
 
 		if (event.getMessage().toCharArray().length < config.getInt("Grammar.Min_Message_Length", 5) ||
 				!config.getBoolean("Grammar.Enable", false) || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
 
 		if (player.hasPermission(Permissions.BYPASS_GRAMMAR.getNode())) return;
 
-		char[] listChar = event.getMessage().toCharArray();
+		final char[] listChar = event.getMessage().toCharArray();
 		String message = event.getMessage();
 
 		try {

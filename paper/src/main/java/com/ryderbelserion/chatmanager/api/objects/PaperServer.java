@@ -1,6 +1,7 @@
 package com.ryderbelserion.chatmanager.api.objects;
 
 import com.ryderbelserion.chatmanager.enums.core.ServerState;
+
 import java.util.ArrayList;
 import java.util.List;
 

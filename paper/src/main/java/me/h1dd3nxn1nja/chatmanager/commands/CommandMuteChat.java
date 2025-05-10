@@ -2,21 +2,20 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.api.objects.PaperServer;
 import com.ryderbelserion.chatmanager.enums.Messages;
+import com.ryderbelserion.chatmanager.enums.Permissions;
 import com.ryderbelserion.chatmanager.enums.core.ServerState;
 import com.ryderbelserion.chatmanager.managers.ServerManager;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.support.Global;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class CommandMuteChat implements CommandExecutor {
+public class CommandMuteChat extends Global implements CommandExecutor {
 
-	@NotNull
-	private final ChatManager plugin = ChatManager.get();
+
 
 	private final ServerManager serverManager = this.plugin.getServerManager();
 

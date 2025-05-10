@@ -3,6 +3,9 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.support.Global;
+import me.h1dd3nxn1nja.chatmanager.utils.Format;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,20 +13,19 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import me.h1dd3nxn1nja.chatmanager.utils.Format;
-import net.md_5.bungee.api.ChatColor;
+
 import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("deprecation")
-public class ListenerColor implements Listener {
+public class ListenerColor extends Global implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onColorChat(AsyncPlayerChatEvent event) {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		Player player = event.getPlayer();
-		String message = event.getMessage();
+		final Player player = event.getPlayer();
+		final String message = event.getMessage();
 
 		if (!config.getBoolean("Formatted_Messages.Enable", false)) return;
 
@@ -32,7 +34,7 @@ public class ListenerColor implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onSignChange(SignChangeEvent event) {
-		Player player = event.getPlayer();
+		final Player player = event.getPlayer();
 
 		for (int index = 0; index < event.getLines().length; index++) {
 			String line = event.getLine(index);
@@ -85,7 +87,7 @@ public class ListenerColor implements Listener {
 		}};
 	}
 	
-	private String formatChat(Player player, String msg) {
+	private String formatChat(final Player player, String msg) {
 		char colorChar = getColorCharacter();
 
 		if (player.hasPermission(Permissions.FORMATTING_ALL.getNode())) {
@@ -112,7 +114,7 @@ public class ListenerColor implements Listener {
 		return msg;
 	}
 	
-	private String replaceColors(Player player, String msg) {
+	private String replaceColors(final Player player, String msg) {
 		char character = getColorCharacter();
 
 		for (Map.Entry<String, String> entry : colors().entrySet()) {
@@ -128,7 +130,7 @@ public class ListenerColor implements Listener {
 		return msg;
 	}
 
-	private String replaceFormats(Player player, String msg) {
+	private String replaceFormats(final Player player, String msg) {
 		char character = getColorCharacter();
 
 		for (Map.Entry<String, String> entry : map().entrySet()) {

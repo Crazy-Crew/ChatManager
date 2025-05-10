@@ -1,43 +1,39 @@
 package me.h1dd3nxn1nja.chatmanager;
 
-import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.fusion.core.managers.PluginExtension;
+import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.Server;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Methods {
 
 	@NotNull
 	private static final ChatManager plugin = ChatManager.get();
 
+	private static final Server server = plugin.getServer();
+
 	private static final PluginExtension extension = plugin.getPluginExtension();
 
-	public static void playSound(FileConfiguration config, String path) {
-		String sound = config.getString(path + ".value", "");
-
-		if (sound.isEmpty()) return;
-
-		boolean isEnabled = config.getBoolean(path + ".toggle", false);
-		double volume = config.getDouble(path + ".volume", 1.0);
-		double pitch = config.getDouble(path + ".pitch", 1.0);
+	public static void playSound(final FileConfiguration config, final String path) {
+		final boolean isEnabled = config.getBoolean(path + ".toggle", false);
 
 		if (isEnabled) {
-			for (Player online : plugin.getServer().getOnlinePlayers()) {
-				try {
-					online.playSound(online.getLocation(), Sound.valueOf(sound), (float) volume, (float) pitch);
-				} catch (IllegalArgumentException ignored) {}
+			for (final Player online : server.getOnlinePlayers()) {
+				playSound(online, config, path);
 			}
 		}
 	}
 
-	public static void playSound(Player player, FileConfiguration config, String path) {
+	public static void playSound(final Player player, final FileConfiguration config, final String path) {
 		String sound = config.getString(path + ".value", "");
 
 		if (sound.isEmpty()) return;
@@ -52,7 +48,7 @@ public class Methods {
 	}
 
 	public static void convert() {
-		FileConfiguration config = Files.CONFIG.getConfiguration();
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (config.contains("Messages.Join_Quit_Messages.Group_Messages")) {
 			if (config.getConfigurationSection("Messages.Join_Quit_Messages.Group_Messages") != null) {
@@ -256,7 +252,7 @@ public class Methods {
 		}
 	}
 
-	private static void moveValues(FileConfiguration autoBroadcast, String oldSound, String path) {
+	private static void moveValues(final FileConfiguration autoBroadcast, final String oldSound, final String path) {
 		if (oldSound == null || oldSound.isEmpty()) autoBroadcast.set(path + ".toggle", false); else autoBroadcast.set(path + ".toggle", true);
 
 		autoBroadcast.set(path + ".value", oldSound);
@@ -264,7 +260,7 @@ public class Methods {
 		autoBroadcast.set(path + ".volume", 1.0);
 	}
 
-	public static String color(String message) {
+	public static String color(final String message) {
 		Matcher matcher = Pattern.compile("#[a-fA-F\\d]{6}").matcher(message);
 		StringBuilder buffer = new StringBuilder();
 
@@ -278,18 +274,14 @@ public class Methods {
 	public static String getPrefix() {
 		return color(Files.MESSAGES.getConfiguration().getString("Message.Prefix"));
 	}
-
-	public static String getPrefix(String msg) {
-		return getPrefix() + color(msg);
+	
+	public static void tellConsole(final String message, final boolean prefix) {
+		sendMessage(server.getConsoleSender(), message, prefix);
 	}
 	
-	public static void tellConsole(String message, boolean prefix) {
-		sendMessage(plugin.getServer().getConsoleSender(), message, prefix);
-	}
-	
-	public static boolean inRange(UUID uuid, UUID receiver, int radius) {
-		Player player = plugin.getServer().getPlayer(uuid);
-		Player other = plugin.getServer().getPlayer(receiver);
+	public static boolean inRange(final UUID uuid, final UUID receiver, final int radius) {
+		Player player = server.getPlayer(uuid);
+		Player other = server.getPlayer(receiver);
 
 		if (other.getLocation().getWorld().equals(player.getLocation().getWorld())) {
 			return other.getLocation().distanceSquared(player.getLocation()) <= radius * radius;
@@ -298,22 +290,22 @@ public class Methods {
 		return false;
 	}
 	
-	public static boolean inWorld(UUID uuid, UUID receiver) {
-		Player player = plugin.getServer().getPlayer(uuid);
-		Player other = plugin.getServer().getPlayer(receiver);
+	public static boolean inWorld(final UUID uuid, final UUID receiver) {
+		Player player = server.getPlayer(uuid);
+		Player other = server.getPlayer(receiver);
 
 		return other.getLocation().getWorld().equals(player.getLocation().getWorld());
 	}
 
-	public static void sendMessage(CommandSender commandSender, String message, boolean ignorePrefix) {
+	public static void sendMessage(final CommandSender commandSender, final String message, final boolean ignorePrefix) {
 		sendMessage(commandSender, getPrefix(), message, ignorePrefix, false, true);
 	}
 
-	public static void sendMessage(CommandSender commandSender, String prefix, String message, boolean ignorePrefix) {
+	public static void sendMessage(final CommandSender commandSender, final String prefix, final String message, final boolean ignorePrefix) {
 		sendMessage(commandSender, prefix, message, ignorePrefix, false, true);
 	}
 
-	public static void sendMessage(CommandSender commandSender, String prefix, String message, boolean ignorePrefix, boolean isStaffChat, boolean parsePapi) {
+	public static void sendMessage(final CommandSender commandSender, final String prefix, final String message, final boolean ignorePrefix, final boolean isStaffChat, final boolean parsePapi) {
 		if (message == null || message.isEmpty()) return;
 
 		if (commandSender instanceof Player player) {
@@ -325,14 +317,14 @@ public class Methods {
 		commandSender.sendMessage(placeholders(ignorePrefix, prefix, commandSender, message));
 	}
 
-	public static void sendMessage(CommandSender commandSender, String message) {
+	public static void sendMessage(final CommandSender commandSender, final String message) {
 		sendMessage(commandSender, "", message, true, true, true);
 	}
 
-	public static void broadcast(Player player, String message) {
+	public static void broadcast(final Player player, final String message) {
 		if (message == null || message.isEmpty()) return;
 
-		plugin.getServer().broadcastMessage(placeholders(getPrefix().isEmpty(), player, color(message)));
+		server.broadcastMessage(placeholders(getPrefix().isEmpty(), player, color(message)));
 	}
 
 	public static String placeholders(final boolean isStaffChat, final boolean ignorePrefix, final boolean parsePapi, final String prefix, final CommandSender sender, final String message) {

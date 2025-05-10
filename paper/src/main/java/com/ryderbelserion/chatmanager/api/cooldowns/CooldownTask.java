@@ -1,6 +1,7 @@
 package com.ryderbelserion.chatmanager.api.cooldowns;
 
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;

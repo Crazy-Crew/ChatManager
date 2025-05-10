@@ -2,38 +2,35 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
+import com.ryderbelserion.chatmanager.enums.Permissions;
 import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
 import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.support.Global;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.List;
 
-public class ListenerBannedCommand implements Listener {
-
-	@NotNull
-	private final ChatManager plugin = ChatManager.get();
+public class ListenerBannedCommand extends Global implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onCommand(PlayerCommandPreprocessEvent event) {
-		FileConfiguration config = Files.CONFIG.getConfiguration();
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		Player player = event.getPlayer();
+		final Player player = event.getPlayer();
 
-		List<String> cmd = Files.BANNED_COMMANDS.getConfiguration().getStringList("Banned-Commands");
+		final List<String> cmd = Files.BANNED_COMMANDS.getConfiguration().getStringList("Banned-Commands");
 
 		if (!config.getBoolean("Banned_Commands.Enable", false)) return;
 
 		if (!player.hasPermission(Permissions.BYPASS_BANNED_COMMANDS.getNode())) {
 			if (!config.getBoolean("Banned_Commands.Increase_Sensitivity", false)) {
-				for (String command : cmd) {
+				for (final String command : cmd) {
 					if (event.getMessage().toLowerCase().equals("/" + command)) {
 						event.setCancelled(true);
 
@@ -46,7 +43,7 @@ public class ListenerBannedCommand implements Listener {
 					}
 				}
 			} else {
-				for (String command : cmd) {
+				for (final String command : cmd) {
 					if (event.getMessage().toLowerCase().contains("/" + command)) {
 						event.setCancelled(true);
 
@@ -73,12 +70,12 @@ public class ListenerBannedCommand implements Listener {
 		}
 	}
 
-	public void notifyStaff(Player player, String message) {
+	public void notifyStaff(final Player player, final String message) {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (!config.getBoolean("Banned_Commands.Notify_Staff", false)) return;
 
-		for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
+		for (final Player staff : this.server.getOnlinePlayers()) {
 			if (staff.hasPermission(Permissions.NOTIFY_BANNED_COMMANDS.getNode())) {
 				Messages.BANNED_COMMANDS_MESSAGE.sendMessage(staff, new HashMap<>() {{
 					put("{player}", player.getName());
@@ -88,34 +85,34 @@ public class ListenerBannedCommand implements Listener {
 		}
 	}
 
-	public void tellConsole(Player player, String message) {
+	public void tellConsole(final Player player, final String message) {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (!config.getBoolean("Banned_Commands.Notify_Staff", false)) return;
 
-		Methods.tellConsole(Messages.BANNED_COMMANDS_MESSAGE.getMessage(this.plugin.getServer().getConsoleSender(), new HashMap<>() {{
+		Methods.tellConsole(Messages.BANNED_COMMANDS_MESSAGE.getMessage(this.sender, new HashMap<>() {{
 			put("{player}", player.getName());
 			put("{command}", message);
 		}}), false);
 	}
 
-	public void executeCommand(Player player) {
-		FileConfiguration config = Files.CONFIG.getConfiguration();
+	public void executeCommand(final Player player) {
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
 		if (!config.getBoolean("Banned_Commands.Execute_Command", false)) return;
 
 		if (!config.contains("Banned_Commands.Executed_Command")) return;
 
-		String command = config.getString("Banned_Commands.Executed_Command").replace("{player}", player.getName());
-		List<String> commands = config.getStringList("Banned_Commands.Executed_Command");
+		final String command = config.getString("Banned_Commands.Executed_Command").replace("{player}", player.getName());
+		final List<String> commands = config.getStringList("Banned_Commands.Executed_Command");
 
 		new FoliaScheduler(Scheduler.global_scheduler) {
 			@Override
 			public void run() {
-				plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+				server.dispatchCommand(sender, command);
 
-				for (String cmd : commands) {
-					plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd.replace("{player}", player.getName()));
+				for (final String cmd : commands) {
+					server.dispatchCommand(sender, cmd.replace("{player}", player.getName()));
 				}
 			}
 		}.runNow();

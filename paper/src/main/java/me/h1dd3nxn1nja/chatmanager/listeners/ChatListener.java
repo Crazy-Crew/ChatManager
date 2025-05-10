@@ -5,20 +5,15 @@ import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import com.ryderbelserion.chatmanager.enums.core.ServerState;
-import com.ryderbelserion.chatmanager.managers.ServerManager;
 import io.papermc.paper.event.player.AsyncChatEvent;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
+import me.h1dd3nxn1nja.chatmanager.support.Global;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-public class ChatListener implements Listener {
-
-	private final ChatManager plugin = ChatManager.get();
-
-	private final ServerManager serverManager = this.plugin.getServerManager();
+public class ChatListener extends Global implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void mute(AsyncChatEvent event) {

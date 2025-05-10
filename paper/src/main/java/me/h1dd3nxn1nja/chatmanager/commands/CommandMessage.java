@@ -1,15 +1,15 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.api.chat.UserRepliedData;
+import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
+import com.ryderbelserion.chatmanager.enums.Permissions;
 import com.ryderbelserion.fusion.core.api.interfaces.IPlugin;
 import com.ryderbelserion.fusion.core.managers.PluginExtension;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
+import me.h1dd3nxn1nja.chatmanager.support.Global;
 import me.h1dd3nxn1nja.chatmanager.support.PluginSupport;
-import com.ryderbelserion.chatmanager.enums.Files;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,15 +21,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class CommandMessage implements CommandExecutor, TabCompleter {
+public class CommandMessage extends Global implements CommandExecutor, TabCompleter {
 
-	@NotNull
-	private final ChatManager plugin = ChatManager.get();
+
 
 	private final PluginExtension extension = this.plugin.getPluginExtension();
 

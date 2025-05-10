@@ -2,22 +2,19 @@ package me.h1dd3nxn1nja.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.support.Global;
+import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
+import me.h1dd3nxn1nja.chatmanager.utils.Debug;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
-import me.h1dd3nxn1nja.chatmanager.utils.Debug;
 import org.jetbrains.annotations.NotNull;
 
-public class CommandChatManager implements CommandExecutor {
-
-	@NotNull
-	private final ChatManager plugin = ChatManager.get();
+public class CommandChatManager extends Global implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
@@ -43,7 +40,7 @@ public class CommandChatManager implements CommandExecutor {
 
 							BossBarUtil bossBarStaff = new BossBarUtil(Methods.placeholders(true, player, Methods.color(config.getString("Staff_Chat.Boss_Bar.Title", "&eStaff Chat"))));
 
-							if (this.plugin.api().getStaffChatData().containsUser(player.getUniqueId()) && player.hasPermission("chatmanager.staffchat")) {
+							if (this.staffChatData.containsUser(player.getUniqueId()) && player.hasPermission("chatmanager.staffchat")) {
 								bossBarStaff.removeStaffBossBar(player);
 								bossBarStaff.setStaffBossBar(player);
 							}

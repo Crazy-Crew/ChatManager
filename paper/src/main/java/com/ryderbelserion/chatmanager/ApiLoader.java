@@ -1,13 +1,23 @@
 package com.ryderbelserion.chatmanager;
 
-import com.ryderbelserion.chatmanager.api.misc.AntiBotData;
-import com.ryderbelserion.chatmanager.api.chat.*;
+import com.ryderbelserion.chatmanager.api.chat.GlobalChatData;
+import com.ryderbelserion.chatmanager.api.chat.LocalChatData;
+import com.ryderbelserion.chatmanager.api.chat.PerWorldChatData;
+import com.ryderbelserion.chatmanager.api.chat.SpyChatData;
+import com.ryderbelserion.chatmanager.api.chat.StaffChatData;
+import com.ryderbelserion.chatmanager.api.chat.UserRepliedData;
+import com.ryderbelserion.chatmanager.api.chat.WorldChatData;
 import com.ryderbelserion.chatmanager.api.chat.logging.PreviousCmdData;
 import com.ryderbelserion.chatmanager.api.chat.logging.PreviousMsgData;
-import com.ryderbelserion.chatmanager.api.cmds.*;
+import com.ryderbelserion.chatmanager.api.cmds.CommandSpyData;
+import com.ryderbelserion.chatmanager.api.cmds.SocialSpyData;
+import com.ryderbelserion.chatmanager.api.cmds.ToggleChatData;
+import com.ryderbelserion.chatmanager.api.cmds.ToggleMentionsData;
+import com.ryderbelserion.chatmanager.api.cmds.ToggleMessageData;
 import com.ryderbelserion.chatmanager.api.cooldowns.ChatCooldowns;
 import com.ryderbelserion.chatmanager.api.cooldowns.CmdCooldowns;
 import com.ryderbelserion.chatmanager.api.cooldowns.CooldownTask;
+import com.ryderbelserion.chatmanager.api.misc.AntiBotData;
 
 public class ApiLoader {
 

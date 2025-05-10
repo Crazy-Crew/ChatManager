@@ -2,30 +2,25 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.support.Global;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.jetbrains.annotations.NotNull;
 
-public class ListenerCaps implements Listener {
-
-	@NotNull
-	private final ChatManager plugin = ChatManager.get();
+public class ListenerCaps extends Global implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onChat(AsyncPlayerChatEvent event) {
-		FileConfiguration config = Files.CONFIG.getConfiguration();
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		Player player = event.getPlayer();
-		String message = event.getMessage();
+		final Player player = event.getPlayer();
+		final String message = event.getMessage();
 
-		if (!config.getBoolean("Anti_Caps.Enable", false) || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
+		if (!config.getBoolean("Anti_Caps.Enable", false) || this.staffChatData.containsUser(player.getUniqueId())) return;
 
 		if (player.hasPermission(Permissions.BYPASS_CAPS.getNode())) return;
 
@@ -55,12 +50,12 @@ public class ListenerCaps implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onCapsCommands(PlayerCommandPreprocessEvent event) {
-		FileConfiguration config = Files.CONFIG.getConfiguration();
+		final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-		Player player = event.getPlayer();
-		String message = event.getMessage();
+		final Player player = event.getPlayer();
+		final String message = event.getMessage();
 
-		if (!config.getBoolean("Anti_Caps.Enable", false) && !config.getBoolean("Anti_Caps.Enable_In_Commands", false) || plugin.api().getStaffChatData().containsUser(player.getUniqueId())) return;
+		if (!config.getBoolean("Anti_Caps.Enable", false) && !config.getBoolean("Anti_Caps.Enable_In_Commands", false) || this.staffChatData.containsUser(player.getUniqueId())) return;
 
 		if (player.hasPermission(Permissions.BYPASS_CAPS.getNode())) return;
 

@@ -1,12 +1,13 @@
 package me.h1dd3nxn1nja.chatmanager.commands.tabcompleter;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TabCompleteChatManager implements TabCompleter {
 	

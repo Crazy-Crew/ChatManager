@@ -1,25 +1,23 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.support.Global;
+import me.h1dd3nxn1nja.chatmanager.utils.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import me.h1dd3nxn1nja.chatmanager.utils.World;
 import org.jetbrains.annotations.NotNull;
 
-public class CommandAutoBroadcast implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-	@NotNull
-	private final ChatManager plugin = ChatManager.get();
+public class CommandAutoBroadcast extends Global implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {

@@ -1,25 +1,28 @@
 package me.h1dd3nxn1nja.chatmanager.utils;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
 import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
 import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
+import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import org.bukkit.Server;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class BossBarUtil {
 
 	@NotNull
 	private final ChatManager plugin = ChatManager.get();
+
+	private final Server server = this.plugin.getServer();
 
 	private String title;
 	private BarColor color;
@@ -40,14 +43,14 @@ public class BossBarUtil {
 		this.bar = org.bukkit.Bukkit.getServer().createBossBar(title, color, style);
 	}
 
-	public BossBarUtil(String title, BarColor color, BarStyle style) {
+	public BossBarUtil(final String title, final BarColor color, final BarStyle style) {
 		this.title = Methods.color(title);
 		this.color = color;
 		this.style = style;
 		this.bar = plugin.getServer().createBossBar(this.title, color, style);
 	}
 
-	public BossBarUtil(String title) {
+	public BossBarUtil(final String title) {
 		this.title = Methods.color(title);
 		this.color = BarColor.PINK;
 		this.style = BarStyle.SOLID;
@@ -58,7 +61,7 @@ public class BossBarUtil {
 		return title;
 	}
 
-	public BossBarUtil setTitle(String title) {
+	public BossBarUtil setTitle(final String title) {
 		this.title = Methods.color(title);
 
 		this.bar.setTitle(this.title);
@@ -70,15 +73,15 @@ public class BossBarUtil {
 		return this.color;
 	}
 
-	public BossBarUtil setColor(String stringColor) {
-		for (BarColor color : BarColor.values()) {
+	public BossBarUtil setColor(final String stringColor) {
+		for (final BarColor color : BarColor.values()) {
 			if (color.name().equalsIgnoreCase(stringColor)) return setColor(color);
 		}
 
 		return this;
 	}
 
-	public BossBarUtil setColor(BarColor color) {
+	public BossBarUtil setColor(final BarColor color) {
 		this.color = color;
 		this.bar.setColor(color);
 
@@ -89,7 +92,7 @@ public class BossBarUtil {
 		return this.style;
 	}
 
-	public BossBarUtil setStyle(String stringStyle) {
+	public BossBarUtil setStyle(final String stringStyle) {
 		for (BarStyle style : BarStyle.values()) {
 			if (style.name().equalsIgnoreCase(stringStyle)) return setStyle(style);
 		}
@@ -97,7 +100,7 @@ public class BossBarUtil {
 		return this;
 	}
 
-	public BossBarUtil setStyle(BarStyle style) {
+	public BossBarUtil setStyle(final BarStyle style) {
 		this.style = style;
 
 		this.bar.setStyle(style);
@@ -109,7 +112,7 @@ public class BossBarUtil {
 		return this.progress;
 	}
 
-	public BossBarUtil setProgress(double progress) {
+	public BossBarUtil setProgress(final double progress) {
 		this.progress = progress;
 
 		this.bar.setProgress(progress);
@@ -121,7 +124,7 @@ public class BossBarUtil {
 		return this.isVisible;
 	}
 
-	public BossBarUtil setVisible(boolean visible) {
+	public BossBarUtil setVisible(final boolean visible) {
 		this.isVisible = visible;
 
 		this.bar.setVisible(visible);
@@ -129,7 +132,7 @@ public class BossBarUtil {
 		return this;
 	}
 
-	public BossBarUtil setBossBar(Player player) {
+	public BossBarUtil setBossBar(final Player player) {
 		this.bar.addPlayer(player);
 
 		playerBars.put(player.getUniqueId(), this);
@@ -137,7 +140,7 @@ public class BossBarUtil {
 		return this;
 	}
 
-	public BossBarUtil setStaffBossBar(Player player) {
+	public BossBarUtil setStaffBossBar(final Player player) {
 		this.staffBar.addPlayer(player);
 
 		staffBars.put(player.getUniqueId(), this);
@@ -145,46 +148,56 @@ public class BossBarUtil {
 		return this;
 	}
 
-	public BossBarUtil setBossBarTime(Player player, int time) {
+	public BossBarUtil setBossBarTime(final Player player, final int time) {
 		this.bar.addPlayer(player);
 
-		playerBars.put(player.getUniqueId(), this);
+		final UUID uuid = player.getUniqueId();
+
+		playerBars.put(uuid, this);
 
 		new FoliaScheduler(Scheduler.global_scheduler) {
 			@Override
 			public void run() {
-				if (playerBars.containsKey(player.getUniqueId())) playerBars.get(player.getUniqueId()).bar.removePlayer(player);
+				if (playerBars.containsKey(uuid)) playerBars.get(uuid).bar.removePlayer(player);
 			}
 		}.runDelayed(20L * time);
 
 		return this;
 	}
 
-	public BossBarUtil removeBossBar(Player player) {
-		if (playerBars.containsKey(player.getUniqueId())) playerBars.get(player.getUniqueId()).bar.removePlayer(player);
+	public BossBarUtil removeBossBar(final Player player) {
+		final UUID uuid = player.getUniqueId();
+
+		if (playerBars.containsKey(uuid)) playerBars.get(uuid).bar.removePlayer(player);
 
 		return this;
 	}
 
-	public BossBarUtil removeStaffBossBar(Player player) {
-		if (staffBars.containsKey(player.getUniqueId())) staffBars.get(player.getUniqueId()).staffBar.removePlayer(player);
+	public BossBarUtil removeStaffBossBar(final Player player) {
+		final UUID uuid = player.getUniqueId();
+
+		if (staffBars.containsKey(uuid)) staffBars.get(uuid).staffBar.removePlayer(player);
 
 		return this;
 	}
 
-	public BossBarUtil removeAllBossBars(Player player) {
-		if (playerBars.containsKey(player.getUniqueId())) playerBars.get(player.getUniqueId()).bar.removePlayer(player);
+	public BossBarUtil removeAllBossBars(final Player player) {
+		final UUID uuid = player.getUniqueId();
 
-		if (staffBars.containsKey(player.getUniqueId())) staffBars.get(player.getUniqueId()).staffBar.removePlayer(player);
+		if (playerBars.containsKey(uuid)) playerBars.get(uuid).bar.removePlayer(player);
+
+		if (staffBars.containsKey(uuid)) staffBars.get(uuid).staffBar.removePlayer(player);
 
 		return this;
 	}
 
-	public BossBarUtil setBossBarAnimation(Player player, List<String> titles, int time) {
-		BossBar bossBar = this.plugin.getServer().createBossBar(titles.getFirst(), color, BarStyle.SOLID, BarFlag.CREATE_FOG);
+	public BossBarUtil setBossBarAnimation(final Player player, final List<String> titles, final int time) {
+		BossBar bossBar = this.server.createBossBar(titles.getFirst(), color, BarStyle.SOLID, BarFlag.CREATE_FOG);
 		bossBar.addPlayer(player);
 
-		this.bossBars.put(player.getUniqueId(), bossBar);
+		final UUID uuid = player.getUniqueId();
+
+		this.bossBars.put(uuid, bossBar);
 
 		new FoliaScheduler(Scheduler.global_scheduler) {
 			int i = 1;
@@ -204,7 +217,7 @@ public class BossBarUtil {
 					bossBar.removePlayer(player);
 					bossBar.setVisible(false);
 
-					bossBars.remove(player.getUniqueId());
+					bossBars.remove(uuid);
 				}
 			}
 		}.runAtFixedRate(1, 1);

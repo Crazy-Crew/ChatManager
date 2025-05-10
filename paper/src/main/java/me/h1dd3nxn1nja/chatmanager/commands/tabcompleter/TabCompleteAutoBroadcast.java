@@ -1,14 +1,15 @@
 package me.h1dd3nxn1nja.chatmanager.commands.tabcompleter;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.ryderbelserion.chatmanager.enums.Files;
+import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.util.StringUtil;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TabCompleteAutoBroadcast implements TabCompleter {
 

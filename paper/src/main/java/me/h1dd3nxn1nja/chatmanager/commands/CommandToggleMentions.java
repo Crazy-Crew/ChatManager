@@ -1,19 +1,18 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
 import com.ryderbelserion.chatmanager.enums.Messages;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.support.Global;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class CommandToggleMentions implements CommandExecutor {
+import java.util.UUID;
 
-	@NotNull
-	private final ChatManager plugin = ChatManager.get();
+public class CommandToggleMentions extends Global implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -31,16 +30,18 @@ public class CommandToggleMentions implements CommandExecutor {
 			return true;
 		}
 
+		final UUID uuid = player.getUniqueId();
+
 		if (args.length == 0) {
-			if (this.plugin.api().getToggleMentionsData().containsUser(player.getUniqueId())) {
-				this.plugin.api().getToggleMentionsData().removeUser(player.getUniqueId());
+			if (this.toggleMentionsData.containsUser(uuid)) {
+				this.toggleMentionsData.removeUser(uuid);
 
 				Messages.TOGGLE_MENTIONS_DISABLED.sendMessage(player);
 
 				return true;
 			}
 
-			this.plugin.api().getToggleMentionsData().addUser(player.getUniqueId());
+			this.toggleMentionsData.addUser(uuid);
 
 			Messages.TOGGLE_MENTIONS_ENABLED.sendMessage(player);
 

@@ -1,14 +1,15 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
+import com.ryderbelserion.chatmanager.enums.Files;
 import me.h1dd3nxn1nja.chatmanager.Methods;
+import me.h1dd3nxn1nja.chatmanager.support.Global;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import com.ryderbelserion.chatmanager.enums.Files;
 
-public class CommandMOTD implements Listener {
+public class CommandMOTD extends Global implements Listener {
 
 	@EventHandler
 	public void onMotd(PlayerCommandPreprocessEvent e) {
