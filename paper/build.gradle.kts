@@ -11,7 +11,7 @@ project.description = "The kitchen sink of Chat Management!"
 val buildNumber: String? = System.getenv("BUILD_NUMBER")
 val isPublishing: String? = System.getenv("IS_PUBLISHING")
 
-project.version = if (buildNumber != null && isPublishing == null) "${libs.versions.minecraft.get()}-$buildNumber" else "4.0.4"
+project.version = if (buildNumber != null && isPublishing == null) "${libs.versions.minecraft.get()}-$buildNumber" else "4.0.5"
 
 repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
