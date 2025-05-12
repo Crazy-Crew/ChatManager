@@ -6,9 +6,8 @@ authors:
   - ryderbelserion
 
 version: '${version}'
-api-version: '${apiVersion}'
+api-version: '${minecraft}'
 description: '${description}'
-website: '${website}'
 
 folia-supported: true
 

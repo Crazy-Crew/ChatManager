@@ -59,15 +59,12 @@ tasks {
     }
 
     processResources {
-        inputs.properties("name" to rootProject.name)
-        inputs.properties("version" to project.version)
-        inputs.properties("group" to project.group)
-        inputs.properties("apiVersion" to libs.versions.minecraft.get())
-        inputs.properties("description" to project.description)
-        inputs.properties("website" to rootProject.properties["website"].toString())
-
         filesMatching("plugin.yml") {
-            expand(inputs.properties)
+            expand("name" to rootProject.name,
+                "description" to rootProject.description,
+                "minecraft" to libs.versions.minecraft.get(),
+                "version" to rootProject.version,
+                "group" to project.group)
         }
     }
 
