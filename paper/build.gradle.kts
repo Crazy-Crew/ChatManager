@@ -6,8 +6,6 @@ plugins {
 }
 
 project.group = "${rootProject.group}"
-project.version = rootProject.version
-project.description = "The kitchen sink of Chat Management!"
 
 repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
@@ -35,26 +33,12 @@ dependencies {
 }
 
 tasks {
-    assemble {
-        dependsOn(shadowJar)
-    }
-
     shadowJar {
-        archiveBaseName.set(rootProject.name)
-        archiveClassifier.set("")
-
         listOf(
             "com.ryderbelserion.fusion",
             "org.bstats"
         ).forEach {
             relocate(it, "libs.$it")
-        }
-
-        doLast {
-            copy {
-                from(shadowJar.get())
-                into(rootProject.projectDir.resolve("jars"))
-            }
         }
     }
 
