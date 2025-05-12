@@ -22,24 +22,9 @@ metrics = { module = "org.bstats:bstats-bukkit", version.ref = "bStats" }
 # Vault API
 vault = { group = "com.github.MilkBowl", name = "VaultAPI", version.ref = "vault" }
 
-# Cloud API
-cloud-annotations = { module = "org.incendo:cloud-annotations", version.ref = "cloud-release" }
-cloud-extras = { module = "org.incendo:cloud-minecraft-extras", version.ref = "cloud-beta" }
-cloud-paper = { module = "org.incendo:cloud-paper", version.ref = "cloud-beta" }
-
-# Kyori API
-kyori-logger = { module = "net.kyori:adventure-text-logger-slf4j", version.ref = "adventure" }
-kyori-text = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
-kyori-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
-
-# Configurate API
-configurate-jackson = { module = "org.spongepowered:configurate-jackson", version.ref = "configurate" }
-configurate-yaml = { module = "org.spongepowered:configurate-yaml", version.ref = "configurate" }
-
-# Other API
-jalu = { module = "ch.jalu:configme", version.ref = "jalu" }
-
 [versions]
+chatmanager = "4.0.5"
+
 # Paper API
 paper = "1.21.5-R0.1-SNAPSHOT"
 minecraft = "1.21.5"
@@ -50,18 +35,11 @@ runPaper = "2.3.1"
 minotaur = "2.8.7"
 hangar = "0.1.2"
 
-# Cloud API
-cloud-beta = "2.0.0-beta.10"
-cloud-release = "2.0.0"
-
 # Placeholder API
 placeholderapi = "2.11.6"
 
 # Essentials API
 essentials = "2.20.1"
-
-# Configurate API
-configurate = "4.2.0"
 
 # Fusion API
 fusion = "1.6.0"
@@ -71,19 +49,3 @@ bStats = "3.1.0"
 
 # Vault API
 vault = "1.7.1"
-
-# Kyori API
-adventure = "4.21.0"
-
-# Other API
-jalu = "1.4.1"
-
-[bundles]
-# Shared API
-shared = ["placeholder-api", "vault"]
-
-# Adventure API
-adventure = ["kyori-api", "kyori-text", "kyori-logger"]
-
-# Cloud Paper API
-cloud-paper = ["cloud-annotations", "cloud-extras", "cloud-paper"]
