@@ -25,6 +25,8 @@ dependencies {
 tasks.withType<Jar> {
     dependsOn(mergedJar)
 
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
     val jars = mergedJar.map { zipTree(it) }
 
     from(jars)
