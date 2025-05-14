@@ -1,4 +1,6 @@
 name: Dev Build
+env:
+  IS_SNAPSHOT: true
 on:
   push:
     branches:
@@ -25,4 +27,3 @@ jobs:
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           COMMIT_MESSAGE: ${{ join(github.event.commits.*.message, '<br>') }}
-          IS_SNAPSHOT: true
