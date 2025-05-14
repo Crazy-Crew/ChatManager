@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.indra.git)
     alias(libs.plugins.minotaur)
 
     id("root-plugin")
@@ -6,10 +7,10 @@ plugins {
 
 rootProject.group = "me.h1dd3nxn1nja.chatmanager"
 
-val buildNumber: String? = System.getenv("BUILD_NUMBER")
-val isPublishing: String? = System.getenv("IS_PUBLISHING")
+val commitHash: String? = indraGit.commit()?.name()
+val isSnapshot: Boolean = System.getenv("IS_SNAPSHOT") != null
 
-rootProject.version = if (buildNumber != null && isPublishing == null) "${libs.versions.minecraft.get()}-$buildNumber" else libs.versions.chatmanager.get()
+rootProject.version = if (isSnapshot) "${libs.versions.minecraft.get()}-$commitHash" else libs.versions.chatmanager.get()
 rootProject.description = "The kitchen sink of Chat Management!"
 
 val mergedJar by configurations.creating<Configuration> {
@@ -39,9 +40,9 @@ modrinth {
 
     versionName = "${rootProject.version}"
     versionNumber = "${rootProject.version}"
-    versionType = "releases"
+    versionType = if (isSnapshot) "beta" else "release"
 
-    changelog = if (System.getenv("IS_SNAPSHOT") != null) System.getenv("COMMIT_MESSAGE") else rootProject.file("changelog.md").readText(Charsets.UTF_8)
+    changelog = if (isSnapshot) System.getenv("COMMIT_MESSAGE") else rootProject.file("changelog.md").readText(Charsets.UTF_8)
 
     gameVersions.addAll(listOf(libs.versions.minecraft.get()))
 
