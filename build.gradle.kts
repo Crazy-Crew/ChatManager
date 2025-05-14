@@ -8,9 +8,9 @@ plugins {
 rootProject.group = "me.h1dd3nxn1nja.chatmanager"
 
 val commitHash: String? = indraGit.commit()?.name()
-val isSnapshot: Boolean = System.getenv("IS_SNAPSHOT") != null
+val isSnapshot: Boolean = true
 
-rootProject.version = if (isSnapshot) "${libs.versions.minecraft.get()}-$commitHash" else libs.versions.chatmanager.get()
+rootProject.version = if (isSnapshot) "${libs.versions.minecraft.get()}-${commitHash?.subSequence(0, 7)}" else libs.versions.chatmanager.get()
 rootProject.description = "The kitchen sink of Chat Management!"
 
 val mergedJar by configurations.creating<Configuration> {
