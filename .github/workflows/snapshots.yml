@@ -1,4 +1,4 @@
-name: Dev Build
+name: Snapshot Build
 env:
   IS_SNAPSHOT: true
 on:
