@@ -8,7 +8,7 @@ plugins {
 rootProject.group = "me.h1dd3nxn1nja.chatmanager"
 
 val commitHash: String? = indraGit.commit()?.name()?.subSequence(0, 7).toString()
-val isSnapshot: Boolean = true
+val isSnapshot: Boolean = System.getenv("IS_SNAPSHOT") != null
 val content: String? = if (isSnapshot) "[$commitHash](https://github.com/Crazy-Crew/${rootProject.name}/commit/$commitHash) ${System.getenv("COMMIT_MESSAGE")}" else rootProject.file("changelog.md").readText(Charsets.UTF_8)
 
 rootProject.version = if (isSnapshot) "${libs.versions.minecraft.get()}-$commitHash" else libs.versions.chatmanager.get()
