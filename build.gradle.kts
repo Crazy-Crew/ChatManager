@@ -35,13 +35,13 @@ tasks.withType<Jar> {
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
 
-    projectId = rootProject.name
+    projectId = "SimpleEdit"
 
     versionName = "${rootProject.version}"
     versionNumber = "${rootProject.version}"
     versionType = "releases"
 
-    changelog = rootProject.file("changelog.md").readText(Charsets.UTF_8)
+    changelog = if (System.getenv("IS_SNAPSHOT") != null) System.getenv("COMMIT_MESSAGE") else rootProject.file("changelog.md").readText(Charsets.UTF_8)
 
     gameVersions.addAll(listOf(libs.versions.minecraft.get()))
 
