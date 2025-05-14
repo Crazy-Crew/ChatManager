@@ -16,6 +16,8 @@ jobs:
           java-version: 21
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
       - name: Build
         run: ./gradlew build --stacktrace
       - name: Publish to Modrinth
