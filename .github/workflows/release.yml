@@ -29,3 +29,8 @@ jobs:
         run: ./gradlew modrinth --stacktrace
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+      - name: Notify Discord
+        if: success()
+        run: ./gradlew release-build --stacktrace
+        env:
+          BUILD_WEBHOOK: ${{ secrets.BUILD_WEBHOOK }}
