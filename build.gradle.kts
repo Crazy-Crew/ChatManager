@@ -1,4 +1,6 @@
 plugins {
+    id("com.ryderbelserion.feather.core") version "0.2.1"
+
     alias(libs.plugins.indra.git)
     alias(libs.plugins.minotaur)
 
@@ -9,7 +11,7 @@ rootProject.group = "me.h1dd3nxn1nja.chatmanager"
 
 val commitHash: String? = indraGit.commit()?.name()?.subSequence(0, 7).toString()
 val isSnapshot: Boolean = System.getenv("IS_SNAPSHOT") != null
-val content: String? = if (isSnapshot) "[$commitHash](https://github.com/Crazy-Crew/${rootProject.name}/commit/$commitHash) ${System.getenv("COMMIT_MESSAGE")}" else rootProject.file("changelog.md").readText(Charsets.UTF_8)
+val content: String = if (isSnapshot) "[$commitHash](https://github.com/Crazy-Crew/${rootProject.name}/commit/$commitHash) ${System.getenv("COMMIT_MESSAGE")}" else rootProject.file("changelog.md").readText(Charsets.UTF_8)
 
 rootProject.version = if (isSnapshot) "${libs.versions.minecraft.get()}-$commitHash" else libs.versions.chatmanager.get()
 rootProject.description = "The kitchen sink of Chat Management!"
@@ -22,6 +24,74 @@ val mergedJar by configurations.creating<Configuration> {
 
 dependencies {
     mergedJar(project(":paper"))
+}
+
+feather {
+    discord {
+        webhook {
+            group("chatmanager")
+            task("dev-build")
+
+            if (System.getenv("BUILD_WEBHOOK") != null) {
+                this.post(System.getenv("BUILD_WEBHOOK"))
+            }
+
+            this.username("Ryder Belserion")
+
+            this.embeds {
+                this.embed {
+                    this.color("#ffa347")
+
+                    this.title("A new dev version of ${rootProject.name} is ready!")
+
+                    this.fields {
+                        this.field(
+                            "Version ${rootProject.version}",
+                            "Click [here](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${rootProject.version}) to download!"
+                        )
+
+                        this.field(
+                            "Changelog",
+                            content
+                        )
+                    }
+                }
+            }
+        }
+
+        webhook {
+            group("chatmanager")
+            task("release-build")
+
+            if (System.getenv("BUILD_WEBHOOK") != null) {
+                this.post(System.getenv("BUILD_WEBHOOK"))
+            }
+
+            this.username("Ryder Belserion")
+
+            this.content("<@&1372358375433834537>")
+
+            this.embeds {
+                this.embed {
+                    this.color("#1bd96a")
+
+                    this.title("A new release version of ${rootProject.name} is ready!")
+
+                    this.fields {
+                        this.field(
+                            "Version ${rootProject.version}",
+                            "Click [here](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${rootProject.version}) to download!"
+                        )
+
+                        this.field(
+                            "Changelog",
+                            content
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
 
 tasks.withType<Jar> {
