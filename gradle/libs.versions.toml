@@ -24,7 +24,7 @@ metrics = { module = "org.bstats:bstats-bukkit", version.ref = "bStats" }
 vault = { group = "com.github.MilkBowl", name = "VaultAPI", version.ref = "vault" }
 
 [versions]
-chatmanager = "4.0.5"
+chatmanager = "4.0.3"
 
 # Paper API
 paper = "1.21.5-R0.1-SNAPSHOT"
