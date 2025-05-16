@@ -31,7 +31,7 @@ dependencies {
 feather {
     discord {
         webhook {
-            group("chatmanager")
+            group(rootProject.name.lowercase())
             task("dev-build")
 
             if (System.getenv("BUILD_WEBHOOK") != null) {
@@ -64,7 +64,7 @@ feather {
         }
 
         webhook {
-            group("chatmanager")
+            group(rootProject.name.lowercase())
             task("release-build")
 
             if (System.getenv("BUILD_WEBHOOK") != null) {
