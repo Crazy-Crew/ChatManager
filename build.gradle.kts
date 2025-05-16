@@ -29,32 +29,34 @@ dependencies {
 }
 
 feather {
+    rootDirectory = rootProject.rootDir.toPath()
+
     discord {
         webhook {
             group(rootProject.name.lowercase())
             task("dev-build")
 
             if (System.getenv("BUILD_WEBHOOK") != null) {
-                this.post(System.getenv("BUILD_WEBHOOK"))
+                post(System.getenv("BUILD_WEBHOOK"))
             }
 
-            this.username(username)
+            username(username)
 
-            this.avatar(git.getGithubInformation().avatar)
+            avatar("https://github.com/ryderbelserion.png")
 
-            this.embeds {
-                this.embed {
-                    this.color("#ffa347")
+            embeds {
+                embed {
+                    color("#ffa347")
 
-                    this.title("A new dev version of ${rootProject.name} is ready!")
+                    title("A new dev version of ${rootProject.name} is ready!")
 
-                    this.fields {
-                        this.field(
+                    fields {
+                        field(
                             "Version ${rootProject.version}",
                             "Click [here](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${rootProject.version}) to download!"
                         )
 
-                        this.field(
+                        field(
                             "Changelog",
                             content
                         )
@@ -68,28 +70,28 @@ feather {
             task("release-build")
 
             if (System.getenv("BUILD_WEBHOOK") != null) {
-                this.post(System.getenv("BUILD_WEBHOOK"))
+                post(System.getenv("BUILD_WEBHOOK"))
             }
 
-            this.username(username)
+            username(username)
 
-            this.avatar(git.getGithubInformation().avatar)
+            avatar("https://github.com/ryderbelserion.png")
 
-            this.content("<@&1372358375433834537>")
+            content("<@&1372358375433834537>")
 
-            this.embeds {
-                this.embed {
-                    this.color("#1bd96a")
+            embeds {
+                embed {
+                    color("#1bd96a")
 
-                    this.title("A new release version of ${rootProject.name} is ready!")
+                    title("A new release version of ${rootProject.name} is ready!")
 
-                    this.fields {
-                        this.field(
+                    fields {
+                        field(
                             "Version ${rootProject.version}",
                             "Click [here](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${rootProject.version}) to download!"
                         )
 
-                        this.field(
+                        field(
                             "Changelog",
                             content
                         )
