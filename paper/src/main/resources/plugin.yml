@@ -22,6 +22,9 @@ commands:
         description: Main command for the plugin chat manager.
         usage: /<command> <help|reload|debug|preview>
         aliases: [cm]
+    Motd:
+      description: Shows the message of the day!
+      usage: /motd
     Announcement:
         description: Announce a message to the entire server.
         usage: /<command> <message>

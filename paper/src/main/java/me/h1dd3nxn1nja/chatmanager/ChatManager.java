@@ -203,6 +203,8 @@ public class ChatManager extends JavaPlugin {
         registerCommand(getCommand("ToggleChat"), null, new CommandToggleChat());
 
         registerCommand(getCommand("ToggleMentions"), null, new CommandToggleMentions());
+
+        registerCommand(getCommand("Motd"), null, new CommandMOTD());
     }
 
     private void registerCommand(final PluginCommand pluginCommand, final TabCompleter tabCompleter, final CommandExecutor commandExecutor) {
@@ -232,7 +234,6 @@ public class ChatManager extends JavaPlugin {
         pluginManager.registerEvents(new ListenerRadius(), this);
         pluginManager.registerEvents(new ListenerGrammar(), this);
         pluginManager.registerEvents(new ListenerLogs(), this);
-        pluginManager.registerEvents(new CommandMOTD(), this);
 
         pluginManager.registerEvents(new ListenerMentions(), this);
         pluginManager.registerEvents(new ListenerPerWorldChat(), this);
