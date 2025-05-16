@@ -42,7 +42,7 @@ feather {
 
             username(username)
 
-            avatar("https://github.com/ryderbelserion.png")
+            avatar(git.getGithubInformation().avatar)
 
             embeds {
                 embed {
@@ -80,7 +80,7 @@ feather {
 
             username(username)
 
-            avatar("https://github.com/ryderbelserion.png")
+            avatar(git.getGithubInformation().avatar)
 
             content("<@&1372358375433834537>")
 
