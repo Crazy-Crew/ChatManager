@@ -23,7 +23,7 @@ metrics = { module = "org.bstats:bstats-bukkit", version.ref = "bStats" }
 vault = { group = "com.github.MilkBowl", name = "VaultAPI", version.ref = "vault" }
 
 [versions]
-chatmanager = "4.0.5"
+chatmanager = "4.0.3"
 
 # Paper API
 paper = "1.21.5-R0.1-SNAPSHOT"
@@ -32,7 +32,7 @@ minecraft = "1.21.5"
 # Gradle Plugins
 shadow = "9.0.0-beta12"
 runPaper = "2.3.1"
-minotaur = "2.8.7"
+minotaur = "2.8.7" # https://github.com/modrinth/minotaur
 hangar = "0.1.2"
 
 # Placeholder API

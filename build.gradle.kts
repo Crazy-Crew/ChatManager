@@ -1,4 +1,6 @@
 plugins {
+    id("com.ryderbelserion.feather.core") version "0.3.1"
+
     alias(libs.plugins.minotaur)
 
     id("root-plugin")
@@ -6,10 +8,14 @@ plugins {
 
 rootProject.group = "me.h1dd3nxn1nja.chatmanager"
 
-val buildNumber: String? = System.getenv("BUILD_NUMBER")
-val isPublishing: String? = System.getenv("IS_PUBLISHING")
+val git = feather.getGit()
 
-rootProject.version = if (buildNumber != null && isPublishing == null) "${libs.versions.minecraft.get()}-$buildNumber" else libs.versions.chatmanager.get()
+val commitHash: String? = git.getCurrentCommitId().subSequence(0, 7).toString()
+val username: String = git.getCommitAuthorName()
+val isSnapshot: Boolean = true
+val content: String = if (isSnapshot) "[$commitHash](https://github.com/Crazy-Crew/${rootProject.name}/commit/$commitHash) ${git.getLatestCommitMessage()}" else rootProject.file("changelog.md").readText(Charsets.UTF_8)
+
+rootProject.version = if (isSnapshot) "${libs.versions.minecraft.get()}-$commitHash" else libs.versions.chatmanager.get()
 rootProject.description = "The kitchen sink of Chat Management!"
 
 val mergedJar by configurations.creating<Configuration> {
@@ -20,6 +26,78 @@ val mergedJar by configurations.creating<Configuration> {
 
 dependencies {
     mergedJar(project(":paper"))
+}
+
+feather {
+    discord {
+        webhook {
+            group(rootProject.name.lowercase())
+            task("dev-build")
+
+            if (System.getenv("BUILD_WEBHOOK") != null) {
+                this.post(System.getenv("BUILD_WEBHOOK"))
+            }
+
+            this.username(username)
+
+            this.avatar(git.getGithubInformation().avatar)
+
+            this.embeds {
+                this.embed {
+                    this.color("#ffa347")
+
+                    this.title("A new dev version of ${rootProject.name} is ready!")
+
+                    this.fields {
+                        this.field(
+                            "Version ${rootProject.version}",
+                            "Click [here](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${rootProject.version}) to download!"
+                        )
+
+                        this.field(
+                            "Changelog",
+                            content
+                        )
+                    }
+                }
+            }
+        }
+
+        webhook {
+            group(rootProject.name.lowercase())
+            task("release-build")
+
+            if (System.getenv("BUILD_WEBHOOK") != null) {
+                this.post(System.getenv("BUILD_WEBHOOK"))
+            }
+
+            this.username(username)
+
+            this.avatar(git.getGithubInformation().avatar)
+
+            this.content("<@&1372358375433834537>")
+
+            this.embeds {
+                this.embed {
+                    this.color("#1bd96a")
+
+                    this.title("A new release version of ${rootProject.name} is ready!")
+
+                    this.fields {
+                        this.field(
+                            "Version ${rootProject.version}",
+                            "Click [here](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${rootProject.version}) to download!"
+                        )
+
+                        this.field(
+                            "Changelog",
+                            content
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
 
 tasks.withType<Jar> {
@@ -39,9 +117,9 @@ modrinth {
 
     versionName = "${rootProject.version}"
     versionNumber = "${rootProject.version}"
-    versionType = "releases"
+    versionType = if (isSnapshot) "beta" else "release"
 
-    changelog = rootProject.file("changelog.md").readText(Charsets.UTF_8)
+    changelog = content
 
     gameVersions.addAll(listOf(libs.versions.minecraft.get()))
 
