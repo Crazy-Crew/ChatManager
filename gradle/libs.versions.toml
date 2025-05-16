@@ -2,7 +2,6 @@
 hangar = { id = "io.papermc.hangar-publish-plugin", version.ref = "hangar" }
 runPaper = { id = "xyz.jpenilla.run-paper", version.ref = "runPaper" }
 minotaur = { id = "com.modrinth.minotaur", version.ref = "minotaur" }
-indra-git = { id = "net.kyori.indra.git", version.ref = "indra-git" }
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
 
 [libraries]
@@ -32,7 +31,6 @@ minecraft = "1.21.5"
 
 # Gradle Plugins
 shadow = "9.0.0-beta12"
-indra-git = "3.1.3"    # https://github.com/KyoriPowered/indra
 runPaper = "2.3.1"
 minotaur = "2.8.7" # https://github.com/modrinth/minotaur
 hangar = "0.1.2"

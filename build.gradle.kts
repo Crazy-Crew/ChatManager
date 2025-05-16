@@ -1,7 +1,6 @@
 plugins {
-    id("com.ryderbelserion.feather.core") version "0.2.1"
+    id("com.ryderbelserion.feather.core") version "0.3.1"
 
-    alias(libs.plugins.indra.git)
     alias(libs.plugins.minotaur)
 
     id("root-plugin")
@@ -9,9 +8,12 @@ plugins {
 
 rootProject.group = "me.h1dd3nxn1nja.chatmanager"
 
-val commitHash: String? = indraGit.commit()?.name()?.subSequence(0, 7).toString()
-val isSnapshot: Boolean = System.getenv("IS_SNAPSHOT") != null
-val content: String = if (isSnapshot) "[$commitHash](https://github.com/Crazy-Crew/${rootProject.name}/commit/$commitHash) ${System.getenv("COMMIT_MESSAGE")}" else rootProject.file("changelog.md").readText(Charsets.UTF_8)
+val git = feather.getGit()
+
+val commitHash: String? = git.getCurrentCommitId().subSequence(0, 7).toString()
+val username: String = git.getCommitAuthorName()
+val isSnapshot: Boolean = true
+val content: String = if (isSnapshot) "[$commitHash](https://github.com/Crazy-Crew/${rootProject.name}/commit/$commitHash) ${git.getLatestCommitMessage()}" else rootProject.file("changelog.md").readText(Charsets.UTF_8)
 
 rootProject.version = if (isSnapshot) "${libs.versions.minecraft.get()}-$commitHash" else libs.versions.chatmanager.get()
 rootProject.description = "The kitchen sink of Chat Management!"
@@ -36,7 +38,9 @@ feather {
                 this.post(System.getenv("BUILD_WEBHOOK"))
             }
 
-            this.username("Ryder Belserion")
+            this.username(username)
+
+            this.avatar(git.getGithubInformation().avatar)
 
             this.embeds {
                 this.embed {
@@ -67,7 +71,9 @@ feather {
                 this.post(System.getenv("BUILD_WEBHOOK"))
             }
 
-            this.username("Ryder Belserion")
+            this.username(username)
+
+            this.avatar(git.getGithubInformation().avatar)
 
             this.content("<@&1372358375433834537>")
 
