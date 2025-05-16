@@ -57,7 +57,12 @@ feather {
                         )
 
                         field(
-                            "Changelog",
+                            ":bug: Report Bugs",
+                            "https://github.com/Crazy-Crew/${rootProject.name}/issues"
+                        )
+
+                        field(
+                            ":hammer: Changelog",
                             content
                         )
                     }
@@ -92,7 +97,12 @@ feather {
                         )
 
                         field(
-                            "Changelog",
+                            ":bug: Report Bugs",
+                            "https://github.com/Crazy-Crew/${rootProject.name}/issues"
+                        )
+
+                        field(
+                            ":hammer: Changelog",
                             content
                         )
                     }
