@@ -1,5 +1,5 @@
 plugins {
-    id("com.ryderbelserion.feather.core") version "0.3.1"
+    id("com.ryderbelserion.feather.core") version "0.3.2"
 
     alias(libs.plugins.minotaur)
 
@@ -10,10 +10,9 @@ rootProject.group = "me.h1dd3nxn1nja.chatmanager"
 
 val git = feather.getGit()
 
-val commitHash: String? = git.getCurrentCommitId().subSequence(0, 7).toString()
-val username: String = git.getCommitAuthorName()
+val commitHash: String? = git.getCurrentCommitHash().subSequence(0, 7).toString()
 val isSnapshot: Boolean = true
-val content: String = if (isSnapshot) "[$commitHash](https://github.com/Crazy-Crew/${rootProject.name}/commit/$commitHash) ${git.getLatestCommitMessage()}" else rootProject.file("changelog.md").readText(Charsets.UTF_8)
+val content: String = if (isSnapshot) "[$commitHash](https://github.com/Crazy-Crew/${rootProject.name}/commit/$commitHash) ${git.getCurrentCommit()}" else rootProject.file("changelog.md").readText(Charsets.UTF_8)
 
 rootProject.version = if (isSnapshot) "${libs.versions.minecraft.get()}-$commitHash" else libs.versions.chatmanager.get()
 rootProject.description = "The kitchen sink of Chat Management!"
@@ -31,6 +30,8 @@ dependencies {
 feather {
     rootDirectory = rootProject.rootDir.toPath()
 
+    val data = git.getCurrentCommitAuthorData()
+
     discord {
         webhook {
             group(rootProject.name.lowercase())
@@ -40,9 +41,9 @@ feather {
                 post(System.getenv("BUILD_WEBHOOK"))
             }
 
-            username(username)
+            username(data.author)
 
-            avatar(git.getGithubInformation().avatar)
+            avatar(data.avatar)
 
             embeds {
                 embed {
@@ -78,9 +79,9 @@ feather {
                 post(System.getenv("BUILD_WEBHOOK"))
             }
 
-            username(username)
+            username(data.author)
 
-            avatar(git.getGithubInformation().avatar)
+            avatar(data.avatar)
 
             content("<@&1372358375433834537>")
 
