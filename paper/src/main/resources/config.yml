@@ -359,17 +359,6 @@ Formatted_Messages:
   Enable: false
 
 #=================================================================================================#
-# Correct player's grammar.
-#=================================================================================================#
-Grammar:
-  Enable: false
-  # The minimum size the players message has to be for grammar to work.
-  Min_Message_Length: 5
-  # Correct words from "i" to "I", "dont" to "don't", and many more pre-set words!
-  Autocorrect:
-    Enable: true
-
-#=================================================================================================#
 # Staff and Player List:
 #=================================================================================================#
 Lists:

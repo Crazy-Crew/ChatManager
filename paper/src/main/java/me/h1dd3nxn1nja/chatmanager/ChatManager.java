@@ -48,7 +48,6 @@ import me.h1dd3nxn1nja.chatmanager.listeners.ListenerBannedCommand;
 import me.h1dd3nxn1nja.chatmanager.listeners.ListenerCaps;
 import me.h1dd3nxn1nja.chatmanager.listeners.ListenerChatFormat;
 import me.h1dd3nxn1nja.chatmanager.listeners.ListenerColor;
-import me.h1dd3nxn1nja.chatmanager.listeners.ListenerGrammar;
 import me.h1dd3nxn1nja.chatmanager.listeners.ListenerLogs;
 import me.h1dd3nxn1nja.chatmanager.listeners.ListenerMentions;
 import me.h1dd3nxn1nja.chatmanager.listeners.ListenerPerWorldChat;
@@ -232,7 +231,6 @@ public class ChatManager extends JavaPlugin {
 
         pluginManager.registerEvents(new ListenerChatFormat(), this);
         pluginManager.registerEvents(new ListenerRadius(), this);
-        pluginManager.registerEvents(new ListenerGrammar(), this);
         pluginManager.registerEvents(new ListenerLogs(), this);
 
         pluginManager.registerEvents(new ListenerMentions(), this);
