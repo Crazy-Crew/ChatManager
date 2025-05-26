@@ -65,7 +65,6 @@ public enum Permissions {
     PREVIEW_TITLE("preview.title", "Shows title on join", PermissionDefault.OP),
     BYPASS_DUPE_CHAT("bypass.dupe.chat", "Permission to use repetitive messages.", PermissionDefault.OP),
     BYPASS_DUPE_COMMAND("bypass.dupe.command", "Permission to use repetitive commands", PermissionDefault.OP),
-    BYPASS_GRAMMAR("bypass.grammar", "Permission to bypass the grammar checks.", PermissionDefault.OP),
     BYPASS_MUTE_CHAT("bypass.mutechat", "Permission to bypass muted chats", PermissionDefault.OP),
     BYPASS_CAPS("bypass.caps", "Permission to bypass caps checker.", PermissionDefault.OP),
     BYPASS_CLEAR_CHAT("bypass.clearchat", "Ability to bypass clear chat.", PermissionDefault.OP),
