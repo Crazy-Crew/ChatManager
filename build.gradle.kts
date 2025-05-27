@@ -1,9 +1,9 @@
 plugins {
-    id("com.ryderbelserion.feather.core") version "0.3.2"
-
     alias(libs.plugins.minotaur)
+    alias(libs.plugins.feather)
+    alias(libs.plugins.hangar)
 
-    id("root-plugin")
+    `config-java`
 }
 
 rootProject.group = "me.h1dd3nxn1nja.chatmanager"
@@ -11,20 +11,18 @@ rootProject.group = "me.h1dd3nxn1nja.chatmanager"
 val git = feather.getGit()
 
 val commitHash: String? = git.getCurrentCommitHash().subSequence(0, 7).toString()
-val isSnapshot: Boolean = true
+val isSnapshot: Boolean = System.getenv("IS_SNAPSHOT") != null
 val content: String = if (isSnapshot) "[$commitHash](https://github.com/Crazy-Crew/${rootProject.name}/commit/$commitHash) ${git.getCurrentCommit()}" else rootProject.file("changelog.md").readText(Charsets.UTF_8)
 
-rootProject.version = if (isSnapshot) "${libs.versions.minecraft.get()}-$commitHash" else libs.versions.chatmanager.get()
+rootProject.version = version()
 rootProject.description = "The kitchen sink of Chat Management!"
 
-val mergedJar by configurations.creating<Configuration> {
-    isCanBeResolved = true
-    isCanBeConsumed = false
-    isVisible = false
-}
+fun version(): String {
+    if (isSnapshot) {
+        return "${libs.versions.minecraft.get()}-$commitHash"
+    }
 
-dependencies {
-    mergedJar(project(":paper"))
+    return libs.versions.chatmanager.get()
 }
 
 feather {
@@ -113,14 +111,37 @@ feather {
     }
 }
 
-tasks.withType<Jar> {
-    dependsOn(mergedJar)
+allprojects { //todo() why? the gradle shit in buildSrc already applies this...
+    apply(plugin = "java-library")
+}
 
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+tasks {
+    withType<Jar> {
+        subprojects {
+            dependsOn(project.tasks.build)
+        }
 
-    val jars = mergedJar.map { zipTree(it) }
+        // get subproject's built jars
+        val jars = subprojects.map { zipTree(it.tasks.jar.get().archiveFile.get().asFile) }
 
-    from(jars)
+        // merge them into main jar (except their manifests)
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+        from(jars) {
+            exclude("META-INF/MANIFEST.MF")
+        }
+
+        // put behind an action because files don't exist at configuration time
+        doFirst {
+            // merge all subproject's manifests into main manifest
+            jars.forEach { jar ->
+                jar.matching { include("META-INF/MANIFEST.MF") }
+                    .files.forEach { file ->
+                        manifest.from(file)
+                    }
+            }
+        }
+    }
 }
 
 modrinth {

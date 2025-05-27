@@ -1,8 +1,5 @@
 plugins {
-    alias(libs.plugins.runPaper)
-    alias(libs.plugins.shadow)
-
-    id("paper-plugin")
+    `config-paper`
 }
 
 project.group = "${rootProject.group}"
@@ -33,6 +30,10 @@ dependencies {
 }
 
 tasks {
+    build {
+        dependsOn(shadowJar)
+    }
+
     shadowJar {
         listOf(
             "com.ryderbelserion.fusion",
