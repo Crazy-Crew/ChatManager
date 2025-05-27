@@ -271,7 +271,7 @@ public class Methods {
 	}
 	
 	public static String getPrefix() {
-		return color(Files.MESSAGES.getConfiguration().getString("Message.Prefix"));
+		return color(Files.MESSAGES.getConfiguration().getString("Message.Prefix", "&b[&6ChatManager&b] &r"));
 	}
 	
 	public static void tellConsole(final String message, final boolean prefix) {

@@ -15,7 +15,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -180,7 +179,7 @@ public class ListenerAntiAdvertising extends Global implements Listener {
 
 		Messages.ANTI_ADVERTISING_COMMANDS_MESSAGE.sendMessage(player);
 
-		if (config.getBoolean("Anti_Advertising.Commands.Notify_Staff")) {
+		if (config.getBoolean("Anti_Advertising.Commands.Notify_Staff", false)) {
 			for (final Player staff : this.server.getOnlinePlayers()) {
 				if (staff.hasPermission(Permissions.NOTIFY_ANTI_ADVERTISING.getNode())) {
 					Messages.ANTI_ADVERTISING_COMMANDS_NOTIFY_STAFF.sendMessage(staff, new HashMap<>() {{
@@ -259,7 +258,7 @@ public class ListenerAntiAdvertising extends Global implements Listener {
 
 			final String str = "[" + time + "] [Sign] " + playerName + ": Line: " + line + " Text: " + message.replaceAll("§", "&");
 
-			if (config.getBoolean("Anti_Advertising.Signs.Increase_Sensitivity")) {
+			if (config.getBoolean("Anti_Advertising.Signs.Increase_Sensitivity", false)) {
 				final Matcher firstMatchIncrease = firstPattern.matcher(message.toLowerCase().replaceAll("\\s+", ""));
 				final Matcher secondMatchIncrease = secondPattern.matcher(message.toLowerCase().replaceAll("\\s+", ""));
 
@@ -284,7 +283,7 @@ public class ListenerAntiAdvertising extends Global implements Listener {
 
 		Messages.ANTI_ADVERTISING_SIGNS_MESSAGE.sendMessage(player);
 
-		if (config.getBoolean("Anti_Advertising.Signs.Notify_Staff")) {
+		if (config.getBoolean("Anti_Advertising.Signs.Notify_Staff", false)) {
 			for (final Player staff : this.server.getOnlinePlayers()) {
 				if (staff.hasPermission(Permissions.NOTIFY_ANTI_ADVERTISING.getNode())) {
 					Messages.ANTI_ADVERTISING_SIGNS_NOTIFY_STAFF.sendMessage(staff, new HashMap<>() {{

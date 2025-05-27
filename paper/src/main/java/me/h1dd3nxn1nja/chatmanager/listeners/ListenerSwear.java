@@ -208,7 +208,7 @@ public class ListenerSwear extends Global implements Listener {
 	}
 
 	private void commandSwearCheck(final FileConfiguration config, final Player player, final String message, final Date time) {
-		if (config.getBoolean("Anti_Swear.Commands.Log_Swearing")) {
+		if (config.getBoolean("Anti_Swear.Commands.Log_Swearing", false)) {
 			try {
 				final FileWriter fw = new FileWriter(new File(new File(this.dataFolder, "Logs"), "Swears.txt"), true);
 				final BufferedWriter bw = new BufferedWriter(fw);
@@ -243,9 +243,9 @@ public class ListenerSwear extends Global implements Listener {
 		final List<String> whitelisted = bannedWords.getStringList("Whitelisted_Words");
 		final List<String> blockedWordsList = bannedWords.getStringList("Banned-Words");
 
-		if (config.getBoolean("Anti_Swear.Signs.Enable")) {
+		if (config.getBoolean("Anti_Swear.Signs.Enable", false)) {
 			if (!player.hasPermission(Permissions.BYPASS_ANTI_SWEAR.getNode())) {
-				if (config.getBoolean("Anti_Swear.Signs.Increase_Sensitivity")) {
+				if (config.getBoolean("Anti_Swear.Signs.Increase_Sensitivity", false)) {
 					for (int line = 0; line < 4; line++) {
 						final String message = event.getLine(line);
 						assert message != null;
@@ -262,14 +262,12 @@ public class ListenerSwear extends Global implements Listener {
 								if (config.getBoolean("Anti_Swear.Signs.Block_Sign", false)) event.setCancelled(true);
 
 								if (config.getBoolean("Anti_Swear.Signs.Notify_Staff", false)) {
-									if (config.getBoolean("Anti_Swear.Signs.Notify_Staff")) {
-										for (final Player staff : this.server.getOnlinePlayers()) {
-											if (staff.hasPermission(Permissions.NOTIFY_ANTI_SWEAR.getNode())) {
-												Messages.ANTI_SWEAR_SIGNS_NOTIFY_STAFF_FORMAT.sendMessage(staff, new HashMap<>() {{
-													put("{player}", player.getName());
-													put("{message}", message);
-												}});
-											}
+									for (final Player staff : this.server.getOnlinePlayers()) {
+										if (staff.hasPermission(Permissions.NOTIFY_ANTI_SWEAR.getNode())) {
+											Messages.ANTI_SWEAR_SIGNS_NOTIFY_STAFF_FORMAT.sendMessage(staff, new HashMap<>() {{
+												put("{player}", player.getName());
+												put("{message}", message);
+											}});
 										}
 									}
 
@@ -297,14 +295,12 @@ public class ListenerSwear extends Global implements Listener {
 										if (config.getBoolean("Anti_Swear.Signs.Block_Sign", false)) event.setCancelled(true);
 
 										if (config.getBoolean("Anti_Swear.Signs.Notify_Staff", false)) {
-											if (config.getBoolean("Anti_Swear.Signs.Notify_Staff")) {
-												for (final Player staff : this.server.getOnlinePlayers()) {
-													if (staff.hasPermission(Permissions.NOTIFY_ANTI_SWEAR.getNode())) {
-														Messages.ANTI_SWEAR_SIGNS_NOTIFY_STAFF_FORMAT.sendMessage(staff, new HashMap<>() {{
-															put("{player}", player.getName());
-															put("{message}", message);
-														}});
-													}
+											for (final Player staff : this.server.getOnlinePlayers()) {
+												if (staff.hasPermission(Permissions.NOTIFY_ANTI_SWEAR.getNode())) {
+													Messages.ANTI_SWEAR_SIGNS_NOTIFY_STAFF_FORMAT.sendMessage(staff, new HashMap<>() {{
+														put("{player}", player.getName());
+														put("{message}", message);
+													}});
 												}
 											}
 
