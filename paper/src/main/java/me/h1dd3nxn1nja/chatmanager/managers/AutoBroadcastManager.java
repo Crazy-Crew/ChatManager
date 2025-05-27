@@ -10,7 +10,6 @@ import me.h1dd3nxn1nja.chatmanager.utils.World;
 import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-
 import java.util.ArrayList;
 import java.util.List;
 
