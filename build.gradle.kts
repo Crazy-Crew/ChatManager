@@ -28,7 +28,7 @@ fun version(): String {
 feather {
     rootDirectory = rootProject.rootDir.toPath()
 
-    val data = git.getCurrentCommitAuthorData()
+    val data = git.getCurrentCommitAuthorData().copy(author = git.getCurrentCommitAuthorName())
 
     discord {
         webhook {
