@@ -220,14 +220,13 @@ public class ListenerPlayerJoin extends Global implements Listener {
 
         final FileConfiguration config = Files.CONFIG.getConfiguration();
 
-        final int lines = config.getInt("Clear_Chat.Broadcasted_Lines", 300);
-        final int delay = config.getInt("MOTD.Delay", 2);
-
         if (config.getBoolean("Clear_Chat.Clear_On_Join", false)) {
-            if (player.hasPermission(Permissions.BYPASS_CLEAR_CHAT_ON_JOIN.getNode())) return;
+            final int lines = config.getInt("Clear_Chat.Broadcasted_Lines", 300);
 
-            for (int i = 0; i < lines; i++) {
-                player.sendMessage("");
+            if (!player.hasPermission(Permissions.BYPASS_CLEAR_CHAT_ON_JOIN.getNode())) {
+                for (int i = 0; i < lines; i++) {
+                    player.sendMessage("");
+                }
             }
         }
 
@@ -246,12 +245,14 @@ public class ListenerPlayerJoin extends Global implements Listener {
         }
 
         if (config.getBoolean("Chat_Radius.Enable", false)) {
-            if (!config.getBoolean("Chat_Radius.Enable_Spy_On_Join", false)) return;
-
-            if (player.hasPermission(Permissions.COMMAND_CHATRADIUS_SPY.getNode())) this.spyChatData.addUser(uuid);
+            if (config.getBoolean("Chat_Radius.Enable_Spy_On_Join", false)) {
+                if (player.hasPermission(Permissions.COMMAND_CHATRADIUS_SPY.getNode())) this.spyChatData.addUser(uuid);
+            }
         }
 
         if (config.getBoolean("MOTD.Enable", false)) {
+            final int delay = config.getInt("MOTD.Delay", 2);
+
             new FoliaScheduler(Scheduler.global_scheduler) {
                 @Override
                 public void run() {
