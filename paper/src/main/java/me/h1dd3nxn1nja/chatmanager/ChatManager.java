@@ -108,12 +108,6 @@ public class ChatManager extends JavaPlugin {
 
         this.pluginExtension = fusion.getPluginExtension();
 
-        List.of(
-                new VaultSupport(),
-                new VanishSupport(),
-                new PlaceholderAPISupport()
-        ).forEach(this.pluginExtension::registerPlugin);
-
         new CustomMetrics().start();
 
         this.api = new ApiLoader();
@@ -130,6 +124,12 @@ public class ChatManager extends JavaPlugin {
         setupChatRadius();
 
         registerPermissions();
+
+        List.of(
+                new VaultSupport(),
+                new VanishSupport(),
+                new PlaceholderAPISupport()
+        ).forEach(this.pluginExtension::registerPlugin);
     }
 
     @Override
