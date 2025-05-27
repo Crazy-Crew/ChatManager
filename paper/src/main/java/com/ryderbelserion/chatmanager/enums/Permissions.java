@@ -140,6 +140,7 @@ public enum Permissions {
     TOGGLE_PM("toggle.pm", "Ability to use the command /togglepm", PermissionDefault.OP),
     COMMAND_CHATRADIUS_ALL("chatradius.all", "Permission for all radius commands", PermissionDefault.FALSE, new HashMap<>() {{
         put("chatmanager.chatradius", true);
+        put("chatmanager.chatradius.help", true);
         put("chatmanager.chatradius.spy", true);
         put("chatmanager.chatradius.local", true);
         put("chatmanager.chatradius.global", true);

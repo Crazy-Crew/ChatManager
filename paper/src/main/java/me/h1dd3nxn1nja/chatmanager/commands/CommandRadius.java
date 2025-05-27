@@ -34,24 +34,23 @@ public class CommandRadius extends Global implements CommandExecutor, TabComplet
 				return true;
 			}
 
-			if (player.hasPermission(Permissions.CHAT_RADIUS_HELP.getNode())) {
-				if (args.length == 0) {
-					Methods.sendMessage(player, "", true);
-					Methods.sendMessage(player, (" &3Chat Radius Help Menu &f(v" + plugin.getDescription().getVersion() + ")"), true);
-					Methods.sendMessage(player, "", true);
-					Methods.sendMessage(player, (" &f/chatradius help &e- Shows a list of commands for chat radius."), true);
-					Methods.sendMessage(player, (" &f/chatradius local &e- Enables local chat."), true);
-					Methods.sendMessage(player, (" &f/chatradius global &e- Enables global chat."), true);
-					Methods.sendMessage(player, (" &f/chatradius world &e- Enables world chat."), true);
-					Methods.sendMessage(player, "", true);
+			if (args.length == 0) {
+				if (player.hasPermission(Permissions.CHAT_RADIUS_HELP.getNode())) {
+                    Methods.sendMessage(player, "", true);
+                    Methods.sendMessage(player, (" &3Chat Radius Help Menu &f(v" + plugin.getDescription().getVersion() + ")"), true);
+                    Methods.sendMessage(player, "", true);
+                    Methods.sendMessage(player, (" &f/chatradius help &e- Shows a list of commands for chat radius."), true);
+                    Methods.sendMessage(player, (" &f/chatradius local &e- Enables local chat."), true);
+                    Methods.sendMessage(player, (" &f/chatradius global &e- Enables global chat."), true);
+                    Methods.sendMessage(player, (" &f/chatradius world &e- Enables world chat."), true);
+                    Methods.sendMessage(player, "", true);
 
-					return true;
-				}
-			} else {
-				Messages.NO_PERMISSION.sendMessage(player);
+                } else {
+					Messages.NO_PERMISSION.sendMessage(player);
+                }
 
-				return true;
-			}
+                return true;
+            }
 
 			if (args[0].equalsIgnoreCase("help")) {
 				if (player.hasPermission(Permissions.CHAT_RADIUS_HELP.getNode())) {
