@@ -28,8 +28,7 @@ public class ConfigManager {
     private static final Path path = layout.getPath();
 
     public static void load() {
-        fileManager.addFolder(path.resolve("items"), FileType.YAML, new ArrayList<>(), null)
-                .addFolder(path.resolve("locale"), builder -> builder.configurationData(RootKeys.class, ErrorKeys.class), new ArrayList<>(), options)
+        fileManager.addFolder(path.resolve("locale"), builder -> builder.configurationData(RootKeys.class, ErrorKeys.class), new ArrayList<>(), options)
                 .addFile(path.resolve("config.yml"), builder -> builder.configurationData(ConfigKeys.class), new ArrayList<>(), options)
                 .addFile(path.resolve("messages.yml"), builder -> builder.configurationData(RootKeys.class, ErrorKeys.class), new ArrayList<>(), options)
                 .addFile(path.resolve("chat.yml"), builder -> builder.configurationData(ChatKeys.class), new ArrayList<>(), options);
