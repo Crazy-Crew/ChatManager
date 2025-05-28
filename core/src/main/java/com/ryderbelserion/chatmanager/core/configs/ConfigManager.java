@@ -10,7 +10,6 @@ import com.ryderbelserion.fusion.core.FusionCore;
 import com.ryderbelserion.fusion.core.api.exceptions.FusionException;
 import com.ryderbelserion.fusion.core.files.FileAction;
 import com.ryderbelserion.fusion.core.files.FileManager;
-import com.ryderbelserion.fusion.core.files.FileType;
 import com.ryderbelserion.fusion.core.files.types.JaluCustomFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
