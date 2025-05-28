@@ -6,7 +6,7 @@ plugins {
     `config-java`
 }
 
-rootProject.group = "me.h1dd3nxn1nja.chatmanager"
+rootProject.group = "com.ryderbelserion.chatmanager"
 
 val git = feather.getGit()
 

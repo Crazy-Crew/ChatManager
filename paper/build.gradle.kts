@@ -2,6 +2,9 @@ plugins {
     `config-paper`
 }
 
+project.description = "Paper version of ChatManager!"
+project.group = "${rootProject.group}.paper"
+
 dependencies {
     implementation(project(":chatmanager-core"))
 
@@ -27,7 +30,7 @@ tasks {
         inputs.properties(
             "name" to rootProject.name,
             "version" to rootProject.version,
-            "description" to rootProject.description,
+            "description" to project.description,
             "minecraft" to libs.versions.minecraft.get(),
             "group" to project.group
         )
@@ -35,7 +38,7 @@ tasks {
         duplicatesStrategy = DuplicatesStrategy.INCLUDE
 
         with(copySpec {
-            from("src/main/resources/plugin.yml") {
+            from("src/main/resources/paper-plugin.yml") {
                 expand(inputs.properties)
             }
         })
