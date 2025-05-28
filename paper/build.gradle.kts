@@ -2,31 +2,10 @@ plugins {
     `config-paper`
 }
 
-project.group = "${rootProject.group}"
-
-repositories {
-    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-
-    maven("https://repo.essentialsx.net/releases/")
-}
-
 dependencies {
+    implementation(project(":chatmanager-core"))
+
     implementation(libs.fusion.paper)
-
-    implementation(libs.metrics)
-
-    compileOnly(libs.placeholder.api) {
-        exclude("org.bstats", "bstats-bukkit")
-    }
-
-    compileOnly(libs.vault) {
-        exclude("org.bukkit", "bukkit")
-    }
-
-    compileOnly(libs.essentials) {
-        exclude("org.spigotmc", "spigot-api")
-        exclude("org.bstats", "bstats-bukkit")
-    }
 }
 
 tasks {
@@ -36,8 +15,7 @@ tasks {
 
     shadowJar {
         listOf(
-            "com.ryderbelserion.fusion",
-            "org.bstats"
+            "com.ryderbelserion.fusion"
         ).forEach {
             relocate(it, "libs.$it")
         }
