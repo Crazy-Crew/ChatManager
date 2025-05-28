@@ -15,7 +15,11 @@ public class PaperUserManager implements IUserManager<Player> {
 
     @Override
     public void addUser(@NotNull final Player player) {
-        this.users.put(player.getUniqueId(), new PaperUser(player));
+        final PaperUser user = new PaperUser(player);
+
+        user.setLocale(player.locale());
+
+        this.users.put(player.getUniqueId(), user);
     }
 
     @Override
