@@ -4,6 +4,7 @@ import com.ryderbelserion.chatmanager.api.ChatManagerProvider;
 import com.ryderbelserion.chatmanager.api.interfaces.IChatManager;
 import com.ryderbelserion.chatmanager.core.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.paper.api.PaperUserManager;
+import com.ryderbelserion.chatmanager.paper.commands.CommandHandler;
 import com.ryderbelserion.chatmanager.paper.listeners.CacheListener;
 import com.ryderbelserion.chatmanager.paper.listeners.chat.ChatListener;
 import com.ryderbelserion.fusion.core.files.FileManager;
@@ -31,6 +32,8 @@ public class ChatManager extends JavaPlugin implements IChatManager {
         this.userManager = new PaperUserManager();
 
         ChatManagerProvider.register(this);
+
+        new CommandHandler();
 
         final PluginManager pluginManager = getServer().getPluginManager();
 
