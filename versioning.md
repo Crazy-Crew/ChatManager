@@ -1,5 +1,7 @@
 ### ChatManager Github Flow
-In order to ensure the stability of my sanity when handling this repository, and version tabbing. I am writing an essay for my future self.
+All commits to `main` branch are published to Modrinth
+ * When a commit is pushed, A snapshot build is made which pushes a build versioned with the commit hash to Modrinth
+ * If a tag is made, A release build is made which is semver related i.e. 0.0.1
 
 ### 3rd Party Pull Requests
 **You must not UNDER any circumstance commit to the main branch** All changes should be made via a pull request.

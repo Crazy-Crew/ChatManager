@@ -34,12 +34,69 @@
 </center>
 
 ## Roadmap
-- Support for MiniMessage by Kyori
-- Command Overhauls
-- Config Overhauls
-- API Overhaul
-- Custom Sounds Support
-- Hover Actions
+A working plugin, We fix any issues that come along.
+
+## API
+<details>
+  <summary>Maven</summary>
+
+   ```
+   <repository>
+      <id>crazycrew-releases</id>
+      <name>CrazyCrew Repository</name>
+      <url>https://repo.crazycrew.us/releases</url>
+   </repository>
+  ```
+  ```
+  <dependency>
+    <groupId>me.h1dd3nxn1nja.chatmanager</groupId>
+    <artifactId>chatmanager</artifactId>
+    <version>4.0.2</version>
+    <scope>provided</scope>
+   </dependency>
+  ```
+
+</details>
+
+<details>
+  <summary>Gradle (Groovy)</summary>
+
+  ```
+  repositories {
+     maven {
+        url = "https://repo.crazycrew.us/releases"
+     }
+  }
+  ```
+
+   ```
+   dependencies {
+      compileOnly "me.h1dd3nxn1nja.chatmanager:chatmanager:4.0.2"
+   }
+   ```
+</details>
+
+<details>
+  <summary>Gradle (Kotlin)</summary>
+
+  ```
+  repositories {
+      maven("https://repo.crazycrew.us/releases")
+   }
+   ```
+
+   ```
+   dependencies {
+      compileOnly("me.h1dd3nxn1nja.chatmanager:chatmanager:4.0.2")
+   }
+   ```
+
+</details>
+
+## Information
+[Commands/Permissions](https://docs.crazycrew.us/docs/chatmanager/info/commands/permissions)
+
+[Dependencies](https://docs.crazycrew.us/docs/chatmanager/info/plugin-support)
 
 ## Features
  <details>
@@ -199,14 +256,6 @@
 </details>
 
  <details>
-   <summary>Grammar</summary>
-      * Capitalize the first letter in a sentence.<br>
-      * Adds a period at the end of a sentence.<br>
-      * Auto corrects "i" to make it capital, as well as other preset words.<br>
-      * Minimum message length for capitalization and punctuation.
-</details>
-
- <details>
    <summary>Lists</summary>
       * Player list to show all the players that are currently online.<br>
       * Staff list to show all the staff members that are currently online.
@@ -298,94 +347,6 @@
       * Almost every message can be customized in the messages.yml.<br>
       * There is a bypass permission for almost everything.<br>
       * Thousands of Placeholders are available with PlaceholderAPI installed.
-</details>
-
-## FAQ
-<details>
-  <summary>Why isn't chat manager working?</summary>
-    There can be a number of causes for this issue but notably the most common issue if that players don't have vault on their server. Vault as well as a permissions plugin is required to use chat manager, there's a list of dependencies right above the FAQ. If chat manager isn't working still please go in console and restart the server and look at the start up messages, this will tell you if something is wrong. If there are error messages please try and read them yourself to resolve the issue to join the discord server and request for help.<br><br>
-
-  <summary>Why isn't the chat format working?</summary>
-    The chat format may not work for multiple reasons. You can learn how to use the chat format properly on my <a href="https://github.com/Crazy-Crew/ChatManager/wiki/Chat-Format">wiki</a>, but if you did that and it still isn't working first, make sure you have both Vault and a Permissions Plugin on your server (I.E. PermissionsEx, LuckPerms, etc). The chat format is case sensitive, so the group name has to be spelt exactly how its spelt with your permissions plugin. If you're using LuckPerms groups are automatically set to lowercase, so in chat managers config make sure all your groups are lowercase if you are using LuckPerms. Also another thing with LuckPerms, if you set a display name for a group, that groups set name wont work with chat managers chat format, you'll have to set the group name in the chat format to the set display name for the chat format to work. If you are still having issues after checking all this please join the discord server and request for help.<br><br>
-
-  <summary>Can I disable commands?</summary>
-    The short answer is no, but there are ways around it. This a highly asked question, but you can't disable any of the commands, but there is a way to give commands from other plugins higher priority so they can be used instead of chat managers commands. The <a href="http://wiki.bukkit.org/Commands.yml">commands.yml</a> file. Read that wiki page on how to use it and it should help you out. Also, if you want a command from essentials to override a command from chat manager, go to essentials config.yml, go to overriden-commands, and set the command you want essentials to take over. <a href="https://github.com/EssentialsX/Essentials/blob/887772a428c91de09af29f4e1cbc7e1bc2b2bac6/Essentials/src/main/resources/config.yml#L154-L164>This is the section you are looking for in the config.</a>
-</details>
-
-## API
-
-<details>
-  <summary>Maven</summary>
-
-   ```
-   <repository>
-      <id>crazycrew-releases</id>
-      <name>CrazyCrew Repository</name>
-      <url>https://repo.crazycrew.us/releases</url>
-   </repository>
-  ```
-  ```
-  <dependency>
-    <groupId>me.h1dd3nxn1nja.chatmanager</groupId>
-    <artifactId>chatmanager</artifactId>
-    <version>4.0.3</version>
-    <scope>provided</scope>
-   </dependency>
-  ```
-
-</details>
-
-<details>
-  <summary>Gradle (Groovy)</summary>
-
-  ```
-  repositories {
-     maven {
-        url = "https://repo.crazycrew.us/releases"
-     }
-  }
-  ```
-
-   ```
-   dependencies {
-      compileOnly "me.h1dd3nxn1nja.chatmanager:chatmanager:4.0.3"
-   }
-   ```
-</details>
-
-<details>
-  <summary>Gradle (Kotlin)</summary>
-
-  ```
-  repositories {
-      maven("https://repo.crazycrew.us/releases")
-   }
-   ```
-
-   ```
-   dependencies {
-      compileOnly("me.h1dd3nxn1nja.chatmanager:chatmanager:4.0.3")
-   }
-   ```
-
-</details>
-
-## Information
-<details>
-  <summary>Commands</summary>
-
-  <center> [https://docs.crazycrew.us/chatmanager/info/commands/permissions](https://docs.crazycrew.us/chatmanager/info/commands/permissions) </center>
-</details>
-
-<details>
-  <summary>Dependencies</summary>
-  <center> [https://docs.crazycrew.us/chatmanager/info/plugin-support](https://docs.crazycrew.us/chatmanager/info/plugin-support) </center>
-</details>
-
-<details>
-  <summary>Permissions</summary>
-
-  <center>[https://docs.crazycrew.us/chatmanager/info/commands/permissions](https://docs.crazycrew.us/chatmanager/info/commands/permissions)</center>
 </details>
 
 [contributors-shield]: https://img.shields.io/github/contributors/Crazy-Crew/ChatManager.svg?style=flat&logo=appveyor
