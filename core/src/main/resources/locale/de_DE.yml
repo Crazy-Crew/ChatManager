@@ -1,0 +1,27 @@
+# The root locale section which powers the entire plugin's translation system!
+#
+# Colors: black, dark_blue, dark_green, dark_aqua, dark_red, dark_purple, gold, gray, dark_gray, blue, green, aqua, red, light_purple, yellow, or white
+root:
+  # A list of available placeholders: {prefix}
+  reload-plugin: "{prefix}<green>Das Plugin wurde neu geladen."
+  # A list of available placeholders: {command}
+  unknown-command: "{prefix}<red>{command} ist ein nicht bekannter Befehl."
+  # A list of available placeholders: {usage}
+  correct-usage: "{prefix}<red>Die korrekte Verwendung für diesen Befehl ist <yellow>{usage}"
+  feature-disabled: "{prefix}<red>Diese Funktion ist deaktiviert."
+  # All messages related to players.
+  player:
+    requirements:
+      must-be-player: "{prefix}<red>Du musst ein Spieler sein, um diesen Befehl zu benutzen."
+      must-be-console-sender: "{prefix}<red>Sie müssen die Konsole benutzen, um diesen Befehl zu verwenden."
+    # A list of available placeholders: {player}
+    target-not-online: "{prefix}<red>{Spieler} <gray>ist nicht online."
+    target-same-player: "{prefix}<red>Sie können diesen Befehl nicht auf sich selbst anwenden."
+    no-permission: "{prefix}<red>Sie haben nicht die Erlaubnis, diesen Befehl zu benutzen!"
+    inventory-not-empty: "{prefix}<red>Das Inventar ist nicht leer, bitte räumen Sie etwas
+      Raum."
+  # All messages related to errors.
+  errors:
+    internal-error: "{prefix}<red>Ein interner Fehler ist aufgetreten. Bitte prüfen Sie die Konsole
+      für den vollständigen Fehler."
+    message-empty: "{prefix}<red>Die Nachricht kann nicht leer sein."
