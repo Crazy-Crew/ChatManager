@@ -16,14 +16,6 @@ tasks {
         dependsOn(shadowJar)
     }
 
-    shadowJar {
-        listOf(
-            "com.ryderbelserion.fusion"
-        ).forEach {
-            relocate(it, "libs.$it")
-        }
-    }
-
     processResources {
         filteringCharset = Charsets.UTF_8.name()
 
