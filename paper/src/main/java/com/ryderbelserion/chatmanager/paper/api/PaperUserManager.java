@@ -4,7 +4,6 @@ import com.ryderbelserion.chatmanager.api.interfaces.IUserManager;
 import com.ryderbelserion.chatmanager.paper.api.objects.PaperUser;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -28,7 +27,7 @@ public class PaperUserManager implements IUserManager<Player> {
     }
 
     @Override
-    public @Nullable PaperUser getUser(@NotNull final UUID uuid) {
+    public @NotNull PaperUser getUser(@NotNull final UUID uuid) {
         return this.users.get(uuid);
     }
 }

@@ -18,7 +18,6 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,11 +76,7 @@ public enum Messages {
         @NotNull final Optional<UUID> uuid = sender.get(Identity.UUID);
 
         if (uuid.isPresent()) {
-            @Nullable final User user = this.userManager.getUser(uuid.get());
-
-            if (user == null) {
-                return this.locale.getProperty(this.properties);
-            }
+            final User user = this.userManager.getUser(uuid.get());
 
             return user.locale().getProperty(this.properties);
         }
@@ -93,11 +88,7 @@ public enum Messages {
         @NotNull final Optional<UUID> uuid = sender.get(Identity.UUID);
 
         if (uuid.isPresent()) {
-            @Nullable final User user = this.userManager.getUser(uuid.get());
-
-            if (user == null) {
-                return this.locale.getProperty(this.property);
-            }
+            final User user = this.userManager.getUser(uuid.get());
 
             return user.locale().getProperty(this.property);
         }
