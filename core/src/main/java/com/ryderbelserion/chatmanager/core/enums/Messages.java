@@ -9,7 +9,7 @@ import com.ryderbelserion.chatmanager.api.enums.Action;
 import com.ryderbelserion.chatmanager.api.interfaces.IChatManager;
 import com.ryderbelserion.chatmanager.api.interfaces.IUserManager;
 import com.ryderbelserion.chatmanager.api.objects.User;
-import com.ryderbelserion.chatmanager.core.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.api.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.api.configs.ConfigKeys;
 import com.ryderbelserion.fusion.adventure.FusionAdventure;
 import com.ryderbelserion.fusion.adventure.utils.StringUtils;
@@ -19,7 +19,6 @@ import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

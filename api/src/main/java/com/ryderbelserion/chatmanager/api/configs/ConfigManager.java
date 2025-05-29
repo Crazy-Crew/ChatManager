@@ -1,11 +1,10 @@
-package com.ryderbelserion.chatmanager.core.configs;
+package com.ryderbelserion.chatmanager.api.configs;
 
 import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.resource.YamlFileResourceOptions;
-import com.ryderbelserion.chatmanager.api.configs.ConfigKeys;
 import com.ryderbelserion.chatmanager.api.configs.locale.ErrorKeys;
 import com.ryderbelserion.chatmanager.api.configs.locale.RootKeys;
-import com.ryderbelserion.chatmanager.core.configs.chat.ChatKeys;
+import com.ryderbelserion.chatmanager.api.configs.chat.ChatKeys;
 import com.ryderbelserion.fusion.core.FusionCore;
 import com.ryderbelserion.fusion.core.api.exceptions.FusionException;
 import com.ryderbelserion.fusion.core.files.FileAction;

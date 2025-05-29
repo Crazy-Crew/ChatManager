@@ -1,8 +1,8 @@
 package com.ryderbelserion.chatmanager.paper.listeners.chat;
 
 import ch.jalu.configme.SettingsManager;
-import com.ryderbelserion.chatmanager.core.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.core.configs.chat.ChatKeys;
+import com.ryderbelserion.chatmanager.api.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.api.configs.chat.ChatKeys;
 import com.ryderbelserion.chatmanager.paper.listeners.chat.renderers.ChatRender;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.event.EventHandler;

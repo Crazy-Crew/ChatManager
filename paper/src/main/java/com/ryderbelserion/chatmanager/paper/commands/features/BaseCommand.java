@@ -1,7 +1,7 @@
 package com.ryderbelserion.chatmanager.paper.commands.features;
 
 import ch.jalu.configme.SettingsManager;
-import com.ryderbelserion.chatmanager.core.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.api.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.paper.ChatManager;
 import com.ryderbelserion.chatmanager.paper.api.PaperUserManager;
 import com.ryderbelserion.fusion.core.files.FileManager;

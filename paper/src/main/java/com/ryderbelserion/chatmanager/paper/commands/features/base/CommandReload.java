@@ -1,6 +1,6 @@
 package com.ryderbelserion.chatmanager.paper.commands.features.base;
 
-import com.ryderbelserion.chatmanager.core.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.api.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.core.enums.Messages;
 import com.ryderbelserion.chatmanager.paper.commands.features.BaseCommand;
 import dev.triumphteam.cmd.bukkit.annotation.Permission;

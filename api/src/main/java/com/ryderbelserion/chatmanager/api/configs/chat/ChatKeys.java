@@ -1,4 +1,4 @@
-package com.ryderbelserion.chatmanager.core.configs.chat;
+package com.ryderbelserion.chatmanager.api.configs.chat;
 
 import ch.jalu.configme.Comment;
 import ch.jalu.configme.SettingsHolder;

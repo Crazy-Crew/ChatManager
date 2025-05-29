@@ -2,7 +2,7 @@ package com.ryderbelserion.chatmanager.paper.api.objects;
 
 import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.chatmanager.api.objects.User;
-import com.ryderbelserion.chatmanager.core.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.api.configs.ConfigManager;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 

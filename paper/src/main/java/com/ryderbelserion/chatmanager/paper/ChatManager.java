@@ -2,7 +2,7 @@ package com.ryderbelserion.chatmanager.paper;
 
 import com.ryderbelserion.chatmanager.api.ChatManagerProvider;
 import com.ryderbelserion.chatmanager.api.interfaces.IChatManager;
-import com.ryderbelserion.chatmanager.core.configs.ConfigManager;
+import com.ryderbelserion.chatmanager.api.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.paper.api.PaperUserManager;
 import com.ryderbelserion.chatmanager.paper.commands.CommandHandler;
 import com.ryderbelserion.chatmanager.paper.listeners.CacheListener;
