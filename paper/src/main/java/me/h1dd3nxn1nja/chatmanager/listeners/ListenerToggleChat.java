@@ -7,7 +7,9 @@ import net.kyori.adventure.identity.Identity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 public class ListenerToggleChat extends Global implements Listener {
 
@@ -19,6 +21,10 @@ public class ListenerToggleChat extends Global implements Listener {
 
 		final Set<Audience> recipients = event.viewers();
 
-		recipients.removeIf(cm -> this.toggleChatData.containsUser(cm.get(Identity.UUID).get()));
+		recipients.removeIf(recipient -> {
+			final Optional<UUID> uuid = recipient.get(Identity.UUID);
+
+			return uuid.isPresent() && this.toggleChatData.containsUser(uuid.get());
+		});
 	}
 }
