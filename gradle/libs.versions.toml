@@ -1,7 +1,6 @@
 [versions]
 paperweight = "2.0.0-beta.17" # https://github.com/PaperMC/paperweight
 paper = "1.21.5-R0.1-SNAPSHOT" # https://github.com/PaperMC/Paper
-run-paper = "2.3.1" # https://github.com/jpenilla/run-task
 
 ## JetBrains
 annotations = "24.1.0" # https://github.com/JetBrains/java-annotations
@@ -9,9 +8,6 @@ kotlin = "2.1.20" # https://github.com/JetBrains/kotlin
 
 ## Kyori
 adventure = "4.21.0" # https://github.com/KyoriPowered/adventure
-
-## GradleUp
-shadow = "9.0.0-beta13" # https://github.com/GradleUp/shadow
 
 ## Minecraft
 minecraft = "1.21.5" # https://minecraft.net
@@ -26,13 +22,13 @@ itemsadder = "4.0.10" # https://github.com/ItemsAdder
 oraxen = "1.190.0" # https://github.com/oraxen
 nexo = "1.6.0" # https://github.com/Nexo-MC
 
+# https://fabricmc.net/develop/
+fabric-api = "0.124.2+1.21.5"
+fabric-loader = "0.16.14"
+fabric-loom = "1.10-SNAPSHOT"
+
 ## Hologram API
 fancyholograms = "2.4.1" # https://modrinth.com/plugin/fancyholograms
-
-## Gradle Plugins
-feather = "0.3.2" # https://github.com/ryderbelserion/Feather
-minotaur = "2.8.7" # https://github.com/modrinth/minotaur
-hangar = "0.1.3" # https://github.com/HangarMC/hangar-publish-plugin
 
 triumph-cmds = "2.0.0-BETA-4" # https://github.com/TriumphTeam/triumph-cmds
 
@@ -40,12 +36,15 @@ bStats = "3.1.0" # https://github.com/Bastian/bStats
 
 fusion = "1.12.2" # https://github.com/ryderbelserion/Fusion
 
-chatmanager = "5.0.0" # https://github.com/Crazy-Crew/CrazyCrates
+chatmanager = "5.0.0" # https://github.com/Crazy-Crew/ChatManager
 
-# https://fabricmc.net/develop/
-fabric-api = "0.124.2+1.21.5"
-fabric-loader = "0.16.14"
-fabric-loom = "1.10-SNAPSHOT"
+## Gradle Plugins
+fix-javadoc = "1.19" # https://github.com/mfnalex/gradle-fix-javadoc-plugin
+run-paper = "2.3.1" # https://github.com/jpenilla/run-task
+minotaur = "2.8.7" # https://github.com/modrinth/minotaur
+feather = "0.3.2" # https://github.com/ryderbelserion/Feather
+hangar = "0.1.3" # https://github.com/HangarMC/hangar-publish-plugin
+shadow = "9.0.0-beta13" # https://github.com/GradleUp/shadow
 
 [plugins]
 # https://github.com/ryderbelserion/Feather
@@ -54,9 +53,8 @@ feather = { id = "com.ryderbelserion.feather.core", version.ref = "feather" }
 hangar = { id = "io.papermc.hangar-publish-plugin", version.ref = "hangar" }
 # https://github.com/modrinth/minotaur
 minotaur = { id = "com.modrinth.minotaur", version.ref = "minotaur" }
-
-shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
-
+# https://github.com/mfnalex/gradle-fix-javadoc-plugin
+fix-javadoc = { id = "com.jeff-media.fix-javadoc-plugin", version.ref = "fix-javadoc" }
 # https://fabricmc.net/develop/
 fabric-loom = { id = "fabric-loom", version.ref = "fabric-loom" }
 
@@ -69,6 +67,9 @@ fabric-api = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.r
 # https://fabricmc.net/develop/
 fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabric-loader" }
 
+# https://github.com/JetBrains/java-annotations
+annotations = { module = "org.jetbrains:annotations", version.ref = "annotations" }
+
 # https://github.com/PaperMC/paperweight
 paperweight = { module = "io.papermc.paperweight.userdev:io.papermc.paperweight.userdev.gradle.plugin", version.ref = "paperweight" }
 
@@ -77,9 +78,6 @@ kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "
 
 # https://github.com/GradleUp/shadow
 shadow = { module = "com.gradleup.shadow:shadow-gradle-plugin", version.ref = "shadow" }
-
-# https://github.com/JetBrains/java-annotations
-annotations = { module = "org.jetbrains:annotations", version.ref = "annotations" }
 
 # https://github.com/jpenilla/run-task
 run-paper = { module = "xyz.jpenilla:run-task", version.ref = "run-paper" }
