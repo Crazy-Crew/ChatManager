@@ -14,9 +14,3 @@ dependencies {
 
     compileOnlyApi(libs.jalu)
 }
-
-tasks {
-    build {
-        dependsOn(shadowJar)
-    }
-}

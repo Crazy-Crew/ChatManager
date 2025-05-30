@@ -10,9 +10,3 @@ dependencies {
 
     compileOnly(libs.fusion.core)
 }
-
-tasks {
-    build {
-        dependsOn(shadowJar)
-    }
-}

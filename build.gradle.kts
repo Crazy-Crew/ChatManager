@@ -111,7 +111,7 @@ feather {
     }
 }
 
-allprojects { //todo() why? the gradle shit in buildSrc already applies this...
+allprojects {
     apply(plugin = "java-library")
 }
 
@@ -119,6 +119,10 @@ tasks {
     withType<Jar> {
         subprojects {
             dependsOn(project.tasks.build)
+        }
+
+        manifest {
+            attributes["Git-Commit"] = commitHash
         }
 
         // get subproject's built jars
