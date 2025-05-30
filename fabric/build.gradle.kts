@@ -13,4 +13,6 @@ dependencies {
 
     modCompileOnly(libs.fabric.loader.get())
     modCompileOnly(libs.fabric.api.get())
+
+    modImplementation(include(libs.kyori.fabric.get())!!)
 }

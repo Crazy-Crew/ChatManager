@@ -7,6 +7,7 @@ annotations = "24.1.0" # https://github.com/JetBrains/java-annotations
 kotlin = "2.1.20" # https://github.com/JetBrains/kotlin
 
 ## Kyori
+adventure-fabric = "6.4.0" # https://github.com/KyoriPowered/adventure-platform-mod
 adventure = "4.21.0" # https://github.com/KyoriPowered/adventure
 
 ## Minecraft
@@ -97,6 +98,7 @@ nexo = { module = "com.nexomc:nexo", version.ref = "nexo" }
 fancy-holograms = { module = "de.oliver:FancyHolograms", version.ref = "fancyholograms" }
 
 # https://github.com/KyoriPowered/adventure
+kyori-fabric = { group = "net.kyori", name = "adventure-platform-fabric", version.ref = "adventure-fabric" }
 kyori-legacy = { module = "net.kyori:adventure-text-serializer-legacy", version.ref = "adventure" }
 kyori-logger = { module = "net.kyori:adventure-text-logger-slf4j", version.ref = "adventure" }
 kyori-text = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
