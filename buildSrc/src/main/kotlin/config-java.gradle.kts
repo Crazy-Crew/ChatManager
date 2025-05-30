@@ -23,6 +23,10 @@ java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 
+dependencies {
+    compileOnly(libs.findLibrary("annotations").get())
+}
+
 tasks {
     shadowJar {
         archiveClassifier.set("")
