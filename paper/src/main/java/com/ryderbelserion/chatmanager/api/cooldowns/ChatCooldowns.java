@@ -22,7 +22,7 @@ public class ChatCooldowns {
     }
 
     public int getTime(UUID uuid) {
-        return map.get(uuid);
+        return containsUser(uuid) ? map.get(uuid) : 0;
     }
 
     public void subtract(UUID uuid) {
