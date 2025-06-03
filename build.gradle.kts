@@ -11,15 +11,21 @@ rootProject.group = "me.h1dd3nxn1nja.chatmanager"
 val git = feather.getGit()
 
 val commitHash: String? = git.getCurrentCommitHash().subSequence(0, 7).toString()
-val isSnapshot: Boolean = System.getenv("IS_SNAPSHOT") != null
+val isSnapshot: Boolean = git.getCurrentBranch() == "dev"
 val content: String = if (isSnapshot) "[$commitHash](https://github.com/Crazy-Crew/${rootProject.name}/commit/$commitHash) ${git.getCurrentCommit()}" else rootProject.file("changelog.md").readText(Charsets.UTF_8)
+val minecraft = libs.versions.minecraft.get()
+
+val versions = listOf(
+    //"1.21.6",
+    minecraft
+)
 
 rootProject.version = version()
 rootProject.description = "The kitchen sink of Chat Management!"
 
 fun version(): String {
     if (isSnapshot) {
-        return "${libs.versions.minecraft.get()}-$commitHash"
+        return "$minecraft-$commitHash"
     }
 
     return libs.versions.chatmanager.get()
@@ -28,7 +34,9 @@ fun version(): String {
 feather {
     rootDirectory = rootProject.rootDir.toPath()
 
-    val data = git.getCurrentCommitAuthorData().copy(author = git.getCurrentCommitAuthorName())
+    val data = git.getGithubCommit("Crazy-Crew/${rootProject.name}")
+
+    val user = data.user
 
     discord {
         webhook {
@@ -39,9 +47,9 @@ feather {
                 post(System.getenv("BUILD_WEBHOOK"))
             }
 
-            username(data.author)
+            username(user.getName())
 
-            avatar(data.avatar)
+            avatar(user.avatar)
 
             embeds {
                 embed {
@@ -77,9 +85,9 @@ feather {
                 post(System.getenv("BUILD_WEBHOOK"))
             }
 
-            username(data.author)
+            username(user.getName())
 
-            avatar(data.avatar)
+            avatar(user.avatar)
 
             content("<@&1372358375433834537>")
 
@@ -155,7 +163,7 @@ modrinth {
 
     changelog = content
 
-    gameVersions.addAll(listOf(libs.versions.minecraft.get()))
+    gameVersions.addAll(versions)
 
     uploadFile = tasks.jar.get().archiveFile.get()
 
