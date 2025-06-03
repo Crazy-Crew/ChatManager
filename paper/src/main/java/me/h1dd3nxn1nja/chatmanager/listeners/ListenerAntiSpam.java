@@ -35,7 +35,7 @@ public class ListenerAntiSpam extends Global implements Listener {
 			if (this.previousMsgData.containsUser(uuid) && !this.chatCooldowns.containsUser(uuid)) {
 				final String msg = this.previousMsgData.getMessage(uuid);
 
-				if (message.equalsIgnoreCase(msg)) {
+				if (!msg.isEmpty() && message.equalsIgnoreCase(msg)) {
 					Messages.ANTI_SPAM_CHAT_REPETITIVE_MESSAGE.sendMessage(player);
 
 					event.setCancelled(true);
@@ -115,7 +115,7 @@ public class ListenerAntiSpam extends Global implements Listener {
 				if (this.previousCmdData.containsUser(uuid) && !this.cmdCooldowns.containsUser(uuid)) {
 					final String cmd = this.previousCmdData.getMessage(uuid);
 
-					if (command.equalsIgnoreCase(cmd)) {
+					if (!cmd.isEmpty() && command.equalsIgnoreCase(cmd)) {
 						Messages.ANTI_SPAM_COMMAND_REPETITIVE_MESSAGE.sendMessage(player);
 
 						event.setCancelled(true);
