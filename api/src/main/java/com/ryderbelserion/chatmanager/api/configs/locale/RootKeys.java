@@ -58,4 +58,10 @@ public class RootKeys implements SettingsHolder {
 
     public static final Property<String> inventory_not_empty = newProperty("root.player.inventory-not-empty", "{prefix}<red>Inventory is not empty, Please clear up some room.");
 
+    @Comment("Available placeholders: {player}")
+    public static final Property<String> join_message = newProperty("root.traffic.join_message", " <dark_gray>[<green>+</green>]</dark_gray> {player}");
+
+    @Comment("Available placeholders: {player}")
+    public static final Property<String> quit_message = newProperty("root.traffic.quit_message", " <dark_gray>[<red>-</red>]</dark_gray> {player}");
+
 }

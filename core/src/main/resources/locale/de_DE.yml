@@ -25,3 +25,8 @@ root:
     internal-error: "{prefix}<red>Ein interner Fehler ist aufgetreten. Bitte prüfen Sie die Konsole
       für den vollständigen Fehler."
     message-empty: "{prefix}<red>Die Nachricht kann nicht leer sein."
+  traffic:
+    # Available placeholders: {player}
+    join-message: " <dark_gray>[<green>+</green>]</dark_gray> {player}"
+    # Available placeholders: {player}
+    quit-message: " <dark_gray>[<red>-</red>]</dark_gray> {player}"
