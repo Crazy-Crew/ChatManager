@@ -81,7 +81,7 @@ public class ListenerAntiSpam extends Global implements Listener {
 
 				chatCooldowns.subtract(uuid);
 
-				if (time == 0) {
+				if (time <= 0) {
 					chatCooldowns.removeUser(uuid);
 					cooldownTask.removeUser(uuid);
 
