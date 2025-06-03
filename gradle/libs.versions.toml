@@ -111,7 +111,6 @@ triumph-cmds = { module = "dev.triumphteam:triumph-cmd-bukkit", version.ref = "t
 jalu = { module = "ch.jalu:configme", version.ref = "jalu" }
 
 # https://github.com/ryderbelserion/Fusion
-fusion-adventure = { module = "com.ryderbelserion.fusion:fusion-adventure", version.ref = "fusion" }
 fusion-paper = { module = "com.ryderbelserion.fusion:fusion-paper", version.ref = "fusion" }
 fusion-core = { module = "com.ryderbelserion.fusion:fusion-core", version.ref = "fusion" }
 

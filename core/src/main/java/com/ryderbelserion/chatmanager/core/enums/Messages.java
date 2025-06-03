@@ -11,9 +11,9 @@ import com.ryderbelserion.chatmanager.api.interfaces.IUserManager;
 import com.ryderbelserion.chatmanager.api.objects.User;
 import com.ryderbelserion.chatmanager.api.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.api.configs.ConfigKeys;
-import com.ryderbelserion.fusion.adventure.FusionAdventure;
-import com.ryderbelserion.fusion.adventure.utils.StringUtils;
 import com.ryderbelserion.fusion.core.FusionCore;
+import com.ryderbelserion.fusion.kyori.FusionKyori;
+import com.ryderbelserion.fusion.kyori.utils.StringUtils;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
@@ -54,7 +54,7 @@ public enum Messages {
         this.isList = isList;
     }
 
-    private final FusionAdventure fusion = (FusionAdventure) FusionCore.Provider.get();
+    private final FusionKyori fusion = (FusionKyori) FusionCore.Provider.get();
 
     private final IChatManager provider = ChatManagerProvider.getInstance();
 
