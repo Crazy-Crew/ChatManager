@@ -22,7 +22,7 @@ fun includeProject(path: String, name: String) {
 }
 
 listOf(
-    "fabric" to "fabric",
+    //"fabric" to "fabric",
     "paper" to "paper",
     "core" to "core",
     "api" to "api"
