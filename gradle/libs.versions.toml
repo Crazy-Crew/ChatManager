@@ -13,8 +13,9 @@ adventure = "4.21.0" # https://github.com/KyoriPowered/adventure
 ## Minecraft
 minecraft = "1.21.5" # https://minecraft.net
 
-## Generic
-jalu = "1.4.3" # https://github.com/AuthMe/ConfigMe
+## Cloud API
+cloud-release = "2.0.0"
+cloud-beta = "2.0.0-beta.10"
 
 ## Plugin API
 headdatabaseapi = "1.3.1" # https://github.com/Arcaniax-Development/HeadDatabase-API
@@ -32,9 +33,8 @@ fabric-loom = "1.10-SNAPSHOT"
 fancyholograms = "2.4.1" # https://modrinth.com/plugin/fancyholograms
 
 ## Other
-triumph-cmds = "2.0.0-BETA-4" # https://github.com/TriumphTeam/triumph-cmds
 bStats = "3.1.0" # https://github.com/Bastian/bStats
-fusion = "1.13.1" # https://github.com/ryderbelserion/Fusion
+fusion = "1.14.2" # https://github.com/ryderbelserion/Fusion
 
 ## ChatManager
 chatmanager = "5.0.0" # https://github.com/Crazy-Crew/ChatManager
@@ -104,11 +104,10 @@ kyori-logger = { module = "net.kyori:adventure-text-logger-slf4j", version.ref =
 kyori-text = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
 kyori-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 
-# https://github.com/TriumphTeam/triumph-cmds
-triumph-cmds = { module = "dev.triumphteam:triumph-cmd-bukkit", version.ref = "triumph-cmds" }
-
-# https://github.com/AuthMe/ConfigMe
-jalu = { module = "ch.jalu:configme", version.ref = "jalu" }
+# https://cloud.incendo.org/
+cloud-annotations = { module = "org.incendo:cloud-annotations", version.ref = "cloud-release" }
+cloud-extras = { module = "org.incendo:cloud-minecraft-extras", version.ref = "cloud-beta" }
+cloud-paper = { module = "org.incendo:cloud-paper", version.ref = "cloud-beta" }
 
 # https://github.com/ryderbelserion/Fusion
 fusion-paper = { module = "com.ryderbelserion.fusion:fusion-paper", version.ref = "fusion" }
@@ -145,4 +144,10 @@ build = [
 paper = [
     "paperweight",
     "run-paper"
+]
+
+cloud-paper = [
+    "cloud-annotations",
+    "cloud-extras",
+    "cloud-paper"
 ]

@@ -4,6 +4,7 @@ import ch.jalu.configme.Comment;
 import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.configurationdata.CommentsConfiguration;
 import ch.jalu.configme.properties.Property;
+import com.ryderbelserion.chatmanager.api.configs.objects.help.HelpProperty;
 import com.ryderbelserion.chatmanager.api.enums.Action;
 import static ch.jalu.configme.properties.PropertyInitializer.newBeanProperty;
 import static ch.jalu.configme.properties.PropertyInitializer.newProperty;
@@ -24,6 +25,9 @@ public class ConfigKeys implements SettingsHolder {
 
         conf.setComment("root", header);
     }
+
+    @Comment("Settings related to /chatmanager help")
+    public static final Property<HelpProperty> help_property = newBeanProperty(HelpProperty.class, "root.help", new HelpProperty());
 
     @Comment("The prefix that appears in front of commands!")
     public static final Property<String> command_prefix = newProperty("root.prefix", "<blue>[<gold>ChatManager<blue>] <reset>");

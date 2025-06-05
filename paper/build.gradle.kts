@@ -8,9 +8,8 @@ project.group = "${rootProject.group}.paper"
 dependencies {
     implementation(project(":chatmanager-core"))
 
-    implementation(libs.triumph.cmds)
-
-    implementation(libs.fusion.paper)
+    compileOnly(libs.bundles.cloud.paper)
+    compileOnly(libs.fusion.paper)
 }
 
 tasks {
