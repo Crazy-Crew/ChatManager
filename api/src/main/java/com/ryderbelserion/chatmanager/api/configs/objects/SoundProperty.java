@@ -1,5 +1,7 @@
 package com.ryderbelserion.chatmanager.api.configs.objects;
 
+import org.jetbrains.annotations.NotNull;
+
 public class SoundProperty {
 
     public String value = "entity.villager.no";
@@ -8,27 +10,27 @@ public class SoundProperty {
 
     public float pitch = 1.0f;
 
-    public void setValue(String value) {
+    public void setValue(@NotNull final String value) {
         this.value = value;
     }
 
-    public void setVolume(double volume) {
+    public void setVolume(final double volume) {
         this.volume = volume;
     }
 
-    public void setPitch(float pitch) {
+    public void setPitch(final float pitch) {
         this.pitch = pitch;
     }
 
-    public String getValue() {
+    public @NotNull final String getValue() {
         return this.value;
     }
 
-    public double getVolume() {
+    public final double getVolume() {
         return this.volume;
     }
 
-    public float getPitch() {
+    public final float getPitch() {
         return this.pitch;
     }
 }

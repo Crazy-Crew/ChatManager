@@ -20,7 +20,7 @@ public abstract class User {
 
     public abstract SettingsManager locale();
 
-    public void setLocale(final Locale locale) {
+    public void setLocale(@NotNull final Locale locale) {
         final String country = locale.getCountry();
         final String language = locale.getLanguage();
 
@@ -32,11 +32,11 @@ public abstract class User {
     }
 
 
-    public final Audience getAudience() {
+    public @NotNull final Audience getAudience() {
         return this.audience;
     }
 
-    public final String getLocale() {
+    public @NotNull final String getLocale() {
         return this.locale;
     }
 }

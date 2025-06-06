@@ -13,7 +13,7 @@ public class PaperUser extends User {
     }
 
     @Override
-    public SettingsManager locale() {
+    public @NotNull final SettingsManager locale() {
         return ConfigManager.getLocale(getLocale());
     }
 }

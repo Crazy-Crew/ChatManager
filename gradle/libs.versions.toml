@@ -13,10 +13,6 @@ adventure = "4.21.0" # https://github.com/KyoriPowered/adventure
 ## Minecraft
 minecraft = "1.21.5" # https://minecraft.net
 
-## Cloud API
-cloud-release = "2.0.0"
-cloud-beta = "2.0.0-beta.10"
-
 ## Plugin API
 headdatabaseapi = "1.3.1" # https://github.com/Arcaniax-Development/HeadDatabase-API
 placeholderapi = "2.11.6" # https://github.com/placeholderapi
@@ -34,7 +30,7 @@ fancyholograms = "2.4.1" # https://modrinth.com/plugin/fancyholograms
 
 ## Other
 bStats = "3.1.0" # https://github.com/Bastian/bStats
-fusion = "1.14.2" # https://github.com/ryderbelserion/Fusion
+fusion = "1.16.0" # https://github.com/ryderbelserion/Fusion
 
 ## ChatManager
 chatmanager = "5.0.0" # https://github.com/Crazy-Crew/ChatManager
@@ -104,11 +100,6 @@ kyori-logger = { module = "net.kyori:adventure-text-logger-slf4j", version.ref =
 kyori-text = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
 kyori-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 
-# https://cloud.incendo.org/
-cloud-annotations = { module = "org.incendo:cloud-annotations", version.ref = "cloud-release" }
-cloud-extras = { module = "org.incendo:cloud-minecraft-extras", version.ref = "cloud-beta" }
-cloud-paper = { module = "org.incendo:cloud-paper", version.ref = "cloud-beta" }
-
 # https://github.com/ryderbelserion/Fusion
 fusion-paper = { module = "com.ryderbelserion.fusion:fusion-paper", version.ref = "fusion" }
 fusion-core = { module = "com.ryderbelserion.fusion:fusion-core", version.ref = "fusion" }
@@ -144,10 +135,4 @@ build = [
 paper = [
     "paperweight",
     "run-paper"
-]
-
-cloud-paper = [
-    "cloud-annotations",
-    "cloud-extras",
-    "cloud-paper"
 ]

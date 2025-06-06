@@ -23,11 +23,6 @@ public class DependencyLoader implements PluginLoader {
         // Add fusion paper api
         resolver.addDependency(Plugins.fusion_paper.asDependency()); // paper only, so we don't need to shade this.
 
-        // Add cloud api
-        resolver.addDependency(Plugins.cloud_annotations.asDependency()); // fabric, i.e. when we focus on the fabric module, we'll shade this.
-        resolver.addDependency(Plugins.cloud_extras.asDependency()); // fabric, i.e. when we focus on the fabric module, we'll shade this.
-        resolver.addDependency(Plugins.cloud_paper.asDependency()); // paper only, so we don't need to shade this.
-
         // Populate resolvers
         classpathBuilder.addLibrary(resolver);
     }

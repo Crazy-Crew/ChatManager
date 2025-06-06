@@ -8,7 +8,6 @@ project.group = "${rootProject.group}.paper"
 dependencies {
     implementation(project(":chatmanager-core"))
 
-    compileOnly(libs.bundles.cloud.paper)
     compileOnly(libs.fusion.paper)
 }
 

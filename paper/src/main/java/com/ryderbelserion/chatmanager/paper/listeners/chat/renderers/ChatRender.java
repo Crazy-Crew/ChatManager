@@ -36,10 +36,10 @@ public class ChatRender implements ChatRenderer {
 
     @Override
     public @NotNull Component render(
-            @NotNull Player player,
-            @NotNull Component displayName,
-            @NotNull Component message,
-            @NotNull Audience viewer
+            @NotNull final Player player,
+            @NotNull final Component displayName,
+            @NotNull final Component message,
+            @NotNull final Audience viewer
     ) {
         return this.renderedMessage;
     }

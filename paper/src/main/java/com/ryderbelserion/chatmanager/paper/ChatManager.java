@@ -4,18 +4,16 @@ import com.ryderbelserion.chatmanager.api.ChatManagerProvider;
 import com.ryderbelserion.chatmanager.api.interfaces.IChatManager;
 import com.ryderbelserion.chatmanager.api.configs.ConfigManager;
 import com.ryderbelserion.chatmanager.paper.api.PaperUserManager;
-import com.ryderbelserion.chatmanager.paper.api.objects.PaperHelp;
-import com.ryderbelserion.chatmanager.paper.commands.CommandHandler;
+import com.ryderbelserion.chatmanager.paper.commands.brigadier.BaseCommand;
 import com.ryderbelserion.chatmanager.paper.listeners.CacheListener;
 import com.ryderbelserion.chatmanager.paper.listeners.chat.ChatListener;
 import com.ryderbelserion.fusion.core.files.FileManager;
 import com.ryderbelserion.fusion.paper.FusionPaper;
-import io.papermc.paper.command.brigadier.CommandSourceStack;
+import com.ryderbelserion.fusion.paper.api.commands.PaperCommandManager;
 import org.bukkit.Server;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.incendo.cloud.execution.ExecutionCoordinator;
-import org.incendo.cloud.paper.PaperCommandManager;
+import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class ChatManager extends JavaPlugin implements IChatManager {
@@ -24,11 +22,9 @@ public class ChatManager extends JavaPlugin implements IChatManager {
         return JavaPlugin.getPlugin(ChatManager.class);
     }
 
-    private PaperCommandManager<CommandSourceStack> manager;
     private PaperUserManager userManager;
     private FileManager fileManager;
     private FusionPaper api;
-    private PaperHelp help;
 
     @Override
     public void onEnable() {
@@ -50,14 +46,9 @@ public class ChatManager extends JavaPlugin implements IChatManager {
                 new ChatListener()
         ).forEach(listener -> pluginManager.registerEvents(listener, this));
 
-        this.manager = PaperCommandManager.builder()
-                .executionCoordinator(ExecutionCoordinator.simpleCoordinator())
-                .buildOnEnable(this);
+        final PaperCommandManager commandManager = this.api.getCommandManager();
 
-        this.help = new PaperHelp();
-        this.help.init();
-
-        new CommandHandler(this.manager);
+        commandManager.enable(new BaseCommand());
     }
 
     @Override
@@ -75,24 +66,16 @@ public class ChatManager extends JavaPlugin implements IChatManager {
     }
 
     @Override
-    public final PaperUserManager getUserManager() {
+    public @NotNull final PaperUserManager getUserManager() {
         return this.userManager;
     }
 
     @Override
-    public final FileManager getFileManager() {
+    public @NotNull final FileManager getFileManager() {
         return this.fileManager;
     }
 
-    public final PaperCommandManager<CommandSourceStack> getManager() {
-        return this.manager;
-    }
-
-    public final FusionPaper getApi() {
+    public @NotNull final FusionPaper getApi() {
         return this.api;
-    }
-
-    public final PaperHelp getHelp() {
-        return this.help;
     }
 }

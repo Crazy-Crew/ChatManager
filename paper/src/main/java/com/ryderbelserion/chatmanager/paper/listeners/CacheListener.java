@@ -1,8 +1,10 @@
 package com.ryderbelserion.chatmanager.paper.listeners;
 
-import com.ryderbelserion.chatmanager.api.configs.locale.RootKeys;
-import com.ryderbelserion.chatmanager.paper.api.objects.PaperBase;
+import com.ryderbelserion.chatmanager.api.configs.types.locale.RootKeys;
+import com.ryderbelserion.chatmanager.paper.ChatManager;
+import com.ryderbelserion.chatmanager.paper.api.PaperUserManager;
 import com.ryderbelserion.chatmanager.paper.api.objects.PaperUser;
+import com.ryderbelserion.fusion.paper.FusionPaper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -11,7 +13,13 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.HashMap;
 
-public class CacheListener extends PaperBase implements Listener {
+public class CacheListener implements Listener {
+
+    private final ChatManager plugin = ChatManager.get();
+
+    private final FusionPaper fusion = this.plugin.getApi();
+
+    private final PaperUserManager userManager = this.plugin.getUserManager();
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(final PlayerJoinEvent event) {

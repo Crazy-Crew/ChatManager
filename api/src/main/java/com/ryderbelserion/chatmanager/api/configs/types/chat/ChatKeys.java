@@ -1,9 +1,10 @@
-package com.ryderbelserion.chatmanager.api.configs.chat;
+package com.ryderbelserion.chatmanager.api.configs.types.chat;
 
 import ch.jalu.configme.Comment;
 import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.configurationdata.CommentsConfiguration;
 import ch.jalu.configme.properties.Property;
+import org.jetbrains.annotations.NotNull;
 import static ch.jalu.configme.properties.PropertyInitializer.newProperty;
 
 public class ChatKeys implements SettingsHolder {
@@ -11,7 +12,7 @@ public class ChatKeys implements SettingsHolder {
     protected ChatKeys() {}
 
     @Override
-    public void registerComments(CommentsConfiguration conf) {
+    public void registerComments(@NotNull final CommentsConfiguration configuration) {
         String[] header = {
                 "Support: https://discord.gg/badbones-s-live-chat-182615261403283459",
                 "Github: https://github.com/Crazy-Crew",
@@ -20,7 +21,7 @@ public class ChatKeys implements SettingsHolder {
                 "Features: https://github.com/Crazy-Crew/ChatManager/issues"
         };
 
-        conf.setComment("chat", header);
+        configuration.setComment("chat", header);
     }
 
     @Comment("Should default chat formatting be enabled?")

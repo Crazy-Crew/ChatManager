@@ -1,11 +1,11 @@
-package com.ryderbelserion.chatmanager.api.configs;
+package com.ryderbelserion.chatmanager.api.configs.types;
 
 import ch.jalu.configme.Comment;
 import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.configurationdata.CommentsConfiguration;
 import ch.jalu.configme.properties.Property;
-import com.ryderbelserion.chatmanager.api.configs.objects.help.HelpProperty;
 import com.ryderbelserion.chatmanager.api.enums.Action;
+import org.jetbrains.annotations.NotNull;
 import static ch.jalu.configme.properties.PropertyInitializer.newBeanProperty;
 import static ch.jalu.configme.properties.PropertyInitializer.newProperty;
 
@@ -14,7 +14,7 @@ public class ConfigKeys implements SettingsHolder {
     protected ConfigKeys() {}
 
     @Override
-    public void registerComments(CommentsConfiguration conf) {
+    public void registerComments(@NotNull final CommentsConfiguration configuration) {
         String[] header = {
                 "Support: https://discord.gg/badbones-s-live-chat-182615261403283459",
                 "Github: https://github.com/Crazy-Crew",
@@ -23,11 +23,8 @@ public class ConfigKeys implements SettingsHolder {
                 "Features: https://github.com/Crazy-Crew/ChatManager/issues"
         };
 
-        conf.setComment("root", header);
+        configuration.setComment("root", header);
     }
-
-    @Comment("Settings related to /chatmanager help")
-    public static final Property<HelpProperty> help_property = newBeanProperty(HelpProperty.class, "root.help", new HelpProperty());
 
     @Comment("The prefix that appears in front of commands!")
     public static final Property<String> command_prefix = newProperty("root.prefix", "<blue>[<gold>ChatManager<blue>] <reset>");

@@ -1,5 +1,7 @@
 package com.ryderbelserion.chatmanager.api.enums;
 
+import org.jetbrains.annotations.NotNull;
+
 public enum Action {
 
     send_message("send_message"),
@@ -7,11 +9,11 @@ public enum Action {
 
     private final String name;
 
-    Action(final String name) {
+    Action(@NotNull final String name) {
         this.name = name;
     }
 
-    public static Action getAction(final String name) {
+    public static @NotNull Action getAction(@NotNull final String name) {
         Action action = Action.send_message;
 
         for (final Action key : Action.values()) {
@@ -25,7 +27,7 @@ public enum Action {
         return action;
     }
 
-    public String getName() {
+    public @NotNull final String getName() {
         return this.name;
     }
 }
