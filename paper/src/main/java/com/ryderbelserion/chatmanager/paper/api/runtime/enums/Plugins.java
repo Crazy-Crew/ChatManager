@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 public enum Plugins {
 
-    fusion_paper("com.ryderbelserion.fusion", "fusion-paper", "1.16.0"),
+    fusion_paper("com.ryderbelserion.fusion", "fusion-paper", "1.16.1"),
 
     config_me("ch.jalu", "configme", "1.4.3");
 

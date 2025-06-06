@@ -30,7 +30,7 @@ fancyholograms = "2.4.1" # https://modrinth.com/plugin/fancyholograms
 
 ## Other
 bStats = "3.1.0" # https://github.com/Bastian/bStats
-fusion = "1.16.0" # https://github.com/ryderbelserion/Fusion
+fusion = "1.16.1" # https://github.com/ryderbelserion/Fusion
 
 ## ChatManager
 chatmanager = "5.0.0" # https://github.com/Crazy-Crew/ChatManager
