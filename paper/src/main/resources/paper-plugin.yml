@@ -1,6 +1,5 @@
 name: '${name}'
 main: '${group}.${name}'
-loader: '${group}.api.runtime.DependencyLoader'
 
 version: '${version}'
 api-version: '${minecraft}'
