@@ -1,7 +1,11 @@
-# The root config section
+# Support: https://discord.gg/badbones-s-live-chat-182615261403283459
+# Github: https://github.com/Crazy-Crew
+#
+# Issues: https://github.com/Crazy-Crew/ChatManager/issues
+# Features: https://github.com/Crazy-Crew/ChatManager/issues
 root:
   # The prefix that appears in front of commands!
-  prefix: <dark_gray>[<red>Core<white>Craft<dark_gray>] <reset>
+  prefix: <blue>[<gold>ChatManager<blue>] <reset>
   # This option will tell the plugin to send all messages as action bars or messages in chat.
   #
   # send_message -> sends messages in chat.

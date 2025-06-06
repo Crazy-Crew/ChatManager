@@ -11,10 +11,12 @@ import com.ryderbelserion.fusion.core.api.exceptions.FusionException;
 import com.ryderbelserion.fusion.core.files.FileAction;
 import com.ryderbelserion.fusion.core.files.FileManager;
 import com.ryderbelserion.fusion.core.files.types.JaluCustomFile;
+import com.ryderbelserion.fusion.core.utils.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ConfigManager {
 
@@ -27,6 +29,17 @@ public class ConfigManager {
     private static final Path path = layout.getPath();
 
     public static void load() {
+        // extract first, because I really dislike how ConfigMe formats it.
+        FileUtils.extract("locale", path, new ArrayList<>() {{
+            add(FileAction.FOLDER);
+        }});
+
+        List.of(
+                "config.yml",
+                "messages.yml",
+                "chat.yml"
+        ).forEach(file -> FileUtils.extract(file, path, new ArrayList<>()));
+
         fileManager.addFolder(path.resolve("locale"), builder -> builder.configurationData(RootKeys.class, ErrorKeys.class), new ArrayList<>(), options)
                 .addFile(path.resolve("config.yml"), builder -> builder.configurationData(ConfigKeys.class), new ArrayList<>(), options)
                 .addFile(path.resolve("messages.yml"), builder -> builder.configurationData(RootKeys.class, ErrorKeys.class), new ArrayList<>(), options)

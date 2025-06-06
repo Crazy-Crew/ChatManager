@@ -24,7 +24,7 @@ messages:
   errors:
     internal-error: "{prefix}<red>An internal error has occurred. Please check the console for the full error."
     message-empty: "{prefix}<red>The message cannot be empty."
-    # Messages handling join/quit messages
+  # Messages handling join/quit messages
   traffic:
     # Available placeholders: {player}
     join-message: " <dark_gray>[<green>+</green>]</dark_gray> {player}"
