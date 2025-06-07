@@ -1,12 +1,9 @@
 plugins {
     alias(libs.plugins.minotaur)
     alias(libs.plugins.feather)
-    alias(libs.plugins.hangar)
 
     `config-java`
 }
-
-rootProject.group = "com.ryderbelserion.chatmanager"
 
 val git = feather.getGit()
 
@@ -16,13 +13,14 @@ val content: String = if (isSnapshot) "[$commitHash](https://github.com/Crazy-Cr
 
 rootProject.version = version()
 rootProject.description = "The kitchen sink of Chat Management!"
+rootProject.group = "com.ryderbelserion.chatmanager"
 
 fun version(): String {
     if (isSnapshot) {
         return "${libs.versions.minecraft.get()}-$commitHash"
     }
 
-    return libs.versions.chatmanager.get()
+    return "5.0.0"
 }
 
 feather {
