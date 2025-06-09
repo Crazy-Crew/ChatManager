@@ -13,7 +13,7 @@ public class ChatListener implements Listener {
 
     private final SettingsManager chat = ConfigManager.getChat();
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerChat(AsyncChatEvent event) {
         if (!this.chat.getProperty(ChatKeys.chat_format_toggle)) return;
 
