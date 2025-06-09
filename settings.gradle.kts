@@ -1,6 +1,5 @@
 pluginManagement {
     repositories {
-        maven("https://maven.fabricmc.net/")
         gradlePluginPortal()
     }
 }
@@ -22,7 +21,6 @@ fun includeProject(path: String, name: String) {
 }
 
 listOf(
-    //"fabric" to "fabric",
     "paper" to "paper",
     "core" to "core",
     "api" to "api"
