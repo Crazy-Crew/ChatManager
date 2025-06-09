@@ -38,7 +38,9 @@ public enum Messages {
     same_player(RootKeys.same_player),
 
     internal_error(ErrorKeys.internal_error),
-    message_empty(ErrorKeys.message_empty);
+    message_empty(ErrorKeys.message_empty),
+
+    motd(RootKeys.message_of_the_day, true);
 
     private Property<String> property;
 

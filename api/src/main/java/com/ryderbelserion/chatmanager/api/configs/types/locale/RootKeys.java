@@ -5,6 +5,8 @@ import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.configurationdata.CommentsConfiguration;
 import ch.jalu.configme.properties.Property;
 import org.jetbrains.annotations.NotNull;
+import java.util.List;
+import static ch.jalu.configme.properties.PropertyInitializer.newListProperty;
 import static ch.jalu.configme.properties.PropertyInitializer.newProperty;
 
 public class RootKeys implements SettingsHolder {
@@ -66,4 +68,15 @@ public class RootKeys implements SettingsHolder {
     @Comment("Available placeholders: {player}")
     public static final Property<String> quit_message = newProperty("messages.traffic.quit_message", " <dark_gray>[<red>-</red>]</dark_gray> {player}");
 
+    @Comment("Available placeholders: {player}")
+    public static final Property<List<String>> message_of_the_day = newListProperty("messages.motd", List.of(
+            "<gray>------------------------------------",
+            "",
+            "<green>Welcome to the server <blue>{player}</blue>!",
+            "",
+            "<green>If you need any help, Please message online staff!",
+            "",
+            "<green>You can change this message in the config.yml",
+            "<gray>------------------------------------"
+    ));
 }

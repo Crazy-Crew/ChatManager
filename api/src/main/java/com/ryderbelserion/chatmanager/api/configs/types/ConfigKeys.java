@@ -38,4 +38,10 @@ public class ConfigKeys implements SettingsHolder {
     })
     public static final Property<Action> message_action = newBeanProperty(Action.class, "root.message-action", Action.send_message);
 
+    @Comment("Should the message of the day be sent?")
+    public static final Property<Boolean> motd_enabled = newProperty("root.motd.enabled", false);
+
+    @Comment("The time to wait in seconds before sending the message of the day.")
+    public static final Property<Integer> motd_delay = newProperty("root.motd.delay", 0);
+
 }

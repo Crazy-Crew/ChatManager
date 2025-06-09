@@ -2,6 +2,7 @@ package com.ryderbelserion.chatmanager.paper.commands.brigadier;
 
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.chatmanager.paper.commands.brigadier.types.admin.CommandReload;
+import com.ryderbelserion.chatmanager.paper.commands.brigadier.types.player.CommandMotd;
 import com.ryderbelserion.fusion.paper.api.commands.objects.AbstractPaperCommand;
 import com.ryderbelserion.fusion.paper.api.commands.objects.AbstractPaperContext;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -39,6 +40,6 @@ public class BaseCommand extends AbstractPaperCommand {
 
     @Override
     public @NotNull final List<AbstractPaperCommand> getChildren() {
-        return List.of(new CommandReload());
+        return List.of(new CommandReload(), new CommandMotd());
     }
 }
