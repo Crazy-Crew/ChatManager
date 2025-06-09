@@ -1,9 +1,7 @@
 package com.ryderbelserion.chatmanager.paper.commands.brigadier.types.admin;
 
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import com.ryderbelserion.chatmanager.api.configs.ConfigManager;
-import com.ryderbelserion.chatmanager.core.enums.Messages;
-import com.ryderbelserion.chatmanager.paper.ChatManager;
+import com.ryderbelserion.chatmanager.paper.ChatManagerPlugin;
 import com.ryderbelserion.fusion.paper.FusionPaper;
 import com.ryderbelserion.fusion.paper.api.commands.objects.AbstractPaperCommand;
 import com.ryderbelserion.fusion.paper.api.commands.objects.AbstractPaperContext;
@@ -15,7 +13,7 @@ import java.util.List;
 
 public class CommandReload extends AbstractPaperCommand {
 
-    private final ChatManager plugin = ChatManager.get();
+    private final ChatManagerPlugin plugin = ChatManagerPlugin.get();
 
     private final FusionPaper fusion = this.plugin.getApi();
 
@@ -23,9 +21,7 @@ public class CommandReload extends AbstractPaperCommand {
     public void execute(@NotNull final AbstractPaperContext context) {
         this.fusion.reload(false);
 
-        ConfigManager.reload();
-
-        Messages.reload_plugin.sendMessage(context.getCommandSender());
+        //Messages.reload_plugin.sendMessage(context.getCommandSender());
     }
 
     @Override

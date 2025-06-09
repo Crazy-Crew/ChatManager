@@ -1,6 +1,6 @@
 package com.ryderbelserion.chatmanager.paper.listeners.chat.renderers;
 
-import com.ryderbelserion.chatmanager.paper.ChatManager;
+import com.ryderbelserion.chatmanager.paper.ChatManagerPlugin;
 import com.ryderbelserion.fusion.paper.FusionPaper;
 import io.papermc.paper.chat.ChatRenderer;
 import net.kyori.adventure.audience.Audience;
@@ -17,7 +17,7 @@ import java.util.List;
 
 public class ChatRender implements ChatRenderer {
 
-    private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
+    private final ChatManagerPlugin plugin = JavaPlugin.getPlugin(ChatManagerPlugin.class);
 
     private final FusionPaper paper = this.plugin.getApi();
 

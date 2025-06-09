@@ -5,8 +5,6 @@ import org.jetbrains.annotations.NotNull;
 
 public interface IChatManager {
 
-    @NotNull IUserManager getUserManager();
-
     @NotNull FileManager getFileManager();
 
 }
