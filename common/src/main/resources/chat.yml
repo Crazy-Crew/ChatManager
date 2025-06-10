@@ -4,6 +4,7 @@
 # Issues: https://github.com/Crazy-Crew/ChatManager/issues
 # Features: https://github.com/Crazy-Crew/ChatManager/issues
 chat:
+  # Settings related to chat formatting.
   format:
     # Should default chat formatting be enabled?
     toggle: true

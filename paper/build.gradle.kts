@@ -6,7 +6,7 @@ project.description = "Paper version of ChatManager!"
 project.group = "${rootProject.group}.paper"
 
 dependencies {
-    implementation(project(":chatmanager-core"))
+    implementation(project(":chatmanager-common"))
 
     implementation(libs.fusion.paper)
 }

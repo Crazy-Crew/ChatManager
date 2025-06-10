@@ -1,15 +1,29 @@
 package com.ryderbelserion.chatmanager.paper.listeners.chat;
 
+import com.ryderbelserion.chatmanager.common.enums.Files;
+import com.ryderbelserion.chatmanager.paper.ChatManagerPlatform;
+import com.ryderbelserion.chatmanager.paper.listeners.chat.renderers.ChatRender;
+import com.ryderbelserion.fusion.paper.FusionPaper;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.NotNull;
+import org.spongepowered.configurate.CommentedConfigurationNode;
 
 public class ChatListener implements Listener {
 
+    private final FusionPaper fusion;
+
+    public ChatListener(@NotNull final ChatManagerPlatform platform) {
+        this.fusion = platform.getFusion();
+    }
+
     @EventHandler(ignoreCancelled = true)
     public void onPlayerChat(AsyncChatEvent event) {
-        //if (!this.chat.getProperty(ChatKeys.chat_format_toggle)) return;
+        final CommentedConfigurationNode config = Files.chat.getConfig();
 
-        //event.renderer(new ChatRender(event.getPlayer(), this.chat.getProperty(ChatKeys.chat_format_default), event.signedMessage()));
+        if (!config.node("chat", "format", "default").getBoolean(false)) return;
+
+        event.renderer(new ChatRender(this.fusion, event.getPlayer(), config.node("chat", "format", "default").getString("%luckperms_prefix% {player} <gold>-> <reset>{message}"), event.signedMessage()));
     }
 }

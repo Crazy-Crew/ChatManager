@@ -1,55 +1,71 @@
 package com.ryderbelserion.chatmanager.paper.listeners;
 
+import com.ryderbelserion.chatmanager.common.constants.MessageKeys;
+import com.ryderbelserion.chatmanager.common.enums.Files;
+import com.ryderbelserion.chatmanager.common.registry.MessageRegistry;
+import com.ryderbelserion.chatmanager.common.registry.UserRegistry;
+import com.ryderbelserion.chatmanager.paper.ChatManagerPlatform;
 import com.ryderbelserion.chatmanager.paper.ChatManagerPlugin;
-import com.ryderbelserion.fusion.paper.FusionPaper;
+import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
+import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.NotNull;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+import java.util.HashMap;
 
 public class CacheListener implements Listener {
 
-    private final ChatManagerPlugin plugin = ChatManagerPlugin.get();
+    private final MessageRegistry messageRegistry;
+    private final UserRegistry userRegistry;
+    private final ChatManagerPlugin plugin;
 
-    private final FusionPaper fusion = this.plugin.getApi();
+    public CacheListener(@NotNull final ChatManagerPlatform platform) {
+        this.messageRegistry = platform.getMessageRegistry();
+        this.userRegistry = platform.getUserRegistry();
+        this.plugin = platform.getPlugin();
+    }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(final PlayerJoinEvent event) {
-        /*final Player player = event.getPlayer();
+        final Player player = event.getPlayer();
 
-        this.userManager.addUser(player);
+        this.userRegistry.addUser(player);
 
-        final PaperUser user = this.userManager.getUser(player.getUniqueId());
+        final String name = player.getName();
 
-        event.joinMessage(this.fusion.color(player, user.locale().getProperty(RootKeys.join_message), new HashMap<>() {{
-            put("{player}", player.getName());
-        }}));*/
+        event.joinMessage(this.messageRegistry.getMessage(MessageKeys.join_message).getComponent(player, new HashMap<>() {{
+            put("{player}", name);
+        }}));
 
-        /*if (this.config.getProperty(ConfigKeys.motd_enabled)) {
-            final int delay = config.getProperty(ConfigKeys.motd_delay);
+        final CommentedConfigurationNode config = Files.config.getConfig();
+
+        if (config.node("root", "motd", "toggle").getBoolean(false)) {
+            final int delay = config.node("root", "motd", "delay").getInt(0);
 
             new FoliaScheduler(this.plugin, Scheduler.global_scheduler) {
                 @Override
                 public void run() {
-                    /*Messages.motd.sendMessage(player, new HashMap<>() {{
-                        put("{player}", player.getName());
+                    messageRegistry.getMessage(MessageKeys.message_of_the_day).send(player, new HashMap<>() {{
+                        put("{player}", name);
                     }});
                 }
             }.runDelayed(delay);
-        }*/
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerQuit(final PlayerQuitEvent event) {
-        /*final Player player = event.getPlayer();
+        final Player player = event.getPlayer();
 
-        final PaperUser user = this.userManager.getUser(player.getUniqueId());
-
-        event.quitMessage(this.fusion.color(player, user.locale().getProperty(RootKeys.quit_message), new HashMap<>() {{
+        event.quitMessage(this.messageRegistry.getMessage(MessageKeys.quit_message).getComponent(player, new HashMap<>() {{
             put("{player}", player.getName());
         }}));
 
-        this.userManager.removeUser(player);*/
+        this.userRegistry.removeUser(player);
     }
 }

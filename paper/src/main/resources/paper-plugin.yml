@@ -1,5 +1,5 @@
 name: '${name}'
-main: '${group}.${name}'
+main: '${group}.ChatManagerPlugin'
 
 version: '${version}'
 api-version: '${minecraft}'

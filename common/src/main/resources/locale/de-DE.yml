@@ -1,4 +1,4 @@
-# The message section which powers the entire plugin's translation system!
+# The message section which powers the entire plugin's translation system! All messages support PlaceholderAPI, if the plugin is installed.
 #
 # Colors: black, dark_blue, dark_green, dark_aqua, dark_red, dark_purple, gold, gray, dark_gray, blue, green, aqua, red, light_purple, yellow, or white
 # Hex Colors: <color:#e91e63>text</color> or <#e91e63>text</>
@@ -36,3 +36,13 @@ messages:
     join-message: " <dark_gray>[<green>+</green>]</dark_gray> {player}"
     # Available placeholders: {player}
     quit-message: " <dark_gray>[<red>-</red>]</dark_gray> {player}"
+  # Available placeholders: {player}
+  motd:
+    - "<gray>------------------------------------"
+    - ""
+    - "<green>Willkommen auf dem Server <blue>{player}</blue>!"
+    - ""
+    - "<green>Wenn Sie Hilfe benötigen, wenden Sie sich bitte an das Online-Personal!"
+    - ""
+    - "<green>Sie können diese Meldung in der Datei messages.yml oder im Ordner locale ändern."
+    - "<gray>------------------------------------"

@@ -49,14 +49,14 @@ tasks {
             "version" to rootProject.version,
             "description" to project.description,
             "minecraft" to libs.findVersion("minecraft").get(),
-            "website" to "https://github.com/Crazy-Crew/${rootProject.name}",
-            "fabricloader" to libs.findVersion("fabric-loader").get(),
-            "id" to rootProject.name.lowercase(),
+            //"website" to "https://github.com/Crazy-Crew/${rootProject.name}",
+            //"fabricloader" to libs.findVersion("fabric-loader").get(),
+            //"id" to rootProject.name.lowercase(),
             "group" to project.group
         )
 
         with(copySpec {
-            include("*paper-plugin.yml", "fabric.mod.json")
+            include("*paper-plugin.yml")
             from("src/main/resources") {
                 expand(inputs.properties)
             }

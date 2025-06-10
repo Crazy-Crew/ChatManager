@@ -19,7 +19,7 @@ itemsadder = "4.0.10" # https://github.com/ItemsAdder
 nexo = "1.6.0" # https://github.com/Nexo-MC
 
 ## Other
-fusion = "1.16.1" # https://github.com/ryderbelserion/Fusion
+fusion = "1.20.1" # https://github.com/ryderbelserion/Fusion
 
 ## Gradle Plugins
 fix-javadoc = "1.19" # https://github.com/mfnalex/gradle-fix-javadoc-plugin
@@ -38,6 +38,8 @@ feather = { id = "com.ryderbelserion.feather.core", version.ref = "feather" }
 hangar = { id = "io.papermc.hangar-publish-plugin", version.ref = "hangar" }
 # https://github.com/modrinth/minotaur
 minotaur = { id = "com.modrinth.minotaur", version.ref = "minotaur" }
+# https://github.com/GradleUp/shadow
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
 
 [libraries]
 # https://github.com/PaperMC/paperweight
