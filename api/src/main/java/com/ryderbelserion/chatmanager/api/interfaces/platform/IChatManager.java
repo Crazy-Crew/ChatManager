@@ -8,11 +8,11 @@ import org.jetbrains.annotations.NotNull;
 
 public interface IChatManager {
 
-    @NotNull FileManager getFileManager();
-
-    @NotNull IUserRegistry getUserRegistry();
+    @NotNull <P, U> IUserRegistry<P, U> getUserRegistry();
 
     @NotNull IMessageRegistry getMessageRegistry();
+
+    @NotNull FileManager getFileManager();
 
     void broadcast(@NotNull final Component component, @NotNull final String permission);
 

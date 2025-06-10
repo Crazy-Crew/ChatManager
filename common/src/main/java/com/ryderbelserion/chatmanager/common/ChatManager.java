@@ -32,9 +32,7 @@ public abstract class ChatManager implements IChatManager {
                 .addFile(this.path.resolve("chat.yml"), new ArrayList<>(), null)
                 .addFile(this.path.resolve("messages.yml"), new ArrayList<>(), null);
 
-        this.userRegistry = new UserRegistry();
-
-        this.messageRegistry = new MessageRegistry();
+        this.messageRegistry = new MessageRegistry(this.userRegistry = new UserRegistry());
         this.messageRegistry.init();
     }
 

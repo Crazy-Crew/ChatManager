@@ -3,8 +3,8 @@ package com.ryderbelserion.chatmanager.common.objects;
 import com.ryderbelserion.chatmanager.api.ChatManagerProvider;
 import com.ryderbelserion.chatmanager.api.interfaces.IMessage;
 import com.ryderbelserion.chatmanager.api.interfaces.platform.IChatManager;
-import com.ryderbelserion.chatmanager.api.interfaces.registry.IUserRegistry;
 import com.ryderbelserion.chatmanager.common.enums.Files;
+import com.ryderbelserion.chatmanager.common.registry.UserRegistry;
 import com.ryderbelserion.fusion.core.FusionCore;
 import com.ryderbelserion.fusion.core.api.exceptions.FusionException;
 import com.ryderbelserion.fusion.kyori.FusionKyori;
@@ -23,13 +23,17 @@ public class Message implements IMessage {
     private final FusionKyori kyori = (FusionKyori) FusionCore.Provider.get();
 
     private final IChatManager chatManager = ChatManagerProvider.getInstance();
-    private final IUserRegistry<Audience, User> userRegistry = this.chatManager.getUserRegistry();
     private final CommentedConfigurationNode config = Files.config.getConfig();
+
+    private final UserRegistry userRegistry;
 
     private final String defaultValue;
     private final Object[] path;
 
-    public Message(@NotNull final String defaultValue, @NotNull final Object... path) {
+    public Message(@NotNull final UserRegistry userRegistry, @NotNull final String defaultValue, @NotNull final Object... path) {
+        this.userRegistry = userRegistry;
+
+        // config data
         this.defaultValue = defaultValue;
         this.path = path;
     }
