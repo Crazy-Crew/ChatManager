@@ -5,8 +5,10 @@ import com.ryderbelserion.chatmanager.paper.commands.brigadier.BaseCommand;
 import com.ryderbelserion.chatmanager.paper.listeners.CacheListener;
 import com.ryderbelserion.chatmanager.paper.listeners.chat.ChatListener;
 import com.ryderbelserion.fusion.paper.FusionPaper;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Server;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
 import java.util.List;
@@ -56,6 +58,11 @@ public class ChatManagerPlatform extends ChatManager {
 
         this.server.getGlobalRegionScheduler().cancelTasks(this.plugin);
         this.server.getAsyncScheduler().cancelTasks(this.plugin);
+    }
+
+    @Override
+    public final boolean isConsoleSender(@NotNull final Audience audience) {
+        return audience instanceof ConsoleCommandSender;
     }
 
     @Override
