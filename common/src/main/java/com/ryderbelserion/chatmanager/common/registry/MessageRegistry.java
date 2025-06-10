@@ -59,15 +59,15 @@ public class MessageRegistry implements IMessageRegistry {
 
         addMessage(MessageKeys.reload_plugin, new Message(this.userRegistry, "{prefix}<yellow>You have reloaded the plugin!", "messages", "reload-plugin"));
         addMessage(MessageKeys.feature_disabled, new Message(this.userRegistry, "{prefix}<red>This feature is disabled.", "messages", "feature-disabled"));
-        addMessage(MessageKeys.must_be_console_sender, new Message(this.userRegistry, "{prefix}<red>You must be using console to use this command.", "messages", "must_be_console_sender"));
-        addMessage(MessageKeys.must_be_player, new Message(this.userRegistry, "{prefix}<red>You must be a player to use this command.", "messages", "must_be_player"));
-        addMessage(MessageKeys.target_not_online, new Message(this.userRegistry, "{prefix}<red>This feature is disabled.", "messages", "target_not_online"));
-        addMessage(MessageKeys.target_same_player, new Message(this.userRegistry, "{prefix}<red>You cannot use this command on yourself.", "messages", "target_same_player"));
-        addMessage(MessageKeys.no_permission, new Message(this.userRegistry, "{prefix}<red>You do not have permission to use that command!", "messages", "no_permission"));
-        addMessage(MessageKeys.inventory_not_empty, new Message(this.userRegistry, "{prefix}<red>Inventory is not empty, Please clear up some room.", "messages", "inventory_not_empty"));
+        addMessage(MessageKeys.must_be_console_sender, new Message(this.userRegistry, "{prefix}<red>You must be using console to use this command.", "messages", "player", "requirements", "must-be-console-sender"));
+        addMessage(MessageKeys.must_be_player, new Message(this.userRegistry, "{prefix}<red>You must be a player to use this command.", "messages", "player", "requirements", "must-be-player"));
+        addMessage(MessageKeys.target_not_online, new Message(this.userRegistry, "{prefix}<red>This feature is disabled.", "messages", "player", "target-not-online"));
+        addMessage(MessageKeys.target_same_player, new Message(this.userRegistry, "{prefix}<red>You cannot use this command on yourself.", "messages", "player", "target-same-player"));
+        addMessage(MessageKeys.no_permission, new Message(this.userRegistry, "{prefix}<red>You do not have permission to use that command!", "messages", "player", "no-permission"));
+        addMessage(MessageKeys.inventory_not_empty, new Message(this.userRegistry, "{prefix}<red>Inventory is not empty, Please clear up some room.", "messages", "player", "inventory-not-empty"));
 
-        addMessage(MessageKeys.join_message, new Message(this.userRegistry, " <dark_gray>[<green>+</green>]</dark_gray> {player}", "messages", "traffic", "join_message"));
-        addMessage(MessageKeys.quit_message, new Message(this.userRegistry, " <dark_gray>[<red>-</red>]</dark_gray> {player}", "messages", "traffic", "quit_message"));
+        addMessage(MessageKeys.join_message, new Message(this.userRegistry, " <dark_gray>[<green>+</green>]</dark_gray> {player}", "messages", "traffic", "join-message"));
+        addMessage(MessageKeys.quit_message, new Message(this.userRegistry, " <dark_gray>[<red>-</red>]</dark_gray> {player}", "messages", "traffic", "quit-message"));
 
         addMessage(MessageKeys.message_of_the_day, new Message(this.userRegistry, StringUtils.toString(List.of(
                 "<gray>------------------------------------",
