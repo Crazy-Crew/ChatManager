@@ -4,6 +4,7 @@ import com.ryderbelserion.chatmanager.api.ChatManagerProvider;
 import com.ryderbelserion.chatmanager.api.interfaces.platform.IChatManager;
 import com.ryderbelserion.chatmanager.common.registry.MessageRegistry;
 import com.ryderbelserion.chatmanager.common.registry.UserRegistry;
+import com.ryderbelserion.fusion.core.files.FileAction;
 import com.ryderbelserion.fusion.core.files.FileManager;
 import com.ryderbelserion.fusion.core.files.FileType;
 import org.jetbrains.annotations.NotNull;
@@ -39,6 +40,10 @@ public abstract class ChatManager implements IChatManager {
     @Override
     public void reload() {
         this.fileManager.refresh(false);
+
+        this.fileManager.addFolder(this.path.resolve("locale"), FileType.YAML, new ArrayList<>() {{
+            add(FileAction.RELOAD);
+        }}, null); // adds new files only
 
         this.messageRegistry.init();
     }
