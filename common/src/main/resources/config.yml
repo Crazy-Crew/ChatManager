@@ -10,7 +10,6 @@ root:
   #
   # send_message -> sends messages in chat.
   # send_actionbar -> sends messages in actionbar.
-  #
   message-action: "send_message"
   # Settings related to the motd.
   motd:
