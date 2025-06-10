@@ -2,7 +2,7 @@ package com.ryderbelserion.chatmanager.common.objects;
 
 import com.ryderbelserion.chatmanager.api.ChatManagerProvider;
 import com.ryderbelserion.chatmanager.api.interfaces.IMessage;
-import com.ryderbelserion.chatmanager.api.interfaces.platform.IChatManager;
+import com.ryderbelserion.chatmanager.common.ChatManager;
 import com.ryderbelserion.chatmanager.common.enums.Files;
 import com.ryderbelserion.chatmanager.common.registry.UserRegistry;
 import com.ryderbelserion.fusion.core.FusionCore;
@@ -22,7 +22,7 @@ public class Message implements IMessage {
 
     private final FusionKyori kyori = (FusionKyori) FusionCore.Provider.get();
 
-    private final IChatManager chatManager = ChatManagerProvider.getInstance();
+    private final ChatManager chatManager = (ChatManager) ChatManagerProvider.getInstance();
     private final CommentedConfigurationNode config = Files.config.getConfig();
 
     private final UserRegistry userRegistry;

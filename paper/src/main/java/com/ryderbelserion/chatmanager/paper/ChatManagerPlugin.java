@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ChatManagerPlugin extends JavaPlugin {
 
-    public static ChatManagerPlugin get() {
+    public static ChatManagerPlugin getPlugin() { // only for static classes like util methods.
         return JavaPlugin.getPlugin(ChatManagerPlugin.class);
     }
 
