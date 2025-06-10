@@ -22,7 +22,7 @@ public class ChatListener implements Listener {
     public void onPlayerChat(AsyncChatEvent event) {
         final CommentedConfigurationNode config = Files.chat.getConfig();
 
-        if (!config.node("chat", "format", "default").getBoolean(false)) return;
+        if (!config.node("chat", "format", "toggle").getBoolean(false)) return;
 
         event.renderer(new ChatRender(this.fusion, event.getPlayer(), config.node("chat", "format", "default").getString("%luckperms_prefix% {player} <gold>-> <reset>{message}"), event.signedMessage()));
     }
