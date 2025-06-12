@@ -217,7 +217,7 @@ public class CommandMessage extends Global implements CommandExecutor, TabComple
 					if (contains) {
 						Messages.SOCIAL_SPY_FORMAT.sendMessage(staff, new HashMap<>() {{
 							put("{player}", player.getName());
-							put("{receiver", target.getName());
+							put("{receiver}", target.getName());
 							put("{message}", message.toString());
 						}});
 					}
