@@ -174,3 +174,43 @@ modrinth {
     autoAddDependsOn = false
     detectLoaders = false
 }
+
+hangarPublish {
+    publications.register("plugin") {
+        apiKey.set(System.getenv("HANGAR_KEY"))
+
+        id.set(rootProject.name)
+
+        version.set(rootProject.version as String)
+
+        channel.set(if (isSnapshot) "Beta" else "Release")
+
+        changelog.set(content)
+
+        platforms {
+            paper {
+                jar = tasks.jar.flatMap { it.archiveFile }
+
+                platformVersions.set(versions)
+
+                dependencies {
+                    hangar("PlaceholderAPI") {
+                        required = false
+                    }
+
+                    hangar("Essentials") {
+                        required = false
+                    }
+
+                    url("SuperVanish", "https://www.spigotmc.org/resources/supervanish-be-invisible.1331/") {
+                        required = false
+                    }
+
+                    url("Vault", "https://www.spigotmc.org/resources/vault.34315/") {
+                        required = false
+                    }
+                }
+            }
+        }
+    }
+}
