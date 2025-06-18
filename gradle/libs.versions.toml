@@ -1,16 +1,16 @@
 [versions]
 paperweight = "2.0.0-beta.17" # https://github.com/PaperMC/paperweight
-paper = "1.21.5-R0.1-SNAPSHOT" # https://github.com/PaperMC/Paper
+paper = "1.21.6-R0.1-SNAPSHOT" # https://github.com/PaperMC/Paper
 
 ## JetBrains
 annotations = "24.1.0" # https://github.com/JetBrains/java-annotations
 kotlin = "2.1.20" # https://github.com/JetBrains/kotlin
 
 ## Kyori
-adventure = "4.21.0" # https://github.com/KyoriPowered/adventure
+adventure = "4.22.0" # https://github.com/KyoriPowered/adventure
 
 ## Minecraft
-minecraft = "1.21.5" # https://minecraft.net
+minecraft = "1.21.6" # https://minecraft.net
 
 ## Plugin API
 headdatabaseapi = "1.3.1" # https://github.com/Arcaniax-Development/HeadDatabase-API
@@ -19,7 +19,7 @@ itemsadder = "4.0.10" # https://github.com/ItemsAdder
 nexo = "1.6.0" # https://github.com/Nexo-MC
 
 ## Other
-fusion = "1.20.4" # https://github.com/ryderbelserion/Fusion
+fusion = "1.21.1" # https://github.com/ryderbelserion/Fusion
 
 ## Gradle Plugins
 fix-javadoc = "1.19" # https://github.com/mfnalex/gradle-fix-javadoc-plugin
