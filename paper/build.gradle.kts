@@ -67,6 +67,7 @@ tasks {
 
     runServer {
         jvmArgs("-Dnet.kyori.ansi.colorLevel=truecolor")
+        jvmArgs("-Dcom.mojang.eula.agree=true")
 
         defaultCharacterEncoding = Charsets.UTF_8.name()
 
