@@ -14,12 +14,6 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
-      - name: Read Version Catalog
-        uses: SebRollen/toml-action@v1.2.0
-        id: chatmanager_version
-        with:
-          file: "gradle/libs.versions.toml"
-          field: "versions.chatmanager"
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Make gradlew executable
@@ -30,6 +24,10 @@ jobs:
         run: ./gradlew modrinth --stacktrace
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+      - name: Publish to Hangar
+        run: ./gradlew publishAllPublicationsToHangar --stacktrace
+        env:
+          HANGAR_KEY: ${{ secrets.HANGAR_KEY }}
       - name: Notify Discord
         if: success()
         run: ./gradlew release-build --stacktrace
