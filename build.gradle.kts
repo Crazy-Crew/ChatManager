@@ -14,22 +14,10 @@ val commitHash: String? = git.getCurrentCommitHash().subSequence(0, 7).toString(
 val isSnapshot: Boolean = git.getCurrentBranch() == "dev"
 val content: String = if (isSnapshot) "[$commitHash](https://github.com/Crazy-Crew/${rootProject.name}/commit/$commitHash) ${git.getCurrentCommit()}" else rootProject.file("changelog.md").readText(Charsets.UTF_8)
 val minecraft = libs.versions.minecraft.get()
+val versions = listOf(minecraft)
 
-val versions = listOf(
-    //"1.21.6",
-    minecraft
-)
-
-rootProject.version = version()
+rootProject.version = if (isSnapshot) "$minecraft-$commitHash" else libs.versions.chatmanager.get()
 rootProject.description = "The kitchen sink of Chat Management!"
-
-fun version(): String {
-    if (isSnapshot) {
-        return "$minecraft-$commitHash"
-    }
-
-    return libs.versions.chatmanager.get()
-}
 
 feather {
     rootDirectory = rootProject.rootDir.toPath()
