@@ -35,9 +35,9 @@ feather {
                 post(System.getenv("BUILD_WEBHOOK"))
             }
 
-            username(user.getName())
+            username("Ryder Belserion")
 
-            avatar(user.avatar)
+            avatar("https://github.com/ryderbelserion.png")
 
             embeds {
                 embed {
