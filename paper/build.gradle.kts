@@ -35,6 +35,13 @@ tasks {
     }
 
     shadowJar {
+        archiveBaseName.set("${rootProject.name}-${rootProject.version}")
+
+        copy {
+            from(project.layout.buildDirectory.dir("libs"))
+            into(rootProject.layout.buildDirectory.dir("libs"))
+        }
+
         listOf(
             "com.ryderbelserion.fusion",
             "org.bstats"
@@ -67,6 +74,7 @@ tasks {
 
     runServer {
         jvmArgs("-Dnet.kyori.ansi.colorLevel=truecolor")
+        jvmArgs("-Dcom.mojang.eula.agree=true")
 
         defaultCharacterEncoding = Charsets.UTF_8.name()
 

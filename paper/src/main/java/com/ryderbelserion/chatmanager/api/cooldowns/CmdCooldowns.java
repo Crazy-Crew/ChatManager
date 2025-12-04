@@ -22,7 +22,7 @@ public class CmdCooldowns {
     }
 
     public int getTime(UUID uuid) {
-        return map.get(uuid);
+        return map.getOrDefault(uuid, 0);
     }
 
     public void subtract(UUID uuid) {

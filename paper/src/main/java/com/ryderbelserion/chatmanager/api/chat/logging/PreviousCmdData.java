@@ -22,7 +22,7 @@ public class PreviousCmdData {
     }
 
     public String getMessage(UUID uuid) {
-        return map.get(uuid);
+        return map.getOrDefault(uuid, "");
     }
 
     public Map<UUID, String> getUsers() {

@@ -11,24 +11,20 @@ rootProject.group = "me.h1dd3nxn1nja.chatmanager"
 val git = feather.getGit()
 
 val commitHash: String? = git.getCurrentCommitHash().subSequence(0, 7).toString()
-val isSnapshot: Boolean = System.getenv("IS_SNAPSHOT") != null
+val isSnapshot: Boolean = git.getCurrentBranch() == "dev"
 val content: String = if (isSnapshot) "[$commitHash](https://github.com/Crazy-Crew/${rootProject.name}/commit/$commitHash) ${git.getCurrentCommit()}" else rootProject.file("changelog.md").readText(Charsets.UTF_8)
+val minecraft = libs.versions.minecraft.get()
+val versions = listOf(minecraft)
 
-rootProject.version = version()
+rootProject.version = if (isSnapshot) "$minecraft-$commitHash" else libs.versions.chatmanager.get()
 rootProject.description = "The kitchen sink of Chat Management!"
-
-fun version(): String {
-    if (isSnapshot) {
-        return "${libs.versions.minecraft.get()}-$commitHash"
-    }
-
-    return libs.versions.chatmanager.get()
-}
 
 feather {
     rootDirectory = rootProject.rootDir.toPath()
 
-    val data = git.getCurrentCommitAuthorData().copy(author = git.getCurrentCommitAuthorName())
+    val data = git.getGithubCommit("Crazy-Crew/${rootProject.name}")
+
+    val user = data.user
 
     discord {
         webhook {
@@ -39,9 +35,9 @@ feather {
                 post(System.getenv("BUILD_WEBHOOK"))
             }
 
-            username(data.author)
+            username("Ryder Belserion")
 
-            avatar(data.avatar)
+            avatar("https://github.com/ryderbelserion.png")
 
             embeds {
                 embed {
@@ -77,9 +73,9 @@ feather {
                 post(System.getenv("BUILD_WEBHOOK"))
             }
 
-            username(data.author)
+            username(user.getName())
 
-            avatar(data.avatar)
+            avatar(user.avatar)
 
             content("<@&1372358375433834537>")
 
@@ -155,7 +151,7 @@ modrinth {
 
     changelog = content
 
-    gameVersions.addAll(listOf(libs.versions.minecraft.get()))
+    gameVersions.addAll(versions)
 
     uploadFile = tasks.jar.get().archiveFile.get()
 
@@ -165,4 +161,44 @@ modrinth {
 
     autoAddDependsOn = false
     detectLoaders = false
+}
+
+hangarPublish {
+    publications.register("plugin") {
+        apiKey.set(System.getenv("HANGAR_KEY"))
+
+        id.set(rootProject.name)
+
+        version.set(rootProject.version as String)
+
+        channel.set(if (isSnapshot) "Beta" else "Release")
+
+        changelog.set(content)
+
+        platforms {
+            paper {
+                jar = tasks.jar.flatMap { it.archiveFile }
+
+                platformVersions.set(versions)
+
+                dependencies {
+                    hangar("PlaceholderAPI") {
+                        required = false
+                    }
+
+                    hangar("Essentials") {
+                        required = false
+                    }
+
+                    url("SuperVanish", "https://www.spigotmc.org/resources/supervanish-be-invisible.1331/") {
+                        required = false
+                    }
+
+                    url("Vault", "https://www.spigotmc.org/resources/vault.34315/") {
+                        required = false
+                    }
+                }
+            }
+        }
+    }
 }

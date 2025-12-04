@@ -1,11 +1,9 @@
 name: Snapshot Build
-env:
-  IS_SNAPSHOT: true
 on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - dev
 
 jobs:
   build:
@@ -27,6 +25,11 @@ jobs:
         run: ./gradlew modrinth --stacktrace
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          COMMIT_MESSAGE: ${{ join(github.event.commits.*.message, '<br>') }}
+      - name: Publish to Hangar
+        run: ./gradlew publishAllPublicationsToHangar --stacktrace
+        env:
+          HANGAR_KEY: ${{ secrets.HANGAR_KEY }}
           COMMIT_MESSAGE: ${{ join(github.event.commits.*.message, '<br>') }}
       - name: Notify Discord
         if: success()
