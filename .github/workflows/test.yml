@@ -1,8 +1,0 @@
-name: Main Workflow
-
-on:
-  workflow_dispatch:
-
-jobs:
-  build:
-    uses: Crazy-Crew/.github/.github/workflows/debug.yml@main
