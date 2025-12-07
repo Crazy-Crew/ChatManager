@@ -56,7 +56,7 @@ tasks {
         inputs.properties(
             "name" to rootProject.name,
             "version" to rootProject.version,
-            "description" to rootProject.description,
+            "description" to rootProject.description.toString(),
             "minecraft" to libs.versions.minecraft.get(),
             "group" to project.group
         )
