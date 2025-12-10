@@ -1,6 +1,7 @@
 package com.ryderbelserion.chatmanager.paper;
 
 import com.ryderbelserion.chatmanager.common.ChatManager;
+import com.ryderbelserion.chatmanager.paper.commands.BaseCommand;
 import com.ryderbelserion.chatmanager.paper.listeners.CacheListener;
 import com.ryderbelserion.chatmanager.paper.listeners.chat.ChatListener;
 import com.ryderbelserion.fusion.core.api.interfaces.permissions.enums.Mode;
@@ -13,9 +14,9 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
+import org.incendo.cloud.execution.ExecutionCoordinator;
+import org.incendo.cloud.paper.PaperCommandManager;
 import org.jetbrains.annotations.NotNull;
-import org.jspecify.annotations.NonNull;
-
 import java.util.List;
 import java.util.Map;
 
@@ -72,11 +73,11 @@ public class ChatManagerPlatform extends ChatManager {
 
     @Override
     public void registerCommands() {
-        /*getPermissionRegistry().start();
+        getPermissionRegistry().start();
 
-        this.command = new BaseCommand(PaperCommandManager.builder()
+        new BaseCommand(PaperCommandManager.builder()
                 .executionCoordinator(ExecutionCoordinator.simpleCoordinator())
-                .buildOnEnable(this.plugin));*/
+                .buildOnEnable(this.plugin));
     }
 
     @Override
