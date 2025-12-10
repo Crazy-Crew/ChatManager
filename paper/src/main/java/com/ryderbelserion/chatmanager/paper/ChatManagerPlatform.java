@@ -14,6 +14,8 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
+
 import java.util.List;
 import java.util.Map;
 
@@ -144,6 +146,11 @@ public class ChatManagerPlatform extends ChatManager {
     @Override
     public void broadcast(@NotNull Component component) {
         broadcast(component, "");
+    }
+
+    @Override
+    public @NotNull FusionPaper getFusion() {
+        return this.fusion;
     }
 
     public @NotNull final ChatManagerPlugin getPlugin() {

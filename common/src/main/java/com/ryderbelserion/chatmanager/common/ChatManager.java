@@ -65,9 +65,7 @@ public abstract class ChatManager implements IChatManager {
     public void reload() {
         this.fileManager.refresh(false);
 
-        /*this.fileManager.addFolder(this.path.resolve("locale"), FileType.YAML, new ArrayList<>() {{
-            add(FileAction.RELOAD);
-        }}, null); // adds new files only*/
+        this.fileManager.addFolder(this.path.resolve("locale"), FileType.YAML);
 
         this.messageRegistry.init();
     }
@@ -101,7 +99,7 @@ public abstract class ChatManager implements IChatManager {
         return this.fileManager;
     }
 
-    public @NotNull final FusionCore getFusion() {
+    public @NotNull FusionCore getFusion() {
         return this.fusion;
     }
 }

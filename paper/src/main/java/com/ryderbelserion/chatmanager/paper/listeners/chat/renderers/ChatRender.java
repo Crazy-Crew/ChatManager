@@ -10,8 +10,8 @@ import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChatRender implements ChatRenderer {
 
@@ -22,10 +22,10 @@ public class ChatRender implements ChatRenderer {
 
         resolvers.add(StandardTags.defaults());
 
-        this.renderedMessage = fusion.parse(player, format, new HashMap<>() {{
-            put("{player}", player.getName());
-            put("{message}", message.message());
-        }}, resolvers);
+        this.renderedMessage = fusion.parse(player, format, Map.of(
+                "{player}", player.getName(),
+                "{message}", message.message()
+        ), resolvers);
     }
 
     @Override

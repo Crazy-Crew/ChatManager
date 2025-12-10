@@ -6,6 +6,8 @@ import com.ryderbelserion.chatmanager.common.registry.MessageRegistry;
 import com.ryderbelserion.chatmanager.common.registry.UserRegistry;
 import com.ryderbelserion.chatmanager.paper.ChatManagerPlatform;
 import com.ryderbelserion.chatmanager.paper.ChatManagerPlugin;
+import com.ryderbelserion.fusion.paper.scheduler.FoliaScheduler;
+import com.ryderbelserion.fusion.paper.scheduler.Scheduler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,6 +17,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CacheListener implements Listener {
 
@@ -45,14 +48,14 @@ public class CacheListener implements Listener {
         if (config.node("root", "motd", "toggle").getBoolean(false)) {
             final int delay = config.node("root", "motd", "delay").getInt(0);
 
-            /*new FoliaScheduler(this.plugin, Scheduler.global_scheduler) {
+            new FoliaScheduler(this.plugin, Scheduler.global_scheduler) {
                 @Override
                 public void run() {
-                    messageRegistry.getMessage(Messages.message_of_the_day).send(player, new HashMap<>() {{
-                        put("{player}", name);
-                    }});
+                    messageRegistry.getMessage(Messages.message_of_the_day).send(player, Map.of(
+                            "{player}", name
+                    ));
                 }
-            }.runDelayed(delay);*/
+            }.runDelayed(delay);
         }
     }
 
@@ -60,9 +63,9 @@ public class CacheListener implements Listener {
     public void onPlayerQuit(final PlayerQuitEvent event) {
         final Player player = event.getPlayer();
 
-        event.quitMessage(this.messageRegistry.getMessage(Messages.quit_message).getComponent(player, new HashMap<>() {{
-            put("{player}", player.getName());
-        }}));
+        event.quitMessage(this.messageRegistry.getMessage(Messages.quit_message).getComponent(player, Map.of(
+                "{player}", player.getName()
+        )));
 
         this.userRegistry.removeUser(player);
     }

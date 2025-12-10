@@ -2,6 +2,8 @@ package com.ryderbelserion.chatmanager.paper.listeners.chat;
 
 import com.ryderbelserion.chatmanager.common.enums.Files;
 import com.ryderbelserion.chatmanager.paper.ChatManagerPlatform;
+import com.ryderbelserion.chatmanager.paper.listeners.chat.renderers.ChatRender;
+import com.ryderbelserion.fusion.paper.FusionPaper;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,10 +12,10 @@ import org.spongepowered.configurate.CommentedConfigurationNode;
 
 public class ChatListener implements Listener {
 
-    //private final FusionPaper fusion;
+    private final FusionPaper fusion;
 
     public ChatListener(@NotNull final ChatManagerPlatform platform) {
-        //this.fusion = platform.getFusion();
+        this.fusion = platform.getFusion();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -22,6 +24,6 @@ public class ChatListener implements Listener {
 
         if (!config.node("chat", "format", "toggle").getBoolean(false)) return;
 
-        //event.renderer(new ChatRender(this.fusion, event.getPlayer(), config.node("chat", "format", "default").getString("%luckperms_prefix% {player} <gold>-> <reset>{message}"), event.signedMessage()));
+        event.renderer(new ChatRender(this.fusion, event.getPlayer(), config.node("chat", "format", "default").getString("%luckperms_prefix% {player} <gold>-> <reset>{message}"), event.signedMessage()));
     }
 }
