@@ -1,13 +1,14 @@
 plugins {
-    `config-paper`
+    `paper-plugin`
 }
 
 project.description = "Paper version of ChatManager!"
 project.group = "${rootProject.group}.paper"
 
 dependencies {
-    implementation(project(":chatmanager-common"))
+    implementation(project(":common"))
 
+    implementation(libs.bundles.cloud.paper)
     implementation(libs.fusion.paper)
 }
 

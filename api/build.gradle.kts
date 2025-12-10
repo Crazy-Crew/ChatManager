@@ -2,17 +2,16 @@ plugins {
     alias(libs.plugins.fix.javadoc)
 
     `maven-publish`
-    `config-java`
+    `java-plugin`
 }
 
 project.description = "The official api for ChatManager"
 project.group = "${rootProject.group}.api"
 
-val projectVersion = "0.1.0"
+val projectVersion = rootProject.property("api_version").toString()
 
 dependencies {
-    compileOnly(libs.bundles.adventure)
-
+    compileOnly(libs.bundles.kyori)
     compileOnly(libs.fusion.core)
 }
 
@@ -58,8 +57,8 @@ publishing {
 
     publications {
         create<MavenPublication>("mavenJava") {
-            groupId = "${project.group}"
-            artifactId = "api"
+            groupId = "${project.group}" // us.crazycrew.crazycrates
+            artifactId = project.name
             version = projectVersion
 
             from(components["java"])
