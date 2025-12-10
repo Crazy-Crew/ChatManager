@@ -52,7 +52,6 @@ public class ChatManagerPlatform extends ChatManager {
                 new ChatListener(this)
         ).forEach(listener -> pluginManager.registerEvents(listener, this.plugin));
 
-        //this.fusion.getCommandManager().enable(new BaseCommand(this), "Chat me up man!", List.of());
         registerCommands();
     }
 
