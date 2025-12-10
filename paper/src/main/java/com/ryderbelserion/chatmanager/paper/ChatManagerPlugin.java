@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ChatManagerPlugin extends JavaPlugin {
 
-    public static ChatManagerPlugin getPlugin() { // only for static classes like util methods.
+    public static ChatManagerPlugin getPlugin() {
         return JavaPlugin.getPlugin(ChatManagerPlugin.class);
     }
 
@@ -14,13 +14,15 @@ public class ChatManagerPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.platform = new ChatManagerPlatform(this, new FusionPaper(getComponentLogger(), getDataPath()));
-        this.platform.start();
+        this.platform = new ChatManagerPlatform(this, new FusionPaper(getFile(), this));
+        this.platform.start(getServer().getConsoleSender());
     }
 
     @Override
     public void onDisable() {
-        this.platform.stop();
+        if (this.platform != null) {
+            this.platform.stop();
+        }
     }
 
     public @NotNull final ChatManagerPlatform getPlatform() {

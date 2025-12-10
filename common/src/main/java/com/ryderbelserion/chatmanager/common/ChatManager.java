@@ -4,46 +4,70 @@ import com.ryderbelserion.chatmanager.api.ChatManagerProvider;
 import com.ryderbelserion.chatmanager.api.interfaces.platform.IChatManager;
 import com.ryderbelserion.chatmanager.common.registry.MessageRegistry;
 import com.ryderbelserion.chatmanager.common.registry.UserRegistry;
-import com.ryderbelserion.fusion.core.files.FileAction;
-import com.ryderbelserion.fusion.core.files.FileManager;
-import com.ryderbelserion.fusion.core.files.FileType;
+import com.ryderbelserion.fusion.core.FusionCore;
+import com.ryderbelserion.fusion.files.FileManager;
+import com.ryderbelserion.fusion.files.enums.FileType;
+import com.ryderbelserion.fusion.kyori.permissions.PermissionRegistry;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.UUID;
 
 public abstract class ChatManager implements IChatManager {
 
-    private final FileManager fileManager;
-    private final Path path;
+    public static final UUID console = UUID.fromString("00000000-0000-0000-0000-000000000000");
+    public static final String namespace = "chatmanager";
 
-    public ChatManager(@NotNull final Path path, @NotNull final FileManager fileManager) {
-        this.fileManager = fileManager;
+    protected final FusionCore fusion;
+    protected final Path path;
+
+    public ChatManager(@NotNull final FusionCore fusion, @NotNull final Path path) {
+        this.fusion = fusion;
         this.path = path;
     }
 
+    private PermissionRegistry permissionRegistry;
     private MessageRegistry messageRegistry;
     private UserRegistry userRegistry;
+    protected FileManager fileManager;
+
+    public abstract void broadcast(@NotNull final Component component, @NotNull final String permission);
+
+    public void broadcast(@NotNull final Component component) {
+        broadcast(component, "");
+    }
+
+    public abstract boolean isConsoleSender(@NotNull final Audience audience);
+
+    public abstract void registerCommands();
 
     @Override
-    public void start() {
+    public void start(@NotNull final Audience audience) {
         ChatManagerProvider.register(this);
 
-        this.fileManager.addFolder(this.path.resolve("locale"), FileType.YAML, new ArrayList<>(), null)
-                .addFile(this.path.resolve("config.yml"), new ArrayList<>(), null)
-                .addFile(this.path.resolve("chat.yml"), new ArrayList<>(), null)
-                .addFile(this.path.resolve("messages.yml"), new ArrayList<>(), null);
+        this.fileManager.addFolder(this.path.resolve("locale"), FileType.YAML)
+                .addFile(this.path.resolve("config.yml"), FileType.YAML)
+                .addFile(this.path.resolve("chat.yml"), FileType.YAML)
+                .addFile(this.path.resolve("messages.yml"), FileType.YAML);
 
-        this.messageRegistry = new MessageRegistry(this.userRegistry = new UserRegistry());
+        this.messageRegistry = new MessageRegistry();
         this.messageRegistry.init();
+
+        this.userRegistry = new UserRegistry(this);
+        this.userRegistry.init(audience);
+
+        this.permissionRegistry = new PermissionRegistry();
+        this.permissionRegistry.start();
     }
 
     @Override
     public void reload() {
         this.fileManager.refresh(false);
 
-        this.fileManager.addFolder(this.path.resolve("locale"), FileType.YAML, new ArrayList<>() {{
+        /*this.fileManager.addFolder(this.path.resolve("locale"), FileType.YAML, new ArrayList<>() {{
             add(FileAction.RELOAD);
-        }}, null); // adds new files only
+        }}, null); // adds new files only*/
 
         this.messageRegistry.init();
     }
@@ -54,8 +78,13 @@ public abstract class ChatManager implements IChatManager {
     }
 
     @Override
-    public @NotNull final FileManager getFileManager() {
-        return this.fileManager;
+    public @NotNull final PermissionRegistry getPermissionRegistry() {
+        return this.permissionRegistry;
+    }
+
+    @Override
+    public @NotNull final MessageRegistry getMessageRegistry() {
+        return this.messageRegistry;
     }
 
     @Override
@@ -64,7 +93,15 @@ public abstract class ChatManager implements IChatManager {
     }
 
     @Override
-    public @NotNull final MessageRegistry getMessageRegistry() {
-        return this.messageRegistry;
+    public @NotNull final Path getPath() {
+        return this.path;
+    }
+
+    public @NotNull final FileManager getFileManager() {
+        return this.fileManager;
+    }
+
+    public @NotNull final FusionCore getFusion() {
+        return this.fusion;
     }
 }

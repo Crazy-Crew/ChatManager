@@ -84,7 +84,7 @@ kyori-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 
 # https://github.com/ryderbelserion/Fusion
 fusion-paper = { module = "com.ryderbelserion.fusion:fusion-paper", version.ref = "fusion" }
-fusion-core = { module = "com.ryderbelserion.fusion:fusion-core", version.ref = "fusion" }
+fusion-core = { module = "com.ryderbelserion.fusion:fusion-kyori", version.ref = "fusion" }
 
 [bundles]
 cloud-paper = [

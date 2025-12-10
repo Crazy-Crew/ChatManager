@@ -22,7 +22,7 @@ public class ChatRender implements ChatRenderer {
 
         resolvers.add(StandardTags.defaults());
 
-        this.renderedMessage = fusion.color(player, format, new HashMap<>() {{
+        this.renderedMessage = fusion.parse(player, format, new HashMap<>() {{
             put("{player}", player.getName());
             put("{message}", message.message());
         }}, resolvers);

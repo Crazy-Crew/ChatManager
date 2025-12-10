@@ -1,10 +1,11 @@
 package com.ryderbelserion.chatmanager.common.constants;
 
 import net.kyori.adventure.key.Key;
+import static com.ryderbelserion.chatmanager.common.ChatManager.namespace;
 
-public class MessageKeys {
+public class Messages {
 
-    private static final String namespace = "chatmanager";
+    public static final Key default_locale = Key.key(namespace, "default");
 
     public static final Key reload_plugin = Key.key(namespace, "reload_plugin");
     public static final Key feature_disabled = Key.key(namespace, "feature_disabled");
