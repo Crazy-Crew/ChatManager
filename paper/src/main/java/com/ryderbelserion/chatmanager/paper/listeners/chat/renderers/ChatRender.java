@@ -5,12 +5,8 @@ import io.papermc.paper.chat.ChatRenderer;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.chat.SignedMessage;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
-import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class ChatRender implements ChatRenderer {
@@ -18,14 +14,12 @@ public class ChatRender implements ChatRenderer {
     private final Component renderedMessage;
 
     public ChatRender(@NotNull final FusionPaper fusion, @NotNull final Player player, @NotNull final String format, @NotNull final SignedMessage message) {
-        final List<TagResolver> resolvers = new ArrayList<>();
+        final String value = fusion.papi(player, format); // parse papi separately
 
-        resolvers.add(StandardTags.defaults());
-
-        this.renderedMessage = fusion.parse(player, format, Map.of(
+        this.renderedMessage = fusion.parse(value, Map.of(
                 "{player}", player.getName(),
                 "{message}", message.message()
-        ), resolvers);
+        ));
     }
 
     @Override

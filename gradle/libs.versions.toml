@@ -19,7 +19,7 @@ itemsadder = "4.0.10" # https://github.com/ItemsAdder
 nexo = "1.6.0" # https://github.com/Nexo-MC
 
 ## Other
-fusion = "3.3.2" # https://github.com/ryderbelserion/Fusion
+fusion = "3.4.1" # https://github.com/ryderbelserion/Fusion
 
 ## Gradle Plugins
 fix-javadoc = "1.19" # https://github.com/mfnalex/gradle-fix-javadoc-plugin
