@@ -39,23 +39,25 @@ public class CacheListener implements Listener {
 
         final String name = player.getName();
 
-        event.joinMessage(this.messageRegistry.getMessage(Messages.join_message).getComponent(player, new HashMap<>() {{
-            put("{player}", name);
-        }}));
+        event.joinMessage(this.messageRegistry.getMessage(Messages.join_message).getComponent(player, Map.of(
+                "{player}", player.getName()
+        )));
 
         final CommentedConfigurationNode config = Files.config.getYamlConfig();
 
         if (config.node("root", "motd", "toggle").getBoolean(false)) {
             final int delay = config.node("root", "motd", "delay").getInt(0);
 
-            new FoliaScheduler(this.plugin, Scheduler.global_scheduler) {
-                @Override
-                public void run() {
-                    messageRegistry.getMessage(Messages.message_of_the_day).send(player, Map.of(
-                            "{player}", name
-                    ));
-                }
-            }.runDelayed(delay);
+            if (delay != -1) {
+                new FoliaScheduler(this.plugin, Scheduler.global_scheduler) {
+                    @Override
+                    public void run() {
+                        messageRegistry.getMessage(Messages.message_of_the_day).send(player, Map.of(
+                                "{player}", name
+                        ));
+                    }
+                }.runDelayed(delay);
+            }
         }
     }
 
