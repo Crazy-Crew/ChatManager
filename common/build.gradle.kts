@@ -8,6 +8,8 @@ project.group = "${rootProject.group}.core"
 dependencies {
     api(project(":api"))
 
+    implementation(libs.hikari.cp)
+
     compileOnly(libs.bundles.kyori)
     compileOnly(libs.fusion.core)
 }

@@ -31,9 +31,6 @@ public class ChatManagerPlatform extends ChatManager {
 
         this.plugin = plugin;
         this.fusion = fusion;
-
-        this.fileManager = this.fusion.getFileManager();
-
         this.server = plugin.getServer();
     }
 

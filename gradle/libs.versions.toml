@@ -32,6 +32,8 @@ shadow = "9.2.2" # https://github.com/GradleUp/shadow
 cloud-release = "2.0.0" # https://cloud.incendo.org/core/
 cloud-beta = "2.0.0-beta.13" # https://cloud.incendo.org/minecraft/paper/
 
+hikari = "7.0.2" # https://github.com/brettwooldridge/HikariCP
+
 [plugins]
 # https://github.com/mfnalex/gradle-fix-javadoc-plugin
 fix-javadoc = { id = "com.jeff-media.fix-javadoc-plugin", version.ref = "fix-javadoc" }
@@ -75,6 +77,9 @@ placeholderapi = { module = "me.clip:placeholderapi", version.ref = "placeholder
 itemsadder = { module = "dev.lone:api-itemsadder", version.ref = "itemsadder" }
 # https://github.com/Nexo-MC
 nexo = { module = "com.nexomc:nexo", version.ref = "nexo" }
+
+# https://github.com/brettwooldridge/HikariCP
+hikari-cp = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
 
 # https://github.com/KyoriPowered/adventure
 kyori-legacy = { module = "net.kyori:adventure-text-serializer-legacy", version.ref = "adventure" }

@@ -4,7 +4,6 @@ import com.ryderbelserion.chatmanager.api.interfaces.IUser;
 import com.ryderbelserion.chatmanager.common.ChatManager;
 import com.ryderbelserion.chatmanager.common.constants.Messages;
 import com.ryderbelserion.chatmanager.common.registry.MessageRegistry;
-import com.ryderbelserion.fusion.core.api.FusionProvider;
 import com.ryderbelserion.fusion.kyori.FusionKyori;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.key.Key;
@@ -14,7 +13,7 @@ import java.util.*;
 
 public class User implements IUser {
 
-    private final FusionKyori fusion = (FusionKyori) FusionProvider.getInstance();
+    private final FusionKyori fusion;
 
     private final MessageRegistry registry;
     private final ChatManager plugin;
@@ -22,9 +21,10 @@ public class User implements IUser {
     private final Audience audience;
 
     public User(@NotNull ChatManager plugin, @NotNull final Audience audience) {
+        this.fusion = (FusionKyori) plugin.getFusion();
+        this.registry = plugin.getMessageRegistry();
         this.audience = audience;
         this.plugin = plugin;
-        this.registry = this.plugin.getMessageRegistry();
     }
 
     private Key locale = Messages.default_locale;

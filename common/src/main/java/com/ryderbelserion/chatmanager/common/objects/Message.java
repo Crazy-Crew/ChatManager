@@ -17,14 +17,15 @@ import java.util.Map;
 
 public class Message implements IMessage {
 
-    private final FusionKyori fusion = (FusionKyori) FusionProvider.getInstance();
-
     private final CommentedConfigurationNode customFile = Files.config.getYamlConfig();
+    private final FusionKyori fusion;
 
     private final String defaultValue;
     private final String value;
 
-    public Message(@NotNull final CommentedConfigurationNode configuration, @NotNull final String defaultValue, @NotNull final Object... path) {
+    public Message(@NotNull final FusionKyori fusion, @NotNull final CommentedConfigurationNode configuration, @NotNull final String defaultValue, @NotNull final Object... path) {
+        this.fusion = fusion;
+
         this.defaultValue = defaultValue;
 
         final CommentedConfigurationNode root = configuration.node(path);

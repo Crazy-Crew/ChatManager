@@ -5,7 +5,6 @@ import com.ryderbelserion.chatmanager.api.interfaces.registry.IMessageRegistry;
 import com.ryderbelserion.chatmanager.common.ChatManager;
 import com.ryderbelserion.chatmanager.common.constants.Messages;
 import com.ryderbelserion.chatmanager.common.objects.Message;
-import com.ryderbelserion.fusion.core.api.FusionProvider;
 import com.ryderbelserion.fusion.core.utils.StringUtils;
 import com.ryderbelserion.fusion.files.FileManager;
 import com.ryderbelserion.fusion.kyori.FusionKyori;
@@ -20,13 +19,17 @@ import java.util.Map;
 
 public class MessageRegistry implements IMessageRegistry {
 
-    private final FusionKyori fusion = (FusionKyori) FusionProvider.getInstance();
-
-    private final FileManager fileManager = this.fusion.getFileManager();
-
-    private final Path path = this.fusion.getDataPath();
-
     private final Map<Key, Map<Key, IMessage>> messages = new HashMap<>(); // locale key, (message key, message context)
+
+    private final FileManager fileManager;
+    private final FusionKyori fusion;
+    private final Path path;
+
+    public MessageRegistry(@NotNull final Path path, @NotNull final FusionKyori fusion) {
+        this.fusion = fusion;
+        this.fileManager = fusion.getFileManager();
+        this.path = path;
+    }
 
     @Override
     public void addMessage(@NotNull final Key locale, @NotNull final Key key, @NotNull final IMessage message) {
@@ -82,19 +85,19 @@ public class MessageRegistry implements IMessageRegistry {
 
                 final CommentedConfigurationNode configuration = file.getConfiguration();
 
-                addMessage(key, Messages.reload_plugin, new Message(configuration, "{prefix}<yellow>You have reloaded the plugin!", "messages", "reload-plugin"));
-                addMessage(key, Messages.feature_disabled, new Message(configuration, "{prefix}<red>This feature is disabled.", "messages", "feature-disabled"));
-                addMessage(key, Messages.must_be_console_sender, new Message(configuration, "{prefix}<red>You must be using console to use this command.", "messages", "player", "requirements", "must-be-console-sender"));
-                addMessage(key, Messages.must_be_player, new Message(configuration, "{prefix}<red>You must be a player to use this command.", "messages", "player", "requirements", "must-be-player"));
-                addMessage(key, Messages.target_not_online, new Message(configuration, "{prefix}<red>This feature is disabled.", "messages", "player", "target-not-online"));
-                addMessage(key, Messages.target_same_player, new Message(configuration, "{prefix}<red>You cannot use this command on yourself.", "messages", "player", "target-same-player"));
-                addMessage(key, Messages.no_permission, new Message(configuration, "{prefix}<red>You do not have permission to use that command!", "messages", "player", "no-permission"));
-                addMessage(key, Messages.inventory_not_empty, new Message(configuration, "{prefix}<red>Inventory is not empty, Please clear up some room.", "messages", "player", "inventory-not-empty"));
+                addMessage(key, Messages.reload_plugin, new Message(this.fusion, configuration, "{prefix}<yellow>You have reloaded the plugin!", "messages", "reload-plugin"));
+                addMessage(key, Messages.feature_disabled, new Message(this.fusion, configuration, "{prefix}<red>This feature is disabled.", "messages", "feature-disabled"));
+                addMessage(key, Messages.must_be_console_sender, new Message(this.fusion, configuration, "{prefix}<red>You must be using console to use this command.", "messages", "player", "requirements", "must-be-console-sender"));
+                addMessage(key, Messages.must_be_player, new Message(this.fusion, configuration, "{prefix}<red>You must be a player to use this command.", "messages", "player", "requirements", "must-be-player"));
+                addMessage(key, Messages.target_not_online, new Message(this.fusion, configuration, "{prefix}<red>This feature is disabled.", "messages", "player", "target-not-online"));
+                addMessage(key, Messages.target_same_player, new Message(this.fusion, configuration, "{prefix}<red>You cannot use this command on yourself.", "messages", "player", "target-same-player"));
+                addMessage(key, Messages.no_permission, new Message(this.fusion, configuration, "{prefix}<red>You do not have permission to use that command!", "messages", "player", "no-permission"));
+                addMessage(key, Messages.inventory_not_empty, new Message(this.fusion, configuration, "{prefix}<red>Inventory is not empty, Please clear up some room.", "messages", "player", "inventory-not-empty"));
 
-                addMessage(key, Messages.join_message, new Message(configuration, " <dark_gray>[<green>+</green>]</dark_gray> {player}", "messages", "traffic", "join-message"));
-                addMessage(key, Messages.quit_message, new Message(configuration, " <dark_gray>[<red>-</red>]</dark_gray> {player}", "messages", "traffic", "quit-message"));
+                addMessage(key, Messages.join_message, new Message(this.fusion, configuration, " <dark_gray>[<green>+</green>]</dark_gray> {player}", "messages", "traffic", "join-message"));
+                addMessage(key, Messages.quit_message, new Message(this.fusion, configuration, " <dark_gray>[<red>-</red>]</dark_gray> {player}", "messages", "traffic", "quit-message"));
 
-                addMessage(key, Messages.message_of_the_day, new Message(configuration, StringUtils.toString(List.of(
+                addMessage(key, Messages.message_of_the_day, new Message(this.fusion, configuration, StringUtils.toString(List.of(
                         "<gray>------------------------------------",
                         "",
                         "<green>Welcome to the server <blue>{player}</blue>!",
