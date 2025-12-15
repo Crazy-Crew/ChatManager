@@ -7,7 +7,7 @@ import com.ryderbelserion.chatmanager.common.registry.UserRegistry;
 import com.ryderbelserion.fusion.paper.scheduler.FoliaScheduler;
 import com.ryderbelserion.fusion.paper.scheduler.Scheduler;
 import me.corecraft.chatmanager.paper.ChatManagerPlatform;
-import me.corecraft.chatmanager.paper.ChatManagerPlugin;
+import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -16,14 +16,13 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.CommentedConfigurationNode;
-
 import java.util.Map;
 
 public class CacheListener implements Listener {
 
     private final MessageRegistry messageRegistry;
     private final UserRegistry userRegistry;
-    private final ChatManagerPlugin plugin;
+    private final ChatManager plugin;
 
     public CacheListener(@NotNull final ChatManagerPlatform platform) {
         this.messageRegistry = platform.getMessageRegistry();
