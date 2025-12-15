@@ -1,3 +1,4 @@
-# Warning, If you set this to true. I have your permission to delete everything in your ChatManager folder.
+# Warning, If you set this to true. You must delete everything in your ChatManager folder, and let it regenerate by restarting the server.
 # This toggle loads an entirely different version of the plugin that supports MiniMessage, and has fewer features than the core plugin.
+# You must restart the server for this option to take effect.
 use-new-system: false

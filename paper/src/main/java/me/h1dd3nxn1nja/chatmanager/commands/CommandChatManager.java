@@ -1,16 +1,13 @@
 package me.h1dd3nxn1nja.chatmanager.commands;
 
-import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.Permissions;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.support.Global;
-import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
 import me.h1dd3nxn1nja.chatmanager.utils.Debug;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,7 +15,6 @@ public class CommandChatManager extends Global implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
-		FileConfiguration config = Files.CONFIG.getConfiguration();
 		if (cmd.getName().equalsIgnoreCase("ChatManager")) {
 			if (args.length == 0) {
 				Methods.sendMessage(sender, "&7This server is using the plugin &cChatManager &7version " + plugin.getDescription().getVersion() + " by &cH1DD3NxN1NJA.", true);
@@ -30,36 +26,7 @@ public class CommandChatManager extends Global implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("reload")) {
 				if (sender.hasPermission(Permissions.COMMAND_RELOAD.getNode())) {
 					if (args.length == 1) {
-						for (Player player : this.plugin.getServer().getOnlinePlayers()) {
-							this.plugin.api().getChatCooldowns().removeUser(player.getUniqueId());
-							this.plugin.api().getCooldownTask().removeUser(player.getUniqueId());
-							this.plugin.api().getCmdCooldowns().removeUser(player.getUniqueId());
-
-							BossBarUtil bossBar = new BossBarUtil();
-							bossBar.removeAllBossBars(player);
-
-							BossBarUtil bossBarStaff = new BossBarUtil(Methods.placeholders(true, player, Methods.color(config.getString("Staff_Chat.Boss_Bar.Title", "&eStaff Chat"))));
-
-							if (this.staffChatData.containsUser(player.getUniqueId()) && player.hasPermission("chatmanager.staffchat")) {
-								bossBarStaff.removeStaffBossBar(player);
-								bossBarStaff.setStaffBossBar(player);
-							}
-						}
-
-						this.plugin.getFileManager().refresh(false);
-
-						Files.CONFIG.reload();
-
-						Messages.addMissingMessages();
-
-						Files.MESSAGES.reload();
-						Files.BANNED_COMMANDS.reload();
-						Files.BANNED_WORDS.reload();
-						Files.AUTO_BROADCAST.reload();
-
-						this.server.getGlobalRegionScheduler().cancelTasks(this.plugin);
-						this.server.getAsyncScheduler().cancelTasks(this.plugin);
-						this.platform.check();
+						this.platform.reload();
 
 						Messages.PLUGIN_RELOAD.sendMessage(sender);
 					} else {

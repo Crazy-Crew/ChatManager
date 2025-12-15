@@ -140,6 +140,40 @@ public class ChatManagerPlatform extends ChatManager {
         this.fusion.reload();
 
         if (this.isLegacy) {
+            final FileConfiguration config = Files.CONFIG.getConfiguration();
+
+            for (final Player player : this.plugin.getServer().getOnlinePlayers()) {
+                this.api.getChatCooldowns().removeUser(player.getUniqueId());
+                this.api.getCooldownTask().removeUser(player.getUniqueId());
+                this.api.getCmdCooldowns().removeUser(player.getUniqueId());
+
+                BossBarUtil bossBar = new BossBarUtil();
+                bossBar.removeAllBossBars(player);
+
+                BossBarUtil bossBarStaff = new BossBarUtil(Methods.placeholders(true, player, Methods.color(config.getString("Staff_Chat.Boss_Bar.Title", "&eStaff Chat"))));
+
+                if (this.api.getStaffChatData().containsUser(player.getUniqueId()) && player.hasPermission("chatmanager.staffchat")) {
+                    bossBarStaff.removeStaffBossBar(player);
+                    bossBarStaff.setStaffBossBar(player);
+                }
+            }
+
+            this.legacyFileManager.refresh(false);
+
+            Files.CONFIG.reload();
+
+            Messages.addMissingMessages();
+
+            Files.MESSAGES.reload();
+            Files.BANNED_COMMANDS.reload();
+            Files.BANNED_WORDS.reload();
+            Files.AUTO_BROADCAST.reload();
+
+            this.server.getGlobalRegionScheduler().cancelTasks(this.plugin);
+            this.server.getAsyncScheduler().cancelTasks(this.plugin);
+
+            check();
+
             return;
         }
 
