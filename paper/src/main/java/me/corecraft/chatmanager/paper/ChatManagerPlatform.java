@@ -77,7 +77,7 @@ public class ChatManagerPlatform extends ChatManager {
 
         final CommentedConfigurationNode config = com.ryderbelserion.chatmanager.common.enums.Files.root.getYamlConfig();
 
-        this.isLegacy = config.node("use-new-system").getBoolean(false);
+        this.isLegacy = config.node("use-new-system").getBoolean(true);
 
         if (this.isLegacy) {
             this.legacyFileManager = (PaperFileManager) this.fileManager;
