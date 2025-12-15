@@ -1,0 +1,3 @@
+# Warning, If you set this to true. I have your permission to delete everything in your ChatManager folder.
+# This toggle loads an entirely different version of the plugin that supports MiniMessage, and has fewer features than the core plugin.
+use-new-system: false
