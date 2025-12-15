@@ -1,0 +1,15 @@
+# Support: https://discord.gg/badbones-s-live-chat-182615261403283459
+# Github: https://github.com/Crazy-Crew
+#
+# Issues: https://github.com/Crazy-Crew/ChatManager/issues
+# Features: https://github.com/Crazy-Crew/ChatManager/issues
+chat:
+  # Settings related to chat formatting.
+  format:
+    # Should default chat formatting be enabled?
+    toggle: true
+    # The default format, if no per group formats are found.
+    #
+    # A list of available placeholders: {player}
+    # PlaceholderAPI is also fully supported.
+    default: "%luckperms_prefix% {player} <gold>-> <reset>{message}"

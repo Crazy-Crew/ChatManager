@@ -1,22 +1,28 @@
 [versions]
 ## Paper
-paperweight = "2.0.0-beta.17" # https://github.com/PaperMC/paperweight
-paper = "1.21.5-R0.1-SNAPSHOT" # https://github.com/PaperMC/Paper
+paperweight = "2.0.0-beta.19" # https://github.com/PaperMC/paperweight
+paper = "1.21.11-R0.1-SNAPSHOT" # https://github.com/PaperMC/Paper
 
 ## Minecraft
-minecraft = "1.21.5" # https://minecraft.net
+minecraft = "1.21.11" # https://minecraft.net
+
+## Kyori
+adventure = "4.25.0" # https://github.com/KyoriPowered/adventure
+
+## JetBrains
+annotations = "24.1.0" # https://github.com/JetBrains/java-annotations
 
 ## Plugin API
+headdatabaseapi = "1.3.1" # https://github.com/Arcaniax-Development/HeadDatabase-API
 placeholderapi = "2.11.6" # https://github.com/placeholderapi
 essentials = "2.20.1" # https://github.com/EssentialsX/Essentials
 vault = "1.7.1" # https://github.com/MilkBowl/Vault
+itemsadder = "4.0.10" # https://github.com/ItemsAdder
+nexo = "1.6.0" # https://github.com/Nexo-MC
 
 ## Other
 bStats = "3.1.0" # https://github.com/Bastian/bStats
-fusion = "1.6.0" # https://github.com/ryderbelserion/Fusion
-
-## ChatManager
-chatmanager = "4.0.3"
+fusion = "3.4.1" # https://github.com/ryderbelserion/Fusion
 
 ## Gradle Plugins
 fix-javadoc = "1.19" # https://github.com/mfnalex/gradle-fix-javadoc-plugin
@@ -24,19 +30,32 @@ run-paper = "2.3.1" # https://github.com/jpenilla/run-task
 minotaur = "2.8.7" # https://github.com/modrinth/minotaur
 feather = "0.4.0" # https://github.com/ryderbelserion/Feather
 hangar = "0.1.3" # https://github.com/HangarMC/hangar-publish-plugin
-shadow = "9.0.0-beta13" # https://github.com/GradleUp/shadow
+shadow = "9.2.2" # https://github.com/GradleUp/shadow
+
+# Commands
+cloud-release = "2.0.0" # https://cloud.incendo.org/core/
+cloud-beta = "2.0.0-beta.13" # https://cloud.incendo.org/minecraft/paper/
+
+# Databases
+hikari = "7.0.2" # https://github.com/brettwooldridge/HikariCP
+postgres = "42.7.8" # https://github.com/postgres/postgres
 
 [plugins]
-# https://github.com/ryderbelserion/Feather
-feather = { id = "com.ryderbelserion.feather.core", version.ref = "feather" }
-# https://github.com/HangarMC/hangar-publish-plugin
-hangar = { id = "io.papermc.hangar-publish-plugin", version.ref = "hangar" }
-# https://github.com/modrinth/minotaur
-minotaur = { id = "com.modrinth.minotaur", version.ref = "minotaur" }
+# https://github.com/mfnalex/gradle-fix-javadoc-plugin
+fix-javadoc = { id = "com.jeff-media.fix-javadoc-plugin", version.ref = "fix-javadoc" }
 
 [libraries]
 # https://github.com/PaperMC/paperweight
 paperweight = { module = "io.papermc.paperweight.userdev:io.papermc.paperweight.userdev.gradle.plugin", version.ref = "paperweight" }
+
+# https://github.com/ryderbelserion/Feather
+feather = { module = "com.ryderbelserion.feather.core:com.ryderbelserion.feather.core.gradle.plugin", version.ref = "feather" }
+
+# https://github.com/HangarMC/hangar-publish-plugin
+hangar = { module = "io.papermc.hangar-publish-plugin:io.papermc.hangar-publish-plugin.gradle.plugin", version.ref = "hangar" }
+
+# https://github.com/modrinth/minotaur
+minotaur = { module = "com.modrinth.minotaur:com.modrinth.minotaur.gradle.plugin", version.ref = "minotaur" }
 
 # https://github.com/GradleUp/shadow
 shadow = { module = "com.gradleup.shadow:shadow-gradle-plugin", version.ref = "shadow" }
@@ -44,26 +63,67 @@ shadow = { module = "com.gradleup.shadow:shadow-gradle-plugin", version.ref = "s
 # https://github.com/jpenilla/run-task
 run-paper = { module = "xyz.jpenilla:run-task", version.ref = "run-paper" }
 
-# Paper API
-paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
+# https://cloud.incendo.org/annotations/
+cloud-annotations = { module = "org.incendo:cloud-annotations", version.ref = "cloud-release" }
+# https://cloud.incendo.org/minecraft/minecraft-extras/
+cloud-extras = { module = "org.incendo:cloud-minecraft-extras", version.ref = "cloud-beta" }
+# https://cloud.incendo.org/core/
+cloud-core = { module = "org.incendo:cloud-core", version.ref = "cloud-release" }
+# https://cloud.incendo.org/minecraft/paper/
+cloud-paper = { module = "org.incendo:cloud-paper", version.ref = "cloud-beta" }
 
-# Plugin API
-placeholder-api = { group = "me.clip", name = "placeholderapi", version.ref = "placeholderapi" }
+# https://github.com/JetBrains/java-annotations
+annotations = { module = "org.jetbrains:annotations", version.ref = "annotations" }
+
+# https://github.com/Arcaniax-Development/HeadDatabase-API
+headdatabaseapi = { module = "com.arcaniax:HeadDatabase-API", version.ref = "headdatabaseapi" }
 essentials = { group = "net.essentialsx", name = "EssentialsX", version.ref = "essentials" }
+# https://github.com/placeholderapi
+placeholderapi = { module = "me.clip:placeholderapi", version.ref = "placeholderapi" }
+# https://github.com/MilkBowl/Vault
+vault = { group = "com.github.MilkBowl", name = "VaultAPI", version.ref = "vault" }
+# https://github.com/ItemsAdder
+itemsadder = { module = "dev.lone:api-itemsadder", version.ref = "itemsadder" }
+# https://github.com/Nexo-MC
+nexo = { module = "com.nexomc:nexo", version.ref = "nexo" }
 
-# https://github.com/ryderbelserion/Fusion
-fusion-paper = { module = "com.ryderbelserion.fusion:fusion-paper", version.ref = "fusion" }
-fusion-core = { module = "com.ryderbelserion.fusion:fusion-core", version.ref = "fusion" }
+# https://github.com/brettwooldridge/HikariCP
+hikari-cp = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
+
+# https://github.com/postgres/postgres
+postgres = { module = "'org.postgresql:postgresql", version.ref = "postgres" }
+
+# https://github.com/KyoriPowered/adventure
+kyori-legacy = { module = "net.kyori:adventure-text-serializer-legacy", version.ref = "adventure" }
+kyori-logger = { module = "net.kyori:adventure-text-logger-slf4j", version.ref = "adventure" }
+kyori-text = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
+kyori-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 
 # https://github.com/Bastian/bStats
 metrics = { module = "org.bstats:bstats-bukkit", version.ref = "bStats" }
 
-# https://github.com/MilkBowl/Vault
-vault = { group = "com.github.MilkBowl", name = "VaultAPI", version.ref = "vault" }
+# https://github.com/ryderbelserion/Fusion
+fusion-paper = { module = "com.ryderbelserion.fusion:fusion-paper", version.ref = "fusion" }
+fusion-core = { module = "com.ryderbelserion.fusion:fusion-kyori", version.ref = "fusion" }
 
 [bundles]
+cloud-paper = [
+    "cloud-annotations",
+    "cloud-extras",
+    "cloud-paper"
+]
+
 build = [
+    "minotaur",
+    "feather",
+    "hangar",
     "shadow"
+]
+
+kyori = [
+    "kyori-logger",
+    "kyori-text",
+    "kyori-api"
 ]
 
 paper = [

@@ -1,21 +1,19 @@
 plugins {
-    `config-paper`
+    `paper-plugin`
 }
 
 project.group = "${rootProject.group}"
 
 repositories {
-    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-
     maven("https://repo.essentialsx.net/releases/")
 }
 
 dependencies {
+    implementation(libs.bundles.cloud.paper)
     implementation(libs.fusion.paper)
-
     implementation(libs.metrics)
 
-    compileOnly(libs.placeholder.api) {
+    compileOnly(libs.placeholderapi) {
         exclude("org.bstats", "bstats-bukkit")
     }
 

@@ -1,113 +1,16 @@
+import utils.convertList
+import utils.updateMarkdown
+
 plugins {
-    alias(libs.plugins.minotaur)
-    alias(libs.plugins.feather)
-    alias(libs.plugins.hangar)
+    id("modrinth-plugin")
+    id("hangar-plugin")
 
-    `config-java`
+    `java-plugin`
 }
-
-rootProject.group = "me.h1dd3nxn1nja.chatmanager"
 
 val git = feather.getGit()
 
-val commitHash: String? = git.getCurrentCommitHash().subSequence(0, 7).toString()
-val isSnapshot: Boolean = git.getCurrentBranch() == "dev"
-val content: String = if (isSnapshot) "[$commitHash](https://github.com/Crazy-Crew/${rootProject.name}/commit/$commitHash) ${git.getCurrentCommit()}" else rootProject.file("changelog.md").readText(Charsets.UTF_8)
-val minecraft = libs.versions.minecraft.get()
-val versions = listOf(minecraft)
-
-rootProject.version = if (isSnapshot) "$minecraft-$commitHash" else libs.versions.chatmanager.get()
-rootProject.description = "The kitchen sink of Chat Management!"
-
-feather {
-    rootDirectory = rootProject.rootDir.toPath()
-
-    val data = git.getGithubCommit("Crazy-Crew/${rootProject.name}")
-
-    val user = data.user
-
-    discord {
-        webhook {
-            group(rootProject.name.lowercase())
-            task("dev-build")
-
-            if (System.getenv("BUILD_WEBHOOK") != null) {
-                post(System.getenv("BUILD_WEBHOOK"))
-            }
-
-            username("Ryder Belserion")
-
-            avatar("https://github.com/ryderbelserion.png")
-
-            embeds {
-                embed {
-                    color("#ffa347")
-
-                    title("A new dev version of ${rootProject.name} is ready!")
-
-                    fields {
-                        field(
-                            "Version ${rootProject.version}",
-                            "Click [here](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${rootProject.version}) to download!"
-                        )
-
-                        field(
-                            ":bug: Report Bugs",
-                            "https://github.com/Crazy-Crew/${rootProject.name}/issues"
-                        )
-
-                        field(
-                            ":hammer: Changelog",
-                            content
-                        )
-                    }
-                }
-            }
-        }
-
-        webhook {
-            group(rootProject.name.lowercase())
-            task("release-build")
-
-            if (System.getenv("BUILD_WEBHOOK") != null) {
-                post(System.getenv("BUILD_WEBHOOK"))
-            }
-
-            username(user.getName())
-
-            avatar(user.avatar)
-
-            content("<@&1372358375433834537>")
-
-            embeds {
-                embed {
-                    color("#1bd96a")
-
-                    title("A new release version of ${rootProject.name} is ready!")
-
-                    fields {
-                        field(
-                            "Version ${rootProject.version}",
-                            "Click [here](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${rootProject.version}) to download!"
-                        )
-
-                        field(
-                            ":bug: Report Bugs",
-                            "https://github.com/Crazy-Crew/${rootProject.name}/issues"
-                        )
-
-                        field(
-                            ":hammer: Changelog",
-                            content
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-
-allprojects { //todo() why? the gradle shit in buildSrc already applies this...
+allprojects {
     apply(plugin = "java-library")
 }
 
@@ -140,62 +43,97 @@ tasks {
     }
 }
 
-modrinth {
-    token = System.getenv("MODRINTH_TOKEN")
+val releaseType = rootProject.ext.get("release_type").toString()
+val color = rootProject.property("${releaseType.lowercase()}_color").toString()
+val isRelease = releaseType.equals("release", true)
+val isAlpha = releaseType.equals("alpha", true)
 
-    projectId = rootProject.name
+feather {
+    rootDirectory = rootProject.rootDir.toPath()
 
-    versionName = "${rootProject.version}"
-    versionNumber = "${rootProject.version}"
-    versionType = if (isSnapshot) "beta" else "release"
+    val data = git.getGithubCommit("${rootProject.property("repository_owner")}/${rootProject.name}")
 
-    changelog = content
+    val user = data.user
 
-    gameVersions.addAll(versions)
+    discord {
+        webhook {
+            group(rootProject.name.lowercase())
+            task("release-build")
 
-    uploadFile = tasks.jar.get().archiveFile.get()
+            if (System.getenv("BUILD_WEBHOOK") != null) {
+                post(System.getenv("BUILD_WEBHOOK"))
+            }
 
-    loaders.addAll(listOf("paper", "folia", "purpur"))
+            if (isRelease) {
+                username(user.getName())
 
-    syncBodyFrom = rootProject.file("description.md").readText(Charsets.UTF_8)
+                avatar(user.avatar)
+            } else {
+                username(rootProject.property("author_name").toString())
 
-    autoAddDependsOn = false
-    detectLoaders = false
-}
+                avatar(rootProject.property("author_avatar").toString())
+            }
 
-hangarPublish {
-    publications.register("plugin") {
-        apiKey.set(System.getenv("HANGAR_KEY"))
+            embeds {
+                embed {
+                    color(color)
 
-        id.set(rootProject.name)
+                    title("A new $releaseType version of ${rootProject.name} is ready!")
 
-        version.set(rootProject.version as String)
-
-        channel.set(if (isSnapshot) "Beta" else "Release")
-
-        changelog.set(content)
-
-        platforms {
-            paper {
-                jar = tasks.jar.flatMap { it.archiveFile }
-
-                platformVersions.set(versions)
-
-                dependencies {
-                    hangar("PlaceholderAPI") {
-                        required = false
+                    if (isRelease) {
+                        content("<@&${rootProject.property("discord_role_id").toString()}>")
                     }
 
-                    hangar("Essentials") {
-                        required = false
-                    }
+                    fields {
+                        field(
+                            "Version ${rootProject.version}",
+                            listOf(
+                                "*Click below to download!*",
+                                "<:modrinth:1115307870473420800> [Modrinth](https://modrinth.com/plugin/${rootProject.name.lowercase()}/version/${rootProject.version})",
+                                "<:hangar:1139326635313733652> [Hangar](https://hangar.papermc.io/${rootProject.property("repository_owner").toString().replace("-", "")}/${rootProject.name.lowercase()}/versions/${rootProject.version})"
+                            ).convertList()
+                        )
 
-                    url("SuperVanish", "https://www.spigotmc.org/resources/supervanish-be-invisible.1331/") {
-                        required = false
-                    }
+                        field(
+                            ":bug: Report Bugs",
+                            "https://github.com/${rootProject.property("repository_owner")}/${rootProject.name}/issues"
+                        )
 
-                    url("Vault", "https://www.spigotmc.org/resources/vault.34315/") {
-                        required = false
+                        field(
+                            ":hammer: Changelog",
+                            rootProject.ext.get("mc_changelog").toString().updateMarkdown()
+                        )
+                    }
+                }
+            }
+        }
+
+        webhook {
+            group(rootProject.name.lowercase())
+            task("failed-build")
+
+            if (System.getenv("BUILD_WEBHOOK") != null) {
+                post(System.getenv("BUILD_WEBHOOK"))
+            }
+
+            username(rootProject.property("mascot_name").toString())
+
+            avatar(rootProject.property("mascot_avatar").toString())
+
+            embeds {
+                embed {
+                    color(rootProject.property("failed_color").toString())
+
+                    title("Oh no! It failed!")
+
+                    thumbnail("https://raw.githubusercontent.com/ryderbelserion/Branding/refs/heads/main/booze.jpg")
+
+                    fields {
+                        field(
+                            "The build versioned ${rootProject.version} for project ${rootProject.name} failed.",
+                            "The developer is likely already aware, he is just getting drunk.",
+                            inline = true
+                        )
                     }
                 }
             }
