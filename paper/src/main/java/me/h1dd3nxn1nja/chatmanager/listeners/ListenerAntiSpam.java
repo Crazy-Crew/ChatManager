@@ -3,7 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
+import com.ryderbelserion.fusion.paper.scheduler.FoliaScheduler;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.h1dd3nxn1nja.chatmanager.support.Global;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -73,7 +73,7 @@ public class ListenerAntiSpam extends Global implements Listener {
 
 		this.chatCooldowns.addUser(uuid, delay);
 
-		this.cooldownTask.addUser(uuid, new FoliaScheduler(player.getLocation()) {
+		this.cooldownTask.addUser(uuid, new FoliaScheduler(plugin, player.getLocation()) {
 
 			@Override
 			public void run() {
@@ -143,7 +143,7 @@ public class ListenerAntiSpam extends Global implements Listener {
 
 					this.cmdCooldowns.addUser(uuid, delay);
 
-					this.cooldownTask.addUser(uuid, new FoliaScheduler(player.getLocation()) {
+					this.cooldownTask.addUser(uuid, new FoliaScheduler(plugin, player.getLocation()) {
 
 						@Override
 						public void run() {

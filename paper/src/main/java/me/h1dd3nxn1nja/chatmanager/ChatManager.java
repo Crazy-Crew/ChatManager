@@ -12,10 +12,10 @@ import com.ryderbelserion.chatmanager.managers.ServerManager;
 import com.ryderbelserion.chatmanager.plugins.VanishSupport;
 import com.ryderbelserion.chatmanager.plugins.VaultSupport;
 import com.ryderbelserion.chatmanager.plugins.papi.PlaceholderAPISupport;
-import com.ryderbelserion.fusion.core.managers.PluginExtension;
-import com.ryderbelserion.fusion.core.managers.files.FileType;
+import com.ryderbelserion.fusion.files.enums.FileType;
+import com.ryderbelserion.fusion.kyori.mods.ModManager;
 import com.ryderbelserion.fusion.paper.FusionPaper;
-import com.ryderbelserion.fusion.paper.files.LegacyFileManager;
+import com.ryderbelserion.fusion.paper.api.files.PaperFileManager;
 import me.h1dd3nxn1nja.chatmanager.commands.CommandAntiSwear;
 import me.h1dd3nxn1nja.chatmanager.commands.CommandAutoBroadcast;
 import me.h1dd3nxn1nja.chatmanager.commands.CommandBannedCommands;
@@ -70,6 +70,7 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -80,33 +81,35 @@ public class ChatManager extends JavaPlugin {
         return JavaPlugin.getPlugin(ChatManager.class);
     }
 
-    private PluginHandler pluginHandler;
-    private PluginExtension pluginExtension;
-    private LegacyFileManager legacyFileManager;
+    private PaperFileManager fileManager;
     private ServerManager serverManager;
+    private PluginHandler pluginHandler;
+    private ModManager modManager;
 
     private ApiLoader api;
 
     @Override
     public void onEnable() {
-        final FusionPaper fusion = new FusionPaper(getComponentLogger(), getDataPath());
+        final FusionPaper fusion = new FusionPaper(getFile(), this);
 
-        fusion.enable(this);
+        fusion.init();
 
-        this.legacyFileManager = fusion.getLegacyFileManager();
+        this.fileManager = fusion.getFileManager();
 
-        this.legacyFileManager.addFile("config.yml", FileType.YAML)
-                .addFile("Messages.yml", FileType.YAML)
-                .addFile("bannedwords.yml", FileType.YAML)
-                .addFile("AutoBroadcast.yml", FileType.YAML)
-                .addFile("bannedcommands.yml", FileType.YAML)
-                .addFolder("Logs", FileType.NONE);
+        final Path path = getDataPath();
+
+        this.fileManager.addPaperFile(path.resolve("config.yml"))
+                .addPaperFile(path.resolve("Messages.yml"))
+                .addPaperFile(path.resolve("bannedwords.yml"))
+                .addPaperFile(path.resolve("AutoBroadcast.yml"))
+                .addPaperFile(path.resolve("bannedcommands.yml"))
+                .addFolder(path.resolve("Logs"), FileType.LOG);
 
         Messages.addMissingMessages();
 
         this.serverManager = new ServerManager();
 
-        this.pluginExtension = fusion.getPluginExtension();
+        this.modManager = fusion.getModManager();
 
         new CustomMetrics().start();
 
@@ -126,10 +129,10 @@ public class ChatManager extends JavaPlugin {
         registerPermissions();
 
         List.of(
-                new VaultSupport(),
-                new VanishSupport(),
-                new PlaceholderAPISupport()
-        ).forEach(this.pluginExtension::registerPlugin);
+                new VaultSupport(fusion),
+                new VanishSupport(fusion),
+                new PlaceholderAPISupport(fusion)
+        ).forEach(mod -> this.modManager.addMod(mod.key(), mod));
     }
 
     @Override
@@ -268,8 +271,8 @@ public class ChatManager extends JavaPlugin {
         if (autoBroadcast.getBoolean("Auto_Broadcast.Bossbar_Messages.Enable", false)) AutoBroadcastManager.bossBarMessages();
     }
 
-    public PluginExtension getPluginExtension() {
-        return this.pluginExtension;
+    public ModManager getModManager() {
+        return this.modManager;
     }
 
     public ServerManager getServerManager() {
@@ -299,7 +302,7 @@ public class ChatManager extends JavaPlugin {
         });
     }
 
-    public LegacyFileManager getFileManager() {
-        return this.legacyFileManager;
+    public PaperFileManager getFileManager() {
+        return this.fileManager;
     }
 }

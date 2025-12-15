@@ -1,8 +1,8 @@
 package me.h1dd3nxn1nja.chatmanager.managers;
 
 import com.ryderbelserion.chatmanager.enums.Files;
-import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
-import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
+import com.ryderbelserion.fusion.paper.scheduler.FoliaScheduler;
+import com.ryderbelserion.fusion.paper.scheduler.Scheduler;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
@@ -28,7 +28,7 @@ public class AutoBroadcastManager {
 		final int interval = autobroadcast.getInt("Auto_Broadcast.Global_Messages.Interval", 30);
 		final List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Global_Messages.Messages");
 
-		new FoliaScheduler(Scheduler.global_scheduler) {
+		new FoliaScheduler(plugin, Scheduler.global_scheduler) {
 			int line = 0;
 
 			@Override
@@ -68,7 +68,7 @@ public class AutoBroadcastManager {
 			worlds.add(w);
 		}
 
-		new FoliaScheduler(Scheduler.global_scheduler) {
+		new FoliaScheduler(plugin, Scheduler.global_scheduler) {
 
 			@Override
 			public void run() {
@@ -108,7 +108,7 @@ public class AutoBroadcastManager {
 		final int interval = autobroadcast.getInt("Auto_Broadcast.Actionbar_Messages.Interval", 60);
 		final List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Actionbar_Messages.Messages");
 
-		new FoliaScheduler(Scheduler.global_scheduler) {
+		new FoliaScheduler(plugin, Scheduler.global_scheduler) {
 			int line = 0;
 
 			@Override
@@ -134,7 +134,7 @@ public class AutoBroadcastManager {
 		final int interval = autobroadcast.getInt("Auto_Broadcast.Title_Messages.Interval", 60);
 		final List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Title_Messages.Messages");
 
-		new FoliaScheduler(Scheduler.global_scheduler) {
+		new FoliaScheduler(plugin, Scheduler.global_scheduler) {
 			int line = 0;
 
 			@Override
@@ -163,7 +163,7 @@ public class AutoBroadcastManager {
 		final int time = autobroadcast.getInt("Auto_Broadcast.Bossbar_Messages.Bar_Time", 10);
 		final List<String> messages = autobroadcast.getStringList("Auto_Broadcast.Bossbar_Messages.Messages");
 
-		new FoliaScheduler(Scheduler.global_scheduler) {
+		new FoliaScheduler(plugin, Scheduler.global_scheduler) {
 			int line = 0;
 
 			@Override

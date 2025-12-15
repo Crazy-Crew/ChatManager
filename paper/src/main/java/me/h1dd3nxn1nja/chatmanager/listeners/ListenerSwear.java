@@ -3,8 +3,8 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
-import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
+import com.ryderbelserion.fusion.paper.scheduler.FoliaScheduler;
+import com.ryderbelserion.fusion.paper.scheduler.Scheduler;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.support.Global;
@@ -104,7 +104,7 @@ public class ListenerSwear extends Global implements Listener {
 				final String command = config.getString("Anti_Swear.Chat.Executed_Command").replace("{player}", player.getName());
 				final List<String> commands = config.getStringList("Anti_Swear.Chat.Executed_Command");
 
-				new FoliaScheduler(Scheduler.global_scheduler) {
+				new FoliaScheduler(plugin, Scheduler.global_scheduler) {
 					@Override
 					public void run() {
 						server.dispatchCommand(sender, command);
@@ -346,7 +346,7 @@ public class ListenerSwear extends Global implements Listener {
 	}
 
 	private void dispatchCommandRunnable(final Player player, final String command, final List<String> commands) {
-		new FoliaScheduler(Scheduler.global_scheduler) {
+		new FoliaScheduler(plugin, Scheduler.global_scheduler) {
 			@Override
 			public void run() {
 				server.dispatchCommand(sender, command);

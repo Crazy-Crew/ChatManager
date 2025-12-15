@@ -1,7 +1,5 @@
 package me.h1dd3nxn1nja.chatmanager.commands.tabcompleter;
 
-import com.ryderbelserion.fusion.core.api.interfaces.IPlugin;
-import com.ryderbelserion.fusion.core.managers.PluginExtension;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.support.PluginHandler;
@@ -11,7 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +19,6 @@ public class TabCompleteMessage implements TabCompleter {
 
 	@NotNull
 	private final PluginHandler pluginHandler = this.plugin.getPluginManager();
-
-	private final PluginExtension extension = this.plugin.getPluginExtension();
 
 	@NotNull
 	private final EssentialsSupport essentialsSupport = this.pluginHandler.getEssentialsSupport();
@@ -46,13 +41,13 @@ public class TabCompleteMessage implements TabCompleter {
         for (Player player3 : matchPlayer) {
             if (!hasPermission && PluginSupport.ESSENTIALS.isPluginEnabled() && this.essentialsSupport.isIgnored(player3.getUniqueId(), player2.getUniqueId())) continue;
 
-            if (!hasPermission2) {
+            /*if (!hasPermission2) { //todo() vanish support
 				final IPlugin genericVanish = this.extension.getPlugin("GenericVanish");
 
                 if (genericVanish != null && genericVanish.isEnabled() && genericVanish.isVanished(player3.getUniqueId())) {
                     continue;
                 }
-            }
+            }*/
 
             if (!hasPermission3 && this.plugin.api().getToggleMessageData().containsUser(player3.getUniqueId())) continue;
 

@@ -3,8 +3,8 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
-import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
+import com.ryderbelserion.fusion.paper.scheduler.FoliaScheduler;
+import com.ryderbelserion.fusion.paper.scheduler.Scheduler;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.support.Global;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -105,7 +105,7 @@ public class ListenerBannedCommand extends Global implements Listener {
 		final String command = config.getString("Banned_Commands.Executed_Command", "").replace("{player}", player.getName());
 		final List<String> commands = config.getStringList("Banned_Commands.Executed_Command");
 
-		new FoliaScheduler(Scheduler.global_scheduler) {
+		new FoliaScheduler(plugin, Scheduler.global_scheduler) {
 			@Override
 			public void run() {
 				if (!command.isEmpty()) server.dispatchCommand(sender, command);

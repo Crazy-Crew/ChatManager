@@ -1,6 +1,7 @@
 package com.ryderbelserion.chatmanager.plugins;
 
-import com.ryderbelserion.fusion.core.api.interfaces.IPlugin;
+import com.ryderbelserion.fusion.kyori.mods.objects.Mod;
+import com.ryderbelserion.fusion.paper.FusionPaper;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
@@ -9,20 +10,19 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public class VaultSupport implements IPlugin {
+public class VaultSupport extends Mod {
 
     private static final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
-
-    @Override
-    public final boolean isEnabled() {
-        return plugin.getServer().getPluginManager().isPluginEnabled(getName());
-    }
 
     private static Permission permission;
     private static Chat chat;
 
+    public VaultSupport(@NotNull final FusionPaper fusion) {
+        super(fusion);
+    }
+
     @Override
-    public IPlugin init() {
+    public Mod start() {
         if (!isEnabled()) {
             return this;
         }
@@ -31,11 +31,6 @@ public class VaultSupport implements IPlugin {
         setupPermissions();
 
         return this;
-    }
-
-    @Override
-    public final @NotNull String getName() {
-        return "Vault";
     }
 
     public static String getPlayerPrefix(Player player) {

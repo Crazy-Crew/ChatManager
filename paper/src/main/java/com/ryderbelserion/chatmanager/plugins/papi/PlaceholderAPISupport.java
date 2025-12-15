@@ -1,23 +1,18 @@
 package com.ryderbelserion.chatmanager.plugins.papi;
 
-import com.ryderbelserion.fusion.core.api.interfaces.IPlugin;
-import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import org.bukkit.plugin.java.JavaPlugin;
+import com.ryderbelserion.fusion.kyori.mods.objects.Mod;
+import com.ryderbelserion.fusion.paper.FusionPaper;
 import org.jetbrains.annotations.NotNull;
 
-public class PlaceholderAPISupport implements IPlugin {
-
-    private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
-
-    @Override
-    public boolean isEnabled() {
-        return this.plugin.getServer().getPluginManager().isPluginEnabled(getName());
-    }
+public class PlaceholderAPISupport extends Mod {
 
     private PlaceholderAPIExpansion expansion;
 
-    @Override
-    public IPlugin init() {
+    public PlaceholderAPISupport(@NotNull final FusionPaper fusion) {
+        super(fusion);
+    }
+
+    public Mod start() {
         if (isEnabled()) {
             this.expansion = new PlaceholderAPIExpansion();
             this.expansion.register();
@@ -26,15 +21,11 @@ public class PlaceholderAPISupport implements IPlugin {
         return this;
     }
 
-    @Override
-    public void stop() {
+    public Mod stop() {
         if (this.expansion != null) {
             this.expansion.unregister();
         }
-    }
 
-    @Override
-    public @NotNull String getName() {
-        return "PlaceholderAPI";
+        return this;
     }
 }

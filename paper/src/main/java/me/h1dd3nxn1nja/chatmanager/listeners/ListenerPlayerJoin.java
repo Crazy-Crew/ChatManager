@@ -2,10 +2,10 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import com.ryderbelserion.fusion.core.api.interfaces.IPlugin;
-import com.ryderbelserion.fusion.core.managers.PluginExtension;
-import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
-import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
+import com.ryderbelserion.fusion.kyori.mods.ModManager;
+import com.ryderbelserion.fusion.kyori.mods.interfaces.IMod;
+import com.ryderbelserion.fusion.paper.scheduler.FoliaScheduler;
+import com.ryderbelserion.fusion.paper.scheduler.Scheduler;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.support.Global;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -19,20 +19,28 @@ import java.util.UUID;
 
 public class ListenerPlayerJoin extends Global implements Listener {
 
-    private final PluginExtension extension = this.plugin.getPluginExtension();
-
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void firstJoinMessage(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
 
         if (player.hasPlayedBefore()) return;
 
-        if (this.extension.isEnabled("GenericVanish")) {
-            final IPlugin plugin = this.extension.getPlugin("GenericVanish");
+        final UUID uuid = player.getUniqueId();
 
-            if (plugin != null && plugin.isVanished(player.getUniqueId())) {
-                return;
+        boolean isVanished = false;
+
+        for (final IMod mod : this.modManager.getMods().values()) {
+            if (!mod.isEnabled()) continue;
+
+            if (mod.isVanished(uuid)) {
+                isVanished = true;
+
+                break;
             }
+        }
+
+        if (isVanished) {
+            return;
         }
 
         final FileConfiguration config = Files.CONFIG.getConfiguration();
@@ -64,18 +72,30 @@ public class ListenerPlayerJoin extends Global implements Listener {
         }
     }
 
+    private final ModManager modManager = this.plugin.getModManager();
+
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void joinMessage(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
 
         if (!player.hasPlayedBefore()) return;
 
-        if (this.extension.isEnabled("GenericVanish")) {
-            final IPlugin plugin = this.extension.getPlugin("GenericVanish");
+        final UUID uuid = player.getUniqueId();
 
-            if (plugin != null && plugin.isVanished(player.getUniqueId())) {
-                return;
+        boolean isVanished = false;
+
+        for (final IMod mod : this.modManager.getMods().values()) {
+            if (!mod.isEnabled()) continue;
+
+            if (mod.isVanished(uuid)) {
+                isVanished = true;
+
+                break;
             }
+        }
+
+        if (isVanished) {
+            return;
         }
 
         final FileConfiguration config = Files.CONFIG.getConfiguration();
@@ -91,7 +111,7 @@ public class ListenerPlayerJoin extends Global implements Listener {
                 if (event.getJoinMessage() != null) {
                     event.setJoinMessage(null);
 
-                    new FoliaScheduler(Scheduler.async_scheduler) {
+                    new FoliaScheduler(plugin, Scheduler.async_scheduler) {
                         @Override
                         public void run() {
                             server.broadcastMessage(Methods.placeholders(false, player, Methods.color(message)));
@@ -140,7 +160,7 @@ public class ListenerPlayerJoin extends Global implements Listener {
                             if (event.getJoinMessage() != null) {
                                 event.setJoinMessage(null);
 
-                                new FoliaScheduler(Scheduler.async_scheduler) {
+                                new FoliaScheduler(plugin, Scheduler.async_scheduler) {
                                     @Override
                                     public void run() {
                                         server.broadcastMessage(Methods.placeholders(false, player, Methods.color(joinMessage)));
@@ -180,12 +200,22 @@ public class ListenerPlayerJoin extends Global implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         final Player player = event.getPlayer();
 
-        if (this.extension.isEnabled("GenericVanish")) {
-            final IPlugin plugin = this.extension.getPlugin("GenericVanish");
+        final UUID uuid = player.getUniqueId();
 
-            if (plugin != null && plugin.isVanished(player.getUniqueId())) {
-                return;
+        boolean isVanished = false;
+
+        for (final IMod mod : this.modManager.getMods().values()) {
+            if (!mod.isEnabled()) continue;
+
+            if (mod.isVanished(uuid)) {
+                isVanished = true;
+
+                break;
             }
+        }
+
+        if (isVanished) {
+            return;
         }
 
         final FileConfiguration config = Files.CONFIG.getConfiguration();
@@ -253,7 +283,7 @@ public class ListenerPlayerJoin extends Global implements Listener {
         if (config.getBoolean("MOTD.Enable", false)) {
             final int delay = config.getInt("MOTD.Delay", 2);
 
-            new FoliaScheduler(Scheduler.global_scheduler) {
+            new FoliaScheduler(plugin, Scheduler.global_scheduler) {
                 @Override
                 public void run() {
                     for (final String motd : config.getStringList("MOTD.Message")) {

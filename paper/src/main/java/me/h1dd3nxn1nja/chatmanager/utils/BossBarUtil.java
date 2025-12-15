@@ -1,7 +1,7 @@
 package me.h1dd3nxn1nja.chatmanager.utils;
 
-import com.ryderbelserion.fusion.paper.api.enums.Scheduler;
-import com.ryderbelserion.fusion.paper.api.scheduler.FoliaScheduler;
+import com.ryderbelserion.fusion.paper.scheduler.FoliaScheduler;
+import com.ryderbelserion.fusion.paper.scheduler.Scheduler;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import org.bukkit.Server;
@@ -154,7 +154,7 @@ public class BossBarUtil {
 
 		playerBars.put(uuid, this);
 
-		new FoliaScheduler(Scheduler.global_scheduler) {
+		new FoliaScheduler(plugin, Scheduler.global_scheduler) {
 			@Override
 			public void run() {
 				if (playerBars.containsKey(uuid)) playerBars.get(uuid).bar.removePlayer(player);
@@ -198,7 +198,7 @@ public class BossBarUtil {
 
 		this.bossBars.put(uuid, bossBar);
 
-		new FoliaScheduler(Scheduler.global_scheduler) {
+		new FoliaScheduler(plugin, Scheduler.global_scheduler) {
 			int i = 1;
 			int ticksRan = 0;
 

@@ -46,7 +46,7 @@ public class CommandChatManager extends Global implements CommandExecutor {
 							}
 						}
 
-						this.plugin.getFileManager().reloadFiles().init();
+						this.plugin.getFileManager().refresh(false);
 
 						Files.CONFIG.reload();
 

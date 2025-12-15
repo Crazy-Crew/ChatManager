@@ -1,7 +1,8 @@
 package me.h1dd3nxn1nja.chatmanager;
 
 import com.ryderbelserion.chatmanager.enums.Files;
-import com.ryderbelserion.fusion.core.managers.PluginExtension;
+import com.ryderbelserion.fusion.kyori.mods.ModManager;
+import com.ryderbelserion.fusion.kyori.mods.ModSupport;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Server;
 import org.bukkit.Sound;
@@ -20,7 +21,7 @@ public class Methods {
 
 	private static final Server server = plugin.getServer();
 
-	private static final PluginExtension extension = plugin.getPluginExtension();
+	private static final ModManager modManager = plugin.getModManager();
 
 	public static void playSound(final FileConfiguration config, final String path) {
 		final boolean isEnabled = config.getBoolean(path + ".toggle", false);
@@ -334,7 +335,7 @@ public class Methods {
 		}
 
 		if (sender instanceof Player player) {
-			if (parsePapi && extension.isEnabled("PlaceholderAPI")) {
+			if (parsePapi && modManager.getMod(ModSupport.placeholder_api).isEnabled()) {
 				clonedMessage = PlaceholderAPI.setPlaceholders(player, clonedMessage);
 			}
 

@@ -4,8 +4,8 @@ import com.ryderbelserion.chatmanager.api.chat.UserRepliedData;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import com.ryderbelserion.fusion.core.api.interfaces.IPlugin;
-import com.ryderbelserion.fusion.core.managers.PluginExtension;
+import com.ryderbelserion.fusion.kyori.mods.ModManager;
+import com.ryderbelserion.fusion.kyori.mods.interfaces.IMod;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.support.Global;
@@ -21,17 +21,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 public class CommandMessage extends Global implements CommandExecutor, TabCompleter {
-
-
-
-	private final PluginExtension extension = this.plugin.getPluginExtension();
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -171,6 +166,8 @@ public class CommandMessage extends Global implements CommandExecutor, TabComple
 		return true;
 	}
 
+	private final ModManager modManager = this.plugin.getModManager();
+
 	private boolean handleMessage(String[] args, Player player, StringBuilder message, Player target) {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
 
@@ -182,13 +179,25 @@ public class CommandMessage extends Global implements CommandExecutor, TabComple
 
 		if (essentialsCheck(player, target)) return true;
 
-		final IPlugin genericVanish = this.extension.getPlugin("GenericVanish");
+		final UUID uuid = player.getUniqueId();
 
-        if (genericVanish != null && genericVanish.isEnabled() && genericVanish.isVanished(player.getUniqueId()) && !player.hasPermission(Permissions.BYPASS_VANISH.getNode())) {
-            Messages.PLAYER_NOT_FOUND.sendMessage(player, "{target}", args[0]);
+		boolean isVanished = false;
 
-            return true;
-        }
+		for (final IMod mod : this.modManager.getMods().values()) {
+			if (!mod.isEnabled()) continue;
+
+			if (mod.isVanished(uuid)) {
+				isVanished = true;
+
+				break;
+			}
+		}
+
+		if (isVanished && !player.hasPermission(Permissions.BYPASS_VANISH.getNode())) {
+			Messages.PLAYER_NOT_FOUND.sendMessage(player, "{target}", args[0]);
+
+			return true;
+		}
 
 		final String sender_format = config.getString("Private_Messages.Sender.Format", "&c&l(!) &f&l[&e&lYou &d-> &e{receiver}&f&l] &b")
 				.replace("{receiver}", target.getName())
