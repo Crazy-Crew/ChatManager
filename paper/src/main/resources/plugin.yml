@@ -16,6 +16,7 @@ softdepend:
  - Vault
  - Essentials
  - SuperVanish
+ - HeadDatabase
 
 commands:
     ChatManager:
