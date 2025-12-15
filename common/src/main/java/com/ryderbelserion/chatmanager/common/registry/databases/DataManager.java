@@ -34,8 +34,10 @@ public class DataManager {
             }
 
             case "postgresql" -> {
-                this.connector = new PostgresConnector();
-                this.connector.init(config);
+                //this.connector = new PostgresConnector();
+                //this.connector.init(config);
+
+                //todo() postgres
             }
 
             case "mariadb" -> {

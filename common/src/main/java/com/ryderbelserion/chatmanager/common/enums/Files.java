@@ -16,7 +16,9 @@ public enum Files {
 
     messages("messages.yml"),
     config("config.yml"),
-    chat("chat.yml");
+    chat("chat.yml"),
+
+    root("root.yml");
 
     private final FusionKyori fusion = (FusionKyori) FusionProvider.getInstance();
     private final FileManager fileManager = this.fusion.getFileManager();

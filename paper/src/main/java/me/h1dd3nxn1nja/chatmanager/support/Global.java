@@ -20,6 +20,7 @@ import com.ryderbelserion.chatmanager.api.cooldowns.CmdCooldowns;
 import com.ryderbelserion.chatmanager.api.cooldowns.CooldownTask;
 import com.ryderbelserion.chatmanager.api.misc.AntiBotData;
 import com.ryderbelserion.chatmanager.managers.ServerManager;
+import me.corecraft.chatmanager.paper.ChatManagerPlatform;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
@@ -29,6 +30,8 @@ import java.io.File;
 public abstract class Global {
 
     protected final ChatManager plugin = ChatManager.get();
+
+    protected final ChatManagerPlatform platform = this.plugin.getPlatform();
 
     protected final ServerManager serverManager = this.plugin.getServerManager();
 

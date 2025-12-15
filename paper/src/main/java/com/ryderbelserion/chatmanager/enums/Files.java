@@ -1,9 +1,10 @@
 package com.ryderbelserion.chatmanager.enums;
 
-import com.ryderbelserion.fusion.core.managers.files.FileType;
-import com.ryderbelserion.fusion.paper.files.LegacyFileManager;
+import com.ryderbelserion.fusion.files.enums.FileAction;
+import com.ryderbelserion.fusion.paper.api.files.PaperFileManager;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.bukkit.configuration.file.YamlConfiguration;
+import java.nio.file.Path;
 
 public enum Files {
 
@@ -18,7 +19,9 @@ public enum Files {
 
     private final ChatManager plugin = ChatManager.get();
 
-    private final LegacyFileManager fileManager = plugin.getFileManager();
+    private final Path path = this.plugin.getDataPath();
+
+    private final PaperFileManager fileManager = plugin.getFileManager();
 
     /**
      * A constructor to build a file
@@ -39,14 +42,14 @@ public enum Files {
     }
 
     public final YamlConfiguration getConfiguration() {
-        return this.fileManager.getFile(this.fileName, FileType.YAML).getConfiguration();
+        return this.fileManager.getPaperFile(this.path.resolve(this.fileName)).get().getConfiguration();
     }
 
     public void save() {
-        this.fileManager.saveFile(this.fileName);
+        this.fileManager.saveFile(this.path.resolve(this.fileName));
     }
 
     public void reload() {
-        this.fileManager.addFile(this.fileName);
+        this.fileManager.addPaperFile(this.path.resolve(this.fileName), consumer -> consumer.addAction(FileAction.RELOAD_FILE));
     }
 }

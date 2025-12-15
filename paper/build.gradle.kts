@@ -9,6 +9,8 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":common"))
+
     implementation(libs.bundles.cloud.paper)
     implementation(libs.fusion.paper)
     implementation(libs.metrics)
