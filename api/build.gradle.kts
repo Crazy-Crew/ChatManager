@@ -15,6 +15,11 @@ java {
     withJavadocJar()
 }
 
+dependencies {
+    compileOnly(libs.bundles.kyori)
+    compileOnly(libs.fusion.core)
+}
+
 tasks {
     javadoc {
         val name = rootProject.name.replaceFirstChar { it.uppercase() }
