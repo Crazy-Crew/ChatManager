@@ -34,7 +34,7 @@ shadow = "9.3.0" # https://github.com/GradleUp/shadow
 
 # Commands
 cloud-release = "2.0.0" # https://cloud.incendo.org/core/
-cloud-beta = "2.0.0-beta.13" # https://cloud.incendo.org/minecraft/paper/
+cloud-beta = "2.0.0-beta.14" # https://cloud.incendo.org/minecraft/paper/
 
 # Databases
 hikari = "7.0.2" # https://github.com/brettwooldridge/HikariCP
