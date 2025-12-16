@@ -1,11 +1,10 @@
 package com.ryderbelserion.chatmanager.common.registry.databases.types.flatfile;
 
 import com.ryderbelserion.chatmanager.common.registry.databases.constants.UserSchema;
-import com.ryderbelserion.chatmanager.common.registry.databases.interfaces.IConnector;
+import com.ryderbelserion.chatmanager.common.registry.databases.types.HikariConnectionFactory;
 import com.ryderbelserion.fusion.core.api.FusionProvider;
 import com.ryderbelserion.fusion.kyori.FusionKyori;
 import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import java.io.IOException;
@@ -17,12 +16,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.CompletableFuture;
 
-public class SqliteConnector implements IConnector {
+public class SqliteConnector extends HikariConnectionFactory {
 
     private final FusionKyori fusion = (FusionKyori) FusionProvider.getInstance();
     private final Path path;
-
-    private HikariDataSource source;
 
     public SqliteConnector(@NotNull final Path path) {
         this.path = path;
@@ -31,6 +28,14 @@ public class SqliteConnector implements IConnector {
     @Override
     public String getImpl() {
         return "SQLite";
+    }
+
+    @Override
+    public void properties(@NotNull final HikariConfig hikari, @NotNull final CommentedConfigurationNode config) {
+        super.properties(hikari, config);
+
+        hikari.setConnectionInitSql("PRAGMA foreign_keys = ON;");
+        hikari.setConnectionTestQuery("PRAGMA journal_mode=WAL;");
     }
 
     @Override
@@ -43,16 +48,7 @@ public class SqliteConnector implements IConnector {
             this.fusion.log("warn", "Failed to create the file requested!", exception);
         }
 
-        final HikariConfig hikari = new HikariConfig();
-
-        hikari.setConnectionInitSql("PRAGMA foreign_keys = ON;");
-        hikari.setConnectionTestQuery("PRAGMA journal_mode=WAL;");
-
-        properties(hikari, config);
-
-        hikari.setJdbcUrl(url());
-
-        this.source = new HikariDataSource(hikari);
+        super.init(config);
 
         CompletableFuture.runAsync(() -> {
            try (final Connection connection = getConnection()) {
@@ -95,7 +91,12 @@ public class SqliteConnector implements IConnector {
 
     @Override
     public String url() {
-        return String.format("jdbc:sqlite:%s", getPath().toString());
+        return "jdbc:sqlite:%s".formatted(getPath().toString());
+    }
+
+    @Override
+    public String getIdentifier() {
+        return "SQLite";
     }
 
     @Override
@@ -115,7 +116,7 @@ public class SqliteConnector implements IConnector {
     }
 
     @Override
-    public boolean tableExists(@NotNull final Connection connection, @NotNull final String table) {
+    public boolean isTableValid(@NotNull final Connection connection, @NotNull final String table) {
         try (ResultSet resultSet = connection.getMetaData().getTables(
                 null,
                 null,

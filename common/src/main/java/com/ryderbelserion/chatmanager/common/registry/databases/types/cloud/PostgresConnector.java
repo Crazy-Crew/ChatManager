@@ -1,5 +1,6 @@
 package com.ryderbelserion.chatmanager.common.registry.databases.types.cloud;
 
+import com.ryderbelserion.chatmanager.common.enums.Files;
 import com.ryderbelserion.chatmanager.common.registry.databases.constants.UserSchema;
 import com.ryderbelserion.chatmanager.common.registry.databases.types.HikariConnectionFactory;
 import com.ryderbelserion.fusion.core.api.FusionProvider;
@@ -75,18 +76,7 @@ public class PostgresConnector extends HikariConnectionFactory {
     }
 
     @Override
-    public Connection getConnection() {
-        try {
-            return this.source.getConnection();
-        } catch (final SQLException exception) {
-            this.fusion.log("warn", "Connection is null!", exception);
-
-            return null;
-        }
-    }
-
-    @Override
-    public boolean tableExists(@NotNull final Connection connection, @NotNull final String table) {
+    protected boolean isTableValid(@NotNull final Connection connection, @NotNull final String table) {
         try (ResultSet resultSet = connection.getMetaData().getTables(
                 null,
                 null,
@@ -98,6 +88,29 @@ public class PostgresConnector extends HikariConnectionFactory {
             this.fusion.log("Warn", "Table does not exist!", exception);
 
             return false;
+        }
+    }
+
+    @Override
+    protected String url() {
+        final CommentedConfigurationNode config = Files.config.getYamlConfig();
+
+        return "jdbc:%s://%s:%s/%s".formatted(
+                getIdentifier(),
+                config.node("root", "storage", "connection", "url").getString(""),
+                config.node("root", "storage", "connection", "port").getInt(5432),
+                config.node("root", "storage", "database").getString("")
+        );
+    }
+
+    @Override
+    public Connection getConnection() {
+        try {
+            return this.source.getConnection();
+        } catch (final SQLException exception) {
+            this.fusion.log("warn", "Connection is null!", exception);
+
+            return null;
         }
     }
 }

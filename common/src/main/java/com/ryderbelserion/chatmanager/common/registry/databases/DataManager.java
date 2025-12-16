@@ -1,19 +1,24 @@
 package com.ryderbelserion.chatmanager.common.registry.databases;
 
 import com.ryderbelserion.chatmanager.common.registry.databases.interfaces.IConnector;
+import com.ryderbelserion.chatmanager.common.registry.databases.types.flatfile.JsonConnector;
 import com.ryderbelserion.chatmanager.common.registry.databases.types.flatfile.SqliteConnector;
 import com.ryderbelserion.chatmanager.common.enums.Files;
+import com.ryderbelserion.fusion.files.FileManager;
+import com.ryderbelserion.fusion.files.enums.FileType;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import java.nio.file.Path;
 
 public class DataManager {
 
+    private final FileManager fileManager;
     private IConnector connector;
     private String currentType;
     private final Path path;
 
-    public DataManager(@NotNull final Path path) {
+    public DataManager(@NotNull final Path path, @NotNull final FileManager fileManager) {
+        this.fileManager = fileManager;
         this.path = path;
     }
 
@@ -44,7 +49,8 @@ public class DataManager {
             }
 
             case "json" -> {
-                //todo() json
+                this.connector = new JsonConnector(this.path.resolve("users.json"));
+                this.connector.init(config);
             }
         }
 
