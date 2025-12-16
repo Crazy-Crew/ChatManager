@@ -1,7 +1,6 @@
 package com.ryderbelserion.chatmanager.common.registry.databases;
 
 import com.ryderbelserion.chatmanager.common.registry.databases.interfaces.IConnector;
-import com.ryderbelserion.chatmanager.common.registry.databases.types.cloud.PostgresConnector;
 import com.ryderbelserion.chatmanager.common.registry.databases.types.flatfile.SqliteConnector;
 import com.ryderbelserion.chatmanager.common.enums.Files;
 import org.jetbrains.annotations.NotNull;
@@ -42,6 +41,10 @@ public class DataManager {
 
             case "mariadb" -> {
                 //todo() mariadb
+            }
+
+            case "json" -> {
+                //todo() json
             }
         }
 

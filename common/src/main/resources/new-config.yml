@@ -17,8 +17,9 @@ root:
     #
     # Available Types:
     #   ⤷ POSTGRESQL
-    #   ⤷ SQLITE (DEFAULT)
-    type: "SQLITE"
+    #   ⤷ SQLITE
+    #   ⤷ JSON (DEFAULT)
+    type: "JSON"
     # Define the address and port for the database.
     # - The standard DB engine port is used by default
     #   (MySQL: 3306, PostgreSQL: 5432)

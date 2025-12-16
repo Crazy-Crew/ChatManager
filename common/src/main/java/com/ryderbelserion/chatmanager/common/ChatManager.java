@@ -7,6 +7,7 @@ import com.ryderbelserion.chatmanager.common.registry.MessageRegistry;
 import com.ryderbelserion.chatmanager.common.registry.UserRegistry;
 import com.ryderbelserion.fusion.core.FusionCore;
 import com.ryderbelserion.fusion.files.FileManager;
+import com.ryderbelserion.fusion.files.enums.FileAction;
 import com.ryderbelserion.fusion.files.enums.FileType;
 import com.ryderbelserion.fusion.kyori.FusionKyori;
 import com.ryderbelserion.fusion.kyori.permissions.PermissionRegistry;
@@ -50,8 +51,10 @@ public abstract class ChatManager implements IChatManager {
     public void start(@NotNull final Audience audience) {
         ChatManagerProvider.register(this);
 
+        this.fileManager.extractFile(this.fileManager.getSource(), "new-config.yml", this.path.resolve("config.yml"));
+
         this.fileManager.addFolder(this.path.resolve("locale"), FileType.YAML)
-                .addFile(this.path.resolve("config.yml"), FileType.YAML)
+                .addFile(this.path.resolve("config.yml"), FileType.YAML, consumer -> consumer.addAction(FileAction.ALREADY_EXTRACTED))
                 .addFile(this.path.resolve("chat.yml"), FileType.YAML)
                 .addFile(this.path.resolve("messages.yml"), FileType.YAML);
 
