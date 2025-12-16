@@ -58,7 +58,7 @@ public abstract class ChatManager implements IChatManager {
                 .addFile(this.path.resolve("chat.yml"), FileType.YAML)
                 .addFile(this.path.resolve("messages.yml"), FileType.YAML);
 
-        this.dataManager = new DataManager(this.path, this.fileManager);
+        this.dataManager = new DataManager(this.path);
         this.dataManager.init();
 
         this.messageRegistry = new MessageRegistry(this.path, this.fusion);
