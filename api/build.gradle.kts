@@ -10,11 +10,6 @@ project.group = "${rootProject.group}.api"
 
 val projectVersion = rootProject.property("api_version").toString()
 
-dependencies {
-    compileOnly(libs.bundles.kyori)
-    compileOnly(libs.fusion.core)
-}
-
 java {
     withSourcesJar()
     withJavadocJar()
@@ -25,16 +20,16 @@ tasks {
         val name = rootProject.name.replaceFirstChar { it.uppercase() }
         val options = options as StandardJavadocDocletOptions
 
-        options.encoding = Charsets.UTF_8.name()
-        options.overview("src/main/javadoc/overview.html")
-        options.use()
-        options.isDocFilesSubDirs = true
+        options.header = """<img src="https://cdn.modrinth.com/data/IwVOgYiT/cd62e2f6dfe377838f4c387462c19dbb3ca5a39c.webp" style="height:100%">"""
         options.windowTitle("$name $projectVersion API Documentation")
         options.docTitle("<h1>$name $projectVersion API</h1>")
-        options.header = """<img src="https://cdn.modrinth.com/data/IwVOgYiT/cd62e2f6dfe377838f4c387462c19dbb3ca5a39c.webp" style="height:100%">"""
-        options.bottom("Copyright © 2018-2025 Ryder Belserion, H1DD3NxN1NJA")
-        options.linkSource(true)
+        options.overview("src/main/javadoc/overview.html")
         options.addBooleanOption("html5", true)
+        options.bottom("Copyright © 2025 CrazyCrew")
+        options.encoding = Charsets.UTF_8.name()
+        options.linkSource(true)
+        options.isDocFilesSubDirs = true
+        options.use()
     }
 
     withType<com.jeff_media.fixjavadoc.FixJavadoc> {
@@ -57,7 +52,7 @@ publishing {
 
     publications {
         create<MavenPublication>("mavenJava") {
-            groupId = "${project.group}" // us.crazycrew.crazycrates
+            groupId = "${project.group}"
             artifactId = project.name
             version = projectVersion
 
