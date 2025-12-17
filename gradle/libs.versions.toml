@@ -14,7 +14,7 @@ annotations = "24.1.0" # https://github.com/JetBrains/java-annotations
 
 ## Plugin API
 headdatabaseapi = "1.3.1" # https://github.com/Arcaniax-Development/HeadDatabase-API
-placeholderapi = "2.11.6" # https://github.com/placeholderapi
+placeholderapi = "2.11.7" # https://github.com/placeholderapi
 essentials = "2.20.1" # https://github.com/EssentialsX/Essentials
 vault = "1.7.1" # https://github.com/MilkBowl/Vault
 itemsadder = "4.0.10" # https://github.com/ItemsAdder
@@ -26,10 +26,10 @@ fusion = "3.4.3" # https://github.com/ryderbelserion/Fusion
 
 ## Gradle Plugins
 fix-javadoc = "1.19" # https://github.com/mfnalex/gradle-fix-javadoc-plugin
-run-paper = "2.3.1" # https://github.com/jpenilla/run-task
-minotaur = "2.8.7" # https://github.com/modrinth/minotaur
+run-paper = "3.0.2" # https://github.com/jpenilla/run-task
+minotaur = "2.8.10" # https://github.com/modrinth/minotaur
 feather = "0.4.0" # https://github.com/ryderbelserion/Feather
-hangar = "0.1.3" # https://github.com/HangarMC/hangar-publish-plugin
+hangar = "0.1.4" # https://github.com/HangarMC/hangar-publish-plugin
 shadow = "9.3.0" # https://github.com/GradleUp/shadow
 
 # Commands
