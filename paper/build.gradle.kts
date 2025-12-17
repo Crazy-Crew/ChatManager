@@ -2,7 +2,7 @@ plugins {
     `paper-plugin`
 }
 
-project.group = "${rootProject.group}.paper"
+//project.group = "${rootProject.group}.paper"
 
 repositories {
     maven("https://repo.essentialsx.net/releases/")
