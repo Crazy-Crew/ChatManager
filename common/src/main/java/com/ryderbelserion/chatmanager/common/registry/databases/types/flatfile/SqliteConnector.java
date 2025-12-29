@@ -1,10 +1,13 @@
 package com.ryderbelserion.chatmanager.common.registry.databases.types.flatfile;
 
+import com.ryderbelserion.chatmanager.common.objects.User;
 import com.ryderbelserion.chatmanager.common.registry.databases.constants.UserSchema;
 import com.ryderbelserion.chatmanager.common.registry.databases.types.HikariConnectionFactory;
 import com.ryderbelserion.fusion.core.api.FusionProvider;
 import com.ryderbelserion.fusion.kyori.FusionKyori;
 import com.zaxxer.hikari.HikariConfig;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.identity.Identity;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import java.io.IOException;
@@ -14,6 +17,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class SqliteConnector extends HikariConnectionFactory {
@@ -67,6 +72,17 @@ public class SqliteConnector extends HikariConnectionFactory {
                this.fusion.log("warn", "Failed to execute prepared statement on initialization", exception);
            }
         });
+    }
+
+    @Override
+    public User getUser(@NotNull final Audience audience) {
+        final User user = new User(audience);
+
+        final Optional<Locale> locale = audience.get(Identity.LOCALE);
+
+        locale.ifPresent(user::setLocale);
+
+        return user;
     }
 
     @Override

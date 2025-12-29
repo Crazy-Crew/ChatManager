@@ -3,11 +3,12 @@ package com.ryderbelserion.chatmanager.common.registry;
 import com.ryderbelserion.chatmanager.api.interfaces.registry.IUserRegistry;
 import com.ryderbelserion.chatmanager.common.ChatManager;
 import com.ryderbelserion.chatmanager.common.objects.User;
+import com.ryderbelserion.chatmanager.common.registry.databases.DataManager;
+import com.ryderbelserion.chatmanager.common.registry.databases.interfaces.IConnector;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,14 +18,16 @@ public class UserRegistry implements IUserRegistry<User> {
     private final Map<UUID, User> users = new HashMap<>();
 
     private final ChatManager plugin;
+    private final DataManager dataManager;
 
     public UserRegistry(@NotNull final ChatManager plugin) {
         this.plugin = plugin;
+        this.dataManager = this.plugin.getDataManager();
     }
 
     public void init(@NotNull final Audience audience) {
         if (this.plugin.isConsoleSender(audience)) {
-            this.users.put(ChatManager.console, new User(this.plugin, audience));
+            this.users.put(ChatManager.console, new User(audience));
         }
     }
 
@@ -37,13 +40,9 @@ public class UserRegistry implements IUserRegistry<User> {
         final Optional<UUID> uuid = audience.get(Identity.UUID);
 
         uuid.ifPresent(value -> {
-            final User user = new User(this.plugin, audience);
+            final IConnector connector = this.dataManager.getConnector();
 
-            final Optional<Locale> locale = audience.get(Identity.LOCALE);
-
-            locale.ifPresent(user::setLocale);
-
-            this.users.put(value, user);
+            this.users.put(value, connector.getUser(audience));
         });
     }
 
