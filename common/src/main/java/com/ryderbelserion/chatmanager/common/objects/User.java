@@ -29,7 +29,7 @@ public class User implements IUser {
 
     private Key locale = Messages.default_locale;
 
-    private int join_date = 0;
+    private int join_order = 1;
 
     private String timestamp = "";
 
