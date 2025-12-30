@@ -29,7 +29,15 @@ public class User implements IUser {
 
     private Key locale = Messages.default_locale;
 
-    private int join_order = 1;
+    private int joinOrder = 1;
+
+    public void setJoinOrder(final int joinOrder) {
+        this.joinOrder = joinOrder;
+    }
+
+    public final int getJoinOrder() {
+        return this.joinOrder;
+    }
 
     private String timestamp = "";
 

@@ -3,16 +3,20 @@ package com.ryderbelserion.chatmanager.common.registry.databases.types.flatfile;
 import com.ryderbelserion.chatmanager.common.objects.User;
 import com.ryderbelserion.chatmanager.common.registry.databases.interfaces.IConnector;
 import com.ryderbelserion.fusion.core.api.FusionProvider;
+import com.ryderbelserion.fusion.core.api.exceptions.FusionException;
 import com.ryderbelserion.fusion.files.FileManager;
 import com.ryderbelserion.fusion.files.enums.FileType;
+import com.ryderbelserion.fusion.files.types.configurate.JsonCustomFile;
 import com.ryderbelserion.fusion.kyori.FusionKyori;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 import org.jetbrains.annotations.NotNull;
+import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import java.nio.file.Path;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.UUID;
 
 public class JsonConnector implements IConnector {
 
@@ -38,6 +42,36 @@ public class JsonConnector implements IConnector {
         locale.ifPresent(user::setLocale);
 
         return user;
+    }
+
+    @Override
+    public int getJoinOrder(@NotNull final UUID uuid) {
+        @NotNull final Optional<JsonCustomFile> customFile = this.fileManager.getJsonFile(this.path);
+
+        if (customFile.isEmpty()) {
+            throw new FusionException("Could not find custom file for " + this.path);
+        }
+
+        final JsonCustomFile file = customFile.get();
+
+        final BasicConfigurationNode node = file.getConfiguration();
+
+        return node.node(uuid.toString(), "join_order").getInt(1);
+    }
+
+    @Override
+    public String getCreationDate(@NotNull UUID uuid) {
+        @NotNull final Optional<JsonCustomFile> customFile = this.fileManager.getJsonFile(this.path);
+
+        if (customFile.isEmpty()) {
+            throw new FusionException("Could not find custom file for " + this.path);
+        }
+
+        final JsonCustomFile file = customFile.get();
+
+        final BasicConfigurationNode node = file.getConfiguration();
+
+        return node.node(uuid.toString(), "creation_date").getString("");
     }
 
     @Override

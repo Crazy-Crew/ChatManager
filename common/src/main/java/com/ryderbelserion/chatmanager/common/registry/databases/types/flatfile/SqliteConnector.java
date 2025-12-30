@@ -19,6 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class SqliteConnector extends HikariConnectionFactory {
@@ -82,7 +83,45 @@ public class SqliteConnector extends HikariConnectionFactory {
 
         locale.ifPresent(user::setLocale);
 
+        audience.get(Identity.UUID).ifPresent(uuid -> {
+            user.setJoinOrder(getJoinOrder(uuid));
+
+
+        });
+
         return user;
+    }
+
+    @Override
+    public int getJoinOrder(@NotNull final UUID uuid) {
+        int value = 0;
+
+        CompletableFuture.runAsync(() -> {
+            try (final Connection connection = getConnection()) {
+                if (connection == null) {
+                    this.fusion.log("warn", "The connection is null for SQLITE type!");
+
+                    return;
+                }
+
+                try (final PreparedStatement statement = connection.prepareStatement(UserSchema.create_users_table)) {
+                    statement.executeUpdate();
+                } catch (final SQLException exception) {
+                    this.fusion.log("warn", "Failed to create users table!", exception);
+                }
+            } catch (final SQLException exception) {
+                this.fusion.log("warn", "Failed to execute prepared statement on initialization", exception);
+            }
+        });
+
+        return value;
+    }
+
+    @Override
+    public String getCreationDate(@NotNull final UUID uuid) {
+        final Connection connection = getConnection();
+
+        return "";
     }
 
     @Override

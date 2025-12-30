@@ -1,7 +1,6 @@
 package com.ryderbelserion.chatmanager.common.registry.databases;
 
 import com.ryderbelserion.chatmanager.common.registry.databases.interfaces.IConnector;
-import com.ryderbelserion.chatmanager.common.registry.databases.types.flatfile.JsonConnector;
 import com.ryderbelserion.chatmanager.common.registry.databases.types.flatfile.SqliteConnector;
 import com.ryderbelserion.chatmanager.common.enums.Files;
 import org.jetbrains.annotations.NotNull;
@@ -44,10 +43,10 @@ public class DataManager {
                 //todo() mariadb
             }
 
-            case "json" -> {
-                this.connector = new JsonConnector(this.path.resolve("users.json"));
-                this.connector.init(config);
-            }
+            //case "json" -> {
+            //    this.connector = new JsonConnector(this.path.resolve("users.json"));
+            //    this.connector.init(config);
+            //}
         }
 
         this.currentType = type;

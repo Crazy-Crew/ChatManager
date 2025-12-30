@@ -5,12 +5,17 @@ import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import java.nio.file.Path;
+import java.util.UUID;
 
 public interface IConnector {
 
     void init(@NotNull final CommentedConfigurationNode config);
 
     User getUser(@NotNull final Audience audience);
+
+    int getJoinOrder(@NotNull final UUID uuid);
+
+    String getCreationDate(@NotNull final UUID uuid);
 
     void stop();
 

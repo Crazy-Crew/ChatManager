@@ -36,11 +36,11 @@ public class CacheListener implements Listener {
 
         this.userRegistry.addUser(player);
 
-        final String name = player.getName();
-
-        event.joinMessage(this.messageRegistry.getMessage(Messages.join_message).getComponent(player, Map.of(
+        final Map<String, String> placeholders = Map.of(
                 "{player}", player.getName()
-        )));
+        );
+
+        event.joinMessage(this.messageRegistry.getMessage(Messages.join_message).getComponent(player, placeholders));
 
         final CommentedConfigurationNode config = Files.config.getYamlConfig();
 
@@ -51,9 +51,7 @@ public class CacheListener implements Listener {
                 new FoliaScheduler(this.plugin, Scheduler.global_scheduler) {
                     @Override
                     public void run() {
-                        messageRegistry.getMessage(Messages.message_of_the_day).send(player, Map.of(
-                                "{player}", name
-                        ));
+                        messageRegistry.getMessage(Messages.message_of_the_day).send(player, placeholders);
                     }
                 }.runDelayed(delay);
             }
