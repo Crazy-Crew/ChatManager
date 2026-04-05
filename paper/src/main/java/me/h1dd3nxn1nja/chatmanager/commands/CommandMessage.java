@@ -60,7 +60,7 @@ public class CommandMessage extends Global implements CommandExecutor, TabComple
 					return true;
 				}
 
-				if ((target == player) && (!player.hasPermission(Permissions.COMMAND_MESSAGE_SELF.getNode()))) {
+				if (target.getUniqueId().equals(player.getUniqueId())) {
 					Messages.PRIVATE_MESSAGE_SELF.sendMessage(player);
 
 					return true;
@@ -111,6 +111,12 @@ public class CommandMessage extends Global implements CommandExecutor, TabComple
 
 					if (target == null || !target.isOnline()) {
 						Messages.PRIVATE_MESSAGE_RECIPIENT_NOT_FOUND.sendMessage(player);
+
+						return true;
+					}
+
+					if (target.getUniqueId().equals(player.getUniqueId())) {
+						Messages.PRIVATE_MESSAGE_SELF.sendMessage(player);
 
 						return true;
 					}
@@ -267,9 +273,7 @@ public class CommandMessage extends Global implements CommandExecutor, TabComple
                 if (sender.hasPermission(Permissions.COMMAND_MESSAGE.getNode())) {
                     this.plugin.getServer().getOnlinePlayers().forEach(player -> completions.add(player.getName()));
 
-                    if (!sender.hasPermission(Permissions.COMMAND_MESSAGE_SELF.getNode())) {
-                        completions.remove(sender.getName());
-                    }
+                    completions.remove(sender.getName());
                 }
 
                 return StringUtil.copyPartialMatches(args[1], completions, new ArrayList<>());
