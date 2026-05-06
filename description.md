@@ -25,7 +25,7 @@
   </p>
 
 </center>
-<br></br>
+<br>
 <center>
 
 [![Join us on Discord](https://discord.com/api/guilds/182615261403283459/widget.png?style=banner2)](https://discord.gg/badbones-s-live-chat-182615261403283459)
@@ -94,7 +94,7 @@ A working plugin, We fix any issues that come along.
 </details>
 
 ## Information
-[Commands/Permissions](https://docs.crazycrew.us/mods/chatmanager/commands/permissions/)
+[Permissions](https://docs.crazycrew.us/mods/chatmanager/commands/permissions/)
 
 [Dependencies](https://docs.crazycrew.us/mods/chatmanager/misc/plugin-support/)
 
