@@ -18,14 +18,14 @@
   <p align="center">
     The kitchen sink of ChatManagement
     <br />
-    <a href="https://docs.crazycrew.us/chatmanager/home"><strong>Explore the docs »</strong></a>
+    <a href="https://docs.crazycrew.us/mods/chatmanager/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/Crazy-Crew/ChatManager/issues/new?assignees=ryderbelserion&labels=bug&projects=&template=bugs.yml&title=%5BBug+Report%5D%3A+">Report Bug</a>
     ·
     <a href="https://github.com/Crazy-Crew/ChatManager/issues/new?assignees=ryderbelserion&labels=enhancement&projects=&template=feature_request.yml&title=%5BFeature+Request%5D%3A+">Request Feature</a>
     ·
-    <a href="https://discord.gg/SekseczrWz">Get Support</a>
+    <a href="https://discord.com/servers/badbones-s-live-chat-182615261403283459">Get Support</a>
   </p>
 </div>
 
@@ -50,11 +50,6 @@
 ### Resource Page
 <a href="https://modrinth.com/plugin/chatmanager">![Modrinth](https://raw.githubusercontent.com/intergrav/devins-badges/v3/assets/compact/available/modrinth_46h.png)</a>
 
-### Beta Builds
-<p>Get the latest changes before marked as release.</p>
-
-> https://ci.crazycrew.us/job/ChatManager/
-
 ## Getting Started
 
 How to get started with contributing / maintaining your own version of ChatManager!
@@ -67,23 +62,20 @@ A list of things necessary to make sure you can build ChatManager properly.
 * Gradle
 
 ### Installation
-
 1. Clone the repo
    ```sh
    git clone https://github.com/Crazy-Crew/ChatManager.git
    ```
-2. Open the repository using Intellij IDEA & wait until it finishes downloading/indexing.
+2. Open the repository using IntelliJ IDEA & wait until it finishes downloading/indexing.
 3. Run the assemble task.
    ```gradle
    ./gradlew assemble
    ```
 
 ## Roadmap
-
 Check our public [trello board](https://trello.com/b/Q37AYC3I) for our current plans, any bugs and general tracking of the project progress.
 
 ## Contributing
-
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/yourfeature`)
 3. Commit your Changes (`git commit -m 'your amazing feature.'`)

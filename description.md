@@ -14,7 +14,7 @@
   <p>
     An advanced chat management plugin.
     <br />
-    <a href="https://docs.crazycrew.us/docs/category/chatmanager/"><strong>Explore the docs »</strong></a>
+    <a href="https://docs.crazycrew.us/mods/chatmanager/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/Crazy-Crew/ChatManager/issues">Report Bug</a>
@@ -94,9 +94,9 @@ A working plugin, We fix any issues that come along.
 </details>
 
 ## Information
-[Commands/Permissions](https://docs.crazycrew.us/docs/chatmanager/info/commands/permissions)
+[Commands/Permissions](https://docs.crazycrew.us/mods/chatmanager/commands/permissions/)
 
-[Dependencies](https://docs.crazycrew.us/docs/chatmanager/info/plugin-support)
+[Dependencies](https://docs.crazycrew.us/mods/chatmanager/misc/plugin-support/)
 
 ## Features
  <details>

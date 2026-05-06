@@ -27,7 +27,8 @@ public class ListenerChatFormat extends Global implements Listener {
 		if (VaultSupport.isChatReady()) {
 			final String key = VaultSupport.getPermission().getPrimaryGroup(player);
 
-			format = config.getConfigurationSection("Chat_Format.Groups." + key) != null ? config.getString("Chat_Format.Groups." + key + ".Format") : config.getString("Chat_Format.Default_Format");
+			format = config.getConfigurationSection("Chat_Format.Groups." + key) != null ?
+					config.getString("Chat_Format.Groups." + key + ".Format") : config.getString("Chat_Format.Default_Format");
 		} else {
 			format = config.getString("Chat_Format.Default_Format", "%luckperms_prefix% &7{player} &9> #32a87d{message}");
 		}
