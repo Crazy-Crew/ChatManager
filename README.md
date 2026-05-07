@@ -89,7 +89,7 @@ Distributed under the MIT License. See [`LICENSE`](/LICENSE) for more informatio
 [discord-shield]: https://img.shields.io/discord/415940589712965632.svg?style=flat&logo=appveyor
 [discord-url]: https://discord.gg/SekseczrWz
 
-[contributors-shield]: https://img.shields.io/github/contributors/Crazy-Crew/ChatManager.svg?style=flat&logo=appveyor
+[contributors-shield]: https://img.shields.io/github/contributors-anon/Crazy-Crew/ChatManager.svg?style=flat&logo=appveyor
 [contributors-url]: https://github.com/Crazy-Crew/ChatManager/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/Crazy-Crew/ChatManager.svg?style=flat&logo=appveyor
 [forks-url]: https://github.com/Crazy-Crew/ChatManager/network/members
