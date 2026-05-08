@@ -1,11 +1,11 @@
 [versions]
 ## Paper
 paperweight = "2.0.0-beta.21" # https://github.com/PaperMC/paperweight
-adventure = "4.26.1" # https://github.com/KyoriPowered/adventure
-paper = "1.21.11-R0.1-SNAPSHOT" # https://github.com/PaperMC/Paper
+adventure = "5.0.0" # https://github.com/KyoriPowered/adventure
+paper = "26.1.2.build.+" # https://github.com/PaperMC/Paper
 
 ## Minecraft
-minecraft = "1.21.11" # https://minecraft.net
+minecraft = "26.1.2" # https://minecraft.net
 jetbrains = "26.1.0" # https://github.com/JetBrains/java-annotations
 
 ## Plugin API
@@ -17,14 +17,14 @@ itemsadder = "4.0.10" # https://github.com/ItemsAdder
 nexo = "1.21.0" # https://github.com/Nexo-MC
 
 ## Other
-bStats = "3.1.0" # https://github.com/Bastian/bStats
+bStats = "3.2.1" # https://github.com/Bastian/bStats
 fusion = "3.4.3" # https://github.com/ryderbelserion/Fusion
 
 ## Gradle Plugins
 fix-javadoc = "1.19" # https://github.com/mfnalex/gradle-fix-javadoc-plugin
 run-paper = "3.0.2" # https://github.com/jpenilla/run-task
 minotaur = "2.9.0" # https://github.com/modrinth/minotaur
-feather = "0.4.0" # https://github.com/ryderbelserion/Feather
+feather = "0.6.1" # https://github.com/ryderbelserion/Feather
 hangar = "0.1.4" # https://github.com/HangarMC/hangar-publish-plugin
 shadow = "9.4.1" # https://github.com/GradleUp/shadow
 

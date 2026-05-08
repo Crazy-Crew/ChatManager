@@ -4,13 +4,13 @@
 
 [![chatmanager](https://raw.githubusercontent.com/RyderBelserion/Assets/main/crazycrew/webp/ChatManagerWebsite.webp)](https://modrinth.com/plugin/chatmanager/versions)
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![GPU License][license-shield]][license-url]
-[![Contact][discord-shield]][discord-url]
-![CodeFactor][codefactor-shield]
+[![][jenkins-shield]][jenkins-url]
+[![][contributors-shield]][contributors-url]
+[![][forks-shield]][forks-url]
+[![][stars-shield]][stars-url]
+[![][issues-shield]][issues-url]
+[![][license-shield]][license-url]
+[![][discord-shield]][discord-url]
 
 ![Paper](https://cdn.jsdelivr.net/gh/intergrav/devins-badges/assets/compact/supported/paper_vector.svg)
 ![Purpur](https://cdn.jsdelivr.net/gh/intergrav/devins-badges/assets/compact/supported/purpur_vector.svg)
@@ -397,8 +397,8 @@ Distributed under the MIT License. See [`LICENSE`](/LICENSE) for more informatio
       * Thousands of Placeholders are available with PlaceholderAPI installed.
 </details>
 
-[discord-shield]: https://img.shields.io/discord/415940589712965632.svg?style=flat&logo=appveyor
-[discord-url]: https://discord.gg/SekseczrWz
+[jenkins-shield]: https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.crazycrew.us%2Fjob%2FChatManager%2F&style=flat&logo=jenkins
+[jenkins-url]: https://ci.crazycrew.us/job/ChatManager/
 
 [contributors-shield]: https://img.shields.io/github/contributors-anon/Crazy-Crew/ChatManager.svg?style=flat&logo=appveyor
 [contributors-url]: https://github.com/Crazy-Crew/ChatManager/graphs/contributors
@@ -410,5 +410,5 @@ Distributed under the MIT License. See [`LICENSE`](/LICENSE) for more informatio
 [issues-url]: https://github.com/Crazy-Crew/ChatManager/issues
 [license-shield]: https://img.shields.io/github/license/Crazy-Crew/ChatManager.svg?style=flat&logo=appveyor
 [license-url]: https://github.com/Crazy-Crew/ChatManager/blob/master/LICENSE
-
-[codefactor-shield]: https://img.shields.io/codefactor/grade/github/crazy-crew/ChatManager/main?style=flat&logo=appveyor
+[discord-shield]: https://img.shields.io/discord/415940589712965632.svg?style=flat&logo=appveyor
+[discord-url]: https://discord.gg/SekseczrWz
