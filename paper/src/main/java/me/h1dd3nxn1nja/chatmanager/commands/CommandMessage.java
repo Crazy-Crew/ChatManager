@@ -99,7 +99,7 @@ public class CommandMessage extends Global implements CommandExecutor, TabComple
 						message.append(arg).append(" ");
 					}
 
-					UUID other = this.plugin.api().getUserRepliedData().getUser(player.getUniqueId());
+					UUID other = this.userRepliedData.getUser(player.getUniqueId());
 
 					if (other == null) {
 						Messages.PRIVATE_MESSAGE_RECIPIENT_NOT_FOUND.sendMessage(player);
@@ -107,7 +107,7 @@ public class CommandMessage extends Global implements CommandExecutor, TabComple
 						return true;
 					}
 
-					Player target = this.plugin.getServer().getPlayer(other);
+					Player target = this.server.getPlayer(other);
 
 					if (target == null || !target.isOnline()) {
 						Messages.PRIVATE_MESSAGE_RECIPIENT_NOT_FOUND.sendMessage(player);
@@ -115,7 +115,7 @@ public class CommandMessage extends Global implements CommandExecutor, TabComple
 						return true;
 					}
 
-					if (this.plugin.api().getToggleMessageData().containsUser(target.getUniqueId())) {
+					if (this.toggleMessageData.containsUser(target.getUniqueId())) {
 						Messages.PRIVATE_MESSAGE_TOGGLED.sendMessage(player);
 
 						return true;
@@ -140,17 +140,17 @@ public class CommandMessage extends Global implements CommandExecutor, TabComple
 			if (player.hasPermission(Permissions.TOGGLE_PM.getNode())) {
 				if (args.length == 0) {
 
-					boolean isValid = plugin.api().getToggleMessageData().containsUser(player.getUniqueId());
+					boolean isValid = this.toggleMessageData.containsUser(player.getUniqueId());
 
 					if (isValid) {
-						this.plugin.api().getToggleMessageData().removeUser(player.getUniqueId());
+						this.toggleMessageData.removeUser(player.getUniqueId());
 
 						Messages.TOGGLE_PM_DISABLED.sendMessage(player);
 
 						return true;
 					}
 
-					this.plugin.api().getToggleMessageData().addUser(player.getUniqueId());
+					this.toggleMessageData.addUser(player.getUniqueId());
 
 					Messages.TOGGLE_PM_ENABLED.sendMessage(player);
 
@@ -213,15 +213,15 @@ public class CommandMessage extends Global implements CommandExecutor, TabComple
 
 		Methods.playSound(target, config, "Private_Messages.sound");
 
-		final UserRepliedData data = this.plugin.api().getUserRepliedData();
+		final UserRepliedData data = this.userRepliedData;
 
 		data.addUser(player.getUniqueId(), target.getUniqueId());
 		data.addUser(target.getUniqueId(), player.getUniqueId());
 
-		for (Player staff : this.plugin.getServer().getOnlinePlayers()) {
+		for (Player staff : this.server.getOnlinePlayers()) {
 			if ((staff != player) && (staff != target)) {
 				if ((!player.hasPermission(Permissions.BYPASS_SOCIAL_SPY.getNode())) && (!target.hasPermission(Permissions.BYPASS_SOCIAL_SPY.getNode()))) {
-					boolean contains = this.plugin.api().getSocialSpyData().containsUser(staff.getUniqueId());
+					boolean contains = this.socialSpyData.containsUser(staff.getUniqueId());
 
 					if (contains) {
 						Messages.SOCIAL_SPY_FORMAT.sendMessage(staff, new HashMap<>() {{
@@ -265,7 +265,7 @@ public class CommandMessage extends Global implements CommandExecutor, TabComple
 		if (args.length == 2) { // /message <player>
             if (args[0].equalsIgnoreCase("message")) {
                 if (sender.hasPermission(Permissions.COMMAND_MESSAGE.getNode())) {
-                    this.plugin.getServer().getOnlinePlayers().forEach(player -> completions.add(player.getName()));
+                    this.server.getOnlinePlayers().forEach(player -> completions.add(player.getName()));
 
                     if (!sender.hasPermission(Permissions.COMMAND_MESSAGE_SELF.getNode())) {
                         completions.remove(sender.getName());
