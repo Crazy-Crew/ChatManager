@@ -1,3 +1,5 @@
+## Changes 🔨
+- Removed the half-baked modern implementation of ChatManager.
 ## Bugs Fixed 🐛
 - Fixed an issue potentially with antiswear not working.
 - Cleaned up a chunk of the internals.

@@ -27,8 +27,7 @@ modrinth {
     detectLoaders = false
 
     dependencies {
-        optional.project("DecentHolograms")
-        optional.project("FancyHolograms")
         optional.project("PlaceholderAPI")
+        optional.project("LuckPerms")
     }
 }
