@@ -15,3 +15,4 @@ jobs:
       webhook: ${{ secrets.CM_WEBHOOK }}
       modrinth_token: ${{ secrets.MODRINTH_TOKEN }}
       hangar_token: ${{ secrets.HANGAR_KEY }}
+      branch: dev
