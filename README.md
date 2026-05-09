@@ -1,8 +1,6 @@
-<br />
+<center><div align="center">
 
-<div align="center">
-
-[![chatmanager](https://raw.githubusercontent.com/RyderBelserion/Assets/main/crazycrew/webp/ChatManagerWebsite.webp)](https://modrinth.com/plugin/chatmanager/versions)
+[![chatmanager](https://raw.githubusercontent.com/ryderbelserion/Branding/refs/heads/main/orgs/crazycrew/webp/ChatManagerWebsite.webp)](https://modrinth.com/plugin/chatmanager/)
 
 [![][jenkins-shield]][jenkins-url]
 [![][contributors-shield]][contributors-url]
@@ -11,140 +9,19 @@
 [![][issues-shield]][issues-url]
 [![][license-shield]][license-url]
 [![][discord-shield]][discord-url]
+</div></center>
 
-![Paper](https://cdn.jsdelivr.net/gh/intergrav/devins-badges/assets/compact/supported/paper_vector.svg)
-![Purpur](https://cdn.jsdelivr.net/gh/intergrav/devins-badges/assets/compact/supported/purpur_vector.svg)
+## Installation
+1) Download the update from modrinth/hangar for your version of Minecraft.
+2) You must be using at least https://papermc.io
+3) The file you downloaded goes in the `plugins` folder.
+4) Add LuckPerms, and Vault to your server! 
+5) Restart the server.
+6) View the documentation @ https://docs.crazycrew.us/mods/chatmanager/
 
-  <p align="center">
-    The kitchen sink of ChatManagement
-    <br />
-    <a href="https://docs.crazycrew.us/mods/chatmanager/"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/Crazy-Crew/ChatManager/issues/new?assignees=ryderbelserion&labels=bug&projects=&template=bugs.yml&title=%5BBug+Report%5D%3A+">Report Bug</a>
-    ·
-    <a href="https://github.com/Crazy-Crew/ChatManager/issues/new?assignees=ryderbelserion&labels=enhancement&projects=&template=feature_request.yml&title=%5BFeature+Request%5D%3A+">Request Feature</a>
-    ·
-    <a href="https://discord.com/servers/badbones-s-live-chat-182615261403283459">Get Support</a>
-  </p>
-</div>
-
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ol>
-</details>
-
-### Resource Page
-<a href="https://modrinth.com/plugin/chatmanager">![Modrinth](https://raw.githubusercontent.com/intergrav/devins-badges/v3/assets/compact/available/modrinth_46h.png)</a>
-
-## Getting Started
-How to get started with contributing / maintaining your own version of ChatManager!
-
-### Prerequisites
-
-A list of things necessary to make sure you can build ChatManager properly.
-* Intellij IDEA
-    * > https://www.jetbrains.com/idea/download/
-* Gradle
-
-### Installation
-1. Clone the repo
-   ```sh
-   git clone https://github.com/Crazy-Crew/ChatManager.git
-   ```
-2. Open the repository using IntelliJ IDEA & wait until it finishes downloading/indexing.
-3. Run the assemble task.
-   ```gradle
-   ./gradlew assemble
-   ```
-
-## Roadmap
-Check our public [trello board](https://trello.com/b/Q37AYC3I) for our current plans, any bugs and general tracking of the project progress.
-
-## Contributing
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/yourfeature`)
-3. Commit your Changes (`git commit -m 'your amazing feature.'`)
-4. Push to the Branch (`git push`)
-5. Open a Pull Request to the dev branch to add your feature/fix.
-
-## License
-Distributed under the MIT License. See [`LICENSE`](/LICENSE) for more information.
-
-## API
-<details>
-  <summary>Maven</summary>
-
-   ```
-   <repository>
-      <id>crazycrew-releases</id>
-      <name>CrazyCrew Repository</name>
-      <url>https://repo.crazycrew.us/releases</url>
-   </repository>
-  ```
-  ```
-  <dependency>
-    <groupId>me.h1dd3nxn1nja.chatmanager</groupId>
-    <artifactId>chatmanager</artifactId>
-    <version>4.0.2</version>
-    <scope>provided</scope>
-   </dependency>
-  ```
-
-</details>
-
-<details>
-  <summary>Gradle (Groovy)</summary>
-
-  ```
-  repositories {
-     maven {
-        url = "https://repo.crazycrew.us/releases"
-     }
-  }
-  ```
-
-   ```
-   dependencies {
-      compileOnly "me.h1dd3nxn1nja.chatmanager:chatmanager:4.0.2"
-   }
-   ```
-</details>
-
-<details>
-  <summary>Gradle (Kotlin)</summary>
-
-  ```
-  repositories {
-      maven("https://repo.crazycrew.us/releases")
-   }
-   ```
-
-   ```
-   dependencies {
-      compileOnly("me.h1dd3nxn1nja.chatmanager:chatmanager:4.0.2")
-   }
-   ```
-
-</details>
-
-## Information
-[Permissions](https://docs.crazycrew.us/mods/chatmanager/commands/permissions/)
-
-[Dependencies](https://docs.crazycrew.us/mods/chatmanager/misc/plugin-support/)
+## Quick Builds
+Get the latest builds for every commit!
+- https://ci.crazycrew.us/job/CrazyCrates/
 
 ## Features
  <details>
