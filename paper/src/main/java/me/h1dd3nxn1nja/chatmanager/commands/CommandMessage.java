@@ -4,8 +4,8 @@ import com.ryderbelserion.chatmanager.api.chat.UserRepliedData;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import com.ryderbelserion.fusion.kyori.mods.ModManager;
-import com.ryderbelserion.fusion.kyori.mods.interfaces.IMod;
+import com.ryderbelserion.fusion.core.api.registry.mods.ModRegistry;
+import com.ryderbelserion.fusion.core.api.registry.mods.interfaces.AbstractMod;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.support.EssentialsSupport;
 import me.h1dd3nxn1nja.chatmanager.support.Global;
@@ -166,7 +166,7 @@ public class CommandMessage extends Global implements CommandExecutor, TabComple
 		return true;
 	}
 
-	private final ModManager modManager = this.plugin.getModManager();
+	private final ModRegistry modManager = this.plugin.getModManager();
 
 	private boolean handleMessage(String[] args, Player player, StringBuilder message, Player target) {
 		FileConfiguration config = Files.CONFIG.getConfiguration();
@@ -183,7 +183,7 @@ public class CommandMessage extends Global implements CommandExecutor, TabComple
 
 		boolean isVanished = false;
 
-		for (final IMod mod : this.modManager.getMods().values()) {
+		for (final AbstractMod mod : this.modManager.getMods().values()) {
 			if (!mod.isEnabled()) continue;
 
 			if (mod.isVanished(uuid)) {

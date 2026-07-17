@@ -1,15 +1,13 @@
 package com.ryderbelserion.chatmanager.plugins;
 
 import com.ryderbelserion.fusion.core.api.FusionKey;
-import com.ryderbelserion.fusion.kyori.mods.objects.Mod;
-import com.ryderbelserion.fusion.paper.FusionPaper;
+import com.ryderbelserion.fusion.core.api.registry.mods.objects.Mod;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 
 public class VaultSupport extends Mod {
 
@@ -18,14 +16,12 @@ public class VaultSupport extends Mod {
     private static Permission permission;
     private static Chat chat;
 
-    public VaultSupport(@NotNull final FusionPaper fusion) {
-        super(fusion);
-
-        setKey(new FusionKey("chatmanager", "Vault"));
+    public VaultSupport() {
+        super(new FusionKey("chatmanager", "Vault"));
     }
 
     @Override
-    public Mod start() {
+    public Mod init() {
         if (!isEnabled()) {
             return this;
         }

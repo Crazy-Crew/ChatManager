@@ -13,10 +13,10 @@ folia-supported: true
 
 softdepend:
  - PlaceholderAPI
- - Vault
- - Essentials
- - SuperVanish
  - HeadDatabase
+ - SuperVanish
+ - Essentials
+ - Vault
 
 commands:
     ChatManager:

@@ -1,8 +1,8 @@
 package me.h1dd3nxn1nja.chatmanager;
 
 import com.ryderbelserion.chatmanager.enums.Files;
-import com.ryderbelserion.fusion.kyori.mods.ModManager;
-import com.ryderbelserion.fusion.kyori.mods.ModSupport;
+import com.ryderbelserion.fusion.core.api.constants.ModSupport;
+import com.ryderbelserion.fusion.core.api.registry.mods.ModRegistry;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Server;
 import org.bukkit.Sound;
@@ -21,7 +21,7 @@ public class Methods {
 
 	private static final Server server = plugin.getServer();
 
-	private static final ModManager modManager = plugin.getModManager();
+	private static final ModRegistry modManager = plugin.getModManager();
 
 	public static void playSound(final FileConfiguration config, final String path) {
 		final boolean isEnabled = config.getBoolean(path + ".toggle", false);

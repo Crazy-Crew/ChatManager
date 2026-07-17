@@ -1,28 +1,25 @@
 package com.ryderbelserion.chatmanager.plugins.papi;
 
 import com.ryderbelserion.fusion.core.api.FusionKey;
-import com.ryderbelserion.fusion.kyori.mods.ModManager;
-import com.ryderbelserion.fusion.kyori.mods.ModSupport;
-import com.ryderbelserion.fusion.kyori.mods.objects.Mod;
-import com.ryderbelserion.fusion.paper.FusionPaper;
+import com.ryderbelserion.fusion.core.api.constants.ModSupport;
+import com.ryderbelserion.fusion.core.api.registry.mods.ModRegistry;
+import com.ryderbelserion.fusion.core.api.registry.mods.objects.Mod;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
-import org.jetbrains.annotations.NotNull;
 
 public class PlaceholderAPISupport extends Mod {
 
     private final ChatManager plugin = ChatManager.get();
 
-    private final ModManager modManager = this.plugin.getModManager();
+    private final ModRegistry modManager = this.plugin.getModManager();
 
     private PlaceholderAPIExpansion expansion;
 
-    public PlaceholderAPISupport(@NotNull final FusionPaper fusion) {
-        super(fusion);
-
-        setKey(new FusionKey("chatmanager", "Vault"));
+    public PlaceholderAPISupport() {
+        super(new FusionKey("chatmanager", "Vault"));
     }
 
-    public Mod start() {
+    @Override
+    public Mod init() {
         if (isEnabled()) {
             this.expansion = new PlaceholderAPIExpansion();
             this.expansion.register();

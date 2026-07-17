@@ -1,7 +1,7 @@
 package com.ryderbelserion.chatmanager.plugins;
 
 import com.ryderbelserion.fusion.core.api.FusionKey;
-import com.ryderbelserion.fusion.kyori.mods.objects.Mod;
+import com.ryderbelserion.fusion.core.api.registry.mods.objects.Mod;
 import com.ryderbelserion.fusion.paper.FusionPaper;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.bukkit.entity.Player;
@@ -15,9 +15,7 @@ public class VanishSupport extends Mod {
     private final ChatManager plugin = JavaPlugin.getPlugin(ChatManager.class);
 
     public VanishSupport(@NotNull final FusionPaper fusion) {
-        super(fusion);
-
-        setKey(new FusionKey("chatmanager", "Vanish"));
+        super(new FusionKey("chatmanager", "Vanish"));
     }
 
     @Override

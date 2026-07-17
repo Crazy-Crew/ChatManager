@@ -2,10 +2,10 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import com.ryderbelserion.fusion.kyori.mods.ModManager;
-import com.ryderbelserion.fusion.kyori.mods.interfaces.IMod;
-import com.ryderbelserion.fusion.paper.scheduler.FoliaScheduler;
-import com.ryderbelserion.fusion.paper.scheduler.Scheduler;
+import com.ryderbelserion.fusion.core.api.registry.mods.ModRegistry;
+import com.ryderbelserion.fusion.core.api.registry.mods.interfaces.AbstractMod;
+import com.ryderbelserion.fusion.paper.builders.folia.FoliaScheduler;
+import com.ryderbelserion.fusion.paper.builders.folia.Scheduler;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.support.Global;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -29,7 +29,7 @@ public class ListenerPlayerJoin extends Global implements Listener {
 
         boolean isVanished = false;
 
-        for (final IMod mod : this.modManager.getMods().values()) {
+        for (final AbstractMod mod : this.modManager.getMods().values()) {
             if (!mod.isEnabled()) continue;
 
             if (mod.isVanished(uuid)) {
@@ -72,7 +72,7 @@ public class ListenerPlayerJoin extends Global implements Listener {
         }
     }
 
-    private final ModManager modManager = this.plugin.getModManager();
+    private final ModRegistry modManager = this.plugin.getModManager();
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void joinMessage(PlayerJoinEvent event) {
@@ -84,7 +84,7 @@ public class ListenerPlayerJoin extends Global implements Listener {
 
         boolean isVanished = false;
 
-        for (final IMod mod : this.modManager.getMods().values()) {
+        for (final AbstractMod mod : this.modManager.getMods().values()) {
             if (!mod.isEnabled()) continue;
 
             if (mod.isVanished(uuid)) {
@@ -204,7 +204,7 @@ public class ListenerPlayerJoin extends Global implements Listener {
 
         boolean isVanished = false;
 
-        for (final IMod mod : this.modManager.getMods().values()) {
+        for (final AbstractMod mod : this.modManager.getMods().values()) {
             if (!mod.isEnabled()) continue;
 
             if (mod.isVanished(uuid)) {

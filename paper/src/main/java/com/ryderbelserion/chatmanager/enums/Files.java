@@ -1,7 +1,7 @@
 package com.ryderbelserion.chatmanager.enums;
 
 import com.ryderbelserion.fusion.files.enums.FileAction;
-import com.ryderbelserion.fusion.paper.api.files.PaperFileManager;
+import com.ryderbelserion.fusion.paper.files.PaperFileManager;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import org.bukkit.configuration.file.YamlConfiguration;
 import java.nio.file.Path;

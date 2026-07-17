@@ -11,10 +11,10 @@ import com.ryderbelserion.chatmanager.managers.ServerManager;
 import com.ryderbelserion.chatmanager.plugins.VanishSupport;
 import com.ryderbelserion.chatmanager.plugins.VaultSupport;
 import com.ryderbelserion.chatmanager.plugins.papi.PlaceholderAPISupport;
+import com.ryderbelserion.fusion.core.api.registry.mods.ModRegistry;
 import com.ryderbelserion.fusion.files.enums.FileType;
-import com.ryderbelserion.fusion.kyori.mods.ModManager;
 import com.ryderbelserion.fusion.paper.FusionPaper;
-import com.ryderbelserion.fusion.paper.api.files.PaperFileManager;
+import com.ryderbelserion.fusion.paper.files.PaperFileManager;
 import me.h1dd3nxn1nja.chatmanager.commands.CommandAntiSwear;
 import me.h1dd3nxn1nja.chatmanager.commands.CommandAutoBroadcast;
 import me.h1dd3nxn1nja.chatmanager.commands.CommandBannedCommands;
@@ -82,13 +82,13 @@ public class ChatManager extends JavaPlugin {
     private PaperFileManager fileManager;
     private ServerManager serverManager;
     private PluginHandler pluginHandler;
-    private ModManager modManager;
+    private ModRegistry modManager;
     private FusionPaper fusion;
     private ApiLoader api;
 
     @Override
     public void onEnable() {
-        this.fusion = new FusionPaper(getFile(), this);
+        this.fusion = new FusionPaper(this);
         this.fusion.init();
 
         this.fileManager = this.fusion.getFileManager();
@@ -104,7 +104,7 @@ public class ChatManager extends JavaPlugin {
 
         this.serverManager = new ServerManager();
 
-        this.modManager = this.fusion.getModManager();
+        this.modManager = this.fusion.getModRegistry();
 
         new CustomMetrics().start();
 
@@ -122,10 +122,10 @@ public class ChatManager extends JavaPlugin {
         registerPermissions();
 
         List.of(
-                new VaultSupport(this.fusion),
+                new VaultSupport(),
                 new VanishSupport(this.fusion),
-                new PlaceholderAPISupport(this.fusion)
-        ).forEach(mod -> this.modManager.addMod(mod.key(), mod));
+                new PlaceholderAPISupport()
+        ).forEach(mod -> this.modManager.addMod(mod.getKey(), mod));
     }
 
     @Override
@@ -162,7 +162,7 @@ public class ChatManager extends JavaPlugin {
         return this.fileManager;
     }
 
-    public @NotNull final ModManager getModManager() {
+    public @NotNull final ModRegistry getModManager() {
         return this.modManager;
     }
 
@@ -297,5 +297,9 @@ public class ChatManager extends JavaPlugin {
 
             pluginManager.addPermission(newPermission);
         });
+    }
+
+    public final FusionPaper getFusion() {
+        return this.fusion;
     }
 }

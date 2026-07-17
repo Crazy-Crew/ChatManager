@@ -3,7 +3,7 @@ package me.h1dd3nxn1nja.chatmanager.listeners;
 import com.ryderbelserion.chatmanager.enums.Files;
 import com.ryderbelserion.chatmanager.enums.Messages;
 import com.ryderbelserion.chatmanager.enums.Permissions;
-import com.ryderbelserion.fusion.paper.scheduler.FoliaScheduler;
+import com.ryderbelserion.fusion.paper.builders.folia.FoliaScheduler;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.h1dd3nxn1nja.chatmanager.support.Global;
 import org.bukkit.configuration.file.FileConfiguration;

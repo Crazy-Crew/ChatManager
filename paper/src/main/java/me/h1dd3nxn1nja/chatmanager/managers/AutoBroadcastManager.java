@@ -1,8 +1,8 @@
 package me.h1dd3nxn1nja.chatmanager.managers;
 
 import com.ryderbelserion.chatmanager.enums.Files;
-import com.ryderbelserion.fusion.paper.scheduler.FoliaScheduler;
-import com.ryderbelserion.fusion.paper.scheduler.Scheduler;
+import com.ryderbelserion.fusion.paper.builders.folia.FoliaScheduler;
+import com.ryderbelserion.fusion.paper.builders.folia.Scheduler;
 import me.h1dd3nxn1nja.chatmanager.ChatManager;
 import me.h1dd3nxn1nja.chatmanager.Methods;
 import me.h1dd3nxn1nja.chatmanager.utils.BossBarUtil;
