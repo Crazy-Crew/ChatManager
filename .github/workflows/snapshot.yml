@@ -5,14 +5,17 @@ on:
 
   push:
     branches:
-      - dev
+      - main
+
+env:
+  version_status: "beta"
 
 jobs:
   build:
     uses: Crazy-Crew/.github/.github/workflows/build.yml@main
 
     with:
-      branch: dev
+      branch: main
 
     secrets:
       webhook: ${{ secrets.CM_WEBHOOK }}
