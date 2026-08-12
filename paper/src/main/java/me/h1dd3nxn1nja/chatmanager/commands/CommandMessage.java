@@ -199,13 +199,15 @@ public class CommandMessage extends Global implements CommandExecutor, TabComple
 			return true;
 		}
 
-		final String sender_format = config.getString("Private_Messages.Sender.Format", "&c&l(!) &f&l[&e&lYou &d-> &e{receiver}&f&l] &b")
+		final String sender_format = config.getString("Private_Messages.Sender.Format", "&c&l(!) &f&l[&e&l{player} &d-> &e{receiver}&f&l] &b")
 				.replace("{receiver}", target.getName())
-				.replace("{receiver_displayname}", target.getDisplayName());
+				.replace("{receiver_displayname}", target.getDisplayName())
+				.replace("{player}", player.getName());
 
-		final String receiver_format = config.getString("Private_Messages.Receiver.Format", "&c&l(!) &f&l[&e{player} &d-> &e&lYou&f&l] &b")
-				.replace("{receiver}", target.getName())
-				.replace("{receiver_displayname}", player.getDisplayName());
+		final String receiver_format = config.getString("Private_Messages.Receiver.Format", "&c&l(!) &f&l[&e{sender} &d-> &e&l{player}&f&l] &b")
+				.replace("{sender}", player.getName())
+				.replace("{sender_displayname}", player.getDisplayName())
+				.replace("{player}", target.getName());
 
         Methods.sendMessage(player, "", Methods.placeholders(false, target, sender_format) + message, true, false, false);
 
