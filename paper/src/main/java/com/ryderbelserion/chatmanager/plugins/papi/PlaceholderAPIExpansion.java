@@ -38,6 +38,8 @@ public class PlaceholderAPIExpansion extends PlaceholderExpansion {
                     }
                 case "toggle_pm": // Returns if the toggle pm is enabled/disabled for a player.
                     return this.plugin.api().getToggleMessageData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
+                case "toggle_mention":
+                    return this.plugin.api.getMentionsData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
                 case "toggle_chat": // Returns if the toggle chat is enabled/disabled for a player.
                     return this.plugin.api().getToggleChatData().containsUser(player.getUniqueId()) ? "Enabled" : "Disabled";
                 case "command_spy": // Returns if the command spy is enabled/disabled for a player.
