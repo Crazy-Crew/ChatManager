@@ -1,8 +1,7 @@
 <center><div align="center">
 
-[![chatmanager](https://raw.githubusercontent.com/ryderbelserion/Branding/refs/heads/main/orgs/crazycrew/webp/ChatManagerWebsite.webp)](https://modrinth.com/plugin/chatmanager/)
+[![chatmanager](https://raw.githubusercontent.com/Crazy-Crew/Branding/main/repositories/chatmanager/banner.webp)](https://modrinth.com/plugin/chatmanager/)
 
-[![][jenkins-shield]][jenkins-url]
 [![][contributors-shield]][contributors-url]
 [![][forks-shield]][forks-url]
 [![][stars-shield]][stars-url]
@@ -18,10 +17,6 @@
 4) Add LuckPerms, and Vault to your server! 
 5) Restart the server.
 6) View the documentation @ https://docs.crazycrew.us/mods/chatmanager/
-
-## Quick Builds
-Get the latest builds for every commit!
-- https://ci.crazycrew.us/job/CrazyCrates/
 
 ## Features
  <details>
@@ -273,9 +268,6 @@ Get the latest builds for every commit!
       * There is a bypass permission for almost everything.<br>
       * Thousands of Placeholders are available with PlaceholderAPI installed.
 </details>
-
-[jenkins-shield]: https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.crazycrew.us%2Fjob%2FChatManager%2F&style=flat&logo=jenkins
-[jenkins-url]: https://ci.crazycrew.us/job/ChatManager/
 
 [contributors-shield]: https://img.shields.io/github/contributors-anon/Crazy-Crew/ChatManager.svg?style=flat&logo=appveyor
 [contributors-url]: https://github.com/Crazy-Crew/ChatManager/graphs/contributors
